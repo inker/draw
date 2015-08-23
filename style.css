@@ -37,6 +37,24 @@ td, th {
     white-space: nowrap;
 }
 
+.flag {
+    background-position: 2px 50%;
+    background-repeat: no-repeat;
+    padding-left: 20px;
+    text-decoration: none;
+    text-align: left;
+    color: inherit;
+    /*display: block;*/
+}
+
+.team-selected {
+    color: blue;
+}
+
+.greyed {
+    opacity: 0.33;
+}
+
 #tables-div {
     width: 600px;
     min-width: 600px;
@@ -113,7 +131,7 @@ td, th {
     background: radial-gradient(#ccf, #ccf);
 }
 
-#team-bowl .picked, #group-bowl .picked {
+#team-bowl .ball-picked, #group-bowl .ball-picked {
     background: radial-gradient(#447, #447);
     color: white;
     font-weight: bold;

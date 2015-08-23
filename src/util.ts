@@ -1,4 +1,5 @@
 /// <reference path="./../typings/tsd.d.ts"/>
+import * as countries from "i18n-iso-countries";
 import getPossibleGroups from './possible-groups'
 
 export function notify(text: string): void {
@@ -40,20 +41,20 @@ export function getPossibleGroupsAsync(pots, groups, team, currentPotNum) {
 export class Vec2 {
     x: number;
     y: number;
-    
-    constructor (x: number, y: number) {
+
+    constructor(x: number, y: number) {
         this.x = x;
         this.y = y;
     }
-    
+
     add(a: Vec2): Vec2 {
         return new Vec2(this.x + a.x, this.y + a.y);
     }
-    
+
     subtract(a: Vec2): Vec2 {
         return new Vec2(this.x - a.x, this.y - a.y);
     }
-    
+
     multiply(multiplier: number): Vec2 {
         return new Vec2(this.x * multiplier, this.y * multiplier);
     }
@@ -81,5 +82,22 @@ export function moveElement(element: HTMLElement, from: Vec2, to: Vec2, duration
 }
 
 export function getElementSize(element: Element, property: string): number {
-    return Number(window.getComputedStyle(element, null).getPropertyValue(property).match(/(.+?)px/)[1]);
+    return Number(window.getComputedStyle(element, null).getPropertyValue(property).match(/(.+?)(px|$)/)[1]);
+}
+
+export function getCountryName(code: string): string {
+    let u = code.toUpperCase();
+    if (u === 'RUS') return 'Russia';
+    return countries.getName(u, 'en') || {
+        'ENG': 'England',
+        'GRE': 'Greece',
+        'POR': 'Portugal',
+        'GER': 'Germany',
+        'CRO': 'Croatia',
+        'BLS': 'Belarus',
+        'SCO': 'Scotland', 
+        'RUS': 'Russia', 
+        'NED': 'Netherlands', 
+        'SUI': 'Switzerland'
+    }[u];
 }

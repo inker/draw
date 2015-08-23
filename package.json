@@ -6,6 +6,7 @@
   "dependencies": {
     "classlist-polyfill": "latest",
     "es6-promise": "latest",
+    "i18n-iso-countries": "latest",
     "whatwg-fetch": "latest"
   },
   "devDependencies": {

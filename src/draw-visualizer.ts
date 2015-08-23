@@ -1,7 +1,7 @@
 /// <reference path="../typings/tsd.d.ts"/>
 import getPossibleGroups from './possible-groups';
 import Team from './team';
-import { notify, shuffle, getPos, getCell, Vec2, moveElement, getElementSize } from './util';
+import { notify, shuffle, getPos, getCell, Vec2, moveElement, getElementSize, getCountryName } from './util';
 
 class DrawVisualizer {
     private pots: Team[][];
@@ -16,20 +16,22 @@ class DrawVisualizer {
     constructor(pots: Team[][], groups: Team[][]) {
         this.pots = pots;
         this.groups = groups;
-
         let tables = document.createElement('div');
         tables.id = 'tables-div';
-        
         this.potsDiv = document.createElement('div');
         this.potsDiv.id = 'pots-div';
         for (let i = 0; i < pots.length; ++i) {
-            let pot = pots[i];
+            const pot = pots[i];
             let table: HTMLTableElement = document.createElement('table');
             table.innerHTML = `<thead><tr><th>Pot ${i + 1}</th></tr></thead><tbody></tbody>`;
             let tBody: any = table.tBodies[0];
             for (let j = 0; j < pot.length; ++j) {
                 let cell = tBody.insertRow(j).insertCell();
-                cell.textContent = pot[j].name;
+                cell.classList.add('flag');
+                const countryName = getCountryName(pot[j].country);
+                console.log(pot[j].country, '=>', countryName);
+                cell.style.backgroundImage = `url(http://icons.iconarchive.com/icons/gosquared/flag/16/${countryName}-flat-icon.png)`;
+                cell.innerHTML = pot[j].name;
                 if (pot[j].pairing !== undefined) {
                     cell.title = 'paired with ' + pot[j].pairing.name;
                 }
@@ -44,7 +46,7 @@ class DrawVisualizer {
             table.innerHTML = `<thead><tr><th>Group ${String.fromCharCode(65 + i)}</th></tr></thead><tbody></tbody>`;
             let tBody: any = table.tBodies[0];
             for (let j = 0; j < pots.length; ++j) {
-                tBody.insertRow(j).insertCell();
+                tBody.insertRow(j).insertCell().classList.add('flag');
             }
             this.groupsDiv.appendChild(table)
         }
@@ -99,7 +101,7 @@ class DrawVisualizer {
         this.teamBowl.style.cursor = 'not-allowed';
         this.teamBowl.style.pointerEvents = 'none';
         let ball = e.target;
-        ball.classList.add('picked');
+        ball.classList.add('ball-picked');
         let currentPot = this.pots[this.currentPotNum];
         for (var i = 0; i < currentPot.length; ++i) {
             if (currentPot[i].name === ball.textContent) {
@@ -110,7 +112,7 @@ class DrawVisualizer {
         const possibles = getPossibleGroups(this.pots, this.groups, team, this.currentPotNum);
         
         let potCell = getCell(this.potsDiv.children[this.currentPotNum], parseInt(ball.dataset['team']));
-        potCell.style.color = '#00f';
+        potCell.classList.add('team-selected');
         
         this.announcement.textContent = `Possible groups for ${team.name}: ${possibles.map(i => String.fromCharCode(65 + i)).join(', ')}`;
         this.fillGroupBowl(possibles, team, ball);
@@ -144,7 +146,7 @@ class DrawVisualizer {
         
         if (this.pots[this.currentPotNum].length > 0) return;
         
-        this.potsDiv.children[this.currentPotNum]['style'].color = '#c0c0c0';
+        this.potsDiv.children[this.currentPotNum]['tHead'].classList.add('greyed');
         if (this.currentPotNum < 3) {
             ++this.currentPotNum;
             this.fillTeamBowl();
@@ -161,28 +163,36 @@ class DrawVisualizer {
     animateCell(team: Team, teamBall: HTMLElement, groupNum: number): void {
         const groupCell = getCell(this.groupsDiv.children[groupNum], this.currentPotNum);
         const potCell = getCell(this.potsDiv.children[this.currentPotNum], parseInt(teamBall.dataset['team']));
-        potCell.style.color = '#c0c0c0';
+        potCell.classList.remove('team-selected');
+        potCell.classList.add('greyed');
         
         const fakeCell = document.createElement('span');
         document.body.appendChild(fakeCell);
         fakeCell.classList.add('fake-cell');
+        fakeCell.classList.add('flag');
         fakeCell.style.width = potCell.offsetWidth + 'px';
-        fakeCell.style.height = potCell.offsetHeight + 'px';
+        //fakeCell.style.height = getElementSize(potCell, 'height') + 'px';
         fakeCell.textContent = potCell.textContent;
         fakeCell.style.position = 'absolute';
+        
         const potCellPos = getPos(potCell);
         fakeCell.style.left = potCellPos.x + 'px';
         fakeCell.style.top = potCellPos.y + 'px';
+        fakeCell.style.backgroundImage = window.getComputedStyle(potCell, null).getPropertyValue('background-image');
+        
         const paddingLeft = getElementSize(potCell, 'padding-left');
         const paddingTop = getElementSize(potCell, 'padding-top');
         const cellHeight = getElementSize(potCell, 'height');
         const fontSize = getElementSize(potCell, 'font-size');
-        const padding = new Vec2(paddingLeft + 1, paddingTop + (cellHeight - fontSize) / 2);
-        const newPos = getPos(groupCell).subtract(potCellPos).add(padding);
-        moveElement(fakeCell, padding, newPos, 300, () => {
+        const padding = new Vec2(paddingLeft, paddingTop + (cellHeight - fontSize) / 2);
+        const oldPos = new Vec2(1, padding.y - 0.5);
+        const newPos = getPos(groupCell).subtract(potCellPos).add(oldPos);
+        
+        moveElement(fakeCell, oldPos, newPos, 300, () => {
             document.body.removeChild(fakeCell);
-            groupCell.classList.add('team-emerge');
             groupCell.textContent = team.name;
+            groupCell.style.backgroundImage = potCell.style.backgroundImage;
+            groupCell.classList.add('team-emerge');
         });
     }
     
