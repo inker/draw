@@ -1,0 +1,39 @@
+{
+  "name": "cl-draw",
+  "version": "1.0.0",
+  "description": "A Champions League draw simulator.",
+  "main": "index.html",
+  "dependencies": {
+    "classlist-polyfill": "latest",
+    "es6-promise": "latest",
+    "whatwg-fetch": "latest"
+  },
+  "devDependencies": {
+    "babelify": "latest",
+    "browserify": "latest",
+    "gulp": "latest",
+    "gulp-uglify": "latest",
+    "vinyl-buffer": "latest",
+    "vinyl-source-stream": "latest"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/inker/CL-Draw-Simulator.git"
+  },
+  "keywords": [
+    "cl",
+    "draw",
+    "champions",
+    "league",
+    "seeding"
+  ],
+  "author": "Anton",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/inker/CL-Draw-Simulator/issues"
+  },
+  "homepage": "https://github.com/inker/CL-Draw-Simulator#readme"
+}

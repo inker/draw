@@ -1,0 +1,154 @@
+html {
+    height: 100%;
+}
+
+body {
+    height: 100%;
+    margin: 0px;
+    padding: 0px; /* redundant */
+    font-family: 'Arial Narrow', Arial, sans-serif;
+    font-size: 0.8em;
+}
+
+div {
+    border: 0px;
+    float: left;
+    height: auto;
+    margin: 5px;
+}
+
+table {
+    /*float: left;*/
+    border-collapse: collapse;
+    margin: 1px;
+    border: #777 solid 1px;
+}
+
+
+td, th {
+    width: 120px;
+    height: 20px;
+    padding-left: 3px;
+    padding-right: 3px;
+    max-width: 120px;
+    border: #aaa solid 1px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+#tables-div {
+    width: 600px;
+    min-width: 600px;
+    float: left;
+}
+
+#pots-div table {
+    float: left;
+}
+
+#groups-div table {
+    float: left;
+}
+
+/** new line */
+#groups-div table:nth-child(5) {
+    clear: both;
+    float: left;
+    position: relative;
+}
+
+#groups-div table:nth-child(n+5) {
+    background-color: #eef
+}
+
+#groups-div table:nth-child(-n+4) {
+    background-color: #fee
+}
+
+
+#bowls-div {
+    float: left;
+    width: 50%;
+    min-width: 300px;
+    text-align: center;
+}
+
+#announcement {
+    width: 100%;
+    height: 50px;
+    font-size: 2em;
+    vertical-align: middle;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.bowl {
+    text-align: center;
+    width: 400px;
+    /*height: 300px;*/
+    /*margin-left: 50px;*/
+}
+
+.ball {
+    float: left;
+    width: 50px;
+    height: 50px;
+    vertical-align: middle;
+    text-align: center;
+    border-radius: 100%;
+    padding: 15px;
+    font-size: 0em;
+}
+
+#team-bowl .ball {
+    background: radial-gradient(#fff, #004);
+}
+
+#group-bowl .ball {
+    background: radial-gradient(#004, #002, #002);
+}
+
+#team-bowl .ball:hover, #group-bowl .ball:hover {
+    background: radial-gradient(#ccf, #ccf);
+}
+
+#team-bowl .picked, #group-bowl .picked {
+    background: radial-gradient(#447, #447);
+    color: white;
+    font-weight: bold;
+    font-size: 1em;
+}
+
+.fake-cell {
+    animation: blue2black 300ms normal forwards;
+}
+
+@keyframes blue2black {
+    from { color: #00f }
+    to { }
+}
+
+.picked-group, .draw-finished {
+    font-size: 2em;
+    vertical-align: middle;
+}
+
+.picked-group {
+    animation: disappear 0.5s normal forwards;
+    animation-delay: 1.5s;
+}
+
+@keyframes disappear {
+    from { opacity: 1 }
+    to { opacity: 0 }
+}
+
+.team-emerge {
+    animation: appear 5s normal forwards;
+}
+
+@keyframes appear {
+    from { background-color: #ff8 }
+    to {}
+}
