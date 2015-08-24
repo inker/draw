@@ -147,6 +147,11 @@ td, th {
     to { }
 }
 
+.possible-group {
+    background-color: rgba(255, 255, 255, 0.9);
+    /*border: double #000 1px;*/
+}
+
 .picked-group, .draw-finished {
     font-size: 2em;
     vertical-align: middle;

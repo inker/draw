@@ -29,7 +29,6 @@ class DrawVisualizer {
                 let cell = tBody.insertRow(j).insertCell();
                 cell.classList.add('flag');
                 const countryName = getCountryName(pot[j].country);
-                console.log(pot[j].country, '=>', countryName);
                 cell.style.backgroundImage = `url(http://icons.iconarchive.com/icons/gosquared/flag/16/${countryName}-flat-icon.png)`;
                 cell.innerHTML = pot[j].name;
                 if (pot[j].pairing !== undefined) {
@@ -110,6 +109,10 @@ class DrawVisualizer {
         }
         let team: Team = currentPot.splice(i, 1)[0];
         const possibles = getPossibleGroups(this.pots, this.groups, team, this.currentPotNum);
+        for (let groupNum of possibles) {
+            let possibleGroupCell = getCell(this.groupsDiv.children[groupNum], this.currentPotNum);
+            possibleGroupCell.classList.add('possible-group');
+        }
         
         let potCell = getCell(this.potsDiv.children[this.currentPotNum], parseInt(ball.dataset['team']));
         potCell.classList.add('team-selected');
@@ -143,6 +146,13 @@ class DrawVisualizer {
         this.teamBowl.style.pointerEvents = 'auto';
         this.teamBowl.style.cursor = null;
         this.teamBowl.onclick = null;
+        
+        let groupTables = this.groupsDiv.children;
+        for (let i = 0; i < groupTables.length; ++i) {
+            if (i !== groupNum) {
+                getCell(groupTables[i], this.currentPotNum).classList.remove('possible-group')
+            }
+        }
         
         if (this.pots[this.currentPotNum].length > 0) return;
         
@@ -192,6 +202,7 @@ class DrawVisualizer {
             document.body.removeChild(fakeCell);
             groupCell.textContent = team.name;
             groupCell.style.backgroundImage = potCell.style.backgroundImage;
+            groupCell.classList.remove('possible-group');
             groupCell.classList.add('team-emerge');
         });
     }
