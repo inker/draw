@@ -1,25 +1,10 @@
 /// <reference path="./../typings/tsd.d.ts"/>
-import * as countries from "i18n-iso-countries";
 import getPossibleGroups from './possible-groups'
-
-export function notify(text: string): void {
-    if (!("Notification" in window)) return;
-    var Notification = window['Notification'];
-    if (Notification.permission === "granted") {
-        var notification = new Notification(text);
-    } else if (Notification.permission !== 'denied') {
-        Notification.requestPermission(function (permission) {
-            if (permission === "granted") {
-                var notification = new Notification(text);
-            }
-        });
-    }
-}
 
 export function shuffle<T>(o: T[]): T[] {
     for (var j, x, i = o.length; i; j = Math.floor(Math.random() * i), x = o[--i], o[i] = o[j], o[j] = x);
     return o;
-};
+}
 
 export function getPos(el): Vec2 {
     for (var lx = 0, ly = 0; el !== null; lx += el.offsetLeft, ly += el.offsetTop, el = el.offsetParent);
@@ -31,12 +16,6 @@ export function getCell(table: Element, n: number): HTMLElement {
 }
 
 let Promise = window['Promise'];
-
-export function getPossibleGroupsAsync(pots, groups, team, currentPotNum) {
-    return new Promise((resolve, reject) => {
-        resolve(getPossibleGroups(pots, groups, team, currentPotNum));
-    });
-}
 
 export class Vec2 {
     x: number;
@@ -83,21 +62,4 @@ export function moveElement(element: HTMLElement, from: Vec2, to: Vec2, duration
 
 export function getElementSize(element: Element, property: string): number {
     return Number(window.getComputedStyle(element, null).getPropertyValue(property).match(/(.+?)(px|$)/)[1]);
-}
-
-export function getCountryName(code: string): string {
-    let u = code.toUpperCase();
-    if (u === 'RUS') return 'Russia';
-    return countries.getName(u, 'en') || {
-        'ENG': 'England',
-        'GRE': 'Greece',
-        'POR': 'Portugal',
-        'GER': 'Germany',
-        'CRO': 'Croatia',
-        'BLS': 'Belarus',
-        'SCO': 'Scotland', 
-        'RUS': 'Russia', 
-        'NED': 'Netherlands', 
-        'SUI': 'Switzerland'
-    }[u];
 }

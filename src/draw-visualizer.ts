@@ -1,7 +1,7 @@
 /// <reference path="../typings/tsd.d.ts"/>
 import getPossibleGroups from './possible-groups';
 import Team from './team';
-import { notify, shuffle, getPos, getCell, Vec2, moveElement, getElementSize, getCountryName } from './util';
+import { shuffle, getPos, getCell, Vec2, moveElement, getElementSize } from './util';
 
 class DrawVisualizer {
     private pots: Team[][];
@@ -16,27 +16,31 @@ class DrawVisualizer {
     constructor(pots: Team[][], groups: Team[][]) {
         this.pots = pots;
         this.groups = groups;
+        
+        let countryNamesPromise = window['fetch']('json/country-names.json').then(data => data.json());
+        
         let tables = document.createElement('div');
         tables.id = 'tables-div';
         this.potsDiv = document.createElement('div');
         this.potsDiv.id = 'pots-div';
-        for (let i = 0; i < pots.length; ++i) {
-            const pot = pots[i];
+        pots.forEach((pot, i) => {
             let table: HTMLTableElement = document.createElement('table');
             table.innerHTML = `<thead><tr><th>Pot ${i + 1}</th></tr></thead><tbody></tbody>`;
             let tBody: any = table.tBodies[0];
             for (let j = 0; j < pot.length; ++j) {
                 let cell = tBody.insertRow(j).insertCell();
                 cell.classList.add('flag');
-                const countryName = getCountryName(pot[j].country);
-                cell.style.backgroundImage = `url(http://icons.iconarchive.com/icons/gosquared/flag/16/${countryName}-flat-icon.png)`;
                 cell.innerHTML = pot[j].name;
                 if (pot[j].pairing !== undefined) {
                     cell.title = 'paired with ' + pot[j].pairing.name;
                 }
             }
+            // to circumvent the restriction of using block-scored variables declared in loops in functions
+            [].slice.call(tBody.rows).map(row => row.cells[0]).forEach((cell, j) => {
+                countryNamesPromise.then(countries => cell.style.backgroundImage = `url(http://icons.iconarchive.com/icons/gosquared/flag/16/${countries[pot[j].country.toLowerCase().replace(' ', '-')]}-flat-icon.png)`);
+            });
             this.potsDiv.appendChild(table);
-        }
+        });
         
         this.groupsDiv = document.createElement('div');
         this.groupsDiv.id = 'groups-div';
