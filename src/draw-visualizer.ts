@@ -12,13 +12,13 @@ class DrawVisualizer {
     private potsDiv: HTMLElement;
     private groupsDiv: HTMLElement;
     private currentPotNum: number;
-    
+
     constructor(pots: Team[][], groups: Team[][]) {
         this.pots = pots;
         this.groups = groups;
-        
+
         let countryNamesPromise = window['fetch']('json/country-names.json').then(data => data.json());
-        
+
         let tables = document.createElement('div');
         tables.id = 'tables-div';
         this.potsDiv = document.createElement('div');
@@ -35,13 +35,14 @@ class DrawVisualizer {
                     cell.title = 'paired with ' + pot[j].pairing.name;
                 }
             }
-            // to circumvent the restriction of using block-scored variables declared in loops in functions
-            [].slice.call(tBody.rows).map(row => row.cells[0]).forEach((cell, j) => {
-                countryNamesPromise.then(countries => cell.style.backgroundImage = `url(http://icons.iconarchive.com/icons/gosquared/flag/16/${countries[pot[j].country.toLowerCase().replace(' ', '-')]}-flat-icon.png)`);
-            });
             this.potsDiv.appendChild(table);
         });
+
+        // to circumvent the restriction of using block-scored variables declared in loops in functions
+        countryNamesPromise.then(countries => [].forEach.call(this.potsDiv.children, (table, i) => [].forEach.call(table.tBodies[0].rows, (row, j) => row.cells[0].style.backgroundImage = `url(http://icons.iconarchive.com/icons/gosquared/flag/16/${countries[pots[i][j].country.toLowerCase()].replace(' ', '-')}-flat-icon.png)`)));
         
+        tables.appendChild(this.potsDiv);
+
         this.groupsDiv = document.createElement('div');
         this.groupsDiv.id = 'groups-div';
         for (let i = 0; i < pots[0].length; ++i) {
@@ -53,14 +54,14 @@ class DrawVisualizer {
             }
             this.groupsDiv.appendChild(table)
         }
-        
-        tables.appendChild(this.potsDiv);
+
+
         tables.appendChild(this.groupsDiv);
         document.body.appendChild(tables);
-        
+
         let bowls = document.createElement('div');
         bowls.id = 'bowls-div';
-        
+
         this.teamBowl = document.createElement('div');
         this.teamBowl.id = 'team-bowl';
         this.teamBowl.classList.add('bowl');
@@ -69,16 +70,16 @@ class DrawVisualizer {
         this.announcement = document.createElement('div');
         this.announcement.id = 'announcement';
         bowls.appendChild(this.announcement);
-        
+
         this.groupBowl = document.createElement('div');
         this.groupBowl.id = 'group-bowl';
         this.groupBowl.classList.add('bowl');
         bowls.appendChild(this.groupBowl);
         document.body.appendChild(bowls);
-        
+
         this.currentPotNum = 0;
     }
-    
+
     public runDraw(): void {
         if (this.currentPotNum > 0 || this.groups.some(g => g.length > 0) || this.pots.some(p => p.length < 8)) {
             throw new Error('cannot start draw');
@@ -117,10 +118,10 @@ class DrawVisualizer {
             let possibleGroupCell = getCell(this.groupsDiv.children[groupNum], this.currentPotNum);
             possibleGroupCell.classList.add('possible-group');
         }
-        
+
         let potCell = getCell(this.potsDiv.children[this.currentPotNum], parseInt(ball.dataset['team']));
         potCell.classList.add('team-selected');
-        
+
         this.announcement.textContent = `Possible groups for ${team.name}: ${possibles.map(i => String.fromCharCode(65 + i)).join(', ')}`;
         this.fillGroupBowl(possibles, team, ball);
     }
@@ -150,16 +151,16 @@ class DrawVisualizer {
         this.teamBowl.style.pointerEvents = 'auto';
         this.teamBowl.style.cursor = null;
         this.teamBowl.onclick = null;
-        
+
         let groupTables = this.groupsDiv.children;
         for (let i = 0; i < groupTables.length; ++i) {
             if (i !== groupNum) {
                 getCell(groupTables[i], this.currentPotNum).classList.remove('possible-group')
             }
         }
-        
+
         if (this.pots[this.currentPotNum].length > 0) return;
-        
+
         this.potsDiv.children[this.currentPotNum]['tHead'].classList.add('greyed');
         if (this.currentPotNum < 3) {
             ++this.currentPotNum;
@@ -171,15 +172,15 @@ class DrawVisualizer {
             bowls.removeChild(this.teamBowl);
             this.announcement.textContent = 'Draw completed!';
         }
-        
+
     }
-    
+
     animateCell(team: Team, teamBall: HTMLElement, groupNum: number): void {
         const groupCell = getCell(this.groupsDiv.children[groupNum], this.currentPotNum);
         const potCell = getCell(this.potsDiv.children[this.currentPotNum], parseInt(teamBall.dataset['team']));
         potCell.classList.remove('team-selected');
         potCell.classList.add('greyed');
-        
+
         const fakeCell = document.createElement('span');
         document.body.appendChild(fakeCell);
         fakeCell.classList.add('fake-cell');
@@ -188,12 +189,12 @@ class DrawVisualizer {
         //fakeCell.style.height = getElementSize(potCell, 'height') + 'px';
         fakeCell.textContent = potCell.textContent;
         fakeCell.style.position = 'absolute';
-        
+
         const potCellPos = getPos(potCell);
         fakeCell.style.left = potCellPos.x + 'px';
         fakeCell.style.top = potCellPos.y + 'px';
         fakeCell.style.backgroundImage = window.getComputedStyle(potCell, null).getPropertyValue('background-image');
-        
+
         const paddingLeft = getElementSize(potCell, 'padding-left');
         const paddingTop = getElementSize(potCell, 'padding-top');
         const cellHeight = getElementSize(potCell, 'height');
@@ -201,7 +202,7 @@ class DrawVisualizer {
         const padding = new Vec2(paddingLeft, paddingTop + (cellHeight - fontSize) / 2);
         const oldPos = new Vec2(1, padding.y - 0.5);
         const newPos = getPos(groupCell).subtract(potCellPos).add(oldPos);
-        
+
         moveElement(fakeCell, oldPos, newPos, 300, () => {
             document.body.removeChild(fakeCell);
             groupCell.textContent = team.name;
@@ -210,7 +211,7 @@ class DrawVisualizer {
             groupCell.classList.add('team-emerge');
         });
     }
-    
+
 }
 
 export default DrawVisualizer;
