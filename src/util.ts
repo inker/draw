@@ -34,8 +34,8 @@ export class Vec2 {
         return new Vec2(this.x - a.x, this.y - a.y);
     }
 
-    multiply(multiplier: number): Vec2 {
-        return new Vec2(this.x * multiplier, this.y * multiplier);
+    multiply(n: number): Vec2 {
+        return new Vec2(this.x * n, this.y * n);
     }
 }
 
