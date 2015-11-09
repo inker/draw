@@ -40,7 +40,7 @@ function filterGroupsBasic(groups: Team[][], teamPicked: Team, currentPotIndex: 
 }
 
 function filterSomeGroups(groups: Team[][], teamPicked: Team, currentPotIndex: number, start: number, end: number): number[] {
-    let possibles: number[] = [];
+    const possibles: number[] = [];
     for (let i = start; i < end; ++i) {
         const group = groups[i];
         let canDraw = true;

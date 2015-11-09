@@ -15,7 +15,7 @@ export function getCell(table: Element, n: number): HTMLElement {
     return table['tBodies'][0].rows[n].cells[0];
 }
 
-let Promise = window['Promise'];
+const Promise = window['Promise'];
 
 export class Vec2 {
     x: number;
@@ -62,4 +62,13 @@ export function moveElement(element: HTMLElement, from: Vec2, to: Vec2, duration
 
 export function getElementSize(element: Element, property: string): number {
     return Number(window.getComputedStyle(element, null).getPropertyValue(property).match(/(.+?)(px|$)/)[1]);
+}
+
+// temporary workaround
+// TODO: latin1 -> utf8 conversion
+export function convertBadName(badName: string): string {
+    return badName.replace(/Malm./, 'Malmö')
+        .replace(/Borussia M.nchengladbach/, 'Borussia Mönchengladbach')
+        .replace(/Atl.tico/, 'Atlético')
+        .replace(/Bayern M.nchen/, 'Bayern München');
 }
