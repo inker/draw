@@ -11,8 +11,7 @@ const fetch = window['fetch'];
 
 export default function (url: string) {
     const uriEncoded = encodeURIComponent(url);
-    const teamsPromise = fetch(`https://cors-inker.c9.io/?url=${uriEncoded}&encoding=latin1`)
-        .catch(err => fetch(`https://cors3-inker.c9.io/?url=${uriEncoded}&encoding=latin1`))
+    const teamsPromise = fetch(`http://proxy-antonv.rhcloud.com/?url=${uriEncoded}&encoding=latin1`)
         .then(response => response.text())
         .catch(err => fetch(`https://crossorigin.me/${url}`).then(r => r.text()).then(t => convertBadName(t)))
         .catch(err => alert('proxies are down'))

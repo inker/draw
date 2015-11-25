@@ -149,7 +149,7 @@ class DrawVisualizer {
         this.groups[groupNum].push(team);
 
         this.teamBowl.style.pointerEvents = 'auto';
-        this.teamBowl.style.cursor = null;
+        this.teamBowl.style.cursor = 'default';
         this.teamBowl.onclick = null;
 
         const groupTables = this.groupsDiv.children;
