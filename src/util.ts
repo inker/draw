@@ -6,62 +6,8 @@ export function shuffle<T>(o: T[]): T[] {
     return o;
 }
 
-export function getPos(el): Vec2 {
-    for (var lx = 0, ly = 0; el !== null; lx += el.offsetLeft, ly += el.offsetTop, el = el.offsetParent);
-    return new Vec2(lx, ly);
-}
-
 export function getCell(table: Element, n: number): HTMLElement {
     return table['tBodies'][0].rows[n].cells[0];
-}
-
-const Promise = window['Promise'];
-
-export class Vec2 {
-    x: number;
-    y: number;
-
-    constructor(x: number, y: number) {
-        this.x = x;
-        this.y = y;
-    }
-
-    add(a: Vec2): Vec2 {
-        return new Vec2(this.x + a.x, this.y + a.y);
-    }
-
-    subtract(a: Vec2): Vec2 {
-        return new Vec2(this.x - a.x, this.y - a.y);
-    }
-
-    multiply(n: number): Vec2 {
-        return new Vec2(this.x * n, this.y * n);
-    }
-}
-
-export function moveElement(element: HTMLElement, from: Vec2, to: Vec2, duration: number, callback?: Function): void {
-    let start: number = null;
-
-    function step(timestamp: number) {
-        if (!start) {
-            start = timestamp;
-        }
-        const progress = timestamp - start;
-        const percentage = progress / duration;
-        const pos = to.subtract(from).multiply(percentage).add(from);
-        element.style.transform = `translate3d(${pos.x}px, ${pos.y}px, 0px)`;
-        if (progress < duration) {
-            window.requestAnimationFrame(step);
-        } else if (typeof callback === 'function') {
-            callback();
-        }
-    }
-
-    window.requestAnimationFrame(step);
-}
-
-export function getElementSize(element: Element, property: string): number {
-    return Number(window.getComputedStyle(element, null).getPropertyValue(property).match(/(.+?)(px|$)/)[1]);
 }
 
 // temporary workaround
@@ -71,4 +17,34 @@ export function convertBadName(badName: string): string {
         .replace(/Borussia M.nchengladbach/, 'Borussia Mönchengladbach')
         .replace(/Atl.tico/, 'Atlético')
         .replace(/Bayern M.nchen/, 'Bayern München');
+}
+
+export function animateCell(sourceCell: HTMLElement, targetCell: HTMLElement, duration: number) {
+    return new window['Promise'](resolve => {
+        const fakeCell = document.createElement('td');
+        fakeCell.style.opacity = null;
+        fakeCell.style.position = 'absolute';
+        fakeCell.textContent = sourceCell.textContent;
+        const computedStyle = getComputedStyle(sourceCell);
+        for (let s of ['width', 'border', 'padding', 'padding-left', 'background', 'background-image', 'background-repeat']) {
+            fakeCell.style[s] = computedStyle[s];
+        }
+        const potCellBox = sourceCell.getBoundingClientRect();
+        fakeCell.style.transform = `translate(${potCellBox.left}px, ${potCellBox.top}px)`;
+        fakeCell.style.height = potCellBox.height - 5 + 'px';
+        fakeCell.style.borderColor = 'rgba(0,0,0,0)';
+        fakeCell.style.paddingTop = '3px';
+
+        document.body.appendChild(fakeCell);
+        
+        const groupCellBox = targetCell.getBoundingClientRect();
+        fakeCell.style.transition = `transform ${duration}ms ease-in-out`;
+        fakeCell.style.transform = `translate3d(${groupCellBox.left}px, ${groupCellBox.top}px, 0px)`;
+        setTimeout(() => {
+            document.body.removeChild(fakeCell);
+            targetCell.textContent = sourceCell.textContent;
+            targetCell.style.backgroundImage = sourceCell.style.backgroundImage;
+            resolve();
+        }, duration); 
+    });
 }

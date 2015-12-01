@@ -38,7 +38,7 @@ td, th {
 }
 
 .flag {
-    background-position: 2px 50%;
+    background-position: 2px;
     background-repeat: no-repeat;
     padding-left: 20px;
     text-decoration: none;

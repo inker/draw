@@ -1,7 +1,6 @@
-/// <reference path="../typings/tsd.d.ts"/>
 import getPossibleGroups from './possible-groups';
 import Team from './team';
-import { shuffle, getPos, getCell, Vec2, moveElement, getElementSize } from './util';
+import { shuffle, getCell, animateCell } from './util';
 
 class DrawVisualizer {
     private pots: Team[][];
@@ -13,9 +12,14 @@ class DrawVisualizer {
     private groupsDiv: HTMLElement;
     private currentPotNum: number;
 
-    constructor(pots: Team[][], groups: Team[][]) {
+    constructor(pots: Team[][]) {
         this.pots = pots;
-        this.groups = groups;
+        this.groups = [];
+        for (let i = 0; i < pots[0].length; ++i) {
+            this.groups.push([]);
+        }
+        console.log(this.groups);
+        console.log([[], [], [], [], [], [], [], []]);
 
         const countryNamesPromise = window['fetch']('json/country-names.json').then(data => data.json());
 
@@ -23,7 +27,8 @@ class DrawVisualizer {
         tables.id = 'tables-div';
         this.potsDiv = document.createElement('div');
         this.potsDiv.id = 'pots-div';
-        pots.forEach((pot, i) => {
+        for (let i = 0; i < pots.length; ++i) {
+            const pot = pots[i];
             const table: HTMLTableElement = document.createElement('table');
             table.innerHTML = `<thead><tr><th>Pot ${i + 1}</th></tr></thead><tbody></tbody>`;
             const tBody: any = table.tBodies[0];
@@ -36,17 +41,27 @@ class DrawVisualizer {
                 }
             }
             this.potsDiv.appendChild(table);
-        });
+        }
 
-        // to circumvent the restriction of using block-scored variables declared in loops in functions
-        countryNamesPromise.then(countries => [].forEach.call(this.potsDiv.children, (table, i) => [].forEach.call(table.tBodies[0].rows, (row, j) => row.cells[0].style.backgroundImage = `url(http://icons.iconarchive.com/icons/gosquared/flag/16/${countries[pots[i][j].country.toLowerCase()].replace(' ', '-')}-flat-icon.png)`)));
+        countryNamesPromise.then(countries => {
+            const potTables = this.potsDiv.children;
+            for (let i = 0; i < potTables.length; ++i) {
+                const table: any = this.potsDiv.children[i];
+                const rows = table.tBodies[0].rows;
+                for (let j = 0; j < rows.length; ++j) {
+                    const cellStyle = rows[j].cells[0].style;
+                    const countryCode = countries[pots[i][j].country.toLowerCase()].replace(' ', '-');
+                    cellStyle.backgroundImage = `url(http://icons.iconarchive.com/icons/gosquared/flag/16/${countryCode}-flat-icon.png)`;
+                }
+            }
+        });
         
         tables.appendChild(this.potsDiv);
 
         this.groupsDiv = document.createElement('div');
         this.groupsDiv.id = 'groups-div';
         for (let i = 0; i < pots[0].length; ++i) {
-            const table: HTMLTableElement = document.createElement('table');
+            const table = document.createElement('table');
             table.innerHTML = `<thead><tr><th>Group ${String.fromCharCode(65 + i)}</th></tr></thead><tbody></tbody>`;
             const tBody: any = table.tBodies[0];
             for (let j = 0; j < pots.length; ++j) {
@@ -90,7 +105,7 @@ class DrawVisualizer {
 
     private fillTeamBowl(): void {
         const pot = this.pots[this.currentPotNum];
-        const balls = pot.map((team, i) => {
+        const teamBalls = pot.map((team, i) => {
             const ball = document.createElement('div');
             ball.classList.add('ball');
             ball.textContent = pot[i].name;
@@ -98,7 +113,9 @@ class DrawVisualizer {
             ball.addEventListener('click', e => this.onTeamBallPick(e));
             return ball;
         });
-        shuffle(balls).forEach(ball => this.teamBowl.appendChild(ball));
+        for (let ball of shuffle(teamBalls)) {
+            this.teamBowl.appendChild(ball);
+        }
     }
 
     private onTeamBallPick(e): void {
@@ -128,19 +145,28 @@ class DrawVisualizer {
 
     private fillGroupBowl(possibleGroups: number[], team: Team, teamBall: any): void {
         const groupBalls = possibleGroups.map(groupNum => {
-            const groupBall = document.createElement('div');
-            groupBall.classList.add('ball');
-            groupBall.textContent = String.fromCharCode(65 + groupNum);
-            groupBall.dataset['group'] = groupNum.toString();
-            groupBall.addEventListener('click', e => {
+            const ball = document.createElement('div');
+            ball.classList.add('ball');
+            ball.textContent = String.fromCharCode(65 + groupNum);
+            ball.dataset['group'] = groupNum.toString();
+            ball.addEventListener('click', e => {
                 this.teamBowl.removeChild(teamBall);
                 const groupNum = parseInt(e.target['dataset']['group']);
-                this.animateCell(team, <any>teamBall, groupNum);
+                const groupCell = getCell(this.groupsDiv.children[groupNum], this.currentPotNum);
+                const potCell = getCell(this.potsDiv.children[this.currentPotNum], parseInt(teamBall.dataset['team']));
+                potCell.classList.remove('team-selected');
+                potCell.classList.add('greyed');
+                animateCell(potCell, groupCell, 300).then(() => {
+                    groupCell.classList.remove('possible-group');
+                    groupCell.classList.add('team-emerge');
+                });
                 this.onGroupBallPick(team, groupNum);
             });
-            return groupBall;
+            return ball;
         });
-        shuffle(groupBalls).forEach(groupBall => this.groupBowl.appendChild(groupBall));
+        for (let ball of shuffle(groupBalls)) {
+            this.groupBowl.appendChild(ball);
+        }
     }
 
     private onGroupBallPick(team: Team, groupNum: number): void {
@@ -173,43 +199,6 @@ class DrawVisualizer {
             this.announcement.textContent = 'Draw completed!';
         }
 
-    }
-
-    animateCell(team: Team, teamBall: HTMLElement, groupNum: number): void {
-        const groupCell = getCell(this.groupsDiv.children[groupNum], this.currentPotNum);
-        const potCell = getCell(this.potsDiv.children[this.currentPotNum], parseInt(teamBall.dataset['team']));
-        potCell.classList.remove('team-selected');
-        potCell.classList.add('greyed');
-
-        const fakeCell = document.createElement('span');
-        document.body.appendChild(fakeCell);
-        fakeCell.classList.add('fake-cell');
-        fakeCell.classList.add('flag');
-        fakeCell.style.width = potCell.offsetWidth + 'px';
-        //fakeCell.style.height = getElementSize(potCell, 'height') + 'px';
-        fakeCell.textContent = potCell.textContent;
-        fakeCell.style.position = 'absolute';
-
-        const potCellPos = getPos(potCell);
-        fakeCell.style.left = potCellPos.x + 'px';
-        fakeCell.style.top = potCellPos.y + 'px';
-        fakeCell.style.backgroundImage = window.getComputedStyle(potCell, null).getPropertyValue('background-image');
-
-        const paddingLeft = getElementSize(potCell, 'padding-left');
-        const paddingTop = getElementSize(potCell, 'padding-top');
-        const cellHeight = getElementSize(potCell, 'height');
-        const fontSize = getElementSize(potCell, 'font-size');
-        const padding = new Vec2(paddingLeft, paddingTop + (cellHeight - fontSize) / 2);
-        const oldPos = new Vec2(1, padding.y - 0.5);
-        const newPos = getPos(groupCell).subtract(potCellPos).add(oldPos);
-
-        moveElement(fakeCell, oldPos, newPos, 300, () => {
-            document.body.removeChild(fakeCell);
-            groupCell.textContent = team.name;
-            groupCell.style.backgroundImage = potCell.style.backgroundImage;
-            groupCell.classList.remove('possible-group');
-            groupCell.classList.add('team-emerge');
-        });
     }
 
 }

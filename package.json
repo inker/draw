@@ -5,9 +5,7 @@
   "main": "index.html",
   "dependencies": {
     "classlist-polyfill": "latest",
-    "es6-promise": "latest",
-    "iconv-lite": "^0.4.13",
-    "whatwg-fetch": "latest"
+    "es6-promise": "latest"
   },
   "devDependencies": {
     "babelify": "latest",
