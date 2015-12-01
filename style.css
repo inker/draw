@@ -52,7 +52,9 @@ td, th {
 }
 
 .greyed {
-    opacity: 0.33;
+    -webkit-filter: grayscale(0.5);
+    filter: grayscale(0.5);
+    opacity: 0.4;
 }
 
 #tables-div {
