@@ -1,5 +1,5 @@
 import getPossibleGroups from './possible-groups';
-import Team from './team';
+import { GSTeam as Team } from './team';
 import { shuffle, getCell, animateCell } from './util';
 
 class DrawVisualizer {
@@ -11,6 +11,7 @@ class DrawVisualizer {
     private potsDiv: HTMLElement;
     private groupsDiv: HTMLElement;
     private currentPotNum: number;
+    private pickedTeam: Team;
 
     constructor(pots: Team[][]) {
         this.pots = pots;
@@ -18,8 +19,6 @@ class DrawVisualizer {
         for (let i = 0; i < pots[0].length; ++i) {
             this.groups.push([]);
         }
-        console.log(this.groups);
-        console.log([[], [], [], [], [], [], [], []]);
 
         const countryNamesPromise = window['fetch']('json/country-names.json').then(data => data.json());
 
@@ -105,75 +104,69 @@ class DrawVisualizer {
 
     private fillTeamBowl(): void {
         const pot = this.pots[this.currentPotNum];
-        const teamBalls = pot.map((team, i) => {
+        for (let i of shuffle(pot.map((el, i) => i))) {
+            const team = pot[i];
             const ball = document.createElement('div');
             ball.classList.add('ball');
             ball.textContent = pot[i].name;
             ball.dataset['team'] = i.toString();
-            ball.addEventListener('click', e => this.onTeamBallPick(e));
-            return ball;
-        });
-        for (let ball of shuffle(teamBalls)) {
+            ball.addEventListener('click', this.onTeamBallPick.bind(this));
             this.teamBowl.appendChild(ball);
         }
     }
 
-    private onTeamBallPick(e): void {
+    private onTeamBallPick(ev: MouseEvent): void {
         this.teamBowl.style.cursor = 'not-allowed';
         this.teamBowl.style.pointerEvents = 'none';
-        const ball = e.target;
+        const ball: Element = ev.target as any;
         ball.classList.add('ball-picked');
         const currentPot = this.pots[this.currentPotNum];
-        for (var i = 0; i < currentPot.length; ++i) {
-            if (currentPot[i].name === ball.textContent) {
-                break;
-            }
-        }
-        const team: Team = currentPot.splice(i, 1)[0];
-        const possibles = getPossibleGroups(this.pots, this.groups, team, this.currentPotNum);
+        const i = currentPot['findIndex'](team => team.name === ball.textContent);
+        this.pickedTeam = currentPot.splice(i, 1)[0];
+        const possibles = getPossibleGroups(this.pots, this.groups, this.pickedTeam, this.currentPotNum);
         for (let groupNum of possibles) {
             const possibleGroupCell = getCell(this.groupsDiv.children[groupNum], this.currentPotNum);
             possibleGroupCell.classList.add('possible-group');
         }
 
-        const potCell = getCell(this.potsDiv.children[this.currentPotNum], parseInt(ball.dataset['team']));
+        const potCell = getCell(this.potsDiv.children[this.currentPotNum], parseInt(ball.getAttribute('data-team')));
         potCell.classList.add('team-selected');
-
-        this.announcement.textContent = `Possible groups for ${team.name}: ${possibles.map(i => String.fromCharCode(65 + i)).join(', ')}`;
-        this.fillGroupBowl(possibles, team, ball);
+        
+        const possiblesText = possibles.map(i => String.fromCharCode(65 + i)).join(', ');
+        this.announcement.textContent = `Possible groups for ${this.pickedTeam.name}: ${possiblesText}`;
+        this.fillGroupBowl(possibles);
     }
 
-    private fillGroupBowl(possibleGroups: number[], team: Team, teamBall: any): void {
-        const groupBalls = possibleGroups.map(groupNum => {
+    private fillGroupBowl(possibleGroups: number[]): void {
+        for (let groupNum of shuffle(possibleGroups)) {
             const ball = document.createElement('div');
             ball.classList.add('ball');
             ball.textContent = String.fromCharCode(65 + groupNum);
             ball.dataset['group'] = groupNum.toString();
-            ball.addEventListener('click', e => {
-                this.teamBowl.removeChild(teamBall);
-                const groupNum = parseInt(e.target['dataset']['group']);
-                const groupCell = getCell(this.groupsDiv.children[groupNum], this.currentPotNum);
-                const potCell = getCell(this.potsDiv.children[this.currentPotNum], parseInt(teamBall.dataset['team']));
-                potCell.classList.remove('team-selected');
-                potCell.classList.add('greyed');
-                animateCell(potCell, groupCell, 300).then(() => {
-                    groupCell.classList.remove('possible-group');
-                    groupCell.classList.add('team-emerge');
-                });
-                this.onGroupBallPick(team, groupNum);
-            });
-            return ball;
-        });
-        for (let ball of shuffle(groupBalls)) {
+            ball.addEventListener('click', this.onGroupBallPicked.bind(this));
             this.groupBowl.appendChild(ball);
         }
     }
 
-    private onGroupBallPick(team: Team, groupNum: number): void {
-        this.groupBowl.innerHTML = '';
+    private onGroupBallPicked(ev: MouseEvent): void {
+        const groupNum = parseInt(ev.target['dataset']['group']);
+        this.groups[groupNum].push(this.pickedTeam);
+        this.pickedTeam = null;
+        
+        const teamBall = this.teamBowl.querySelector('.ball-picked');
+        this.teamBowl.removeChild(teamBall);
+        const groupCell = getCell(this.groupsDiv.children[groupNum], this.currentPotNum);
+        const potCell = getCell(this.potsDiv.children[this.currentPotNum], parseInt(teamBall.getAttribute('data-team')));
+        potCell.classList.remove('team-selected');
+        potCell.classList.add('greyed');
+        animateCell(potCell, groupCell, 300).then(() => {
+            groupCell.classList.remove('possible-group');
+            groupCell.classList.add('team-emerge');
+        });
         this.announcement.textContent = `Group ${String.fromCharCode(65 + groupNum)}!`;
-        this.groups[groupNum].push(team);
-
+        
+        this.groupBowl.innerHTML = '';
+        
         this.teamBowl.style.pointerEvents = 'auto';
         this.teamBowl.style.cursor = 'default';
         this.teamBowl.onclick = null;
@@ -181,7 +174,7 @@ class DrawVisualizer {
         const groupTables = this.groupsDiv.children;
         for (let i = 0; i < groupTables.length; ++i) {
             if (i !== groupNum) {
-                getCell(groupTables[i], this.currentPotNum).classList.remove('possible-group')
+                getCell(groupTables[i], this.currentPotNum).classList.remove('possible-group');
             }
         }
 

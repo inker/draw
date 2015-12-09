@@ -22,29 +22,30 @@ export function convertBadName(badName: string): string {
 export function animateCell(sourceCell: HTMLElement, targetCell: HTMLElement, duration: number) {
     return new window['Promise'](resolve => {
         const fakeCell = document.createElement('td');
-        fakeCell.style.opacity = null;
-        fakeCell.style.position = 'absolute';
+        const fakeCellStyle = fakeCell.style;
+        fakeCellStyle.opacity = null;
+        fakeCellStyle.position = 'absolute';
         fakeCell.textContent = sourceCell.textContent;
         const computedStyle = getComputedStyle(sourceCell);
         for (let s of ['width', 'border', 'padding', 'padding-left', 'background', 'background-image', 'background-repeat']) {
-            fakeCell.style[s] = computedStyle[s];
+            fakeCellStyle[s] = computedStyle[s];
         }
-        const potCellBox = sourceCell.getBoundingClientRect();
-        fakeCell.style.transform = `translate(${potCellBox.left}px, ${potCellBox.top}px)`;
-        fakeCell.style.height = potCellBox.height - 5 + 'px';
-        fakeCell.style.borderColor = 'rgba(0,0,0,0)';
-        fakeCell.style.paddingTop = '3px';
-
+        const sourceCellBox = sourceCell.getBoundingClientRect();
+        fakeCellStyle.transform = `translate(${sourceCellBox.left}px, ${sourceCellBox.top}px)`;
+        fakeCellStyle.height = sourceCellBox.height - 5 + 'px';
+        fakeCellStyle.borderColor = 'rgba(0,0,0,0)';
+        fakeCellStyle.paddingTop = '3px';
+        fakeCellStyle.backgroundColor = null;
         document.body.appendChild(fakeCell);
         
-        const groupCellBox = targetCell.getBoundingClientRect();
-        fakeCell.style.transition = `transform ${duration}ms ease-in-out`;
-        fakeCell.style.transform = `translate3d(${groupCellBox.left}px, ${groupCellBox.top}px, 0px)`;
-        setTimeout(() => {
+        const targetCellBox = targetCell.getBoundingClientRect();
+        fakeCellStyle.transition = `transform ${duration}ms ease-in-out`;
+        fakeCellStyle.transform = `translate3d(${targetCellBox.left}px, ${targetCellBox.top}px, 0px)`;
+        fakeCell.addEventListener('transitionend', e => {
             document.body.removeChild(fakeCell);
             targetCell.textContent = sourceCell.textContent;
             targetCell.style.backgroundImage = sourceCell.style.backgroundImage;
             resolve();
-        }, duration); 
+        }); 
     });
 }

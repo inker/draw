@@ -10,6 +10,11 @@ body {
     font-size: 0.8em;
 }
 
+a {
+    color: blue;
+    text-decoration: underline;
+}
+
 div {
     border: 0px;
     float: left;
@@ -85,6 +90,34 @@ td, th {
 #groups-div table:nth-child(-n+4) {
     background-color: #fee
 }
+
+
+#matchups {
+    border-collapse: collapse;
+
+}
+
+#matchups tr {
+    background-color: white;
+    border: #aaa solid 1px;
+    border-top-color: rgba(0,0,0,0);
+    border-bottom-color: rgba(0,0,0,0);
+}
+
+#matchups td:first-child {
+    border-right-color: rgba(0,0,0,0);
+}
+
+#matchups td:nth-child(2) {
+    text-align: center;
+    width: 20px;
+    border-right-color: rgba(0,0,0,0);
+}
+
+#matchups td:last-child {
+   
+}
+
 
 
 #bowls-div {
