@@ -39,11 +39,10 @@ export function parseGS(body) {
 export function parseLast16Teams(data: string): Last16Team[][] {
     data = data.slice(data.lastIndexOf('--------------'));
     const pots: Last16Team[][] = [[], []];
-    const re = /\s*(.+?)(\s\*+\d?\s+)?\s{2,}(\w{3})\s+(.+?)(\s\*+\d?\s+)?\s{2,}(\w{3})/g;
+    const re = /\s*(.+?)(\s\*+\d?\s+)?\s{2,}(\w{3})\s+/g;
     let matches: RegExpExecArray;
-    for (let i = 0; i < 8 && (matches = re.exec(data)) !== null; ++i) {
-        pots[0].push(new Last16Team(matches[1], matches[3], i));
-        pots[1].push(new Last16Team(matches[4], matches[6], i));
+    for (let i = 0; i < 16 && (matches = re.exec(data)) !== null; ++i) {
+        pots[i % 2].push(new Last16Team(matches[1], matches[3], i >> 1));
     }
     return pots;
 }
@@ -60,7 +59,7 @@ function parseGSTeams(data: string): GSTeam[] {
 }
 
 function pairUpTeams(teams: GSTeam[], pairStr: string[][]): GSTeam[] {
-    pairStr.forEach(str => {
+    for (let str of pairStr) {
         const pairing = str.map(s => {
             for (let t of teams) {
                 if (t.name.indexOf(s) > -1) return t;
@@ -69,22 +68,15 @@ function pairUpTeams(teams: GSTeam[], pairStr: string[][]): GSTeam[] {
         });
         pairing[0].pairing = pairing[1];
         pairing[1].pairing = pairing[0];
-    });
+    }
     return teams;
 }
 
 function fillGSPots(teams: GSTeam[]): GSTeam[][] {
-    const wildCards = ['Barcelona', 'Chelsea', 'Bayern', 'Juventus', 'Benfica', 'Paris', 'Zenit', 'PSV'];
-    const pots = new Array<GSTeam[]>(4);
-    pots[0] = wildCards.map(wc => {
-        for (let t of teams) {
-            if (t.name.indexOf(wc) > -1) {
-                teams.splice(teams.indexOf(t), 1);
-                return t;
-            }
-        }
-        throw new Error(`couldn't find team named ${wc}`);
-    });
+    const pots = new Array<GSTeam[]>(4).fill([]);
+    for (let i = 0; i < 8; ++i) {
+        pots[0].push(teams.splice(i, 1)[0]);
+    }
     teams.sort((t1, t2) => t2.coefficient - t1.coefficient);
     for (let i = 1; i < pots.length; ++i) {
         pots[i] = teams.splice(0, 8);

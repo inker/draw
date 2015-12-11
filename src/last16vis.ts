@@ -14,7 +14,6 @@ class Last16Draw {
 
     constructor(pots: Team[][]) {
         this.pots = pots;
-        console.log(pots);
         this.matchups = [];
         for (let i = 0; i < pots[0].length; ++i) {
             this.matchups.push([]);
