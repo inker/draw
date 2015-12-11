@@ -60,12 +60,7 @@ function parseGSTeams(data: string): GSTeam[] {
 
 function pairUpTeams(teams: GSTeam[], pairStr: string[][]): GSTeam[] {
     for (let str of pairStr) {
-        const pairing = str.map(s => {
-            for (let t of teams) {
-                if (t.name.indexOf(s) > -1) return t;
-            }
-            throw new Error(`couldn't find team named ${s}`);
-        });
+        const pairing = str.map(s => teams.find(t => t.name.includes(s)));
         pairing[0].pairing = pairing[1];
         pairing[1].pairing = pairing[0];
     }

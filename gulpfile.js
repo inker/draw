@@ -6,7 +6,7 @@ var babelify = require('babelify');
 var buffer = require('vinyl-buffer');
 
 gulp.task('default', function () {
-    var patterns = ['./src/main.js'];
+    var patterns = ['./src/*.js'];
     gulp.watch(patterns, ['client-transpile-merge-compress']);
 });
 
