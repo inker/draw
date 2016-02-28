@@ -2,14 +2,28 @@ import { fetchPots, parseGS, parseLast16Teams } from './fetch-parse-pots';
 import DrawVisualizer from './draw-visualizer';
 import Last16Draw from './last16vis';
 
-const groupStageDrawLink = document.getElementById('gs-link');
 const fetched = fetchPots('http://kassiesa.home.xs4all.nl/bert/uefa/seedcl2015.html');
 
-groupStageDrawLink.onclick = e => {
-    document.body.innerHTML = '';
-    fetched.then(body => parseGS(body))
-        .then(pots => new DrawVisualizer(pots).runDraw());
+function changeMode(mode: number) {
+    window.history.pushState({}, '', '?mode=' + modes[currentMode].url);
+    changeModeLink.textContent = 'Go to ' + modes[1 - currentMode].name;
+    return mode === 1 ? fetched.then(body => parseLast16Teams(body)).then(pots => new Last16Draw(pots).runDraw())
+        : fetched.then(body => parseGS(body)).then(pots => new DrawVisualizer(pots).runDraw());
+}
+
+const modes = [
+    { url: 'gs', name: 'Group stage draw' },
+    { url: 'last16', name: 'Last 16 draw' }
+];
+let currentMode = window.location.search.endsWith('mode=last16') ? 1 : 0;
+
+const changeModeLink = document.getElementById('change-mode');
+changeModeLink.onclick = e => {
+    document.body.removeChild(document.getElementById('tables-div'));
+    document.body.removeChild(document.getElementById('bowls-div'));
+    window.getSelection().empty();
+    if (++currentMode >= modes.length) currentMode = 0;
+    changeMode(currentMode);
 };
 
-fetched.then(body => parseLast16Teams(body))
-    .then(pots => new Last16Draw(pots).runDraw());
+changeMode(currentMode);

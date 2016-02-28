@@ -11,7 +11,10 @@
     "babelify": "latest",
     "browserify": "latest",
     "gulp": "latest",
+    "gulp-notify": "^2.2.0",
+    "gulp-typescript": "^2.12.0",
     "gulp-uglify": "latest",
+    "tsify": "^0.13.2",
     "vinyl-buffer": "latest",
     "vinyl-source-stream": "latest"
   },

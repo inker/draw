@@ -10,9 +10,13 @@ body {
     font-size: 0.8em;
 }
 
-a {
+#change-mode {
+    font-size: 1.25em;
     color: blue;
     text-decoration: underline;
+    cursor: pointer;
+    -webkit-user-select: none;
+    user-select: none;
 }
 
 div {
