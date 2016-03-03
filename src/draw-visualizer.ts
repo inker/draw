@@ -33,8 +33,7 @@ class DrawVisualizer {
             const tBody: any = table.tBodies[0];
             for (let j = 0; j < pot.length; ++j) {
                 const cell = tBody.insertRow(j).insertCell();
-                cell.classList.add('flag');
-                cell.innerHTML = pot[j].name;
+                cell.textContent = pot[j].name;
                 if (pot[j].pairing !== undefined) {
                     cell.title = 'paired with ' + pot[j].pairing.name;
                 }
@@ -64,7 +63,7 @@ class DrawVisualizer {
             table.innerHTML = `<thead><tr><th>Group ${String.fromCharCode(65 + i)}</th></tr></thead><tbody></tbody>`;
             const tBody: any = table.tBodies[0];
             for (let j = 0; j < pots.length; ++j) {
-                tBody.insertRow(j).insertCell().classList.add('flag');
+                tBody.insertRow(j).insertCell();
             }
             this.groupsDiv.appendChild(table)
         }
@@ -116,8 +115,7 @@ class DrawVisualizer {
     }
 
     private onTeamBallPick(ev: MouseEvent): void {
-        this.teamBowl.style.cursor = 'not-allowed';
-        this.teamBowl.style.pointerEvents = 'none';
+        this.teamBowl.classList.add('dont-touch');
         const ball: Element = ev.target as any;
         ball.classList.add('ball-picked');
         const currentPot = this.pots[this.currentPotNum];
@@ -167,8 +165,7 @@ class DrawVisualizer {
         
         this.groupBowl.innerHTML = '';
         
-        this.teamBowl.style.pointerEvents = 'auto';
-        this.teamBowl.style.cursor = 'default';
+        this.teamBowl.classList.remove('dont-touch');
         this.teamBowl.onclick = null;
 
         const groupTables = this.groupsDiv.children;

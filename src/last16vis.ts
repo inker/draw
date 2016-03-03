@@ -33,9 +33,7 @@ class Last16Draw {
             table.innerHTML = `<thead><tr><th>${['Group winners', 'Runners-up'][i]}</th></tr></thead><tbody></tbody>`;
             const tBody: any = table.tBodies[0];
             for (let j = 0; j < pot.length; ++j) {
-                const cell = tBody.insertRow(j).insertCell();
-                cell.classList.add('flag');
-                cell.innerHTML = pot[j].name;
+                tBody.insertRow(j).insertCell().textContent = pot[j].name;
             }
             this.potsDiv.appendChild(table);
         }
@@ -63,12 +61,9 @@ class Last16Draw {
         const tBody: any = table.tBodies[0];
         for (let i = 0; i < pots[0].length; ++i) {
             const row = tBody.insertRow(i);
-            const c1 = row.insertCell();
-            c1.classList.add('flag');
-            const c2 = row.insertCell();
-            c2.textContent = 'v';
-            const c3 = row.insertCell();
-            c3.classList.add('flag');
+            row.insertCell();
+            row.insertCell();
+            row.insertCell();
         }
         this.matchupDiv.appendChild(table)
 
@@ -126,18 +121,18 @@ class Last16Draw {
     }
 
     private onRunnerUpBallPick(ev: MouseEvent): void {
-        this.runnerUpBowl.style.cursor = 'not-allowed';
-        this.runnerUpBowl.style.pointerEvents = 'none';
+        this.runnerUpBowl.classList.add('dont-touch');
         const ball: Element = ev.target as any;
         ball.classList.add('ball-picked');
         const [groupWinnerPot, runnerUpPot] = this.pots;
-        const i = runnerUpPot['findIndex'](team => team.name === ball.textContent);
+        const i = runnerUpPot.findIndex(team => team.name === ball.textContent);
         const pickedTeam = runnerUpPot.splice(i, 1)[0];
         console.log(pickedTeam.name);
         this.matchups[this.currentMatchupNum].push(pickedTeam);
         const possibles = getPossibleOpponents(this.pots, this.matchups, this.currentMatchupNum);
         const possibleTeamNames = possibles.map(n => groupWinnerPot[n].name);
-        for (let cell of [].map.call((this.potsDiv.firstElementChild as any).tBodies[0].rows, row => row.cells[0])) {
+        const groupWinnerRows = (this.potsDiv.firstElementChild as any).tBodies[0].rows;
+        for (let cell of [].map.call(groupWinnerRows, row => row.cells[0])) {
             if (possibleTeamNames.indexOf(cell.textContent) > -1) {
                 cell.style.color = '#00f';
             }
@@ -149,8 +144,7 @@ class Last16Draw {
         const possiblesText = possibles.map(i => this.pots[0][i].name).join(', ');
         this.announcement.textContent = `Possible opponents for ${pickedTeam.name}: ${possiblesText}`;
         this.fillGroupWinnerBowl(possibles);
-        this.groupWinnerBowl.style.pointerEvents = 'auto';
-        this.groupWinnerBowl.style.cursor = 'default';
+        this.groupWinnerBowl.classList.remove('dont-touch');
     }
 
     private fillGroupWinnerBowl(possibleOpponents: number[]): void {
@@ -165,16 +159,16 @@ class Last16Draw {
             this.groupWinnerBowl.appendChild(ball);
         }
         if (this.groupWinnerBowl.children.length === 1) {
-            setTimeout(() => (this.groupWinnerBowl.firstElementChild as any).click(), 200);
+            setTimeout(() => (this.groupWinnerBowl.firstElementChild as HTMLElement).click(), 200);
         }
     }
 
     private onGroupWinnerBallPicked(ev: MouseEvent): void {
-        this.groupWinnerBowl.style.cursor = 'not-allowed';
-        this.groupWinnerBowl.style.pointerEvents = 'none';
+        this.groupWinnerBowl.classList.add('dont-touch');
+        const groupWinnerPot = this.pots[0];
         const ball: Element = ev.target as any;
-        const i = this.pots[0]['findIndex'](team => team.name === ball.textContent);
-        const pickedTeam = this.pots[0].splice(i, 1)[0];
+        const i = groupWinnerPot.findIndex(team => team.name === ball.textContent);
+        const pickedTeam = groupWinnerPot.splice(i, 1)[0];
         this.matchups[this.currentMatchupNum].push(pickedTeam);
         const cells = [].map.call((this.potsDiv.firstElementChild as any).tBodies[0].rows, row => row.cells[0]);
         for (let c of cells) {
@@ -190,17 +184,14 @@ class Last16Draw {
 
         this.groupWinnerBowl.innerHTML = '';
 
-        this.runnerUpBowl.style.pointerEvents = 'auto';
-        this.runnerUpBowl.style.cursor = 'default';
+        this.runnerUpBowl.classList.remove('dont-touch');
         this.runnerUpBowl.onclick = null;
-
-
 
         if (this.currentMatchupNum < 7) {
             ++this.currentMatchupNum;
             this.announcement.textContent = 'Pick a ball';
             if (this.runnerUpBowl.children.length === 1) {
-                setTimeout(() => (this.runnerUpBowl.firstElementChild as any).click(), 200);
+                setTimeout(() => (this.runnerUpBowl.firstElementChild as HTMLElement).click(), 200);
             }
         } else {
             //this.potsDiv.children[this.currentMatchupNum]['tHead'].classList.add('greyed');

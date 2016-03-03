@@ -46,13 +46,13 @@ td, th {
     white-space: nowrap;
 }
 
-.flag {
+#tables-div td:nth-child(odd) {
     background-position: 2px;
     background-repeat: no-repeat;
     padding-left: 20px;
     text-decoration: none;
     text-align: left;
-    color: inherit;
+    /*color: inherit;*/
     /*display: block;*/
 }
 
@@ -64,6 +64,11 @@ td, th {
     -webkit-filter: grayscale(0.5);
     filter: grayscale(0.5);
     opacity: 0.4;
+}
+
+.dont-touch {
+    cursor: not-allowed;
+    pointer-events: none;
 }
 
 #tables-div {
@@ -79,6 +84,7 @@ td, th {
 #groups-div table {
     float: left;
 }
+
 
 /** new line */
 #groups-div table:nth-child(5) {
@@ -118,11 +124,9 @@ td, th {
     border-right-color: rgba(0,0,0,0);
 }
 
-#matchups td:last-child {
-   
+#matchups td:nth-child(2):before {
+    content: "v";    
 }
-
-
 
 #bowls-div {
     float: left;

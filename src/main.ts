@@ -4,11 +4,15 @@ import Last16Draw from './last16vis';
 
 const fetched = fetchPots('http://kassiesa.home.xs4all.nl/bert/uefa/seedcl2015.html');
 
+function visualize(mode: number, pots: any[][]) {
+    return mode === 1 ? new Last16Draw(pots) : new DrawVisualizer(pots);
+}
+
 function changeMode(mode: number) {
     window.history.pushState({}, '', '?mode=' + modes[currentMode].url);
     changeModeLink.textContent = 'Go to ' + modes[1 - currentMode].name;
-    return mode === 1 ? fetched.then(body => parseLast16Teams(body)).then(pots => new Last16Draw(pots).runDraw())
-        : fetched.then(body => parseGS(body)).then(pots => new DrawVisualizer(pots).runDraw());
+    const parse = mode === 1 ? parseLast16Teams : parseGS;
+    fetched.then(body => parse(body)).then(pots => visualize(mode, pots).runDraw());
 }
 
 const modes = [
