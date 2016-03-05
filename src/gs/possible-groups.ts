@@ -1,4 +1,4 @@
-import { GSTeam as Team } from './team';
+import { GSTeam as Team } from '../team';
 
 export default function (pots: Team[][], groups: Team[][], teamPicked: Team, currentPotIndex: number): number[] {
     if (groups.every(group => group.length === 0)) {

@@ -1,4 +1,4 @@
-import { Last16Team as Team } from './team';
+import { Last16Team as Team } from '../team';
 
 export default function (pots: Team[][], matchups: Team[][], currentMatchupNum: number): number[] {
     const [ groupWinners, runnersUp ] = pots;

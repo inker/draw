@@ -10,6 +10,14 @@ body {
     font-size: 0.8em;
 }
 
+a {
+    color: blue;
+    text-decoration: underline;
+        cursor: pointer;
+    -webkit-user-select: none;
+    user-select: none;
+}
+
 #change-mode {
     font-size: 1.25em;
     color: blue;
@@ -124,9 +132,9 @@ td, th {
     border-right-color: rgba(0,0,0,0);
 }
 
-#matchups td:nth-child(2):before {
+/*#matchups td:nth-child(2):before {
     content: "v";    
-}
+}*/
 
 #bowls-div {
     float: left;

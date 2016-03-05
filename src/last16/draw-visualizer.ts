@@ -1,8 +1,10 @@
 import getPossibleOpponents from './last16';
-import { Last16Team as Team } from './team';
-import { shuffle, getCell, animateCell } from './util';
+import { Last16Team as Team } from '../team';
+import { shuffle, getCell, animateContentTransfer, removeAllChildren } from '../util';
+import Visualizer from '../visualizer';
 
-class Last16Draw {
+class Last16DrawVisualizer implements Visualizer {
+    private initialPots: Team[][];
     private pots: Team[][];
     private matchups: Team[][];
     private announcement: HTMLElement;
@@ -13,14 +15,17 @@ class Last16Draw {
     private currentMatchupNum: number;
 
     constructor(pots: Team[][]) {
+        this.initialPots = pots.map(pot => pot.slice());
+        this.prepareDraw(pots);
+    }
+    
+    private prepareDraw(pots: Team[][]): void {
+        const countryNamesPromise = window['fetch']('json/country-names.json').then(data => data.json());
         this.pots = pots;
         this.matchups = [];
         for (let i = 0; i < pots[0].length; ++i) {
             this.matchups.push([]);
         }
-
-        const countryNamesPromise = window['fetch']('json/country-names.json').then(data => data.json());
-
         const tables = document.createElement('div');
         tables.id = 'tables-div';
         tables.style.width = '400px';
@@ -62,7 +67,7 @@ class Last16Draw {
         for (let i = 0; i < pots[0].length; ++i) {
             const row = tBody.insertRow(i);
             row.insertCell();
-            row.insertCell();
+            row.insertCell().textContent = 'v';
             row.insertCell();
         }
         this.matchupDiv.appendChild(table)
@@ -106,6 +111,7 @@ class Last16Draw {
     //}
 
     private fillRunnerUpBowl(): void {
+        console.log(this.pots);
         const pot = this.pots[1];
         for (let i of shuffle(pot.map((el, i) => i))) {
             const team = pot[i];
@@ -139,7 +145,7 @@ class Last16Draw {
         }
         const potCell = getCell(this.potsDiv.lastElementChild, parseInt(ball.getAttribute('data-team')));
         const matchupCell = this.matchupDiv.firstElementChild['tBodies'][0].rows[this.currentMatchupNum].cells[0];
-        animateCell(potCell, matchupCell, 300).then(() => matchupCell.classList.add('team-emerge'));
+        animateContentTransfer(potCell, matchupCell, 300).then(() => matchupCell.classList.add('team-emerge'));
         potCell.classList.add('greyed');
         const possiblesText = possibles.map(i => this.pots[0][i].name).join(', ');
         this.announcement.textContent = `Possible opponents for ${pickedTeam.name}: ${possiblesText}`;
@@ -176,13 +182,13 @@ class Last16Draw {
         }
         const potCell = cells.find(cell => cell.textContent === pickedTeam.name);
         const matchupCell = this.matchupDiv.firstElementChild['tBodies'][0].rows[this.currentMatchupNum].cells[2];
-        animateCell(potCell, matchupCell, 300).then(() => matchupCell.classList.add('team-emerge'));
+        animateContentTransfer(potCell, matchupCell, 300).then(() => matchupCell.classList.add('team-emerge'));
         potCell.classList.add('greyed');
         const teamBall = this.runnerUpBowl.querySelector('.ball-picked');
         this.runnerUpBowl.removeChild(teamBall);
         this.announcement.textContent = pickedTeam + '!';
 
-        this.groupWinnerBowl.innerHTML = '';
+        removeAllChildren(this.groupWinnerBowl);
 
         this.runnerUpBowl.classList.remove('dont-touch');
         this.runnerUpBowl.onclick = null;
@@ -199,11 +205,20 @@ class Last16Draw {
             bowls.removeChild(this.groupWinnerBowl);
             bowls.removeChild(this.runnerUpBowl);
             this.potsDiv.classList.add('greyed');
-            this.announcement.textContent = 'Draw completed!';
+            this.announcement.innerHTML = 'Draw completed! ';
+            const a = document.createElement('a');
+            a.textContent = 'Restart';
+            a.onclick = e => {
+                document.body.removeChild(document.getElementById('tables-div'));
+                document.body.removeChild(document.getElementById('bowls-div'));
+                this.prepareDraw(this.initialPots);
+                this.runDraw();
+            };
+            this.announcement.appendChild(a);
         }
 
     }
 
 }
 
-export default Last16Draw;
+export default Last16DrawVisualizer;

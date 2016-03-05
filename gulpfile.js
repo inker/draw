@@ -9,7 +9,7 @@ const tsify = require('tsify');
 const notify = require("gulp-notify");
 
 gulp.task('default', function () {
-    var patterns = ['./src/*.ts'];
+    var patterns = ['./src/*.ts', './src/gs/*.ts', './src/last16/*.ts'];
     gulp.watch(patterns, ['ts-transpile-merge-compress']);
 });
 

@@ -1,5 +1,4 @@
 /// <reference path="./../typings/tsd.d.ts"/>
-import getPossibleGroups from './possible-groups'
 
 export function shuffle<T>(o: T[]): T[] {
     for (var j, x, i = o.length; i; j = Math.floor(Math.random() * i), x = o[--i], o[i] = o[j], o[j] = x);
@@ -8,6 +7,13 @@ export function shuffle<T>(o: T[]): T[] {
 
 export function getCell(table: Element, n: number): HTMLElement {
     return table['tBodies'][0].rows[n].cells[0];
+}
+
+export function removeAllChildren(el: Node) {
+    let child: Node;
+    while (child = el.firstChild) {
+        el.removeChild(child);
+    }
 }
 
 // temporary workaround
@@ -19,8 +25,11 @@ export function convertBadName(badName: string): string {
         .replace(/Bayern M.nchen/, 'Bayern München');
 }
 
-export function animateCell(sourceCell: HTMLElement, targetCell: HTMLElement, duration: number) {
+export function animateContentTransfer(sourceCell: HTMLElement, targetCell: HTMLElement, duration: number) {
     return new window['Promise'](resolve => {
+        const targetCellStyle = targetCell.style;
+        targetCellStyle.fontSize = '0px';
+        targetCell.textContent = sourceCell.textContent;
         const fakeCell = document.createElement('td');
         const fakeCellStyle = fakeCell.style;
         fakeCellStyle.opacity = null;
@@ -43,8 +52,8 @@ export function animateCell(sourceCell: HTMLElement, targetCell: HTMLElement, du
         fakeCellStyle.transform = `translate3d(${targetCellBox.left}px, ${targetCellBox.top}px, 0px)`;
         fakeCell.addEventListener('transitionend', e => {
             document.body.removeChild(fakeCell);
-            targetCell.textContent = sourceCell.textContent;
-            targetCell.style.backgroundImage = sourceCell.style.backgroundImage;
+            targetCellStyle.fontSize = null;
+            targetCellStyle.backgroundImage = sourceCell.style.backgroundImage;
             resolve();
         }); 
     });

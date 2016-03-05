@@ -1,8 +1,10 @@
 import getPossibleGroups from './possible-groups';
-import { GSTeam as Team } from './team';
-import { shuffle, getCell, animateCell } from './util';
+import { GSTeam as Team } from '../team';
+import { shuffle, getCell, animateContentTransfer, removeAllChildren } from '../util';
+import Visualizer from '../visualizer';
 
-class DrawVisualizer {
+class GSDrawVisualizer implements Visualizer {
+    private initialPots: Team[][];
     private pots: Team[][];
     private groups: Team[][];
     private announcement: HTMLElement;
@@ -14,13 +16,17 @@ class DrawVisualizer {
     private pickedTeam: Team;
 
     constructor(pots: Team[][]) {
+        this.initialPots = pots.map(pot => pot.slice());
+        this.prepareDraw(pots);
+    }
+    
+    private prepareDraw(pots: Team[][]): void {
+        const countryNamesPromise = window['fetch']('json/country-names.json').then(data => data.json());
         this.pots = pots;
         this.groups = [];
         for (let i = 0; i < pots[0].length; ++i) {
             this.groups.push([]);
         }
-
-        const countryNamesPromise = window['fetch']('json/country-names.json').then(data => data.json());
 
         const tables = document.createElement('div');
         tables.id = 'tables-div';
@@ -90,7 +96,7 @@ class DrawVisualizer {
         bowls.appendChild(this.groupBowl);
         document.body.appendChild(bowls);
 
-        this.currentPotNum = 0;
+        this.currentPotNum = 0;        
     }
 
     public runDraw(): void {
@@ -119,7 +125,7 @@ class DrawVisualizer {
         const ball: Element = ev.target as any;
         ball.classList.add('ball-picked');
         const currentPot = this.pots[this.currentPotNum];
-        const i = currentPot['findIndex'](team => team.name === ball.textContent);
+        const i = currentPot.findIndex(team => team.name === ball.textContent);
         this.pickedTeam = currentPot.splice(i, 1)[0];
         const possibles = getPossibleGroups(this.pots, this.groups, this.pickedTeam, this.currentPotNum);
         for (let groupNum of possibles) {
@@ -157,13 +163,13 @@ class DrawVisualizer {
         const potCell = getCell(this.potsDiv.children[this.currentPotNum], parseInt(teamBall.getAttribute('data-team')));
         potCell.classList.remove('team-selected');
         potCell.classList.add('greyed');
-        animateCell(potCell, groupCell, 300).then(() => {
+        animateContentTransfer(potCell, groupCell, 300).then(() => {
             groupCell.classList.remove('possible-group');
             groupCell.classList.add('team-emerge');
         });
         this.announcement.textContent = `Group ${String.fromCharCode(65 + groupNum)}!`;
         
-        this.groupBowl.innerHTML = '';
+        removeAllChildren(this.groupBowl);
         
         this.teamBowl.classList.remove('dont-touch');
         this.teamBowl.onclick = null;
@@ -186,11 +192,20 @@ class DrawVisualizer {
             const bowls = this.groupBowl.parentElement;
             bowls.removeChild(this.groupBowl);
             bowls.removeChild(this.teamBowl);
-            this.announcement.textContent = 'Draw completed!';
+            this.announcement.innerHTML = 'Draw completed! ';
+            const a = document.createElement('a');
+            a.textContent = 'Restart';
+            a.onclick = e => {
+                document.body.removeChild(document.getElementById('tables-div'));
+                document.body.removeChild(document.getElementById('bowls-div'));
+                this.prepareDraw(this.initialPots);
+                this.runDraw();
+            };
+            this.announcement.appendChild(a);
         }
 
     }
 
 }
 
-export default DrawVisualizer;
+export default GSDrawVisualizer;
