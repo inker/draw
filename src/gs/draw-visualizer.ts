@@ -3,8 +3,8 @@ import { GSTeam as Team } from '../team';
 import { shuffle, getCell, animateContentTransfer, removeAllChildren } from '../util';
 import Visualizer from '../visualizer';
 
-class GSDrawVisualizer implements Visualizer {
-    private initialPots: Team[][];
+class GSDrawVisualizer extends Visualizer {
+    protected initialPots: Team[][];
     private pots: Team[][];
     private groups: Team[][];
     private announcement: HTMLElement;
@@ -14,15 +14,10 @@ class GSDrawVisualizer implements Visualizer {
     private groupsDiv: HTMLElement;
     private currentPotNum: number;
     private pickedTeam: Team;
-
-    constructor(pots: Team[][]) {
-        this.initialPots = pots.map(pot => pot.slice());
-        this.prepareDraw(pots);
-    }
     
-    private prepareDraw(pots: Team[][]): void {
+    protected prepareDraw(pots: Team[][]): void {
         const countryNamesPromise = window['fetch']('json/country-names.json').then(data => data.json());
-        this.pots = pots;
+        this.pots = pots.map(pot => pot.slice());
         this.groups = [];
         for (let i = 0; i < pots[0].length; ++i) {
             this.groups.push([]);
@@ -195,12 +190,7 @@ class GSDrawVisualizer implements Visualizer {
             this.announcement.innerHTML = 'Draw completed! ';
             const a = document.createElement('a');
             a.textContent = 'Restart';
-            a.onclick = e => {
-                document.body.removeChild(document.getElementById('tables-div'));
-                document.body.removeChild(document.getElementById('bowls-div'));
-                this.prepareDraw(this.initialPots);
-                this.runDraw();
-            };
+            a.addEventListener('click', e => this.restart());
             this.announcement.appendChild(a);
         }
 

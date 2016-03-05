@@ -1,4 +1,4 @@
-class Team {
+export class Team {
     name: string;
     country: string;
     constructor(name: string, country: string) {
