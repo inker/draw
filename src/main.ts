@@ -30,4 +30,4 @@ changeModeLink.onclick = e => {
     changeMode();
 };
 
-changeMode(currentMode);
+changeMode();
