@@ -99,17 +99,15 @@ class Last16DrawVisualizer extends Visualizer {
                 'pots', this.pots.map(m => m.length));
             throw new Error('cannot start draw');
         }
-        this.fillBowl();
+        this.fillBowl(1, this.pots[1].map((el, i) => i));
         this.announcement.textContent = 'Pick a ball';
     }
     
-    private fillBowl(possibleOpponents?: number[]) {
-        const [potNumber, handler, bowl] = possibleOpponents === undefined ? 
-            [ 1, this.onRunnerUpBallPick, this.runnerUpBowl ] : 
-            [ 0, this.onGroupWinnerBallPicked, this.groupWinnerBowl ];
-        const pot = this.pots[potNumber],
-            clickHandler = handler.bind(this),
-            shuffledIndices = shuffle(possibleOpponents || pot.map((el, i) => i)),
+    private fillBowl(potNumber: number, possibleOpponents: number[]) {
+        const clickHandler = (potNumber === 1 ? this.onRunnerUpBallPick : this.onGroupWinnerBallPicked).bind(this),
+            bowl = potNumber === 1 ? this.runnerUpBowl : this.groupWinnerBowl,
+            pot = this.pots[potNumber],
+            shuffledIndices = shuffle(possibleOpponents),
             frag = document.createDocumentFragment();
         for (let i of shuffledIndices) {
             const ball = document.createElement('div');
@@ -120,7 +118,7 @@ class Last16DrawVisualizer extends Visualizer {
             frag.appendChild(ball);
         }
         bowl.appendChild(frag);
-        if (possibleOpponents === undefined) return;
+        if (potNumber === 1) return;
         const bowlBalls = bowl.children;
         if (bowlBalls.length === 1) {
             setTimeout(() => (bowlBalls[0] as HTMLElement).click(), 200);
@@ -150,7 +148,7 @@ class Last16DrawVisualizer extends Visualizer {
         potCell.classList.add('greyed');
         const possiblesText = possibles.map(i => groupWinnerPot[i].name).join(', ');
         this.announcement.textContent = `Possible opponents for ${pickedTeam.name}: ${possiblesText}`;
-        this.fillBowl(possibles);
+        this.fillBowl(0, possibles);
         this.groupWinnerBowl.classList.remove('dont-touch');
     }
 
