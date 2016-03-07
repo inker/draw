@@ -32,11 +32,11 @@ class GSDrawVisualizer extends Visualizer {
             const table: HTMLTableElement = document.createElement('table');
             table.innerHTML = `<thead><tr><th>Pot ${i + 1}</th></tr></thead><tbody></tbody>`;
             const tBody: any = table.tBodies[0];
-            for (let j = 0; j < pot.length; ++j) {
-                const cell = tBody.insertRow(j).insertCell();
-                cell.textContent = pot[j].name;
-                if (pot[j].pairing !== undefined) {
-                    cell.title = 'paired with ' + pot[j].pairing.name;
+            for (let team of pot) {
+                const cell = tBody.insertRow().insertCell();
+                cell.textContent = team.name;
+                if (team.pairing !== undefined) {
+                    cell.title = 'paired with ' + team.pairing.name;
                 }
             }
             this.potsDiv.appendChild(table);
@@ -105,7 +105,6 @@ class GSDrawVisualizer extends Visualizer {
     private fillTeamBowl(): void {
         const pot = this.pots[this.currentPotNum];
         for (let i of shuffle(pot.map((el, i) => i))) {
-            const team = pot[i];
             const ball = document.createElement('div');
             ball.classList.add('ball');
             ball.textContent = pot[i].name;

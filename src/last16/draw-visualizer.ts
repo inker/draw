@@ -27,13 +27,14 @@ class Last16DrawVisualizer extends Visualizer {
         tables.style.minWidth = '400px';
         this.potsDiv = document.createElement('div');
         this.potsDiv.id = 'pots-div';
+        const potNames = ['Group winners', 'Runners-up'];
         for (let i = 0; i < pots.length; ++i) {
             const pot = pots[i];
             const table: HTMLTableElement = document.createElement('table');
-            table.innerHTML = `<thead><tr><th>${['Group winners', 'Runners-up'][i]}</th></tr></thead><tbody></tbody>`;
+            table.innerHTML = `<thead><tr><th>${potNames[i]}</th></tr></thead><tbody></tbody>`;
             const tBody: any = table.tBodies[0];
-            for (let j = 0; j < pot.length; ++j) {
-                tBody.insertRow(j).insertCell().textContent = pot[j].name;
+            for (let team of pot) {
+                tBody.insertRow().insertCell().textContent = team.name;
             }
             this.potsDiv.appendChild(table);
         }
@@ -98,30 +99,32 @@ class Last16DrawVisualizer extends Visualizer {
                 'pots', this.pots.map(m => m.length));
             throw new Error('cannot start draw');
         }
-        this.fillRunnerUpBowl();
+        this.fillBowl();
         this.announcement.textContent = 'Pick a ball';
     }
     
-    //private fillBowl(bowl: Element) {
-    //    const potNum = bowl === this.runnerUpBowl ? 1 : 0;
-    //    const pot = this.pots[potNum];
-    //    for (let i of )
-    //}
-
-    private fillRunnerUpBowl(): void {
-        console.log(this.pots);
-        const pot = this.pots[1];
-        for (let i of shuffle(pot.map((el, i) => i))) {
-            const team = pot[i];
+    private fillBowl(possibleOpponents?: number[]) {
+        const [potNumber, handler, bowl] = possibleOpponents === undefined ? 
+            [ 1, this.onRunnerUpBallPick, this.runnerUpBowl ] : 
+            [ 0, this.onGroupWinnerBallPicked, this.groupWinnerBowl ];
+        const pot = this.pots[potNumber],
+            clickHandler = handler.bind(this),
+            shuffledIndices = shuffle(possibleOpponents || pot.map((el, i) => i)),
+            frag = document.createDocumentFragment();
+        for (let i of shuffledIndices) {
             const ball = document.createElement('div');
             ball.classList.add('ball');
             ball.textContent = pot[i].name;
-            //ball.style.color = 'white';
-            //ball.style.fontSize = '1em';
             ball.dataset['team'] = i.toString();
-            ball.addEventListener('click', this.onRunnerUpBallPick.bind(this));
-            this.runnerUpBowl.appendChild(ball);
+            ball.addEventListener('click', clickHandler);
+            frag.appendChild(ball);
         }
+        bowl.appendChild(frag);
+        if (possibleOpponents === undefined) return;
+        const bowlBalls = bowl.children;
+        if (bowlBalls.length === 1) {
+            setTimeout(() => (bowlBalls[0] as HTMLElement).click(), 200);
+        }        
     }
 
     private onRunnerUpBallPick(ev: MouseEvent): void {
@@ -145,26 +148,10 @@ class Last16DrawVisualizer extends Visualizer {
         const matchupCell = this.matchupDiv.firstElementChild['tBodies'][0].rows[this.currentMatchupNum].cells[0];
         animateContentTransfer(potCell, matchupCell, 300).then(() => matchupCell.classList.add('team-emerge'));
         potCell.classList.add('greyed');
-        const possiblesText = possibles.map(i => this.pots[0][i].name).join(', ');
+        const possiblesText = possibles.map(i => groupWinnerPot[i].name).join(', ');
         this.announcement.textContent = `Possible opponents for ${pickedTeam.name}: ${possiblesText}`;
-        this.fillGroupWinnerBowl(possibles);
+        this.fillBowl(possibles);
         this.groupWinnerBowl.classList.remove('dont-touch');
-    }
-
-    private fillGroupWinnerBowl(possibleOpponents: number[]): void {
-        for (let i of shuffle(possibleOpponents)) {
-            const ball = document.createElement('div');
-            ball.classList.add('ball');
-            ball.textContent = this.pots[0][i].name;
-            //ball.style.color = 'white';
-            //ball.style.fontSize = '1em';
-            ball.dataset['team'] = i.toString();
-            ball.addEventListener('click', this.onGroupWinnerBallPicked.bind(this));
-            this.groupWinnerBowl.appendChild(ball);
-        }
-        if (this.groupWinnerBowl.children.length === 1) {
-            setTimeout(() => (this.groupWinnerBowl.firstElementChild as HTMLElement).click(), 200);
-        }
     }
 
     private onGroupWinnerBallPicked(ev: MouseEvent): void {
@@ -194,8 +181,9 @@ class Last16DrawVisualizer extends Visualizer {
         if (this.currentMatchupNum < 7) {
             ++this.currentMatchupNum;
             this.announcement.textContent = 'Pick a ball';
-            if (this.runnerUpBowl.children.length === 1) {
-                setTimeout(() => (this.runnerUpBowl.firstElementChild as HTMLElement).click(), 200);
+            const runnerUpBalls = this.runnerUpBowl.children;
+            if (runnerUpBalls.length === 1) {
+                setTimeout(() => (runnerUpBalls[0] as HTMLElement).click(), 200);
             }
         } else {
             //this.potsDiv.children[this.currentMatchupNum]['tHead'].classList.add('greyed');
