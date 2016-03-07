@@ -8,7 +8,7 @@ abstract class Visualizer {
     }
     protected prepareDraw(pots) {}
     runDraw(): void {}
-    protected restart() {
+    restart() {
         document.body.removeChild(document.getElementById('tables-div'));
         document.body.removeChild(document.getElementById('bowls-div'));
         this.prepareDraw(this.initialPots);

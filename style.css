@@ -7,22 +7,12 @@ body {
     margin: 0px;
     padding: 0px; /* redundant */
     font-family: Arial, sans-serif;
-    font-size: 0.8em;
 }
 
 a {
     color: blue;
     text-decoration: underline;
         cursor: pointer;
-    -webkit-user-select: none;
-    user-select: none;
-}
-
-#change-mode {
-    font-size: 1.25em;
-    color: blue;
-    text-decoration: underline;
-    cursor: pointer;
     -webkit-user-select: none;
     user-select: none;
 }
@@ -43,6 +33,7 @@ table {
 
 
 td, th {
+    font-size: 0.8em;
     width: 120px;
     height: 20px;
     padding-left: 3px;
@@ -52,6 +43,11 @@ td, th {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+}
+
+#links {
+    position: absolute;
+    right: 50px;
 }
 
 #tables-div td:nth-child(odd) {
@@ -146,7 +142,7 @@ td, th {
 #announcement {
     width: 100%;
     height: 50px;
-    font-size: 2em;
+    font-size: 1.5em;
     vertical-align: middle;
     margin-top: 20px;
     margin-bottom: 20px;
@@ -161,13 +157,18 @@ td, th {
 
 .ball {
     float: left;
-    width: 50px;
-    height: 50px;
-    vertical-align: middle;
+    width: 60px;
+    height: 60px;
+    /*vertical-align: middle;*/
     text-align: center;
     border-radius: 100%;
-    padding: 15px;
+    padding: 10px;
     font-size: 0em;
+    text-overflow: ellipsis;
+    font-family: "Arial Narrow";
+    display: flex;
+    justify-content: center; /* align horizontal */
+    align-items: center; /* align vertical */
 }
 
 #team-bowl .ball {
@@ -186,7 +187,7 @@ td, th {
     background: radial-gradient(#447, #447);
     color: white;
     font-weight: bold;
-    font-size: 1em;
+    font-size: 0.8em;
 }
 
 .fake-cell {

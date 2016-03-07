@@ -14,20 +14,24 @@ function visualize(pots: any[][]) {
     return currentMode === 1 ? new Last16Draw(pots) : new GSDraw(pots);
 }
 
-function changeMode() {
+function start() {
     window.history.pushState({}, '', '?mode=' + modes[currentMode].url);
     changeModeLink.textContent = 'Go to ' + modes[1 - currentMode].name;
     const parse = currentMode === 1 ? parseLast16Teams : parseGS;
-    fetched.then(parse).then(visualize).then(vis => vis.runDraw());
+    fetched.then(parse).then(visualize).then(vis => vis.restart()); 
 }
 
-const changeModeLink = document.getElementById('change-mode');
-changeModeLink.onclick = e => {
+function restart(changeMode: boolean) {
     document.body.removeChild(document.getElementById('tables-div'));
     document.body.removeChild(document.getElementById('bowls-div'));
     window.getSelection().empty();
-    if (++currentMode >= modes.length) currentMode = 0;
-    changeMode();
-};
+    if (changeMode && ++currentMode >= modes.length) currentMode = 0;
+    start();    
+}
 
-changeMode();
+document.getElementById('restart').addEventListener('click', e => restart(false));
+
+const changeModeLink = document.getElementById('change-mode');
+changeModeLink.addEventListener('click', e => restart(true));
+
+start();

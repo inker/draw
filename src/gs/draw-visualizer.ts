@@ -188,8 +188,7 @@ class GSDrawVisualizer extends Visualizer {
             bowls.removeChild(this.groupBowl);
             bowls.removeChild(this.teamBowl);
             this.announcement.innerHTML = 'Draw completed! ';
-            const a = document.createElement('a');
-            a.textContent = 'Restart';
+            const a = document.getElementById('restart').cloneNode(true);
             a.addEventListener('click', e => this.restart());
             this.announcement.appendChild(a);
         }
