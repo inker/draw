@@ -1,7 +1,6 @@
 /// <reference path="./../typings/tsd.d.ts"/>
 //import request = require('request');
 import { GSTeam, Last16Team } from './team';
-import { convertBadName } from './util';
 
 if (!('Promise' in window) || !('fetch' in window)) {
     alert('The draw simulation only works in Chrome, Opera & Firefox.');
@@ -19,10 +18,8 @@ export default function (url: string, groupStage = true) {
 
 }
 export function fetchPots(url: string) {
-    const uriEncoded = encodeURIComponent(url);
-    return fetch(`https://proxy-antonv.rhcloud.com/?url=${uriEncoded}&encoding=latin1`)
+    return fetch(`https://proxy-antonv.rhcloud.com/?url=${encodeURIComponent(url)}&encoding=latin1`)
         .then(response => response.text())
-        .catch(err => fetch(`https://crossorigin.me/${url}`).then(r => r.text()).then(t => convertBadName(t)))
         .catch(err => alert('proxies are down'));    
 }
 

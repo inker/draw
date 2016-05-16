@@ -4,13 +4,10 @@ import { shuffle, getCell, animateContentTransfer, removeAllChildren } from '../
 import Visualizer from '../visualizer';
 
 class GSDrawVisualizer extends Visualizer {
-    protected initialPots: Team[][];
-    private pots: Team[][];
+    protected pots: Team[][];
     private groups: Team[][];
-    private announcement: HTMLElement;
     private teamBowl: HTMLElement;
     private groupBowl: HTMLElement;
-    private potsDiv: HTMLElement;
     private groupsDiv: HTMLElement;
     private currentPotNum: number;
     private pickedTeam: Team;
@@ -48,9 +45,9 @@ class GSDrawVisualizer extends Visualizer {
                 const table: any = this.potsDiv.children[i];
                 const rows = table.tBodies[0].rows;
                 for (let j = 0; j < rows.length; ++j) {
-                    const cellStyle = rows[j].cells[0].style;
                     const countryCode = countries[pots[i][j].country.toLowerCase()].replace(' ', '-');
-                    cellStyle.backgroundImage = `url(http://icons.iconarchive.com/icons/gosquared/flag/16/${countryCode}-flat-icon.png)`;
+                    const img = `http://icons.iconarchive.com/icons/gosquared/flag/16/${countryCode}-flat-icon.png`;
+                    rows[j].cells[0].style.backgroundImage = `url(${img})`;
                 }
             }
         });
@@ -59,16 +56,13 @@ class GSDrawVisualizer extends Visualizer {
 
         this.groupsDiv = document.createElement('div');
         this.groupsDiv.id = 'groups-div';
+        const groupFrag = document.createDocumentFragment();
         for (let i = 0; i < pots[0].length; ++i) {
             const table = document.createElement('table');
-            table.innerHTML = `<thead><tr><th>Group ${String.fromCharCode(65 + i)}</th></tr></thead><tbody></tbody>`;
-            const tBody: any = table.tBodies[0];
-            for (let j = 0; j < pots.length; ++j) {
-                tBody.insertRow(j).insertCell();
-            }
-            this.groupsDiv.appendChild(table)
+            table.innerHTML = `<thead><tr><th>Group ${String.fromCharCode(65 + i)}</th></tr></thead><tbody>${'<tr><td/></tr>'.repeat(pots.length)}</tbody>`;
+            groupFrag.appendChild(table)
         }
-
+        this.groupsDiv.appendChild(groupFrag);
 
         tables.appendChild(this.groupsDiv);
         document.body.appendChild(tables);
@@ -99,7 +93,7 @@ class GSDrawVisualizer extends Visualizer {
             throw new Error('cannot start draw');
         }
         this.fillTeamBowl();
-        this.announcement.textContent = 'Pick a ball';
+        super.runDraw();
     }
 
     private fillTeamBowl(): void {
@@ -147,14 +141,14 @@ class GSDrawVisualizer extends Visualizer {
     }
 
     private onGroupBallPicked(ev: MouseEvent): void {
-        const groupNum = parseInt(ev.target['dataset']['group']);
+        const groupNum = +ev.target['dataset']['group'];
         this.groups[groupNum].push(this.pickedTeam);
         this.pickedTeam = null;
         
         const teamBall = this.teamBowl.querySelector('.ball-picked');
         this.teamBowl.removeChild(teamBall);
         const groupCell = getCell(this.groupsDiv.children[groupNum], this.currentPotNum);
-        const potCell = getCell(this.potsDiv.children[this.currentPotNum], parseInt(teamBall.getAttribute('data-team')));
+        const potCell = getCell(this.potsDiv.children[this.currentPotNum], +teamBall.getAttribute('data-team'));
         potCell.classList.remove('team-selected');
         potCell.classList.add('greyed');
         animateContentTransfer(potCell, groupCell, 300).then(() => {

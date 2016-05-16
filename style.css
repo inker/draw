@@ -50,7 +50,7 @@ td, th {
     right: 50px;
 }
 
-#tables-div td:nth-child(odd) {
+#tables-div td {
     background-position: 2px;
     background-repeat: no-repeat;
     padding-left: 20px;
@@ -71,8 +71,8 @@ td, th {
 }
 
 .dont-touch {
-    cursor: not-allowed;
     pointer-events: none;
+    cursor: not-allowed;
 }
 
 #tables-div {
@@ -201,7 +201,17 @@ td, th {
 
 .possible-group {
     background-color: rgba(255, 255, 255, 0.75);
-    border: double #789 1px;
+    animation: border-glow 1s ease;
+    border-style: double;
+    border-color: #789;
+}
+
+@keyframes border-glow {
+    from {     
+        background-color: white;
+        box-shadow: 0 0 20px #bcd;
+    }
+    to {}
 }
 
 .picked-group, .draw-finished {

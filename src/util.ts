@@ -16,17 +16,8 @@ export function removeAllChildren(el: Node) {
     }
 }
 
-// temporary workaround
-// TODO: latin1 -> utf8 conversion
-export function convertBadName(badName: string): string {
-    return badName.replace(/Malm./, 'Malmö')
-        .replace(/Borussia M.nchengladbach/, 'Borussia Mönchengladbach')
-        .replace(/Atl.tico/, 'Atlético')
-        .replace(/Bayern M.nchen/, 'Bayern München');
-}
-
 export function animateContentTransfer(sourceCell: HTMLElement, targetCell: HTMLElement, duration: number) {
-    return new window['Promise'](resolve => {
+    return new Promise(resolve => {
         const targetCellStyle = targetCell.style;
         targetCellStyle.fontSize = '0px';
         targetCell.textContent = sourceCell.textContent;
@@ -34,9 +25,10 @@ export function animateContentTransfer(sourceCell: HTMLElement, targetCell: HTML
         const fakeCellStyle = fakeCell.style;
         fakeCellStyle.opacity = null;
         fakeCellStyle.position = 'absolute';
+        fakeCellStyle.backgroundRepeat = 'no-repeat';
         fakeCell.textContent = sourceCell.textContent;
         const computedStyle = getComputedStyle(sourceCell);
-        for (let s of ['width', 'border', 'padding', 'padding-left', 'background', 'background-image', 'background-repeat']) {
+        for (let s of ['width', 'border', 'padding', 'padding-left', 'background-position', 'background-image']) {
             fakeCellStyle[s] = computedStyle[s];
         }
         const sourceCellBox = sourceCell.getBoundingClientRect();

@@ -4,13 +4,10 @@ import { shuffle, getCell, animateContentTransfer, removeAllChildren } from '../
 import Visualizer from '../visualizer';
 
 class Last16DrawVisualizer extends Visualizer {
-    protected initialPots: Team[][];
-    private pots: Team[][];
+    protected pots: Team[][];
     private matchups: Team[][];
-    private announcement: HTMLElement;
     private runnerUpBowl: HTMLElement;
     private groupWinnerBowl: HTMLElement;
-    private potsDiv: HTMLElement;
     private matchupDiv: HTMLElement;
     private currentMatchupNum: number;
     
@@ -45,9 +42,9 @@ class Last16DrawVisualizer extends Visualizer {
                 const table: any = this.potsDiv.children[i];
                 const rows = table.tBodies[0].rows;
                 for (let j = 0; j < rows.length; ++j) {
-                    const cellStyle = rows[j].cells[0].style;
                     const countryCode = countries[pots[i][j].country.toLowerCase()].replace(' ', '-');
-                    cellStyle.backgroundImage = `url(http://icons.iconarchive.com/icons/gosquared/flag/16/${countryCode}-flat-icon.png)`;
+                    const img = `http://icons.iconarchive.com/icons/gosquared/flag/16/${countryCode}-flat-icon.png`;
+                    rows[j].cells[0].style.backgroundImage = `url(${img})`;
                 }
             }
         });
@@ -56,17 +53,7 @@ class Last16DrawVisualizer extends Visualizer {
 
         this.matchupDiv = document.createElement('div');
         //this.matchupDiv.id = 'groups-div';
-        const table = document.createElement('table');
-        table.innerHTML = `<thead><tr><th colspan="3">Matchups</th></tr></thead><tbody></tbody>`;
-        table.id = 'matchups';
-        const tBody: any = table.tBodies[0];
-        for (let i = 0; i < pots[0].length; ++i) {
-            const row = tBody.insertRow(i);
-            row.insertCell();
-            row.insertCell().textContent = 'v';
-            row.insertCell();
-        }
-        this.matchupDiv.appendChild(table)
+        this.matchupDiv.innerHTML = `<table id="matchups"><thead><tr><th colspan="3">Matchups</th></tr></thead><tbody>${'<tr><td/><td>v</td><td/></tr>'.repeat(pots[0].length)}</tbody></table>`
 
         tables.appendChild(this.matchupDiv);
         document.body.appendChild(tables);
@@ -100,7 +87,7 @@ class Last16DrawVisualizer extends Visualizer {
             throw new Error('cannot start draw');
         }
         this.fillBowl(1, this.pots[1].map((el, i) => i));
-        this.announcement.textContent = 'Pick a ball';
+        super.runDraw();
     }
     
     private fillBowl(potNumber: number, possibleOpponents: number[]) {
@@ -118,22 +105,25 @@ class Last16DrawVisualizer extends Visualizer {
             frag.appendChild(ball);
         }
         bowl.appendChild(frag);
-        if (potNumber === 1) return;
-        const bowlBalls = bowl.children;
-        if (bowlBalls.length === 1) {
-            setTimeout(() => (bowlBalls[0] as HTMLElement).click(), 200);
+        if (potNumber === 0 && possibleOpponents.length === 1) {
+            setTimeout(() => (bowl.firstElementChild as HTMLElement).click(), 200);
         }        
     }
 
     private onRunnerUpBallPick(ev: MouseEvent): void {
         this.runnerUpBowl.classList.add('dont-touch');
-        const ball: Element = ev.target as any;
+        const ball = ev.target as HTMLElement;
         ball.classList.add('ball-picked');
         const [groupWinnerPot, runnerUpPot] = this.pots;
         const i = runnerUpPot.findIndex(team => team.name === ball.textContent);
         const pickedTeam = runnerUpPot.splice(i, 1)[0];
-        console.log(pickedTeam.name);
         this.matchups[this.currentMatchupNum].push(pickedTeam);
+        // move cell
+        const potCell = getCell(this.potsDiv.lastElementChild, +ball.getAttribute('data-team'));
+        const matchupCell = this.matchupDiv.firstElementChild['tBodies'][0].rows[this.currentMatchupNum].cells[0];
+        animateContentTransfer(potCell, matchupCell, 300).then(() => matchupCell.classList.add('team-emerge'));
+        potCell.classList.add('greyed');
+        // find possible opponents for the team
         const possibles = getPossibleOpponents(this.pots, this.matchups, this.currentMatchupNum);
         const possibleTeamNames = possibles.map(n => groupWinnerPot[n].name);
         const groupWinnerRows = (this.potsDiv.firstElementChild as any).tBodies[0].rows;
@@ -142,20 +132,17 @@ class Last16DrawVisualizer extends Visualizer {
                 cell.style.color = '#00f';
             }
         }
-        const potCell = getCell(this.potsDiv.lastElementChild, parseInt(ball.getAttribute('data-team')));
-        const matchupCell = this.matchupDiv.firstElementChild['tBodies'][0].rows[this.currentMatchupNum].cells[0];
-        animateContentTransfer(potCell, matchupCell, 300).then(() => matchupCell.classList.add('team-emerge'));
-        potCell.classList.add('greyed');
         const possiblesText = possibles.map(i => groupWinnerPot[i].name).join(', ');
         this.announcement.textContent = `Possible opponents for ${pickedTeam.name}: ${possiblesText}`;
+        // prepare the group winners bowl
         this.fillBowl(0, possibles);
         this.groupWinnerBowl.classList.remove('dont-touch');
     }
 
     private onGroupWinnerBallPicked(ev: MouseEvent): void {
         this.groupWinnerBowl.classList.add('dont-touch');
-        const groupWinnerPot = this.pots[0];
-        const ball: Element = ev.target as any;
+        const [groupWinnerPot, runnerUpPot] = this.pots;
+        const ball = ev.target as HTMLElement;
         const i = groupWinnerPot.findIndex(team => team.name === ball.textContent);
         const pickedTeam = groupWinnerPot.splice(i, 1)[0];
         this.matchups[this.currentMatchupNum].push(pickedTeam);
@@ -179,9 +166,8 @@ class Last16DrawVisualizer extends Visualizer {
         if (this.currentMatchupNum < 7) {
             ++this.currentMatchupNum;
             this.announcement.textContent = 'Pick a ball';
-            const runnerUpBalls = this.runnerUpBowl.children;
-            if (runnerUpBalls.length === 1) {
-                setTimeout(() => (runnerUpBalls[0] as HTMLElement).click(), 200);
+            if (runnerUpPot.length === 1) {
+                setTimeout(() => (this.runnerUpBowl.firstElementChild as HTMLElement).click(), 200);
             }
         } else {
             //this.potsDiv.children[this.currentMatchupNum]['tHead'].classList.add('greyed');
