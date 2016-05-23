@@ -47,7 +47,7 @@ td, th {
 
 #links {
     position: absolute;
-    right: 50px;
+    right: 10px;
 }
 
 #tables-div td {
@@ -165,7 +165,7 @@ td, th {
     padding: 10px;
     font-size: 0em;
     text-overflow: ellipsis;
-    font-family: "Arial Narrow";
+    font-family: 'Arial Narrow', 'Ubuntu Condensed', sans-serif;
     display: flex;
     justify-content: center; /* align horizontal */
     align-items: center; /* align vertical */

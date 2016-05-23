@@ -11,7 +11,7 @@ const modes = [
 let currentMode = window.location.search.endsWith('mode=last16') ? 1 : 0;
 
 function visualize(pots: any[][]) {
-    return currentMode === 1 ? new Last16Draw(pots) : new GSDraw(pots);
+    return new (currentMode === 1 ? Last16Draw : GSDraw)(pots);
 }
 
 function start() {

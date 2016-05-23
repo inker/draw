@@ -13,11 +13,8 @@ export default function (pots: Team[][], groups: Team[][], teamPicked: Team, cur
 }
 
 function simulateDraw(pots: Team[][], groups: Team[][], currentPotIndex: number): boolean {
-    if (pots[currentPotIndex].length === 0) {
-        ++currentPotIndex;
-        if (currentPotIndex === pots.length) {
-            return true;
-        }
+    if (pots[currentPotIndex].length === 0 && ++currentPotIndex === pots.length) {
+        return true;
     }
     const currentPot = pots[currentPotIndex];
     const team = currentPot.pop();
