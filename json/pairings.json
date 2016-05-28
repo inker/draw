@@ -1,13 +1,12 @@
 [
     ["Barcelona", "Real Madrid"],
-    ["Chelsea", "Arsenal"],
-    ["Bayern", "Leverkusen"],
-    ["Juventus", "Roma"],
+    ["Atlético Madrid", "Sevilla"],
+    ["Tottenham", "Arsenal"],
+    ["Leicester", "Manchester City"],
+    ["Bayern", "Dortmund"],
+    ["Juventus", "Napoli"],
     ["Benfica", "Porto"],
     ["Paris", "Lyon"],
-    ["Atlético Madrid", "Valencia"],
-    ["Manchester United", "Manchester City"],
-    ["Shakhtar", "Dinamo Kiev"],
-    ["Borussia Mönchengladbach", "Wolfsburg"],
-    ["Zenit", "CSKA"]
+    ["PSV", "Ajax"],
+    ["Shakhtar", "Dinamo Kiev"]
 ]
