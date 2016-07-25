@@ -9,14 +9,10 @@ const Promise = window['Promise'];
 const fetch = window['fetch'];
 
 export default function (url: string, groupStage = true) {
-    const request = fetchPots(url);
-    if (groupStage) {
-        return request.then(body => parseGS(body));
-    } else {
-        return request.then(body => parseLast16Teams(body));
-    }
+    return fetchPots(url).then(body => (groupStage ? parseGS : parseLast16Teams)(body));
 
 }
+
 export function fetchPots(url: string) {
     return fetch(`https://proxy-antonv.rhcloud.com/?url=${encodeURIComponent(url)}&encoding=latin1`)
         .then(response => response.text())
@@ -49,9 +45,8 @@ function parseGSTeams(data: string): GSTeam[] {
     data = data.slice(data.indexOf('Pot 1'));
     const teams: GSTeam[] = [];
     let matches: RegExpExecArray;
-    while ((matches = re.exec(data)) !== null) {
-        
-        teams.push(new GSTeam(matches[1], matches[3], parseFloat(matches[4])));
+    while ((matches = re.exec(data)) !== null) {    
+        teams.push(new GSTeam(matches[1], matches[3], +matches[4]));
     }
     return teams;
 }
@@ -66,13 +61,9 @@ function pairUpTeams(teams: GSTeam[], pairStr: string[][]): GSTeam[] {
 }
 
 function fillGSPots(teams: GSTeam[]): GSTeam[][] {
-    const pots = new Array<GSTeam[]>(4).fill([]);
-    for (let i = 0; i < 8; ++i) {
-        pots[0].push(teams.splice(i, 1)[0]);
-    }
-    teams.sort((t1, t2) => t2.coefficient - t1.coefficient);
-    for (let i = 1; i < pots.length; ++i) {
-        pots[i] = teams.splice(0, 8);
+    const pots = [[],[],[],[]];
+    for (let i = 0; i < teams.length; ++i) {
+        pots[i >> 4 << 1 | i % 2].push(teams[i]);
     }
     return pots;
 }

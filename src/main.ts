@@ -8,6 +8,7 @@ const modes = [
     { url: 'gs', name: 'Group stage draw' },
     { url: 'last16', name: 'Last 16 draw', disabled: true }
 ];
+
 let currentMode = window.location.search.endsWith('mode=last16') ? 1 : 0;
 
 function checkMode() {

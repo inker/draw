@@ -1,33 +1,34 @@
 import { GSTeam as Team } from '../team';
 
 export default function (pots: Team[][], groups: Team[][], teamPicked: Team, currentPotIndex: number): number[] {
+    console.log(teamPicked);
     if (groups.every(group => group.length === 0)) {
         return groups.map((group, index) => index);
     }
     return filterGroupsBasic(groups, teamPicked, currentPotIndex).filter(groupNum => {
         groups[groupNum].push(teamPicked);
-        const hasDescendants = simulateDraw(pots, groups, currentPotIndex);
+        const possible = groupIsPossible(pots, groups, currentPotIndex);
         groups[groupNum].pop();
-        return hasDescendants;
+        return possible;
     });
 }
 
-function simulateDraw(pots: Team[][], groups: Team[][], currentPotIndex: number): boolean {
+function groupIsPossible(pots: Team[][], groups: Team[][], currentPotIndex: number): boolean {
     if (pots[currentPotIndex].length === 0 && ++currentPotIndex === pots.length) {
         return true;
     }
     const currentPot = pots[currentPotIndex];
     const team = currentPot.pop();
-    let hasDescendants = false;
+    let possible = false;
     for (let groupNum of filterGroupsBasic(groups, team, currentPotIndex)) {
         const group = groups[groupNum];
         group.push(team);
-        hasDescendants = simulateDraw(pots, groups, currentPotIndex);
+        possible = groupIsPossible(pots, groups, currentPotIndex);
         group.pop();
-        if (hasDescendants) break;
+        if (possible) break;
     }
     currentPot.push(team);
-    return hasDescendants;
+    return possible;
 }
 
 function filterGroupsBasic(groups: Team[][], teamPicked: Team, currentPotIndex: number): number[] {
@@ -38,11 +39,15 @@ function filterGroupsBasic(groups: Team[][], teamPicked: Team, currentPotIndex: 
 
 function filterSomeGroups(groups: Team[][], teamPicked: Team, currentPotIndex: number, start: number, end: number): number[] {
     const possibles: number[] = [];
+    const extraCondition = teamPicked.country === 'Rus' ?
+        ((otherTeam: Team) => otherTeam.country === 'Ukr') : teamPicked.country === 'Ukr' ?
+        ((otherTeam: Team) => otherTeam.country === 'Rus') : (otherTeam: Team) => false;
+
     for (let i = start; i < end; ++i) {
         const group = groups[i];
         let canDraw = true;
         for (let team of group) {
-            if (team.country === teamPicked.country) {
+            if (team.country === teamPicked.country || extraCondition(team)) {
                 canDraw = false;
                 if (team.pairing === teamPicked) return [];
                 break;

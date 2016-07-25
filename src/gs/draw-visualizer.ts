@@ -40,8 +40,8 @@ class GSDrawVisualizer extends Visualizer {
         }
 
         countryNamesPromise.then(countries => {
-            const potTables = this.potsDiv.children;
-            for (let i = 0; i < potTables.length; ++i) {
+            const numPotTables = this.potsDiv.children.length;
+            for (let i = 0; i < numPotTables; ++i) {
                 const table: any = this.potsDiv.children[i];
                 const rows = table.tBodies[0].rows;
                 for (let j = 0; j < rows.length; ++j) {
@@ -185,9 +185,7 @@ class GSDrawVisualizer extends Visualizer {
             a.addEventListener('click', e => this.restart());
             this.announcement.appendChild(a);
         }
-
     }
-
 }
 
 export default GSDrawVisualizer;
