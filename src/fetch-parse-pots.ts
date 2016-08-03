@@ -9,7 +9,7 @@ const Promise = window['Promise'];
 const fetch = window['fetch'];
 
 export default function (url: string, groupStage = true) {
-    return fetchPots(url).then(body => (groupStage ? parseGS : parseLast16Teams)(body));
+    return fetchPots(url).then(groupStage ? parseGS : parseLast16Teams);
 
 }
 
@@ -20,13 +20,10 @@ export function fetchPots(url: string) {
 }
 
 export function parseGS(body) {
-    const pairingsPromise = fetch('json/pairings.json')
-        .then(response => response.json());
-    const teams = parseGSTeams(body);
-    return pairingsPromise
-        .then(pairings => pairUpTeams(teams, pairings))
-        .then(teams => fillGSPots(teams))
-        .catch(err => alert(err.message));
+    return fetch('json/pairings.json')
+        .then(response => response.json())
+        .then(pairings => pairUpTeams(parseGSTeams(body), pairings))
+        .then(teams => fillGSPots(teams));
 }
 
 export function parseLast16Teams(data: string): Last16Team[][] {
@@ -41,7 +38,7 @@ export function parseLast16Teams(data: string): Last16Team[][] {
 }
 
 function parseGSTeams(data: string): GSTeam[] {
-    const re = /\s*(.+?)\s+(\*+\d?|\([CE]L-TH\))?\s+(\w{3})\s+(\d{1,3}\.\d{3})/g;
+    const re = /\s*(.+?)\s*(\*+\d?|\([CE]L-TH\))?\s+(\w{3})\s+(\d{1,3}\.\d{3})/g;
     data = data.slice(data.indexOf('Pot 1'));
     const teams: GSTeam[] = [];
     let matches: RegExpExecArray;
