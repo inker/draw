@@ -16,7 +16,7 @@ export default function (url: string, groupStage = true) {
 export function fetchPots(url: string) {
     return fetch(`https://proxy-antonv.rhcloud.com/?url=${encodeURIComponent(url)}&encoding=latin1`)
         .then(response => response.text())
-        .catch(err => alert('proxies are down'));    
+        .catch(err => alert('Proxies are down. Refreshing the page may help.'));    
 }
 
 export function parseGS(body) {
