@@ -6,10 +6,10 @@ const fetched = fetchPots('http://kassiesa.home.xs4all.nl/bert/uefa/seedcl2016.h
 
 const modes = [
     { url: 'gs', name: 'Group stage draw' },
-    { url: 'last16', name: 'Last 16 draw', disabled: true }
+    { url: 'last16', name: 'Last 16 draw', disabled: false }
 ];
 
-let currentMode = window.location.search.endsWith('mode=last16') ? 1 : 0;
+let currentMode = location.search.endsWith('mode=gs') ? 0 : 1;
 
 function checkMode() {
     console.log(modes[currentMode]);
@@ -24,7 +24,7 @@ function visualize(pots: any[][]) {
 
 function start() {
     checkMode();
-    window.history.pushState({}, '', '?mode=' + modes[currentMode].url);
+    history.pushState({}, '', '?mode=' + modes[currentMode].url);
     changeModeLink.textContent = 'Go to ' + modes[1 - currentMode].name;
     const parse = currentMode === 1 ? parseLast16Teams : parseGS;
     fetched.then(parse).then(visualize).then(vis => vis.restart()); 
@@ -33,7 +33,7 @@ function start() {
 function restart(changeMode: boolean) {
     document.body.removeChild(document.getElementById('tables-div'));
     document.body.removeChild(document.getElementById('bowls-div'));
-    window.getSelection().empty();
+    getSelection().empty();
     if (changeMode && ++currentMode >= modes.length) currentMode = 0;
     checkMode();
     start();    

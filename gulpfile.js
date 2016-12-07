@@ -1,9 +1,8 @@
-var gulp = require('gulp');
-var browserify = require('browserify');
-var source = require('vinyl-source-stream');
-var uglify = require('gulp-uglify');
-var babelify = require('babelify');
-var buffer = require('vinyl-buffer');
+const gulp = require('gulp');
+const browserify = require('browserify');
+const source = require('vinyl-source-stream');
+const uglify = require('gulp-uglify');
+const buffer = require('vinyl-buffer');
 const ts = require('gulp-typescript');
 const tsify = require('tsify');
 const notify = require("gulp-notify");
@@ -18,8 +17,6 @@ gulp.task('ts-transpile-merge-compress', () => {
         .add('typings/tsd.d.ts')
          .add('src/main.ts')
         .plugin(tsify, {target: 'es5', module: 'commonjs', noLib: true})
-
-         //.transform(babelify, {presets: ["es2015"], extensions: ['.js', '.json']})
          //.add('src/main.js')
          .bundle()
          .on('error', error => console.error(error.toString()))

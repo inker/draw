@@ -29,7 +29,7 @@ export function parseGS(body) {
 export function parseLast16Teams(data: string): Last16Team[][] {
     data = data.slice(data.lastIndexOf('--------------'));
     const pots: Last16Team[][] = [[], []];
-    const re = /\s*(.+?)(\s\*+\d?\s+)?\s{2,}(\w{3})\s+/g;
+    const re = /\s*(.+?)(\s\*+\d?|\([CE]L-TH\)?\s+)?\s{2,}(\w{3})\s+/g;
     let matches: RegExpExecArray;
     for (let i = 0; i < 16 && (matches = re.exec(data)) !== null; ++i) {
         pots[i % 2].push(new Last16Team(matches[1], matches[3], i >> 1));
