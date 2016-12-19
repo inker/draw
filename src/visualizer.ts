@@ -1,4 +1,4 @@
-import { Team } from './team';
+reimport { Team } from './team';
 
 abstract class Visualizer {
     protected initialPots: Team[][];

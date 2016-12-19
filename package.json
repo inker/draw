@@ -4,8 +4,18 @@
   "description": "A Champions League draw simulator.",
   "main": "index.html",
   "dependencies": {
+    "@types/classnames": "latest",
+    "@types/react": "latest",
+    "@types/react-dom": "latest",
+    "@types/react-router": "latest",
+    "@types/whatwg-fetch": "latest",
     "classlist-polyfill": "latest",
-    "es6-promise": "latest"
+    "classnames": "latest",
+    "es6-promise": "latest",
+    "react": "latest",
+    "react-dom": "latest",
+    "react-router": "latest",
+    "whatwg-fetch": "latest"
   },
   "devDependencies": {
     "babelify": "latest",
