@@ -1,0 +1,17 @@
+{
+    "compilerOptions": {
+        "target": "es5",
+        "module": "commonjs",
+        "sourceMap": false,
+        "watch": true,
+        "experimentalDecorators": true,
+        "experimentalAsyncFunctions": true,
+        "jsx": "react",
+        "allowJs": true,
+        "allowSyntheticDefaultImports": true,
+        "lib": [
+            "dom", "es7"
+        ]
+    },
+    "exclude": [ "node_modules" ]
+}
