@@ -61,16 +61,17 @@ export default class extends PureComponent<Props, State> {
 
     private onGroupBallPicked = (ev: React.MouseEvent<HTMLDivElement>) => {
         const pickedGroup = +ev.target['dataset'].group
+        const { state } = this
         const { 
             groups,
             pickedTeam,
             pots,
-        } = this.state
+        } = state
         groups[pickedGroup].push(pickedTeam)
         let {
             currentPotNum,
             completed,
-        } = this.state
+        } = state
         if (pots[currentPotNum].length === 0) {
             if (currentPotNum === pots.length - 1) {
                 completed = true
@@ -79,7 +80,7 @@ export default class extends PureComponent<Props, State> {
             }
         }
         this.setState({
-            ...this.state,
+            ...state,
             pickedTeam: null,
             pickedGroup,
             possibleGroups: null,
