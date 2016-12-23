@@ -4,7 +4,7 @@ import classNames from 'classnames'
 import { GSTeam as Team } from '../../team'
 
 import countryNames from '../../../json/country-names'
-import getPossibleGroups from './possible-groups';
+import getPossibleGroups from './possible-groups'
 
 import Pot from '../Pot'
 import Group from '../Group'
@@ -50,7 +50,6 @@ export default class extends PureComponent<Props, State> {
         const i = currentPot.findIndex(team => team.name === ball.textContent)
         const pickedTeam = currentPot.splice(i, 1)[0]
         const possibleGroups = getPossibleGroups(pots, groups, pickedTeam, currentPotNum)
-        classNames()
         this.setState({
             ...this.state,
             pickedTeam,

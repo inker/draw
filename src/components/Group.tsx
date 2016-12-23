@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react'
+import classNames from 'classnames'
 
 import countryNames from '../../json/country-names'
 import { GSTeam as Team } from '../team'
