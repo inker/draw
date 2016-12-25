@@ -27,7 +27,7 @@ export default (props: Props) => (
         <tbody>{
             props.teams.map((team, i) => {
                 const { name, country } = team
-                const countryCode = countryNames[country.toLowerCase()].replace(' ', '-');
+                const countryCode = countryNames[country.toLowerCase()].replace(' ', '-')
                 const img = `<http></http>://icons.iconarchive.com/icons/gosquared/flag/16/${countryCode}-flat-icon.png`
                 const classes = classNames({
                     'possible-group': i === props.potNum && props.possible,
@@ -44,5 +44,5 @@ export default (props: Props) => (
                 )
             })
         }</tbody>
-    </table>    
+    </table>
 )

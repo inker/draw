@@ -25,6 +25,7 @@
     "gulp-typescript": "latest",
     "gulp-uglify": "latest",
     "tsify": "latest",
+    "tslint-react": "latest",
     "typescript": "latest",
     "vinyl-buffer": "latest",
     "vinyl-source-stream": "latest"

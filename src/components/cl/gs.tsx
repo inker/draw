@@ -89,7 +89,7 @@ export default class extends PureComponent<Props, State> {
     }
 
     render() {
-        const { 
+        const {
             pots,
             groups,
             currentPotNum,

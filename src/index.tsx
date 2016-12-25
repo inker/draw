@@ -34,5 +34,5 @@ ReactDom.render(
             >Star</a>
         </div>
     </div>,
-    document.getElementById('app')
+    document.getElementById('app'),
 )

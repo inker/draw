@@ -25,7 +25,7 @@ export default (props: Props) => (
             props.teams.map(teamObj => {
                 const { team, picked, selected } = teamObj
                 const { name, country, pairing } = team
-                const countryCode = countryNames[country.toLowerCase()].replace(' ', '-');
+                const countryCode = countryNames[country.toLowerCase()].replace(' ', '-')
                 const img = `<http></http>://icons.iconarchive.com/icons/gosquared/flag/16/${countryCode}-flat-icon.png`
                 const classes = classNames({
                     'team-selected': selected,
