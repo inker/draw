@@ -18,11 +18,11 @@ const chooseOther = () => {
 ReactDom.render(
     <div>
         <Router history={browserHistory}>
-            createRoutes()
+            {createRoutes()}
         </Router>
         <div id="links">
             <a href={location.pathname}>Restart</a> |
-            <a href={chooseOther()}>Change mode</a>
+            <a href={chooseOther()}>Change mode</a> |
             <a
                 className="github-button"
                 href="https://github.com/inker/cl-draw"
