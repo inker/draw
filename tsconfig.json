@@ -1,17 +1,27 @@
 {
-    "compilerOptions": {
-        "target": "es5",
-        "module": "commonjs",
-        "sourceMap": false,
-        "watch": true,
-        "experimentalDecorators": true,
-        "experimentalAsyncFunctions": true,
-        "jsx": "react",
-        "allowJs": true,
-        "allowSyntheticDefaultImports": true,
-        "lib": [
-            "dom", "es7"
-        ]
-    },
-    "exclude": [ "node_modules" ]
+  "compilerOptions": {
+    "target": "es5",
+    "module": "commonjs",
+    "baseUrl": "./src",
+    // "sourceMap": true, // not needed when assembled with webpack
+    // "watch": true, // not needed when assembled with webpack
+    "pretty": true,
+    "experimentalDecorators": true,
+    "jsx": "react",
+    // "allowSyntheticDefaultImports": true,
+    "strictNullChecks": true,
+    "noImplicitThis": true,
+    "downlevelIteration": true,
+    "noEmitHelpers": true,
+    "importHelpers": true,
+    "lib": [
+      "dom", "es7", "es2017"
+    ]
+  },
+  "awesomeTypescriptLoaderOptions": {
+    /* ... */
+  },
+  "exclude": [
+    "node_modules"
+  ]
 }

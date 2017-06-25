@@ -1,0 +1,68 @@
+import * as React from 'react'
+import styled from 'styled-components'
+
+import { Team } from 'utils/team'
+import Table from '../table/Table'
+import Header from '../table/Header'
+import Body from '../table/Body'
+import Cell from '../table/Cell'
+
+const GroupCell = styled(Cell)`
+  ${props => props.possible && `
+    background-color: rgba(255, 255, 255, 0.75);
+    animation: border-glow 1s ease;
+    border-style: double;
+    border-color: #789;
+  `}
+`
+
+interface TeamObj {
+  team: Team,
+  picked: boolean,
+  selected: boolean,
+}
+
+interface Props {
+  maxTeams: number,
+  groupLetter: string,
+  teams: Team[],
+  potNum: number,
+  possible: boolean,
+  airborneTeams: Team[],
+}
+
+const Group = ({
+  maxTeams,
+  groupLetter,
+  teams,
+  potNum,
+  possible,
+  airborneTeams,
+}: Props) => (
+  <Table>
+    <Header>
+      Group {groupLetter}
+    </Header>
+    <Body>
+      {teams.concat(new Array(maxTeams - teams.length).fill(null)).map((team, i) => {
+        if (team === null || airborneTeams.includes(team)) {
+          return (
+            <GroupCell
+              possible={i === potNum && possible}
+            />
+          )
+        }
+        const { name, country } = team
+        return (
+          <GroupCell
+            country={country}
+          >
+            {name}
+          </GroupCell>
+        )
+      })}
+    </Body>
+  </Table>
+)
+
+export default Group

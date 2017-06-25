@@ -1,38 +1,29 @@
-import React, { PureComponent } from 'react'
-import ReactDom from 'react-dom'
+import * as React from 'react'
+import * as ReactDom from 'react-dom'
+import styled from 'styled-components'
 import {
   applyRouterMiddleware,
   browserHistory,
   Router,
-} from 'react-router'
+} from 'react-router-dom'
 
-import createRoutes from './routes'
+import { fetchPots, parseGS, parseLast16Teams } from './utils/fetch-parse-pots'
+import Routes from './routes'
 
-import 'whatwg-fetch'
+const Root = styled.div`
+  font-family: Arial, sans-serif;
+`
 
-const chooseOther = () => {
-    const { pathname } = location
-    return pathname === '/cl/last16' ? '/cl/gs' : pathname === '/cl/gs' ? '/cl/last16' : '/'
-}
-
-ReactDom.render(
-    <div>
-        <Router history={browserHistory}>
-            {createRoutes()}
-        </Router>
-        <div id="links">
-            <a href={location.pathname}>Restart</a> |
-            <a href={chooseOther()}>Change mode</a> |
-            <a
-                className="github-button"
-                href="https://github.com/inker/cl-draw"
-                data-icon="octicon-star"
-                data-count-href="/inker/cl-draw/stargazers"
-                data-count-api="/repos/inker/cl-draw#stargazers_count"
-                data-count-aria-label="# stargazers on GitHub"
-                aria-label="Star inker/cl-draw on GitHub"
-            >Star</a>
-        </div>
-    </div>,
+;
+(async () => {
+  const fetched = fetchPots('http://kassiesa.home.xs4all.nl/bert/uefa/seedcl2017.html')
+  const parse = parseGS
+  const text = await fetched
+  const pots = await parse(text)
+  ReactDom.render(
+    <Root>
+      <Routes pots={pots}/>
+    </Root>,
     document.getElementById('app'),
-)
+  )
+})()

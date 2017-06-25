@@ -1,6 +1,6 @@
-import { Last16Team as Team } from '../team'
+import { Last16Team as Team } from 'utils/team'
 
-export default function (pots: Team[][], matchups: Team[][], currentMatchupNum: number): number[] {
+export default (pots: Team[][], matchups: Team[][], currentMatchupNum: number): number[] => {
   const [ groupWinners, runnersUp ] = pots
 
   function anyGroupWinners(branchNum: number, currentMatchupNum: number): boolean {

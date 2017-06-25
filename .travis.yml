@@ -1,0 +1,9 @@
+language: node_js
+node_js:
+- stable
+
+script: bash ./deploy.sh
+env:
+  global:
+  - ENCRYPTION_LABEL: 26b4962af0e7
+  - COMMIT_AUTHOR_EMAIL: anton.veselyev@gmail.com
