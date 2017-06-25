@@ -4,6 +4,7 @@ node_modules
 .idea/
 !js/script.js
 deploy_key
+deploy_key.pub
 .vscode
 
 #################
