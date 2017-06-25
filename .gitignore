@@ -3,7 +3,7 @@ public/js/.*js.map
 node_modules
 .idea/
 !js/script.js
-deploy_key.enc
+deploy_key
 .vscode
 
 #################
