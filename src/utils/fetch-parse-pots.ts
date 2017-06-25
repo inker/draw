@@ -32,7 +32,7 @@ export function parseLast16Teams(data: string): Last16Team[][] {
   data = data.slice(data.lastIndexOf('--------------'))
   const pots: Last16Team[][] = [[], []]
   const re = /\s*(.+?)(\s\*+\d?|\([CE]L-TH\)?\s+)?\s{2,}(\w{3})\s+/g
-  let matches: RegExpExecArray
+  let matches: RegExpExecArray | null
   for (let i = 0; i < 16 && (matches = re.exec(data)) !== null; ++i) {
     pots[i % 2].push(new Last16Team(matches[1], matches[3], i >> 1))
   }
@@ -43,7 +43,7 @@ function parseGSTeams(data: string): GSTeam[] {
   const re = /\s*(.+?)\s*(\*+\d?|\([CE]L-TH\))?\s+(\w{3})\s+(\d{1,3}\.\d{3})/g
   data = data.slice(data.indexOf('Pot 1'))
   const teams: GSTeam[] = []
-  let matches: RegExpExecArray
+  let matches: RegExpExecArray | null
   while ((matches = re.exec(data)) !== null) {
     teams.push(new GSTeam(matches[1], matches[3], +matches[4]))
   }

@@ -12,7 +12,7 @@ export class Team {
 
 export class GSTeam extends Team {
     coefficient: number
-    pairing: GSTeam
+    pairing?: GSTeam
     constructor(name: string, country: string, coefficient: number, pairing?: GSTeam) {
         super(name, country)
         this.coefficient = coefficient
