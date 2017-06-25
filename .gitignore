@@ -1,15 +1,10 @@
-routes/*.js
-routes/*.js.map
 public/js/.*js
 public/js/.*js.map
-bin/*.js
-bin/*.js.map
-*.js
-*.js.map
 node_modules
 .idea/
-!gulpfile.js
 !js/script.js
+deploy_key.enc
+.vscode
 
 #################
 ## Eclipse
@@ -227,3 +222,4 @@ pip-log.txt
 #Mr Developer
 .mr.developer.cfg
 
+.vscode/

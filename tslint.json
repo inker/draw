@@ -1,0 +1,50 @@
+{
+  "extends": [
+    "tslint:latest"
+  ],
+  "rules": {
+    "array-type": [
+      true,
+      "array"
+    ],
+    "arrow-parens": false,
+    "interface-name": [
+      false
+    ],
+    "member-access": false,
+    "member-ordering": [
+      false
+    ],
+    "no-angle-bracket-type-assertion": true,
+    "no-bitwise": false,
+    "no-duplicate-variable": true,
+    "no-unused-variable": true,
+    "object-literal-key-quotes": [
+      true,
+      "as-needed"
+    ],
+    "object-literal-sort-keys": false,
+    "ordered-imports": [
+      false
+    ],
+    "prefer-const": true,
+    "quotemark": [
+      true,
+      "single",
+      "jsx-double",
+      "avoid-escape"
+    ],
+    "semicolon": [
+      true,
+      "never"
+    ],
+    "space-before-function-paren": [
+      true,
+      {
+        "anonymous": "always",
+        "named": "never",
+        "asyncArrow": "always"
+      }
+    ]
+  }
+}

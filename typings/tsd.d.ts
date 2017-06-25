@@ -1,1 +1,0 @@
-/// <reference path="lib.es6.d.ts" />
