@@ -10,6 +10,8 @@ import {
 import { fetchPots, parseGS, parseLast16Teams } from './utils/fetch-parse-pots'
 import Routes from './routes'
 
+import 'normalize.css'
+
 const Root = styled.div`
   font-family: Arial, sans-serif;
 `

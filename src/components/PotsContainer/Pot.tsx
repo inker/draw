@@ -42,6 +42,7 @@ const Pot = ({
         return (
           <PotCell
             key={team.id}
+            data-cellId={team.id}
             title={pairing && `paired with ${pairing.name}`}
             selected={selected}
             picked={picked}

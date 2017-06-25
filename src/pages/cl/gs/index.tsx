@@ -108,7 +108,15 @@ export default class GS extends React.PureComponent<Props, State> {
       return
     }
     // const promise = animateContentTransfer()
-    const promise = new Promise(resolve => setTimeout(resolve, 2000))
+    const fromCell = document.querySelector(`[data-cellid='${pickedTeam.id}']`) as HTMLElement
+    if (!fromCell) {
+      throw new Error('cell not found')
+    }
+    const toCell = document.querySelector(`[data-cellid='${String.fromCharCode(65 + pickedGroup)}${currentPotNum}']`) as HTMLElement
+    if (!toCell) {
+      throw new Error('cell not found')
+    }
+    const promise = animateContentTransfer(fromCell, toCell, 300)
     groups[pickedGroup].push(pickedTeam)
     const newCurrentPotNum = pots[currentPotNum].length > 0 ? currentPotNum : currentPotNum + 1
     airborneTeams.push(pickedTeam)

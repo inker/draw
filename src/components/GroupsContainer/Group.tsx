@@ -49,13 +49,15 @@ const Group = ({
           return (
             <GroupCell
               possible={i === potNum && possible}
+              data-cellid={`${groupLetter}${i}`}
             />
           )
         }
-        const { name, country } = team
+        const { name, country, id } = team
         return (
           <GroupCell
             country={country}
+            data-teamid={id}
           >
             {name}
           </GroupCell>

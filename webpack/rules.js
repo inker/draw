@@ -12,6 +12,14 @@ module.exports = env => [
     test: /\.tsx?$/,
     use: env === 'dev' ? tsDev : tsProd,
   },
+  { // global
+    test: /\.css$/,
+    use: [
+      'style-loader',
+      'css-loader',
+      'postcss-loader',
+    ],
+  },
   {
     test: /\.(png|jpg|jpeg|gif)$/,
     use: {

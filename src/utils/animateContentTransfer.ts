@@ -1,24 +1,33 @@
+const attrs = [
+  // 'width',
+  // // 'border',
+  // // 'padding',
+  // // 'padding-left',
+  // 'background-position',
+  // 'background-image',
+  'font-family',
+]
+
 export default (sourceCell: HTMLElement, targetCell: HTMLElement, duration: number) => {
   const targetCellStyle = targetCell.style
   targetCellStyle.fontSize = '0px'
   targetCell.textContent = sourceCell.textContent
-  const fakeCell = document.createElement('td')
-  const fakeCellStyle = fakeCell.style
-  fakeCellStyle.opacity = null
-  fakeCellStyle.position = 'absolute'
-  fakeCellStyle.backgroundRepeat = 'no-repeat'
+  const fakeCell = sourceCell.cloneNode(true) as typeof sourceCell
   fakeCell.textContent = sourceCell.textContent
+  const fakeCellStyle = fakeCell.style
   const computedStyle = getComputedStyle(sourceCell)
-  for (let s of ['width', 'border', 'padding', 'padding-left', 'background-position', 'background-image']) {
+  for (const s of attrs) {
       fakeCellStyle[s] = computedStyle[s]
   }
+  fakeCellStyle.zIndex = '1000'
+  fakeCellStyle.color = 'initial'
+  fakeCellStyle.opacity = null
+  fakeCellStyle.position = 'absolute'
   const sourceCellBox = sourceCell.getBoundingClientRect()
-  fakeCellStyle.transform = `translate(${sourceCellBox.left}px, ${sourceCellBox.top}px)`
-  fakeCellStyle.height = sourceCellBox.height - 5 + 'px'
-  fakeCellStyle.borderColor = 'rgba(0,0,0,0)'
-  fakeCellStyle.paddingTop = '3px'
+  fakeCellStyle.transform = `translate3d(${sourceCellBox.left}px, ${sourceCellBox.top}px, 0px)`
+  fakeCellStyle.border = 'initial'
   fakeCellStyle.backgroundColor = null
-  document.body.appendChild(fakeCell)
+  document.body.insertBefore(fakeCell, document.body.firstElementChild)
 
   const targetCellBox = targetCell.getBoundingClientRect()
   fakeCellStyle.transition = `transform ${duration}ms ease-in-out`
