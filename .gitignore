@@ -4,7 +4,7 @@ node_modules
 .idea/
 !js/script.js
 deploy_key.enc
-.vscode
+.vscode/
 
 #################
 ## Eclipse
