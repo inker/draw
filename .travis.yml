@@ -1,14 +1,14 @@
 language: node_js
 node_js:
-  - stable
+- stable
 
 before_deploy:
-  - npm run build:prod
+- npm run build:prod
 
 deploy:
-  - provider: pages
-    local_dir: docs
-    skip_cleanup: true
-    github_token: $GITHUB_TOKEN
-    on:
-      branch: master
+- provider: pages
+  local_dir: docs
+  skip_cleanup: true
+  github_token: $GITHUB_TOKEN
+  on:
+    branch: master
