@@ -23,7 +23,9 @@ const Routes = (props) => (
           <Last16 {...props} />
         </Route>
         <Redirect from="/cl" to="/cl/gs"/>
-        <Redirect from="/" to="/cl/gs"/>
+        <Route path="/">
+          <GS {...props} />
+        </Route>
       </Switch>
     </div>
   </Router>
