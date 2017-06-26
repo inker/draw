@@ -50,9 +50,9 @@ module.exports = env => [
       from: 'data',
       to: 'data',
     },
-    {
-      from: '404.html',
-    }
+    // {
+    //   from: '404.html',
+    // }
   ]),
 
   env !== 'dev' && new UglifyJsPlugin({
