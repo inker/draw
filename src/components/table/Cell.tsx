@@ -30,6 +30,8 @@ const Cell = styled.div`
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+
+  margin: -1px -1px -1px -1px;
 `
 
 export default Cell

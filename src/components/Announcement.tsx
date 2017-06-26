@@ -10,6 +10,7 @@ const Root = styled.div`
   vertical-align: middle;
   margin-top: 20px;
   margin-bottom: 20px;
+  user-select: none;
 `
 
 const Link = styled.div`

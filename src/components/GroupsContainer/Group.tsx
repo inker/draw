@@ -13,6 +13,20 @@ const GroupCell = styled(Cell)`
     animation: border-glow 1s ease;
     border-style: double;
     border-color: #789;
+    @keyframes border-glow {
+      from {
+          background-color: white;
+          box-shadow: 0 0 20px #bcd;
+      }
+      to {}
+    }
+  `}
+  ${props => props.picked && `
+    animation: appear 5s normal forwards;
+    @keyframes appear {
+      from { background-color: #ff8 }
+      to {}
+    }
   `}
 `
 
@@ -57,6 +71,7 @@ const Group = ({
         return (
           <GroupCell
             country={country}
+            picked
             data-teamid={id}
           >
             {name}

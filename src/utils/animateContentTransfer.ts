@@ -8,6 +8,15 @@ const attrs = [
   'font-family',
 ]
 
+const OFFSET_LEFT = 2
+const OFFSET_TOP = 2
+
+function adjustPositioning(cell: HTMLElement, { left, top }: ClientRect) {
+  const x = left + OFFSET_LEFT
+  const y = top + OFFSET_TOP
+  cell.style.transform = `translate3d(${x}px, ${y}px, 0px)`
+}
+
 export default (sourceCell: HTMLElement, targetCell: HTMLElement, duration: number) => {
   const targetCellStyle = targetCell.style
   targetCellStyle.fontSize = '0px'
@@ -24,14 +33,15 @@ export default (sourceCell: HTMLElement, targetCell: HTMLElement, duration: numb
   fakeCellStyle.opacity = null
   fakeCellStyle.position = 'absolute'
   const sourceCellBox = sourceCell.getBoundingClientRect()
-  fakeCellStyle.transform = `translate3d(${sourceCellBox.left}px, ${sourceCellBox.top}px, 0px)`
+  adjustPositioning(fakeCell, sourceCellBox)
   fakeCellStyle.border = 'initial'
   fakeCellStyle.backgroundColor = null
+  fakeCellStyle.userSelect = 'none'
   document.body.insertBefore(fakeCell, document.body.firstElementChild)
 
   const targetCellBox = targetCell.getBoundingClientRect()
   fakeCellStyle.transition = `transform ${duration}ms ease-in-out`
-  fakeCellStyle.transform = `translate3d(${targetCellBox.left}px, ${targetCellBox.top}px, 0px)`
+  adjustPositioning(fakeCell, targetCellBox)
   return new Promise(resolve => {
       fakeCell.addEventListener('transitionend', e => {
           document.body.removeChild(fakeCell)
