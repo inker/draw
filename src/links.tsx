@@ -30,8 +30,9 @@ const chooseOther = () => {
 
 const Links = () => (
   <Root>
-    <Link to="/">Restart</Link> |
-    <Link to="/">Change mode</Link> |
+    <Link to="/cl-draw">Restart</Link> |
+    {/*<Link to="/">Restart</Link> |
+    <Link to="/">Change mode</Link> |*/}
     <GithubButton />
   </Root>
 )
