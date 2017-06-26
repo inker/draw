@@ -3,11 +3,16 @@ import styled from 'styled-components'
 
 import countryNames from 'data/country-names'
 
+const PROXY_URL = 'https://proxy-antonv.rhcloud.com/?url='
+
+export const proxify =
+  (url: string) => `${PROXY_URL}${url}`
+
 const getCountryName = (countryCode: string) =>
   countryNames[countryCode.toLowerCase()].replace(' ', '-')
 
 const getUrl = (countryName: string) =>
-  `http://icons.iconarchive.com/icons/gosquared/flag/16/${countryName}-flat-icon.png`
+  proxify(`http://icons.iconarchive.com/icons/gosquared/flag/16/${countryName}-flat-icon.png`)
 
 const Cell = styled.div`
   display: flex;
