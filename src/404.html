@@ -25,6 +25,7 @@
       var PAGE_URL = '/cl-draw'
       var l = window.location;
       var segmentCount = l.pathname.startsWith(PAGE_URL) ? 1 : 0
+      console.log(l, l.pathname, l.pathname.startsWith(PAGE_URL))
       l.replace(
         l.protocol + '//' + l.hostname + (l.port ? ':' + l.port : '') +
         l.pathname.split('/').slice(0, 1 + segmentCount).join('/') + '/?p=/' +
