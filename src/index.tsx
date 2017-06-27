@@ -7,6 +7,8 @@ import {
   Router,
 } from 'react-router-dom'
 
+import * as fastclick from 'fastclick'
+
 import { fetchPots, parseGS, parseLast16Teams } from './utils/fetch-parse-pots'
 import Routes from './routes'
 
@@ -28,4 +30,5 @@ const Root = styled.div`
     </Root>,
     document.getElementById('app'),
   )
+  fastclick(document.body)
 })()

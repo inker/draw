@@ -4,6 +4,7 @@
   "description": "A Champions League draw simulator.",
   "main": "index.html",
   "dependencies": {
+    "fastclick": "^1.0.6",
     "lodash": "^4.17.4",
     "normalize.css": "^7.0.0",
     "react": "^15.6.1",
@@ -15,8 +16,9 @@
   },
   "devDependencies": {
     "@types/classnames": "2.2.0",
-    "@types/lodash": "^4.14.66",
-    "@types/react": "^15.0.29",
+    "@types/fastclick": "^1.0.28",
+    "@types/lodash": "^4.14.67",
+    "@types/react": "^15.0.33",
     "@types/react-dom": "^15.5.0",
     "@types/react-router": "^4.0.11",
     "@types/whatwg-fetch": "0.0.33",
@@ -34,7 +36,7 @@
     "style-loader": "^0.18.2",
     "tslint": "^5.4.3",
     "tslint-react": "^3.0.0",
-    "typescript": "^2.3.4",
+    "typescript": "^2.4.1",
     "url-loader": "^0.5.9",
     "webpack": "^3.0.0",
     "webpack-bundle-analyzer": "^2.8.2",
