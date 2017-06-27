@@ -7,6 +7,7 @@ import Ball from './Ball'
 const Root = styled.div`
   display: flex;
   flex-wrap: wrap;
+  align-items: center;
 `
 
 const TeamBall = styled(Ball)`

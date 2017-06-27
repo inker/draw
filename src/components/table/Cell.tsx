@@ -19,6 +19,7 @@ const Cell = styled.div`
   align-items: center;
 
   height: 20px;
+  font-size: 0.8em;
 
   ${({ country }) => country ? `background-image: url('${getUrl(getCountryName(country))}')` : ''};
   background-position: 2px;
@@ -27,7 +28,6 @@ const Cell = styled.div`
   text-align: left;
 
   text-decoration: none;
-  font-size: 0.8em;
 
   padding-right: 3px;
   border: #aaa solid 1px;
@@ -37,6 +37,11 @@ const Cell = styled.div`
   white-space: nowrap;
 
   margin: -1px -1px -1px -1px;
+
+  @media (max-width: 999px) {
+    height: 30px;
+    font-size: 1em;
+  }
 `
 
 export default Cell

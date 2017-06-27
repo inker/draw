@@ -6,11 +6,10 @@ import Group from './Group'
 
 const Root = styled.div`
   display: flex;
-  flex-wrap: wrap;
-  & > :nth-child(5) {
-    clear: both;
-    float: left;
-    position: relative;
+  flex-flow: row wrap;
+  & > * {
+    flex: 1;
+    flex-basis: 22%;
   }
   & > :nth-child(-n + ${({ numGroups }) => (numGroups ? numGroups >> 1 : 0)}) {
     background-color: #fee;

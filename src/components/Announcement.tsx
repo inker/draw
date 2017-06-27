@@ -11,6 +11,11 @@ const Root = styled.div`
   margin-top: 20px;
   margin-bottom: 20px;
   user-select: none;
+
+  @media (max-width: 999px) {
+    height: 80px;
+    font-size: 2em;
+  }
 `
 
 const Link = styled.div`

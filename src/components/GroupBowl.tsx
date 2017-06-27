@@ -6,7 +6,7 @@ import Ball from './Ball'
 
 const Root = styled.div`
   text-align: center;
-  width: 400px;
+  align-items: center;
   /*height: 300px;*/
   /*margin-left: 50px;*/
 `

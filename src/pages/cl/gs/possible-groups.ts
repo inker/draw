@@ -1,7 +1,6 @@
 import { GSTeam as Team } from 'utils/team'
 
 export default (pots: Team[][], groups: Team[][], teamPicked: Team, currentPotIndex: number): number[] => {
-  console.log(teamPicked)
   if (groups.every(group => group.length === 0)) {
     return groups.map((group, index) => index)
   }
@@ -18,7 +17,7 @@ function groupIsPossible(pots: Team[][], groups: Team[][], currentPotIndex: numb
     return true
   }
   const currentPot = pots[currentPotIndex]
-  const team = currentPot.pop()
+  const team = currentPot.pop() as Team
   let possible = false
   for (const groupNum of filterGroupsBasic(groups, team, currentPotIndex)) {
     const group = groups[groupNum]

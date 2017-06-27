@@ -75,7 +75,7 @@ function pairUpTeams(teams: GSTeam[], pairStrArr: [string, string][]): GSTeam[] 
 }
 
 function fillGSPots(teams: GSTeam[]): GSTeam[][] {
-  const pots = [[], [], [], []]
+  const pots: GSTeam[][] = [[], [], [], []]
   for (let i = 0; i < teams.length; ++i) {
     pots[i >> 4 << 1 | i % 2].push(teams[i])
   }

@@ -6,6 +6,12 @@ import Pot from './Pot'
 
 const Root = styled.div`
   display: flex;
+  flex-flow: row wrap;
+  flex-wrap: nowrap;
+  & > * {
+    flex: 1;
+    flex-basis: 22%;
+  }
 `
 
 interface Props {
