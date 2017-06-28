@@ -39,8 +39,12 @@ const Cell = styled.div`
   margin: -1px -1px -1px -1px;
 
   @media (max-width: 999px) {
-    height: 30px;
-    font-size: 1em;
+    background-position: 4px;
+    background-size: 32px;
+    padding-left: 40px;
+    font-family: Roboto, sans-serif;
+    height: 40px;
+    font-size: 1.5em;
   }
 `
 

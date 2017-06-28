@@ -28,7 +28,7 @@ const GroupCell = styled(Cell)`
       to {}
     }
   `}
-`
+` as any
 
 interface TeamObj {
   team: Team,
