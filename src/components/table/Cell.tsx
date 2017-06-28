@@ -2,11 +2,7 @@ import * as React from 'react'
 import styled from 'styled-components'
 
 import countryNames from 'data/country-names'
-
-const PROXY_URL = 'https://proxy-antonv.rhcloud.com/?url='
-
-export const proxify =
-  (url: string) => `${PROXY_URL}${url}`
+import proxify from 'utils/proxify'
 
 const getCountryName = (countryCode: string) =>
   countryNames[countryCode.toLowerCase()].replace(' ', '-')
@@ -39,8 +35,12 @@ const Cell = styled.div`
   margin: -1px -1px -1px -1px;
 
   @media (max-width: 999px) {
-    height: 30px;
-    font-size: 1em;
+    background-position: 4px;
+    background-size: 32px;
+    padding-left: 40px;
+    font-family: Roboto, sans-serif;
+    height: 40px;
+    font-size: 1.5em;
   }
 `
 

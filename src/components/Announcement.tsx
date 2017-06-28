@@ -14,7 +14,7 @@ const Root = styled.div`
 
   @media (max-width: 999px) {
     height: 80px;
-    font-size: 2em;
+    font-size: 2.5em;
   }
 `
 

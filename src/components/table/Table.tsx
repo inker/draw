@@ -8,6 +8,10 @@ const Table = styled.div`
   margin: 0px 5px 10px 5px;
   width: 150px;
   min-width: 0;
+
+  @media (max-width: 999px) {
+    margin: 0px 10px 20px 10px;
+  }
 `
 
 export default Table

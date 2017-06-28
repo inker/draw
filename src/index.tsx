@@ -1,11 +1,6 @@
 import * as React from 'react'
 import * as ReactDom from 'react-dom'
 import styled from 'styled-components'
-import {
-  applyRouterMiddleware,
-  browserHistory,
-  Router,
-} from 'react-router-dom'
 
 import * as fastclick from 'fastclick'
 
