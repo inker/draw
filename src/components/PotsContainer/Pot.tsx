@@ -1,19 +1,11 @@
 import * as React from 'react'
-import styled from 'styled-components'
 
 import { Team, GSTeam } from 'utils/team'
-import Table from '../table/Table'
-import Header from '../table/Header'
-import Body from '../table/Body'
-import Cell from '../table/Cell'
+import Table from 'components/table/Table'
+import Header from 'components/table/Header'
+import Body from 'components/table/Body'
 
-const PotCell = styled(Cell)`
-  ${props => props.selected && 'color: blue;'}
-  ${props => props.picked && `
-    filter: grayscale(0.5);
-    opacity: 0.4;
-  `}
-`
+import Cell from './PotCell'
 
 interface TeamObj {
   team: Team | GSTeam,
@@ -40,7 +32,7 @@ const Pot = ({
         const { name, country } = team
         const pairing = team instanceof GSTeam ? team.pairing : null
         return (
-          <PotCell
+          <Cell
             key={team.id}
             data-cellId={team.id}
             title={pairing && `paired with ${pairing.name}`}
@@ -49,7 +41,7 @@ const Pot = ({
             country={country}
           >
             {name}
-          </PotCell>
+          </Cell>
         )
       })}
     </Body>

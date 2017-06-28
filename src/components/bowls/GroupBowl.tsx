@@ -24,16 +24,14 @@ const GroupBowl = ({
 }: Props) => (
   <Root>
     {!completed && possibleGroups &&
-      possibleGroups.map(groupNum => {
-        return (
-          <Ball
-            data-group={groupNum}
-            onClick={onPick}
-          >
-            {String.fromCharCode(65 + groupNum)}
-          </Ball>
-        )
-      })
+      possibleGroups.map(groupNum => (
+        <Ball
+          data-group={groupNum}
+          onClick={onPick}
+        >
+          {String.fromCharCode(65 + groupNum)}
+        </Ball>
+      ))
     }
   </Root>
 )
