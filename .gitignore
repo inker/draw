@@ -6,6 +6,7 @@ node_modules
 deploy_key
 deploy_key.pub
 .vscode
+docs/
 
 #################
 ## Eclipse
