@@ -1,6 +1,6 @@
 import * as React from 'react'
 import styled from 'styled-components'
-import { Team } from '../utils/team'
+import { Team } from 'utils/team'
 
 import Ball from './Ball'
 

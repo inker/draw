@@ -10,8 +10,8 @@ import PotsContainer from 'components/PotsContainer'
 import GroupsContainer from 'components/GroupsContainer'
 import TablesContainer from 'components/TablesContainer'
 import BowlsContainer from 'components/BowlsContainer'
-import TeamBowl from 'components/TeamBowl'
-import GroupBowl from 'components/GroupBowl'
+import TeamBowl from 'components/bowls/TeamBowl'
+import GroupBowl from 'components/bowls/GroupBowl'
 import Announcement from 'components/Announcement'
 
 const Root = styled.div`
@@ -116,7 +116,8 @@ export default class GS extends React.PureComponent<Props, State> {
     if (!fromCell) {
       throw new Error('cell not found')
     }
-    const toCell = document.querySelector(`[data-cellid='${String.fromCharCode(65 + pickedGroup)}${currentPotNum}']`) as HTMLElement
+    const toCellSelector = `[data-cellid='${String.fromCharCode(65 + pickedGroup)}${currentPotNum}']`
+    const toCell = document.querySelector(toCellSelector) as HTMLElement
     if (!toCell) {
       throw new Error('cell not found')
     }

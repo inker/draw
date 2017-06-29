@@ -2,19 +2,15 @@ import * as React from 'react'
 import styled from 'styled-components'
 
 import countryNames from 'data/country-names'
-
-const PROXY_URL = 'https://proxy-antonv.rhcloud.com/?url='
+import proxify from 'utils/proxify'
 
 const FLAG_SIZE = Math.min(Math.ceil(devicePixelRatio) * 16, 64)
 
-export const proxify =
-  (url: string) => `${PROXY_URL}${url}`
+const getUrl = (countryName: string) =>
+  proxify(`http://icons.iconarchive.com/icons/gosquared/flag/${FLAG_SIZE}/${countryName}-flat-icon.png`)
 
 const getCountryName = (countryCode: string) =>
   countryNames[countryCode.toLowerCase()].replace(' ', '-')
-
-const getUrl = (countryName: string) =>
-  proxify(`http://icons.iconarchive.com/icons/gosquared/flag/${FLAG_SIZE}/${countryName}-flat-icon.png`)
 
 const Cell = styled.div`
   display: flex;
