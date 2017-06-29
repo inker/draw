@@ -6,8 +6,11 @@ import proxify from 'utils/proxify'
 
 const FLAG_SIZE = Math.min(Math.ceil(devicePixelRatio) * 16, 64)
 
-const getUrl = (countryName: string) =>
-  proxify(`http://icons.iconarchive.com/icons/gosquared/flag/${FLAG_SIZE}/${countryName}-flat-icon.png`)
+const getFlatSize = (isMobile: boolean) =>
+  Math.min(Math.ceil(devicePixelRatio) * 16 * (isMobile ? 2 : 1), 64)
+
+const getUrl = (countryName: string, isMobile: boolean) =>
+  proxify(`http://icons.iconarchive.com/icons/gosquared/flag/${getFlatSize(isMobile)}/${countryName}-flat-icon.png`)
 
 const getCountryName = (countryCode: string) =>
   countryNames[countryCode.toLowerCase()].replace(' ', '-')
@@ -19,7 +22,7 @@ const Cell = styled.div`
   height: 20px;
   font-size: 0.8em;
 
-  ${({ country }) => country ? `background-image: url('${getUrl(getCountryName(country))}')` : ''};
+  ${({ country }) => country ? `background-image: url('${getUrl(getCountryName(country), false)}')` : ''};
   background-position: 2px;
   background-size: 16px;
   background-repeat: no-repeat;
@@ -38,6 +41,7 @@ const Cell = styled.div`
   margin: -1px -1px -1px -1px;
 
   @media (max-width: 999px) {
+    ${({ country }) => country ? `background-image: url('${getUrl(getCountryName(country), true)}')` : ''};
     background-position: 4px;
     background-size: 32px;
     padding-left: 40px;
