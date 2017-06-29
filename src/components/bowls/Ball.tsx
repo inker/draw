@@ -2,25 +2,27 @@ import * as React from 'react'
 import styled from 'styled-components'
 
 const Ball = styled.div`
-  float: left;
-  width: 60px;
-  height: 60px;
-  /*vertical-align: middle;*/
-  text-align: center;
-  border-radius: 100%;
-  padding: 10px;
-  font-size: ${props => props.picked ? 0.8 : 0}em;
-  text-overflow: ellipsis;
-  font-family: 'Arial Narrow', 'Ubuntu Condensed', sans-serif;
   display: flex;
   justify-content: center; /* align horizontal */
   align-items: center; /* align vertical */
-  background: ${props => props.picked ? '' : 'radial-gradient(#004, #002, #002)'};
-  color: ${props => props.picked ? 'white' : ''};
+
+  width: 60px;
+  height: 60px;
+
+  margin: 2px;
+  padding: 10px;
+
+  font-size: ${props => props.picked ? 0.8 : 0}em;
+  font-family: 'Arial Narrow', 'Ubuntu Condensed', sans-serif;
   font-weight: ${props => props.picked ? 'bold' : ''};
+  text-align: center;
+  text-overflow: ellipsis;
+  color: ${props => props.picked ? 'white' : ''};
+
+  background: ${props => props.picked ? '' : 'radial-gradient(#004, #002, #002)'};
+  border-radius: 100%;
   cursor: ${props => props.noHover ? 'not-allowed' : 'pointer'};
   user-select: none;
-  margin: 2px;
 
   &:hover {
     ${({ noHover }) => !noHover && 'background: radial-gradient(#ccf, #ccf)'};
@@ -32,7 +34,7 @@ const Ball = styled.div`
     font-size: ${props => props.picked ? 1.2 : 0}em;
   }
 
-  @media (max-width: 850px){
+  @media (max-width: 850px) {
     flex-flow: row wrap;
     & > * {
       flex: 1;

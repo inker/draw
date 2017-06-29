@@ -5,10 +5,9 @@ import { Team } from 'utils/team'
 import Ball from './Ball'
 
 const Root = styled.div`
-  text-align: center;
+  display: flex;
+  flex-wrap: wrap;
   align-items: center;
-  /*height: 300px;*/
-  /*margin-left: 50px;*/
 `
 
 interface Props {

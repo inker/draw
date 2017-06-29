@@ -30,7 +30,7 @@ const TeamBowl = ({
   onPick,
 }: Props) => {
   return (
-    <div>
+    <Root>
       {!completed && pot &&
         pot.map((team, i) => (
           <TeamBall
@@ -45,7 +45,7 @@ const TeamBowl = ({
           </TeamBall>
         ))
       }
-    </div>
+    </Root>
   )
 }
 
