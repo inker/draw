@@ -5,6 +5,8 @@ import countryNames from 'data/country-names'
 
 const PROXY_URL = 'https://proxy-antonv.rhcloud.com/?url='
 
+const FLAG_SIZE = Math.min(Math.ceil(devicePixelRatio) * 16, 64)
+
 export const proxify =
   (url: string) => `${PROXY_URL}${url}`
 
@@ -12,7 +14,7 @@ const getCountryName = (countryCode: string) =>
   countryNames[countryCode.toLowerCase()].replace(' ', '-')
 
 const getUrl = (countryName: string) =>
-  proxify(`http://icons.iconarchive.com/icons/gosquared/flag/16/${countryName}-flat-icon.png`)
+  proxify(`http://icons.iconarchive.com/icons/gosquared/flag/${FLAG_SIZE}/${countryName}-flat-icon.png`)
 
 const Cell = styled.div`
   display: flex;
@@ -23,6 +25,7 @@ const Cell = styled.div`
 
   ${({ country }) => country ? `background-image: url('${getUrl(getCountryName(country))}')` : ''};
   background-position: 2px;
+  background-size: 16px;
   background-repeat: no-repeat;
   padding-left: 20px;
   text-align: left;
