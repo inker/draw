@@ -2,9 +2,9 @@ import * as React from 'react'
 
 import { Team, GSTeam } from 'utils/team'
 import Table from 'components/table/Table'
-import Header from 'components/table/Header'
 import Body from 'components/table/Body'
 
+import Header from './PotHeader'
 import Cell from './PotCell'
 
 interface TeamObj {
@@ -23,7 +23,7 @@ const Pot = ({
   teams,
 }: Props) => (
   <Table>
-    <Header>
+    <Header depleted={!teams || teams.every(team => team.picked)}>
       Pot {potNum + 1}
     </Header>
     <Body>
