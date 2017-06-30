@@ -9,8 +9,18 @@ const Root = styled.div`
   margin-bottom: 10px;
 `
 
+const StyledLink = styled(Link)`
+  margin-left: 5px;
+  margin-right: 5px;
+`
+
+const StyledAnchor = styled.a`
+  margin-left: 5px;
+  margin-right: 5px;
+`
+
 const GithubButton = () => (
-  <a
+  <StyledAnchor
     className="github-button"
     href="https://github.com/inker/cl-draw"
     data-icon="octicon-star"
@@ -19,8 +29,8 @@ const GithubButton = () => (
     data-count-aria-label="# stargazers on GitHub"
     aria-label="Star inker/cl-draw on GitHub"
   >
-    Star
-  </a>
+    Star me on GitHub
+  </StyledAnchor>
 )
 
 const chooseOther = () => {
@@ -28,9 +38,9 @@ const chooseOther = () => {
   return pathname === '/cl/last16' ? '/cl/gs' : pathname === '/cl/gs' ? '/cl/last16' : '/'
 }
 
-const Links = () => (
+const Links = (props) => (
   <Root>
-    {/*<Link to="/">Restart</Link> |*/}
+    <StyledLink to="/" onClick={props.refresh} >Restart</StyledLink> |
     {/*<Link to="/">Change mode</Link> |*/}
     <GithubButton />
   </Root>
