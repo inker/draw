@@ -19,6 +19,7 @@ interface Props {
   pots: Team[][],
   groups: Team[][],
   pickedTeam: Team | null,
+  currentPotNum: number,
 }
 
 const PotsContainer = ({
@@ -26,12 +27,14 @@ const PotsContainer = ({
   pots,
   groups,
   pickedTeam,
+  currentPotNum,
 }: Props) => (
   <Root>
     {pots && pots.map((pot, i) => (
       <Pot
         key={pot[0].name}
         potNum={i}
+        isCurrent={i === currentPotNum}
         teams={pot.map(team => ({
           team,
           selected: team === pickedTeam,

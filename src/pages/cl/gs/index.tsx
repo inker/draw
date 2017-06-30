@@ -7,6 +7,7 @@ import getPossibleGroups from './possible-groups'
 import animateContentTransfer from 'utils/animateContentTransfer'
 
 import PotsContainer from 'components/PotsContainer'
+// import AirborneContainer from 'components/AirborneContainer'
 import GroupsContainer from 'components/GroupsContainer'
 import TablesContainer from 'components/TablesContainer'
 import BowlsContainer from 'components/BowlsContainer'
@@ -168,6 +169,7 @@ export default class GS extends React.PureComponent<Props, State> {
             completed={completed}
             pickedTeam={pickedTeam}
             pots={initialPots}
+            currentPotNum={currentPotNum}
             groups={groups}
           />
           <GroupsContainer

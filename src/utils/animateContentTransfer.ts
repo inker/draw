@@ -26,28 +26,28 @@ export default (sourceCell: HTMLElement, targetCell: HTMLElement, duration: numb
   const fakeCellStyle = fakeCell.style
   const computedStyle = getComputedStyle(sourceCell)
   for (const s of attrs) {
-      fakeCellStyle[s] = computedStyle[s]
+    fakeCellStyle[s] = computedStyle[s]
   }
   fakeCellStyle.zIndex = '1000'
   fakeCellStyle.color = 'initial'
   fakeCellStyle.opacity = null
   fakeCellStyle.position = 'absolute'
   const sourceCellBox = sourceCell.getBoundingClientRect()
-  adjustPositioning(fakeCell, sourceCellBox)
   fakeCellStyle.border = 'initial'
   fakeCellStyle.backgroundColor = null
   fakeCellStyle.userSelect = 'none'
+  adjustPositioning(fakeCell, sourceCellBox)
   document.body.insertBefore(fakeCell, document.body.firstElementChild)
 
   const targetCellBox = targetCell.getBoundingClientRect()
   fakeCellStyle.transition = `transform ${duration}ms ease-in-out`
   adjustPositioning(fakeCell, targetCellBox)
-  return new Promise(resolve => {
-      fakeCell.addEventListener('transitionend', e => {
-          document.body.removeChild(fakeCell)
-          targetCellStyle.fontSize = null
-          targetCellStyle.backgroundImage = sourceCell.style.backgroundImage
-          resolve()
-      })
+  return new Promise<void>(resolve => {
+    fakeCell.addEventListener('transitionend', e => {
+      document.body.removeChild(fakeCell)
+      targetCellStyle.fontSize = null
+      targetCellStyle.backgroundImage = sourceCell.style.backgroundImage
+      resolve()
+    })
   })
 }

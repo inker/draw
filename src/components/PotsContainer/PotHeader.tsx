@@ -8,6 +8,9 @@ const PotHeader = styled(Header)`
     filter: grayscale(0.5);
     opacity: 0.4;
   `}
+  ${props => props.highlighted && `
+    color: #f70;
+  `}
 ` as any
 
 export default PotHeader

@@ -20,7 +20,9 @@ const GroupCell = styled(Cell)`
   ${props => props.picked && `
     animation: appear 5s normal forwards;
     @keyframes appear {
-      from { background-color: #ff8 }
+      from {
+        background-color: #ff8;
+      }
       to {}
     }
   `}
