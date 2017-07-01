@@ -36,7 +36,7 @@ interface State {
   maxTeamsInGroup: number,
   airborneTeams: Team[],
   currentPotNum: number,
-  pickedTeam: Team | null,
+  selectedTeam: Team | null,
   pickedGroup: number | null,
   hungPot: Team[],
   possibleGroups: number[] | null,
@@ -63,7 +63,7 @@ export default class GS extends React.PureComponent<Props, State> {
       maxTeamsInGroup: pots.length,
       airborneTeams: [],
       currentPotNum,
-      pickedTeam: null,
+      selectedTeam: null,
       pickedGroup: null,
       hungPot: currentPot,
       possibleGroups: null,
@@ -83,11 +83,11 @@ export default class GS extends React.PureComponent<Props, State> {
     const currentPot = pots[currentPotNum]
     const hungPot = currentPot.slice()
     const i = currentPot.findIndex(team => team.id === ball.dataset.teamid)
-    const pickedTeam = currentPot.splice(i, 1)[0]
-    const possibleGroups = getPossibleGroups(pots, groups, pickedTeam, currentPotNum)
+    const selectedTeam = currentPot.splice(i, 1)[0]
+    const possibleGroups = getPossibleGroups(pots, groups, selectedTeam, currentPotNum)
     this.setState({
       hungPot,
-      pickedTeam,
+      selectedTeam,
       possibleGroups,
       possibleGroupsShuffled: shuffle(possibleGroups),
       pickedGroup: null,
@@ -101,19 +101,19 @@ export default class GS extends React.PureComponent<Props, State> {
     const {
       groups,
       airborneTeams,
-      pickedTeam,
+      selectedTeam,
       pots,
       currentPotNum,
       completed,
     } = state
-    if (!pickedTeam) {
+    if (!selectedTeam) {
       this.setState({
         error: 'shit',
       })
       return
     }
     // const promise = animateContentTransfer()
-    const fromCell = document.querySelector(`[data-cellid='${pickedTeam.id}']`) as HTMLElement
+    const fromCell = document.querySelector(`[data-cellid='${selectedTeam.id}']`) as HTMLElement
     if (!fromCell) {
       throw new Error('cell not found')
     }
@@ -123,11 +123,11 @@ export default class GS extends React.PureComponent<Props, State> {
       throw new Error('cell not found')
     }
     const promise = animateContentTransfer(fromCell, toCell, 300)
-    groups[pickedGroup].push(pickedTeam)
+    groups[pickedGroup].push(selectedTeam)
     const newCurrentPotNum = pots[currentPotNum].length > 0 ? currentPotNum : currentPotNum + 1
-    airborneTeams.push(pickedTeam)
+    airborneTeams.push(selectedTeam)
     this.setState({
-      pickedTeam: null,
+      selectedTeam: null,
       pickedGroup,
       hungPot: pots[newCurrentPotNum],
       possibleGroups: null,
@@ -138,7 +138,7 @@ export default class GS extends React.PureComponent<Props, State> {
     }, async () => {
       await promise
       this.setState({
-        airborneTeams: this.state.airborneTeams.filter(team => team !== pickedTeam),
+        airborneTeams: this.state.airborneTeams.filter(team => team !== selectedTeam),
       })
     })
   }
@@ -155,7 +155,7 @@ export default class GS extends React.PureComponent<Props, State> {
       currentPotNum,
       hungPot,
       airborneTeams,
-      pickedTeam,
+      selectedTeam,
       pickedGroup,
       possibleGroups,
       possibleGroupsShuffled,
@@ -167,7 +167,7 @@ export default class GS extends React.PureComponent<Props, State> {
         <TablesContainer>
           <PotsContainer
             completed={completed}
-            pickedTeam={pickedTeam}
+            selectedTeam={selectedTeam}
             pots={initialPots}
             currentPotNum={currentPotNum}
             groups={groups}
@@ -175,7 +175,7 @@ export default class GS extends React.PureComponent<Props, State> {
           <GroupsContainer
             maxTeams={maxTeamsInGroup}
             completed={completed}
-            pickedTeam={pickedTeam}
+            selectedTeam={selectedTeam}
             currentPotNum={currentPotNum}
             groups={groups}
             possibleGroups={possibleGroups}
@@ -185,14 +185,14 @@ export default class GS extends React.PureComponent<Props, State> {
         <BowlsContainer>
           <TeamBowl
             completed={completed}
-            pickedTeam={pickedTeam}
+            selectedTeam={selectedTeam}
             pot={hungPot}
-            dontTouch={!!pickedTeam}
+            dontTouch={!!selectedTeam}
             onPick={this.onTeamBallPick}
           />
           <Announcement
             completed={completed}
-            pickedTeam={pickedTeam}
+            selectedTeam={selectedTeam}
             pickedGroup={pickedGroup}
             possiblesText={possiblesText}
             reset={this.reset}

@@ -18,7 +18,7 @@ interface Props {
   completed: boolean,
   pots: Team[][],
   groups: Team[][],
-  pickedTeam: Team | null,
+  selectedTeam: Team | null,
   currentPotNum: number,
 }
 
@@ -26,7 +26,7 @@ const PotsContainer = ({
   completed,
   pots,
   groups,
-  pickedTeam,
+  selectedTeam,
   currentPotNum,
 }: Props) => (
   <Root>
@@ -35,11 +35,9 @@ const PotsContainer = ({
         key={pot[0].name}
         potNum={i}
         isCurrent={i === currentPotNum}
-        teams={pot.map(team => ({
-          team,
-          selected: team === pickedTeam,
-          picked: groups.some(group => group.includes(team)),
-        }))}
+        teams={pot}
+        pickedTeams={pot.filter(team => groups.some(group => group.includes(team)))}
+        selectedTeam={selectedTeam}
       />
     ))}
   </Root>

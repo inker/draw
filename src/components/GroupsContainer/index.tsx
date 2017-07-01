@@ -25,7 +25,7 @@ interface Props {
   currentPotNum: number,
   groups: Team[][],
   possibleGroups: number[] | null,
-  pickedTeam: Team | null,
+  selectedTeam: Team | null,
   airborneTeams: Team[],
 }
 
@@ -35,7 +35,7 @@ const GroupsContainer = ({
   currentPotNum,
   groups,
   possibleGroups,
-  pickedTeam,
+  selectedTeam,
   airborneTeams,
 }: Props) => (
   <Root numGroups={groups.length}>

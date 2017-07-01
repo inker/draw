@@ -32,7 +32,7 @@ const Completed = styled.div`
 
 interface Props {
   completed: boolean,
-  pickedTeam: Team | null,
+  selectedTeam: Team | null,
   pickedGroup: number | null,
   possiblesText: string,
   reset: any,
@@ -40,7 +40,7 @@ interface Props {
 
 const Announcement = ({
   completed,
-  pickedTeam,
+  selectedTeam,
   pickedGroup,
   possiblesText,
   reset,
@@ -53,9 +53,9 @@ const Announcement = ({
           <Link onClick={reset}>Restart</Link>
         </Completed>
       ) :
-      possiblesText && pickedTeam ? (
+      possiblesText && selectedTeam ? (
         <div>
-          Possible groups for {pickedTeam.name}:
+          Possible groups for {selectedTeam.name}:
           <br />
           {possiblesText}
         </div>

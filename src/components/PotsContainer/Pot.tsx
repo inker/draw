@@ -14,50 +14,49 @@ const Root = styled(Table)`
   `}
 `
 
-interface TeamObj {
-  team: Team,
-  picked: boolean,
-  selected: boolean,
-}
-
 interface Props {
   isCurrent: boolean,
   potNum: number,
-  teams: TeamObj[],
+  teams: Team[],
+  pickedTeams: Team[],
+  selectedTeam: Team | null,
 }
 
 const Pot = ({
   isCurrent,
   potNum,
   teams,
-}: Props) => (
-  <Root highlighted={isCurrent}>
-    <Header
-      highlighted={isCurrent}
-      depleted={!teams || teams.every(team => team.picked)}
-    >
-      Pot {potNum + 1}
-    </Header>
-    <Body>
-      {teams && teams.map(teamObj => {
-        const { team, picked, selected } = teamObj
-        const { name, country } = team
-        const pairing = team instanceof GSTeam ? team.pairing : null
-        return (
-          <Cell
-            key={team.id}
-            data-cellId={team.id}
-            title={pairing && `paired with ${pairing.name}`}
-            selected={selected}
-            picked={picked}
-            country={country}
-          >
-            {name}
-          </Cell>
-        )
-      })}
-    </Body>
-  </Root>
-)
+  pickedTeams,
+  selectedTeam,
+}: Props) => {
+  return (
+    <Root highlighted={isCurrent}>
+      <Header
+        highlighted={isCurrent}
+        depleted={!teams || pickedTeams.length === teams.length}
+      >
+        Pot {potNum + 1}
+      </Header>
+      <Body>
+        {teams && teams.map(team => {
+          const { name, country } = team
+          const pairing = team instanceof GSTeam ? team.pairing : null
+          return (
+            <Cell
+              key={team.id}
+              data-cellId={team.id}
+              title={pairing && `paired with ${pairing.name}`}
+              selected={team === selectedTeam}
+              picked={pickedTeams.includes(team)}
+              country={country}
+            >
+              {name}
+            </Cell>
+          )
+        })}
+      </Body>
+    </Root>
+  )
+}
 
 export default Pot

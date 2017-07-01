@@ -11,12 +11,12 @@ const Root = styled.div`
 `
 
 const TeamBall = styled(Ball)`
-  background: ${({ picked, notPicked }) => picked ? '#004' : notPicked ? '#ddd' : 'radial-gradient(#fff, #004)'};
+  background: ${({ selected, notSelected }) => selected ? '#004' : notSelected ? '#ddd' : 'radial-gradient(#fff, #004)'};
 `
 
 interface Props {
   completed: boolean,
-  pickedTeam: Team | null,
+  selectedTeam: Team | null,
   pot: Team[],
   dontTouch: boolean,
   onPick: any,
@@ -25,7 +25,7 @@ interface Props {
 const TeamBowl = ({
   completed,
   pot,
-  pickedTeam,
+  selectedTeam,
   dontTouch,
   onPick,
 }: Props) => {
@@ -36,10 +36,10 @@ const TeamBowl = ({
           <TeamBall
             key={team.id}
             data-teamid={team.id}
-            picked={team === pickedTeam}
-            notPicked={pickedTeam && team !== pickedTeam}
-            noHover={pickedTeam}
-            onClick={!pickedTeam && onPick}
+            selected={team === selectedTeam}
+            notSelected={selectedTeam && team !== selectedTeam}
+            noHover={selectedTeam}
+            onClick={!selectedTeam && onPick}
           >
             {team.name}
           </TeamBall>

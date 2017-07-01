@@ -7,12 +7,6 @@ import Body from 'components/table/Body'
 
 import Cell from './GroupCell'
 
-interface TeamObj {
-  team: Team,
-  picked: boolean,
-  selected: boolean,
-}
-
 interface Props {
   maxTeams: number,
   groupLetter: string,
