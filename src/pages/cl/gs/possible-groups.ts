@@ -1,8 +1,9 @@
+import { range } from 'lodash'
 import { GSTeam as Team } from 'utils/team'
 
 export default (pots: Team[][], groups: Team[][], teamPicked: Team, currentPotIndex: number): number[] => {
   if (groups.every(group => group.length === 0)) {
-    return groups.map((group, index) => index)
+    return range(groups.length)
   }
   return filterGroupsBasic(groups, teamPicked, currentPotIndex).filter(groupNum => {
     groups[groupNum].push(teamPicked)

@@ -1,13 +1,15 @@
+import { range } from 'lodash'
 import { Last16Team as Team } from 'utils/team'
 
-export default (pots: Team[][], matchups: Team[][], currentMatchupNum: number): number[] => {
-  const [ groupWinners, runnersUp ] = pots
+export default ([ groupWinners, runnersUp ]: Team[][], matchups: Team[][], matchupNum: number): number[] => {
 
   function anyGroupWinners(branchNum: number, currentMatchupNum: number): boolean {
     const currentMatchup = matchups[currentMatchupNum]
     const currentlyPicked = currentMatchup[0]
     const o = groupWinners[branchNum]
-    if (o.country === currentlyPicked.country || o.group === currentlyPicked.group) return false
+    if (o.country === currentlyPicked.country || o.group === currentlyPicked.group) {
+      return false
+    }
     groupWinners.splice(branchNum, 1)
     currentMatchup.push(o)
     const hasDescendants = ++currentMatchupNum === matchups.length || anyRunnersUp(matchups, currentMatchupNum)
@@ -29,7 +31,6 @@ export default (pots: Team[][], matchups: Team[][], currentMatchupNum: number): 
     })
   }
 
-  return groupWinners
-    .map((team, i) => i)
-    .filter(i => anyGroupWinners(i, currentMatchupNum))
+  return range(groupWinners.length)
+    .filter(i => anyGroupWinners(i, matchupNum))
 }
