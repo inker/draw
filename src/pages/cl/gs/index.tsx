@@ -113,16 +113,7 @@ export default class GS extends React.PureComponent<Props, State> {
       return
     }
     // const promise = animateContentTransfer()
-    const fromCell = document.querySelector(`[data-cellid='${selectedTeam.id}']`) as HTMLElement
-    if (!fromCell) {
-      throw new Error('cell not found')
-    }
-    const toCellSelector = `[data-cellid='${String.fromCharCode(65 + pickedGroup)}${currentPotNum}']`
-    const toCell = document.querySelector(toCellSelector) as HTMLElement
-    if (!toCell) {
-      throw new Error('cell not found')
-    }
-    const promise = animateContentTransfer(fromCell, toCell, 300)
+    const animation = this.animateCell(pickedGroup)
     groups[pickedGroup].push(selectedTeam)
     const newCurrentPotNum = pots[currentPotNum].length > 0 ? currentPotNum : currentPotNum + 1
     airborneTeams.push(selectedTeam)
@@ -136,11 +127,24 @@ export default class GS extends React.PureComponent<Props, State> {
       completed: newCurrentPotNum >= pots.length,
       airborneTeams,
     }, async () => {
-      await promise
+      await animation
       this.setState({
         airborneTeams: this.state.airborneTeams.filter(team => team !== selectedTeam),
       })
     })
+  }
+
+  private animateCell(pickedGroup: number) {
+    const { selectedTeam, currentPotNum } = this.state
+    if (!selectedTeam) {
+      return
+    }
+    const fromCell = document.querySelector(`[data-cellid='${selectedTeam.id}']`)
+    const toCellSelector = `[data-cellid='${String.fromCharCode(65 + pickedGroup)}${currentPotNum}']`
+    const toCell = document.querySelector(toCellSelector)
+    if (fromCell instanceof HTMLElement && toCell instanceof HTMLElement) {
+      return animateContentTransfer(fromCell, toCell, 300)
+    }
   }
 
   render() {
