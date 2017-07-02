@@ -161,7 +161,7 @@ export default class GS extends React.PureComponent<Props, State> {
       possibleGroupsShuffled,
       completed,
     } = this.state
-    const possiblesText = possibleGroups ? possibleGroups.map(i => String.fromCharCode(65 + i)).join(', ') : ''
+
     return (
       <Root>
         <TablesContainer>
@@ -191,7 +191,7 @@ export default class GS extends React.PureComponent<Props, State> {
             completed={completed}
             selectedTeam={selectedTeam}
             pickedGroup={pickedGroup}
-            possiblesText={possiblesText}
+            possibleGroups={possibleGroups}
             reset={this.reset}
           />
           <GroupBowl

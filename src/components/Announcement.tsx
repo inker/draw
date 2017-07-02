@@ -5,17 +5,22 @@ import { Team } from 'utils/team'
 
 const Root = styled.div`
   width: 100%;
-  height: 50px;
   font-size: 1.25em;
+  line-height: 150%;
   vertical-align: middle;
-  margin-top: 20px;
-  margin-bottom: 20px;
+
+  margin-top: 30px;
+  margin-bottom: 30px;
+
   user-select: none;
 
   @media (max-width: 999px) {
-    height: 80px;
     font-size: 2.5em;
   }
+`
+
+const SelectedTeam = styled.span`
+  color: blue;
 `
 
 const Link = styled.div`
@@ -34,7 +39,7 @@ interface Props {
   completed: boolean,
   selectedTeam: Team | null,
   pickedGroup: number | null,
-  possiblesText: string,
+  possibleGroups: number[] | null,
   reset: any,
 }
 
@@ -42,7 +47,7 @@ const Announcement = ({
   completed,
   selectedTeam,
   pickedGroup,
-  possiblesText,
+  possibleGroups,
   reset,
 }: Props) => (
   <Root>
@@ -53,11 +58,11 @@ const Announcement = ({
           <Link onClick={reset}>Restart</Link>
         </Completed>
       ) :
-      possiblesText && selectedTeam ? (
+      selectedTeam && possibleGroups ? (
         <div>
-          Possible groups for {selectedTeam.name}:
+          Possible groups for <SelectedTeam>{selectedTeam.name}</SelectedTeam>:
           <br />
-          {possiblesText}
+          {possibleGroups.map(i => String.fromCharCode(65 + i)).join(', ')}
         </div>
       ) :
       pickedGroup !== null ? `Group ${String.fromCharCode(65 + pickedGroup)}!` :
