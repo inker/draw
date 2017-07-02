@@ -12,14 +12,14 @@ const Ball = styled.div`
   margin: 2px;
   padding: 10px;
 
-  font-size: ${props => props.picked ? 0.8 : 0}em;
+  font-size: ${props => props.selected ? 0.8 : 0}em;
   font-family: 'Arial Narrow', 'Ubuntu Condensed', sans-serif;
-  font-weight: ${props => props.picked ? 'bold' : ''};
+  font-weight: ${props => props.selected ? 'bold' : ''};
   text-align: center;
   text-overflow: ellipsis;
-  color: ${props => props.picked ? 'white' : ''};
+  color: ${props => props.selected ? 'white' : ''};
 
-  background: ${props => props.picked ? '' : 'radial-gradient(#004, #002, #002)'};
+  background: ${props => props.selected ? '' : 'radial-gradient(#004, #002, #002)'};
   border-radius: 100%;
   cursor: ${props => props.noHover ? 'not-allowed' : 'pointer'};
   user-select: none;
@@ -31,7 +31,7 @@ const Ball = styled.div`
   @media (max-width: 999px) {
     width: 85px;
     height: 85px;
-    font-size: ${props => props.picked ? 1.2 : 0}em;
+    font-size: ${props => props.selected ? 1.2 : 0}em;
   }
 
   @media (max-width: 850px) {
