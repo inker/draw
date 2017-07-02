@@ -168,7 +168,8 @@ export default class GS extends React.PureComponent<Props, State> {
           <PotsContainer
             completed={completed}
             selectedTeam={selectedTeam}
-            pots={initialPots}
+            initialPots={initialPots}
+            pots={pots}
             currentPotNum={currentPotNum}
             groups={groups}
           />
