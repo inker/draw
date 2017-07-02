@@ -11,8 +11,8 @@ const GroupCell = styled(Cell)`
     border-color: #789;
     @keyframes border-glow {
       from {
-          background-color: white;
-          box-shadow: 0 0 20px #bcd;
+        background-color: white;
+        box-shadow: 0 0 20px #bcd;
       }
       to {}
     }

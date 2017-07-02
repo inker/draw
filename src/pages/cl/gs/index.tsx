@@ -97,7 +97,6 @@ export default class GS extends React.PureComponent<Props, State> {
   private onGroupBallPicked = (ev: React.MouseEvent<HTMLDivElement>) => {
     const ball = ev.target as HTMLDivElement
     const pickedGroup = +(ball.dataset.group || 0)
-    const { state } = this
     const {
       groups,
       airborneTeams,
@@ -105,14 +104,15 @@ export default class GS extends React.PureComponent<Props, State> {
       pots,
       currentPotNum,
       completed,
-    } = state
+    } = this.state
+
     if (!selectedTeam) {
       this.setState({
         error: 'shit',
       })
       return
     }
-    // const promise = animateContentTransfer()
+
     const animation = this.animateCell(pickedGroup)
     groups[pickedGroup].push(selectedTeam)
     const newCurrentPotNum = pots[currentPotNum].length > 0 ? currentPotNum : currentPotNum + 1
