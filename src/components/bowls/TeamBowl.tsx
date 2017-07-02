@@ -18,7 +18,6 @@ interface Props {
   completed: boolean,
   selectedTeam: Team | null,
   pot: Team[],
-  dontTouch: boolean,
   onPick: any,
 }
 
@@ -26,7 +25,6 @@ const TeamBowl = ({
   completed,
   pot,
   selectedTeam,
-  dontTouch,
   onPick,
 }: Props) => {
   return (

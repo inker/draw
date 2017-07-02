@@ -21,7 +21,6 @@ const Root = styled.div`
 
 interface Props {
   maxTeams: number,
-  completed: boolean,
   currentPotNum: number,
   groups: Team[][],
   possibleGroups: number[] | null,
@@ -31,7 +30,6 @@ interface Props {
 
 const GroupsContainer = ({
   maxTeams,
-  completed,
   currentPotNum,
   groups,
   possibleGroups,

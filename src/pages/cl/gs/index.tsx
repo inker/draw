@@ -166,16 +166,13 @@ export default class GS extends React.PureComponent<Props, State> {
       <Root>
         <TablesContainer>
           <PotsContainer
-            completed={completed}
             selectedTeam={selectedTeam}
             initialPots={initialPots}
             pots={pots}
             currentPotNum={currentPotNum}
-            groups={groups}
           />
           <GroupsContainer
             maxTeams={maxTeamsInGroup}
-            completed={completed}
             selectedTeam={selectedTeam}
             currentPotNum={currentPotNum}
             groups={groups}
@@ -188,7 +185,6 @@ export default class GS extends React.PureComponent<Props, State> {
             completed={completed}
             selectedTeam={selectedTeam}
             pot={hungPot}
-            dontTouch={!!selectedTeam}
             onPick={this.onTeamBallPick}
           />
           <Announcement

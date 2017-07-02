@@ -16,38 +16,50 @@ const Root = styled.div`
 `
 
 interface Props {
-  completed: boolean,
   initialPots: Team[][],
   pots: Team[][],
-  groups: Team[][],
   selectedTeam: Team | null,
   currentPotNum: number,
 }
 
-const PotsContainer = ({
-  completed,
-  initialPots,
-  pots,
-  groups,
-  selectedTeam,
-  currentPotNum,
-}: Props) => (
-  <Root>
-    {initialPots && initialPots.map((pot, i) => {
-      const isCurrent = i === currentPotNum
-      const pickedTeams = isCurrent ? difference(pot, pots[currentPotNum], [selectedTeam as Team]) : []
-      return (
-        <Pot
-          key={pot[0].name}
-          potNum={i}
-          isCurrent={isCurrent}
-          teams={pot}
-          pickedTeams={pickedTeams}
-          selectedTeam={selectedTeam}
-        />
-      )
-    })}
-  </Root>
-)
+class PotsContainer extends React.PureComponent<Props> {
+  getPickedTeams() {
+    const {
+      currentPotNum,
+      pots,
+      initialPots,
+      selectedTeam,
+    } = this.props
+    return difference(initialPots[currentPotNum], pots[currentPotNum], [selectedTeam as Team])
+  }
+
+  render() {
+    const {
+      initialPots,
+      selectedTeam,
+      currentPotNum,
+    } = this.props
+
+    return (
+      <Root>
+        {initialPots && initialPots.map((pot, i) => {
+          const isCurrent = i === currentPotNum
+          const pickedTeams = isCurrent ? this.getPickedTeams() : i < currentPotNum ? pot : []
+
+          return (
+            <Pot
+              key={pot[0].name}
+              potNum={i}
+              isCurrent={isCurrent}
+              teams={pot}
+              pickedTeams={pickedTeams}
+              selectedTeam={selectedTeam}
+            />
+          )
+        })}
+      </Root>
+    )
+  }
+}
 
 export default PotsContainer
