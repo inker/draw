@@ -113,10 +113,11 @@ export default class GS extends React.PureComponent<Props, State> {
       return
     }
 
-    const animation = this.animateCell(pickedGroup)
     groups[pickedGroup].push(selectedTeam)
     const newCurrentPotNum = pots[currentPotNum].length > 0 ? currentPotNum : currentPotNum + 1
     airborneTeams.push(selectedTeam)
+    const animation = this.animateCell(pickedGroup)
+
     this.setState({
       selectedTeam: null,
       pickedGroup,
