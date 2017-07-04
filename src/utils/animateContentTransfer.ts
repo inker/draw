@@ -18,9 +18,6 @@ function adjustPositioning(cell: HTMLElement, { left, top }: ClientRect) {
 }
 
 export default (sourceCell: HTMLElement, targetCell: HTMLElement, duration: number) => {
-  const targetCellStyle = targetCell.style
-  targetCellStyle.fontSize = '0px'
-  targetCell.textContent = sourceCell.textContent
   const fakeCell = sourceCell.cloneNode(true) as typeof sourceCell
   fakeCell.textContent = sourceCell.textContent
   const fakeCellStyle = fakeCell.style
@@ -45,8 +42,6 @@ export default (sourceCell: HTMLElement, targetCell: HTMLElement, duration: numb
   return new Promise<void>(resolve => {
     fakeCell.addEventListener('transitionend', e => {
       document.body.removeChild(fakeCell)
-      targetCellStyle.fontSize = null
-      targetCellStyle.backgroundImage = sourceCell.style.backgroundImage
       resolve()
     })
   })

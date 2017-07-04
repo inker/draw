@@ -24,7 +24,7 @@ const SelectedTeamWithColon = styled.span`
 `
 
 const SelectedTeam = styled.span`
-  color: blue;
+  font-weight: bold;
 `
 
 const Link = styled.div`
@@ -64,8 +64,7 @@ const Announcement = ({
       ) :
       selectedTeam && possibleGroups ? (
         <div>
-          Possible groups for
-          <SelectedTeamWithColon>
+          Possible groups for <SelectedTeamWithColon>
             <SelectedTeam>{selectedTeam.name}</SelectedTeam>:
           </SelectedTeamWithColon>
           <br />
