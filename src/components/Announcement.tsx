@@ -20,6 +20,7 @@ const Root = styled.div`
 `
 
 const SelectedTeam = styled.span`
+  display: inline-block;
   color: blue;
 `
 
