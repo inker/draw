@@ -19,8 +19,11 @@ const Root = styled.div`
   }
 `
 
-const SelectedTeam = styled.span`
+const SelectedTeamWithColon = styled.span`
   display: inline-block;
+`
+
+const SelectedTeam = styled.span`
   color: blue;
 `
 
@@ -61,7 +64,10 @@ const Announcement = ({
       ) :
       selectedTeam && possibleGroups ? (
         <div>
-          Possible groups for <SelectedTeam>{selectedTeam.name}</SelectedTeam>:
+          Possible groups for
+          <SelectedTeamWithColon>
+            <SelectedTeam>{selectedTeam.name}</SelectedTeam>:
+          </SelectedTeamWithColon>
           <br />
           {possibleGroups.map(i => String.fromCharCode(65 + i)).join(', ')}
         </div>
