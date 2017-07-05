@@ -1,5 +1,5 @@
 const attrs = [
-  // 'width',
+  'width',
   // // 'border',
   // // 'padding',
   // // 'padding-left',
@@ -10,6 +10,12 @@ const attrs = [
 
 const OFFSET_LEFT = 2
 const OFFSET_TOP = 2
+
+const airborneDiv = document.getElementById('airborne')
+
+if (!airborneDiv) {
+  throw new Error('airborne div not found')
+}
 
 function adjustPositioning(cell: HTMLElement, { left, top }: ClientRect) {
   const x = left + OFFSET_LEFT
@@ -34,14 +40,14 @@ export default (sourceCell: HTMLElement, targetCell: HTMLElement, duration: numb
   fakeCellStyle.backgroundColor = null
   fakeCellStyle.userSelect = 'none'
   adjustPositioning(fakeCell, sourceCellBox)
-  document.body.insertBefore(fakeCell, document.body.firstElementChild)
+  airborneDiv.appendChild(fakeCell)
 
   const targetCellBox = targetCell.getBoundingClientRect()
   fakeCellStyle.transition = `transform ${duration}ms ease-in-out`
   adjustPositioning(fakeCell, targetCellBox)
   return new Promise<void>(resolve => {
     fakeCell.addEventListener('transitionend', e => {
-      document.body.removeChild(fakeCell)
+      airborneDiv.removeChild(fakeCell)
       resolve()
     })
   })
