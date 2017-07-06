@@ -45,7 +45,7 @@ const Cell = styled.div`
     background-position: 4px;
     background-size: 32px;
     padding-left: 40px;
-    font-family: 'Roboto Condensed', sans-serif;
+    font-family: 'Roboto Condensed', RobotoCondensed, RobotoCondensed-Regular, sans-serif;
     height: 40px;
     font-size: 1.5em;
   }
