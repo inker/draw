@@ -11,8 +11,7 @@
     "react-dom": "^15.6.1",
     "react-router-dom": "^4.1.1",
     "styled-components": "^2.1.1",
-    "tslib": "^1.7.1",
-    "whatwg-fetch": "^2.0.3"
+    "tslib": "^1.7.1"
   },
   "devDependencies": {
     "@types/classnames": "2.2.0",
@@ -20,8 +19,8 @@
     "@types/lodash": "^4.14.68",
     "@types/react": "^15.0.34",
     "@types/react-dom": "^15.5.0",
-    "@types/react-router-dom": "^4.0.5",
-    "autoprefixer": "^7.1.1",
+    "@types/react-router-dom": "^4.0.6",
+    "autoprefixer": "^7.1.2",
     "awesome-typescript-loader": "^3.2.1",
     "copy-webpack-plugin": "^4.0.1",
     "css-loader": "^0.28.4",
@@ -33,13 +32,13 @@
     "postcss-loader": "^2.0.6",
     "source-map-loader": "^0.2.1",
     "style-loader": "^0.18.2",
-    "tslint": "^5.4.3",
+    "tslint": "^5.5.0",
     "tslint-react": "^3.0.0",
     "typescript": "^2.4.1",
     "url-loader": "^0.5.9",
-    "webpack": "^3.0.0",
+    "webpack": "^3.1.0",
     "webpack-bundle-analyzer": "^2.8.2",
-    "webpack-dev-server": "^2.5.0",
+    "webpack-dev-server": "^2.5.1",
     "whatwg-fetch": "^2.0.3"
   },
   "scripts": {
