@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "ES2019",
+    "target": "ESNext",
     "module": "ESNext",
     "moduleResolution": "Node",
     "allowSyntheticDefaultImports": true,
@@ -12,14 +12,12 @@
     "alwaysStrict": true,
     "strictBindCallApply": true,
     "experimentalDecorators": true,
-    "jsx": "react",
+    "jsx": "preserve",
     "strictNullChecks": true,
     "noImplicitThis": true,
     "noUnusedLocals": true,
     "downlevelIteration": true,
     "resolveJsonModule": true,
-    "noEmitHelpers": true,
-    "importHelpers": true,
     "lib": [
       "ESNext",
       "DOM",
