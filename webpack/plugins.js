@@ -3,7 +3,6 @@ const {
     CommonsChunkPlugin,
     OccurrenceOrderPlugin,
   },
-  ProvidePlugin,
 } = require('webpack')
 
 const { TsConfigPathsPlugin } = require('awesome-typescript-loader')
@@ -26,11 +25,6 @@ module.exports = env => [
     name: 'vendor',
     filename: 'vendor.js',
     minChunks: module => module.resource && module.resource.includes('node_modules'),
-  }),
-
-  new ProvidePlugin({
-    Promise: 'es6-promise',
-    fetch: 'imports-loader?this=>global!exports-loader?global.fetch!whatwg-fetch',
   }),
 
   new HtmlWebpackPlugin({

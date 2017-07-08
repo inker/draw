@@ -13,7 +13,7 @@ module.exports = ({ ENV }) => ({
   },
   output: {
     path: distDir,
-    filename: ENV === 'prod' ? '[name].[hash].js' : '[name].js',
+    filename: ENV === 'dev' ? '[name].js' : '[name].[hash].js',
     sourceMapFilename: '[file].map',
   },
   resolve: {

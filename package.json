@@ -25,10 +25,7 @@
     "copy-webpack-plugin": "^4.0.1",
     "css-loader": "^0.28.4",
     "cssnano": "^3.10.0",
-    "es6-promise": "^4.1.1",
-    "exports-loader": "^0.6.4",
     "html-webpack-plugin": "^2.29.0",
-    "imports-loader": "^0.7.1",
     "postcss-loader": "^2.0.6",
     "source-map-loader": "^0.2.1",
     "style-loader": "^0.18.2",
@@ -39,8 +36,7 @@
     "url-loader": "^0.5.9",
     "webpack": "^3.1.0",
     "webpack-bundle-analyzer": "^2.8.2",
-    "webpack-dev-server": "^2.5.1",
-    "whatwg-fetch": "^2.0.3"
+    "webpack-dev-server": "^2.5.1"
   },
   "scripts": {
     "build:prod": "webpack --colors --config webpack/webpack.config.js --env.ENV=prod",
