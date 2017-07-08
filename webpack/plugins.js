@@ -38,10 +38,16 @@ module.exports = env => [
     template: 'template.html',
     hash: true,
     minify: {
-      minifyJS: true,
-      minifyCSS: true,
       removeComments: true,
       collapseWhitespace: true,
+      removeRedundantAttributes: true,
+      useShortDoctype: true,
+      removeEmptyAttributes: true,
+      removeStyleLinkTypeAttributes: true,
+      keepClosingSlash: true,
+      minifyJS: true,
+      minifyCSS: true,
+      minifyURLs: true,
     },
   }),
 

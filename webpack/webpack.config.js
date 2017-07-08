@@ -27,9 +27,9 @@ module.exports = ({ ENV }) => ({
       path.resolve(rootDir, 'src'),
       'node_modules',
     ],
-    alias: {
-      'leaflet-dist': path.join(rootDir, 'node_modules/leaflet/dist'),
-      'alertify-dist': path.join(rootDir, 'node_modules/alertifyjs/build'),
+    alias: ENV === 'dev' ? undefined : {
+      'react': path.join(rootDir, 'node_modules/react/dist/react.min.js'),
+      'react-dom': path.join(rootDir, 'node_modules/react-dom/dist/react-dom.min.js')
     },
   },
   devtool: ENV === 'dev' ? 'source-map' : undefined,
