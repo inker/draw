@@ -12,6 +12,8 @@ import Last16 from 'pages/cl/last16'
 
 import Links from './links'
 
+const path = location.host.includes('github') ? '/cl-draw' : ''
+
 interface Props {
 
 }
@@ -45,7 +47,7 @@ class Routes extends React.PureComponent<Props, State> {
               <Last16 {...props} />
             </Route>
             <Redirect from="/cl" to="/cl/gs"/>
-            <Route path="/">
+            <Route path={path}>
               <GS
                 {...props}
                 key={this.state.key}

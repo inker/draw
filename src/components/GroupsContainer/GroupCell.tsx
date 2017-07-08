@@ -5,6 +5,7 @@ import Cell from '../table/Cell'
 
 interface Props {
   possible: boolean,
+  picked: boolean,
 }
 
 const GroupCell = styled<Props>(Cell)`
