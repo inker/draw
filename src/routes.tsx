@@ -12,7 +12,7 @@ import Last16 from 'pages/cl/last16'
 
 import Links from './links'
 
-const path = location.host.includes('github') ? '/cl-draw' : ''
+const path = location.pathname
 
 interface Props {
 
