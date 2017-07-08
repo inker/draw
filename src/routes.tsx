@@ -12,8 +12,6 @@ import Last16 from 'pages/cl/last16'
 
 import Links from './links'
 
-const path = location.pathname
-
 interface Props {
 
 }
@@ -47,7 +45,7 @@ class Routes extends React.PureComponent<Props, State> {
               <Last16 {...props} />
             </Route>
             <Redirect from="/cl" to="/cl/gs"/>
-            <Route path={path}>
+            <Route path="/">
               <GS
                 {...props}
                 key={this.state.key}

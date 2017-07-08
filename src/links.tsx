@@ -2,6 +2,8 @@ import * as React from 'react'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
 
+const path = location.pathname
+
 const Root = styled.div`
   display: flex;
   justify-content: flex-end;
@@ -40,7 +42,7 @@ const chooseOther = () => {
 
 const Links = (props) => (
   <Root>
-    <StyledLink to="/" onClick={props.refresh} >Restart</StyledLink> |
+    <StyledLink to={path} onClick={props.refresh} >Restart</StyledLink> |
     {/*<Link to="/">Change mode</Link> |*/}
     <GithubButton />
   </Root>
