@@ -10,8 +10,15 @@ const Root = styled.div`
   align-items: center;
 `
 
-const TeamBall = styled(Ball)`
-  background: ${({ selected, notSelected }) => selected ? '#004' : notSelected ? '#ddd' : 'radial-gradient(#fff, #004)'};
+interface TeamBallProps {
+  selected: boolean,
+  notSelected: boolean,
+}
+
+const TeamBall = styled<TeamBallProps>(Ball)`
+  background: ${
+    ({ selected, notSelected }) => selected ? '#004' : notSelected ? '#ddd' : 'radial-gradient(#fff, #004)'
+  };
 `
 
 interface Props {

@@ -8,7 +8,11 @@ import Body from 'components/table/Body'
 import Header from './PotHeader'
 import Cell from './PotCell'
 
-const Root = styled(Table)`
+interface RootProps {
+  highlighted: boolean
+}
+
+const Root = styled<RootProps>(Table)`
   transform: box-shadow 1s linear;
   ${props => props.highlighted && `
   `}

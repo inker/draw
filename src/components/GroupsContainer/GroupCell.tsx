@@ -3,7 +3,11 @@ import styled from 'styled-components'
 
 import Cell from '../table/Cell'
 
-const GroupCell = styled(Cell)`
+interface Props {
+  possible: boolean,
+}
+
+const GroupCell = styled<Props>(Cell)`
   ${props => props.possible && `
     background-color: rgba(255, 255, 255, 0.75);
     animation: border-glow 1s ease;
@@ -26,6 +30,6 @@ const GroupCell = styled(Cell)`
       to {}
     }
   `}
-` as any
+`
 
 export default GroupCell
