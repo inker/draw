@@ -18,6 +18,7 @@
     "no-angle-bracket-type-assertion": true,
     "no-bitwise": false,
     "no-duplicate-variable": true,
+    "no-this-assignment": false,
     "no-unused-variable": true,
     "object-literal-key-quotes": [
       true,

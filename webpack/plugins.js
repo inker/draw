@@ -2,12 +2,12 @@ const {
   optimize: {
     CommonsChunkPlugin,
     OccurrenceOrderPlugin,
-    UglifyJsPlugin,
   },
   ProvidePlugin,
 } = require('webpack')
 
 const { TsConfigPathsPlugin } = require('awesome-typescript-loader')
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 
 // const { CheckerPlugin } = require('awesome-typescript-loader')

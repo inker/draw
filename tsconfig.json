@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "es5",
+    "target": "es2015",
     "module": "commonjs",
     "baseUrl": "./src",
     // "sourceMap": true, // not needed when assembled with webpack
