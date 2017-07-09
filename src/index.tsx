@@ -25,5 +25,5 @@ const Root = styled.div`
     </Root>,
     document.getElementById('app'),
   )
-  fastclick(document.body)
+  fastclick.attach(document.body)
 })()

@@ -3,6 +3,8 @@ import styled from 'styled-components'
 
 import { Team } from 'utils/team'
 
+import Roundel from './Roundel'
+
 const Root = styled.div`
   width: 100%;
   font-size: 1.25em;
@@ -25,6 +27,12 @@ const SelectedTeamWithColon = styled.span`
 
 const SelectedTeam = styled.span`
   font-weight: bold;
+`
+
+const PossibleGroups = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-top: 2px;
 `
 
 const Link = styled.div`
@@ -67,8 +75,13 @@ const Announcement = ({
           Possible groups for <SelectedTeamWithColon>
             <SelectedTeam>{selectedTeam.name}</SelectedTeam>:
           </SelectedTeamWithColon>
-          <br />
-          {possibleGroups.map(i => String.fromCharCode(65 + i)).join(', ')}
+          <PossibleGroups>
+            {possibleGroups.map(i => (
+              <Roundel color={i < 4 ? 'red' : 'blue'}>
+                {String.fromCharCode(65 + i)}
+              </Roundel>
+            ))}
+          </PossibleGroups>
         </div>
       ) :
       pickedGroup !== null ? `Group ${String.fromCharCode(65 + pickedGroup)}!` :
