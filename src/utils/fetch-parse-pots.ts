@@ -1,4 +1,5 @@
 import { GSTeam, Last16Team } from './team'
+import * as pairings from 'data/pairings.json'
 
 if (!('Promise' in window) || !('fetch' in window)) {
   alert('The draw simulation only works in Chrome, Opera & Firefox.')
@@ -16,16 +17,10 @@ export async function fetchPots(url: string) {
   }
 }
 
-export async function parseGS(body) {
-  try {
-    const response = await fetch('data/pairings.json')
-    const pairings = await response.json()
-    const parsedTeams = parseGSTeams(body)
-    const teams = pairUpTeams(parsedTeams, pairings)
-    return fillGSPots(teams)
-  } catch (err) {
-    console.error(err)
-  }
+export function parseGS(body) {
+  const parsedTeams = parseGSTeams(body)
+  const teams = pairUpTeams(parsedTeams)
+  return fillGSPots(teams)
 }
 
 export function parseLast16Teams(data: string): Last16Team[][] {
@@ -58,8 +53,8 @@ function findTeam(teams: GSTeam[], name: string) {
   return team
 }
 
-function pairUpTeams(teams: GSTeam[], pairStrArr: [string, string][]): GSTeam[] {
-  for (const [team1str, team2str] of pairStrArr) {
+function pairUpTeams(teams: GSTeam[]): GSTeam[] {
+  for (const [team1str, team2str] of pairings) {
     const team1 = findTeam(teams, team1str)
     const team2 = findTeam(teams, team2str)
     if (!team1 || !team2) {
