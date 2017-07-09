@@ -5,6 +5,7 @@
   "main": "index.html",
   "dependencies": {
     "fastclick": "^1.0.6",
+    "flag-icon-css": "^2.8.0",
     "lodash": "^4.17.4",
     "normalize.css": "^7.0.0",
     "react": "^15.6.1",
@@ -25,6 +26,7 @@
     "copy-webpack-plugin": "^4.0.1",
     "css-loader": "^0.28.4",
     "cssnano": "^3.10.0",
+    "file-loader": "^0.11.2",
     "html-webpack-plugin": "^2.29.0",
     "postcss-loader": "^2.0.6",
     "source-map-loader": "^0.2.1",

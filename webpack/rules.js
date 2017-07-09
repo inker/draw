@@ -25,7 +25,7 @@ module.exports = env => [
     ],
   },
   {
-    test: /\.(png|jpg|jpeg|gif)$/,
+    test: /\.(png|jpg|jpeg|gif|svg)$/,
     use: {
       loader: 'url-loader',
       options: {

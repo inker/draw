@@ -29,7 +29,7 @@ module.exports = ({ ENV }) => ({
     ],
     alias: ENV === 'dev' ? undefined : {
       'react': path.join(rootDir, 'node_modules/react/dist/react.min.js'),
-      'react-dom': path.join(rootDir, 'node_modules/react-dom/dist/react-dom.min.js')
+      'react-dom': path.join(rootDir, 'node_modules/react-dom/dist/react-dom.min.js'),
     },
   },
   devtool: ENV === 'dev' ? 'source-map' : undefined,
@@ -47,7 +47,7 @@ module.exports = ({ ENV }) => ({
           from: /./,
           to: '/404.html',
         }
-      ]
-    }
+      ],
+    },
   },
 })
