@@ -1,16 +1,20 @@
-const tsDev = 'awesome-typescript-loader'
+const createStyledComponentsTransformer = require('typescript-plugin-styled-components').default
 
-const tsProd = {
-  loader: tsDev,
-  options: {
-    ignoreDiagnostics: [2322, 2339, 2345, 2459, ],
-  },
+const styledComponentsTransformer = createStyledComponentsTransformer()
+
+const tsOptions = env => env === 'dev' ? {
+  getCustomTransformers: () => ({ before: [styledComponentsTransformer] }),
+} : {
+  ignoreDiagnostics: [2322, 2339, 2345, 2459],
 }
 
 module.exports = env => [
   {
     test: /\.tsx?$/,
-    use: env === 'dev' ? tsDev : tsProd,
+    use: {
+      loader: 'awesome-typescript-loader',
+      options: tsOptions(env),
+    },
   },
   { // global
     test: /\.css$/,

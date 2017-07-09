@@ -1,4 +1,5 @@
 import * as React from 'react'
+import { difference, range } from 'lodash'
 
 import { Team } from 'utils/team'
 import Table from 'components/table/Table'
@@ -23,34 +24,31 @@ const Group = ({
   potNum,
   possible,
   airborneTeams,
-}: Props) => (
-  <Table>
-    <Header>
-      Group {groupLetter}
-    </Header>
-    <Body>
-      {teams.concat(new Array(maxTeams - teams.length).fill(null)).map((team, i) => {
-        if (team === null || airborneTeams.includes(team)) {
-          return (
-            <Cell
-              possible={i === potNum && possible}
-              data-cellid={`${groupLetter}${i}`}
-            />
-          )
-        }
-        const { name, country, id } = team
-        return (
+}: Props) => {
+  const nonAirborneTeams = difference(teams, airborneTeams)
+  return (
+    <Table>
+      <Header>
+        Group {groupLetter}
+      </Header>
+      <Body>
+        {nonAirborneTeams.map((team, i) => (
           <Cell
-            country={country}
+            country={team.country}
             picked
-            data-teamid={id}
           >
-            {name}
+            {team.name}
           </Cell>
-        )
-      })}
-    </Body>
-  </Table>
-)
+        ))}
+        {range(nonAirborneTeams.length, maxTeams).map(i => (
+          <Cell
+            possible={i === potNum && possible}
+            data-cellid={`${groupLetter}${i}`}
+          />
+        ))}
+      </Body>
+    </Table>
+  )
+}
 
 export default Group
