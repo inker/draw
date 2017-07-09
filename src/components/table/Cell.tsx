@@ -4,6 +4,8 @@ import styled from 'styled-components'
 import countryNames from 'data/country-names'
 import proxify from 'utils/proxify'
 
+declare const require: (path: string) => any
+
 const getCountryCode2 = (code3: string) =>
   countryNames[code3.toLowerCase()]
 
