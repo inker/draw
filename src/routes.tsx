@@ -12,6 +12,8 @@ import Last16 from 'pages/cl/last16'
 
 import Links from './links'
 
+const base = location.host.includes('github') ? '/cl-draw' : ''
+
 interface Props {
 
 }
