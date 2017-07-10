@@ -64,6 +64,9 @@ module.exports = env => [
       unused: true,
       join_vars: true,
     },
+    mangle: {
+      safari10: true,
+    },
     output: {
       comments: false,
     },
