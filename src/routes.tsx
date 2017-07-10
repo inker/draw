@@ -36,7 +36,7 @@ class Routes extends React.PureComponent<Props, State> {
   render() {
     const { props } = this
     return (
-      <Router>
+      <Router basename={base}>
         <div>
           <Links refresh={this.refresh} />
           <Switch>
