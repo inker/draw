@@ -24,12 +24,12 @@ const StyledAnchor = styled.a`
 const GithubButton = () => (
   <StyledAnchor
     className="github-button"
-    href="https://github.com/inker/cl-draw"
+    href="https://github.com/inker/draw"
     data-icon="octicon-star"
-    data-count-href="/inker/cl-draw/stargazers"
-    data-count-api="/repos/inker/cl-draw#stargazers_count"
+    data-count-href="/inker/draw/stargazers"
+    data-count-api="/repos/inker/draw#stargazers_count"
     data-count-aria-label="# stargazers on GitHub"
-    aria-label="Star inker/cl-draw on GitHub"
+    aria-label="Star inker/draw on GitHub"
   >
     Star me on GitHub
   </StyledAnchor>

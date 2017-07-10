@@ -1,5 +1,5 @@
 {
-  "name": "cl-draw",
+  "name": "draw",
   "version": "1.0.0",
   "description": "A Champions League draw simulator.",
   "main": "index.html",
@@ -48,7 +48,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/inker/CL-Draw-Simulator.git"
+    "url": "git+https://github.com/inker/draw.git"
   },
   "keywords": [
     "cl",
@@ -60,7 +60,7 @@
   "author": "Anton",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/inker/CL-Draw-Simulator/issues"
+    "url": "https://github.com/inker/draw/issues"
   },
-  "homepage": "https://github.com/inker/CL-Draw-Simulator#readme"
+  "homepage": "https://github.com/inker/draw#readme"
 }
