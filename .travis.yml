@@ -14,9 +14,12 @@ before_deploy:
 #     branch: master
 
 deploy:
-  provider: surge
+- provider: surge
   project: ./docs/
-  domain: draw.surge.sh
+  domain: draws.surge.sh
+  skip_cleanup: true
+  on:
+    branch: master
 
-after_success:
-  - surge --project ./docs --domain draw.surge.sh
+# after_success:
+#   - surge --project ./docs --domain draw.surge.sh
