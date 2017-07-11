@@ -13,8 +13,8 @@ node_js:
 #   on:
 #     branch: master
 
-after_success:
-  - surge --project ./path/to/your-project --domain your-project.surge.sh
+# after_success:
+#   - surge --project ./path/to/your-project --domain your-project.surge.sh
 
 deploy:
   provider: surge
