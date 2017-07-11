@@ -2,8 +2,8 @@ language: node_js
 node_js:
 - stable
 
-# before_deploy:
-# - npm run build:prod
+before_deploy:
+- npm run build:prod
 
 # deploy:
 # - provider: pages
