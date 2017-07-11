@@ -2,13 +2,21 @@ language: node_js
 node_js:
 - stable
 
-before_deploy:
-- npm run build:prod
+# before_deploy:
+# - npm run build:prod
+
+# deploy:
+# - provider: pages
+#   local_dir: docs
+#   skip_cleanup: true
+#   github_token: $GITHUB_TOKEN
+#   on:
+#     branch: master
+
+after_success:
+  - surge --project ./path/to/your-project --domain your-project.surge.sh
 
 deploy:
-- provider: pages
-  local_dir: docs
-  skip_cleanup: true
-  github_token: $GITHUB_TOKEN
-  on:
-    branch: master
+  provider: surge
+  project: docs
+  domain: draw.surge.sh
