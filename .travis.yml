@@ -5,21 +5,16 @@ node_js:
 before_deploy:
 - npm run build:prod
 
-# deploy:
-# - provider: pages
-#   local_dir: docs
-#   skip_cleanup: true
-#   github_token: $GITHUB_TOKEN
-#   on:
-#     branch: master
-
 deploy:
+- provider: pages
+  local_dir: docs
+  skip_cleanup: true
+  github_token: $GITHUB_TOKEN
+  on:
+    branch: master
 - provider: surge
   project: ./docs/
   domain: draws.surge.sh
   skip_cleanup: true
   on:
     branch: master
-
-# after_success:
-#   - surge --project ./docs --domain draw.surge.sh
