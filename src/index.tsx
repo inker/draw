@@ -13,12 +13,13 @@ const Root = styled.div`
   font-family: Arial, sans-serif;
 `
 
+const fetched = fetchPots('http://kassiesa.home.xs4all.nl/bert/uefa/seedcl2017.html')
+const parse = parseGS
+
 ;
 (async () => {
-  const fetched = fetchPots('http://kassiesa.home.xs4all.nl/bert/uefa/seedcl2017.html')
-  const parse = parseGS
   const text = await fetched
-  const pots = await parse(text)
+  const pots = parse(text)
   ReactDom.render(
     <Root>
       <Routes pots={pots}/>
