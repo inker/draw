@@ -1,20 +1,34 @@
 import { GSTeam, Last16Team } from './team'
 import * as pairings from 'data/pairings.json'
 
-if (!('Promise' in window) || !('fetch' in window)) {
-  alert('The draw simulation only works in Chrome, Opera & Firefox.')
+const getUrl = (year: number) => `http://kassiesa.home.xs4all.nl/bert/uefa/seedcl${year}.html`
+
+export async function tryFetchPots(year: number, numAttempts: number) {
+  for (let i = 0; i < numAttempts; ++i) {
+    try {
+      const fetched = await fetchPots(getUrl(year - i))
+      return fetched
+    } catch (err) {
+      console.error(err)
+    }
+  }
+  throw new Error('could not fetch pots')
 }
 
 export default (url: string, groupStage = true) =>
   fetchPots(url).then(groupStage ? parseGS : parseLast16Teams)
 
 export async function fetchPots(url: string) {
-  try {
-    const response = await fetch(`https://proxy-antonv.rhcloud.com/?url=${encodeURIComponent(url)}&encoding=latin1`)
-    return response.text()
-  } catch (err) {
-    alert('Proxies are down. Refreshing the page may help.')
+  const response = await fetch(`https://proxy-antonv.rhcloud.com/?url=${encodeURIComponent(url)}&encoding=latin1`)
+  if (response.status !== 200) {
+    throw new Error(`${url}: 404`)
   }
+  const text = await response.text()
+  if (text.includes('<title>404 Not Found</title>')) {
+    // stupid Bert... or me...
+    throw new Error(`${url}: 404`)
+  }
+  return text
 }
 
 export function parseGS(body) {

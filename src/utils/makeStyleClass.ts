@@ -6,7 +6,7 @@ interface StyleObj {
 
 type Style = StyleObj | string
 
-const randomId = () => Math.random().toString(36).slice(2)
+const randomId = () => `styled-element-${Math.random().toString(36).slice(2)}`
 
 const getClassContent = (style: Style) => Object
   .keys(style)
