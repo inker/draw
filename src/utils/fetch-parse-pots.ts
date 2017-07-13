@@ -3,6 +3,8 @@ import * as pairings from 'data/pairings.json'
 
 const getUrl = (year: number) => `http://kassiesa.home.xs4all.nl/bert/uefa/seedcl${year}.html`
 
+// 'https://kassiesa.home.xs4all.nl/bert/uefa/history/seedcl2012.html'
+
 export async function tryFetchPots(year: number, numAttempts: number) {
   for (let i = 0; i < numAttempts; ++i) {
     try {
@@ -49,12 +51,12 @@ export function parseLast16Teams(data: string): Last16Team[][] {
 }
 
 function parseGSTeams(data: string): GSTeam[] {
-  const re = /\s*(.+?)\s*(\*+\d?|\([CE]L-TH\))?\s+(\w{3})\s+(\d{1,3}\.\d{3})/g
+  const re = /\s*(.+?)\s*(\*+\d?|\(([CE]L-)?TH\))?\s+(\w{3})\s+(\d{1,3}\.\d{3})/g
   data = data.slice(data.indexOf('Pot 1'))
   const teams: GSTeam[] = []
   let matches: RegExpExecArray | null
   while ((matches = re.exec(data)) !== null) {
-    teams.push(new GSTeam(matches[1], matches[3], +matches[4]))
+    teams.push(new GSTeam(matches[1], matches[4], +matches[5]))
   }
   return teams
 }
