@@ -9,12 +9,19 @@ const tsOptions = env => env === 'dev' ? {
 }
 
 module.exports = env => [
+  env !== 'dev' && {
+    test: /\.tsx?$/,
+    loader: 'lodash-ts-imports-loader',
+    exclude: /node_modules/,
+    enforce: 'pre',
+  },
   {
     test: /\.tsx?$/,
     use: {
       loader: 'awesome-typescript-loader',
       options: tsOptions(env),
     },
+    exclude: /node_modules/,
   },
   { // global
     test: /\.css$/,
@@ -33,4 +40,4 @@ module.exports = env => [
       },
     },
   },
-]
+].filter(item => item)
