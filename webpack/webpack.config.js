@@ -39,14 +39,13 @@ module.exports = ({ ENV }) => ({
   plugins: plugins(ENV),
   devServer: ENV !== 'dev' ? undefined : {
     contentBase: distDir,
-    compress: true,
     port: 9080,
     historyApiFallback: {
       rewrites: [
         {
           from: /./,
           to: '/404.html',
-        }
+        },
       ],
     },
   },
