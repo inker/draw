@@ -73,5 +73,5 @@ module.exports = env => [
     // sourceMap: true, // retains sourcemaps for typescript
   }),
 
-  env === 'test' && new BundleAnalyzerPlugin(),
+  env === 'analyze' && new BundleAnalyzerPlugin(),
 ].filter(item => item)
