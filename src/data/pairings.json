@@ -1,12 +1,21 @@
 [
     ["Real Madrid", "Barcelona"],
-    ["Bayern", "Dortmund"],
-    ["Chelsea", "Tottenham"],
-    ["Juventus", "Napoli"],
-    ["Benfica", "Porto"],
-    ["Monaco", "Paris"],
-    ["Shakhtar", "Dinamo Kiev"],
-    ["Atlético", "Sevilla"],
+    ["Real Madrid", "Atlético"],
+
     ["Manchester City", "Manchester United"],
-    ["Ajax", "Feyenoord"]
+    ["Chelsea", "Arsenal"],
+    ["Chelsea", "Tottenham"],
+    ["Arsenal", "Tottenham"],
+
+    ["Juventus", "Napoli"],
+    ["Juventus", "Roma"],
+
+    ["Benfica", "Porto"],
+    ["Benfica", "Sporting"],
+
+    ["CSKA", "Spartak"],
+    ["CSKA", "Zenit"],
+    ["Zenit", "Spartak"],
+
+    ["Shakhtar", "Dinamo Kiev"]
 ]

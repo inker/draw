@@ -1,4 +1,5 @@
 import { GSTeam, Last16Team } from './team'
+import deleteFromArray from './deleteFromArray'
 import * as pairings from 'data/pairings.json'
 
 const getUrl = (year: number) => `http://kassiesa.home.xs4all.nl/bert/uefa/seedcl${year}.html`
@@ -70,9 +71,10 @@ function findTeam(teams: GSTeam[], name: string) {
 }
 
 function pairUpTeams(teams: GSTeam[]): GSTeam[] {
+  const teamsCopy = teams.slice()
   for (const [team1str, team2str] of pairings) {
-    const team1 = findTeam(teams, team1str)
-    const team2 = findTeam(teams, team2str)
+    const team1 = findTeam(teamsCopy, team1str)
+    const team2 = findTeam(teamsCopy, team2str)
     if (!team1 || !team2) {
       continue
     }
@@ -81,6 +83,26 @@ function pairUpTeams(teams: GSTeam[]): GSTeam[] {
     }
     team1.pairing = team2
     team2.pairing = team1
+    deleteFromArray(teamsCopy, team1)
+    deleteFromArray(teamsCopy, team2)
+  }
+  teamsCopy.sort((a, b) => b.coefficient - a.coefficient)
+  const len = teamsCopy.length
+  const lenm1 = len - 1
+  for (let i = 0; i < lenm1; ++i) {
+    const team = teamsCopy[i]
+    if (team.pairing) {
+      continue
+    }
+    for (let j = i + 1; j < len; ++j) {
+      const other = teamsCopy[j]
+      if (other.pairing || team.country !== other.country) {
+        continue
+      }
+      team.pairing = other
+      other.pairing = team
+      break
+    }
   }
   return teams
 }
