@@ -26,10 +26,12 @@ function adjustPositioning(cell: HTMLElement, { left, top }: ClientRect) {
 }
 
 function makeFakeCell(sourceCell: HTMLElement) {
-  const { fontFamily } = getComputedStyle(sourceCell)
+  const { width, fontFamily } = getComputedStyle(sourceCell)
   const fakeCell = sourceCell.cloneNode(true) as typeof sourceCell
   fakeCell.classList.add(fakeCellClass)
-  fakeCell.style.fontFamily = fontFamily
+  const { style } = fakeCell
+  style.width = width
+  style.fontFamily = fontFamily
   fakeCell.textContent = sourceCell.textContent
   const rect = sourceCell.getBoundingClientRect()
   adjustPositioning(fakeCell, rect)
