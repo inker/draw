@@ -1,4 +1,3 @@
-import * as React from 'react'
 import styled from 'styled-components'
 
 const Ball = styled.div`

@@ -2,6 +2,8 @@ import * as React from 'react'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
 
+import SelectYear from './SelectYear'
+
 const path = location.pathname
 
 const Root = styled.div`
@@ -42,7 +44,16 @@ const chooseOther = () => {
 
 const Links = (props) => (
   <Root>
-    <StyledLink to={path} onClick={props.refresh} >Restart</StyledLink> |
+    <SelectYear
+      start={2003}
+      onChange={e => props.onSeasonChange(+e.target.value)}
+    />
+    <StyledLink
+      to={path}
+      onClick={props.refresh}
+    >
+      Restart
+    </StyledLink> |
     {/*<Link to="/">Change mode</Link> |*/}
     <GithubButton />
   </Root>

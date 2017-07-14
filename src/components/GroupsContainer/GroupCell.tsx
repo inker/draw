@@ -1,4 +1,3 @@
-import * as React from 'react'
 import styled, { keyframes } from 'styled-components'
 
 import Cell from '../table/Cell'

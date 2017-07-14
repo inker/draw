@@ -1,36 +1,48 @@
 import { GSTeam, Last16Team } from './team'
+import currentSeason from 'utils/currentSeason'
 import deleteFromArray from './deleteFromArray'
 import * as pairings from 'data/pairings.json'
 
-const getUrl = (year: number) => `http://kassiesa.home.xs4all.nl/bert/uefa/seedcl${year}.html`
+const getUrl = (year: number) =>
+  `http://kassiesa.home.xs4all.nl/bert/uefa/seedcl${year}.html`
+const getHistoryUrl = (year: number) =>
+  `https://kassiesa.home.xs4all.nl/bert/uefa/history/seedcl${year}.html`
 
-// 'https://kassiesa.home.xs4all.nl/bert/uefa/history/seedcl2012.html'
-
-export async function tryFetchPots(year: number, numAttempts: number) {
-  for (let i = 0; i < numAttempts; ++i) {
-    try {
-      const fetched = await fetchPots(getUrl(year - i))
-      return fetched
-    } catch (err) {
-      console.error(err)
-    }
-  }
-  throw new Error('could not fetch pots')
-}
-
-export default (url: string, groupStage = true) =>
-  fetchPots(url).then(groupStage ? parseGS : parseLast16Teams)
-
-export async function fetchPots(url: string) {
+export async function tryFetch(url: string) {
   const response = await fetch(`https://proxy-antonv.rhcloud.com/?url=${encodeURIComponent(url)}&encoding=latin1`)
   if (response.status !== 200) {
     throw new Error(`${url}: 404`)
   }
   const text = await response.text()
   if (text.includes('<title>404 Not Found</title>')) {
-    // stupid Bert... or me...
+    // stupid me
     throw new Error(`${url}: 404`)
   }
+  return text
+}
+
+export async function tryMultipleUrls(urls: string[]) {
+  for (const url of urls) {
+    try {
+      const text = await tryFetch(url)
+      return text
+    } catch (err) {
+      console.error(err)
+    }
+  }
+  throw new Error(`could not load urls ${urls.join(', ')}`)
+}
+
+export default (url: string, groupStage = true) =>
+  fetchPots(url).then(groupStage ? parseGS : parseLast16Teams)
+
+export async function fetchPots(season: number) {
+  const url = getUrl(season)
+  const urls = [getUrl(season), getHistoryUrl(season)]
+  if (season !== currentSeason) {
+    urls.reverse()
+  }
+  const text = await tryMultipleUrls(urls)
   return text
 }
 

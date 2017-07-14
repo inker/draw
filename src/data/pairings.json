@@ -7,8 +7,7 @@
     ["Chelsea", "Tottenham"],
     ["Arsenal", "Tottenham"],
 
-    ["Juventus", "Napoli"],
-    ["Juventus", "Roma"],
+    ["Milan", "Inter"],
 
     ["Benfica", "Porto"],
     ["Benfica", "Sporting"],
@@ -17,5 +16,7 @@
     ["CSKA", "Zenit"],
     ["Zenit", "Spartak"],
 
-    ["Shakhtar", "Dinamo Kiev"]
+    ["Shakhtar", "Dinamo Kiev"],
+
+    ["Olympiakos", "Panathinaikos"]
 ]
