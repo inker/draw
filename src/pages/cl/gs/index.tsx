@@ -197,6 +197,7 @@ export default class GS extends React.PureComponent<Props, State> {
             selectedTeam={selectedTeam}
             pickedGroup={pickedGroup}
             possibleGroups={possibleGroups}
+            numGroups={groups.length}
             reset={this.reset}
           />
           <GroupBowl

@@ -3,12 +3,15 @@ import { range } from 'lodash'
 
 import currentSeason from 'utils/currentSeason'
 
+const seasonAsString = (i: number) =>
+  `${i}/${((i + 1) % 100).toString().padStart(2, '0')}`
+
 interface Props {
   start: number,
   onChange: (e: React.ChangeEvent<HTMLSelectElement>) => void,
 }
 
-class SelectYear extends React.PureComponent<Props> {
+class SelectSeason extends React.PureComponent<Props> {
   render() {
     const { start, onChange } = this.props
     return (
@@ -17,10 +20,8 @@ class SelectYear extends React.PureComponent<Props> {
         defaultValue={currentSeason}
       >
         {range(start, currentSeason + 1).map(i => (
-          <option
-            value={i}
-          >
-            {i}/{((i + 1) % 100).toString().padStart(2, '0')}
+          <option value={i}>
+            {seasonAsString(i)}
           </option>
         ))}
       </select>
@@ -28,4 +29,4 @@ class SelectYear extends React.PureComponent<Props> {
   }
 }
 
-export default SelectYear
+export default SelectSeason

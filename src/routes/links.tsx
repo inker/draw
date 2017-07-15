@@ -2,7 +2,7 @@ import * as React from 'react'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
 
-import SelectYear from './SelectYear'
+import SelectSeason from './SelectSeason'
 
 const path = location.pathname
 
@@ -44,7 +44,7 @@ const chooseOther = () => {
 
 const Links = (props) => (
   <Root>
-    <SelectYear
+    <SelectSeason
       start={2003}
       onChange={e => props.onSeasonChange(+e.target.value)}
     />

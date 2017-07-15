@@ -1,5 +1,6 @@
 import * as React from 'react'
 import styled from 'styled-components'
+import { range } from 'lodash'
 
 import { Team } from 'utils/team'
 
@@ -52,6 +53,7 @@ interface Props {
   selectedTeam: Team | null,
   pickedGroup: number | null,
   possibleGroups: number[] | null,
+  numGroups: number,
   reset: any,
 }
 
@@ -60,6 +62,7 @@ const Announcement = ({
   selectedTeam,
   pickedGroup,
   possibleGroups,
+  numGroups,
   reset,
 }: Props) => (
   <Root>
@@ -76,8 +79,11 @@ const Announcement = ({
             <SelectedTeam>{selectedTeam.name}</SelectedTeam>:
           </SelectedTeamWithColon>
           <PossibleGroups>
-            {possibleGroups.map(i => (
-              <Roundel color={i < 4 ? 'red' : 'blue'}>
+            {range(0, numGroups).map(i => (
+              <Roundel
+                color={i < 4 ? 'red' : 'blue'}
+                possible={possibleGroups.includes(i)}
+              >
                 {String.fromCharCode(65 + i)}
               </Roundel>
             ))}

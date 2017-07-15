@@ -13,6 +13,9 @@ const Roundel = styled.div`
   border-radius: 100%;
   font-size: 18px;
   color: ${props => props.color};
+  ${props => !props.possible && `
+    filter: grayscale(1) opacity(0.25);
+  `}
 
   @media (max-width: 999px) {
     width: 45px;
