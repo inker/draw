@@ -13,6 +13,8 @@ const CopyWebpackPlugin = require('copy-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer')
 
+const IS_REACT = /node_modules.+?(react|styled)/
+
 module.exports = env => [
   // new TsConfigPathsPlugin({
   //   baseUrl: require('path').resolve(process.cwd(), ''),
@@ -24,7 +26,13 @@ module.exports = env => [
   new CommonsChunkPlugin({
     name: 'vendor',
     filename: 'vendor.js',
-    minChunks: module => module.resource && module.resource.includes('node_modules'),
+    minChunks: ({ resource }) => resource && resource.includes('node_modules'),
+  }),
+
+  env !== 'dev' && new CommonsChunkPlugin({
+    name: 'react',
+    filename: 'react.js',
+    minChunks: ({ resource }) => resource && IS_REACT.test(resource),
   }),
 
   new HtmlWebpackPlugin({
