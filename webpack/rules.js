@@ -1,9 +1,9 @@
-const createStyledComponentsTransformer = require('typescript-plugin-styled-components').default
+// const createStyledComponentsTransformer = require('typescript-plugin-styled-components').default
 
-const styledComponentsTransformer = createStyledComponentsTransformer()
+// const styledComponentsTransformer = createStyledComponentsTransformer()
 
 const tsOptions = env => env === 'dev' ? {
-  getCustomTransformers: () => ({ before: [styledComponentsTransformer] }),
+  // getCustomTransformers: () => ({ before: [styledComponentsTransformer] }),
 } : {
   ignoreDiagnostics: [2307, 2322, 2339, 2345, 2459],
 }
