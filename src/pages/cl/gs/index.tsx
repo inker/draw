@@ -103,7 +103,6 @@ export default class GS extends React.PureComponent<Props, State> {
       selectedTeam,
       pots,
       currentPotNum,
-      completed,
     } = this.state
 
     if (!selectedTeam) {

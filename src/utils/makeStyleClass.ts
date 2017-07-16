@@ -1,17 +1,6 @@
-import { kebabCase, isNil } from 'lodash'
-
-interface StyleObj {
-  [key: string]: string | number,
-}
-
-type Style = StyleObj | string
+import { isNil } from 'lodash'
 
 const randomId = () => `styled-element-${Math.random().toString(36).slice(2)}`
-
-const getClassContent = (style: Style) => Object
-  .keys(style)
-  .map(key => `${key}: ${kebabCase(style[key].toString())}`)
-  .join(',')
 
 let styleElement: HTMLStyleElement
 

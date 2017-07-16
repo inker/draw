@@ -38,10 +38,9 @@ export async function tryMultipleUrls(urls: string[]) {
 }
 
 export default (url: string, groupStage = true) =>
-  fetchPots(url).then(groupStage ? parseGS : parseLast16Teams)
+  fetchPots(currentSeason).then(groupStage ? parseGS : parseLast16Teams)
 
 export async function fetchPots(season: number) {
-  const url = getUrl(season)
   const urls = [getUrl(season), getHistoryUrl(season)]
   if (season !== currentSeason) {
     urls.reverse()

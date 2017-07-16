@@ -12,17 +12,15 @@ import Last16 from 'pages/cl/last16'
 
 import Wait from 'components/Wait'
 
-import { fetchPots, parseGS, parseLast16Teams } from 'utils/fetch-parse-pots'
+import { fetchPots, parseGS } from 'utils/fetch-parse-pots'
 import currentSeason from 'utils/currentSeason'
 import { GSTeam } from 'utils/team'
 
 import Links from './links'
 
-const base = location.host.includes('github') ? '/draw' : ''
+// const base = location.host.includes('github') ? '/draw' : ''
 
-interface Props {
-
-}
+interface Props {}
 
 interface State {
   key: string,
@@ -70,7 +68,6 @@ class Routes extends React.PureComponent<Props, State> {
   render() {
     const {
       key,
-      season,
       pots,
       waiting,
     } = this.state

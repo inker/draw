@@ -1,8 +1,5 @@
 import styled from 'styled-components'
-
 import countryNames from 'data/country-names'
-import proxify from 'utils/proxify'
-
 import Cell from './Cell'
 
 declare const require: (path: string) => any

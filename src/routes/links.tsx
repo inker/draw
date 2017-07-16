@@ -37,11 +37,6 @@ const GithubButton = () => (
   </StyledAnchor>
 )
 
-const chooseOther = () => {
-  const { pathname } = location
-  return pathname === '/cl/last16' ? '/cl/gs' : pathname === '/cl/gs' ? '/cl/last16' : '/'
-}
-
 const Links = (props) => (
   <Root>
     <SelectSeason
