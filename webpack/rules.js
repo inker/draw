@@ -28,7 +28,6 @@ module.exports = env => [
     use: [
       'style-loader',
       'css-loader',
-      'postcss-loader',
     ],
   },
   {

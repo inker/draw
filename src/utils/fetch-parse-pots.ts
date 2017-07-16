@@ -5,11 +5,15 @@ import * as pairings from 'data/pairings.json'
 
 const getUrl = (year: number) =>
   `http://kassiesa.home.xs4all.nl/bert/uefa/seedcl${year}.html`
+
 const getHistoryUrl = (year: number) =>
   `https://kassiesa.home.xs4all.nl/bert/uefa/history/seedcl${year}.html`
 
+const proxify = (url: string, encoding: string) =>
+  `https://proxy-antonv.rhcloud.com/?url=${encodeURIComponent(url)}${encoding ? `&encoding=${encoding}` : ''}`
+
 export async function tryFetch(url: string) {
-  const response = await fetch(`https://proxy-antonv.rhcloud.com/?url=${encodeURIComponent(url)}&encoding=latin1`)
+  const response = await fetch(proxify(url, 'latin1'))
   if (response.status !== 200) {
     throw new Error(`${url}: 404`)
   }
