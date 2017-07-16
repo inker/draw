@@ -5,7 +5,7 @@ const BaseCell = styled.div`
   align-items: center;
 
   height: 20px;
-  font-size: 0.8em;
+  font-size: 13px;
   border: #aaa solid 1px;
   text-align: center;
   margin: -1px -1px -1px -1px;
@@ -15,7 +15,7 @@ const BaseCell = styled.div`
   @media (max-width: 999px) {
     font-family: Roboto, sans-serif;
     height: 40px;
-    font-size: 1.5em;
+    font-size: 24px;
   }
 `
 
