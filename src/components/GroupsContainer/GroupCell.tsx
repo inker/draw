@@ -1,6 +1,6 @@
 import styled, { keyframes } from 'styled-components'
 
-import Cell from '../table/Cell'
+import CellWithFlag from '../table/CellWithFlag'
 
 interface Props {
   possible: boolean,
@@ -22,7 +22,7 @@ const Appear = keyframes`
   to {}
 `
 
-const GroupCell = styled<Props>(Cell)`
+const GroupCell = styled<Props>(CellWithFlag)`
   ${props => props.possible && `
     background-color: rgba(255, 255, 255, 0.75);
     animation: ${BorderGlow} 1s ease;
