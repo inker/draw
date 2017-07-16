@@ -46,10 +46,10 @@ module.exports = env => [
   }),
 
   new CopyWebpackPlugin([
-    {
-      from: 'data',
-      to: 'data',
-    },
+    // {
+    //   from: 'data',
+    //   to: 'data',
+    // },
     // {
     //   from: '404.html',
     // }

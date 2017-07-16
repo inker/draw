@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { uniqueId } from 'lodash'
+import { uniqueId, memoize } from 'lodash'
 import {
   BrowserRouter as Router,
   Route,
@@ -26,8 +26,8 @@ interface Props {
 
 interface State {
   key: string,
-  potsBySeason: { [season: number]: GSTeam[][] },
   season: number,
+  pots: GSTeam[][] | null,
   waiting: boolean,
 }
 
@@ -38,8 +38,8 @@ class Routes extends React.PureComponent<Props, State> {
 
   state = {
     key: uniqueId(),
-    potsBySeason: {},
     season: currentSeason,
+    pots: null,
     waiting: false,
   }
 
@@ -49,18 +49,19 @@ class Routes extends React.PureComponent<Props, State> {
     })
   }
 
+  getPots = memoize(async (season: number) => {
+    const data = await fetchPots(season)
+    return parseGS(data)
+  })
+
   onSeasonChange = async (season: number) => {
     this.setState({
       waiting: true,
     })
-    const { potsBySeason } = this.state
-    const pots = potsBySeason[season] || parseGS(await fetchPots(season))
+    const pots = await this.getPots(season)
     this.setState({
-      potsBySeason: {
-        ...this.state.potsBySeason,
-        [season]: pots,
-      },
       season,
+      pots,
       waiting: false,
       key: uniqueId(),
     })
@@ -70,10 +71,9 @@ class Routes extends React.PureComponent<Props, State> {
     const {
       key,
       season,
-      potsBySeason,
+      pots,
       waiting,
     } = this.state
-    const pots = potsBySeason[season]
     if (!pots) {
       return <Wait />
     }
