@@ -19,7 +19,7 @@ const Abs = styled.div`
 const Background = styled(Abs)`
   background-color: white;
   opacity: 0.75;
-  animation: ${BackgroundAnimation} 0.25s ease-out;
+  animation: ${BackgroundAnimation} 0.1s ease-out;
 `
 
 const Root = styled(Abs)`

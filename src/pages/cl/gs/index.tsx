@@ -144,7 +144,7 @@ export default class GS extends React.PureComponent<Props, State> {
     const toCellSelector = `[data-cellid='${String.fromCharCode(65 + pickedGroup)}${currentPotNum}']`
     const toCell = document.querySelector(toCellSelector)
     if (fromCell instanceof HTMLElement && toCell instanceof HTMLElement) {
-      return animateContentTransfer(fromCell, toCell, 300)
+      return animateContentTransfer(fromCell, toCell, 350)
     }
   }
 
