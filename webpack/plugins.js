@@ -26,8 +26,8 @@ module.exports = env => [
 
   new DefinePlugin({
     'process.env': {
-      'NODE_ENV': JSON.stringify(env === 'dev' ? 'development' : 'production')
-    }
+      NODE_ENV: JSON.stringify(env === 'dev' ? 'development' : 'production'),
+    },
   }),
 
   new CommonsChunkPlugin({
