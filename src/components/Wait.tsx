@@ -22,20 +22,21 @@ const Background = styled(Abs)`
   animation: ${BackgroundAnimation} 0.1s ease-out;
 `
 
-const Root = styled(Abs)`
+const Text = styled(Abs)`
   display: flex;
   justify-content: center;
   align-items: center;
   font-size: 5vw;
   color: #808080;
+  user-select: none;
 `
 
 const Wait = () => (
   <div>
     <Background />
-    <Root>
+    <Text>
       wait...
-    </Root>
+    </Text>
   </div>
 )
 

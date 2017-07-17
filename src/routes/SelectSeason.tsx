@@ -19,7 +19,7 @@ class SelectSeason extends React.PureComponent<Props> {
         onChange={onChange}
         defaultValue={currentSeason}
       >
-        {range(start, currentSeason + 1).map(i => (
+        {range(currentSeason, start - 1).map(i => (
           <option value={i}>
             {seasonAsString(i)}
           </option>

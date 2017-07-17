@@ -36,11 +36,11 @@ module.exports = env => [
     minChunks: ({ resource }) => resource && resource.includes('node_modules'),
   }),
 
-  env !== 'dev' && new CommonsChunkPlugin({
-    name: 'react',
-    filename: 'react.js',
-    minChunks: ({ resource }) => resource && IS_REACT.test(resource),
-  }),
+  // env !== 'dev' && new CommonsChunkPlugin({
+  //   name: 'react',
+  //   filename: 'react.js',
+  //   minChunks: ({ resource }) => resource && IS_REACT.test(resource),
+  // }),
 
   new HtmlWebpackPlugin({
     filename: 'index.html',
