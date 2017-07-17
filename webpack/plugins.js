@@ -1,4 +1,5 @@
 const {
+  DefinePlugin,
   optimize: {
     CommonsChunkPlugin,
     OccurrenceOrderPlugin,
@@ -22,6 +23,12 @@ module.exports = env => [
   // new CheckerPlugin(),
 
   // new OccurrenceOrderPlugin(),
+
+  new DefinePlugin({
+    'process.env': {
+      'NODE_ENV': JSON.stringify(env === 'dev' ? 'development' : 'production')
+    }
+  }),
 
   new CommonsChunkPlugin({
     name: 'vendor',
