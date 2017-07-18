@@ -47,8 +47,11 @@ export default (sourceCell: HTMLElement, targetCell: HTMLElement, duration: numb
   adjustPositioning(fakeCell, targetCellBox)
   return new Promise<void>(resolve => {
     fakeCell.addEventListener('transitionend', e => {
-      airborneDiv.removeChild(fakeCell)
       resolve()
+      setTimeout(() => {
+        // specially for firefox
+        airborneDiv.removeChild(fakeCell)
+      }, 0)
     })
   })
 }

@@ -127,9 +127,10 @@ export default class GS extends React.PureComponent<Props, State> {
       completed: newCurrentPotNum >= pots.length,
       airborneTeams,
     }, async () => {
+      const newAirborneTeams = this.state.airborneTeams.filter(team => team !== selectedTeam)
       await animation
       this.setState({
-        airborneTeams: this.state.airborneTeams.filter(team => team !== selectedTeam),
+        airborneTeams: newAirborneTeams,
       })
     })
   }
