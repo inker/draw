@@ -15,19 +15,18 @@ class SelectSeason extends React.PureComponent<Props> {
   render() {
     const { start, onChange } = this.props
     return (
-      <select
-        onChange={onChange}
-        defaultValue={currentSeason}
-        style={{
-          display: 'block',
-        }}
-      >
-        {range(currentSeason, start - 1).map(i => (
-          <option value={i}>
-            {seasonAsString(i)}
-          </option>
-        ))}
-      </select>
+      <form>
+        <select
+          onChange={onChange}
+          defaultValue={currentSeason}
+        >
+          {range(currentSeason, start - 1).map(i => (
+            <option value={i}>
+              {seasonAsString(i)}
+            </option>
+          ))}
+        </select>
+      </form>
     )
   }
 }
