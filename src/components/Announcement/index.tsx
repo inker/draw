@@ -1,10 +1,9 @@
 import * as React from 'react'
 import styled from 'styled-components'
-import { range } from 'lodash'
 
 import { Team } from 'utils/team'
 
-import Roundel from './Roundel'
+import PossibleGroups from './PossibleGroups'
 
 const Root = styled.div`
   width: 100%;
@@ -28,12 +27,6 @@ const SelectedTeamWithColon = styled.span`
 
 const SelectedTeam = styled.span`
   font-weight: bold;
-`
-
-const PossibleGroups = styled.div`
-  display: flex;
-  justify-content: center;
-  margin-top: 2px;
 `
 
 const Link = styled.div`
@@ -78,16 +71,10 @@ const Announcement = ({
           Possible groups for <SelectedTeamWithColon>
             <SelectedTeam>{selectedTeam.name}</SelectedTeam>:
           </SelectedTeamWithColon>
-          <PossibleGroups>
-            {range(0, numGroups).map(i => (
-              <Roundel
-                color={i < 4 ? 'red' : 'blue'}
-                possible={possibleGroups.includes(i)}
-              >
-                {String.fromCharCode(65 + i)}
-              </Roundel>
-            ))}
-          </PossibleGroups>
+          <PossibleGroups
+            numGroups={numGroups}
+            possibleGroups={possibleGroups}
+          />
         </div>
       ) :
       pickedGroup !== null ? `Group ${String.fromCharCode(65 + pickedGroup)}!` :
