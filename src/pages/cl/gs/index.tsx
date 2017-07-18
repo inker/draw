@@ -8,7 +8,7 @@ import animateContentTransfer from 'utils/animateContentTransfer'
 import getGroupLetter from 'utils/getGroupLetter'
 
 import PotsContainer from 'components/PotsContainer'
-// import AirborneContainer from 'components/AirborneContainer'
+import AirborneContainer from 'components/AirborneContainer'
 import GroupsContainer from 'components/GroupsContainer'
 import TablesContainer from 'components/TablesContainer'
 import BowlsContainer from 'components/BowlsContainer'
@@ -165,6 +165,7 @@ export default class GS extends React.PureComponent<Props, State> {
     return (
       <Root>
         <TablesContainer>
+          <AirborneContainer />
           <PotsContainer
             selectedTeam={selectedTeam}
             initialPots={initialPots}
