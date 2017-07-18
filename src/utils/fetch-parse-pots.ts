@@ -77,13 +77,8 @@ function parseGSTeams(data: string): GSTeam[] {
   return teams
 }
 
-function findTeam(teams: GSTeam[], name: string) {
-  const team = teams.find(t => t.name.includes(name))
-  if (!team) {
-    console.error(`team ${name} not found`)
-  }
-  return team
-}
+const findTeam = (teams: GSTeam[], name: string) =>
+  teams.find(team => team.name.includes(name))
 
 function pairUpTeams(teams: GSTeam[]): GSTeam[] {
   const teamsCopy = teams.slice()
