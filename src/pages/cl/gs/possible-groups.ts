@@ -40,9 +40,9 @@ function filterGroupsBasic(groups: Team[][], teamPicked: Team, currentPotIndex: 
 }
 
 const extraConstraints = (teamPicked: Team) =>
-  teamPicked.country === 'Rus' ?
-    ((otherTeam: Team) => otherTeam.country === 'Ukr') : teamPicked.country === 'Ukr' ?
-    ((otherTeam: Team) => otherTeam.country === 'Rus') : (otherTeam: Team) => false
+  teamPicked.country === 'ru' ?
+    ((otherTeam: Team) => otherTeam.country === 'ua') : teamPicked.country === 'ua' ?
+    ((otherTeam: Team) => otherTeam.country === 'ru') : (otherTeam: Team) => false
 
 function filterSomeGroups(
   groups: Team[][],
