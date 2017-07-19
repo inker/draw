@@ -1,7 +1,12 @@
-import { GSTeam, Last16Team } from './team'
+import { mobile } from 'bowser'
+
 import currentSeason from 'utils/currentSeason'
-import deleteFromArray from './deleteFromArray'
+import countryNames from 'data/country-names'
 import * as pairings from 'data/pairings.json'
+
+import deleteFromArray from './deleteFromArray'
+import getClubName from './getClubName'
+import { GSTeam, Last16Team } from './team'
 
 const getUrl = (year: number) =>
   `http://kassiesa.home.xs4all.nl/bert/uefa/seedcl${year}.html`
@@ -72,7 +77,10 @@ function parseGSTeams(data: string): GSTeam[] {
   const teams: GSTeam[] = []
   let matches: RegExpExecArray | null
   while ((matches = re.exec(data)) !== null) {
-    teams.push(new GSTeam(matches[1], matches[4], +matches[5]))
+    const country = countryNames[matches[4].toLowerCase()]
+    const shortName = mobile && getClubName(matches[1], country) || undefined
+    const coefficient = +matches[5]
+    teams.push(new GSTeam(matches[1], country, coefficient, shortName))
   }
   return teams
 }

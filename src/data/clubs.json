@@ -1,0 +1,281 @@
+{
+  "gb-eng": [
+    "Bournemouth",
+    "Arsenal",
+    "Brighton",
+    "Burnley",
+    "Chelsea",
+    "Crystal Palace",
+    "Everton",
+    "Huddersfield",
+    "Leicester",
+    "Liverpool",
+    "Man City",
+    "Man United",
+    "Newcastle",
+    "Southampton",
+    "Stoke",
+    "Watford",
+    "Swansea",
+    "Tottenham",
+    "West Brom",
+    "West Ham"
+  ],
+  "es": [
+    "Alavés",
+    "Athletic",
+    "Atlético",
+    "Barcelona",
+    "Celta",
+    "Deportivo",
+    "Eibar",
+    "Espanyol",
+    "Getafe",
+    "Girona",
+    "Las Palmas",
+    "Leganés",
+    "Levante",
+    "Málaga",
+    "Betis",
+    "Real Madrid",
+    "Real Sociedad",
+    "Sevilla",
+    "Valencia",
+    "Villarreal"
+  ],
+  "it": [
+    "Atalanta",
+    "Benevento",
+    "Bologna",
+    "Cagliari",
+    "Chievo",
+    "Crotone",
+    "Fiorentina",
+    "Genoa",
+    "Verona",
+    "Juventus",
+    "Roma",
+    "Napoli",
+    "Lazio",
+    "Milan",
+    "Internazionale",
+    "Torino",
+    "Sampdoria",
+    "Sassuolo",
+    "Udinese",
+    "Chievo",
+    "Empoli",
+    "Palermo",
+    "Pescara"
+  ],
+  "de": [
+    "Mainz",
+    "Frankfurt",
+    "Köln",
+    "Dortmund",
+    "Bremen",
+    "Mönchengladbach",
+    "Darmstadt",
+    "Leipzig",
+    "Bayern",
+    "Freiburg",
+    "Ingolstadt",
+    "Schalke",
+    "Hamburg",
+    "Wolfsburg",
+    "Hertha",
+    "Leverkusen",
+    "Hoffenheim",
+    "Augsburg",
+    "Stuttgart",
+    "Nürnberg"
+  ],
+  "fr": [
+    "Angers",
+    "Montpellier",
+    "Guingamp",
+    "Metz",
+    "Lille",
+    "Nantes",
+    "Lorient",
+    "Bordeaux",
+    "Lyon",
+    "Nice",
+    "Marseille",
+    "Bastia",
+    "Nancy",
+    "St-Étienne",
+    "Paris",
+    "Caen",
+    "Rennes",
+    "Monaco",
+    "Toulouse",
+    "Dijon",
+    "Auxerre",
+    "Strasbourg"
+  ],
+  "ru": [
+    "CSKA",
+    "Lokomotiv",
+    "Zenit",
+    "Spartak",
+    "Rostov",
+    "Rubin",
+    "Anji"
+  ],
+  "pt": [
+    "Porto",
+    "Benfica",
+    "Sporting CP",
+    "Braga",
+    "Boavista",
+    "Nacional"
+  ],
+  "nl": [
+    "PSV",
+    "Ajax",
+    "AZ",
+    "Feyenoord",
+    "Twente",
+    "Groningen",
+    "Utrecht"
+  ],
+  "be": [
+    "Anderlecht",
+    "Standard",
+    "Club Brugge",
+    "Genk",
+    "Gent"
+  ],
+  "ua": [
+    "Dynamo",
+    "Shakhtar",
+    "Metalist",
+    "Karpaty",
+    "Dnipro"
+  ],
+  "tr": [
+    "Bursaspor",
+    "Konyaspor",
+    "Galatasaray",
+    "Fenerbahçe",
+    "Beşiktaş"
+  ],
+  "ro": [
+    "Steaua",
+    "Dinamo București",
+    "Rapid București",
+    "CFR Cluj",
+    "Unirea",
+    "Oțelul"
+  ],
+  "cz": [
+    "Sparta",
+    "Slavia",
+    "Plzeň",
+    "Bohemians",
+    "Brno",
+    "Mladá Boleslav"
+  ],
+  "sk": [
+    "Petržalka",
+    "Ružomberok",
+    "Žilina"
+  ],
+  "ch": [
+    "Basel",
+    "Zürich",
+    "Thun",
+    "Grasshoppers",
+    "Young Boys",
+    "Sevettte"
+  ],
+  "at": [
+    "Austria Wien",
+    "Rapid Wien",
+    "Salzburg",
+    "Sturm"
+  ],
+  "by": [
+    "BATE"
+  ],
+  "kz": [
+    "Astana"
+  ],
+  "no": [
+    "Rosenborg",
+    "Vålerenga"
+  ],
+  "md": [
+    "Sheriff"
+  ],
+  "se": [
+    "Malmö"
+  ],
+  "gb-sct": [
+    "Celtic",
+    "Rangers",
+    "Aberdeen",
+    "Motherwell"
+  ],
+  "pl": [
+    "Legia",
+    "Wisła Kraków",
+    "Śląsk",
+    "Lech"
+  ],
+  "rs": [
+    "Partizan",
+    "Crvena zvezda",
+    "Vojvodina"
+  ],
+  "il": [
+    "M. Haifa",
+    "Bnei Yehuda",
+    "H. Haifa",
+    "H. Tel-Aviv",
+    "M. Tel-Aviv",
+    "Beitar Jerusalem",
+    "M. Petach-Tikva"
+  ],
+  "hu": [
+    "Debrecen",
+    "Újpest",
+    "Ferencváros",
+    "Videoton"
+  ],
+  "hr": [
+    "Dinamo Zagreb",
+    "Hajduk",
+    "Rijeka"
+  ],
+  "si": [
+    "Domžale",
+    "Olimpija Ljubljana",
+    "Maribor"
+  ],
+  "gr": [
+    "Olympiacos",
+    "Panathinaikos",
+    "AEK",
+    "PAOK"
+  ],
+  "dk": [
+    "København",
+    "Brøndby",
+    "Nordsjælland",
+    "Midtjylland",
+    "AaB"
+  ],
+  "bg": [
+    "Levski",
+    "CSKA Sofia",
+    "Ludogorets",
+    "Litex"
+  ],
+  "cy": [
+    "Anorthosis",
+    "APOEL",
+    "Omonia"
+  ]
+}

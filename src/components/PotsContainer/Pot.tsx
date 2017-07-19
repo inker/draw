@@ -43,7 +43,7 @@ const Pot = ({
       </Header>
       <Body>
         {teams && teams.map(team => {
-          const { name, country } = team
+          const { name, country, shortName } = team
           const pairing = team instanceof GSTeam ? team.pairing : null
           return (
             <Cell
@@ -54,7 +54,7 @@ const Pot = ({
               picked={pickedTeams.includes(team)}
               country={country}
             >
-              {name}
+              {shortName || name}
             </Cell>
           )
         })}
