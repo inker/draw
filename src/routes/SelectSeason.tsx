@@ -16,6 +16,7 @@ class SelectSeason extends React.PureComponent<Props> {
     const { start, onChange } = this.props
     return (
       <select
+        className="needsclick"
         onChange={onChange}
         defaultValue={currentSeason}
       >

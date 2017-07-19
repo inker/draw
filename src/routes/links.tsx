@@ -9,8 +9,16 @@ const path = location.pathname
 const Root = styled.div`
   display: flex;
   justify-content: flex-end;
-  margin-right: 10px;
-  margin-bottom: 10px;
+  align-items: center;
+  padding-right: 10px;
+  padding-bottom: 10px;
+  font-size: 16px;
+
+  @media (max-width: 999px) {
+    padding-top: 15px;
+    padding-bottom: 15px;
+    font-size: 32px;
+  }
 `
 
 const StyledLink = styled(Link)`
