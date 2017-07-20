@@ -5,8 +5,11 @@ import countryNames from 'data/country-names'
 import * as pairings from 'data/pairings.json'
 
 import deleteFromArray from './deleteFromArray'
-import getClubName from './getClubName'
 import { GSTeam, Last16Team } from './team'
+
+declare const System: any
+
+const getClubName = mobile && System.import('./getClubName')
 
 const getUrl = (year: number) =>
   `http://kassiesa.home.xs4all.nl/bert/uefa/seedcl${year}.html`
@@ -54,8 +57,8 @@ export async function fetchPots(season: number) {
   return text
 }
 
-export function parseGS(body) {
-  const parsedTeams = parseGSTeams(body)
+export async function parseGS(body) {
+  const parsedTeams = await parseGSTeams(body)
   const teams = pairUpTeams(parsedTeams)
   return fillGSPots(teams)
 }
@@ -71,14 +74,14 @@ export function parseLast16Teams(data: string): Last16Team[][] {
   return pots
 }
 
-function parseGSTeams(data: string): GSTeam[] {
+async function parseGSTeams(data: string) {
   const re = /\s*(.+?)\s*(\*+\d?|\(([CE]L-)?TH\))?\s+(\w{3})\s+(\d{1,3}\.\d{3})/g
   data = data.slice(data.indexOf('Pot 1'))
   const teams: GSTeam[] = []
   let matches: RegExpExecArray | null
   while ((matches = re.exec(data)) !== null) {
     const country = countryNames[matches[4].toLowerCase()]
-    const shortName = mobile && getClubName(matches[1], country) || undefined
+    const shortName = getClubName && (await getClubName).default(matches[1], country) || undefined
     const coefficient = +matches[5]
     teams.push(new GSTeam(matches[1], country, coefficient, shortName))
   }
