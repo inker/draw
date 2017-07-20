@@ -14,6 +14,9 @@ const normalize = memoize(
   (s: string) => removeDiacritics(s).toLowerCase().replace(I_RE, 'i'),
 )
 
+const nameIncludes = (longerNorm: string, shorterNorm: string) =>
+  new RegExp(`\\b${shorterNorm}\\b`).test(longerNorm)
+
 const similarity = (a: string, b: string) =>
   1 - levenstein.get(a, b) / Math.max(a.length, b.length)
 
@@ -32,7 +35,7 @@ export default (teamName: string, country: string) => {
   }
   const norm = normalize(teamName)
   const countryTeams = arr.filter(o => o.country === country)
-  const found = countryTeams.find(o => norm.includes(normalize(o.name)))
+  const found = countryTeams.find(o => nameIncludes(norm, normalize(o.name)))
   if (found) {
     return found.name
   }
