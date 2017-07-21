@@ -33,13 +33,13 @@ module.exports = env => [
   new CommonsChunkPlugin({
     name: 'vendor',
     filename: 'vendor.js',
-    minChunks: ({ resource }) => resource && resource.includes('node_modules'),
+    minChunks: ({ context }) => context && context.includes('node_modules'),
   }),
 
   // env !== 'dev' && new CommonsChunkPlugin({
   //   name: 'react',
   //   filename: 'react.js',
-  //   minChunks: ({ resource }) => resource && IS_REACT.test(resource),
+  //   minChunks: ({ context }) => context && IS_REACT.test(context),
   // }),
 
   new HtmlWebpackPlugin({
