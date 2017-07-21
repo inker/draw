@@ -1,6 +1,7 @@
 import * as React from 'react'
 import styled from 'styled-components'
 
+import getGroupLetter from 'utils/getGroupLetter'
 import Ball from './Ball'
 
 const Root = styled.div`
@@ -27,7 +28,7 @@ const GroupBowl = ({
           data-group={groupNum}
           onClick={onPick}
         >
-          {String.fromCharCode(65 + groupNum)}
+          {getGroupLetter(groupNum)}
         </Ball>
       ))
     }

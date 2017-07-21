@@ -2,6 +2,7 @@ import * as React from 'react'
 import styled from 'styled-components'
 
 import { Team } from 'utils/team'
+import getGroupLetter from 'utils/getGroupLetter'
 
 import PossibleGroups from './PossibleGroups'
 
@@ -77,7 +78,7 @@ const Announcement = ({
           />
         </div>
       ) :
-      pickedGroup !== null ? `Group ${String.fromCharCode(65 + pickedGroup)}!` :
+      pickedGroup !== null ? `Group ${getGroupLetter(pickedGroup)}!` :
       'Pick a ball'
     }
   </Root>

@@ -2,6 +2,7 @@ import * as React from 'react'
 import styled from 'styled-components'
 import { range } from 'lodash'
 
+import getGroupLetter from 'utils/getGroupLetter'
 import Roundel from './Roundel'
 
 const Root = styled.div`
@@ -25,7 +26,7 @@ const PossibleGroups = ({
         color={i < 4 ? 'red' : 'blue'}
         possible={possibleGroups.includes(i)}
       >
-        {String.fromCharCode(65 + i)}
+        {getGroupLetter(i)}
       </Roundel>
     ))}
   </Root>

@@ -3,8 +3,8 @@ import styled from 'styled-components'
 import { shuffle } from 'lodash'
 
 import { GSTeam as Team } from 'utils/team'
-import getPossibleGroups from './possible-groups'
 import animateContentTransfer from 'utils/animateContentTransfer'
+import getGroupLetter from 'utils/getGroupLetter'
 
 import PotsContainer from 'components/PotsContainer'
 // import AirborneContainer from 'components/AirborneContainer'
@@ -14,6 +14,8 @@ import BowlsContainer from 'components/BowlsContainer'
 import TeamBowl from 'components/bowls/TeamBowl'
 import GroupBowl from 'components/bowls/GroupBowl'
 import Announcement from 'components/Announcement'
+
+import getPossibleGroups from './possible-groups'
 
 const Root = styled.div`
   display: flex;
@@ -141,7 +143,7 @@ export default class GS extends React.PureComponent<Props, State> {
       return
     }
     const fromCell = document.querySelector(`[data-cellid='${selectedTeam.id}']`)
-    const toCellSelector = `[data-cellid='${String.fromCharCode(65 + pickedGroup)}${currentPotNum}']`
+    const toCellSelector = `[data-cellid='${getGroupLetter(pickedGroup)}${currentPotNum}']`
     const toCell = document.querySelector(toCellSelector)
     if (fromCell instanceof HTMLElement && toCell instanceof HTMLElement) {
       return animateContentTransfer(fromCell, toCell, 350)

@@ -1,6 +1,7 @@
 import * as React from 'react'
 import styled from 'styled-components'
 
+import getGroupLetter from 'utils/getGroupLetter'
 import { Team } from 'utils/team'
 import Group from './Group'
 
@@ -40,7 +41,7 @@ const GroupsContainer = ({
     {groups && groups.map((group, i) => (
       <Group
         maxTeams={maxTeams}
-        groupLetter={String.fromCharCode(65 + i)}
+        groupLetter={getGroupLetter(i)}
         teams={group}
         potNum={currentPotNum}
         possible={possibleGroups !== null && possibleGroups.includes(i)}
