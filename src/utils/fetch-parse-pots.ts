@@ -1,9 +1,10 @@
 import { mobile } from 'bowser'
 
-import currentSeason from 'utils/currentSeason'
 import countryNames from 'data/country-names'
 import * as pairings from 'data/pairings.json'
 
+import currentSeason from './currentSeason'
+import proxify from './proxify'
 import deleteFromArray from './deleteFromArray'
 import { GSTeam, Last16Team } from './team'
 
@@ -11,14 +12,13 @@ declare const System: any
 
 const getClubName = mobile && System.import('./getClubName')
 
+const BERT_HOST = 'https://kassiesa.home.xs4all.nl/bert/uefa'
+
 const getUrl = (year: number) =>
-  `http://kassiesa.home.xs4all.nl/bert/uefa/seedcl${year}.html`
+  `${BERT_HOST}/seedcl${year}.html`
 
 const getHistoryUrl = (year: number) =>
-  `https://kassiesa.home.xs4all.nl/bert/uefa/history/seedcl${year}.html`
-
-const proxify = (url: string, encoding: string) =>
-  `https://proxy-antonv.rhcloud.com/?url=${encodeURIComponent(url)}${encoding ? `&encoding=${encoding}` : ''}`
+  `${BERT_HOST}/history/seedcl${year}.html`
 
 export async function tryFetch(url: string) {
   const response = await fetch(proxify(url, 'latin1'))
