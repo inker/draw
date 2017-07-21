@@ -18,6 +18,9 @@ import { GSTeam } from 'utils/team'
 
 import Links from './links'
 
+import getCountryFlagUrl from 'utils/getCountryFlagUrl'
+import prefetchImage from 'utils/prefetchImage'
+
 // const base = location.host.includes('github') ? '/draw' : ''
 
 interface Props {}
@@ -52,11 +55,20 @@ class Routes extends React.PureComponent<Props, State> {
     return parseGS(data)
   })
 
+  prefetchImages(pots: GSTeam[][]) {
+    const promises: Promise<void>[] = []
+    for (const pot of pots) {
+      promises.push(...pot.map(team => getCountryFlagUrl(team.country)).map(prefetchImage))
+    }
+    return Promise.all(promises)
+  }
+
   onSeasonChange = async (season: number) => {
     this.setState({
       waiting: true,
     })
     const pots = await this.getPots(season)
+    await this.prefetchImages(pots)
     this.setState({
       season,
       pots,

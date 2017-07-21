@@ -1,9 +1,7 @@
 import styled from 'styled-components'
 import Cell from './Cell'
 
-declare const require: any
-
-const requireFlag = require.context('flag-icon-css/flags/4x3/', false, /\.svg$/)
+import getCountryFlagUrl from 'utils/getCountryFlagUrl'
 
 const CellWithoutFlag = styled(Cell)`
   background-position: 3px;
@@ -21,7 +19,7 @@ const CellWithoutFlag = styled(Cell)`
 
 const CellWithFlag = styled(CellWithoutFlag)`
   ${({ country }) => country && `
-    background-image: url('${requireFlag(`./${country}.svg`)}');
+    background-image: url('${getCountryFlagUrl(country)}');
   `}
 `
 
