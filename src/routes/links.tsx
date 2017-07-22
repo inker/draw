@@ -4,8 +4,6 @@ import { Link } from 'react-router-dom'
 
 import SelectSeason from './SelectSeason'
 
-const path = location.pathname
-
 const Root = styled.div`
   display: flex;
   justify-content: flex-end;
