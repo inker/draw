@@ -14,7 +14,7 @@ deploy:
     branch: master
 - provider: surge
   project: ./docs/
-  domain: draws.surge.sh
+  domain: https://draws.surge.sh
   skip_cleanup: true
   on:
     branch: master
