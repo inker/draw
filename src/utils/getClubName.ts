@@ -2,13 +2,10 @@ import * as levenstein from 'fast-levenshtein'
 import { maxBy, memoize } from 'lodash'
 
 import * as clubs from 'data/clubs.json'
+import removeDiacritics from './removeDiacritics'
 import { Team } from './team'
 
-const DIACRITICS_RE = /[\u0300-\u036f]/g
 const I_RE = /y|j|(ij)/g
-
-const removeDiacritics = (s: string) =>
-  s.normalize('NFD').replace(DIACRITICS_RE, '')
 
 const normalize = memoize(
   (s: string) => removeDiacritics(s).toLowerCase().replace(I_RE, 'i'),
@@ -28,6 +25,16 @@ for (const [country, clubNames] of Object.entries(clubs)) {
   }
 }
 
+function getClosest(teams: Team[], norm: string, threshold: number) {
+  const distances = teams.map(team => ({
+    team,
+    dist: similarity(norm, normalize(team.name)),
+  }))
+
+  const closestObj = maxBy(distances, 'dist')
+  return !closestObj || closestObj.dist < threshold ? null : closestObj.team.name
+}
+
 export default (teamName: string, country: string) => {
   if (!(country in clubs)) {
     console.error('no clubs from', country, 'including', teamName, 'exist yet')
@@ -35,15 +42,8 @@ export default (teamName: string, country: string) => {
   }
   const norm = normalize(teamName)
   const countryTeams = arr.filter(o => o.country === country)
-  const found = countryTeams.find(o => nameIncludes(norm, normalize(o.name)))
-  if (found) {
-    return found.name
-  }
-  const distances = countryTeams.map(team => ({
-    team,
-    dist: similarity(norm, normalize(team.name)),
-  }))
-
-  const foo = maxBy(distances, 'dist')
-  return !foo || foo.dist < 0.5 ? null : foo.team.name
+  const including = countryTeams.filter(o => nameIncludes(norm, normalize(o.name)))
+  return including.length === 1
+    ? including[0].name
+    : getClosest(including.length ? including : countryTeams, norm, 0.5)
 }

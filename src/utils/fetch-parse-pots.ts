@@ -4,6 +4,7 @@ import countryNames from 'data/country-names'
 import * as pairings from 'data/pairings.json'
 
 import currentSeason from './currentSeason'
+import delay from './delay'
 import proxify from './proxify'
 import deleteFromArray from './deleteFromArray'
 import { GSTeam, Last16Team } from './team'
@@ -21,6 +22,10 @@ const getHistoryUrl = (year: number) =>
   `${BERT_HOST}/history/seedcl${year}.html`
 
 export async function tryFetch(url: string) {
+  while (!navigator.onLine) {
+    console.error("you're offline, retrying...")
+    await delay(1000)
+  }
   const response = await fetch(proxify(url, 'latin1'))
   if (response.status !== 200) {
     throw new Error(`${url}: 404`)

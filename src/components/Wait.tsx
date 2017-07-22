@@ -35,7 +35,7 @@ const Wait = () => (
   <div>
     <Background />
     <Text>
-      wait...
+      {navigator.onLine ? 'wait...' : "you're offline"}
     </Text>
   </div>
 )

@@ -19,7 +19,12 @@
     "Swansea",
     "Tottenham",
     "West Brom",
-    "West Ham"
+    "West Ham",
+    "Leeds",
+    "Birmingham",
+    "Aston Villa",
+    "Norwich",
+    "Hull"
   ],
   "es": [
     "Alavés",
@@ -41,7 +46,12 @@
     "Real Sociedad",
     "Sevilla",
     "Valencia",
-    "Villarreal"
+    "Villarreal",
+    "Elche",
+    "Cádiz",
+    "Tarragona",
+    "Recreativo",
+    "Almería"
   ],
   "it": [
     "Atalanta",
@@ -66,7 +76,12 @@
     "Chievo",
     "Empoli",
     "Palermo",
-    "Pescara"
+    "Pescara",
+    "Livorno",
+    "Siena",
+    "Parma",
+    "Bari",
+    "Pisa"
   ],
   "de": [
     "Mainz",
@@ -88,7 +103,11 @@
     "Hoffenheim",
     "Augsburg",
     "Stuttgart",
-    "Nürnberg"
+    "Nürnberg",
+    "Duisburg",
+    "Kaiserslautern",
+    "Aachen",
+    "Energie"
   ],
   "fr": [
     "Angers",
@@ -112,7 +131,9 @@
     "Toulouse",
     "Dijon",
     "Auxerre",
-    "Strasbourg"
+    "Strasbourg",
+    "Châteauroux",
+    "Lens"
   ],
   "ru": [
     "CSKA",
@@ -121,7 +142,8 @@
     "Spartak",
     "Rostov",
     "Rubin",
-    "Anji"
+    "Anji",
+    "Alania"
   ],
   "pt": [
     "Porto",
@@ -129,7 +151,8 @@
     "Sporting CP",
     "Braga",
     "Boavista",
-    "Nacional"
+    "Nacional",
+    "Guimarães"
   ],
   "nl": [
     "PSV",
@@ -138,7 +161,12 @@
     "Feyenoord",
     "Twente",
     "Groningen",
-    "Utrecht"
+    "Utrecht",
+    "Roda",
+    "Heerenveen",
+    "NAC",
+    "NEC",
+    "Zwolle"
   ],
   "be": [
     "Anderlecht",
@@ -152,14 +180,16 @@
     "Shakhtar",
     "Metalist",
     "Karpaty",
-    "Dnipro"
+    "Dnipro",
+    "Olexandria"
   ],
   "tr": [
     "Bursaspor",
     "Konyaspor",
     "Galatasaray",
     "Fenerbahçe",
-    "Beşiktaş"
+    "Beşiktaş",
+    "Trabzonspor"
   ],
   "ro": [
     "Steaua",
@@ -167,7 +197,8 @@
     "Rapid București",
     "CFR Cluj",
     "Unirea",
-    "Oțelul"
+    "Oțelul",
+    "Astra"
   ],
   "cz": [
     "Sparta",
@@ -180,7 +211,8 @@
   "sk": [
     "Petržalka",
     "Ružomberok",
-    "Žilina"
+    "Žilina",
+    "Slovan"
   ],
   "ch": [
     "Basel",
@@ -194,29 +226,47 @@
     "Austria Wien",
     "Rapid Wien",
     "Salzburg",
-    "Sturm"
+    "Sturm",
+    "Altach",
+    "Admira"
   ],
   "by": [
-    "BATE"
+    "BATE",
+    "Dinamo Minsk"
   ],
   "kz": [
-    "Astana"
+    "Astana",
+    "Kairat",
+    "Irtysh"
   ],
   "no": [
     "Rosenborg",
-    "Vålerenga"
+    "Vålerenga",
+    "Start",
+    "Brann",
+    "Viking",
+    "Odd"
   ],
   "md": [
     "Sheriff"
   ],
   "se": [
-    "Malmö"
+    "Malmö",
+    "Elfsborg",
+    "Norrköping",
+    "Trelleborg",
+    "AIK",
+    "Helsingborg"
   ],
   "gb-sct": [
     "Celtic",
     "Rangers",
     "Aberdeen",
-    "Motherwell"
+    "Motherwell",
+    "Dundee",
+    "Dundee United",
+    "Partick",
+    "Hearts"
   ],
   "pl": [
     "Legia",
@@ -258,24 +308,29 @@
     "Olympiacos",
     "Panathinaikos",
     "AEK",
-    "PAOK"
+    "PAOK",
+    "Xanthi",
+    "Panionios"
   ],
   "dk": [
     "København",
     "Brøndby",
     "Nordsjælland",
     "Midtjylland",
-    "AaB"
+    "AaB",
+    "Lyngby"
   ],
   "bg": [
     "Levski",
     "CSKA Sofia",
     "Ludogorets",
-    "Litex"
+    "Litex",
+    "Lokomotiv Sofia"
   ],
   "cy": [
     "Anorthosis",
     "APOEL",
-    "Omonia"
+    "Omonia",
+    "AEL"
   ]
 }
