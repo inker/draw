@@ -2,6 +2,7 @@ import * as React from 'react'
 import { uniqueId, memoize } from 'lodash'
 import {
   HashRouter as Router,
+  Route,
   Redirect,
   Switch,
 } from 'react-router-dom'
@@ -18,7 +19,6 @@ import currentSeason from 'utils/currentSeason'
 import { GSTeam } from 'utils/team'
 
 import Links from './links'
-import Route from './Route'
 import history from './history'
 
 interface Props {}
