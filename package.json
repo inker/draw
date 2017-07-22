@@ -8,6 +8,7 @@
     "fast-levenshtein": "^2.0.6",
     "fastclick": "^1.0.6",
     "flag-icon-css": "^2.8.0",
+    "history": "^4.6.3",
     "lodash": "^4.17.4",
     "normalize.css": "^7.0.0",
     "react": "^15.6.1",

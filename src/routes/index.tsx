@@ -1,8 +1,7 @@
 import * as React from 'react'
-import { uniqueId, memoize } from 'lodash'
+import { uniqueId, memoize, last } from 'lodash'
 import {
-  BrowserRouter as Router,
-  Route,
+  HashRouter as Router,
   Redirect,
   Switch,
 } from 'react-router-dom'
@@ -13,15 +12,14 @@ import Last16 from 'pages/cl/last16'
 import Wait from 'components/Wait'
 
 import { fetchPots, parseGS } from 'utils/fetch-parse-pots'
+import getCountryFlagUrl from 'utils/getCountryFlagUrl'
+import prefetchImage from 'utils/prefetchImage'
 import currentSeason from 'utils/currentSeason'
 import { GSTeam } from 'utils/team'
 
 import Links from './links'
-
-import getCountryFlagUrl from 'utils/getCountryFlagUrl'
-import prefetchImage from 'utils/prefetchImage'
-
-// const base = location.host.includes('github') ? '/draw' : ''
+import Route from './Route'
+import history from './history'
 
 interface Props {}
 
@@ -87,7 +85,7 @@ class Routes extends React.PureComponent<Props, State> {
       return <Wait />
     }
     return (
-      <Router>
+      <Router history={history}>
         <div>
           {waiting &&
             <Wait />
@@ -98,18 +96,19 @@ class Routes extends React.PureComponent<Props, State> {
           />
           <Switch>
             <Route path="/cl/gs">
-              <GS />
-            </Route>
-            <Route path="/cl/last16">
-              <Last16 />
-            </Route>
-            <Redirect from="/cl" to="/cl/gs"/>
-            <Route path="/">
               <GS
                 key={key}
                 pots={pots}
               />
             </Route>
+            <Route path="/cl/last16">
+              <Last16
+                key={key}
+                pots={pots}
+              />
+            </Route>
+            <Redirect from="/cl" to="/cl/gs"/>
+            <Redirect from="/" to="/cl/gs"/>
           </Switch>
         </div>
       </Router>
