@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { uniqueId, memoize, last } from 'lodash'
+import { uniqueId, memoize } from 'lodash'
 import {
   HashRouter as Router,
   Redirect,
