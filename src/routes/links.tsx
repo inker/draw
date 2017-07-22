@@ -52,7 +52,7 @@ const Links = (props) => (
       onChange={e => props.onSeasonChange(+e.target.value)}
     />
     <StyledLink
-      to={path}
+      to={location.hash.replace(/#/g, '')}
       onClick={props.refresh}
     >
       Restart
