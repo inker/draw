@@ -32,12 +32,6 @@ class Routes extends React.PureComponent<Props, State> {
     location: history.location,
   }
 
-  refresh = () => {
-    this.setState({
-      key: uniqueId(),
-    })
-  }
-
   onSeasonChange = (tournament: string, stage: string, season?: number) => {
     history.push(`/${tournament}/${stage}/${season}`)
   }
@@ -66,7 +60,6 @@ class Routes extends React.PureComponent<Props, State> {
           }
           <TopPanel
             location={location}
-            refresh={this.refresh}
             onSeasonChange={this.onSeasonChange}
           />
           <Switch>

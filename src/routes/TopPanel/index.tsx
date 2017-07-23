@@ -28,7 +28,6 @@ const StyledLink = styled(Link)`
 
 interface Props {
   location: any,
-  refresh: () => void,
   onSeasonChange: (tournament: string, stage: string, season: number) => void,
 }
 
@@ -42,7 +41,6 @@ class TopPanel extends React.PureComponent<Props> {
   render() {
     const {
       location,
-      refresh,
     } = this.props
     const season = getCurrentSeason(location)
     return (
@@ -54,10 +52,7 @@ class TopPanel extends React.PureComponent<Props> {
         />
         {
           location &&
-            <StyledLink
-              to={location.pathname}
-              onClick={refresh}
-            >
+            <StyledLink to={location.pathname}>
               Restart
             </StyledLink>
         }
