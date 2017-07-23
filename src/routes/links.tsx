@@ -31,6 +31,7 @@ const StyledAnchor = styled.a`
 
 const GithubButton = () => (
   <StyledAnchor
+    target="_blank"
     className="github-button"
     href="https://github.com/inker/draw"
     data-icon="octicon-star"
