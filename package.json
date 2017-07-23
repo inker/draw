@@ -22,7 +22,7 @@
     "@types/classnames": "2.2.0",
     "@types/fast-levenshtein": "0.0.1",
     "@types/fastclick": "^1.0.28",
-    "@types/lodash": "^4.14.68",
+    "@types/lodash": "^4.14.71",
     "@types/react": "^15.0.38",
     "@types/react-dom": "^15.5.0",
     "@types/react-router-dom": "^4.0.7",
@@ -42,7 +42,7 @@
     "url-loader": "^0.5.9",
     "webpack": "^3.3.0",
     "webpack-bundle-analyzer": "^2.8.3",
-    "webpack-dev-server": "^2.5.1"
+    "webpack-dev-server": "^2.6.1"
   },
   "scripts": {
     "build:prod": "webpack --colors --config webpack/webpack.config.js --env=prod",
