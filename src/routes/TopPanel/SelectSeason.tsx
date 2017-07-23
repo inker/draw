@@ -7,21 +7,26 @@ const seasonAsString = (i: number) =>
   `${i}/${((i + 1) % 100).toString().padStart(2, '0')}`
 
 interface Props {
+  defaultSeason: number,
   start: number,
   onChange: (e: React.ChangeEvent<HTMLSelectElement>) => void,
 }
 
 class SelectSeason extends React.PureComponent<Props> {
   render() {
-    const { start, onChange } = this.props
+    const {
+      defaultSeason,
+      start,
+      onChange,
+    } = this.props
     return (
       <select
         className="needsclick"
         onChange={onChange}
-        defaultValue={currentSeason}
+        defaultValue={`cl-gs-${defaultSeason}`}
       >
         {range(currentSeason, start - 1).map(i => (
-          <option value={i}>
+          <option value={`cl-gs-${i}`}>
             {seasonAsString(i)}
           </option>
         ))}
