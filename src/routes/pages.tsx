@@ -9,14 +9,13 @@ import { fetchPots, parseGS } from 'utils/fetch-parse-pots'
 import getCountryFlagUrl from 'utils/getCountryFlagUrl'
 import prefetchImage from 'utils/prefetchImage'
 import currentSeason from 'utils/currentSeason'
-import getCurrentSeason from 'utils/getCurrentSeason'
 import { GSTeam } from 'utils/team'
 
 import Wait from 'components/Wait'
 
 interface Props {
+  season: number,
   dummyKey: string,
-  history: any,
   onSeasonChange: (tournament: string, stage: string, season: number) => void,
 }
 
@@ -35,16 +34,6 @@ class Pages extends React.PureComponent<Props, State> {
 
   unlisten: (() => void) | undefined
 
-  componentWillMount() {
-    this.unlisten = this.props.history.listen(this.updateLocation)
-  }
-
-  componentWillUnmount() {
-    if (this.unlisten) {
-      this.unlisten()
-    }
-  }
-
   componentDidMount() {
     const {
       match,
@@ -59,23 +48,22 @@ class Pages extends React.PureComponent<Props, State> {
     this.fetchData(season ? +season : currentSeason)
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.dummyKey !== this.props.dummyKey) {
+  componentWillReceiveProps(nextProps: Props) {
+    const { props } = this
+    const { season, dummyKey } = nextProps
+    if (props.season !== season) {
+      this.fetchData(season)
+    } else if (props.dummyKey !== dummyKey) {
       this.setState({
-        key: nextProps.dummyKey,
+        key: dummyKey,
       })
     }
   }
 
-  updateLocation = (location, type) => {
+  fetchData = async (season: number) => {
     this.setState({
       waiting: true,
     })
-    const season = getCurrentSeason(location)
-    this.fetchData(season)
-  }
-
-  fetchData = async (season: number) => {
     const pots = await this.getPots(season)
     await this.prefetchImages(pots)
     this.setState({

@@ -1,6 +1,7 @@
 import * as React from 'react'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
+import { mobile } from 'bowser'
 
 import getCurrentSeason from 'utils/getCurrentSeason'
 import SelectSeason from './SelectSeason'
@@ -22,12 +23,13 @@ const Root = styled.div`
 `
 
 const StyledLink = styled(Link)`
-  margin-left: 5px;
-  margin-right: 5px;
+  margin-left: 10px;
+  margin-right: 10px;
 `
 
 interface Props {
   location: any,
+  refresh: () => void,
   onSeasonChange: (tournament: string, stage: string, season: number) => void,
 }
 
@@ -41,6 +43,7 @@ class TopPanel extends React.PureComponent<Props> {
   render() {
     const {
       location,
+      refresh,
     } = this.props
     const season = getCurrentSeason(location)
     return (
@@ -50,14 +53,18 @@ class TopPanel extends React.PureComponent<Props> {
           start={2003}
           onChange={this.onSeasonChange}
         />
-        {
-          location &&
-            <StyledLink to={location.pathname}>
-              Restart
-            </StyledLink>
+        {location &&
+          <StyledLink
+            to={location.pathname}
+            onClick={refresh}
+          >
+            Restart
+          </StyledLink>
         }
         {/*<Link to="/">Change mode</Link> |*/}
-        <GithubButton />
+        {!mobile &&
+          <GithubButton />
+        }
       </Root>
     )
   }

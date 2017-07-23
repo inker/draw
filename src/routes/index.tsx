@@ -7,8 +7,7 @@ import {
   Switch,
 } from 'react-router-dom'
 
-import Wait from 'components/Wait'
-import currentSeason from 'utils/currentSeason'
+import getCurrentSeason from 'utils/getCurrentSeason'
 
 import TopPanel from './TopPanel'
 import Pages from './pages'
@@ -18,30 +17,52 @@ interface Props {}
 
 interface State {
   key: string,
-  // pots: GSTeam[][] | null,
-  // waiting: boolean,
-  // location: typeof history.location,
+  season: number,
+  location: typeof history.location,
 }
 
 class Routes extends React.PureComponent<Props, State> {
+  unlisten: (() => void) | undefined
   state = {
     key: uniqueId(),
-    season: currentSeason,
-    pots: null,
-    waiting: false,
+    season: getCurrentSeason(history.location),
     location: history.location,
+  }
+
+  componentWillMount() {
+    this.unlisten = history.listen(this.updateLocation)
+  }
+
+  componentWillUnmount() {
+    if (this.unlisten) {
+      this.unlisten()
+    }
   }
 
   onSeasonChange = (tournament: string, stage: string, season?: number) => {
     history.push(`/${tournament}/${stage}/${season}`)
   }
 
+  updateLocation = (location, type) => {
+    const season = getCurrentSeason(location)
+    this.setState({
+      season,
+      location: history.location,
+    })
+  }
+
+  refresh = () => {
+    this.setState({
+      key: uniqueId(),
+    })
+  }
+
   getPages = (props) => {
-    const { key } = this.state
     return (
       <Pages
         {...props}
-        dummyKey={key}
+        dummyKey={this.state.key}
+        season={this.state.season}
         onSeasonChange={this.onSeasonChange}
       />
     )
@@ -49,16 +70,13 @@ class Routes extends React.PureComponent<Props, State> {
 
   render() {
     const {
-      waiting,
       location,
     } = this.state
     return (
       <Router history={history}>
         <div>
-          {waiting &&
-            <Wait />
-          }
           <TopPanel
+            refresh={this.refresh}
             location={location}
             onSeasonChange={this.onSeasonChange}
           />
