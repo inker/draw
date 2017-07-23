@@ -9,6 +9,7 @@ import { fetchPots, parseGS } from 'utils/fetch-parse-pots'
 import getCountryFlagUrl from 'utils/getCountryFlagUrl'
 import prefetchImage from 'utils/prefetchImage'
 import currentSeason from 'utils/currentSeason'
+import delay from 'utils/delay'
 import { GSTeam } from 'utils/team'
 
 import Wait from 'components/Wait'
@@ -16,13 +17,15 @@ import Wait from 'components/Wait'
 interface Props {
   season: number,
   dummyKey: string,
-  onSeasonChange: (tournament: string, stage: string, season: number) => void,
+  onSeasonChange: (tournament: string, stage: string, season?: number) => void,
 }
 
 interface State {
   key: string,
   pots: GSTeam[][] | null,
   waiting: boolean,
+  error: string | null,
+  season: number, // for error handling (so that we know the previous season)
 }
 
 class Pages extends React.PureComponent<Props, State> {
@@ -30,21 +33,14 @@ class Pages extends React.PureComponent<Props, State> {
     key: uniqueId(),
     pots: null,
     waiting: false,
+    error: null,
+    season: currentSeason,
   }
 
   unlisten: (() => void) | undefined
 
   componentDidMount() {
-    const {
-      match,
-      // onSeasonChange,
-    } = this.props
-    const {
-      // stage,
-      // tournament,
-      season,
-    } = match.params
-    // onSeasonChange(tournament, stage, +(season || currentSeason))
+    const { season } = this.getMatchParams()
     this.fetchData(season ? +season : currentSeason)
   }
 
@@ -60,16 +56,46 @@ class Pages extends React.PureComponent<Props, State> {
     }
   }
 
+  getMatchParams() {
+    const { params } = this.props.match
+    return {
+      ...params,
+      season: params.season ? +params.season : currentSeason,
+    }
+  }
+
   fetchData = async (season: number) => {
     this.setState({
       waiting: true,
     })
-    const pots = await this.getPots(season)
-    await this.prefetchImages(pots)
+    try {
+      const pots = await this.getPots(season)
+      await this.prefetchImages(pots)
+      this.setState({
+        pots,
+        waiting: false,
+        error: null,
+        key: uniqueId(),
+        season,
+      })
+    } catch (err) {
+      this.onFetchError(err)
+    }
+  }
+
+  async onFetchError(err) {
     this.setState({
-      pots,
       waiting: false,
-      key: uniqueId(),
+      error: 'Could not fetch data',
+    })
+    await delay(1000)
+    console.error(err)
+    const { tournament, stage } = this.getMatchParams()
+    const { pots, season } = this.state
+    const newSeason = pots && season !== currentSeason ? season : undefined
+    this.props.onSeasonChange(tournament, stage, newSeason)
+    this.setState({
+      error: null,
     })
   }
 
@@ -90,30 +116,33 @@ class Pages extends React.PureComponent<Props, State> {
     const {
       pots,
       waiting,
+      error,
       key,
     } = this.state
-    if (!pots) {
-      return <Wait />
-    }
+    const popup = error
+      ? <Wait>{error}</Wait>
+      : waiting
+      ? <Wait />
+      : null
     return (
       <div>
-        {waiting &&
-          <Wait />
+        {popup}
+        {pots &&
+          <Switch>
+            <Route path="/cl/gs">
+              <GS
+                pots={pots}
+                key={key}
+              />
+            </Route>
+            <Route path="/cl/last16">
+              <Last16
+                pots={pots}
+                key={key}
+              />
+            </Route>
+          </Switch>
         }
-        <Switch>
-          <Route path="/cl/gs">
-            <GS
-              pots={pots}
-              key={key}
-            />
-          </Route>
-          <Route path="/cl/last16">
-            <Last16
-              pots={pots}
-              key={key}
-            />
-          </Route>
-        </Switch>
       </div>
     )
   }

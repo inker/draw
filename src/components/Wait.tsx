@@ -35,11 +35,15 @@ const Text = styled(Abs)`
   user-select: none;
 `
 
-const Wait = () => (
+interface Props {
+  children?: any,
+}
+
+const Wait = ({ children }: Props) => (
   <div>
     <Background />
     <Text>
-      {navigator.onLine ? 'wait...' : "you're offline"}
+      {children || (navigator.onLine ? 'wait...' : "you're offline")}
     </Text>
   </div>
 )
