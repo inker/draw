@@ -10,6 +10,7 @@ deploy:
   local_dir: docs
   skip_cleanup: true
   github_token: $GITHUB_TOKEN
+  fqdn: https://draw.inker.fun
   on:
     branch: master
 - provider: surge
