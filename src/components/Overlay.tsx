@@ -18,7 +18,11 @@ const Abs = styled.div`
   right: 0;
 `
 
-const Background = styled(Abs)`
+interface BackgroundProps {
+  animate: boolean,
+}
+
+const Background = styled<BackgroundProps>(Abs)`
   background-color: white;
   opacity: 0.75;
   ${props => props.animate && `
