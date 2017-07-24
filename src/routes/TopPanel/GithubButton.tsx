@@ -3,7 +3,9 @@ import styled from 'styled-components'
 
 const Wrapper = styled.div`
   display: flex;
+  justify-content: center;
   margin-left: 5px;
+  width: 80px;
 `
 
 const GithubButton = () => (
