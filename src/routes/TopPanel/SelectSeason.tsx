@@ -23,7 +23,7 @@ class SelectSeason extends React.PureComponent<Props> {
       <select
         className="needsclick"
         onChange={onChange}
-        defaultValue={`cl-gs-${defaultSeason}`}
+        value={`cl-gs-${defaultSeason}`}
       >
         {range(currentSeason, start - 1).map(i => (
           <option value={`cl-gs-${i}`}>
