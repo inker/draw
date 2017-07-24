@@ -112,6 +112,13 @@ class Pages extends React.PureComponent<Props, State> {
     return Promise.all(promises)
   }
 
+  getOverlay = (props) => (
+    <Overlay
+      {...props}
+      noAnimation={!this.state.pots}
+    />
+  )
+
   render() {
     const {
       pots,
@@ -119,12 +126,13 @@ class Pages extends React.PureComponent<Props, State> {
       error,
       key,
     } = this.state
+    const WrappedOverlay = this.getOverlay
     const popup = !navigator.onLine
-      ? <Overlay>you're offline</Overlay>
+      ? <WrappedOverlay>you're offline</WrappedOverlay>
       : error
-      ? <Overlay>{error}</Overlay>
+      ? <WrappedOverlay>{error}</WrappedOverlay>
       : waiting
-      ? <Overlay>wait...</Overlay>
+      ? <WrappedOverlay>wait...</WrappedOverlay>
       : null
     return (
       <div>

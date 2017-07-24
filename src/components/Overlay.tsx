@@ -21,7 +21,9 @@ const Abs = styled.div`
 const Background = styled(Abs)`
   background-color: white;
   opacity: 0.75;
-  animation: ${BackgroundAnimation} 0.1s ease-out;
+  ${props => props.animate && `
+    animation: ${BackgroundAnimation} 0.1s ease-out;
+  `}
 `
 
 const Text = styled(Abs)`
@@ -34,12 +36,13 @@ const Text = styled(Abs)`
 `
 
 interface Props {
+  noAnimation: boolean,
   children?: any,
 }
 
-const Overlay = ({ children }: Props) => (
+const Overlay = ({ noAnimation, children }: Props) => (
   <div>
-    <Background />
+    <Background animate={!noAnimation}/>
     <Text>
       {children}
     </Text>
