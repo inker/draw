@@ -64,7 +64,7 @@ class Pages extends React.PureComponent<Props, State> {
     }
   }
 
-  fetchData = async (season: number) => {
+  async fetchData(season: number) {
     this.setState({
       waiting: true,
     })
