@@ -37,13 +37,13 @@ interface Props {
   children?: any,
 }
 
-const Wait = ({ children }: Props) => (
+const Overlay = ({ children }: Props) => (
   <div>
     <Background />
     <Text>
-      {children || (navigator.onLine ? 'wait...' : "you're offline")}
+      {children}
     </Text>
   </div>
 )
 
-export default Wait
+export default Overlay

@@ -12,7 +12,7 @@ import currentSeason from 'utils/currentSeason'
 import delay from 'utils/delay'
 import { GSTeam } from 'utils/team'
 
-import Wait from 'components/Wait'
+import Overlay from 'components/Overlay'
 
 interface Props {
   season: number,
@@ -119,10 +119,12 @@ class Pages extends React.PureComponent<Props, State> {
       error,
       key,
     } = this.state
-    const popup = error
-      ? <Wait>{error}</Wait>
+    const popup = !navigator.onLine
+      ? <Overlay>you're offline</Overlay>
+      : error
+      ? <Overlay>{error}</Overlay>
       : waiting
-      ? <Wait />
+      ? <Overlay>wait...</Overlay>
       : null
     return (
       <div>
