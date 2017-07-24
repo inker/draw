@@ -5,9 +5,7 @@ const BackgroundAnimation = keyframes`
   from {
     opacity: 0;
   }
-  to {
-    opacity: 0.75;
-  }
+  to {}
 `
 
 const Abs = styled.div`
