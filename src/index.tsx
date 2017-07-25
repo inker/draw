@@ -2,10 +2,14 @@ import * as React from 'react'
 import * as ReactDom from 'react-dom'
 import styled from 'styled-components'
 import * as fastclick from 'fastclick'
+import { safari } from 'bowser'
+import 'normalize.css'
 
 import Routes from './routes'
 
-import 'normalize.css'
+if (safari) {
+  alert('Does not work in Safari, yet. Use Chrome or Firefox.')
+}
 
 const Root = styled.div`
   font-family: Arial, sans-serif;
