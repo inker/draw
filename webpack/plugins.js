@@ -71,19 +71,20 @@ module.exports = env => [
   ]),
 
   env !== 'dev' && new UglifyJsPlugin({
-    compress: {
-      screw_ie8: true,
-      warnings: false,
-      dead_code: true,
-      properties: true,
-      unused: true,
-      join_vars: true,
-    },
-    mangle: {
-      safari10: true,
-    },
-    output: {
-      comments: false,
+    uglifyOptions: {
+      compress: {
+        warnings: false,
+        dead_code: true,
+        properties: true,
+        unused: true,
+        join_vars: true,
+      },
+      mangle: {
+        safari10: true,
+      },
+      output: {
+        comments: false,
+      },
     },
     // sourceMap: true, // retains sourcemaps for typescript
   }),
