@@ -46,7 +46,7 @@ const TeamBowl = ({
             noHover={selectedTeam}
             onClick={!selectedTeam && onPick}
           >
-            {team.name}
+            {team.shortName || team.name}
           </TeamBall>
         ))
       }
