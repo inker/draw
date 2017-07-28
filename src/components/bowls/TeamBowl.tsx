@@ -12,7 +12,7 @@ const Root = styled.div`
 
 interface TeamBallProps {
   selected: boolean,
-  notSelected: boolean,
+  notSelected: boolean | null,
 }
 
 const TeamBall = styled<TeamBallProps>(Ball)`

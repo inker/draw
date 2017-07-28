@@ -19,17 +19,24 @@ interface Props {
 const PossibleGroups = ({
   numGroups,
   possibleGroups,
-}: Props) => (
-  <Root>
-    {range(numGroups).map(i => (
-      <Roundel
-        color={i < 4 ? 'red' : 'blue'}
-        possible={possibleGroups.includes(i)}
-      >
-        {getGroupLetter(i)}
-      </Roundel>
-    ))}
-  </Root>
-)
+}: Props) => {
+  const halfNum = numGroups >> 1
+  return (
+    <Root>
+      {range(numGroups).map(i => {
+        const letter = getGroupLetter(i)
+        return (
+          <Roundel
+            key={letter}
+            color={i < halfNum ? 'red' : 'blue'}
+            possible={possibleGroups.includes(i)}
+          >
+            {letter}
+          </Roundel>
+        )
+      })}
+    </Root>
+  )
+}
 
 export default PossibleGroups

@@ -1,6 +1,6 @@
 import { mobile } from 'bowser'
 
-import countryNames from 'data/country-names'
+import * as countryNames from 'data/country-names.json'
 import * as pairings from 'data/pairings.json'
 
 import currentSeason from './currentSeason'
@@ -28,7 +28,7 @@ export async function tryFetch(url: string) {
   }
   const response = await fetch(proxify(url, 'latin1'))
   if (response.status !== 200) {
-    throw new Error(`${url}: 404`)
+    throw new Error(`${url}: ${response.status}`)
   }
   const text = await response.text()
   if (text.includes('<title>404 Not Found</title>')) {

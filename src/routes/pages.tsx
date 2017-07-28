@@ -107,7 +107,8 @@ class Pages extends React.PureComponent<Props, State> {
   prefetchImages(pots: GSTeam[][]) {
     const promises: Promise<void>[] = []
     for (const pot of pots) {
-      promises.push(...pot.map(team => getCountryFlagUrl(team.country)).map(prefetchImage))
+      const urls = pot.map(team => getCountryFlagUrl(team.country))
+      promises.push(...urls.map(prefetchImage))
     }
     return Promise.all(promises)
   }
@@ -119,24 +120,26 @@ class Pages extends React.PureComponent<Props, State> {
     />
   )
 
-  render() {
-    const {
-      pots,
-      waiting,
-      error,
-      key,
-    } = this.state
+  getPopup() {
+    const { error, waiting } = this.state
     const WrappedOverlay = this.getOverlay
-    const popup = !navigator.onLine
-      ? <WrappedOverlay>you're offline</WrappedOverlay>
-      : error
-      ? <WrappedOverlay>{error}</WrappedOverlay>
-      : waiting
-      ? <WrappedOverlay>wait...</WrappedOverlay>
-      : null
+    if (!navigator.onLine) {
+      return <WrappedOverlay>you're offline</WrappedOverlay>
+    }
+    if (error) {
+      return <WrappedOverlay>{error}</WrappedOverlay>
+    }
+    if (waiting) {
+      return <WrappedOverlay>wait...</WrappedOverlay>
+    }
+    return null
+  }
+
+  render() {
+    const { pots, key } = this.state
     return (
       <div>
-        {popup}
+        {this.getPopup()}
         {pots &&
           <Switch>
             <Route path="/cl/gs">
