@@ -13,7 +13,7 @@ declare const System: any
 
 const getClubName = mobile && System.import('./getClubName')
 
-const BERT_HOST = 'https://kassiesa.home.xs4all.nl/bert/uefa'
+const BERT_HOST = 'http://kassiesa.home.xs4all.nl/bert/uefa'
 
 const getUrl = (year: number) =>
   `${BERT_HOST}/seedcl${year}.html`
