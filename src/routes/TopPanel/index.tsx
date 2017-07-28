@@ -48,11 +48,6 @@ class TopPanel extends React.PureComponent<Props> {
     const season = getCurrentSeason(location)
     return (
       <Root>
-        <SelectSeason
-          defaultSeason={season}
-          start={2000}
-          onChange={this.onSeasonChange}
-        />
         {location &&
           <StyledLink
             to={location.pathname}
@@ -61,6 +56,11 @@ class TopPanel extends React.PureComponent<Props> {
             Restart
           </StyledLink>
         }
+        <SelectSeason
+          defaultSeason={season}
+          start={2000}
+          onChange={this.onSeasonChange}
+        />
         {/*<Link to="/">Change mode</Link> |*/}
         {!mobile &&
           <GithubButton />
