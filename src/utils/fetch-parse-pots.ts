@@ -80,15 +80,21 @@ export function parseLast16Teams(data: string): Last16Team[][] {
 }
 
 async function parseGSTeams(data: string) {
+  const textRe = /Pot 1\s{5}([\s\S]+?)<\/table>/
+  const tokens = data.match(textRe)
+  if (!tokens) {
+    throw new Error('could not parse')
+  }
+  data = tokens[1]
   const re = /\s*(.+?)\s*(\*+\d?|\(([CE]L-)?TH\))?\s+(\w{3})\s+(\d{1,3}\.\d{3})/g
-  data = data.slice(data.indexOf('Pot 1'))
   const teams: GSTeam[] = []
   let matches: RegExpExecArray | null
   while ((matches = re.exec(data)) !== null) {
+    const longName = matches[1].replace(/\*/g, '')
     const country = countryNames[matches[4].toLowerCase()]
-    const shortName = getClubName && (await getClubName).default(matches[1], country) || undefined
+    const shortName = getClubName && (await getClubName).default(longName, country) || undefined
     const coefficient = +matches[5]
-    teams.push(new GSTeam(matches[1], country, coefficient, shortName))
+    teams.push(new GSTeam(longName, country, coefficient, shortName))
   }
   return teams
 }

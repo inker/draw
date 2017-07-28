@@ -50,7 +50,7 @@ class TopPanel extends React.PureComponent<Props> {
       <Root>
         <SelectSeason
           defaultSeason={season}
-          start={2003}
+          start={2000}
           onChange={this.onSeasonChange}
         />
         {location &&

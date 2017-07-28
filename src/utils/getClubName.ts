@@ -6,9 +6,13 @@ import removeDiacritics from './removeDiacritics'
 import { Team } from './team'
 
 const I_RE = /y|j|(ij)/g
+const KH_RE = /kh/g
 
 const normalize = memoize(
-  (s: string) => removeDiacritics(s).toLowerCase().replace(I_RE, 'i'),
+  (s: string) => removeDiacritics(s)
+    .toLowerCase()
+    .replace(I_RE, 'i')
+    .replace(KH_RE, 'k'),
 )
 
 const nameIncludes = (longerNorm: string, shorterNorm: string) =>
@@ -45,5 +49,5 @@ export default (teamName: string, country: string) => {
   const including = countryTeams.filter(o => nameIncludes(norm, normalize(o.name)))
   return including.length === 1
     ? including[0].name
-    : getClosest(including.length ? including : countryTeams, norm, 0.5)
+    : getClosest(including.length ? including : countryTeams, norm, 0.45)
 }
