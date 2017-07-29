@@ -4,7 +4,8 @@ import BaseCell from './BaseCell'
 
 const Header = styled(BaseCell)`
   justify-content: center;
-  font-weight: bold;
+  font-weight: 600;
+  color: #444;
 `
 
 export default Header

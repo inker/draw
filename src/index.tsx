@@ -7,7 +7,7 @@ import 'normalize.css'
 import Routes from './routes'
 
 const Root = styled.div`
-  font-family: Arial, sans-serif;
+  font-family: Tahoma, Arial, sans-serif;
 `
 
 ReactDom.render(
