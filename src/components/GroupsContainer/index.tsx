@@ -29,14 +29,14 @@ interface Props {
   airborneTeams: Team[],
 }
 
-const GroupsContainer = ({
+const GroupsContainer: React.SFC<Props> = ({
   maxTeams,
   currentPotNum,
   groups,
   possibleGroups,
   selectedTeam,
   airborneTeams,
-}: Props) => (
+}) => (
   <Root numGroups={groups.length}>
     {groups && groups.map((group, i) => (
       <Group

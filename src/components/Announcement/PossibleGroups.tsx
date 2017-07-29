@@ -16,10 +16,10 @@ interface Props {
   possibleGroups: number[],
 }
 
-const PossibleGroups = ({
+const PossibleGroups: React.SFC<Props> = ({
   numGroups,
   possibleGroups,
-}: Props) => {
+}) => {
   const halfNum = numGroups >> 1
   return (
     <Root>

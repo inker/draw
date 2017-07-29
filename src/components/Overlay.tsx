@@ -41,10 +41,12 @@ const Text = styled(Abs)`
 
 interface Props {
   noAnimation: boolean,
-  children?: any,
 }
 
-const Overlay = ({ noAnimation, children }: Props) => (
+const Overlay: React.SFC<Props> = ({
+  noAnimation,
+  children,
+}) => (
   <div>
     <Background animate={!noAnimation}/>
     <Text>

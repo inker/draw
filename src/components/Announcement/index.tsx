@@ -51,14 +51,14 @@ interface Props {
   reset: any,
 }
 
-const Announcement = ({
+const Announcement: React.SFC<Props> = ({
   completed,
   selectedTeam,
   pickedGroup,
   possibleGroups,
   numGroups,
   reset,
-}: Props) => (
+}) => (
   <Root>
     {
       completed ? (

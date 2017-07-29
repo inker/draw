@@ -28,12 +28,12 @@ interface Props {
   onPick: any,
 }
 
-const TeamBowl = ({
+const TeamBowl: React.SFC<Props> = ({
   completed,
   pot,
   selectedTeam,
   onPick,
-}: Props) => {
+}) => {
   return (
     <Root>
       {!completed && pot &&

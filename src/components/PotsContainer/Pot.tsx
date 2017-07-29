@@ -26,13 +26,13 @@ interface Props {
   selectedTeam: Team | null,
 }
 
-const Pot = ({
+const Pot: React.SFC<Props> = ({
   isCurrent,
   potNum,
   teams,
   pickedTeams,
   selectedTeam,
-}: Props) => {
+}) => {
   return (
     <Root highlighted={isCurrent}>
       <Header
@@ -43,8 +43,12 @@ const Pot = ({
       </Header>
       <Body>
         {teams && teams.map(team => {
-          const { name, country, shortName } = team
-          const pairing = team instanceof GSTeam ? team.pairing : null
+          const {
+            name,
+            country,
+            shortName,
+            pairing,
+          } = team as GSTeam
           return (
             <Cell
               key={team.id}

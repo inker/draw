@@ -16,11 +16,11 @@ interface Props {
   onPick: any,
 }
 
-const GroupBowl = ({
+const GroupBowl: React.SFC<Props> = ({
   completed,
   possibleGroups,
   onPick,
-}: Props) => (
+}) => (
   <Root>
     {!completed && possibleGroups &&
       possibleGroups.map(groupNum => (

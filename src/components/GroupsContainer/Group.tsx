@@ -17,14 +17,14 @@ interface Props {
   airborneTeams: Team[],
 }
 
-const Group = ({
+const Group: React.SFC<Props> = ({
   maxTeams,
   groupLetter,
   teams,
   potNum,
   possible,
   airborneTeams,
-}: Props) => {
+}) => {
   const nonAirborneTeams = difference(teams, airborneTeams)
   return (
     <Table>
