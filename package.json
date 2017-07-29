@@ -1,7 +1,7 @@
 {
   "name": "draw",
-  "version": "1.0.1",
-  "description": "A Champions League draw simulator.",
+  "version": "1.0.2",
+  "description": "A Champions League draw simulator",
   "main": "index.html",
   "dependencies": {
     "bowser": "^1.7.1",
