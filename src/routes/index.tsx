@@ -23,6 +23,7 @@ interface State {
 
 class Routes extends React.PureComponent<Props, State> {
   unlisten: (() => void) | undefined
+
   state = {
     key: uniqueId(),
     season: getCurrentSeason(history.location),
@@ -58,11 +59,12 @@ class Routes extends React.PureComponent<Props, State> {
   }
 
   getPages = (props) => {
+    const { key, season } = this.state
     return (
       <Pages
         {...props}
-        dummyKey={this.state.key}
-        season={this.state.season}
+        dummyKey={key}
+        season={season}
         onSeasonChange={this.onSeasonChange}
       />
     )
@@ -85,8 +87,14 @@ class Routes extends React.PureComponent<Props, State> {
               path="/:tournament/:stage/:season?"
               component={this.getPages}
             />
-            <Redirect from="/cl" to="/cl/gs"/>
-            <Redirect from="/" to="/cl/gs"/>
+            <Redirect
+              from="/cl"
+              to="/cl/gs"
+            />
+            <Redirect
+              from="/"
+              to="/cl/gs"
+            />
           </Switch>
         </div>
       </Router>

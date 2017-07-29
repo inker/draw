@@ -9,20 +9,25 @@ const seasonAsString = (i: number) =>
 interface Props {
   defaultSeason: number,
   start: number,
-  onChange: (e: React.ChangeEvent<HTMLSelectElement>) => void,
+  onChange: (tournament: string, stage: string, season?: number) => void,
 }
 
 class SelectSeason extends React.PureComponent<Props> {
+
+  onChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const [tournament, stage, season] = e.target.value.split('-')
+    this.props.onChange(tournament, stage, +season)
+  }
+
   render() {
     const {
       defaultSeason,
       start,
-      onChange,
     } = this.props
     return (
       <select
         className="needsclick"
-        onChange={onChange}
+        onChange={this.onChange}
         value={`cl-gs-${defaultSeason}`}
       >
         {range(currentSeason, start - 1).map(i => (

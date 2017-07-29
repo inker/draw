@@ -35,15 +35,11 @@ interface Props {
 
 class TopPanel extends React.PureComponent<Props> {
 
-  onSeasonChange = (e) => {
-    const [tournament, stage, season] = e.target.value.split('-')
-    this.props.onSeasonChange(tournament, stage, +season)
-  }
-
   render() {
     const {
       location,
       refresh,
+      onSeasonChange,
     } = this.props
     const season = getCurrentSeason(location)
     return (
@@ -59,7 +55,7 @@ class TopPanel extends React.PureComponent<Props> {
         <SelectSeason
           defaultSeason={season}
           start={2000}
-          onChange={this.onSeasonChange}
+          onChange={onSeasonChange}
         />
         {/*<Link to="/">Change mode</Link> |*/}
         {!mobile &&
