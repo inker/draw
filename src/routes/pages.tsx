@@ -28,8 +28,8 @@ interface State {
   pots: GSTeam[][] | null,
   waiting: boolean,
   error: string | null,
-  tournament: string,
-  stage: string,
+  // tournament: string,
+  // stage: string,
   season: number, // for error handling (so that we know the previous season)
 }
 

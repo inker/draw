@@ -17,8 +17,8 @@ interface Props {}
 
 interface State {
   key: string,
-  tournament: string,
-  stage: string,
+  tournament: string | null,
+  stage: string | null,
   season: number,
   location: typeof history.location,
 }
@@ -26,8 +26,10 @@ interface State {
 class Routes extends React.PureComponent<Props, State> {
   unlisten: (() => void) | undefined
 
-  state = {
+  state: State = {
     key: uniqueId(),
+    tournament: null,
+    stage: null,
     season: getCurrentSeason(history.location),
     location: history.location,
   }
