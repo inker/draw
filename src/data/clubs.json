@@ -24,7 +24,9 @@
     "Birmingham",
     "Aston Villa",
     "Norwich",
-    "Hull"
+    "Hull",
+    "Fulham",
+    "Wigan"
   ],
   "es": [
     "Alavés",
@@ -107,7 +109,8 @@
     "Duisburg",
     "Kaiserslautern",
     "Aachen",
-    "Energie"
+    "Energie",
+    "Hannover"
   ],
   "fr": [
     "Angers",
@@ -158,7 +161,8 @@
     "Marítimo",
     "Paços Ferreira",
     "Estoril",
-    "Belenenses"
+    "Belenenses",
+    "Académica"
   ],
   "nl": [
     "PSV",
@@ -192,7 +196,8 @@
     "Dnipro",
     "Olexandria",
     "Zorya",
-    "Chornomorets"
+    "Chornomorets",
+    "Vorskla"
   ],
   "tr": [
     "Bursaspor",
@@ -257,7 +262,10 @@
   "kz": [
     "Astana",
     "Kairat",
-    "Irtysh"
+    "Irtysh",
+    "Shakhter",
+    "Aktobe",
+    "Ordabasy"
   ],
   "no": [
     "Rosenborg",
@@ -344,7 +352,8 @@
     "Midtjylland",
     "AaB",
     "Lyngby",
-    "Esbjerg"
+    "Esbjerg",
+    "OB"
   ],
   "bg": [
     "Levski",

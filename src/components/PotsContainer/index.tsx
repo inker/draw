@@ -41,6 +41,7 @@ class PotsContainer extends React.PureComponent<Props> {
 
   render() {
     const {
+      noHung,
       initialPots,
       selectedTeam,
       currentPotNum,
@@ -58,7 +59,7 @@ class PotsContainer extends React.PureComponent<Props> {
               isCurrent={isCurrent}
               teams={pot}
               pickedTeams={pickedTeams}
-              selectedTeam={selectedTeam}
+              selectedTeam={noHung ? null : selectedTeam}
             />
           )
         })}

@@ -5,7 +5,7 @@ import * as clubs from 'data/clubs.json'
 import removeDiacritics from './removeDiacritics'
 import { Team } from './team'
 
-const I_RE = /y|j|(ij)/g
+const I_RE = /y|(ij)/g
 const KH_RE = /kh/g
 const ZH_RE = /zh/g
 
