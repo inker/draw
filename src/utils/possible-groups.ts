@@ -1,7 +1,7 @@
 import { range } from 'lodash'
 import { GSTeam as Team } from 'utils/team'
 
-export default (pots: Team[][], groups: Team[][], teamPicked: Team, currentPotIndex: number): number[] => {
+export function allPossibleGroups(pots: Team[][], groups: Team[][], teamPicked: Team, currentPotIndex: number) {
   if (groups.every(group => group.length === 0)) {
     return range(groups.length)
   }
@@ -11,6 +11,18 @@ export default (pots: Team[][], groups: Team[][], teamPicked: Team, currentPotIn
     groups[groupNum].pop()
     return possible
   })
+}
+
+export function firstPossibleGroup(pots: Team[][], groups: Team[][], teamPicked: Team, currentPotIndex: number) {
+  if (groups.every(group => group.length === 0)) {
+    return 0
+  }
+  return filterGroupsBasic(groups, teamPicked, currentPotIndex).find(groupNum => {
+    groups[groupNum].push(teamPicked)
+    const possible = groupIsPossible(pots, groups, currentPotIndex)
+    groups[groupNum].pop()
+    return possible
+  }) as number
 }
 
 function groupIsPossible(pots: Team[][], groups: Team[][], currentPotIndex: number): boolean {

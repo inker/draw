@@ -16,6 +16,7 @@ const Root = styled.div`
 `
 
 interface Props {
+  noHung: boolean,
   initialPots: Team[][],
   pots: Team[][],
   selectedTeam: Team | null,
@@ -25,12 +26,17 @@ interface Props {
 class PotsContainer extends React.PureComponent<Props> {
   getPickedTeams() {
     const {
+      noHung,
       currentPotNum,
       pots,
       initialPots,
       selectedTeam,
     } = this.props
-    return difference(initialPots[currentPotNum], pots[currentPotNum], [selectedTeam as Team])
+    const diff = difference(initialPots[currentPotNum], pots[currentPotNum], [selectedTeam as Team])
+    if (selectedTeam && noHung) {
+      diff.push(selectedTeam)
+    }
+    return diff
   }
 
   render() {

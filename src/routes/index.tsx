@@ -17,6 +17,8 @@ interface Props {}
 
 interface State {
   key: string,
+  tournament: string,
+  stage: string,
   season: number,
   location: typeof history.location,
 }
@@ -46,7 +48,10 @@ class Routes extends React.PureComponent<Props, State> {
 
   updateLocation = (location, type) => {
     const season = getCurrentSeason(location)
+    const [, tournament, stage] = location.pathname.split('/')
     this.setState({
+      tournament,
+      stage,
       season,
       location: history.location,
     })
@@ -59,11 +64,18 @@ class Routes extends React.PureComponent<Props, State> {
   }
 
   getPages = (props) => {
-    const { key, season } = this.state
+    const {
+      key,
+      tournament,
+      stage,
+      season,
+    } = this.state
     return (
       <Pages
         {...props}
         dummyKey={key}
+        tournament={tournament}
+        stage={stage}
         season={season}
         onSeasonChange={this.onSeasonChange}
       />
@@ -86,6 +98,10 @@ class Routes extends React.PureComponent<Props, State> {
             <Route
               path="/:tournament/:stage/:season?"
               component={this.getPages}
+            />
+            <Redirect
+              from="/el"
+              to="/el/gs"
             />
             <Redirect
               from="/cl"

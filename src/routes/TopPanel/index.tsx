@@ -41,6 +41,7 @@ class TopPanel extends React.PureComponent<Props> {
       refresh,
       onSeasonChange,
     } = this.props
+    const [, tournament, stage] = location.pathname.split('/')
     const season = getCurrentSeason(location)
     return (
       <Root>
@@ -53,8 +54,9 @@ class TopPanel extends React.PureComponent<Props> {
           </StyledLink>
         }
         <SelectSeason
-          defaultSeason={season}
-          start={2000}
+          tournament={tournament}
+          stage={stage}
+          season={season}
           onChange={onSeasonChange}
         />
         {/*<Link to="/">Change mode</Link> |*/}

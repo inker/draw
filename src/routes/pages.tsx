@@ -2,8 +2,9 @@ import * as React from 'react'
 import { Route, Switch } from 'react-router-dom'
 import { uniqueId, memoize } from 'lodash'
 
-import GS from 'pages/cl/gs'
+import CLGS from 'pages/cl/gs'
 import Last16 from 'pages/cl/last16'
+import ELGS from 'pages/el/gs'
 
 import { fetchPots, parseGS } from 'utils/fetch-parse-pots'
 import getCountryFlagUrl from 'utils/getCountryFlagUrl'
@@ -15,6 +16,8 @@ import { GSTeam } from 'utils/team'
 import Overlay from 'components/Overlay'
 
 interface Props {
+  tournament: string,
+  stage: string,
   season: number,
   dummyKey: string,
   onSeasonChange: (tournament: string, stage: string, season?: number) => void,
@@ -25,6 +28,8 @@ interface State {
   pots: GSTeam[][] | null,
   waiting: boolean,
   error: string | null,
+  tournament: string,
+  stage: string,
   season: number, // for error handling (so that we know the previous season)
 }
 
@@ -40,15 +45,24 @@ class Pages extends React.PureComponent<Props, State> {
   unlisten: (() => void) | undefined
 
   componentDidMount() {
-    const { season } = this.getMatchParams()
-    this.fetchData(season ? +season : currentSeason)
+    const {
+      tournament,
+      stage,
+      season,
+    } = this.getMatchParams()
+    this.fetchData(tournament, stage, season ? +season : currentSeason)
   }
 
   componentWillReceiveProps(nextProps: Props) {
     const { props } = this
-    const { season, dummyKey } = nextProps
-    if (props.season !== season) {
-      this.fetchData(season)
+    const {
+      tournament,
+      stage,
+      season,
+      dummyKey,
+    } = nextProps
+    if (props.season !== season || props.stage !== stage || props.tournament !== tournament) {
+      this.fetchData(tournament, stage, season)
     } else if (props.dummyKey !== dummyKey) {
       this.setState({
         key: dummyKey,
@@ -64,18 +78,20 @@ class Pages extends React.PureComponent<Props, State> {
     }
   }
 
-  async fetchData(season: number) {
+  async fetchData(tournament: string, stage: string, season: number) {
     this.setState({
       waiting: true,
     })
     try {
-      const pots = await this.getPots(season)
+      const pots = await this.getPots(tournament, stage, season)
       await this.prefetchImages(pots)
       this.setState({
         pots,
         waiting: false,
         error: null,
         key: uniqueId(),
+        tournament,
+        stage,
         season,
       })
     } catch (err) {
@@ -99,10 +115,10 @@ class Pages extends React.PureComponent<Props, State> {
     })
   }
 
-  getPots = memoize(async (season: number) => {
-    const data = await fetchPots(season)
+  getPots = memoize(async (tournament: string, stage: string, season: number) => {
+    const data = await fetchPots(tournament, season)
     return parseGS(data)
-  })
+  }, (tournament, stage, season) => `${tournament}-${stage}-${season}`)
 
   prefetchImages(pots: GSTeam[][]) {
     const promises: Promise<void>[] = []
@@ -143,13 +159,19 @@ class Pages extends React.PureComponent<Props, State> {
         {pots &&
           <Switch>
             <Route path="/cl/gs">
-              <GS
+              <CLGS
                 pots={pots}
                 key={key}
               />
             </Route>
             <Route path="/cl/last16">
               <Last16
+                pots={pots}
+                key={key}
+              />
+            </Route>
+            <Route path="/el/gs">
+              <ELGS
                 pots={pots}
                 key={key}
               />

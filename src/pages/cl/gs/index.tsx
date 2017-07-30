@@ -1,10 +1,10 @@
 import * as React from 'react'
-import styled from 'styled-components'
 import { shuffle } from 'lodash'
 
 import { GSTeam as Team } from 'utils/team'
 import animateContentTransfer from 'utils/animateContentTransfer'
 import getGroupLetter from 'utils/getGroupLetter'
+import { allPossibleGroups } from 'utils/possible-groups'
 
 import PotsContainer from 'components/PotsContainer'
 // import AirborneContainer from 'components/AirborneContainer'
@@ -15,17 +15,7 @@ import TeamBowl from 'components/bowls/TeamBowl'
 import GroupBowl from 'components/bowls/GroupBowl'
 import Announcement from 'components/Announcement'
 
-import getPossibleGroups from './possible-groups'
-
-const Root = styled.div`
-  display: flex;
-  margin: auto;
-  width: 1000px;
-  @media (max-width: 999px) {
-    width: 100%;
-    flex-direction: column;
-  }
-`
+import Root from 'pages/Root'
 
 interface Props {
   pots: Team[][],
@@ -86,7 +76,7 @@ export default class GS extends React.PureComponent<Props, State> {
     const hungPot = currentPot.slice()
     const i = currentPot.findIndex(team => team.id === ball.dataset.teamid)
     const selectedTeam = currentPot.splice(i, 1)[0]
-    const possibleGroups = getPossibleGroups(pots, groups, selectedTeam, currentPotNum)
+    const possibleGroups = allPossibleGroups(pots, groups, selectedTeam, currentPotNum)
     this.setState({
       hungPot,
       selectedTeam,
@@ -173,6 +163,7 @@ export default class GS extends React.PureComponent<Props, State> {
       <Root>
         <TablesContainer>
           <PotsContainer
+            noHung={false}
             selectedTeam={selectedTeam}
             initialPots={initialPots}
             pots={pots}
@@ -195,6 +186,7 @@ export default class GS extends React.PureComponent<Props, State> {
             onPick={this.onTeamBallPick}
           />
           <Announcement
+            long={false}
             completed={completed}
             selectedTeam={selectedTeam}
             pickedGroup={pickedGroup}

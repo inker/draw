@@ -15,11 +15,11 @@ const getClubName = mobile && System.import('./getClubName')
 
 const BERT_HOST = 'http://kassiesa.home.xs4all.nl/bert/uefa'
 
-const getUrl = (year: number) =>
-  `${BERT_HOST}/seedcl${year}.html`
+const getUrl = (tournament: string, year: number) =>
+  `${BERT_HOST}/seed${tournament}${year}.html`
 
-const getHistoryUrl = (year: number) =>
-  `${BERT_HOST}/history/seedcl${year}.html`
+const getHistoryUrl = (tournament: string, year: number) =>
+  `${BERT_HOST}/history/seed${tournament}${year}.html`
 
 export async function tryFetch(url: string) {
   while (!navigator.onLine) {
@@ -50,11 +50,11 @@ export async function tryMultipleUrls(urls: string[]) {
   throw new Error(`could not load urls ${urls.join(', ')}`)
 }
 
-export default (url: string, groupStage = true) =>
-  fetchPots(currentSeason).then(groupStage ? parseGS : parseLast16Teams)
+export default (tournament: string, groupStage = true) =>
+  fetchPots(tournament, currentSeason).then(groupStage ? parseGS : parseLast16Teams)
 
-export async function fetchPots(season: number) {
-  const urls = [getUrl(season), getHistoryUrl(season)]
+export async function fetchPots(tournament: string, season: number) {
+  const urls = [getUrl(tournament, season), getHistoryUrl(tournament, season)]
   if (season !== currentSeason) {
     urls.reverse()
   }
@@ -62,7 +62,7 @@ export async function fetchPots(season: number) {
   return text
 }
 
-export async function parseGS(body) {
+export async function parseGS(body: string) {
   const parsedTeams = await parseGSTeams(body)
   const teams = pairUpTeams(parsedTeams)
   return fillGSPots(teams)
@@ -90,7 +90,9 @@ async function parseGSTeams(data: string) {
   const teams: GSTeam[] = []
   let matches: RegExpExecArray | null
   while ((matches = re.exec(data)) !== null) {
-    const longName = matches[1].replace(/\*/g, '')
+    const longName = matches[1]
+      .replace(/\*|(@\d)/g, '')
+      .trim()
     const country = countryNames[matches[4].toLowerCase()]
     const shortName = getClubName && (await getClubName).default(longName, country) || undefined
     const coefficient = +matches[5]
@@ -141,8 +143,10 @@ function pairUpTeams(teams: GSTeam[]): GSTeam[] {
 
 function fillGSPots(teams: GSTeam[]): GSTeam[][] {
   const pots: GSTeam[][] = [[], [], [], []]
+  const halfNum = teams.length >> 1
   for (let i = 0; i < teams.length; ++i) {
-    pots[i >> 4 << 1 | i % 2].push(teams[i])
+    const foo = ~~(i / halfNum)
+    pots[foo << 1 | i % 2].push(teams[i])
   }
   return pots
 }

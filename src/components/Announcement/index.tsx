@@ -43,6 +43,7 @@ const Completed = styled.div`
 `
 
 interface Props {
+  long: boolean,
   completed: boolean,
   selectedTeam: Team | null,
   pickedGroup: number | null,
@@ -52,6 +53,7 @@ interface Props {
 }
 
 const Announcement: React.SFC<Props> = ({
+  long,
   completed,
   selectedTeam,
   pickedGroup,
@@ -78,7 +80,9 @@ const Announcement: React.SFC<Props> = ({
           />
         </div>
       ) :
-      pickedGroup !== null ? `Group ${getGroupLetter(pickedGroup)}!` :
+      pickedGroup !== null ? `${
+        long && selectedTeam ? `${selectedTeam.shortName || selectedTeam.name} goes to g` : 'G'
+      }roup ${getGroupLetter(pickedGroup)}!` :
       'Pick a ball'
     }
   </Root>
