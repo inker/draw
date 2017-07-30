@@ -143,7 +143,9 @@
     "Rostov",
     "Rubin",
     "Anji",
-    "Alania"
+    "Alania",
+    "Krasnodar",
+    "Dinamo Moskva"
   ],
   "pt": [
     "Porto",
@@ -152,7 +154,11 @@
     "Braga",
     "Boavista",
     "Nacional",
-    "Guimarães"
+    "Guimarães",
+    "Marítimo",
+    "Paços Ferreira",
+    "Estoril",
+    "Belenenses"
   ],
   "nl": [
     "PSV",
@@ -166,14 +172,17 @@
     "Heerenveen",
     "NAC",
     "NEC",
-    "Zwolle"
+    "Zwolle",
+    "Vitesse"
   ],
   "be": [
     "Anderlecht",
     "Standard",
     "Club Brugge",
     "Genk",
-    "Gent"
+    "Gent",
+    "Lokeren",
+    "Zulte Waregem"
   ],
   "ua": [
     "Dynamo",
@@ -181,7 +190,9 @@
     "Metalist",
     "Karpaty",
     "Dnipro",
-    "Olexandria"
+    "Olexandria",
+    "Zorya",
+    "Chornomorets"
   ],
   "tr": [
     "Bursaspor",
@@ -198,7 +209,9 @@
     "CFR Cluj",
     "Unirea",
     "Oțelul",
-    "Astra"
+    "Astra",
+    "Poli Timișoara",
+    "Pandurii"
   ],
   "cz": [
     "Sparta",
@@ -206,7 +219,9 @@
     "Plzeň",
     "Bohemians",
     "Brno",
-    "Mladá Boleslav"
+    "Mladá Boleslav",
+    "Zlín",
+    "Liberec"
   ],
   "sk": [
     "Petržalka",
@@ -220,7 +235,12 @@
     "Thun",
     "Grasshoppers",
     "Young Boys",
-    "Sevettte"
+    "Sevettte",
+    "Lugano",
+    "Lausanne",
+    "Sion",
+    "St Gallen",
+    "Luzern"
   ],
   "at": [
     "Austria Wien",
@@ -245,7 +265,8 @@
     "Start",
     "Brann",
     "Viking",
-    "Odd"
+    "Odd",
+    "Molde"
   ],
   "md": [
     "Sheriff"
@@ -286,13 +307,15 @@
     "H. Tel-Aviv",
     "M. Tel-Aviv",
     "Beitar Jerusalem",
-    "M. Petach-Tikva"
+    "M. Petach-Tikva",
+    "H. Kiryat Shmona"
   ],
   "hu": [
     "Debrecen",
     "Újpest",
     "Ferencváros",
-    "Videoton"
+    "Videoton",
+    "Fehérvár"
   ],
   "hr": [
     "Dinamo Zagreb",
@@ -310,7 +333,9 @@
     "AEK",
     "PAOK",
     "Xanthi",
-    "Panionios"
+    "Panionios",
+    "Aris",
+    "Asteras"
   ],
   "dk": [
     "København",
@@ -318,7 +343,8 @@
     "Nordsjælland",
     "Midtjylland",
     "AaB",
-    "Lyngby"
+    "Lyngby",
+    "Esbjerg"
   ],
   "bg": [
     "Levski",
@@ -331,6 +357,24 @@
     "Anorthosis",
     "APOEL",
     "Omonia",
-    "AEL"
+    "AEL",
+    "Apollon"
+  ],
+  "az": [
+    "Garabağ",
+    "Qäbälä",
+    "Neftçi"
+  ],
+  "lv": [
+    "Ventspils"
+  ],
+  "fi": [
+    "HJK"
+  ],
+  "al": [
+    "Skënderbeu",
+    "Kukës",
+    "Partizani",
+    "Vllaznia"
   ]
 }

@@ -7,12 +7,14 @@ import { Team } from './team'
 
 const I_RE = /y|j|(ij)/g
 const KH_RE = /kh/g
+const ZH_RE = /zh/g
 
 const normalize = memoize(
   (s: string) => removeDiacritics(s)
     .toLowerCase()
     .replace(I_RE, 'i')
-    .replace(KH_RE, 'k'),
+    .replace(KH_RE, 'k')
+    .replace(ZH_RE, 'j'),
 )
 
 const nameIncludes = (longerNorm: string, shorterNorm: string) =>

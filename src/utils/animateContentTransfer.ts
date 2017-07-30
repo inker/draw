@@ -1,4 +1,5 @@
 import styled from './makeStyleClass'
+import { firefox } from 'bowser'
 
 const OFFSET_LEFT = 2
 const OFFSET_TOP = 2
@@ -48,8 +49,11 @@ export default (sourceCell: HTMLElement, targetCell: HTMLElement, duration: numb
   return new Promise<void>(resolve => {
     fakeCell.addEventListener('transitionend', e => {
       resolve()
+      if (!firefox) {
+        airborneDiv.removeChild(fakeCell)
+        return
+      }
       setTimeout(() => {
-        // specially for firefox
         airborneDiv.removeChild(fakeCell)
       }, 0)
     })
