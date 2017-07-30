@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { Route, Switch } from 'react-router-dom'
-import * as DocumentTitle from 'react-document-title'
+import Helmet, * as helmet from 'react-helmet'
 import { uniqueId, memoize } from 'lodash'
 
 import CLGS from 'pages/cl/gs'
@@ -160,28 +160,40 @@ class Pages extends React.PureComponent<Props, State> {
         {pots &&
           <Switch>
             <Route path="/cl/gs">
-              <DocumentTitle title="CL draw simulator">
+              <div>
+                <Helmet>
+                  <title>CL draw simulator</title>
+                  <meta name="theme-color" content="#00336a" />
+                </Helmet>
                 <CLGS
                   pots={pots}
                   key={key}
                 />
-              </DocumentTitle>
+              </div>
             </Route>
             <Route path="/cl/last16">
-              <DocumentTitle title="CL draw simulator">
+              <div>
+                <Helmet>
+                  <title>CL draw simulator</title>
+                  <meta name="theme-color" content="#00336a" />
+                </Helmet>
                 <Last16
                   pots={pots}
                   key={key}
                 />
-              </DocumentTitle>
+              </div>
             </Route>
             <Route path="/el/gs">
-              <DocumentTitle title="EL draw simulator">
+              <div>
+                <Helmet>
+                  <title>EL draw simulator</title>
+                  <meta name="theme-color" content="#f68e00" />
+                </Helmet>
                 <ELGS
                   pots={pots}
                   key={key}
                 />
-              </DocumentTitle>
+              </div>
             </Route>
           </Switch>
         }
