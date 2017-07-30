@@ -1,5 +1,6 @@
 import * as React from 'react'
 import { Route, Switch } from 'react-router-dom'
+import * as DocumentTitle from 'react-document-title'
 import { uniqueId, memoize } from 'lodash'
 
 import CLGS from 'pages/cl/gs'
@@ -159,22 +160,28 @@ class Pages extends React.PureComponent<Props, State> {
         {pots &&
           <Switch>
             <Route path="/cl/gs">
-              <CLGS
-                pots={pots}
-                key={key}
-              />
+              <DocumentTitle title="CL draw simulator">
+                <CLGS
+                  pots={pots}
+                  key={key}
+                />
+              </DocumentTitle>
             </Route>
             <Route path="/cl/last16">
-              <Last16
-                pots={pots}
-                key={key}
-              />
+              <DocumentTitle title="CL draw simulator">
+                <Last16
+                  pots={pots}
+                  key={key}
+                />
+              </DocumentTitle>
             </Route>
             <Route path="/el/gs">
-              <ELGS
-                pots={pots}
-                key={key}
-              />
+              <DocumentTitle title="EL draw simulator">
+                <ELGS
+                  pots={pots}
+                  key={key}
+                />
+              </DocumentTitle>
             </Route>
           </Switch>
         }
