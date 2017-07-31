@@ -8,6 +8,10 @@ const Root = styled.div`
   display: flex;
   flex-wrap: wrap;
   align-items: center;
+
+  @media (max-width: 999px) {
+    justify-content: center;
+  }
 `
 
 interface Props {
