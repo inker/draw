@@ -1,6 +1,7 @@
 {
   "extends": [
-    "tslint:latest"
+    "tslint:latest",
+    "tslint-react"
   ],
   "rules": {
     "array-type": [
@@ -11,6 +12,7 @@
     "interface-name": [
       false
     ],
+    "jsx-no-multiline-js": false,
     "member-access": false,
     "member-ordering": [
       false
