@@ -143,8 +143,9 @@ function pairUpTeams(teams: GSTeam[]): GSTeam[] {
 
 function fillGSPots(teams: GSTeam[]): GSTeam[][] {
   const pots: GSTeam[][] = [[], [], [], []]
-  const halfNum = teams.length >> 1
-  for (let i = 0; i < teams.length; ++i) {
+  const numTeams = teams.length
+  const halfNum = numTeams >> 1
+  for (let i = 0; i < numTeams; ++i) {
     const foo = ~~(i / halfNum)
     pots[foo << 1 | i % 2].push(teams[i])
   }
