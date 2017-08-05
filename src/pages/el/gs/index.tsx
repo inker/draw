@@ -4,7 +4,6 @@ import { shuffle } from 'lodash'
 import { GSTeam as Team } from 'utils/team'
 import animateContentTransfer from 'utils/animateContentTransfer'
 import getGroupLetter from 'utils/getGroupLetter'
-import { firstPossibleGroup } from 'utils/possible-groups'
 
 import PotsContainer from 'components/PotsContainer'
 // import AirborneContainer from 'components/AirborneContainer'
@@ -15,6 +14,7 @@ import TeamBowl from 'components/bowls/TeamBowl'
 import Announcement from 'components/Announcement'
 
 import Root from 'pages/Root'
+import * as EsWorker from './worker'
 
 interface Props {
   pots: Team[][],
@@ -29,17 +29,25 @@ interface State {
   currentPotNum: number,
   selectedTeam: Team | null,
   pickedGroup: number | null,
+  calculating: boolean,
+  longCalculating: boolean,
   completed: boolean,
   error: string | null,
 }
 
 export default class GS extends React.PureComponent<Props, State> {
 
+  worker: Worker
+
   componentDidMount() {
     this.reset()
   }
 
   protected reset = () => {
+    if (this.worker) {
+      this.worker.terminate()
+    }
+    this.worker = new (EsWorker as any)()
     const initialPots = this.props.pots
     const currentPotNum = 0
     const pots = initialPots.map(pot => shuffle(pot))
@@ -53,6 +61,8 @@ export default class GS extends React.PureComponent<Props, State> {
       currentPotNum,
       selectedTeam: null,
       pickedGroup: null,
+      calculating: false,
+      longCalculating: false,
       completed: false,
       error: null,
     })
@@ -68,24 +78,54 @@ export default class GS extends React.PureComponent<Props, State> {
     const currentPot = pots[currentPotNum]
     const i = currentPot.findIndex(team => team.id === ball.dataset.teamid)
     const selectedTeam = currentPot.splice(i, 1)[0]
-    const pickedGroup = firstPossibleGroup(pots, groups, selectedTeam, currentPotNum)
-    groups[pickedGroup].push(selectedTeam)
-    const newCurrentPotNum = pots[currentPotNum].length > 0 ? currentPotNum : currentPotNum + 1
-    this.state.airborneTeams.push(selectedTeam)
-    const animation = this.animateCell(selectedTeam, pickedGroup)
+
+    let calculating = true
 
     this.setState({
+      calculating,
+    })
+
+    setTimeout(() => {
+      if (!calculating) {
+        return
+      }
+      this.setState({
+        longCalculating: true,
+      })
+    }, 3000)
+
+    this.worker.onmessage = e => {
+      calculating = false
+      const pickedGroup = e.data
+      groups[pickedGroup].push(selectedTeam)
+      const newCurrentPotNum = pots[currentPotNum].length > 0 ? currentPotNum : currentPotNum + 1
+      const completed = newCurrentPotNum >= pots.length
+      if (completed) {
+        this.worker.terminate()
+      }
+      this.state.airborneTeams.push(selectedTeam)
+      const animation = this.animateCell(selectedTeam, pickedGroup)
+      this.setState({
+        groups,
+        selectedTeam,
+        pickedGroup,
+        currentPotNum: newCurrentPotNum,
+        calculating,
+        longCalculating: false,
+        completed,
+        airborneTeams: this.state.airborneTeams,
+      }, async () => {
+        await animation
+        this.setState({
+          airborneTeams: this.state.airborneTeams.filter(team => team !== selectedTeam),
+        })
+      })
+    }
+    this.worker.postMessage({
+      pots,
       groups,
       selectedTeam,
-      pickedGroup,
-      currentPotNum: newCurrentPotNum,
-      completed: newCurrentPotNum >= pots.length,
-      airborneTeams: this.state.airborneTeams,
-    }, async () => {
-      await animation
-      this.setState({
-        airborneTeams: this.state.airborneTeams.filter(team => team !== selectedTeam),
-      })
+      currentPotNum,
     })
   }
 
@@ -115,6 +155,8 @@ export default class GS extends React.PureComponent<Props, State> {
       airborneTeams,
       selectedTeam,
       pickedGroup,
+      calculating,
+      longCalculating,
       completed,
     } = this.state
 
@@ -139,6 +181,7 @@ export default class GS extends React.PureComponent<Props, State> {
         </TablesContainer>
         <BowlsContainer>
           <TeamBowl
+            calculating={calculating}
             completed={completed}
             selectedTeam={null}
             pot={pots[currentPotNum]}
@@ -146,6 +189,7 @@ export default class GS extends React.PureComponent<Props, State> {
           />
           <Announcement
             long
+            calculating={longCalculating}
             completed={completed}
             selectedTeam={selectedTeam}
             pickedGroup={pickedGroup}

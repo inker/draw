@@ -16,7 +16,10 @@
     "noEmitHelpers": true,
     "importHelpers": true,
     "lib": [
-      "dom", "es7", "es2017"
+      "dom",
+      "webworker",
+      "es7",
+      "es2017"
     ]
   },
   "awesomeTypescriptLoaderOptions": {

@@ -9,6 +9,10 @@ const tsOptions = env => env === 'dev' ? {
 }
 
 module.exports = env => [
+  {
+    test: /worker\.[jt]s/,
+    loader: 'worker-loader',
+  },
   env !== 'dev' && {
     test: /\.tsx?$/,
     loader: 'lodash-ts-imports-loader',

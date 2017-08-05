@@ -26,6 +26,7 @@ const TeamBall = styled<TeamBallProps>(Ball)`
 `
 
 interface Props {
+  calculating?: boolean,
   completed: boolean,
   selectedTeam: Team | null,
   pot: Team[],
@@ -33,11 +34,13 @@ interface Props {
 }
 
 const TeamBowl: React.SFC<Props> = ({
+  calculating,
   completed,
   pot,
   selectedTeam,
   onPick,
 }) => {
+  const noSelect = calculating || selectedTeam
   return (
     <Root>
       {!completed && pot &&
@@ -47,8 +50,8 @@ const TeamBowl: React.SFC<Props> = ({
             data-teamid={team.id}
             selected={team === selectedTeam}
             notSelected={selectedTeam && team !== selectedTeam}
-            noHover={selectedTeam}
-            onClick={!selectedTeam && onPick}
+            noHover={noSelect}
+            onClick={!noSelect && onPick}
           >
             {team.shortName || team.name}
           </TeamBall>

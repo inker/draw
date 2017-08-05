@@ -8,6 +8,8 @@ import getGroupLetter from 'utils/getGroupLetter'
 
 import PossibleGroups from './PossibleGroups'
 
+const ISSUES_URL = 'https://github.com/inker/draw/issues'
+
 const Root = styled.div`
   width: 100%;
   font-size: 1.25em;
@@ -40,6 +42,7 @@ const Completed = styled.div`
 
 interface Props {
   long: boolean,
+  calculating?: boolean,
   completed: boolean,
   selectedTeam: Team | null,
   pickedGroup: number | null,
@@ -50,6 +53,7 @@ interface Props {
 
 const Announcement: React.SFC<Props> = ({
   long,
+  calculating,
   completed,
   selectedTeam,
   pickedGroup,
@@ -59,6 +63,14 @@ const Announcement: React.SFC<Props> = ({
 }) => (
   <Root>
     {
+      calculating ? (
+        <div>
+          <div>Calculation is taking too long.</div>
+          <div>
+            Please <a href={ISSUES_URL} target="_blank">report the bug</a>.
+          </div>
+        </div>
+      ) :
       completed ? (
         <Completed>
           <div>Draw completed!</div>
