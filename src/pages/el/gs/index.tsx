@@ -43,6 +43,12 @@ export default class GS extends React.PureComponent<Props, State> {
     this.reset()
   }
 
+  componentWillUnmount() {
+    if (this.worker) {
+      this.worker.terminate()
+    }
+  }
+
   protected reset = () => {
     if (this.worker) {
       this.worker.terminate()
