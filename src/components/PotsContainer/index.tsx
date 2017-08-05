@@ -1,6 +1,6 @@
 import * as React from 'react'
 import styled from 'styled-components'
-import { difference } from 'lodash'
+import { difference, pull } from 'lodash'
 
 import { Team } from 'utils/team'
 import Pot from './Pot'
@@ -32,9 +32,9 @@ class PotsContainer extends React.PureComponent<Props> {
       initialPots,
       selectedTeam,
     } = this.props
-    const diff = difference(initialPots[currentPotNum], pots[currentPotNum], [selectedTeam as Team])
-    if (selectedTeam && noHung) {
-      diff.push(selectedTeam)
+    const diff = difference(initialPots[currentPotNum], pots[currentPotNum])
+    if (!selectedTeam || !noHung) {
+      pull(diff, selectedTeam)
     }
     return diff
   }

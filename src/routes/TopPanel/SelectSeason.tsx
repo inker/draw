@@ -26,16 +26,18 @@ class SelectSeason extends React.PureComponent<Props> {
     const tournament = e.target.value
     const {
       stage,
+      onChange,
     } = this.props
-    this.props.onChange(tournament, stage, currentSeason)
+    onChange(tournament, stage, currentSeason)
   }
 
   onStageChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const stage = e.target.value
     const {
       tournament,
+      onChange,
     } = this.props
-    this.props.onChange(tournament, stage, currentSeason)
+    onChange(tournament, stage, currentSeason)
   }
 
   onSeasonChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -43,8 +45,9 @@ class SelectSeason extends React.PureComponent<Props> {
     const {
       tournament,
       stage,
+      onChange,
     } = this.props
-    this.props.onChange(tournament, stage, season)
+    onChange(tournament, stage, season)
   }
 
   render() {

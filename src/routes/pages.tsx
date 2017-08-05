@@ -91,8 +91,8 @@ class Pages extends React.PureComponent<Props, State> {
         waiting: false,
         error: null,
         key: uniqueId(),
-        tournament,
-        stage,
+        // tournament,
+        // stage,
         season,
       })
     } catch (err) {
