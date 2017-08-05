@@ -164,6 +164,7 @@ class Pages extends React.PureComponent<Props, State> {
                 <Helmet>
                   <title>CL draw simulator</title>
                   <meta name="theme-color" content="#00336a" />
+                  <meta name="description" content="Champions League draw simulator" />
                 </Helmet>
                 <CLGS
                   pots={pots}
@@ -176,6 +177,7 @@ class Pages extends React.PureComponent<Props, State> {
                 <Helmet>
                   <title>CL draw simulator</title>
                   <meta name="theme-color" content="#00336a" />
+                  <meta name="description" content="Champions League draw simulator" />
                 </Helmet>
                 <Last16
                   pots={pots}
@@ -188,6 +190,7 @@ class Pages extends React.PureComponent<Props, State> {
                 <Helmet>
                   <title>EL draw simulator</title>
                   <meta name="theme-color" content="#f68e00" />
+                  <meta name="description" content="Europa League draw simulator" />
                 </Helmet>
                 <ELGS
                   pots={pots}
