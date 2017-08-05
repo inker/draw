@@ -29,6 +29,7 @@ interface State {
   currentPotNum: number,
   selectedTeam: Team | null,
   pickedGroup: number | null,
+  hungPot: Team[],
   calculating: boolean,
   longCalculating: boolean,
   completed: boolean,
@@ -67,6 +68,7 @@ export default class GS extends React.PureComponent<Props, State> {
       currentPotNum,
       selectedTeam: null,
       pickedGroup: null,
+      hungPot: currentPot,
       calculating: false,
       longCalculating: false,
       completed: false,
@@ -82,12 +84,16 @@ export default class GS extends React.PureComponent<Props, State> {
       currentPotNum,
     } = this.state
     const currentPot = pots[currentPotNum]
+    const hungPot = currentPot.slice()
     const i = currentPot.findIndex(team => team.id === ball.dataset.teamid)
     const selectedTeam = currentPot.splice(i, 1)[0]
 
     let calculating = true
 
     this.setState({
+      hungPot,
+      selectedTeam,
+      pickedGroup: null,
       calculating,
     })
 
@@ -113,8 +119,9 @@ export default class GS extends React.PureComponent<Props, State> {
       const animation = this.animateCell(selectedTeam, pickedGroup)
       this.setState({
         groups,
-        selectedTeam,
+        selectedTeam: null,
         pickedGroup,
+        hungPot: pots[newCurrentPotNum],
         currentPotNum: newCurrentPotNum,
         calculating,
         longCalculating: false,
@@ -158,6 +165,7 @@ export default class GS extends React.PureComponent<Props, State> {
       groups,
       maxTeamsInGroup,
       currentPotNum,
+      hungPot,
       airborneTeams,
       selectedTeam,
       pickedGroup,
@@ -170,7 +178,6 @@ export default class GS extends React.PureComponent<Props, State> {
       <Root>
         <TablesContainer>
           <PotsContainer
-            noHung
             selectedTeam={selectedTeam}
             initialPots={initialPots}
             pots={pots}
@@ -189,8 +196,8 @@ export default class GS extends React.PureComponent<Props, State> {
           <TeamBowl
             calculating={calculating}
             completed={completed}
-            selectedTeam={null}
-            pot={pots[currentPotNum]}
+            selectedTeam={selectedTeam}
+            pot={hungPot}
             onPick={this.onTeamBallPick}
           />
           <Announcement

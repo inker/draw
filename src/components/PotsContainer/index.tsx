@@ -1,6 +1,6 @@
 import * as React from 'react'
 import styled from 'styled-components'
-import { difference, pull } from 'lodash'
+import { difference } from 'lodash'
 
 import { Team } from 'utils/team'
 import Pot from './Pot'
@@ -16,7 +16,6 @@ const Root = styled.div`
 `
 
 interface Props {
-  noHung: boolean,
   initialPots: Team[][],
   pots: Team[][],
   selectedTeam: Team | null,
@@ -26,22 +25,16 @@ interface Props {
 class PotsContainer extends React.PureComponent<Props> {
   getPickedTeams() {
     const {
-      noHung,
       currentPotNum,
       pots,
       initialPots,
       selectedTeam,
     } = this.props
-    const diff = difference(initialPots[currentPotNum], pots[currentPotNum])
-    if (!selectedTeam || !noHung) {
-      pull(diff, selectedTeam)
-    }
-    return diff
+    return difference(initialPots[currentPotNum], pots[currentPotNum], [selectedTeam as Team])
   }
 
   render() {
     const {
-      noHung,
       initialPots,
       selectedTeam,
       currentPotNum,
@@ -59,7 +52,7 @@ class PotsContainer extends React.PureComponent<Props> {
               isCurrent={isCurrent}
               teams={pot}
               pickedTeams={pickedTeams}
-              selectedTeam={noHung ? null : selectedTeam}
+              selectedTeam={selectedTeam}
             />
           )
         })}

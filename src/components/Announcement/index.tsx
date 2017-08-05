@@ -26,12 +26,19 @@ const Root = styled.div`
   }
 `
 
+const Bug = styled.div`
+  border-width: 2px;
+  border-style: dashed;
+  border-color: rgba(255, 0, 0, 0.5);
+  padding: 10px;
+`
+
 const SelectedTeamWithColon = styled.span`
   display: inline-block;
 `
 
-const SelectedTeam = styled.span`
-  font-weight: bold;
+const SelectedTeam = styled.strong`
+  font-weight: 600;
 `
 
 const Completed = styled.div`
@@ -51,51 +58,91 @@ interface Props {
   reset: any,
 }
 
-const Announcement: React.SFC<Props> = ({
-  long,
-  calculating,
-  completed,
-  selectedTeam,
-  pickedGroup,
-  possibleGroups,
-  numGroups,
-  reset,
-}) => (
-  <Root>
-    {
-      calculating ? (
-        <div>
-          <div>
-            Calculation is taking too long.
-          </div>
-          <div>
-            And <a href={ISSUE_URL} target="_blank">here's why</a>.
-          </div>
-        </div>
-      ) :
-      completed ? (
-        <Completed>
-          <div>Draw completed!</div>
-          <DivLink onClick={reset}>Restart</DivLink>
-        </Completed>
-      ) :
-      selectedTeam && possibleGroups ? (
-        <div>
-          Possible groups for <SelectedTeamWithColon>
-            <SelectedTeam>{selectedTeam.name}</SelectedTeam>:
-          </SelectedTeamWithColon>
-          <PossibleGroups
-            numGroups={numGroups}
-            possibleGroups={possibleGroups}
-          />
-        </div>
-      ) :
-      pickedGroup !== null ? `${
-        long && selectedTeam ? `${selectedTeam.shortName || selectedTeam.name} goes to g` : 'G'
-      }roup ${getGroupLetter(pickedGroup)}!` :
-      'Pick a ball'
+interface State {
+  lastSelected: Team | null,
+}
+
+class Announcement extends React.PureComponent<Props, State> {
+
+  lastAnnouncement
+
+  state: State = {
+    lastSelected: null,
+  }
+
+  componentWillReceiveProps(nextProps: Props) {
+    if (nextProps.selectedTeam) {
+      this.setState({
+        lastSelected: nextProps.selectedTeam,
+      })
     }
-  </Root>
-)
+  }
+
+  render() {
+    const {
+      long,
+      calculating,
+      completed,
+      selectedTeam,
+      pickedGroup,
+      possibleGroups,
+      numGroups,
+      reset,
+    } = this.props
+
+    const selected = this.state.lastSelected || selectedTeam
+
+    return (
+      <Root>
+        {
+          calculating ? (
+            <Bug>
+              <div>
+                Calculation is taking too long.
+              </div>
+              <div>
+                And <a href={ISSUE_URL} target="_blank">here's why</a>.
+              </div>
+            </Bug>
+          ) :
+          completed ? (
+            <Completed>
+              <div>Draw completed!</div>
+              <DivLink onClick={reset}>Restart</DivLink>
+            </Completed>
+          ) :
+          pickedGroup !== null ? (this.lastAnnouncement =
+            <div>
+              {long && selected ? (
+                <span>
+                  <SelectedTeam>{selected.shortName || selected.name}</SelectedTeam> goes to group
+                </span>
+              ) : (
+                <span>Group</span>
+              )} {getGroupLetter(pickedGroup)}!
+            </div>
+          ) :
+          selected ? (
+            possibleGroups ? (
+              <div>
+                Possible groups for <SelectedTeamWithColon>
+                  <SelectedTeam>{selected.name}</SelectedTeam>:
+                </SelectedTeamWithColon>
+                <PossibleGroups
+                  numGroups={numGroups}
+                  possibleGroups={possibleGroups}
+                />
+              </div>
+            ) : this.lastAnnouncement
+          ) : (
+            <div>
+              Pick a ball
+            </div>
+          )
+        }
+      </Root>
+    )
+  }
+}
 
 export default Announcement

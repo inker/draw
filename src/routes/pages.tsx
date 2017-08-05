@@ -43,8 +43,6 @@ class Pages extends React.PureComponent<Props, State> {
     season: currentSeason,
   }
 
-  unlisten: (() => void) | undefined
-
   componentDidMount() {
     const {
       tournament,

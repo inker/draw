@@ -24,7 +24,7 @@ interface State {
 }
 
 class Routes extends React.PureComponent<Props, State> {
-  unlisten: (() => void) | undefined
+  private unlisten: (() => void) | undefined
 
   state: State = {
     key: uniqueId(),
