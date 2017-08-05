@@ -1,7 +1,12 @@
 import { range } from 'lodash'
 import { GSTeam as Team } from 'utils/team'
 
-export function allPossibleGroups(pots: Team[][], groups: Team[][], teamPicked: Team, currentPotIndex: number) {
+export function allPossibleGroups(
+  pots: Team[][],
+  groups: Team[][],
+  teamPicked: Team,
+  currentPotIndex: number,
+) {
   if (groups.every(group => group.length === 0)) {
     return range(groups.length)
   }
@@ -13,7 +18,12 @@ export function allPossibleGroups(pots: Team[][], groups: Team[][], teamPicked: 
   })
 }
 
-export function firstPossibleGroup(pots: Team[][], groups: Team[][], teamPicked: Team, currentPotIndex: number) {
+export function firstPossibleGroup(
+  pots: Team[][],
+  groups: Team[][],
+  teamPicked: Team,
+  currentPotIndex: number,
+) {
   if (groups.every(group => group.length === 0)) {
     return 0
   }
@@ -25,7 +35,11 @@ export function firstPossibleGroup(pots: Team[][], groups: Team[][], teamPicked:
   }) as number
 }
 
-function groupIsPossible(pots: Team[][], groups: Team[][], currentPotIndex: number): boolean {
+function groupIsPossible(
+  pots: Team[][],
+  groups: Team[][],
+  currentPotIndex: number,
+): boolean {
   if (pots[currentPotIndex].length === 0 && ++currentPotIndex === pots.length) {
     return true
   }
@@ -45,9 +59,14 @@ function groupIsPossible(pots: Team[][], groups: Team[][], currentPotIndex: numb
   return possible
 }
 
-function filterGroupsBasic(groups: Team[][], teamPicked: Team, currentPotIndex: number): number[] {
-  const bottom = filterSomeGroups(groups, teamPicked, currentPotIndex, 0, groups.length >> 1)
-  const top = filterSomeGroups(groups, teamPicked, currentPotIndex, groups.length >> 1, groups.length)
+function filterGroupsBasic(
+  groups: Team[][],
+  teamPicked: Team,
+  currentPotIndex: number,
+): number[] {
+  const halfNumGroups = groups.length >> 1
+  const bottom = filterSomeGroups(groups, teamPicked, currentPotIndex, 0, halfNumGroups)
+  const top = filterSomeGroups(groups, teamPicked, currentPotIndex, halfNumGroups, groups.length)
   return bottom.length === 0 ? top : top.length === 0 ? bottom : bottom.concat(top)
 }
 
