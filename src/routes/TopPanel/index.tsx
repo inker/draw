@@ -1,8 +1,8 @@
 import * as React from 'react'
 import styled from 'styled-components'
-import { Link } from 'react-router-dom'
 import { mobile } from 'bowser'
 
+import DivLink from 'components/DivLink'
 import getCurrentSeason from 'utils/getCurrentSeason'
 import SelectSeason from './SelectSeason'
 import GithubButton from './GithubButton'
@@ -22,7 +22,7 @@ const Root = styled.div`
   }
 `
 
-const StyledLink = styled(Link)`
+const DivLinkWithMargin = styled(DivLink)`
   margin-left: 10px;
   margin-right: 10px;
 `
@@ -46,12 +46,9 @@ class TopPanel extends React.PureComponent<Props> {
     return (
       <Root>
         {location &&
-          <StyledLink
-            to={location.pathname}
-            onClick={refresh}
-          >
+          <DivLinkWithMargin onClick={refresh}>
             Restart
-          </StyledLink>
+          </DivLinkWithMargin>
         }
         <SelectSeason
           tournament={tournament}

@@ -1,6 +1,8 @@
 import * as React from 'react'
 import styled from 'styled-components'
 
+import DivLink from 'components/DivLink'
+
 import { Team } from 'utils/team'
 import getGroupLetter from 'utils/getGroupLetter'
 
@@ -28,12 +30,6 @@ const SelectedTeamWithColon = styled.span`
 
 const SelectedTeam = styled.span`
   font-weight: bold;
-`
-
-const Link = styled.div`
-  color: blue;
-  text-decoration: underline;
-  cursor: pointer;
 `
 
 const Completed = styled.div`
@@ -66,7 +62,7 @@ const Announcement: React.SFC<Props> = ({
       completed ? (
         <Completed>
           <div>Draw completed!</div>
-          <Link onClick={reset}>Restart</Link>
+          <DivLink onClick={reset}>Restart</DivLink>
         </Completed>
       ) :
       selectedTeam && possibleGroups ? (
