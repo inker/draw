@@ -8,7 +8,7 @@ import getGroupLetter from 'utils/getGroupLetter'
 
 import PossibleGroups from './PossibleGroups'
 
-const ISSUES_URL = 'https://github.com/inker/draw/issues'
+const ISSUE_URL = 'https://github.com/inker/draw/issues/14'
 
 const Root = styled.div`
   width: 100%;
@@ -65,9 +65,11 @@ const Announcement: React.SFC<Props> = ({
     {
       calculating ? (
         <div>
-          <div>Calculation is taking too long.</div>
           <div>
-            Please <a href={ISSUES_URL} target="_blank">report the bug</a>.
+            Calculation is taking too long.
+          </div>
+          <div>
+            And <a href={ISSUE_URL} target="_blank">here's why</a>.
           </div>
         </div>
       ) :
