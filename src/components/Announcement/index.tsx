@@ -71,7 +71,11 @@ class Announcement extends React.PureComponent<Props, State> {
   }
 
   componentWillReceiveProps(nextProps: Props) {
-    if (nextProps.selectedTeam) {
+    if (nextProps.completed) {
+      this.setState({
+        lastSelected: null,
+      })
+    } else if (nextProps.selectedTeam) {
       this.setState({
         lastSelected: nextProps.selectedTeam,
       })
