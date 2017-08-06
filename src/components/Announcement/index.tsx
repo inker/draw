@@ -64,7 +64,7 @@ interface State {
 
 class Announcement extends React.PureComponent<Props, State> {
 
-  lastAnnouncement
+  private lastAnnouncement
 
   state: State = {
     lastSelected: null,
