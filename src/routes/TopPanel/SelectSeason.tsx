@@ -2,7 +2,7 @@ import * as React from 'react'
 import styled from 'styled-components'
 import { range } from 'lodash'
 
-import currentSeason from 'utils/currentSeason'
+import currentSeason from 'model/currentSeason'
 import seasonAsString from 'utils/seasonAsString'
 
 const MIN_CL_SEASON = 2000

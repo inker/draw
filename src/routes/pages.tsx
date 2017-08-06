@@ -7,12 +7,13 @@ import CLGS from 'pages/cl/gs'
 import Last16 from 'pages/cl/last16'
 import ELGS from 'pages/el/gs'
 
-import { fetchPots, parseGS } from 'utils/fetch-parse-pots'
+import currentSeason from 'model/currentSeason'
+import { fetchPots, parseGS } from 'model/fetch-parse-pots'
+import { GSTeam } from 'model/team'
+
 import getCountryFlagUrl from 'utils/getCountryFlagUrl'
 import prefetchImage from 'utils/prefetchImage'
-import currentSeason from 'utils/currentSeason'
 import delay from 'utils/delay'
-import { GSTeam } from 'utils/team'
 
 import Overlay from 'components/Overlay'
 

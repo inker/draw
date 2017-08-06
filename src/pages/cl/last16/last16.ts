@@ -1,5 +1,5 @@
 import { range } from 'lodash'
-import { Last16Team as Team } from 'utils/team'
+import { Last16Team as Team } from 'model/team'
 
 export default ([ groupWinners, runnersUp ]: Team[][], matchups: Team[][], matchupNum: number): number[] => {
 

@@ -1,4 +1,4 @@
-import { firstPossibleGroup } from 'utils/possible-groups'
+import { firstPossibleGroup } from 'model/possible-groups'
 
 addEventListener('message', e => {
   const {

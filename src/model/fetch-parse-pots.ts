@@ -3,15 +3,16 @@ import { mobile } from 'bowser'
 import * as countryNames from 'data/country-names.json'
 import * as pairings from 'data/pairings.json'
 
-import currentSeason from './currentSeason'
-import delay from './delay'
-import proxify from './proxify'
-import deleteFromArray from './deleteFromArray'
+import delay from 'utils/delay'
+import proxify from 'utils/proxify'
+import deleteFromArray from 'utils/deleteFromArray'
+
 import { GSTeam, Last16Team } from './team'
+import currentSeason from './currentSeason'
 
 declare const System: any
 
-const getClubName = mobile && System.import('./getClubName')
+const getClubName = mobile && System.import('utils/getClubName')
 
 const BERT_HOST = 'http://kassiesa.home.xs4all.nl/bert/uefa'
 

@@ -1,7 +1,8 @@
 import * as React from 'react'
 import { shuffle } from 'lodash'
 
-import { GSTeam as Team } from 'utils/team'
+import { GSTeam as Team } from 'model/team'
+
 import animateContentTransfer from 'utils/animateContentTransfer'
 import getGroupLetter from 'utils/getGroupLetter'
 

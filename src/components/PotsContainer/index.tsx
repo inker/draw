@@ -2,7 +2,7 @@ import * as React from 'react'
 import styled from 'styled-components'
 import { difference } from 'lodash'
 
-import { Team } from 'utils/team'
+import { Team } from 'model/team'
 import Pot from './Pot'
 
 const Root = styled.div`

@@ -2,7 +2,7 @@ import * as React from 'react'
 import styled from 'styled-components'
 
 import getGroupLetter from 'utils/getGroupLetter'
-import { Team } from 'utils/team'
+import { Team } from 'model/team'
 import Group from './Group'
 
 const Root = styled.div`

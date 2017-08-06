@@ -1,4 +1,4 @@
-import currentSeason from './currentSeason'
+import currentSeason from 'model/currentSeason'
 
 export default (location) => {
   if (!location) {

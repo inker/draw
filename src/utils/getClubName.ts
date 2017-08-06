@@ -2,8 +2,8 @@ import * as levenstein from 'fast-levenshtein'
 import { maxBy, memoize } from 'lodash'
 
 import * as clubs from 'data/clubs.json'
+import { Team } from 'model/team'
 import removeDiacritics from './removeDiacritics'
-import { Team } from './team'
 
 const I_RE = /y|(ij)/g
 const KH_RE = /kh/g

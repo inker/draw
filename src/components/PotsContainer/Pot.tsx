@@ -1,10 +1,9 @@
 import * as React from 'react'
 import styled from 'styled-components'
 
-import { Team, GSTeam } from 'utils/team'
+import { Team, GSTeam } from 'model/team'
 import Table from 'components/table/Table'
 import Body from 'components/table/Body'
-
 import Header from './PotHeader'
 import Cell from './PotCell'
 

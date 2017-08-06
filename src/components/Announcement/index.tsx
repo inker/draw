@@ -2,8 +2,7 @@ import * as React from 'react'
 import styled from 'styled-components'
 
 import DivLink from 'components/DivLink'
-
-import { Team } from 'utils/team'
+import { Team } from 'model/team'
 import getGroupLetter from 'utils/getGroupLetter'
 
 import PossibleGroups from './PossibleGroups'

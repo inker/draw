@@ -1,10 +1,11 @@
 import * as React from 'react'
 import { shuffle } from 'lodash'
 
-import { GSTeam as Team } from 'utils/team'
+import { GSTeam as Team } from 'model/team'
+import { allPossibleGroups } from 'model/possible-groups'
+
 import animateContentTransfer from 'utils/animateContentTransfer'
 import getGroupLetter from 'utils/getGroupLetter'
-import { allPossibleGroups } from 'utils/possible-groups'
 
 import PotsContainer from 'components/PotsContainer'
 // import AirborneContainer from 'components/AirborneContainer'
