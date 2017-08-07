@@ -7,6 +7,11 @@ addEventListener('message', e => {
     selectedTeam,
     currentPotNum,
   } = e.data
-  const groupNum = firstPossibleGroup(pots, groups, selectedTeam, currentPotNum)
-  postMessage(groupNum)
+
+  const pickedGroup = firstPossibleGroup(pots, groups, selectedTeam, currentPotNum)
+
+  postMessage({
+    selectedTeam,
+    pickedGroup,
+  })
 })

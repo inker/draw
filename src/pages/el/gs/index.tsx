@@ -1,10 +1,12 @@
 import * as React from 'react'
-import { shuffle } from 'lodash'
+import { shuffle, omit } from 'lodash'
 
 import { GSTeam as Team } from 'model/team'
 
 import animateContentTransfer from 'utils/animateContentTransfer'
 import getGroupLetter from 'utils/getGroupLetter'
+import isShallowEqual from 'utils/isShallowEqual'
+import delay from 'utils/delay'
 
 import PotsContainer from 'components/PotsContainer'
 // import AirborneContainer from 'components/AirborneContainer'
@@ -39,7 +41,7 @@ interface State {
 
 export default class GS extends React.PureComponent<Props, State> {
 
-  worker: Worker
+  private worker: Worker
 
   componentDidMount() {
     this.reset()
@@ -51,11 +53,12 @@ export default class GS extends React.PureComponent<Props, State> {
     }
   }
 
-  protected reset = () => {
+  private reset = () => {
     if (this.worker) {
       this.worker.terminate()
     }
     this.worker = new (EsWorker as any)()
+    this.worker.onmessage = this.workerOnMessage
     const initialPots = this.props.pots
     const currentPotNum = 0
     const pots = initialPots.map(pot => shuffle(pot))
@@ -89,57 +92,69 @@ export default class GS extends React.PureComponent<Props, State> {
     const i = currentPot.findIndex(team => team.id === ball.dataset.teamid)
     const selectedTeam = currentPot.splice(i, 1)[0]
 
-    let calculating = true
-
     this.setState({
       hungPot,
       selectedTeam,
       pickedGroup: null,
-      calculating,
+      calculating: true,
+    }, () => {
+      this.setLongCalculating(this.state)
     })
 
-    setTimeout(() => {
-      if (!calculating) {
-        return
-      }
-      this.setState({
-        longCalculating: true,
-      })
-    }, 3000)
-
-    this.worker.onmessage = e => {
-      calculating = false
-      const pickedGroup = e.data
-      groups[pickedGroup].push(selectedTeam)
-      const newCurrentPotNum = pots[currentPotNum].length > 0 ? currentPotNum : currentPotNum + 1
-      const completed = newCurrentPotNum >= pots.length
-      if (completed) {
-        this.worker.terminate()
-      }
-      this.state.airborneTeams.push(selectedTeam)
-      const animation = this.animateCell(selectedTeam, pickedGroup)
-      this.setState({
-        groups,
-        selectedTeam: null,
-        pickedGroup,
-        hungPot: pots[newCurrentPotNum],
-        currentPotNum: newCurrentPotNum,
-        calculating,
-        longCalculating: false,
-        completed,
-        airborneTeams: this.state.airborneTeams,
-      }, async () => {
-        await animation
-        this.setState({
-          airborneTeams: this.state.airborneTeams.filter(team => team !== selectedTeam),
-        })
-      })
-    }
     this.worker.postMessage({
       pots,
       groups,
       selectedTeam,
       currentPotNum,
+    })
+  }
+
+  private async setLongCalculating({ airborneTeams, ...oldState }: State) {
+    await delay(3000)
+    const currentState = omit(this.state, 'airborneTeams') as typeof oldState
+    if (!isShallowEqual(currentState, oldState)) {
+      return
+    }
+    this.setState({
+      longCalculating: true,
+    })
+  }
+
+  private workerOnMessage = (e: MessageEvent) => {
+    const {
+      selectedTeam,
+      pickedGroup,
+    } = e.data
+    const {
+      groups,
+      pots,
+      currentPotNum,
+    } = this.state
+
+    groups[pickedGroup].push(selectedTeam)
+    const newCurrentPotNum = pots[currentPotNum].length > 0 ? currentPotNum : currentPotNum + 1
+    const completed = newCurrentPotNum >= pots.length
+    if (completed) {
+      this.worker.terminate()
+    }
+    this.state.airborneTeams.push(selectedTeam)
+    const animation = this.animateCell(selectedTeam, pickedGroup)
+
+    this.setState({
+      groups,
+      selectedTeam: null,
+      pickedGroup,
+      hungPot: pots[newCurrentPotNum],
+      currentPotNum: newCurrentPotNum,
+      calculating: false,
+      longCalculating: false,
+      completed,
+      airborneTeams: this.state.airborneTeams,
+    }, async () => {
+      await animation
+      this.setState({
+        airborneTeams: this.state.airborneTeams.filter(team => team !== selectedTeam),
+      })
     })
   }
 
