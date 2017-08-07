@@ -44,7 +44,7 @@ export default class GS extends React.PureComponent<Props, State> {
     this.reset()
   }
 
-  protected reset = () => {
+  private reset = () => {
     const initialPots = this.props.pots
     const currentPotNum = 0
     const pots = initialPots.map(pot => shuffle(pot))
@@ -164,7 +164,6 @@ export default class GS extends React.PureComponent<Props, State> {
       <Root>
         <TablesContainer>
           <PotsContainer
-            noHung={false}
             selectedTeam={selectedTeam}
             initialPots={initialPots}
             pots={pots}

@@ -70,7 +70,7 @@ class Pages extends React.PureComponent<Props, State> {
     }
   }
 
-  getMatchParams() {
+  private getMatchParams() {
     const { params } = this.props.match
     return {
       ...params,
@@ -78,7 +78,7 @@ class Pages extends React.PureComponent<Props, State> {
     }
   }
 
-  async fetchData(tournament: string, stage: string, season: number) {
+  private async fetchData(tournament: string, stage: string, season: number) {
     this.setState({
       waiting: true,
     })
@@ -99,7 +99,7 @@ class Pages extends React.PureComponent<Props, State> {
     }
   }
 
-  async onFetchError(err) {
+  private async onFetchError(err) {
     this.setState({
       waiting: false,
       error: 'Could not fetch data',
@@ -115,12 +115,12 @@ class Pages extends React.PureComponent<Props, State> {
     })
   }
 
-  getPots = memoize(async (tournament: string, stage: string, season: number) => {
+  private getPots = memoize(async (tournament: string, stage: string, season: number) => {
     const data = await fetchPots(tournament, season)
     return parseGS(data)
   }, (tournament, stage, season) => `${tournament}-${stage}-${season}`)
 
-  prefetchImages(pots: GSTeam[][]) {
+  private prefetchImages(pots: GSTeam[][]) {
     const promises: Promise<void>[] = []
     for (const pot of pots) {
       const urls = pot.map(team => getCountryFlagUrl(team.country))
@@ -129,14 +129,14 @@ class Pages extends React.PureComponent<Props, State> {
     return Promise.all(promises)
   }
 
-  getOverlay = (props) => (
+  private getOverlay = (props) => (
     <Overlay
       {...props}
       noAnimation={!this.state.pots}
     />
   )
 
-  getPopup() {
+  private getPopup() {
     const { error, waiting } = this.state
     const WrappedOverlay = this.getOverlay
     if (!navigator.onLine) {

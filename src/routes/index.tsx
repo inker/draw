@@ -44,11 +44,11 @@ class Routes extends React.PureComponent<Props, State> {
     }
   }
 
-  onSeasonChange = (tournament: string, stage: string, season?: number) => {
+  private onSeasonChange = (tournament: string, stage: string, season?: number) => {
     history.push(`/${tournament}/${stage}${season ? `/${season}` : ''}`)
   }
 
-  updateLocation = (location, type) => {
+  private updateLocation = (location, type) => {
     const season = getCurrentSeason(location)
     const [, tournament, stage] = location.pathname.split('/')
     this.setState({
@@ -59,13 +59,13 @@ class Routes extends React.PureComponent<Props, State> {
     })
   }
 
-  refresh = () => {
+  private refresh = () => {
     this.setState({
       key: uniqueId(),
     })
   }
 
-  getPages = (props) => {
+  private getPages = (props) => {
     const {
       key,
       tournament,
