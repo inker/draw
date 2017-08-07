@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { shuffle } from 'lodash'
+import { shuffle, uniqueId } from 'lodash'
 
 import { GSTeam as Team } from 'model/team'
 import { allPossibleGroups } from 'model/possible-groups'
@@ -23,6 +23,7 @@ interface Props {
 }
 
 interface State {
+  drawId: string,
   initialPots: Team[][],
   pots: Team[][],
   groups: Team[][],
@@ -50,6 +51,7 @@ export default class GS extends React.PureComponent<Props, State> {
     const pots = initialPots.map(pot => shuffle(pot))
     const currentPot = pots[currentPotNum]
     this.setState({
+      drawId: `draw-${uniqueId()}`,
       initialPots,
       pots,
       groups: currentPot.map(team => []),
