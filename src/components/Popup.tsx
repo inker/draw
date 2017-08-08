@@ -43,7 +43,7 @@ interface Props {
   noAnimation: boolean,
 }
 
-const Overlay: React.SFC<Props> = ({
+const Popup: React.SFC<Props> = ({
   noAnimation,
   children,
 }) => (
@@ -55,4 +55,4 @@ const Overlay: React.SFC<Props> = ({
   </div>
 )
 
-export default Overlay
+export default Popup

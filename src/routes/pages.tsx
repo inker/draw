@@ -15,7 +15,7 @@ import getCountryFlagUrl from 'utils/getCountryFlagUrl'
 import prefetchImage from 'utils/prefetchImage'
 import delay from 'utils/delay'
 
-import Overlay from 'components/Overlay'
+import Popup from 'components/Popup'
 
 interface Props {
   tournament: string,
@@ -129,8 +129,8 @@ class Pages extends React.PureComponent<Props, State> {
     return Promise.all(promises)
   }
 
-  private getOverlay = (props) => (
-    <Overlay
+  private getPopup = (props) => (
+    <Popup
       {...props}
       noAnimation={!this.state.pots}
     />
@@ -138,15 +138,15 @@ class Pages extends React.PureComponent<Props, State> {
 
   private getPopup() {
     const { error, waiting } = this.state
-    const WrappedOverlay = this.getOverlay
+    const WrappedPopup = this.getPopup
     if (!navigator.onLine) {
-      return <WrappedOverlay>you're offline</WrappedOverlay>
+      return <WrappedPopup>you're offline</WrappedPopup>
     }
     if (error) {
-      return <WrappedOverlay>{error}</WrappedOverlay>
+      return <WrappedPopup>{error}</WrappedPopup>
     }
     if (waiting) {
-      return <WrappedOverlay>wait...</WrappedOverlay>
+      return <WrappedPopup>wait...</WrappedPopup>
     }
     return null
   }
