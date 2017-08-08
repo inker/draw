@@ -1,7 +1,8 @@
 import * as React from 'react'
 import styled from 'styled-components'
-import { memoize } from 'lodash'
+// import { memoize } from 'lodash'
 
+import { Team } from 'model/team'
 import FakeCell from './FakeCell'
 
 const Root = styled.div`
@@ -16,9 +17,7 @@ const Root = styled.div`
   z-index: 1000;
 `
 
-import { Team } from 'utils/team'
-
-type Obj = {
+interface Obj {
   team: Team,
   groupNum: number,
   position: number,
@@ -29,12 +28,12 @@ interface Props {
   duration: number,
 }
 
-const foo = ({ team, groupNum, position }: Obj) => ({
-  fromCell: document.querySelector(`[data-cellid='${team.id}']`),
-  toCell: document.querySelector(`[data-cellid='${String.fromCharCode(65 + groupNum)}${position}']`),
-})
+// const foo = ({ team, groupNum, position }: Obj) => ({
+//   fromCell: document.querySelector(`[data-cellid='${team.id}']`),
+//   toCell: document.querySelector(`[data-cellid='${String.fromCharCode(65 + groupNum)}${position}']`),
+// })
 
-const getCells = memoize(foo)
+// const getCells = memoize(foo)
 
 class AirborneContainer extends React.PureComponent<Props> {
   render() {
@@ -42,7 +41,7 @@ class AirborneContainer extends React.PureComponent<Props> {
     return (
         <Root>
           {teams.map(({ team, groupNum, position }) => {
-            const cells = getCells({ team, groupNum, position })
+            {/* const cells = getCells({ team, groupNum, position }) */}
             return (
               <FakeCell
                 key={team.id}

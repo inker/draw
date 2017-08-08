@@ -1,6 +1,8 @@
 import * as React from 'react'
 import styled, { keyframes } from 'styled-components'
 
+import Overlay from './Overlay'
+
 const BackgroundAnimation = keyframes`
   from {
     opacity: 0;
@@ -8,21 +10,11 @@ const BackgroundAnimation = keyframes`
   to {}
 `
 
-const Abs = styled.div`
-  position: fixed;
-  width: 100%;
-  height: 100%;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-`
-
 interface BackgroundProps {
   animate: boolean,
 }
 
-const Background = styled<BackgroundProps>(Abs)`
+const Background = styled<BackgroundProps>(Overlay)`
   background-color: white;
   opacity: 0.75;
   ${props => props.animate && `
@@ -30,7 +22,7 @@ const Background = styled<BackgroundProps>(Abs)`
   `}
 `
 
-const Text = styled(Abs)`
+const Text = styled(Overlay)`
   display: flex;
   justify-content: center;
   align-items: center;

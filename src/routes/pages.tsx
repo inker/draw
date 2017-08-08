@@ -129,7 +129,7 @@ class Pages extends React.PureComponent<Props, State> {
     return Promise.all(promises)
   }
 
-  private getPopup = (props) => (
+  private getWrappedPopup = (props) => (
     <Popup
       {...props}
       noAnimation={!this.state.pots}
@@ -138,7 +138,7 @@ class Pages extends React.PureComponent<Props, State> {
 
   private getPopup() {
     const { error, waiting } = this.state
-    const WrappedPopup = this.getPopup
+    const WrappedPopup = this.getWrappedPopup
     if (!navigator.onLine) {
       return <WrappedPopup>you're offline</WrappedPopup>
     }
