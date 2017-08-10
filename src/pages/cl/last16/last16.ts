@@ -20,7 +20,7 @@ export default ([ groupWinners, runnersUp ]: Team[][], matchups: Team[][], match
 
   function anyRunnersUp(virtualMatchups: Team[][], virtualMatchupNum: number): boolean {
     const virtualMatchup = virtualMatchups[virtualMatchupNum]
-    const groupWinnersIndices = groupWinners.map((team, i) => i)
+    const groupWinnersIndices = range(groupWinners.length)
     return runnersUp.some((ru, ruIndex) => {
       const virtualPicked = runnersUp.splice(ruIndex, 1)[0]
       virtualMatchup.push(virtualPicked)
