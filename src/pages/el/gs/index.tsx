@@ -211,7 +211,7 @@ export default class GS extends React.PureComponent<Props, State> {
             currentPotNum={currentPotNum}
             groups={groups}
             possibleGroups={null}
-            airborneTeams={Array.from(airborneTeams)}
+            airborneTeams={airborneTeams}
           />
         </TablesContainer>
         <BowlsContainer>
