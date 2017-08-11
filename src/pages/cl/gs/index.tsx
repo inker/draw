@@ -68,18 +68,18 @@ export default class GS extends React.PureComponent<Props, State> {
     })
   }
 
-  private onTeamBallPick = (ev: React.MouseEvent<HTMLDivElement>) => {
-    const ball = ev.target as HTMLDivElement
+  private onTeamBallPick = (i: number) => {
     const {
       groups,
       pots,
       currentPotNum,
     } = this.state
+
     const currentPot = pots[currentPotNum]
     const hungPot = currentPot.slice()
-    const i = currentPot.findIndex(team => team.id === ball.dataset.teamid)
     const selectedTeam = currentPot.splice(i, 1)[0]
     const possibleGroups = allPossibleGroups(pots, groups, selectedTeam, currentPotNum)
+
     this.setState({
       hungPot,
       selectedTeam,
@@ -89,9 +89,7 @@ export default class GS extends React.PureComponent<Props, State> {
     })
   }
 
-  private onGroupBallPicked = (ev: React.MouseEvent<HTMLDivElement>) => {
-    const ball = ev.target as HTMLDivElement
-    const pickedGroup = +(ball.dataset.group || 0)
+  private onGroupBallPick = (pickedGroup: number) => {
     const {
       groups,
       airborneTeams,
@@ -199,7 +197,7 @@ export default class GS extends React.PureComponent<Props, State> {
           <GroupBowl
             completed={completed}
             possibleGroups={possibleGroupsShuffled}
-            onPick={this.onGroupBallPicked}
+            onPick={this.onGroupBallPick}
           />
         </BowlsContainer>
       </Root>

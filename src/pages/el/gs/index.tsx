@@ -86,16 +86,15 @@ export default class GS extends React.PureComponent<Props, State> {
     })
   }
 
-  private onTeamBallPick = (ev: React.MouseEvent<HTMLDivElement>) => {
-    const ball = ev.target as HTMLDivElement
+  private onTeamBallPick = (i: number) => {
     const {
       groups,
       pots,
       currentPotNum,
     } = this.state
+
     const currentPot = pots[currentPotNum]
     const hungPot = currentPot.slice()
-    const i = currentPot.findIndex(team => team.id === ball.dataset.teamid)
     const selectedTeam = currentPot.splice(i, 1)[0]
 
     this.setState({

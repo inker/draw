@@ -20,23 +20,34 @@ interface Props {
   onPick: any,
 }
 
-const GroupBowl: React.SFC<Props> = ({
-  completed,
-  possibleGroups,
-  onPick,
-}) => (
-  <Root>
-    {!completed && possibleGroups &&
-      possibleGroups.map(groupNum => (
-        <Ball
-          data-group={groupNum}
-          onClick={onPick}
-        >
-          {getGroupLetter(groupNum)}
-        </Ball>
-      ))
-    }
-  </Root>
-)
+class GroupBowl extends React.PureComponent<Props> {
+
+  private onBallPick = (ev: React.MouseEvent<HTMLDivElement>) => {
+    const ball = ev.target as HTMLDivElement
+    const pickedGroup = +(ball.dataset.group || 0)
+    this.props.onPick(pickedGroup)
+  }
+
+  render() {
+    const {
+      completed,
+      possibleGroups,
+    } = this.props
+    return (
+      <Root>
+        {!completed && possibleGroups &&
+          possibleGroups.map(groupNum => (
+            <Ball
+              data-group={groupNum}
+              onClick={this.onBallPick}
+            >
+              {getGroupLetter(groupNum)}
+            </Ball>
+          ))
+        }
+      </Root>
+    )
+  }
+}
 
 export default GroupBowl

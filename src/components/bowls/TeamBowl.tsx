@@ -34,32 +34,47 @@ interface Props {
   onPick: any,
 }
 
-const TeamBowl: React.SFC<Props> = ({
-  calculating,
-  completed,
-  pot,
-  selectedTeam,
-  onPick,
-}) => {
-  const noSelect = calculating || selectedTeam
-  return (
-    <Root>
-      {!completed && pot &&
-        pot.map((team, i) => (
-          <TeamBall
-            key={team.id}
-            data-teamid={team.id}
-            selected={team === selectedTeam}
-            notSelected={selectedTeam && team !== selectedTeam}
-            noHover={noSelect}
-            onClick={!noSelect && onPick}
-          >
-            {team.shortName || team.name}
-          </TeamBall>
-        ))
-      }
-    </Root>
-  )
+class TeamBowl extends React.PureComponent<Props> {
+
+  private onBallPick = (ev: React.MouseEvent<HTMLDivElement>) => {
+    const {
+      pot,
+      onPick,
+    } = this.props
+    const ball = ev.target as HTMLDivElement
+    const i = pot.findIndex(team => team.id === ball.dataset.teamid)
+    onPick(i)
+  }
+
+  render() {
+    const {
+      calculating,
+      completed,
+      pot,
+      selectedTeam,
+    } = this.props
+
+    const noSelect = calculating || selectedTeam
+
+    return (
+      <Root>
+        {!completed && pot &&
+          pot.map((team, i) => (
+            <TeamBall
+              key={team.id}
+              data-teamid={team.id}
+              selected={team === selectedTeam}
+              notSelected={selectedTeam && team !== selectedTeam}
+              noHover={noSelect}
+              onClick={!noSelect && this.onBallPick}
+            >
+              {team.shortName || team.name}
+            </TeamBall>
+          ))
+        }
+      </Root>
+    )
+  }
 }
 
 export default TeamBowl
