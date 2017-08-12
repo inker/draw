@@ -13,10 +13,10 @@ const Root = styled.div`
     flex-basis: 22%;
   }
   & > :nth-child(-n + ${({ numGroups }) => (numGroups ? numGroups >> 1 : 0)}) {
-    background-color: #fee;
+    background-color: rgb(255, 248, 240);
   }
   & > :nth-child(n + ${({ numGroups }) => (numGroups ? (numGroups >> 1) + 1 : 0)}) {
-    background-color: #eef;
+    background-color: rgb(240, 248, 255);
   }
 `
 
