@@ -12,7 +12,7 @@ import currentSeason from './currentSeason'
 
 declare const System: any
 
-const getClubName = mobile && System.import('utils/getClubName')
+const getClubName = mobile && System.import('utils/club-name')
 
 const BERT_HOST = 'http://kassiesa.home.xs4all.nl/bert/uefa'
 
