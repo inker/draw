@@ -20,7 +20,7 @@
   },
   "devDependencies": {
     "@types/bowser": "^1.0.30",
-    "@types/classnames": "2.2.0",
+    "@types/classnames": "2.2.1",
     "@types/fast-levenshtein": "0.0.1",
     "@types/fastclick": "^1.0.28",
     "@types/lodash": "^4.14.72",
