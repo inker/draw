@@ -288,7 +288,8 @@
     "Norrköping",
     "Trelleborg",
     "AIK",
-    "Helsingborg"
+    "Helsingborg",
+    "Östersund"
   ],
   "gb-sct": [
     "Celtic",
@@ -389,5 +390,10 @@
     "Kukës",
     "Partizani",
     "Vllaznia"
+  ],
+  "mk": [
+    "Shkendija",
+    "Vardar",
+    "Rabotnički"
   ]
 }
