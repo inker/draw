@@ -21,6 +21,7 @@
     "no-angle-bracket-type-assertion": true,
     "no-bitwise": false,
     "no-duplicate-variable": true,
+    "no-submodule-imports": false,
     "no-this-assignment": false,
     "no-unused-variable": true,
     "object-literal-key-quotes": [
