@@ -4,7 +4,7 @@ import Helmet from 'react-helmet'
 import { uniqueId, memoize } from 'lodash'
 
 import CLGS from 'pages/cl/gs'
-import Last16 from 'pages/cl/last16'
+import CLRo16 from 'pages/cl/ro16'
 import ELGS from 'pages/el/gs'
 
 import currentSeason from 'model/currentSeason'
@@ -171,14 +171,14 @@ class Pages extends React.PureComponent<Props, State> {
                 />
               </div>
             </Route>
-            <Route path="/cl/last16">
+            <Route path="/cl/ro16">
               <div>
                 <Helmet>
                   <title>CL draw simulator</title>
                   <meta name="theme-color" content="#00336a" />
                   <meta name="description" content="Champions League draw simulator" />
                 </Helmet>
-                <Last16
+                <CLRo16
                   pots={pots}
                   key={key}
                 />
