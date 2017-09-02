@@ -2,6 +2,7 @@ import * as React from 'react'
 import styled from 'styled-components'
 import { mobile } from 'bowser'
 
+import ALink from 'components/ALink'
 import DivLink from 'components/DivLink'
 import getCurrentSeason from 'utils/getCurrentSeason'
 import SelectSeason from './SelectSeason'
@@ -15,16 +16,18 @@ const Root = styled.div`
   padding-bottom: 10px;
   font-size: 16px;
 
+  & > * {
+    margin-left: 5px;
+    &:not(:last-child) {
+      margin-right: 5px;
+    }
+  }
+
   @media (max-width: 999px) {
     padding-top: 15px;
     padding-bottom: 15px;
     font-size: 32px;
   }
-`
-
-const DivLinkWithMargin = styled(DivLink)`
-  margin-left: 10px;
-  margin-right: 10px;
 `
 
 interface Props {
@@ -46,9 +49,9 @@ class TopPanel extends React.PureComponent<Props> {
     return (
       <Root>
         {location &&
-          <DivLinkWithMargin onClick={refresh}>
+          <DivLink onClick={refresh}>
             Restart
-          </DivLinkWithMargin>
+          </DivLink>
         }
         <SelectSeason
           tournament={tournament}
@@ -56,7 +59,12 @@ class TopPanel extends React.PureComponent<Props> {
           season={season}
           onChange={onSeasonChange}
         />
-        {/*<Link to="/">Change mode</Link> |*/}
+        <ALink
+          href="https://github.com/inker/draw/issues"
+          target="_blank"
+        >
+          Issues
+        </ALink>
         {!mobile &&
           <GithubButton />
         }
