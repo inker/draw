@@ -48,5 +48,6 @@ module.exports = env => ({
         },
       ],
     },
+    open: true,
   },
 })

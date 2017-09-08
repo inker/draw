@@ -37,7 +37,7 @@ const SelectedTeamWithColon = styled.span`
   display: inline-block;
 `
 
-const SelectedTeam = styled.strong`
+const Bold = styled.strong`
   font-weight: 600;
 `
 
@@ -119,18 +119,23 @@ class Announcement extends React.PureComponent<Props, State> {
             <div>
               {long && selected ? (
                 <span>
-                  <SelectedTeam>{selected.shortName || selected.name}</SelectedTeam> goes to group
+                  <Bold>{selected.shortName || selected.name}</Bold> goes to group
                 </span>
               ) : (
                 <span>Group</span>
-              )} {getGroupLetter(pickedGroup)}!
+              )}
+              &nbsp;
+              <Bold>
+                {getGroupLetter(pickedGroup)}
+              </Bold>
+              !
             </div>
           ) :
           selected ? (
             possibleGroups ? (
               <div>
                 Possible groups for <SelectedTeamWithColon>
-                  <SelectedTeam>{selected.name}</SelectedTeam>:
+                  <Bold>{selected.name}</Bold>:
                 </SelectedTeamWithColon>
                 <PossibleGroups
                   numGroups={numGroups}
