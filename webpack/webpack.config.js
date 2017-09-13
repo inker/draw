@@ -7,9 +7,8 @@ const distDir = path.join(rootDir, 'docs')
 
 module.exports = env => ({
   target: 'web',
-  context: path.join(rootDir, 'src'),
   entry: {
-    app: './index.tsx',
+    app: './src/index.tsx',
   },
   output: {
     path: distDir,

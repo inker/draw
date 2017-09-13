@@ -44,7 +44,7 @@ module.exports = env => [
 
   new HtmlWebpackPlugin({
     filename: 'index.html',
-    template: 'template.html',
+    template: 'src/template.html',
     hash: true,
     minify: {
       removeComments: true,
@@ -62,11 +62,11 @@ module.exports = env => [
 
   new CopyWebpackPlugin([
     // {
-    //   from: 'data',
+    //   from: 'src/data',
     //   to: 'data',
     // },
     // {
-    //   from: '404.html',
+    //   from: 'src/404.html',
     // }
   ]),
 
