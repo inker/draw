@@ -3,9 +3,9 @@ import { Route, Switch } from 'react-router-dom'
 import Helmet from 'react-helmet'
 import { uniqueId, memoize } from 'lodash'
 
-import CLGS from 'pages/cl/gs'
-import CLRo16 from 'pages/cl/ro16'
-import ELGS from 'pages/el/gs'
+// import CLGS from 'pages/cl/gs'
+// import CLRo16 from 'pages/cl/ro16'
+// import ELGS from 'pages/el/gs'
 
 import currentSeason from 'model/currentSeason'
 import { fetchPots, parseGS } from 'model/fetch-parse-pots'
@@ -16,6 +16,8 @@ import prefetchImage from 'utils/prefetchImage'
 import delay from 'utils/delay'
 
 import Popup from 'components/Popup'
+
+import PageLoader from './PageLoader'
 
 interface Props {
   tournament: string,
@@ -165,7 +167,9 @@ class Pages extends React.PureComponent<Props, State> {
                   <meta name="theme-color" content="#00336a" />
                   <meta name="description" content="Champions League draw simulator" />
                 </Helmet>
-                <CLGS
+                <PageLoader
+                  tournament="cl"
+                  stage="gs"
                   pots={pots}
                   key={key}
                 />
@@ -178,7 +182,9 @@ class Pages extends React.PureComponent<Props, State> {
                   <meta name="theme-color" content="#00336a" />
                   <meta name="description" content="Champions League draw simulator" />
                 </Helmet>
-                <CLRo16
+                <PageLoader
+                  tournament="cl"
+                  stage="ro16"
                   pots={pots}
                   key={key}
                 />
@@ -191,7 +197,9 @@ class Pages extends React.PureComponent<Props, State> {
                   <meta name="theme-color" content="#f68e00" />
                   <meta name="description" content="Europa League draw simulator" />
                 </Helmet>
-                <ELGS
+                <PageLoader
+                  tournament="el"
+                  stage="gs"
                   pots={pots}
                   key={key}
                 />
