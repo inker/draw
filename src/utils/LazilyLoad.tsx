@@ -18,9 +18,6 @@ class LazilyLoad extends React.PureComponent<Props, State> {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (this.props.load === nextProps.load) {
-      return
-    }
     this.loadComponent(nextProps.load)
   }
 
