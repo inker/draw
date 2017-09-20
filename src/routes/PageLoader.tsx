@@ -1,26 +1,45 @@
 import * as React from 'react'
 
+import { Team } from 'model/team'
 import LazilyLoad from 'utils/LazilyLoad'
 
 declare const System: any
 
 interface State {
-
+  componentPromise: Promise<React.Component> | null,
 }
 
 interface Props {
   tournament: string,
   stage: string,
-  pots: any,
+  pots: Team[][] | null,
 }
 
 class PageLoader extends React.PureComponent<Props, State> {
-  private load() {
+  state: State = {
+    componentPromise: null,
+  }
+
+  componentDidMount() {
+    this.loadPromise(this.props)
+  }
+
+  componentWillReceiveProps(nextProps: Props) {
+    const { props } = this
+    if (props.tournament === nextProps.tournament && props.stage === nextProps.stage) {
+      return
+    }
+    this.loadPromise(nextProps)
+  }
+
+  loadPromise(props: Props) {
     const {
       tournament,
       stage,
-    } = this.props
-    return System.import(`pages/${tournament}/${stage}`)
+    } = props
+    this.setState({
+      componentPromise: System.import(`pages/${tournament}/${stage}`),
+    })
   }
 
   render() {
@@ -31,16 +50,11 @@ class PageLoader extends React.PureComponent<Props, State> {
       ...props,
     } = this.props
 
-    if (!pots) {
-      this.load() // precache
-      return null
-    }
-
-    return (
+    return pots && (
       <LazilyLoad
         {...props}
         pots={pots}
-        component={this.load()}
+        component={this.state.componentPromise}
       />
     )
   }
