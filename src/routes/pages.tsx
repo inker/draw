@@ -158,55 +158,53 @@ class Pages extends React.PureComponent<Props, State> {
     return (
       <div>
         {this.getPopup()}
-        {pots &&
-          <Switch>
-            <Route path="/cl/gs">
-              <div>
-                <Helmet>
-                  <title>CL draw simulator</title>
-                  <meta name="theme-color" content="#00336a" />
-                  <meta name="description" content="Champions League draw simulator" />
-                </Helmet>
-                <PageLoader
-                  tournament="cl"
-                  stage="gs"
-                  pots={pots}
-                  key={key}
-                />
-              </div>
-            </Route>
-            <Route path="/cl/ro16">
-              <div>
-                <Helmet>
-                  <title>CL draw simulator</title>
-                  <meta name="theme-color" content="#00336a" />
-                  <meta name="description" content="Champions League draw simulator" />
-                </Helmet>
-                <PageLoader
-                  tournament="cl"
-                  stage="ro16"
-                  pots={pots}
-                  key={key}
-                />
-              </div>
-            </Route>
-            <Route path="/el/gs">
-              <div>
-                <Helmet>
-                  <title>EL draw simulator</title>
-                  <meta name="theme-color" content="#f68e00" />
-                  <meta name="description" content="Europa League draw simulator" />
-                </Helmet>
-                <PageLoader
-                  tournament="el"
-                  stage="gs"
-                  pots={pots}
-                  key={key}
-                />
-              </div>
-            </Route>
-          </Switch>
-        }
+        <Switch>
+          <Route path="/cl/gs">
+            <div>
+              <Helmet>
+                <title>CL draw simulator</title>
+                <meta name="theme-color" content="#00336a" />
+                <meta name="description" content="Champions League draw simulator" />
+              </Helmet>
+              <PageLoader
+                tournament="cl"
+                stage="gs"
+                pots={pots}
+                key={key}
+              />
+            </div>
+          </Route>
+          <Route path="/cl/ro16">
+            <div>
+              <Helmet>
+                <title>CL draw simulator</title>
+                <meta name="theme-color" content="#00336a" />
+                <meta name="description" content="Champions League draw simulator" />
+              </Helmet>
+              <PageLoader
+                tournament="cl"
+                stage="ro16"
+                pots={pots}
+                key={key}
+              />
+            </div>
+          </Route>
+          <Route path="/el/gs">
+            <div>
+              <Helmet>
+                <title>EL draw simulator</title>
+                <meta name="theme-color" content="#f68e00" />
+                <meta name="description" content="Europa League draw simulator" />
+              </Helmet>
+              <PageLoader
+                tournament="el"
+                stage="gs"
+                pots={pots}
+                key={key}
+              />
+            </div>
+          </Route>
+        </Switch>
       </div>
     )
   }

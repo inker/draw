@@ -1,7 +1,8 @@
 import * as React from 'react'
 
 interface Props {
-  load: any,
+  component: any,
+  [prop: string]: any,
 }
 
 interface State {
@@ -14,25 +15,25 @@ class LazilyLoad extends React.PureComponent<Props, State> {
   }
 
   componentDidMount() {
-    this.loadComponent(this.props.load)
+    this.loadComponent(this.props.component)
   }
 
-  componentWillReceiveProps(nextProps) {
-    this.loadComponent(nextProps.load)
+  componentWillReceiveProps(nextProps: Props) {
+    this.loadComponent(nextProps.component)
   }
 
-  async loadComponent(load) {
-    if (!load) {
+  async loadComponent(component) {
+    if (!component) {
       return
     }
-    const module = await load()
+    const module = await component
     this.setState({
       Component: module.default,
     })
   }
 
   render() {
-    const { load, ...props } = this.props
+    const { component, ...props } = this.props
     const { Component } = this.state
     return !Component ? null : <Component {...props} />
   }

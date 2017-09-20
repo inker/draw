@@ -15,7 +15,7 @@ interface Props {
 }
 
 class PageLoader extends React.PureComponent<Props, State> {
-  private load = () => {
+  private load() {
     const {
       tournament,
       stage,
@@ -27,12 +27,20 @@ class PageLoader extends React.PureComponent<Props, State> {
     const {
       tournament,
       stage,
+      pots,
       ...props,
     } = this.props
+
+    if (!pots) {
+      this.load() // precache
+      return null
+    }
+
     return (
       <LazilyLoad
         {...props}
-        load={this.load}
+        pots={pots}
+        component={this.load()}
       />
     )
   }
