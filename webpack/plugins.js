@@ -1,9 +1,15 @@
+const path = require('path')
+const { uniqueId } = require('lodash')
+
 const {
   DefinePlugin,
   optimize: {
     CommonsChunkPlugin,
     OccurrenceOrderPlugin,
   },
+	NamedChunksPlugin,
+	NamedModulesPlugin,
+	HashedModuleIdsPlugin,
 } = require('webpack')
 
 const { TsConfigPathsPlugin } = require('awesome-typescript-loader')
@@ -14,7 +20,18 @@ const CopyWebpackPlugin = require('copy-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer')
 
+const SEP_RE = new RegExp(`\\${path.sep}`, 'g')
 const IS_REACT = /node_modules.+?(react|styled)/
+const PAGES_RE = /pages[\/\\](.+?)(index)?\.[jt]sx?/
+
+const moduleToFileNames = (module) => {
+  if (!module.request || !module.optional) {
+    return null
+  }
+  const relativePath = path.relative(module.context, module.request)
+  const tokens = relativePath.match(PAGES_RE)
+  return tokens && tokens[1].replace(SEP_RE, '.').slice(0, -1)
+}
 
 module.exports = env => [
   // new TsConfigPathsPlugin({
@@ -30,22 +47,42 @@ module.exports = env => [
     },
   }),
 
-  new CommonsChunkPlugin({
-    name: 'vendor',
-    filename: 'vendor.js',
-    minChunks: ({ context }) => context && context.includes('node_modules'),
-  }),
+	new NamedChunksPlugin((chunk) => {
+		if (chunk.name) {
+			return chunk.name
+    }
+		const nameWithPage = chunk.modules
+			.map(moduleToFileNames)
+			.find((name) => name)
+		return nameWithPage
+			? nameWithPage
+			: uniqueId('chunk-')
+	}),
 
-  // env !== 'dev' && new CommonsChunkPlugin({
-  //   name: 'react',
-  //   filename: 'react.js',
-  //   minChunks: ({ context }) => context && IS_REACT.test(context),
-  // }),
+	// new (env === 'dev' ? NamedModulesPlugin : HashedModuleIdsPlugin)(),
+
+	env !== 'dev' && new CommonsChunkPlugin({
+		name: 'app',
+		children: true,
+		minChunks: 2,
+		async: 'commons',
+	}),
+
+	env !== 'dev' && new CommonsChunkPlugin({
+		name: 'vendor',
+		// names: 'vendor',
+		// chunks: 'app',
+		minChunks: ({ context }) => context && context.includes('node_modules'),
+	}),
+
+	// env !== 'dev' && new CommonsChunkPlugin({
+	// 	name: 'runtime',
+	// 	minChunks: Infinity,
+	// }),
 
   new HtmlWebpackPlugin({
     filename: 'index.html',
     template: 'src/template.html',
-    hash: true,
     minify: {
       removeComments: true,
       collapseWhitespace: true,
