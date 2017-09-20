@@ -32,7 +32,7 @@ class PageLoader extends React.PureComponent<Props, State> {
     this.loadPromise(nextProps)
   }
 
-  loadPromise(props: Props) {
+  private loadPromise(props: Props) {
     const {
       tournament,
       stage,
