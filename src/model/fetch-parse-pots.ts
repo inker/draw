@@ -1,11 +1,11 @@
 import { mobile } from 'bowser'
+import fastDelete from 'fast-delete'
 import delay from 'delay.js'
 
 import * as countryNames from 'data/country-names.json'
 import * as pairings from 'data/pairings.json'
 
 import proxify from 'utils/proxify'
-import deleteFromArray from 'utils/deleteFromArray'
 
 import { GSTeam, Last16Team } from './team'
 import currentSeason from './currentSeason'
@@ -118,8 +118,8 @@ function pairUpTeams(teams: GSTeam[]): GSTeam[] {
     }
     team1.pairing = team2
     team2.pairing = team1
-    deleteFromArray(teamsCopy, team1)
-    deleteFromArray(teamsCopy, team2)
+    fastDelete(teamsCopy, team1)
+    fastDelete(teamsCopy, team2)
   }
   teamsCopy.sort((a, b) => b.coefficient - a.coefficient)
   const len = teamsCopy.length

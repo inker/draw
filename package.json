@@ -6,6 +6,7 @@
   "dependencies": {
     "bowser": "^1.7.3",
     "delay.js": "^1.0.1",
+    "fast-delete": "^1.0.0",
     "fast-levenshtein": "^2.0.6",
     "fastclick": "^1.0.6",
     "flag-icon-css": "^2.8.0",
