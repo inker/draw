@@ -1,7 +1,7 @@
 import * as React from 'react'
+import Import from 'react-import'
 
 import { Team } from 'model/team'
-import LazilyLoad from 'utils/LazilyLoad'
 
 declare const System: any
 
@@ -51,7 +51,7 @@ class PageLoader extends React.PureComponent<Props, State> {
     } = this.props
 
     return pots && (
-      <LazilyLoad
+      <Import
         {...props}
         pots={pots}
         component={this.state.componentPromise}
