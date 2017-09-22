@@ -1,4 +1,5 @@
 import * as React from 'react'
+import delay from 'delay.js'
 import {
   omit,
   shuffle,
@@ -10,7 +11,6 @@ import { GSTeam as Team } from 'model/team'
 import animateContentTransfer from 'utils/animateContentTransfer'
 import getGroupLetter from 'utils/getGroupLetter'
 import isShallowEqual from 'utils/isShallowEqual'
-import delay from 'utils/delay'
 
 import PotsContainer from 'components/PotsContainer'
 // import AirborneContainer from 'components/AirborneContainer'

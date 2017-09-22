@@ -1,6 +1,7 @@
 import * as React from 'react'
 import { Route, Switch } from 'react-router-dom'
 import Helmet from 'react-helmet'
+import delay from 'delay.js'
 import { uniqueId, memoize } from 'lodash'
 
 // import CLGS from 'pages/cl/gs'
@@ -13,7 +14,6 @@ import { GSTeam } from 'model/team'
 
 import getCountryFlagUrl from 'utils/getCountryFlagUrl'
 import prefetchImage from 'utils/prefetchImage'
-import delay from 'utils/delay'
 
 import Popup from 'components/Popup'
 

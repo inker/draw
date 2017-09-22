@@ -1,9 +1,9 @@
 import { mobile } from 'bowser'
+import delay from 'delay.js'
 
 import * as countryNames from 'data/country-names.json'
 import * as pairings from 'data/pairings.json'
 
-import delay from 'utils/delay'
 import proxify from 'utils/proxify'
 import deleteFromArray from 'utils/deleteFromArray'
 
