@@ -5,8 +5,8 @@
   "main": "index.html",
   "dependencies": {
     "bowser": "^1.7.3",
-    "delay.js": "^1.0.1",
-    "fast-delete": "^1.0.0",
+    "delay.js": "^1.0.2",
+    "fast-delete": "^1.0.1",
     "fast-levenshtein": "^2.0.6",
     "fastclick": "^1.0.6",
     "flag-icon-css": "^2.8.0",
@@ -16,7 +16,7 @@
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
     "react-helmet": "^5.2.0",
-    "react-import": "^1.0.3",
+    "react-import": "^1.0.4",
     "react-router-dom": "^4.2.2",
     "styled-components": "^2.1.2",
     "tslib": "^1.7.1"
