@@ -1,5 +1,4 @@
 const path = require('path')
-const { uniqueId } = require('lodash')
 
 const {
   DefinePlugin,
@@ -16,7 +15,6 @@ const { TsConfigPathsPlugin } = require('awesome-typescript-loader')
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 
-// const { CheckerPlugin } = require('awesome-typescript-loader')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer')
 
@@ -33,11 +31,12 @@ const moduleToFileNames = (module) => {
   return tokens && tokens[1].replace(SEP_RE, '.').slice(0, -1)
 }
 
+const chunkToName = (chunk) =>
+  chunk.name
+  || chunk.modules.map(moduleToFileNames).find((name) => name)
+  || null
+
 module.exports = env => [
-  // new TsConfigPathsPlugin({
-  //   baseUrl: require('path').resolve(process.cwd(), ''),
-  // }),
-  // new CheckerPlugin(),
 
   // new OccurrenceOrderPlugin(),
 
@@ -47,17 +46,7 @@ module.exports = env => [
     },
   }),
 
-	new NamedChunksPlugin((chunk) => {
-		if (chunk.name) {
-			return chunk.name
-    }
-		const nameWithPage = chunk.modules
-			.map(moduleToFileNames)
-			.find((name) => name)
-		return nameWithPage
-			? nameWithPage
-			: uniqueId('chunk-')
-	}),
+  new NamedChunksPlugin(chunkToName),
 
 	// new (env === 'dev' ? NamedModulesPlugin : HashedModuleIdsPlugin)(),
 
@@ -97,15 +86,11 @@ module.exports = env => [
     },
   }),
 
-  new CopyWebpackPlugin([
-    // {
-    //   from: 'src/data',
-    //   to: 'data',
-    // },
-    // {
-    //   from: 'src/404.html',
-    // }
-  ]),
+  // new CopyWebpackPlugin([
+  //   {
+  //     from: 'src/404.html',
+  //   }
+  // ]),
 
   env !== 'dev' && new UglifyJsPlugin({
     uglifyOptions: {

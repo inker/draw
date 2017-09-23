@@ -4,10 +4,6 @@ import Helmet from 'react-helmet'
 import delay from 'delay.js'
 import { uniqueId, memoize } from 'lodash'
 
-// import CLGS from 'pages/cl/gs'
-// import CLRo16 from 'pages/cl/ro16'
-// import ELGS from 'pages/el/gs'
-
 import currentSeason from 'model/currentSeason'
 import { fetchPots, parseGS } from 'model/fetch-parse-pots'
 import { GSTeam } from 'model/team'
