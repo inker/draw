@@ -16,7 +16,7 @@
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
     "react-helmet": "^5.2.0",
-    "react-import": "^1.0.5",
+    "react-import": "^1.0.9",
     "react-router-dom": "^4.2.2",
     "styled-components": "^2.1.2",
     "tslib": "^1.7.1"
