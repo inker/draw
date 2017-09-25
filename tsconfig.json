@@ -1,8 +1,7 @@
 {
   "compilerOptions": {
     "target": "es2015",
-    "module": "esnext",
-    "moduleResolution": "node",
+    "module": "commonjs",
     "baseUrl": "./src",
     // "sourceMap": true, // not needed when assembled with webpack
     // "watch": true, // not needed when assembled with webpack

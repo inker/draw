@@ -10,7 +10,9 @@ import proxify from 'utils/proxify'
 import { GSTeam, Last16Team } from './team'
 import currentSeason from './currentSeason'
 
-const getClubName = mobile && import('utils/club-name')
+declare const System: any
+
+const getClubName = mobile && System.import('utils/club-name')
 
 const BERT_HOST = 'http://kassiesa.home.xs4all.nl/bert/uefa'
 
