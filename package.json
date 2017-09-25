@@ -48,7 +48,7 @@
     "webpack": "^3.6.0",
     "webpack-bundle-analyzer": "^2.8.3",
     "webpack-dev-server": "^2.8.2",
-    "worker-loader": "^0.8.1"
+    "worker-loader": "^1.0.0"
   },
   "scripts": {
     "build:prod": "webpack --colors --config webpack/webpack.config.js --env=prod",
