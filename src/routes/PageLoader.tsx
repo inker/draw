@@ -3,8 +3,6 @@ import Import from 'react-import'
 
 import { Team } from 'model/team'
 
-declare const System: any
-
 interface State {
   componentPromise: Promise<React.Component> | null,
 }
@@ -38,7 +36,7 @@ class PageLoader extends React.PureComponent<Props, State> {
       stage,
     } = props
     this.setState({
-      componentPromise: System.import(`pages/${tournament}/${stage}`),
+      componentPromise: import(`pages/${tournament}/${stage}`),
     })
   }
 
