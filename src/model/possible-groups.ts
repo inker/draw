@@ -1,4 +1,10 @@
-import { range, last, memoize } from 'lodash'
+import {
+  memoize,
+  range,
+  initial,
+  last,
+} from 'lodash'
+
 import { GSTeam as Team } from './team'
 
 const extraConstraints = (teamPicked: Team) =>
@@ -6,20 +12,32 @@ const extraConstraints = (teamPicked: Team) =>
     ((otherTeam: Team) => otherTeam.country === 'ua') : teamPicked.country === 'ua' ?
     ((otherTeam: Team) => otherTeam.country === 'ru') : (otherTeam: Team) => false
 
-const foox = memoize((picked: Team, g: Team[]) => g.some(team => team === picked.pairing))
+const foo = memoize(
+  (g: Team[], picked: Team) => g.every(team => team !== picked.pairing),
+  (g: Team[], picked: Team) => `${g.map(t => t.id).join(';')}...${picked.id}`,
+)
 
-function pred(picked: Team, currentPotIndex: number, group: Team[], groups: Team[][]) {
+function pred(picked: Team, groupIndex: number, currentPotIndex: number, groups: Team[][]) {
+  const group = groups[groupIndex]
   if (group.length > currentPotIndex) {
     return false
   }
-  if (groups.some(g => foox(picked, g))) {
+  const extra = extraConstraints(picked)
+  if (group.some(team => team.country === picked.country || extra(team))) {
     return false
   }
-  const foo = extraConstraints(picked)
-  if (group.some(team => team.country === picked.country || foo(team))) {
-    return false
-  }
-  return true
+  const half = groups.length >> 1
+  const start = groupIndex < half ? 0 : half
+  return groups
+    .slice(start, start + half)
+    .every(g => foo(g, picked))
+}
+
+function bar(groupNum: number, team: Team, groups: Team[][], pots: Team[][], currentPotIndex: number) {
+  const newGroups = groups.slice()
+  const oldGroup = newGroups[groupNum]
+  newGroups[groupNum] = [...oldGroup, team]
+  return groupIsPossible(pots, newGroups, currentPotIndex)
 }
 
 export function allPossibleGroups(
@@ -31,12 +49,8 @@ export function allPossibleGroups(
   if (groups.every(group => group.length === 0)) {
     return range(groups.length)
   }
-  return filterGroupsBasic(groups, teamPicked, currentPotIndex, pred).filter(groupNum => {
-    const newGroups = groups.slice()
-    const oldGroup = newGroups[groupNum]
-    newGroups[groupNum] = [...oldGroup, teamPicked]
-    return groupIsPossible(pots, newGroups, currentPotIndex)
-  })
+  return filterGroupsBasic(groups, teamPicked, currentPotIndex, pred)
+    .filter(groupNum => bar(groupNum, teamPicked, groups, pots, currentPotIndex))
 }
 
 export function firstPossibleGroup(
@@ -48,12 +62,8 @@ export function firstPossibleGroup(
   if (groups.every(group => group.length === 0)) {
     return 0
   }
-  return filterGroupsBasic(groups, teamPicked, currentPotIndex, pred).find(groupNum => {
-    const newGroups = groups.slice()
-    const oldGroup = newGroups[groupNum]
-    newGroups[groupNum] = [...oldGroup, teamPicked]
-    return groupIsPossible(pots, newGroups, currentPotIndex)
-  }) as number
+  return filterGroupsBasic(groups, teamPicked, currentPotIndex, pred)
+    .find(groupNum => bar(groupNum, teamPicked, groups, pots, currentPotIndex))
 }
 
 function groupIsPossible(
@@ -64,17 +74,15 @@ function groupIsPossible(
   if (pots[currentPotIndex].length === 0 && ++currentPotIndex === pots.length) {
     return true
   }
-  const team = last(pots[currentPotIndex]) as Team
-  return filterGroupsBasic(groups, team, currentPotIndex, pred).some(groupNum => {
-    const newGroups = groups.slice()
-    const oldGroup = newGroups[groupNum]
-    newGroups[groupNum] = [...oldGroup, team]
-    return groupIsPossible(pots, newGroups, currentPotIndex)
-  })
+  const newPots = pots.slice()
+  const oldPot = newPots[currentPotIndex]
+  newPots[currentPotIndex] = initial(oldPot)
+  const team = last(oldPot) as Team
+  return filterGroupsBasic(groups, team, currentPotIndex, pred)
+    .some(groupNum => bar(groupNum, team, groups, newPots, currentPotIndex))
 }
 
-type Predicate = (picked: Team, currentPotIndex: number, group: Team[], groups: Team[][]) => boolean
-
+type Predicate = (picked: Team, groupIndex: number, currentPotIndex: number, groups: Team[][]) => boolean
 function filterGroupsBasic(
   groups: Team[][],
   teamPicked: Team,
@@ -82,5 +90,5 @@ function filterGroupsBasic(
   predicate: Predicate,
 ): number[] {
   return range(0, groups.length)
-    .filter(i => predicate(teamPicked, currentPotIndex, groups[i], groups))
+    .filter(i => predicate(teamPicked, i, currentPotIndex, groups))
 }
