@@ -1,5 +1,26 @@
-import { range } from 'lodash'
+import { range, last, memoize } from 'lodash'
 import { GSTeam as Team } from './team'
+
+const extraConstraints = (teamPicked: Team) =>
+  teamPicked.country === 'ru' ?
+    ((otherTeam: Team) => otherTeam.country === 'ua') : teamPicked.country === 'ua' ?
+    ((otherTeam: Team) => otherTeam.country === 'ru') : (otherTeam: Team) => false
+
+const foox = memoize((picked: Team, g: Team[]) => g.some(team => team === picked.pairing))
+
+function pred(picked: Team, currentPotIndex: number, group: Team[], groups: Team[][]) {
+  if (group.length > currentPotIndex) {
+    return false
+  }
+  if (groups.some(g => foox(picked, g))) {
+    return false
+  }
+  const foo = extraConstraints(picked)
+  if (group.some(team => team.country === picked.country || foo(team))) {
+    return false
+  }
+  return true
+}
 
 export function allPossibleGroups(
   pots: Team[][],
@@ -10,11 +31,11 @@ export function allPossibleGroups(
   if (groups.every(group => group.length === 0)) {
     return range(groups.length)
   }
-  return filterGroupsBasic(groups, teamPicked, currentPotIndex).filter(groupNum => {
-    groups[groupNum].push(teamPicked)
-    const possible = groupIsPossible(pots, groups, currentPotIndex)
-    groups[groupNum].pop()
-    return possible
+  return filterGroupsBasic(groups, teamPicked, currentPotIndex, pred).filter(groupNum => {
+    const newGroups = groups.slice()
+    const oldGroup = newGroups[groupNum]
+    newGroups[groupNum] = [...oldGroup, teamPicked]
+    return groupIsPossible(pots, newGroups, currentPotIndex)
   })
 }
 
@@ -27,11 +48,11 @@ export function firstPossibleGroup(
   if (groups.every(group => group.length === 0)) {
     return 0
   }
-  return filterGroupsBasic(groups, teamPicked, currentPotIndex).find(groupNum => {
-    groups[groupNum].push(teamPicked)
-    const possible = groupIsPossible(pots, groups, currentPotIndex)
-    groups[groupNum].pop()
-    return possible
+  return filterGroupsBasic(groups, teamPicked, currentPotIndex, pred).find(groupNum => {
+    const newGroups = groups.slice()
+    const oldGroup = newGroups[groupNum]
+    newGroups[groupNum] = [...oldGroup, teamPicked]
+    return groupIsPossible(pots, newGroups, currentPotIndex)
   }) as number
 }
 
@@ -43,63 +64,23 @@ function groupIsPossible(
   if (pots[currentPotIndex].length === 0 && ++currentPotIndex === pots.length) {
     return true
   }
-  const currentPot = pots[currentPotIndex]
-  const team = currentPot.pop() as Team
-  let possible = false
-  for (const groupNum of filterGroupsBasic(groups, team, currentPotIndex)) {
-    const group = groups[groupNum]
-    group.push(team)
-    possible = groupIsPossible(pots, groups, currentPotIndex)
-    group.pop()
-    if (possible) {
-      break
-    }
-  }
-  currentPot.push(team)
-  return possible
+  const team = last(pots[currentPotIndex]) as Team
+  return filterGroupsBasic(groups, team, currentPotIndex, pred).some(groupNum => {
+    const newGroups = groups.slice()
+    const oldGroup = newGroups[groupNum]
+    newGroups[groupNum] = [...oldGroup, team]
+    return groupIsPossible(pots, newGroups, currentPotIndex)
+  })
 }
+
+type Predicate = (picked: Team, currentPotIndex: number, group: Team[], groups: Team[][]) => boolean
 
 function filterGroupsBasic(
   groups: Team[][],
   teamPicked: Team,
   currentPotIndex: number,
+  predicate: Predicate,
 ): number[] {
-  const halfNumGroups = groups.length >> 1
-  const bottom = filterSomeGroups(groups, teamPicked, currentPotIndex, 0, halfNumGroups)
-  const top = filterSomeGroups(groups, teamPicked, currentPotIndex, halfNumGroups, groups.length)
-  return bottom.length === 0 ? top : top.length === 0 ? bottom : bottom.concat(top)
-}
-
-const extraConstraints = (teamPicked: Team) =>
-  teamPicked.country === 'ru' ?
-    ((otherTeam: Team) => otherTeam.country === 'ua') : teamPicked.country === 'ua' ?
-    ((otherTeam: Team) => otherTeam.country === 'ru') : (otherTeam: Team) => false
-
-function filterSomeGroups(
-  groups: Team[][],
-  teamPicked: Team,
-  currentPotIndex: number,
-  start: number,
-  end: number,
-): number[] {
-  const possibles: number[] = []
-  const extraCondition = extraConstraints(teamPicked)
-
-  for (let i = start; i < end; ++i) {
-    const group = groups[i]
-    let canDraw = true
-    for (const team of group) {
-      if (team.country === teamPicked.country || extraCondition(team)) {
-        canDraw = false
-        if (team.pairing === teamPicked) {
-          return []
-        }
-        break
-      }
-    }
-    if (canDraw && group.length <= currentPotIndex) {
-      possibles.push(i)
-    }
-  }
-  return possibles
+  return range(0, groups.length)
+    .filter(i => predicate(teamPicked, currentPotIndex, groups[i], groups))
 }
