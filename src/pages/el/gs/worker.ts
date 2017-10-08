@@ -1,4 +1,5 @@
 import { firstPossibleGroup } from 'model/possible-groups'
+import predicate from 'model/predicate'
 
 addEventListener('message', e => {
   const {
@@ -8,7 +9,7 @@ addEventListener('message', e => {
     currentPotNum,
   } = e.data
 
-  const pickedGroup = firstPossibleGroup(pots, groups, selectedTeam, currentPotNum)
+  const pickedGroup = firstPossibleGroup(pots, groups, selectedTeam, currentPotNum, predicate)
 
   postMessage({
     selectedTeam,
