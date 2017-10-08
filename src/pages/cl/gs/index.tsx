@@ -3,7 +3,7 @@ import { shuffle, uniqueId } from 'lodash'
 
 import { GSTeam as Team } from 'model/team'
 import { allPossibleGroups } from 'model/possible-groups'
-import predicate from 'model/predicate'
+// import predicate from 'model/experimental/predicate'
 
 import animateContentTransfer from 'utils/animateContentTransfer'
 import getGroupLetter from 'utils/getGroupLetter'
@@ -79,7 +79,8 @@ export default class GS extends React.PureComponent<Props, State> {
     const currentPot = pots[currentPotNum]
     const hungPot = currentPot.slice()
     const selectedTeam = currentPot.splice(i, 1)[0]
-    const possibleGroups = allPossibleGroups(pots, groups, selectedTeam, currentPotNum, predicate)
+    // const possibleGroups = allPossibleGroups(pots, groups, selectedTeam, currentPotNum, predicate)
+    const possibleGroups = allPossibleGroups(pots, groups, selectedTeam, currentPotNum)
 
     this.setState({
       hungPot,
