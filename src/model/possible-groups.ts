@@ -12,7 +12,9 @@ export const allPossibleGroups = <T>(
   teamPicked: T,
   currentPotIndex: number,
   predicate: Predicate<T>,
-): number[] => filterGroups('filter', pots, groups, teamPicked, currentPotIndex, predicate)
+) =>
+  filterGroups(pots, groups, teamPicked, currentPotIndex, predicate)
+    .filter(groupNum => groupPredicate(pots, groups, teamPicked, groupNum, currentPotIndex, predicate))
 
 export const firstPossibleGroup = <T>(
   pots: T[][],
@@ -20,10 +22,11 @@ export const firstPossibleGroup = <T>(
   teamPicked: T,
   currentPotIndex: number,
   predicate: Predicate<T>,
-): number => filterGroups('find', pots, groups, teamPicked, currentPotIndex, predicate)
+) =>
+  filterGroups(pots, groups, teamPicked, currentPotIndex, predicate)
+    .find(groupNum => groupPredicate(pots, groups, teamPicked, groupNum, currentPotIndex, predicate))
 
-const filterGroups = <T, U extends keyof T[]>(
-  method: U,
+const filterGroups = <T>(
   pots: T[][],
   groups: T[][],
   teamPicked: T,
@@ -31,19 +34,27 @@ const filterGroups = <T, U extends keyof T[]>(
   predicate: Predicate<T>,
 ) => range(0, groups.length)
   .filter(i => predicate(teamPicked, i, currentPotIndex, groups))
-  [method as string](groupNum => {
-    const newGroups = groups.slice()
-    const oldGroup = newGroups[groupNum]
-    newGroups[groupNum] = [...oldGroup, teamPicked]
-    return groupIsPossible(pots, newGroups, currentPotIndex, predicate)
-  })
+
+function groupPredicate<T>(
+  pots: T[][],
+  groups: T[][],
+  teamPicked: T,
+  groupNum: number,
+  currentPotIndex: number,
+  predicate: Predicate<T>,
+): boolean {
+  const newGroups = groups.slice()
+  const oldGroup = newGroups[groupNum]
+  newGroups[groupNum] = [...oldGroup, teamPicked]
+  return groupIsPossible(pots, newGroups, currentPotIndex, predicate)
+}
 
 function groupIsPossible<T>(
   pots: T[][],
   groups: T[][],
   currentPotIndex: number,
   predicate: Predicate<T>,
-): boolean {
+) {
   if (pots[currentPotIndex].length === 0 && ++currentPotIndex === pots.length) {
     return true
   }
@@ -51,5 +62,6 @@ function groupIsPossible<T>(
   const oldPot = newPots[currentPotIndex]
   newPots[currentPotIndex] = initial(oldPot)
   const team = last(oldPot) as T
-  return filterGroups('some', pots, groups, team, currentPotIndex, predicate)
+  return filterGroups(pots, groups, team, currentPotIndex, predicate)
+    .some(groupNum => groupPredicate(newPots, groups, team, currentPotIndex, groupNum, predicate))
 }
