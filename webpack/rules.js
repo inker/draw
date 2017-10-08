@@ -2,9 +2,12 @@
 
 // const styledComponentsTransformer = createStyledComponentsTransformer()
 
+const { createLodashTransformer } = require('typescript-plugin-lodash')
+
 const tsOptions = env => env === 'dev' ? {
   // getCustomTransformers: () => ({ before: [styledComponentsTransformer] }),
 } : {
+  getCustomTransformers: () => ({ before: [createLodashTransformer()] }),
   ignoreDiagnostics: [2307, 2322, 2339, 2345, 2459],
 }
 
@@ -12,12 +15,6 @@ module.exports = env => [
   {
     test: /worker\.[jt]s/,
     loader: 'worker-loader',
-  },
-  env !== 'dev' && {
-    test: /\.tsx?$/,
-    loader: 'lodash-ts-imports-loader',
-    exclude: /node_modules/,
-    enforce: 'pre',
   },
   {
     test: /\.tsx?$/,

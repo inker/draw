@@ -36,12 +36,12 @@
     "css-loader": "^0.28.7",
     "file-loader": "^1.1.5",
     "html-webpack-plugin": "^2.30.1",
-    "lodash-ts-imports-loader": "^1.1.2",
     "style-loader": "^0.19.0",
     "surge": "^0.19.0",
     "tslint": "^5.7.0",
     "tslint-react": "^3.2.0",
     "typescript": "^2.5.3",
+    "typescript-plugin-lodash": "^0.1.0",
     "uglifyjs-webpack-plugin": "^1.0.0-beta.2",
     "url-loader": "^0.6.1",
     "webpack": "^3.6.0",
@@ -53,7 +53,7 @@
     "build:prod": "webpack --colors --config webpack/webpack.config.js --env=prod",
     "build:analyze": "npm run rmdocs && webpack --colors --config webpack/webpack.config.js --env=analyze",
     "rmdocs": "rm -rf docs",
-    "start": "npm run rmdocs && webpack-dev-server --colors --watch --config webpack/webpack.config.js --env=dev"
+    "start": "npm run rmdocs && webpack-dev-server --colors --watch --config webpack/webpack.config.js --env=prod"
   },
   "repository": {
     "type": "git",
