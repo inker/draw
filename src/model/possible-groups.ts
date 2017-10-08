@@ -1,67 +1,105 @@
-import {
-  range,
-  initial,
-  last,
-} from 'lodash'
+import { range } from 'lodash'
+import { GSTeam as Team } from './team'
 
-type Predicate<T> = (picked: T, groupIndex: number, currentPotIndex: number, groups: T[][]) => boolean
-
-export const allPossibleGroups = <T>(
-  pots: T[][],
-  groups: T[][],
-  teamPicked: T,
+export function allPossibleGroups(
+  pots: Team[][],
+  groups: Team[][],
+  teamPicked: Team,
   currentPotIndex: number,
-  predicate: Predicate<T>,
-) =>
-  filterGroups(pots, groups, teamPicked, currentPotIndex, predicate)
-    .filter(groupNum => groupPredicate(pots, groups, teamPicked, groupNum, currentPotIndex, predicate))
-
-export const firstPossibleGroup = <T>(
-  pots: T[][],
-  groups: T[][],
-  teamPicked: T,
-  currentPotIndex: number,
-  predicate: Predicate<T>,
-) =>
-  filterGroups(pots, groups, teamPicked, currentPotIndex, predicate)
-    .find(groupNum => groupPredicate(pots, groups, teamPicked, groupNum, currentPotIndex, predicate))
-
-const filterGroups = <T>(
-  pots: T[][],
-  groups: T[][],
-  teamPicked: T,
-  currentPotIndex: number,
-  predicate: Predicate<T>,
-) => range(0, groups.length)
-  .filter(i => predicate(teamPicked, i, currentPotIndex, groups))
-
-function groupPredicate<T>(
-  pots: T[][],
-  groups: T[][],
-  teamPicked: T,
-  groupNum: number,
-  currentPotIndex: number,
-  predicate: Predicate<T>,
-): boolean {
-  const newGroups = groups.slice()
-  const oldGroup = newGroups[groupNum]
-  newGroups[groupNum] = [...oldGroup, teamPicked]
-  return groupIsPossible(pots, newGroups, currentPotIndex, predicate)
+) {
+  if (groups.every(group => group.length === 0)) {
+    return range(groups.length)
+  }
+  return filterGroupsBasic(groups, teamPicked, currentPotIndex).filter(groupNum => {
+    groups[groupNum].push(teamPicked)
+    const possible = groupIsPossible(pots, groups, currentPotIndex)
+    groups[groupNum].pop()
+    return possible
+  })
 }
 
-function groupIsPossible<T>(
-  pots: T[][],
-  groups: T[][],
+export function firstPossibleGroup(
+  pots: Team[][],
+  groups: Team[][],
+  teamPicked: Team,
   currentPotIndex: number,
-  predicate: Predicate<T>,
 ) {
+  if (groups.every(group => group.length === 0)) {
+    return 0
+  }
+  return filterGroupsBasic(groups, teamPicked, currentPotIndex).find(groupNum => {
+    groups[groupNum].push(teamPicked)
+    const possible = groupIsPossible(pots, groups, currentPotIndex)
+    groups[groupNum].pop()
+    return possible
+  }) as number
+}
+
+function groupIsPossible(
+  pots: Team[][],
+  groups: Team[][],
+  currentPotIndex: number,
+): boolean {
   if (pots[currentPotIndex].length === 0 && ++currentPotIndex === pots.length) {
     return true
   }
-  const newPots = pots.slice()
-  const oldPot = newPots[currentPotIndex]
-  newPots[currentPotIndex] = initial(oldPot)
-  const team = last(oldPot) as T
-  return filterGroups(pots, groups, team, currentPotIndex, predicate)
-    .some(groupNum => groupPredicate(newPots, groups, team, groupNum, currentPotIndex, predicate))
+  const currentPot = pots[currentPotIndex]
+  const team = currentPot.pop() as Team
+  let possible = false
+  for (const groupNum of filterGroupsBasic(groups, team, currentPotIndex)) {
+    const group = groups[groupNum]
+    group.push(team)
+    possible = groupIsPossible(pots, groups, currentPotIndex)
+    group.pop()
+    if (possible) {
+      break
+    }
+  }
+  currentPot.push(team)
+  return possible
+}
+
+function filterGroupsBasic(
+  groups: Team[][],
+  teamPicked: Team,
+  currentPotIndex: number,
+): number[] {
+  const halfNumGroups = groups.length >> 1
+  const bottom = filterSomeGroups(groups, teamPicked, currentPotIndex, 0, halfNumGroups)
+  const top = filterSomeGroups(groups, teamPicked, currentPotIndex, halfNumGroups, groups.length)
+  return bottom.length === 0 ? top : top.length === 0 ? bottom : bottom.concat(top)
+}
+
+const extraConstraints = (teamPicked: Team) =>
+  teamPicked.country === 'ru' ?
+    ((otherTeam: Team) => otherTeam.country === 'ua') : teamPicked.country === 'ua' ?
+    ((otherTeam: Team) => otherTeam.country === 'ru') : (otherTeam: Team) => false
+
+function filterSomeGroups(
+  groups: Team[][],
+  teamPicked: Team,
+  currentPotIndex: number,
+  start: number,
+  end: number,
+): number[] {
+  const possibles: number[] = []
+  const extraCondition = extraConstraints(teamPicked)
+
+  for (let i = start; i < end; ++i) {
+    const group = groups[i]
+    let canDraw = true
+    for (const team of group) {
+      if (team.country === teamPicked.country || extraCondition(team)) {
+        canDraw = false
+        if (team.pairing === teamPicked) {
+          return []
+        }
+        break
+      }
+    }
+    if (canDraw && group.length <= currentPotIndex) {
+      possibles.push(i)
+    }
+  }
+  return possibles
 }
