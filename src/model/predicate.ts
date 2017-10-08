@@ -1,9 +1,17 @@
-import { memoize } from 'lodash'
+import { memoize, uniqueId } from 'lodash'
 
 import { GSTeam as Team } from './team'
 
-const serialize = (g: Team[], picked: Team) =>
-  `${g.map(t => t.id).join(';')}...${picked.id}`
+const groupIds = new WeakMap<Team[], string>()
+
+const serialize = (g: Team[], picked: Team) => {
+  let a = groupIds.get(g)
+  if (!a) {
+    a = uniqueId('gr')
+    groupIds.set(g, a)
+  }
+  return `${a}...${picked.id}`
+}
 
 const groupContainsPairing = memoize(
   (group: Team[], picked: Team) => group.every(team => team !== picked.pairing),

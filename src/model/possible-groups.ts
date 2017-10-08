@@ -63,5 +63,5 @@ function groupIsPossible<T>(
   newPots[currentPotIndex] = initial(oldPot)
   const team = last(oldPot) as T
   return filterGroups(pots, groups, team, currentPotIndex, predicate)
-    .some(groupNum => groupPredicate(newPots, groups, team, currentPotIndex, groupNum, predicate))
+    .some(groupNum => groupPredicate(newPots, groups, team, groupNum, currentPotIndex, predicate))
 }
