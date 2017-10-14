@@ -1,6 +1,6 @@
 import { memoize, uniqueId } from 'lodash'
 
-import { GSTeam as Team } from '../team'
+import Team from 'model/team/GSTeam'
 
 const groupIds = new WeakMap<Team[], string>()
 

@@ -5,8 +5,9 @@ import delay from 'delay.js'
 import { uniqueId, memoize } from 'lodash'
 
 import currentSeason from 'model/currentSeason'
-import { fetchPots, parseGS } from 'model/fetch-parse-pots'
-import { GSTeam } from 'model/team'
+import fetchPots from 'model/fetchPotsData'
+import parseGS from 'model/parsePotsData/gs'
+import Team from 'model/team'
 
 import getCountryFlagUrl from 'utils/getCountryFlagUrl'
 import prefetchImage from 'utils/prefetchImage'
@@ -25,7 +26,7 @@ interface Props {
 
 interface State {
   key: string,
-  pots: GSTeam[][] | null,
+  pots: Team[][] | null,
   waiting: boolean,
   error: string | null,
   // tournament: string,
@@ -118,7 +119,7 @@ class Pages extends React.PureComponent<Props, State> {
     return parseGS(data)
   }, (tournament, stage, season) => `${tournament}-${stage}-${season}`)
 
-  private prefetchImages(pots: GSTeam[][]) {
+  private prefetchImages(pots: Team[][]) {
     const promises: Promise<void>[] = []
     for (const pot of pots) {
       const urls = pot.map(team => getCountryFlagUrl(team.country))

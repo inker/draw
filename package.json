@@ -19,7 +19,7 @@
     "react-import": "^1.0.9",
     "react-router-dom": "^4.2.2",
     "styled-components": "^2.2.1",
-    "tslib": "^1.7.1"
+    "tslib": "^1.8.0"
   },
   "devDependencies": {
     "@types/bowser": "^1.0.30",
@@ -42,9 +42,9 @@
     "tslint-react": "^3.2.0",
     "typescript": "^2.5.3",
     "typescript-plugin-lodash": "^0.1.0",
-    "uglifyjs-webpack-plugin": "^1.0.0-beta.2",
+    "uglifyjs-webpack-plugin": "^1.0.0-beta.3",
     "url-loader": "^0.6.1",
-    "webpack": "^3.6.0",
+    "webpack": "^3.7.1",
     "webpack-bundle-analyzer": "^2.8.3",
     "webpack-dev-server": "^2.9.1",
     "worker-loader": "^1.0.0"

@@ -1,5 +1,5 @@
 import { range } from 'lodash'
-import { GSTeam as Team } from './team'
+import Team from './team/GSTeam'
 
 export function allPossibleGroups(
   pots: Team[][],

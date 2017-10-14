@@ -1,3 +1,13 @@
-export { default as Team } from './Team'
-export { default as GSTeam } from './GSTeam'
-export { default as Last16Team } from './Last16Team'
+import { uniqueId } from 'lodash'
+
+export default class Team {
+  id = uniqueId('team-')
+  name: string
+  shortName?: string
+  country: string
+  constructor(name: string, country: string, shortName?: string) {
+    this.name = name
+    this.country = country
+    this.shortName = shortName
+  }
+}

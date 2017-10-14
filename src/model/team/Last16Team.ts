@@ -1,4 +1,4 @@
-import Team from './Team'
+import Team from './index'
 
 export default class Last16Team extends Team {
   group: number

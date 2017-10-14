@@ -2,7 +2,7 @@ import * as React from 'react'
 import styled from 'styled-components'
 // import { memoize } from 'lodash'
 
-import { Team } from 'model/team'
+import Team from 'model/team'
 import FakeCell from './FakeCell'
 
 const Root = styled.div`

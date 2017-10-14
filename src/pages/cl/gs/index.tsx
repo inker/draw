@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { shuffle, uniqueId } from 'lodash'
 
-import { GSTeam as Team } from 'model/team'
+import Team from 'model/team/GSTeam'
 import { allPossibleGroups } from 'model/possible-groups'
 // import predicate from 'model/experimental/predicate'
 

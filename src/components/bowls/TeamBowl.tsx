@@ -1,7 +1,7 @@
 import * as React from 'react'
 import styled from 'styled-components'
 
-import { Team } from 'model/team'
+import Team from 'model/team'
 
 import Ball from './Ball'
 

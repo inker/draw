@@ -3,7 +3,7 @@ import styled from 'styled-components'
 
 import ALink from 'components/ALink'
 import DivLink from 'components/DivLink'
-import { Team } from 'model/team'
+import Team from 'model/team'
 import getGroupLetter from 'utils/getGroupLetter'
 
 import PossibleGroups from './PossibleGroups'

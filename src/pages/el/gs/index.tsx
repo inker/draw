@@ -6,7 +6,7 @@ import {
   uniqueId,
 } from 'lodash'
 
-import { GSTeam as Team } from 'model/team'
+import Team from 'model/team/GSTeam'
 
 import animateContentTransfer from 'utils/animateContentTransfer'
 import getGroupLetter from 'utils/getGroupLetter'

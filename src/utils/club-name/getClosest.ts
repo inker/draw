@@ -1,7 +1,7 @@
 import * as levenstein from 'fast-levenshtein'
 import { maxBy } from 'lodash'
 
-import { Team } from 'model/team'
+import Team from 'model/team'
 import normalize from './normalize'
 
 const similarity = (a: string, b: string) =>

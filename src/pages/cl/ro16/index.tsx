@@ -1,6 +1,6 @@
 import * as React from 'react'
 
-import { Last16Team as Team } from 'model/team'
+import Team from 'model/team/Last16Team'
 
 interface Props {
   pots: Team[][],

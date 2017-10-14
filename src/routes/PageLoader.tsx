@@ -1,7 +1,7 @@
 import * as React from 'react'
 import Import from 'react-import'
 
-import { Team } from 'model/team'
+import Team from 'model/team'
 
 interface State {
   componentPromise: Promise<React.Component> | null,
