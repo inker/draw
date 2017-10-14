@@ -5,7 +5,7 @@ import delay from 'delay.js'
 import * as countryNames from 'data/country-names.json'
 import * as pairings from 'data/pairings.json'
 
-import proxify from 'utils/proxify'
+import proxy from 'utils/proxy'
 
 import { GSTeam, Last16Team } from './team'
 import currentSeason from './currentSeason'
@@ -27,11 +27,7 @@ export async function tryFetch(url: string) {
     console.error("you're offline, retrying...")
     await delay(1000)
   }
-  const response = await fetch(proxify(url, 'latin1'))
-  if (response.status !== 200) {
-    throw new Error(`${url}: ${response.status}`)
-  }
-  const text = await response.text()
+  const text = await proxy(url, 'latin1')
   if (text.includes('<title>404 Not Found</title>')) {
     // stupid me
     throw new Error(`${url}: 404`)
@@ -55,7 +51,10 @@ export default (tournament: string, groupStage = true) =>
   fetchPots(tournament, currentSeason).then(groupStage ? parseGS : parseLast16Teams)
 
 export async function fetchPots(tournament: string, season: number) {
-  const urls = [getUrl(tournament, season), getHistoryUrl(tournament, season)]
+  const urls = [
+    getUrl(tournament, season),
+    getHistoryUrl(tournament, season),
+  ]
   if (season !== currentSeason) {
     urls.reverse()
   }
