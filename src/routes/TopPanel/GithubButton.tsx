@@ -12,6 +12,7 @@ const GithubButton = () => (
   <Wrapper>
     <a
       target="_blank"
+      rel="noopener"
       className="github-button"
       href="https://github.com/inker/draw"
       data-icon="octicon-star"

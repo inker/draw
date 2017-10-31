@@ -105,7 +105,7 @@ class Announcement extends React.PureComponent<Props, State> {
                 Calculation is taking too long.
               </div>
               <div>
-                And <ALink href={ISSUE_URL} target="_blank">here's why</ALink>.
+                And <ALink href={ISSUE_URL} target="_blank" rel="noopener">here's why</ALink>.
               </div>
             </Bug>
           ) :
