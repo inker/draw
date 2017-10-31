@@ -116,7 +116,7 @@ export default class GS extends React.PureComponent<Props, State> {
 
   private async setLongCalculating({ airborneTeams, ...oldState }: State) {
     await delay(3000)
-    const currentState = omit(this.state, 'airborneTeams') as typeof oldState
+    const currentState = omit(this.state as State, 'airborneTeams') as typeof oldState
     if (!isShallowEqual(currentState, oldState)) {
       return
     }
