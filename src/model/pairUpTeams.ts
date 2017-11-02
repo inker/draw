@@ -1,6 +1,6 @@
 import fastDelete from 'fast-delete'
 
-import * as pairings from 'data/pairings.json'
+import pairings from 'data/pairings.json'
 import GSTeam from 'model/team/GSTeam'
 
 const findTeam = (teams: GSTeam[], name: string) =>

@@ -22,7 +22,7 @@
     "tslib": "^1.8.0"
   },
   "devDependencies": {
-    "@types/bowser": "^1.0.30",
+    "@types/bowser": "^1.0.31",
     "@types/classnames": "^2.2.3",
     "@types/fast-levenshtein": "0.0.1",
     "@types/fastclick": "^1.0.28",
