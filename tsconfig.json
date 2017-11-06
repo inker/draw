@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "es2015",
+    "target": "es2016",
     "module": "esnext",
     "moduleResolution": "node",
     "baseUrl": "./src",
@@ -17,10 +17,10 @@
     "noEmitHelpers": true,
     "importHelpers": true,
     "lib": [
+      "es2017",
       "dom",
-      "webworker",
-      "es7",
-      "es2017"
+      "dom.iterable",
+      "webworker"
     ]
   },
   "awesomeTypescriptLoaderOptions": {
