@@ -62,6 +62,7 @@ class TopPanel extends React.PureComponent<Props> {
         <ALink
           href="https://github.com/inker/draw/issues"
           target="_blank"
+          rel="noopener"
         >
           Issues
         </ALink>

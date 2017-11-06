@@ -1,4 +1,4 @@
-import Last16Team from 'model/Team/Last16Team'
+import Last16Team from 'model/team/Last16Team'
 
 export default (data: string): Last16Team[][] => {
   data = data.slice(data.lastIndexOf('--------------'))
