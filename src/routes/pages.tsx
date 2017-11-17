@@ -156,7 +156,7 @@ class Pages extends React.PureComponent<Props, State> {
       <div>
         {this.getPopup()}
         <Switch>
-          <Route path ="/cl">
+          <Route path="/cl">
             <div>
               <Helmet>
                 <title>CL draw simulator</title>
