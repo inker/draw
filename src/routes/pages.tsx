@@ -156,49 +156,52 @@ class Pages extends React.PureComponent<Props, State> {
       <div>
         {this.getPopup()}
         <Switch>
-          <Route path="/cl/gs">
+          <Route path ="/cl">
             <div>
               <Helmet>
                 <title>CL draw simulator</title>
+                <link rel="icon" href="//img.uefa.com/imgml/favicon/comp/ucl.ico" type="image/x-icon" />
                 <meta name="theme-color" content="#00336a" />
                 <meta name="description" content="Champions League draw simulator" />
               </Helmet>
-              <PageLoader
-                tournament="cl"
-                stage="gs"
-                pots={pots}
-                key={key}
-              />
+              <Switch>
+                <Route path="/cl/gs">
+                  <PageLoader
+                    tournament="cl"
+                    stage="gs"
+                    pots={pots}
+                    key={key}
+                  />
+                </Route>
+                <Route path="/cl/ro16">
+                  <PageLoader
+                    tournament="cl"
+                    stage="ro16"
+                    pots={pots}
+                    key={key}
+                  />
+                </Route>
+              </Switch>
             </div>
           </Route>
-          <Route path="/cl/ro16">
-            <div>
-              <Helmet>
-                <title>CL draw simulator</title>
-                <meta name="theme-color" content="#00336a" />
-                <meta name="description" content="Champions League draw simulator" />
-              </Helmet>
-              <PageLoader
-                tournament="cl"
-                stage="ro16"
-                pots={pots}
-                key={key}
-              />
-            </div>
-          </Route>
-          <Route path="/el/gs">
+          <Route path="/el">
             <div>
               <Helmet>
                 <title>EL draw simulator</title>
+                <link rel="icon" href="//img.uefa.com/imgml/favicon/comp/uefacup.ico" type="image/x-icon" />
                 <meta name="theme-color" content="#f68e00" />
                 <meta name="description" content="Europa League draw simulator" />
               </Helmet>
-              <PageLoader
-                tournament="el"
-                stage="gs"
-                pots={pots}
-                key={key}
-              />
+              <Switch>
+                <Route path="/el/gs">
+                  <PageLoader
+                    tournament="el"
+                    stage="gs"
+                    pots={pots}
+                    key={key}
+                  />
+                </Route>
+              </Switch>
             </div>
           </Route>
         </Switch>
