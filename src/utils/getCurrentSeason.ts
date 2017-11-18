@@ -1,9 +1,16 @@
-import currentSeason from 'model/currentSeason'
+import CURRENT_UEFA_SEASON from 'model/currentSeason'
 
-export default (location) => {
+const CURRENT_WC_SEASON = 2018
+
+const DEFAULT_TOURNAMENT = 'wc'
+
+const currentSeasonByTournament = (tournament: string) =>
+  tournament === 'wc' ? CURRENT_WC_SEASON : CURRENT_UEFA_SEASON
+
+export default (location?) => {
   if (!location) {
-    return currentSeason
+    return currentSeasonByTournament(DEFAULT_TOURNAMENT)
   }
-  const seasonString = location.pathname.split('/')[3]
-  return +(seasonString || currentSeason)
+  const [, tournament, , seasonString] = location.pathname.split('/')
+  return +(seasonString || currentSeasonByTournament(tournament))
 }
