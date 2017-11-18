@@ -73,7 +73,7 @@ class Routes extends React.PureComponent<Props, State> {
       stage,
       season,
     } = this.state
-    return tournament && stage && (
+    return tournament && stage ? (
       <Pages
         {...props}
         dummyKey={key}
@@ -82,7 +82,7 @@ class Routes extends React.PureComponent<Props, State> {
         season={season}
         onSeasonChange={this.onSeasonChange}
       />
-    )
+    ) : null
   }
 
   render() {
