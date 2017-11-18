@@ -105,6 +105,10 @@ class Routes extends React.PureComponent<Props, State> {
               component={this.getPages}
             />
             <Redirect
+              from="/wc"
+              to="/wc/gs"
+            />
+            <Redirect
               from="/el"
               to="/el/gs"
             />
@@ -114,7 +118,7 @@ class Routes extends React.PureComponent<Props, State> {
             />
             <Redirect
               from="/"
-              to="/cl/gs"
+              to="/wc/gs"
             />
           </Switch>
         </div>
