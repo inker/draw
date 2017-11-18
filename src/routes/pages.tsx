@@ -4,7 +4,7 @@ import Helmet from 'react-helmet'
 import delay from 'delay.js'
 import { uniqueId, memoize } from 'lodash'
 
-import currentSeason from 'model/currentSeason'
+import * as currentSeason from 'model/currentSeason'
 import fetchPots from 'model/fetchPotsData'
 import parseGS from 'model/parsePotsData/gs'
 import parseWc from 'model/parsePotsData/wc'
@@ -36,24 +36,23 @@ interface State {
 }
 
 class Pages extends React.PureComponent<Props, State> {
-  state = {
+  state: State = {
     key: uniqueId(),
     pots: null,
     waiting: false,
     error: null,
-    season: currentSeason,
+    season: currentSeason.uefa,
   }
 
   componentDidMount() {
-    const {
-      tournament,
-      stage,
-      season,
-    } = this.getMatchParams()
-    this.fetchData(tournament, stage, season ? +season : currentSeason)
+    this.update(this.props, true)
   }
 
   componentWillReceiveProps(nextProps: Props) {
+    this.update(nextProps, false)
+  }
+
+  private update(nextProps: Props, force: boolean) {
     const { props } = this
     const {
       tournament,
@@ -61,7 +60,7 @@ class Pages extends React.PureComponent<Props, State> {
       season,
       dummyKey,
     } = nextProps
-    if (props.season !== season || props.stage !== stage || props.tournament !== tournament) {
+    if (force || props.season !== season || props.stage !== stage || props.tournament !== tournament) {
       this.fetchData(tournament, stage, season)
     } else if (props.dummyKey !== dummyKey) {
       this.setState({
@@ -72,9 +71,7 @@ class Pages extends React.PureComponent<Props, State> {
 
   private getMatchParams() {
     const { params } = this.props.match
-    const season = params.tournament === 'wc'
-      ? 2018
-      : params.season ? +params.season : currentSeason
+    const season = params.season ? +params.season : currentSeason[params.tournament === 'wc' ? 'wc' : 'uefa']
     return {
       ...params,
       season,
@@ -114,7 +111,7 @@ class Pages extends React.PureComponent<Props, State> {
     console.error(err)
     const { tournament, stage } = this.getMatchParams()
     const { pots, season } = this.state
-    const newSeason = pots && season !== currentSeason ? season : undefined
+    const newSeason = pots && season !== currentSeason[tournament === 'wc' ? 'wc' : 'uefa'] ? season : undefined
     this.props.onSeasonChange(tournament, stage, newSeason)
     this.setState({
       error: null,

@@ -1,12 +1,15 @@
 import * as React from 'react'
 import { range } from 'lodash'
 
-import currentSeason from 'model/currentSeason'
+import * as currentSeason from 'model/currentSeason'
 import seasonAsString from 'utils/seasonAsString'
 import Select from 'components/SelectWithHiddenLabel'
 
-const MIN_CL_SEASON = 2000
-const MIN_EL_SEASON = 2009
+const minSeasons = {
+  cl: 2000,
+  el: 2009,
+  wc: 2018,
+}
 
 interface Props {
   tournament: string,
@@ -23,7 +26,7 @@ class SelectSeason extends React.PureComponent<Props> {
       stage,
       onChange,
     } = this.props
-    onChange(tournament, stage, currentSeason)
+    onChange(tournament, stage, currentSeason[tournament === 'wc' ? 'wc' : 'uefa'])
   }
 
   onStageChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -32,7 +35,7 @@ class SelectSeason extends React.PureComponent<Props> {
       tournament,
       onChange,
     } = this.props
-    onChange(tournament, stage, currentSeason)
+    onChange(tournament, stage, currentSeason[tournament === 'wc' ? 'wc' : 'uefa'])
   }
 
   onSeasonChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -52,8 +55,7 @@ class SelectSeason extends React.PureComponent<Props> {
       season,
     } = this.props
 
-    const minSeason = tournament === 'el' ? MIN_EL_SEASON : MIN_CL_SEASON
-    const wcOptions = tournament === 'wc' && <option value={2018}>2018</option>
+    const minSeason = minSeasons[tournament]
 
     return (
       <div>
@@ -78,9 +80,9 @@ class SelectSeason extends React.PureComponent<Props> {
           onChange={this.onSeasonChange}
           value={season}
         >
-          {wcOptions || range(currentSeason, minSeason - 1).map(i => (
+          {range(currentSeason[tournament === 'wc' ? 'wc' : 'uefa'], minSeason - 1).map(i => (
             <option value={i}>
-              {seasonAsString(i)}
+              {seasonAsString(tournament, i)}
             </option>
           ))}
         </Select>

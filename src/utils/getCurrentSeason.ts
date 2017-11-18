@@ -1,11 +1,9 @@
-import CURRENT_UEFA_SEASON from 'model/currentSeason'
-
-const CURRENT_WC_SEASON = 2018
+import * as currentSeason from 'model/currentSeason'
 
 const DEFAULT_TOURNAMENT = 'wc'
 
 const currentSeasonByTournament = (tournament: string) =>
-  tournament === 'wc' ? CURRENT_WC_SEASON : CURRENT_UEFA_SEASON
+  currentSeason[tournament === 'wc' ? 'wc' : 'uefa']
 
 export default (location?) => {
   if (!location) {

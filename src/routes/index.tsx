@@ -36,6 +36,7 @@ class Routes extends React.PureComponent<Props, State> {
 
   componentWillMount() {
     this.unlisten = history.listen(this.updateLocation)
+    this.updateLocation(this.state.location, null)
   }
 
   componentWillUnmount() {
@@ -45,9 +46,6 @@ class Routes extends React.PureComponent<Props, State> {
   }
 
   private onSeasonChange = (tournament: string, stage: string, season?: number) => {
-    if (tournament === 'wc') {
-      season = 2018
-    }
     history.push(`/${tournament}/${stage}${season ? `/${season}` : ''}`)
   }
 
@@ -75,7 +73,7 @@ class Routes extends React.PureComponent<Props, State> {
       stage,
       season,
     } = this.state
-    return (
+    return tournament && stage && (
       <Pages
         {...props}
         dummyKey={key}
@@ -92,7 +90,7 @@ class Routes extends React.PureComponent<Props, State> {
       location,
     } = this.state
     return (
-      <Router history={history}>
+      <Router>
         <div>
           <TopPanel
             refresh={this.refresh}
@@ -118,7 +116,7 @@ class Routes extends React.PureComponent<Props, State> {
             />
             <Redirect
               from="/"
-              to="/wc/gs"
+              to="/wc"
             />
           </Switch>
         </div>
