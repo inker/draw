@@ -7,6 +7,7 @@ import { uniqueId, memoize } from 'lodash'
 import currentSeason from 'model/currentSeason'
 import fetchPots from 'model/fetchPotsData'
 import parseGS from 'model/parsePotsData/gs'
+import parseWc from 'model/parsePotsData/wc'
 import Team from 'model/team'
 
 import getCountryFlagUrl from 'utils/getCountryFlagUrl'
@@ -71,9 +72,12 @@ class Pages extends React.PureComponent<Props, State> {
 
   private getMatchParams() {
     const { params } = this.props.match
+    const season = params.tournament === 'wc'
+      ? 2018
+      : params.season ? +params.season : currentSeason
     return {
       ...params,
-      season: params.season ? +params.season : currentSeason,
+      season,
     }
   }
 
@@ -82,7 +86,10 @@ class Pages extends React.PureComponent<Props, State> {
       waiting: true,
     })
     try {
-      const pots = await this.getPots(tournament, stage, season)
+      const potsPromise = tournament === 'wc'
+        ? this.getWcPots(season)
+        : this.getPotsFromBert(tournament, stage, season)
+      const pots = await potsPromise
       await this.prefetchImages(pots)
       this.setState({
         pots,
@@ -114,7 +121,12 @@ class Pages extends React.PureComponent<Props, State> {
     })
   }
 
-  private getPots = memoize(async (tournament: string, stage: string, season: number) => {
+  private getWcPots = memoize(async (season: number) => {
+    const file = await import(`data/wc-${season}.json`)
+    return parseWc(file)
+  })
+
+  private getPotsFromBert = memoize(async (tournament: string, stage: string, season: number) => {
     const data = await fetchPots(tournament, season)
     return parseGS(data)
   }, (tournament, stage, season) => `${tournament}-${stage}-${season}`)
@@ -196,6 +208,26 @@ class Pages extends React.PureComponent<Props, State> {
                 <Route path="/el/gs">
                   <PageLoader
                     tournament="el"
+                    stage="gs"
+                    pots={pots}
+                    key={key}
+                  />
+                </Route>
+              </Switch>
+            </div>
+          </Route>
+          <Route path="/wc">
+            <div>
+              <Helmet>
+                <title>FIFA World Cup draw simulator</title>
+                <link rel="icon" href="//www.fifa.com/imgml/favicon/favicon.ico" type="image/x-icon" />
+                <meta name="theme-color" content="#f68e00" />
+                <meta name="description" content="FIFA World Cup draw simulator" />
+              </Helmet>
+              <Switch>
+                <Route path="/wc/gs">
+                  <PageLoader
+                    tournament="wc"
                     stage="gs"
                     pots={pots}
                     key={key}

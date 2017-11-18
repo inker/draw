@@ -53,6 +53,7 @@ class SelectSeason extends React.PureComponent<Props> {
     } = this.props
 
     const minSeason = tournament === 'el' ? MIN_EL_SEASON : MIN_CL_SEASON
+    const wcOptions = tournament === 'wc' && <option value={2018}>2018</option>
 
     return (
       <div>
@@ -63,6 +64,7 @@ class SelectSeason extends React.PureComponent<Props> {
         >
           <option value="cl">Champions League</option>
           <option value="el">Europa League</option>
+          <option value="wc">World Cup</option>
         </Select>
         <Select
           label="stage"
@@ -76,7 +78,7 @@ class SelectSeason extends React.PureComponent<Props> {
           onChange={this.onSeasonChange}
           value={season}
         >
-          {range(currentSeason, minSeason - 1).map(i => (
+          {wcOptions || range(currentSeason, minSeason - 1).map(i => (
             <option value={i}>
               {seasonAsString(i)}
             </option>

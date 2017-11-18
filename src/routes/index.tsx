@@ -45,6 +45,9 @@ class Routes extends React.PureComponent<Props, State> {
   }
 
   private onSeasonChange = (tournament: string, stage: string, season?: number) => {
+    if (tournament === 'wc') {
+      season = 2018
+    }
     history.push(`/${tournament}/${stage}${season ? `/${season}` : ''}`)
   }
 
