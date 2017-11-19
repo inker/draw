@@ -12,10 +12,11 @@ export default async (url: string, encoding: string) => {
     console.error("you're offline, retrying...")
     await delay(1000)
   }
+  const query = `?url=${encodeURIComponent(url)}${encoding ? `&encoding=${encoding}` : ''}`
   for (const proxy of proxies) {
     const host = `https://${proxy}.glitch.me`
     try {
-      const response = await fetch(`${host}/?url=${encodeURIComponent(url)}${encoding ? `&encoding=${encoding}` : ''}`)
+      const response = await fetch(`${host}/${query}`)
       if (response.status !== 200) {
         throw new Error(`${url}: ${response.status}`)
       }
