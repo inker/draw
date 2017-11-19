@@ -3,13 +3,18 @@ import { range } from 'lodash'
 
 import * as currentSeason from 'model/currentSeason'
 import seasonAsString from 'utils/seasonAsString'
-import Select from 'components/SelectWithHiddenLabel'
+
+import createSelect from './createSelect'
 
 const minSeasons = {
   cl: 2000,
   el: 2009,
   wc: 2018,
 }
+
+const SelectTournament = createSelect(175)
+const SelectStage = createSelect(125)
+const SelectYear = createSelect(100)
 
 interface Props {
   tournament: string,
@@ -59,7 +64,7 @@ class SelectSeason extends React.PureComponent<Props> {
 
     return (
       <div>
-        <Select
+        <SelectTournament
           label="tournament"
           onChange={this.onTournamentChange}
           value={tournament}
@@ -67,15 +72,15 @@ class SelectSeason extends React.PureComponent<Props> {
           <option value="cl">Champions League</option>
           <option value="el">Europa League</option>
           <option value="wc">World Cup</option>
-        </Select>
-        <Select
+        </SelectTournament>
+        <SelectStage
           label="stage"
           onChange={this.onStageChange}
           value={stage}
         >
           <option value="gs">Group Stage</option>
-        </Select>
-        <Select
+        </SelectStage>
+        <SelectYear
           label="season"
           onChange={this.onSeasonChange}
           value={season}
@@ -85,7 +90,7 @@ class SelectSeason extends React.PureComponent<Props> {
               {seasonAsString(tournament, i)}
             </option>
           ))}
-        </Select>
+        </SelectYear>
       </div>
     )
   }
