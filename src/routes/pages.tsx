@@ -217,7 +217,6 @@ class Pages extends React.PureComponent<Props, State> {
             <div>
               <Helmet>
                 <title>FIFA World Cup draw simulator</title>
-                <link rel="icon" href="//www.fifa.com/imgml/favicon/favicon.ico" type="image/x-icon" />
                 <meta name="theme-color" content="#f68e00" />
                 <meta name="description" content="FIFA World Cup draw simulator" />
               </Helmet>
