@@ -8,8 +8,8 @@ export default (picked: Team, groupIndex: number, currentPotIndex: number, group
     return false
   }
   const pickedConfederation = picked.confederation
-  const foo = pickedConfederation === 'uefa'
+  const isImpossible = pickedConfederation === 'uefa'
     ? countGreaterThan(group, 1, team => team.confederation === pickedConfederation)
     : group.some(team => team.confederation === pickedConfederation)
-  return !foo
+  return !isImpossible
 }
