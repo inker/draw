@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { range } from 'lodash'
 
-import * as currentSeason from 'model/currentSeason'
+import currentSeasonByTournament from 'utils/currentSeasonByTournament'
 import seasonAsString from 'utils/seasonAsString'
 
 import createSelect from './createSelect'
@@ -31,7 +31,7 @@ class SelectSeason extends React.PureComponent<Props> {
       stage,
       onChange,
     } = this.props
-    onChange(tournament, stage, currentSeason[tournament === 'wc' ? 'wc' : 'uefa'])
+    onChange(tournament, stage, currentSeasonByTournament(tournament))
   }
 
   onStageChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -40,7 +40,7 @@ class SelectSeason extends React.PureComponent<Props> {
       tournament,
       onChange,
     } = this.props
-    onChange(tournament, stage, currentSeason[tournament === 'wc' ? 'wc' : 'uefa'])
+    onChange(tournament, stage, currentSeasonByTournament(tournament))
   }
 
   onSeasonChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -85,7 +85,7 @@ class SelectSeason extends React.PureComponent<Props> {
           onChange={this.onSeasonChange}
           value={season}
         >
-          {range(currentSeason[tournament === 'wc' ? 'wc' : 'uefa'], minSeason - 1).map(i => (
+          {range(currentSeasonByTournament(tournament), minSeason - 1).map(i => (
             <option value={i}>
               {seasonAsString(tournament, i)}
             </option>

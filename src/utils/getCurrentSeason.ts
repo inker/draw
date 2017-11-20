@@ -1,9 +1,6 @@
-import * as currentSeason from 'model/currentSeason'
+import currentSeasonByTournament from './currentSeasonByTournament'
 
 const DEFAULT_TOURNAMENT = 'wc'
-
-const currentSeasonByTournament = (tournament: string) =>
-  currentSeason[tournament === 'wc' ? 'wc' : 'uefa']
 
 export default (location?) => {
   if (!location) {

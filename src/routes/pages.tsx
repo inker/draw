@@ -4,7 +4,6 @@ import Helmet from 'react-helmet'
 import delay from 'delay.js'
 import { uniqueId, memoize } from 'lodash'
 
-import * as currentSeason from 'model/currentSeason'
 import fetchPots from 'model/fetchPotsData'
 import parseGS from 'model/parsePotsData/gs'
 import parseWc from 'model/parsePotsData/wc'
@@ -12,6 +11,7 @@ import Team from 'model/team'
 
 import getCountryFlagUrl from 'utils/getCountryFlagUrl'
 import prefetchImage from 'utils/prefetchImage'
+import currentSeasonByTournament from 'utils/currentSeasonByTournament'
 
 import Popup from 'components/Popup'
 
@@ -41,7 +41,7 @@ class Pages extends React.PureComponent<Props, State> {
     pots: null,
     waiting: false,
     error: null,
-    season: currentSeason.uefa,
+    season: currentSeasonByTournament('uefa'),
   }
 
   componentDidMount() {
@@ -71,7 +71,7 @@ class Pages extends React.PureComponent<Props, State> {
 
   private getMatchParams() {
     const { params } = this.props.match
-    const season = params.season ? +params.season : currentSeason[params.tournament === 'wc' ? 'wc' : 'uefa']
+    const season = params.season ? +params.season : currentSeasonByTournament(params.tournament)
     return {
       ...params,
       season,
@@ -111,7 +111,7 @@ class Pages extends React.PureComponent<Props, State> {
     console.error(err)
     const { tournament, stage } = this.getMatchParams()
     const { pots, season } = this.state
-    const newSeason = pots && season !== currentSeason[tournament === 'wc' ? 'wc' : 'uefa'] ? season : undefined
+    const newSeason = pots && season !== currentSeasonByTournament(tournament) ? season : undefined
     this.props.onSeasonChange(tournament, stage, newSeason)
     this.setState({
       error: null,
