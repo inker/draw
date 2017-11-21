@@ -12,7 +12,7 @@ module.exports = env => ({
   },
   output: {
     path: distDir,
-		filename: env === 'dev' ? '[name].js' : '[name].[chunkhash].js',
+    filename: env === 'dev' ? '[name].js' : '[name].[chunkhash].js',
     sourceMapFilename: '[file].map',
   },
   resolve: {
@@ -36,9 +36,10 @@ module.exports = env => ({
     rules: rules(env),
   },
   plugins: plugins(env),
-  devServer: env !== 'dev' ? undefined : {
+  devServer: {
     contentBase: distDir,
     port: 9080,
+    compress: env !== 'dev',
     historyApiFallback: {
       rewrites: [
         {
