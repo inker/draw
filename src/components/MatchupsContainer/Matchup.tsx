@@ -7,6 +7,7 @@ import Cell from './MatchupCell'
 const Root = styled.div`
   display: flex;
   border-bottom: #aaa solid 1px;
+  border-top: rgba(0,0,0,0) solid 1px;
 `
 
 interface Props {
@@ -22,7 +23,6 @@ const Matchup: React.SFC<Props> = ({
   potNum,
   airborneTeams,
 }) => {
-  console.log(airborneTeams)
   const [ru, gw] = teams || [] as Team[]
   const ruIsPresent = ru && !airborneTeams.includes(ru)
   const gwIsPresent = gw && !airborneTeams.includes(gw)
@@ -30,7 +30,7 @@ const Matchup: React.SFC<Props> = ({
     <Root>
       <Cell
         country={ruIsPresent && ru.country}
-        picked
+        picked={ruIsPresent}
         data-cellid={`${index}ru`}
       >
         {ruIsPresent && (ru.shortName || ru.name)}
@@ -40,7 +40,7 @@ const Matchup: React.SFC<Props> = ({
       </div>
       <Cell
         country={gwIsPresent && gw.country}
-        picked
+        picked={gwIsPresent}
         data-cellid={`${index}gw`}
       >
         {gwIsPresent && (gw.shortName || gw.name)}

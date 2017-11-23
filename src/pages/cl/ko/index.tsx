@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { shuffle, uniqueId } from 'lodash'
+import { range, shuffle, uniqueId } from 'lodash'
 
 import Team from 'model/team/KnockoutTeam'
 import getPossiblePairings from 'model/possible-pairings'
@@ -28,10 +28,7 @@ interface State {
   airborneTeams: Team[],
   currentMatchupNum: number,
   currentPotNum: number,
-  selectedTeam: Team | null,
-  hungPot: Team[],
   possiblePairings: number[] | null,
-  possiblePairingsShuffled: number[] | null,
   completed: boolean,
   error: string | null,
 }
@@ -47,19 +44,15 @@ export default class RoundOf16 extends React.PureComponent<Props, State> {
     const currentPotNum = 1
     const currentMatchupNum = 0
     const pots = initialPots.map(pot => shuffle(pot))
-    const currentPot = pots[currentPotNum]
     this.setState({
       drawId: `draw-${uniqueId()}`,
       initialPots,
       pots,
-      matchups: [],
+      matchups: range(8).map(i => [] as any as [Team, Team]),
       airborneTeams: [],
       currentMatchupNum,
       currentPotNum,
-      selectedTeam: null,
-      hungPot: currentPot,
       possiblePairings: null,
-      possiblePairingsShuffed: null,
       completed: false,
       error: null,
     })
@@ -68,6 +61,7 @@ export default class RoundOf16 extends React.PureComponent<Props, State> {
   private onBallPick = (i: number, pot: Team[]) => {
     const { state } = this
     const {
+      initialPots,
       matchups,
       pots,
       currentPotNum,
@@ -76,40 +70,35 @@ export default class RoundOf16 extends React.PureComponent<Props, State> {
     } = state
 
     const currentPot = pots[currentPotNum]
-    const hungPot = currentPot.slice()
     const index = state.possiblePairings ? state.possiblePairings[i] : i
     const selectedTeam = currentPot.splice(index, 1)[0]
 
-    if (currentPotNum === 0) {
-      matchups[currentMatchupNum].push(selectedTeam)
-    } else {
-      matchups.push([selectedTeam] as any)
-    }
+    matchups[currentMatchupNum].push(selectedTeam)
+
     matchups[currentMatchupNum].push()
     const possiblePairings = currentPotNum === 1
       ? getPossiblePairings(pots, matchups, currentMatchupNum)
       : null
 
+    const newCurrentMatchNum = currentMatchupNum - currentPotNum + 1
     airborneTeams.push(selectedTeam)
-    const animation = this.animateCell(selectedTeam, currentPotNum, currentMatchupNum)
+    const animation = this.animateCell(selectedTeam)
 
     this.setState({
-      hungPot,
-      selectedTeam,
       currentPotNum: 1 - currentPotNum,
-      currentMatchupNum: currentMatchupNum - currentPotNum + 1,
+      currentMatchupNum: newCurrentMatchNum,
       possiblePairings,
-      possiblePairingsShuffled: possiblePairings && shuffle(possiblePairings),
+      completed: newCurrentMatchNum >= initialPots[0].length,
     }, async () => {
-      const newAirborneTeams = this.state.airborneTeams.filter(team => team !== selectedTeam)
       await animation
       this.setState({
-        airborneTeams: newAirborneTeams,
+        airborneTeams: this.state.airborneTeams.filter(team => team !== selectedTeam),
       })
     })
   }
 
-  private animateCell(selectedTeam: Team, currentPotNum: number, currentMatchupNum: number) {
+  private animateCell(selectedTeam: Team) {
+    const { currentPotNum, currentMatchupNum } = this.state
     const fromCell = document.querySelector(`[data-cellid='${selectedTeam.id}']`)
     const foo = currentPotNum === 0 ? 'gw' : 'ru'
     const toCellSelector = `[data-cellid='${currentMatchupNum}${foo}']`
@@ -130,10 +119,7 @@ export default class RoundOf16 extends React.PureComponent<Props, State> {
       currentPotNum,
       currentMatchupNum,
       airborneTeams,
-      selectedTeam,
-      hungPot,
       possiblePairings,
-      possiblePairingsShuffled,
       completed,
     } = this.state
 
@@ -150,7 +136,6 @@ export default class RoundOf16 extends React.PureComponent<Props, State> {
             forceAllActive
           />
           <MatchupsContainer
-            selectedTeam={selectedTeam}
             currentPotNum={currentPotNum}
             currentMatchupNum={currentMatchupNum}
             matchups={matchups}

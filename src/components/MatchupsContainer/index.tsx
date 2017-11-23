@@ -13,14 +13,12 @@ interface Props {
   currentPotNum: number,
   currentMatchupNum: number,
   matchups: [Team, Team][],
-  selectedTeam: Team | null,
   airborneTeams: Team[],
 }
 
 const MatchupContainer: React.SFC<Props> = ({
   currentPotNum,
   matchups,
-  selectedTeam,
   airborneTeams,
 }) => (
   <Root>
