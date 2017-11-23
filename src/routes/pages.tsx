@@ -6,6 +6,7 @@ import { uniqueId, memoize } from 'lodash'
 
 import fetchPots from 'model/fetchPotsData'
 import parseGS from 'model/parsePotsData/gs'
+import parseKo from 'model/parsePotsData/ko'
 import parseWc from 'model/parsePotsData/wc'
 import Team from 'model/team'
 
@@ -125,7 +126,7 @@ class Pages extends React.PureComponent<Props, State> {
 
   private getPotsFromBert = memoize(async (tournament: string, stage: string, season: number) => {
     const data = await fetchPots(tournament, season)
-    return parseGS(data)
+    return (stage === 'ko' ? parseKo : parseGS)(data)
   }, (tournament, stage, season) => `${tournament}-${stage}-${season}`)
 
   private prefetchImages(pots: Team[][]) {
@@ -182,10 +183,10 @@ class Pages extends React.PureComponent<Props, State> {
                     key={key}
                   />
                 </Route>
-                <Route path="/cl/ro16">
+                <Route path="/cl/ko">
                   <PageLoader
                     tournament="cl"
-                    stage="ro16"
+                    stage="ko"
                     pots={pots}
                     key={key}
                   />

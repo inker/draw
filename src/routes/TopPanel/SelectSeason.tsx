@@ -75,6 +75,7 @@ class SelectSeason extends React.PureComponent<Props> {
           value={stage}
         >
           <option value="gs">Group Stage</option>
+          <option value="ko">Knockout Stage</option>
         </Select>
         <Select
           label="season"

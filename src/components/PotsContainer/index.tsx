@@ -16,35 +16,37 @@ const Root = styled.div`
 `
 
 interface Props {
+  forceAllActive?: boolean,
   initialPots: Team[][],
   pots: Team[][],
-  selectedTeam: Team | null,
+  selectedTeams: Team[] | null,
   currentPotNum: number,
 }
 
 class PotsContainer extends React.PureComponent<Props> {
-  getPickedTeams() {
+  getPickedTeams(potNum: number) {
     const {
-      currentPotNum,
       pots,
       initialPots,
-      selectedTeam,
+      selectedTeams,
     } = this.props
-    return difference(initialPots[currentPotNum], pots[currentPotNum], [selectedTeam as Team])
+    return 
   }
 
   render() {
     const {
       initialPots,
-      selectedTeam,
+      pots,
+      selectedTeams,
       currentPotNum,
+      forceAllActive,
     } = this.props
 
     return (
       <Root>
         {initialPots && initialPots.map((pot, i) => {
           const isCurrent = i === currentPotNum
-          const pickedTeams = isCurrent ? this.getPickedTeams() : i < currentPotNum ? pot : []
+          const pickedTeams = difference(initialPots[i], pots[i], selectedTeams || [])
           return (
             <Pot
               key={pot[0].id}
@@ -52,7 +54,8 @@ class PotsContainer extends React.PureComponent<Props> {
               isCurrent={isCurrent}
               teams={pot}
               pickedTeams={pickedTeams}
-              selectedTeam={selectedTeam}
+              selectedTeams={selectedTeams}
+              depleted={!pot || pickedTeams.length === pot.length}
             />
           )
         })}

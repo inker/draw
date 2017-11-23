@@ -1,7 +1,7 @@
 import { range } from 'lodash'
-import Team from 'model/team/Last16Team'
+import Team from 'model/team/KnockoutTeam'
 
-export default ([ groupWinners, runnersUp ]: Team[][], matchups: Team[][], matchupNum: number): number[] => {
+export default ([ groupWinners, runnersUp ]: Team[][], matchups: [Team, Team][], matchupNum: number): number[] => {
 
   function anyGroupWinners(branchNum: number, currentMatchupNum: number): boolean {
     const currentMatchup = matchups[currentMatchupNum]

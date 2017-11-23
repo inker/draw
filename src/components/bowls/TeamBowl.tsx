@@ -27,11 +27,12 @@ const TeamBall = styled<TeamBallProps>(Ball)`
 `
 
 interface Props {
+  forceNoSelect?: boolean,
   calculating?: boolean,
   completed: boolean,
   selectedTeam: Team | null,
   pot: Team[],
-  onPick: any,
+  onPick: (i: number, teams: Team[]) => void,
 }
 
 class TeamBowl extends React.PureComponent<Props> {
@@ -43,18 +44,19 @@ class TeamBowl extends React.PureComponent<Props> {
     } = this.props
     const ball = ev.target as HTMLDivElement
     const i = pot.findIndex(team => team.id === ball.dataset.teamid)
-    onPick(i)
+    onPick(i, pot)
   }
 
   render() {
     const {
+      forceNoSelect,
       calculating,
       completed,
       pot,
       selectedTeam,
     } = this.props
 
-    const noSelect = calculating || selectedTeam
+    const noSelect = forceNoSelect || calculating || selectedTeam
 
     return (
       <Root>
@@ -64,7 +66,7 @@ class TeamBowl extends React.PureComponent<Props> {
               key={team.id}
               data-teamid={team.id}
               selected={team === selectedTeam}
-              notSelected={selectedTeam && team !== selectedTeam}
+              notSelected={forceNoSelect || selectedTeam && team !== selectedTeam}
               noHover={noSelect}
               onClick={!noSelect && this.onBallPick}
             >
