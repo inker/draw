@@ -13,7 +13,7 @@ import TablesContainer from 'components/TablesContainer'
 import BowlsContainer from 'components/BowlsContainer'
 import TeamBowl from 'components/bowls/TeamBowl'
 import Separator from 'components/Separator'
-// import Announcement from 'components/Announcement'
+import Announcement from 'components/Announcement'
 
 import Root from 'pages/Root'
 
@@ -59,7 +59,7 @@ export default class RoundOf16 extends React.PureComponent<Props, State> {
     })
   }
 
-  private onBallPick = (i: number, pot: Team[]) => {
+  private onBallPick = (i: number) => {
     const { state } = this
     const {
       initialPots,
@@ -91,11 +91,23 @@ export default class RoundOf16 extends React.PureComponent<Props, State> {
       possiblePairings,
       completed: newCurrentMatchNum >= initialPots[0].length,
     }, async () => {
+      setTimeout(this.autoPickIfOneBall, 250)
       await animation
       this.setState({
         airborneTeams: this.state.airborneTeams.filter(team => team !== selectedTeam),
       })
     })
+  }
+
+  private autoPickIfOneBall = () => {
+    const {
+      possiblePairings,
+      currentPotNum,
+      pots,
+    } = this.state
+    if (possiblePairings && possiblePairings.length === 1 || currentPotNum === 1 && pots[1].length === 1) {
+      this.onBallPick(0)
+    }
   }
 
   private animateCell(selectedTeam: Team) {
@@ -143,7 +155,9 @@ export default class RoundOf16 extends React.PureComponent<Props, State> {
           />
         </TablesContainer>
         <BowlsContainer>
-          <Separator>Runners-up</Separator>
+          {!completed &&
+            <Separator>Runners-up</Separator>
+          }
           <TeamBowl
             forceNoSelect={currentPotNum === 0}
             completed={completed}
@@ -151,16 +165,20 @@ export default class RoundOf16 extends React.PureComponent<Props, State> {
             pot={pots[1]}
             onPick={this.onBallPick}
           />
-          <Separator>Group Winners</Separator>
-          {/* <Announcement
-            long={false}
-            completed={completed}
-            selectedTeam={selectedTeam}
-            pickedGroup={pickedGroup}
-            possibleGroups={possibleGroups}
-            numGroups={groups.length}
-            reset={this.reset}
-          /> */}
+          {!completed &&
+            <Separator>Group Winners</Separator>
+          }
+          {completed &&
+            <Announcement
+              long={false}
+              completed={completed}
+              selectedTeam={null}
+              pickedGroup={null}
+              possibleGroups={null}
+              numGroups={0}
+              reset={this.reset}
+            />
+          }
           {possiblePairings &&
             <TeamBowl
               forceNoSelect={currentPotNum === 1}
