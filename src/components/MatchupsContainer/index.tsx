@@ -1,6 +1,5 @@
 import * as React from 'react'
 import styled from 'styled-components'
-import { range } from 'lodash'
 
 import Team from 'model/team'
 import Matchup from './Matchup'
