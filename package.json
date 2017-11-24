@@ -65,7 +65,10 @@
     "draw",
     "champions",
     "league",
-    "seeding"
+    "seeding",
+    "football",
+    "uefa",
+    "fifa"
   ],
   "author": "Anton",
   "license": "MIT",
