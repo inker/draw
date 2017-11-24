@@ -23,7 +23,8 @@ interface Props {
   potNum: number,
   teams: Team[],
   pickedTeams: Team[],
-  selectedTeam: Team | null,
+  selectedTeams: Team[] | null,
+  depleted: boolean,
 }
 
 const Pot: React.SFC<Props> = ({
@@ -31,13 +32,14 @@ const Pot: React.SFC<Props> = ({
   potNum,
   teams,
   pickedTeams,
-  selectedTeam,
+  selectedTeams,
+  depleted,
 }) => {
   return (
     <Root highlighted={isCurrent}>
       <Header
         highlighted={isCurrent}
-        depleted={!teams || pickedTeams.length === teams.length}
+        depleted={depleted}
       >
         Pot {potNum + 1}
       </Header>
@@ -54,7 +56,7 @@ const Pot: React.SFC<Props> = ({
               key={team.id}
               data-cellId={team.id}
               title={pairing && `paired with ${pairing.name}`}
-              selected={team === selectedTeam}
+              selected={selectedTeams && selectedTeams.includes(team)}
               picked={pickedTeams.includes(team)}
               country={country}
             >

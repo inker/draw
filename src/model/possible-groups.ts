@@ -1,5 +1,6 @@
 import { range } from 'lodash'
 import Team from './team/GSTeam'
+import extraConstraints from './extraConstraints'
 
 export function allPossibleGroups(
   pots: Team[][],
@@ -69,13 +70,6 @@ function filterGroupsBasic(
   const top = filterSomeGroups(groups, teamPicked, currentPotIndex, halfNumGroups, groups.length)
   return bottom.length === 0 ? top : top.length === 0 ? bottom : bottom.concat(top)
 }
-
-const pickedRu = (otherTeam: Team) => otherTeam.country === 'ua'
-const pickedUa = (otherTeam: Team) => otherTeam.country === 'ru'
-const pickedDefault = (otherTeam: Team) => false
-
-const extraConstraints = (teamPicked: Team) =>
-  teamPicked.country === 'ru' ? pickedRu : teamPicked.country === 'ua' ? pickedUa : pickedDefault
 
 function filterSomeGroups(
   groups: Team[][],

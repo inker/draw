@@ -1,13 +1,16 @@
 import { range } from 'lodash'
-import Team from 'model/team/Last16Team'
+import Team from 'model/team/KnockoutTeam'
 
-export default ([ groupWinners, runnersUp ]: Team[][], matchups: Team[][], matchupNum: number): number[] => {
+import extraConstraints from './extraConstraints'
+
+export default ([ groupWinners, runnersUp ]: Team[][], matchups: [Team, Team][], matchupNum: number): number[] => {
 
   function anyGroupWinners(branchNum: number, currentMatchupNum: number): boolean {
     const currentMatchup = matchups[currentMatchupNum]
     const currentlyPicked = currentMatchup[0]
+    const extraCondition = extraConstraints(currentlyPicked)
     const o = groupWinners[branchNum]
-    if (o.country === currentlyPicked.country || o.group === currentlyPicked.group) {
+    if (o.country === currentlyPicked.country || o.group === currentlyPicked.group || extraCondition(o)) {
       return false
     }
     groupWinners.splice(branchNum, 1)

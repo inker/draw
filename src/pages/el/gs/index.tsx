@@ -199,7 +199,7 @@ export default class GS extends React.PureComponent<Props, State> {
       <Root>
         <TablesContainer>
           <PotsContainer
-            selectedTeam={selectedTeam}
+            selectedTeams={selectedTeam && [selectedTeam]}
             initialPots={initialPots}
             pots={pots}
             currentPotNum={currentPotNum}

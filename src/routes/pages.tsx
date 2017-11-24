@@ -6,6 +6,7 @@ import { uniqueId, memoize } from 'lodash'
 
 import fetchPots from 'model/fetchPotsData'
 import parseGS from 'model/parsePotsData/gs'
+import parseKo from 'model/parsePotsData/ko'
 import parseWc from 'model/parsePotsData/wc'
 import Team from 'model/team'
 
@@ -41,7 +42,7 @@ class Pages extends React.PureComponent<Props, State> {
     pots: null,
     waiting: false,
     error: null,
-    season: currentSeasonByTournament('uefa'),
+    season: currentSeasonByTournament('uefa', 'gs'),
   }
 
   componentDidMount() {
@@ -71,7 +72,7 @@ class Pages extends React.PureComponent<Props, State> {
 
   private getMatchParams() {
     const { params } = this.props.match
-    const season = params.season ? +params.season : currentSeasonByTournament(params.tournament)
+    const season = params.season ? +params.season : currentSeasonByTournament(params.tournament, params.stage)
     return {
       ...params,
       season,
@@ -111,7 +112,7 @@ class Pages extends React.PureComponent<Props, State> {
     console.error(err)
     const { tournament, stage } = this.getMatchParams()
     const { pots, season } = this.state
-    const newSeason = pots && season !== currentSeasonByTournament(tournament) ? season : undefined
+    const newSeason = pots && season !== currentSeasonByTournament(tournament, stage) ? season : undefined
     this.props.onSeasonChange(tournament, stage, newSeason)
     this.setState({
       error: null,
@@ -125,7 +126,7 @@ class Pages extends React.PureComponent<Props, State> {
 
   private getPotsFromBert = memoize(async (tournament: string, stage: string, season: number) => {
     const data = await fetchPots(tournament, season)
-    return parseGS(data)
+    return (stage === 'ko' ? parseKo : parseGS)(data)
   }, (tournament, stage, season) => `${tournament}-${stage}-${season}`)
 
   private prefetchImages(pots: Team[][]) {
@@ -182,10 +183,10 @@ class Pages extends React.PureComponent<Props, State> {
                     key={key}
                   />
                 </Route>
-                <Route path="/cl/ro16">
+                <Route path="/cl/ko">
                   <PageLoader
                     tournament="cl"
-                    stage="ro16"
+                    stage="ko"
                     pots={pots}
                     key={key}
                   />
@@ -206,6 +207,14 @@ class Pages extends React.PureComponent<Props, State> {
                   <PageLoader
                     tournament="el"
                     stage="gs"
+                    pots={pots}
+                    key={key}
+                  />
+                </Route>
+                <Route path="/el/ko">
+                  <PageLoader
+                    tournament="el"
+                    stage="ko"
                     pots={pots}
                     key={key}
                   />
