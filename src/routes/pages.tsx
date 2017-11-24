@@ -211,6 +211,14 @@ class Pages extends React.PureComponent<Props, State> {
                     key={key}
                   />
                 </Route>
+                <Route path="/el/ko">
+                  <PageLoader
+                    tournament="el"
+                    stage="ko"
+                    pots={pots}
+                    key={key}
+                  />
+                </Route>
               </Switch>
             </div>
           </Route>

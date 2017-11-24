@@ -34,14 +34,6 @@ const MatchupContainer: React.SFC<Props> = ({
         airborneTeams={airborneTeams}
       />
     ))}
-    {range(matchups.length, 8).map(i => (
-      <Matchup
-        index={i}
-        teams={null}
-        potNum={currentPotNum}
-        airborneTeams={airborneTeams}
-      />
-    ))}
   </RootTable>
 )
 
