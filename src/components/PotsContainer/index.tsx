@@ -22,7 +22,6 @@ const Root = styled.div`
 `
 
 interface Props {
-  forceAllActive?: boolean,
   initialPots: Team[][],
   pots: Team[][],
   selectedTeams: Team[] | null,
@@ -30,14 +29,6 @@ interface Props {
 }
 
 class PotsContainer extends React.PureComponent<Props> {
-  getPickedTeams(potNum: number) {
-    const {
-      pots,
-      initialPots,
-      selectedTeams,
-    } = this.props
-    return 
-  }
 
   render() {
     const {
@@ -45,7 +36,6 @@ class PotsContainer extends React.PureComponent<Props> {
       pots,
       selectedTeams,
       currentPotNum,
-      forceAllActive,
     } = this.props
 
     return (
