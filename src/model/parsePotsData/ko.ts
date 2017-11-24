@@ -8,7 +8,7 @@ export default (data: string): KnockoutTeam[][] => {
   const re = /\s*(.+?)(\s\*+\d?|\([CE]L-TH\)?\s+)?\s{2,}(\w{3})\s+/g
   let matches: RegExpExecArray | null
   for (let i = 0; (matches = re.exec(data)) !== null; ++i) {
-    const name = matches[1].replace(/(@\d|#|\*+)/g, '').trim()
+    const name = matches[1].replace(/(@\d|#|\*+|\(TH\))/g, '').trim()
     const country = countryNames[matches[3].toLowerCase()]
     if (!country) {
       break
