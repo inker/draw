@@ -13,7 +13,8 @@ export default (data: string): KnockoutTeam[][] => {
     if (!country) {
       break
     }
-    pots[i % 2].push(new KnockoutTeam(name, country, i >> 1))
+    const group = i < 24 ? i >> 1 : i
+    pots[i % 2].push(new KnockoutTeam(name, country, group))
   }
   return pots
 }
