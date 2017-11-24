@@ -18,6 +18,8 @@ const Root = styled.div`
 interface TeamBallProps {
   selected: boolean,
   notSelected: boolean | null,
+  noHover: any,
+  onClick: any,
 }
 
 const TeamBall = styled<TeamBallProps>(Ball)`
