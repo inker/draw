@@ -42,7 +42,7 @@ class Pages extends React.PureComponent<Props, State> {
     pots: null,
     waiting: false,
     error: null,
-    season: currentSeasonByTournament('uefa'),
+    season: currentSeasonByTournament('uefa', 'gs'),
   }
 
   componentDidMount() {
@@ -72,7 +72,7 @@ class Pages extends React.PureComponent<Props, State> {
 
   private getMatchParams() {
     const { params } = this.props.match
-    const season = params.season ? +params.season : currentSeasonByTournament(params.tournament)
+    const season = params.season ? +params.season : currentSeasonByTournament(params.tournament, params.stage)
     return {
       ...params,
       season,
@@ -112,7 +112,7 @@ class Pages extends React.PureComponent<Props, State> {
     console.error(err)
     const { tournament, stage } = this.getMatchParams()
     const { pots, season } = this.state
-    const newSeason = pots && season !== currentSeasonByTournament(tournament) ? season : undefined
+    const newSeason = pots && season !== currentSeasonByTournament(tournament, stage) ? season : undefined
     this.props.onSeasonChange(tournament, stage, newSeason)
     this.setState({
       error: null,

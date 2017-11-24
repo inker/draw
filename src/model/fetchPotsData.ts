@@ -1,7 +1,7 @@
 import delay from 'delay.js'
 
 import proxy from 'utils/proxy'
-import { uefa as currentSeason } from './currentSeason'
+import { uefaGs as currentSeason } from './currentSeason'
 
 const BERT_HOST = 'http://kassiesa.home.xs4all.nl/bert/uefa'
 

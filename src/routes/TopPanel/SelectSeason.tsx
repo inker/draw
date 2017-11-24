@@ -27,7 +27,7 @@ class SelectSeason extends React.PureComponent<Props> {
       stage,
       onChange,
     } = this.props
-    onChange(tournament, stage, currentSeasonByTournament(tournament))
+    onChange(tournament, stage, currentSeasonByTournament(tournament, stage as any))
   }
 
   onStageChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -36,7 +36,7 @@ class SelectSeason extends React.PureComponent<Props> {
       tournament,
       onChange,
     } = this.props
-    onChange(tournament, stage, currentSeasonByTournament(tournament))
+    onChange(tournament, stage, currentSeasonByTournament(tournament, stage as any))
   }
 
   onSeasonChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -75,14 +75,16 @@ class SelectSeason extends React.PureComponent<Props> {
           value={stage}
         >
           <option value="gs">Group Stage</option>
-          <option value="ko">Knockout Stage</option>
+          {tournament !== 'wc' &&
+            <option value="ko">Knockout Stage</option>
+          }
         </Select>
         <Select
           label="season"
           onChange={this.onSeasonChange}
           value={season}
         >
-          {range(currentSeasonByTournament(tournament), minSeason - 1).map(i => (
+          {range(currentSeasonByTournament(tournament, stage as any), minSeason - 1).map(i => (
             <option value={i}>
               {seasonAsString(tournament, i)}
             </option>
