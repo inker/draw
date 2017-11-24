@@ -12,6 +12,7 @@ import MatchupsContainer from 'components/MatchupsContainer'
 import TablesContainer from 'components/TablesContainer'
 import BowlsContainer from 'components/BowlsContainer'
 import TeamBowl from 'components/bowls/TeamBowl'
+import Separator from 'components/Separator'
 // import Announcement from 'components/Announcement'
 
 import Root from 'pages/Root'
@@ -143,6 +144,7 @@ export default class RoundOf16 extends React.PureComponent<Props, State> {
           />
         </TablesContainer>
         <BowlsContainer>
+          <Separator>Runners-up</Separator>
           <TeamBowl
             forceNoSelect={currentPotNum === 0}
             completed={completed}
@@ -150,7 +152,7 @@ export default class RoundOf16 extends React.PureComponent<Props, State> {
             pot={pots[1]}
             onPick={this.onBallPick}
           />
-          <div>divisor</div>
+          <Separator>Group Winners</Separator>
           {/* <Announcement
             long={false}
             completed={completed}

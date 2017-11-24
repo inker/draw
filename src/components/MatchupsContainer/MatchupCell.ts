@@ -24,7 +24,6 @@ const Appear = keyframes`
 
 const MatchupCell = styled<Props>(CellWithFlag)`
   width: 150px;
-  border: 0;
   ${props => props.possible && `
     background-color: rgba(255, 255, 255, 0.9);
     animation: ${BorderGlow} 1s ease;

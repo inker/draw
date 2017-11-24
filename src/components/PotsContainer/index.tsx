@@ -9,9 +9,15 @@ const Root = styled.div`
   display: flex;
   flex-flow: row wrap;
   flex-wrap: nowrap;
+  justify-content: center;
   & > * {
     flex: 1;
     flex-basis: 22%;
+    max-width: 160px;
+
+    @media (max-width: 999px) {
+      max-width: initial;
+    }
   }
 `
 

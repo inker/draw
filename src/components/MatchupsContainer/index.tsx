@@ -5,8 +5,12 @@ import { range } from 'lodash'
 import Team from 'model/team'
 import Matchup from './Matchup'
 
-const Root = styled.div`
+import Table from 'components/table/Table'
 
+const RootTable = styled(Table)`
+  width: 340px;
+  align-self: center;
+  max-width: initial;
 `
 
 interface Props {
@@ -21,7 +25,7 @@ const MatchupContainer: React.SFC<Props> = ({
   matchups,
   airborneTeams,
 }) => (
-  <Root>
+  <RootTable>
     {matchups && matchups.map((matchup, i) => (
       <Matchup
         index={i}
@@ -38,7 +42,7 @@ const MatchupContainer: React.SFC<Props> = ({
         airborneTeams={airborneTeams}
       />
     ))}
-  </Root>
+  </RootTable>
 )
 
 export default MatchupContainer
