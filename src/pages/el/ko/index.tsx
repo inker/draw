@@ -134,7 +134,7 @@ export default class RoundOf16 extends React.PureComponent<Props, State> {
             initialPots={initialPots}
             pots={pots}
             currentPotNum={currentPotNum}
-            forceAllActive
+            split
           />
           <MatchupsContainer
             currentPotNum={currentPotNum}

@@ -3,7 +3,8 @@ import styled from 'styled-components'
 import { difference } from 'lodash'
 
 import Team from 'model/team'
-import Pot from './Pot'
+import BasePot from './Pot'
+import SplitPot from './SplitPot'
 
 const Root = styled.div`
   display: flex;
@@ -13,7 +14,7 @@ const Root = styled.div`
   & > * {
     flex: 1;
     flex-basis: 22%;
-    max-width: 160px;
+    ${props => props.limitWidth ? 'max-width: 160px' : ''};
 
     @media (max-width: 999px) {
       max-width: initial;
@@ -26,6 +27,7 @@ interface Props {
   pots: Team[][],
   selectedTeams: Team[] | null,
   currentPotNum: number,
+  split?: boolean,
 }
 
 class PotsContainer extends React.PureComponent<Props> {
@@ -36,13 +38,15 @@ class PotsContainer extends React.PureComponent<Props> {
       pots,
       selectedTeams,
       currentPotNum,
+      split,
     } = this.props
 
     return (
-      <Root>
+      <Root limitWidth={!split}>
         {initialPots && initialPots.map((pot, i) => {
           const isCurrent = i === currentPotNum
           const pickedTeams = difference(initialPots[i], pots[i], selectedTeams || [])
+          const Pot = split ? SplitPot : BasePot
           return (
             <Pot
               key={pot[0].id}
