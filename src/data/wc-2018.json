@@ -2,7 +2,8 @@
   {
     "name": "Russia",
     "code": "ru",
-    "confederation": "uefa"
+    "confederation": "uefa",
+    "host": true
   },
   {
     "name": "Germany",

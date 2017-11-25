@@ -88,7 +88,7 @@ export default class GS extends React.PureComponent<Props, State> {
 
   private onInit = () => {
     const { pots, currentPotNum } = this.state
-    const i = pots[currentPotNum].findIndex(team => team.country === 'ru')
+    const i = pots[currentPotNum].findIndex(team => team.host)
     this.onTeamBallPick(i)
   }
 
