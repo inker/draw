@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { Route, Switch } from 'react-router-dom'
+import { Route, Switch, Redirect } from 'react-router-dom'
 import Helmet from 'react-helmet'
 import delay from 'delay.js'
 import { uniqueId, memoize } from 'lodash'
@@ -239,6 +239,10 @@ class Pages extends React.PureComponent<Props, State> {
                     key={key}
                   />
                 </Route>
+                <Redirect
+                  from="/wc/*"
+                  to="/wc/gs"
+                />
               </Switch>
             </div>
           </Route>
