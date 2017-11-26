@@ -1,6 +1,6 @@
 import { mobile } from 'bowser'
 
-import * as countryNames from 'data/country-names.json'
+import countryNames from 'data/country-names.json'
 
 import GSTeam from 'model/team/GSTeam'
 import pairUpTeams from 'model/pairUpTeams'
