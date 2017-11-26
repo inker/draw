@@ -3,7 +3,7 @@ import * as countryNames from 'data/country-names.json'
 import KnockoutTeam from 'model/team/KnockoutTeam'
 
 export default (data: string): KnockoutTeam[][] => {
-  data = data.slice(data.lastIndexOf('--------------'))
+  data = data.slice(data.lastIndexOf('Round 2 ('))
   const pots: KnockoutTeam[][] = [[], []]
   const re = /\s*(.+?)(\s\*+\d?|\([CE]L-TH\)?\s+)?\s{2,}(\w{3})\s+/g
   let matches: RegExpExecArray | null
