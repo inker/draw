@@ -1,4 +1,4 @@
-import * as React from 'react'
+import React, { PureComponent } from 'react'
 import styled from 'styled-components'
 import { mobile } from 'bowser'
 
@@ -36,7 +36,7 @@ interface Props {
   onSeasonChange: (tournament: string, stage: string, season: number) => void,
 }
 
-class TopPanel extends React.PureComponent<Props> {
+class TopPanel extends PureComponent<Props> {
 
   render() {
     const {

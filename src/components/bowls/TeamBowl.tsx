@@ -1,4 +1,4 @@
-import * as React from 'react'
+import React, { PureComponent } from 'react'
 import styled from 'styled-components'
 
 import Team from 'model/team'
@@ -37,7 +37,7 @@ interface Props {
   onPick: (i: number, teams: Team[]) => void,
 }
 
-class TeamBowl extends React.PureComponent<Props> {
+class TeamBowl extends PureComponent<Props> {
 
   private onBallPick = (ev: React.MouseEvent<HTMLDivElement>) => {
     const {

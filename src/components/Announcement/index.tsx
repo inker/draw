@@ -1,4 +1,4 @@
-import * as React from 'react'
+import React, { PureComponent } from 'react'
 import styled from 'styled-components'
 
 import ALink from 'components/ALink'
@@ -62,7 +62,7 @@ interface State {
   lastSelected: Team | null,
 }
 
-class Announcement extends React.PureComponent<Props, State> {
+class Announcement extends PureComponent<Props, State> {
 
   private lastAnnouncement
 

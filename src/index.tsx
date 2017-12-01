@@ -1,7 +1,7 @@
-import * as React from 'react'
-import * as ReactDom from 'react-dom'
+import React from 'react'
+import ReactDom from 'react-dom'
 import styled from 'styled-components'
-import * as fastclick from 'fastclick'
+import fastclick from 'fastclick'
 import 'normalize.css'
 
 import Routes from './routes'

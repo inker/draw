@@ -1,4 +1,4 @@
-import * as React from 'react'
+import React, { PureComponent } from 'react'
 import styled from 'styled-components'
 import { difference } from 'lodash'
 
@@ -30,7 +30,7 @@ interface Props {
   split?: boolean,
 }
 
-class PotsContainer extends React.PureComponent<Props> {
+class PotsContainer extends PureComponent<Props> {
 
   render() {
     const {

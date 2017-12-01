@@ -1,4 +1,4 @@
-import * as React from 'react'
+import React, { PureComponent } from 'react'
 import { uniqueId } from 'lodash'
 import {
   HashRouter as Router,
@@ -23,7 +23,7 @@ interface State {
   location: typeof history.location,
 }
 
-class Routes extends React.PureComponent<Props, State> {
+class Routes extends PureComponent<Props, State> {
   private unlisten: (() => void) | undefined
 
   state: State = {

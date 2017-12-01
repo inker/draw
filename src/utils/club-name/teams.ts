@@ -1,4 +1,4 @@
-import * as clubs from 'data/clubs.json'
+import clubs from 'data/clubs.json'
 import Team from 'model/team'
 import { mapValues } from 'lodash'
 

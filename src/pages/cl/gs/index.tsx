@@ -1,4 +1,4 @@
-import * as React from 'react'
+import React, { PureComponent } from 'react'
 import { shuffle, uniqueId } from 'lodash'
 
 import Team from 'model/team/GSTeam'
@@ -40,7 +40,7 @@ interface State {
   error: string | null,
 }
 
-export default class GS extends React.PureComponent<Props, State> {
+export default class GS extends PureComponent<Props, State> {
 
   componentDidMount() {
     this.reset()

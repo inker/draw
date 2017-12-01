@@ -1,4 +1,4 @@
-import * as React from 'react'
+import React, { PureComponent } from 'react'
 import delay from 'delay.js'
 import {
   omit,
@@ -21,7 +21,7 @@ import TeamBowl from 'components/bowls/TeamBowl'
 import Announcement from 'components/Announcement'
 
 import Root from 'pages/Root'
-import * as WcWorker from './worker'
+import WcWorker from './worker'
 
 interface Props {
   pots: Team[][],
@@ -44,7 +44,7 @@ interface State {
   error: string | null,
 }
 
-export default class GS extends React.PureComponent<Props, State> {
+export default class GS extends PureComponent<Props, State> {
 
   private worker: Worker
 

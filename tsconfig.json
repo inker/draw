@@ -3,6 +3,7 @@
     "target": "es2017",
     "module": "esnext",
     "moduleResolution": "node",
+    "allowSyntheticDefaultImports": true,
     "baseUrl": "./src",
     // "sourceMap": true, // not needed when assembled with webpack
     // "watch": true, // not needed when assembled with webpack

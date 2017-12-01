@@ -1,4 +1,4 @@
-import * as React from 'react'
+import React, { PureComponent } from 'react'
 import styled from 'styled-components'
 
 import getGroupLetter from 'utils/getGroupLetter'
@@ -20,7 +20,7 @@ interface Props {
   onPick: any,
 }
 
-class GroupBowl extends React.PureComponent<Props> {
+class GroupBowl extends PureComponent<Props> {
 
   private onBallPick = (ev: React.MouseEvent<HTMLDivElement>) => {
     const ball = ev.target as HTMLDivElement

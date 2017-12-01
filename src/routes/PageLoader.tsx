@@ -1,4 +1,4 @@
-import * as React from 'react'
+import React, { PureComponent } from 'react'
 import Import from 'react-import'
 
 import Team from 'model/team'
@@ -13,7 +13,7 @@ interface Props {
   pots: Team[][] | null,
 }
 
-class PageLoader extends React.PureComponent<Props, State> {
+class PageLoader extends PureComponent<Props, State> {
   state: State = {
     componentPromise: null,
   }

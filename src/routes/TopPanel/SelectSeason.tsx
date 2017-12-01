@@ -1,4 +1,4 @@
-import * as React from 'react'
+import React, { PureComponent } from 'react'
 import { range } from 'lodash'
 
 import Select from 'components/SelectWithHiddenLabel'
@@ -19,7 +19,7 @@ interface Props {
   onChange: (tournament: string, stage: string, season?: number) => void,
 }
 
-class SelectSeason extends React.PureComponent<Props> {
+class SelectSeason extends PureComponent<Props> {
 
   onTournamentChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const tournament = e.target.value

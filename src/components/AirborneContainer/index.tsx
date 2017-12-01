@@ -1,4 +1,4 @@
-import * as React from 'react'
+import React, { PureComponent } from 'react'
 import styled from 'styled-components'
 // import { memoize } from 'lodash'
 
@@ -35,7 +35,7 @@ interface Props {
 
 // const getCells = memoize(foo)
 
-class AirborneContainer extends React.PureComponent<Props> {
+class AirborneContainer extends PureComponent<Props> {
   render() {
     const { teams, duration } = this.props
     return (

@@ -1,4 +1,4 @@
-import * as levenstein from 'fast-levenshtein'
+import levenstein from 'fast-levenshtein'
 import { maxBy } from 'lodash'
 
 import Team from 'model/team'

@@ -1,4 +1,4 @@
-import * as React from 'react'
+import React, { PureComponent } from 'react'
 import { Route, Switch, Redirect } from 'react-router-dom'
 import Helmet from 'react-helmet'
 import delay from 'delay.js'
@@ -36,7 +36,7 @@ interface State {
   season: number, // for error handling (so that we know the previous season)
 }
 
-class Pages extends React.PureComponent<Props, State> {
+class Pages extends PureComponent<Props, State> {
   state: State = {
     key: uniqueId(),
     pots: null,

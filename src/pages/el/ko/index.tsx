@@ -1,4 +1,4 @@
-import * as React from 'react'
+import React, { PureComponent } from 'react'
 import { range, shuffle, uniqueId } from 'lodash'
 
 import Team from 'model/team/KnockoutTeam'
@@ -34,7 +34,7 @@ interface State {
   error: string | null,
 }
 
-export default class RoundOf16 extends React.PureComponent<Props, State> {
+export default class RoundOf16 extends PureComponent<Props, State> {
 
   componentDidMount() {
     this.reset()
