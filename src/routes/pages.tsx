@@ -168,7 +168,6 @@ class Pages extends PureComponent<Props, State> {
     return (
       <div>
         <Helmet>
-          // @ts-ignore
           <meta name="version" content={version} />
         </Helmet>
         {this.getPopup()}
