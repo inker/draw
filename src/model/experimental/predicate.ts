@@ -1,29 +1,23 @@
 import { memoize, uniqueId } from 'lodash'
 
 import Team from 'model/team/GSTeam'
+import extraConstraints from 'model/extraConstraints'
 
 const groupIds = new WeakMap<Team[], string>()
 
-const serialize = (g: Team[], picked: Team) => {
-  let a = groupIds.get(g)
-  if (!a) {
-    a = uniqueId('gr')
-    groupIds.set(g, a)
+const serialize = (group: Team[], picked: Team) => {
+  let groupId = groupIds.get(group)
+  if (!groupId) {
+    groupId = uniqueId('gr')
+    groupIds.set(group, groupId)
   }
-  return `${a}...${picked.id}`
+  return `${groupId}...${picked.id}`
 }
 
 const groupContainsPairing = memoize(
   (group: Team[], picked: Team) => group.every(team => team !== picked.pairing),
   serialize,
 )
-
-const extraConstraints = (teamPicked: Team) =>
-  teamPicked.country === 'ru' ?
-    ((otherTeam: Team) => otherTeam.country === 'ua')
-  : teamPicked.country === 'ua' ?
-    ((otherTeam: Team) => otherTeam.country === 'ru')
-  : (otherTeam: Team) => false
 
 export default (picked: Team, groupIndex: number, currentPotIndex: number, groups: Team[][]) => {
   const group = groups[groupIndex]

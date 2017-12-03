@@ -44,6 +44,7 @@ module.exports = env => [
     'process.env': {
       NODE_ENV: JSON.stringify(env === 'dev' ? 'development' : 'production'),
     },
+    __VERSION__: JSON.stringify(new Date().toUTCString()),
   }),
 
   new NamedChunksPlugin(chunkToName),
