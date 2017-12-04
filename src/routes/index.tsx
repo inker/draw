@@ -9,7 +9,7 @@ import {
 
 import getCurrentSeason from 'utils/getCurrentSeason'
 
-import TopPanel from './TopPanel'
+import Navbar from './Navbar'
 import Pages from './pages'
 import history from './history'
 
@@ -92,7 +92,7 @@ class Routes extends PureComponent<Props, State> {
     return (
       <Router>
         <div>
-          <TopPanel
+          <Navbar
             refresh={this.refresh}
             location={location}
             onSeasonChange={this.onSeasonChange}

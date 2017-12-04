@@ -36,7 +36,7 @@ interface Props {
   onSeasonChange: (tournament: string, stage: string, season: number) => void,
 }
 
-class TopPanel extends PureComponent<Props> {
+class Navbar extends PureComponent<Props> {
 
   render() {
     const {
@@ -74,4 +74,4 @@ class TopPanel extends PureComponent<Props> {
   }
 }
 
-export default TopPanel
+export default Navbar
