@@ -92,6 +92,7 @@ class Pages extends PureComponent<Props, State> {
         : this.getPotsFromBert(tournament, stage, season)
       const pots = await potsPromise
       await this.prefetchImages(pots)
+      await delay(0)
       this.setState({
         pots,
         waiting: false,
