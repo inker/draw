@@ -45,7 +45,7 @@ class Pages extends PureComponent<Props, State> {
     pots: null,
     waiting: false,
     error: null,
-    season: currentSeasonByTournament('uefa', 'gs'),
+    season: currentSeasonByTournament('cl', 'gs'),
   }
 
   componentDidMount() {

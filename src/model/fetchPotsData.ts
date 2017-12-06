@@ -1,9 +1,12 @@
 import delay from 'delay.js'
 
+import config from '../config.json'
+
 import proxy from 'utils/proxy'
-import { uefaGs as currentSeason } from './currentSeason'
 
 const BERT_HOST = 'http://kassiesa.home.xs4all.nl/bert/uefa'
+
+const currentSeason = config.currentSeason.uefa.cl.gs
 
 const getUrl = (tournament: string, year: number) =>
   `${BERT_HOST}/seed${tournament}${year}.html`

@@ -7,11 +7,15 @@ import {
   Switch,
 } from 'react-router-dom'
 
+import config from '../config.json'
+
 import getCurrentSeason from 'utils/getCurrentSeason'
 
 import Navbar from './Navbar'
 import Pages from './pages'
 import history from './history'
+
+const { defaultTournament, defaultStage } = config
 
 interface Props {}
 
@@ -104,19 +108,19 @@ class Routes extends PureComponent<Props, State> {
             />
             <Redirect
               from="/wc"
-              to="/wc/gs"
+              to={`/wc/${defaultStage}`}
             />
             <Redirect
               from="/el"
-              to="/el/gs"
+              to={`/el/${defaultStage}`}
             />
             <Redirect
               from="/cl"
-              to="/cl/gs"
+              to={`/cl/${defaultStage}`}
             />
             <Redirect
               from="/"
-              to="/wc"
+              to={`/${defaultTournament}`}
             />
           </Switch>
         </div>

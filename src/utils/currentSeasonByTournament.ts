@@ -1,6 +1,9 @@
-import { wc, uefaGs, uefaKo } from 'model/currentSeason'
+import config from '../config.json'
+
+const { wc, uefa } = config.currentSeason
 
 type Stage = 'gs' | 'ko'
 
-export default (tournament: string, stage: Stage) =>
-  tournament === 'wc' ? wc : stage === 'ko' ? uefaKo : uefaGs
+export default (tournament: string, stage: Stage) => {
+  return tournament === 'wc' ? wc : uefa[tournament || 'cl'][stage || 'gs']
+}
