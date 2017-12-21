@@ -18,9 +18,6 @@ import Popup from 'components/Popup'
 
 import PageLoader from './PageLoader'
 
-// @ts-ignore
-const version = __VERSION__
-
 interface Props {
   tournament: string,
   stage: string,
@@ -168,9 +165,6 @@ class Pages extends PureComponent<Props, State> {
     const { pots, key } = this.state
     return (
       <div>
-        <Helmet>
-          <meta name="version" content={version} />
-        </Helmet>
         {this.getPopup()}
         <Switch>
           <Route path="/cl">
