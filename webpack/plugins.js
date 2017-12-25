@@ -54,6 +54,7 @@ module.exports = env => [
   env !== 'dev' && new CommonsChunkPlugin({
     name: 'app',
     children: true,
+    deepChildren: true,
     minChunks: 2,
     async: 'commons',
   }),

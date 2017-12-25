@@ -121,7 +121,7 @@ class Pages extends PureComponent<Props, State> {
   }
 
   private getWcPots = memoize(async (season: number) => {
-    const file = await import(`data/wc-${season}.json`)
+    const file = await import(/* webpackChunkName: "wc-data" */ `data/wc-${season}.json`)
     return parseWc(file)
   })
 
