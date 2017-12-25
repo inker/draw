@@ -8,11 +8,10 @@ export default (picked: Team, groupIndex: number, currentPotIndex: number, group
     return false
   }
   const pickedConfederation = picked.confederation
-  const isImpossible = pickedConfederation === 'uefa'
-    ? countGreaterThan(group, 1, team => team.confederation === pickedConfederation)
+  return pickedConfederation === 'uefa'
+    ? !countGreaterThan(group, 1, team => team.confederation === pickedConfederation)
     : (
-      group.some(team => team.confederation === pickedConfederation)
-      || currentPotIndex === 3 && group.every(team => team.confederation !== 'uefa')
+      group.every(team => team.confederation !== pickedConfederation)
+      && (currentPotIndex !== 3 || group.some(team => team.confederation === 'uefa'))
     )
-  return !isImpossible
 }
