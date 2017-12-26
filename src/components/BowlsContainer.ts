@@ -8,8 +8,6 @@ export default styled.div`
   margin: 0px 5px 10px 5px;
 
   @media (max-width: 999px) {
-    width: 100%;
     align-items: center;
-    margin: 0px 10px 20px 10px;
   }
 `

@@ -15,8 +15,8 @@ const BaseCell = styled.div`
 
   @media (max-width: 999px) {
     font-family: Roboto, sans-serif;
-    height: 35px;
-    font-size: 24px;
+    height: 30px;
+    font-size: 22px;
   }
 `
 

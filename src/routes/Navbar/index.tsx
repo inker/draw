@@ -24,9 +24,10 @@ const Root = styled.div`
   }
 
   @media (max-width: 999px) {
+    justify-content: center;
     padding-top: 15px;
     padding-bottom: 15px;
-    font-size: 32px;
+    font-size: 22px;
   }
 `
 
@@ -37,7 +38,6 @@ interface Props {
 }
 
 class Navbar extends PureComponent<Props> {
-
   render() {
     const {
       location,

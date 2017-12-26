@@ -26,14 +26,6 @@ const Ball = styled.div`
   &:hover {
     ${({ noHover }) => !noHover && 'background: radial-gradient(#ccf, #ccf)'};
   }
-
-  @media (max-width: 999px) {
-    width: 85px;
-    height: 85px;
-    margin: 4px;
-    font-size: ${props => props.selected ? 1.2 : 0}em;
-  }
-
   @media (max-width: 850px) {
     flex-flow: row wrap;
     & > * {
