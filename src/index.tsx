@@ -1,8 +1,21 @@
 import React from 'react'
 import ReactDom from 'react-dom'
 import Import from 'react-import'
+import styled from 'styled-components'
+import 'normalize.css'
+
+import Popup from 'components/Popup'
+
+const Root = styled.div`
+  font-family: Tahoma, Arial, sans-serif;
+`
 
 ReactDom.render(
-  <Import component={import(/* webpackChunkName: "main" */ './Main')} />,
+  <Root>
+    <Import
+      component={import(/* webpackChunkName: "main" */ './Main')}
+      loading={<Popup noAnimation={false}>wait...</Popup>}
+    />
+  </Root>,
   document.getElementById('app'),
 )

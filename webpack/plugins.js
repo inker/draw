@@ -51,7 +51,7 @@ module.exports = env => [
 
   // new (env === 'dev' ? NamedModulesPlugin : HashedModuleIdsPlugin)(),
 
-  env !== 'dev' && new CommonsChunkPlugin({
+  new CommonsChunkPlugin({
     name: 'app',
     children: true,
     deepChildren: true,
@@ -59,14 +59,14 @@ module.exports = env => [
     async: 'commons',
   }),
 
-  env !== 'dev' && new CommonsChunkPlugin({
+  new CommonsChunkPlugin({
     name: 'vendor',
     // names: 'vendor',
     // chunks: 'app',
     minChunks: ({ context }) => context && context.includes('node_modules'),
   }),
 
-  // env !== 'dev' && new CommonsChunkPlugin({
+  // new CommonsChunkPlugin({
   //   name: 'runtime',
   //   minChunks: Infinity,
   // }),

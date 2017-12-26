@@ -95,7 +95,7 @@ class Routes extends PureComponent<Props, State> {
     } = this.state
     return (
       <Router>
-        <div>
+        <>
           <Navbar
             refresh={this.refresh}
             location={location}
@@ -123,7 +123,7 @@ class Routes extends PureComponent<Props, State> {
               to={`/${defaultTournament}`}
             />
           </Switch>
-        </div>
+        </>
       </Router>
     )
   }
