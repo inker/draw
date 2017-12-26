@@ -14,7 +14,7 @@ ReactDom.render(
   <Root>
     <Import
       component={import(/* webpackChunkName: "main" */ './Main')}
-      loading={<Popup noAnimation={false}>wait...</Popup>}
+      loading={<Popup noAnimation={true}>wait...</Popup>}
     />
   </Root>,
   document.getElementById('app'),
