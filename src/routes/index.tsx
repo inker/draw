@@ -9,6 +9,7 @@ import {
 
 import config from '../config.json'
 
+import Visibility from 'components/Visibility'
 import Popup from 'components/Popup'
 
 import getCurrentSeason from 'utils/getCurrentSeason'
@@ -129,16 +130,19 @@ class Routes extends PureComponent<Props, State> {
 
   render() {
     const {
+      initial,
       location,
     } = this.state
     return (
       <Router>
         <>
-          <Navbar
-            refresh={this.refresh}
-            location={location}
-            onSeasonChange={this.onSeasonChange}
-          />
+          <Visibility visible={!initial}>
+            <Navbar
+              refresh={this.refresh}
+              location={location}
+              onSeasonChange={this.onSeasonChange}
+            />
+          </Visibility>
           <Switch>
             <Route
               path="/:tournament/:stage/:season?"
