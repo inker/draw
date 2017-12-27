@@ -60,14 +60,14 @@ module.exports = env => [
   }),
 
   new CommonsChunkPlugin({
-    name: 'index-vendor',
+    name: 'vendor-static',
     // names: 'vendor',
     // chunks: ['app'],
     minChunks: ({ context }) => context && context.includes('node_modules'),
   }),
 
   new CommonsChunkPlugin({
-    name: 'main-vendor',
+    async: 'vendor-main',
     // names: 'vendor',
     chunks: ['main'],
     minChunks: ({ context }) => context && context.includes('node_modules'),
