@@ -10,7 +10,6 @@ import {
 import config from '../config.json'
 
 import Visibility from 'components/Visibility'
-import Popup from 'components/Popup'
 
 import getCurrentSeason from 'utils/getCurrentSeason'
 
@@ -20,31 +19,28 @@ import history from './history'
 
 const { defaultTournament, defaultStage } = config
 
-interface Props {}
+interface Props {
+  initial: boolean,
+  setPopup: (o: { waiting?: boolean, error?: string | null }) => void,
+}
 
 interface State {
-  initial: boolean,
   key: string,
   tournament: string | null,
   stage: string | null,
   season: number,
   location: typeof history.location,
-  waiting: boolean,
-  error: string | null,
 }
 
 class Routes extends PureComponent<Props, State> {
   private unlisten: (() => void) | undefined
 
   state: State = {
-    initial: true,
     key: uniqueId(),
     tournament: null,
     stage: null,
     season: getCurrentSeason(history.location),
     location: history.location,
-    waiting: true,
-    error: null,
   }
 
   componentWillMount() {
@@ -79,13 +75,6 @@ class Routes extends PureComponent<Props, State> {
     })
   }
 
-  private setPopup = (o: { waiting: boolean, error: string | null }) => {
-    if (o.waiting === false) {
-      o.initial = false
-    }
-    this.setState(o)
-  }
-
   private getPages = (props) => {
     const {
       key,
@@ -100,43 +89,20 @@ class Routes extends PureComponent<Props, State> {
         tournament={tournament}
         stage={stage}
         season={season}
-        setPopup={this.setPopup}
+        setPopup={this.props.setPopup}
         onSeasonChange={this.onSeasonChange}
       />
     ) : null
   }
 
-  private getWrappedPopup = (props) => (
-    <Popup
-      {...props}
-      noAnimation={this.state.initial}
-    />
-  )
-
-  private getPopup() {
-    const { error, waiting } = this.state
-    const WrappedPopup = this.getWrappedPopup
-    if (!navigator.onLine) {
-      return <WrappedPopup>you're offline</WrappedPopup>
-    }
-    if (error) {
-      return <WrappedPopup>{error}</WrappedPopup>
-    }
-    if (waiting) {
-      return <WrappedPopup>wait...</WrappedPopup>
-    }
-    return null
-  }
-
   render() {
     const {
-      initial,
       location,
     } = this.state
     return (
       <Router>
         <>
-          <Visibility visible={!initial}>
+          <Visibility visible={!this.props.initial}>
             <Navbar
               refresh={this.refresh}
               location={location}
@@ -165,7 +131,6 @@ class Routes extends PureComponent<Props, State> {
               to={`/${defaultTournament}`}
             />
           </Switch>
-          {this.getPopup()}
         </>
       </Router>
     )
