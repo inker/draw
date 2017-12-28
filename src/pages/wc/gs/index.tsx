@@ -44,7 +44,7 @@ interface State {
   error: string | null,
 }
 
-export default class GS extends PureComponent<Props, State> {
+export default class WCGS extends PureComponent<Props, State> {
   private worker: Worker
 
   constructor(props) {

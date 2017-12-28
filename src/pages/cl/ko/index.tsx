@@ -34,7 +34,7 @@ interface State {
   error: string | null,
 }
 
-export default class RoundOf16 extends PureComponent<Props, State> {
+export default class CLKO extends PureComponent<Props, State> {
   constructor(props) {
     super(props)
     this.reset(true)

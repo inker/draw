@@ -40,7 +40,7 @@ interface State {
   error: string | null,
 }
 
-export default class GS extends PureComponent<Props, State> {
+export default class CLGS extends PureComponent<Props, State> {
   constructor(props) {
     super(props)
     this.reset(true)
