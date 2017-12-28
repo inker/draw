@@ -35,16 +35,21 @@ interface State {
 }
 
 export default class RoundOf16 extends PureComponent<Props, State> {
-  componentDidMount() {
-    this.reset()
+  constructor(props) {
+    super(props)
+    this.reset(true)
   }
 
-  private reset = () => {
+  private onReset = () => {
+    this.reset(false)
+  }
+
+  private reset(isNew: boolean) {
     const initialPots = this.props.pots
     const currentPotNum = 1
     const currentMatchupNum = 0
     const pots = initialPots.map(pot => shuffle(pot))
-    this.setState({
+    const newState = {
       drawId: `draw-${uniqueId()}`,
       initialPots,
       pots,
@@ -55,7 +60,12 @@ export default class RoundOf16 extends PureComponent<Props, State> {
       possiblePairings: null,
       completed: false,
       error: null,
-    })
+    }
+    if (isNew) {
+      this.state = newState
+    } else {
+      this.setState(newState)
+    }
   }
 
   private onBallPick = (i: number) => {
@@ -121,10 +131,6 @@ export default class RoundOf16 extends PureComponent<Props, State> {
   }
 
   render() {
-    if (!this.state) {
-      return null
-    }
-
     const {
       initialPots,
       pots,
@@ -176,7 +182,7 @@ export default class RoundOf16 extends PureComponent<Props, State> {
               pickedGroup={null}
               possibleGroups={null}
               numGroups={0}
-              reset={this.reset}
+              reset={this.onReset}
             />
           }
           {possiblePairings &&
