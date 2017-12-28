@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { PureComponent } from 'react'
 import styled from 'styled-components'
 
 import getGroupLetter from 'utils/getGroupLetter'
@@ -25,30 +25,37 @@ interface Props {
   currentPotNum: number,
   groups: Team[][],
   possibleGroups: number[] | null,
-  selectedTeam: Team | null,
   airborneTeams: Team[],
 }
 
-const GroupsContainer: React.SFC<Props> = ({
-  maxTeams,
-  currentPotNum,
-  groups,
-  possibleGroups,
-  selectedTeam,
-  airborneTeams,
-}) => (
-  <Root numGroups={groups.length}>
-    {groups && groups.map((group, i) => (
-      <Group
-        maxTeams={maxTeams}
-        groupLetter={getGroupLetter(i)}
-        teams={group}
-        potNum={currentPotNum}
-        possible={possibleGroups !== null && possibleGroups.includes(i)}
-        airborneTeams={airborneTeams}
-      />
-    ))}
-  </Root>
-)
+class GroupsContainer extends PureComponent<Props> {
+  render() {
+    const {
+      maxTeams,
+      currentPotNum,
+      groups,
+      possibleGroups,
+      airborneTeams,
+    } = this.props
+    return (
+      <Root numGroups={groups.length}>
+        {groups && groups.map((group, i) => {
+          const letter = getGroupLetter(i)
+          return (
+            <Group
+              key={letter}
+              maxTeams={maxTeams}
+              groupLetter={letter}
+              teams={group}
+              potNum={currentPotNum}
+              possible={possibleGroups !== null && possibleGroups.includes(i)}
+              airborneTeams={airborneTeams}
+            />
+          )
+        })}
+      </Root>
+    )
+  }
+}
 
 export default GroupsContainer

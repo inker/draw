@@ -20,7 +20,6 @@ interface Props {
 }
 
 class SelectSeason extends PureComponent<Props> {
-
   onTournamentChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const tournament = e.target.value
     const {
@@ -85,7 +84,10 @@ class SelectSeason extends PureComponent<Props> {
           value={season}
         >
           {range(currentSeasonByTournament(tournament, stage as any), minSeason - 1).map(i => (
-            <option value={i}>
+            <option
+              key={i}
+              value={i}
+            >
               {seasonAsString(tournament, i)}
             </option>
           ))}

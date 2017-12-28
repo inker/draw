@@ -45,7 +45,6 @@ interface State {
 }
 
 export default class GS extends PureComponent<Props, State> {
-
   private worker: Worker
 
   componentDidMount() {
@@ -177,9 +176,6 @@ export default class GS extends PureComponent<Props, State> {
   }
 
   render() {
-    if (!this.state) {
-      return null
-    }
     const {
       initialPots,
       pots,
@@ -206,7 +202,6 @@ export default class GS extends PureComponent<Props, State> {
           />
           <GroupsContainer
             maxTeams={maxTeamsInGroup}
-            selectedTeam={selectedTeam}
             currentPotNum={currentPotNum}
             groups={groups}
             possibleGroups={null}

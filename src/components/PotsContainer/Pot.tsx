@@ -54,7 +54,7 @@ const Pot: React.SFC<Props> = ({
           return (
             <Cell
               key={team.id}
-              data-cellId={team.id}
+              data-cellid={team.id}
               title={pairing && `paired with ${pairing.name}`}
               selected={selectedTeams && selectedTeams.includes(team)}
               picked={pickedTeams.includes(team)}
