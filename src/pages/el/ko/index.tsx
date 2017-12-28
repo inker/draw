@@ -121,6 +121,10 @@ export default class RoundOf16 extends PureComponent<Props, State> {
   }
 
   render() {
+    if (!this.state) {
+      return null
+    }
+
     const {
       initialPots,
       pots,

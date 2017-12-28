@@ -41,6 +41,7 @@ interface State {
 }
 
 export default class GS extends PureComponent<Props, State> {
+
   componentDidMount() {
     this.reset()
   }
@@ -143,6 +144,10 @@ export default class GS extends PureComponent<Props, State> {
   }
 
   render() {
+    if (!this.state) {
+      return null
+    }
+
     const {
       initialPots,
       pots,
