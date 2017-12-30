@@ -33,10 +33,10 @@ const Ball = styled.div`
       flex-basis: 22%;
     }
 
-    width: 20px;
-    height: 20px;
+    width: 18px;
+    height: 18px;
 
-    font-size: ${props => props.selected ? 10 : 0}px;
+    font-size: ${props => props.selected ? 8 : 0}px;
   }
 `
 
