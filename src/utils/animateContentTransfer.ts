@@ -5,13 +5,20 @@ const OFFSET_LEFT = 2
 const OFFSET_TOP = 2
 
 const airborneDivClass = styled`
-  position: absolute;
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
   z-index: 1000;
+  pointer-events: none;
 `
 
 const fakeCellClass = styled`
   color: initial !important;
-  position: absolute !important;
+  position: fixed !important;
   border: initial !important;
   user-select: none !important;
 `

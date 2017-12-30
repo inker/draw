@@ -25,9 +25,9 @@ const Root = styled.div`
 
   @media (max-width: 999px) {
     justify-content: center;
-    padding-top: 15px;
-    padding-bottom: 15px;
-    font-size: 22px;
+    margin-top: 5px;
+    font-family: 'Roboto Condensed', RobotoCondensed, RobotoCondensed-Regular, sans-serif;
+    font-size: 11px;
   }
 `
 

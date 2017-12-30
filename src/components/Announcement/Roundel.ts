@@ -22,13 +22,6 @@ const Roundel = styled.div`
     border-color: rgba(0,0,0,0);
     filter: opacity(0.25);
   `}
-
-  @media (max-width: 999px) {
-    width: 45px;
-    height: 45px;
-    border-width: 2px;
-    font-size: 30px;
-  }
 `
 
 export default Roundel

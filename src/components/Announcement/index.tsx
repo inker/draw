@@ -22,7 +22,8 @@ const Root = styled.div`
   user-select: none;
 
   @media (max-width: 999px) {
-    font-size: 2.5em;
+    margin-top: 15px;
+    margin-bottom: 15px;
   }
 `
 
