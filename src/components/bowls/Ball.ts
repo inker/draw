@@ -33,8 +33,8 @@ const Ball = styled.div`
       flex-basis: 22%;
     }
 
-    width: 25px;
-    height: 25px;
+    width: 22px;
+    height: 22px;
   }
 `
 

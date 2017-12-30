@@ -59,15 +59,17 @@ class Navbar extends PureComponent<Props> {
           season={season}
           onChange={onSeasonChange}
         />
-        <ALink
-          href="https://github.com/inker/draw/issues"
-          target="_blank"
-          rel="noopener"
-        >
-          Issues
-        </ALink>
         {!mobile &&
-          <GithubButton />
+          <>
+            <ALink
+              href="https://github.com/inker/draw/issues"
+              target="_blank"
+              rel="noopener"
+            >
+              Issues
+            </ALink>
+            <GithubButton />
+          </>
         }
       </Root>
     )
