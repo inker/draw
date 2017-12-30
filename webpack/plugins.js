@@ -73,10 +73,10 @@ module.exports = env => [
     minChunks: ({ context }) => context && context.includes('node_modules'),
   }),
 
-  // new CommonsChunkPlugin({
-  //   name: 'runtime',
-  //   minChunks: Infinity,
-  // }),
+  new CommonsChunkPlugin({
+    name: 'runtime',
+    minChunks: Infinity,
+  }),
 
   new HtmlWebpackPlugin({
     filename: 'index.html',
