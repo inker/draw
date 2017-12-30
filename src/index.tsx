@@ -1,8 +1,8 @@
+import 'normalize.css'
 import React from 'react'
 import ReactDom from 'react-dom'
 import Import from 'react-import'
 import styled from 'styled-components'
-import 'normalize.css'
 
 import Popup from 'components/Popup'
 

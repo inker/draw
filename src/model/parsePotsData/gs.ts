@@ -40,7 +40,7 @@ function fillGSPots(teams: GSTeam[]): GSTeam[][] {
   return pots
 }
 
-export default (body: string) =>
-  parseGSTeams(body)
+export default (data: string) =>
+  parseGSTeams(data)
     .then(pairUpTeams)
     .then(fillGSPots)

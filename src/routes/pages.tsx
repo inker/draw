@@ -16,6 +16,26 @@ import currentSeasonByTournament from 'utils/currentSeasonByTournament'
 
 import PageLoader from './PageLoader'
 
+const getWcPots = memoize(async (season: number) => {
+  const file = await import(/* webpackChunkName: "wc-data" */ `data/wc-${season}.json`)
+  return parseWc(file)
+})
+
+const getPotsFromBert = memoize(async (tournament: string, stage: string, season: number) => {
+  const data = await fetchPots(tournament, season)
+  const parse = stage === 'ko' ? parseKo : parseGS
+  return parse(data)
+}, (tournament, stage, season) => `${tournament}:${stage}:${season}`)
+
+function prefetchImages(pots: Team[][]) {
+  const promises: Promise<void>[] = []
+  for (const pot of pots) {
+    const urls = pot.map(team => getCountryFlagUrl(team.country))
+    promises.push(...urls.map(prefetchImage))
+  }
+  return Promise.all(promises)
+}
+
 interface Props {
   tournament: string,
   stage: string,
@@ -80,10 +100,10 @@ class Pages extends PureComponent<Props, State> {
     })
     try {
       const potsPromise = tournament === 'wc'
-        ? this.getWcPots(season)
-        : this.getPotsFromBert(tournament, stage, season)
+        ? getWcPots(season)
+        : getPotsFromBert(tournament, stage, season)
       const pots = await potsPromise
-      await this.prefetchImages(pots)
+      await prefetchImages(pots)
       await delay(0)
       this.setState({
         pots,
@@ -115,25 +135,6 @@ class Pages extends PureComponent<Props, State> {
     this.props.setPopup({
       error: null,
     })
-  }
-
-  private getWcPots = memoize(async (season: number) => {
-    const file = await import(/* webpackChunkName: "wc-data" */ `data/wc-${season}.json`)
-    return parseWc(file)
-  })
-
-  private getPotsFromBert = memoize(async (tournament: string, stage: string, season: number) => {
-    const data = await fetchPots(tournament, season)
-    return (stage === 'ko' ? parseKo : parseGS)(data)
-  }, (tournament, stage, season) => `${tournament}-${stage}-${season}`)
-
-  private prefetchImages(pots: Team[][]) {
-    const promises: Promise<void>[] = []
-    for (const pot of pots) {
-      const urls = pot.map(team => getCountryFlagUrl(team.country))
-      promises.push(...urls.map(prefetchImage))
-    }
-    return Promise.all(promises)
   }
 
   render() {
