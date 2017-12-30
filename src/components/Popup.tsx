@@ -29,6 +29,10 @@ const Text = styled(Overlay)`
   font-size: 5vw;
   color: #808080;
   user-select: none;
+
+  @media (max-width: 999px) {
+    font-size: 8vw;
+  }
 `
 
 interface Props {
