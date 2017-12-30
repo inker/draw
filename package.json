@@ -16,7 +16,7 @@
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "react-helmet": "^5.2.0",
-    "react-import": "^1.2.1",
+    "react-import": "^1.3.1",
     "react-router-dom": "^4.2.2",
     "styled-components": "^2.4.0",
     "tslib": "^1.8.1"
@@ -50,10 +50,10 @@
     "worker-loader": "^1.1.0"
   },
   "scripts": {
+    "clean": "rimraf docs",
     "build:prod": "webpack --colors --config webpack/webpack.config.js --env=prod",
-    "build:analyze": "npm run rmdocs && webpack --colors --config webpack/webpack.config.js --env=analyze",
-    "rmdocs": "rimraf docs",
-    "start": "npm run rmdocs && webpack-dev-server --colors --watch --config webpack/webpack.config.js --env=dev"
+    "build:analyze": "npm run clean && webpack --colors --config webpack/webpack.config.js --env=analyze",
+    "start": "npm run clean && webpack-dev-server --colors --watch --config webpack/webpack.config.js --env=dev"
   },
   "repository": {
     "type": "git",
