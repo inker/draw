@@ -20,7 +20,7 @@ class Main extends PureComponent<Props, State> {
     error: null,
   }
 
-  private setPopup = (o: { waiting: boolean, error: string | null }) => {
+  private setPopup = (o: State) => {
     if (o.waiting === false) {
       o.initial = false
     }
