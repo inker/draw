@@ -56,7 +56,7 @@ export default class CLGS extends PureComponent<Props, State> {
     const pots = initialPots.map(pot => shuffle(pot))
     const currentPot = pots[currentPotNum]
     const newState = {
-      drawId: `draw-${uniqueId()}`,
+      drawId: uniqueId('draw-'),
       initialPots,
       pots,
       groups: currentPot.map(team => []),

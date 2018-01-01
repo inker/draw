@@ -50,7 +50,7 @@ export default class CLKO extends PureComponent<Props, State> {
     const currentMatchupNum = 0
     const pots = initialPots.map(pot => shuffle(pot))
     const newState = {
-      drawId: `draw-${uniqueId()}`,
+      drawId: uniqueId('draw-'),
       initialPots,
       pots,
       matchups: range(8).map(i => [] as any as [Team, Team]),
