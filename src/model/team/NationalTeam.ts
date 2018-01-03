@@ -1,10 +1,12 @@
 import Team from './index'
 
+type Confederation = 'uefa' | 'afc' | 'caf' | 'conmebol' | 'concacaf' | 'ofc'
+
 export default class NationalTeam extends Team {
   coefficient: number
-  confederation: string
+  confederation: Confederation
   host: boolean
-  constructor(name: string, country: string, coefficient: number, confederation: string, host: boolean) {
+  constructor(name: string, country: string, coefficient: number, confederation: Confederation, host: boolean) {
     super(name, country)
     this.coefficient = coefficient
     this.confederation = confederation
