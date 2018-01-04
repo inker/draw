@@ -15,6 +15,6 @@ const PotHeader = styled<Props>(Header)`
   ${props => props.highlighted && `
     color: #f70;
   `}
-` as any
+`
 
 export default PotHeader

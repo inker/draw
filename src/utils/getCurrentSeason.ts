@@ -11,5 +11,5 @@ export default (location?: Location) => {
     return currentSeasonByTournament(defaultTournament, defaultStage)
   }
   const [, tournament, stage, seasonString] = location.pathname.split('/')
-  return +(seasonString || currentSeasonByTournament(tournament, stage as any))
+  return +(seasonString || currentSeasonByTournament(tournament, stage))
 }
