@@ -21,7 +21,7 @@ interface Props {
 const SelectWithHiddenLabel: React.SFC<Props> = ({
   label,
   children,
-  ...props,
+  ...props
 }) => {
   const id = `${PREFIX}-${label}`
   return (

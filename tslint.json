@@ -51,6 +51,14 @@
         "named": "never",
         "asyncArrow": "always"
       }
+    ],
+    "trailing-comma": [
+      true,
+      {
+        "singleline": "never",
+        "multiline": "always",
+        "esSpecCompliant": true
+      }
     ]
   }
 }

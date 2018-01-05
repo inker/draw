@@ -45,7 +45,7 @@ class PageLoader extends PureComponent<Props, State> {
       tournament,
       stage,
       pots,
-      ...props,
+      ...props
     } = this.props
 
     return pots && (
