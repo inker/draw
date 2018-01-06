@@ -87,7 +87,9 @@ function filterSomeGroups(
     for (const team of group) {
       if (team.country === teamPicked.country || extraCondition(team)) {
         canDraw = false
-        if (team.pairing === teamPicked) {
+        // WTF BUG (WebWorker?)
+        // if (team.pairing === teamPicked) {
+        if (team && team.pairing && team.pairing.id === teamPicked.id) {
           return []
         }
         break
