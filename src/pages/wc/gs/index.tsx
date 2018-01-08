@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react'
 import delay from 'delay.js'
+import isShallowEqual from 'shallowequal'
 import {
   omit,
   shuffle,
@@ -10,7 +11,6 @@ import Team from 'model/team/NationalTeam'
 
 import animateContentTransfer from 'utils/animateContentTransfer'
 import getGroupLetter from 'utils/getGroupLetter'
-import isShallowEqual from 'utils/isShallowEqual'
 
 import PotsContainer from 'components/PotsContainer'
 // import AirborneContainer from 'components/AirborneContainer'
