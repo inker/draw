@@ -11,6 +11,7 @@ interface Props {
   tournament: string,
   stage: string,
   pots: Team[][] | null,
+  onLoadError: (err: Error) => void,
 }
 
 class PageLoader extends PureComponent<Props, State> {
@@ -45,6 +46,7 @@ class PageLoader extends PureComponent<Props, State> {
       tournament,
       stage,
       pots,
+      onLoadError,
       ...props
     } = this.props
 
@@ -53,6 +55,7 @@ class PageLoader extends PureComponent<Props, State> {
         {...props}
         pots={pots}
         component={this.state.componentPromise}
+        onError={onLoadError}
       />
     )
   }

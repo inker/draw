@@ -42,6 +42,7 @@ interface Props {
   season: number,
   dummyKey: string,
   setPopup: (o: { waiting?: boolean, error?: string | null }) => void,
+  onLoadError: (err: Error) => void,
   onSeasonChange: (tournament: string, stage: string, season?: number) => void,
 }
 
@@ -138,6 +139,7 @@ class Pages extends PureComponent<Props, State> {
   }
 
   render() {
+    const { props } = this
     const { pots, key } = this.state
     return (
       <Switch>
@@ -156,6 +158,7 @@ class Pages extends PureComponent<Props, State> {
                   stage="gs"
                   pots={pots}
                   key={key}
+                  onLoadError={props.onLoadError}
                 />
               </Route>
               <Route path="/cl/ko">
@@ -164,6 +167,7 @@ class Pages extends PureComponent<Props, State> {
                   stage="ko"
                   pots={pots}
                   key={key}
+                  onLoadError={props.onLoadError}
                 />
               </Route>
             </Switch>
@@ -184,6 +188,7 @@ class Pages extends PureComponent<Props, State> {
                   stage="gs"
                   pots={pots}
                   key={key}
+                  onLoadError={props.onLoadError}
                 />
               </Route>
               <Route path="/el/ko">
@@ -192,6 +197,7 @@ class Pages extends PureComponent<Props, State> {
                   stage="ko"
                   pots={pots}
                   key={key}
+                  onLoadError={props.onLoadError}
                 />
               </Route>
             </Switch>
@@ -212,6 +218,7 @@ class Pages extends PureComponent<Props, State> {
                   stage="gs"
                   pots={pots}
                   key={key}
+                  onLoadError={props.onLoadError}
                 />
               </Route>
               <Redirect

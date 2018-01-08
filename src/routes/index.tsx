@@ -22,6 +22,7 @@ const { defaultTournament, defaultStage } = config
 interface Props {
   initial: boolean,
   setPopup: (o: { waiting?: boolean, error?: string | null }) => void,
+  onLoadError: (err: Error) => void,
 }
 
 interface State {
@@ -90,6 +91,7 @@ class Routes extends PureComponent<Props, State> {
         stage={stage}
         season={season}
         setPopup={this.props.setPopup}
+        onLoadError={this.props.onLoadError}
         onSeasonChange={this.onSeasonChange}
       />
     ) : null

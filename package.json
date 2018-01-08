@@ -16,7 +16,7 @@
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "react-helmet": "^5.2.0",
-    "react-import": "^1.4.0",
+    "react-import": "^1.5.0",
     "react-router-dom": "^4.2.2",
     "styled-components": "^2.4.0",
     "tslib": "^1.8.1"
@@ -45,7 +45,7 @@
     "uglifyjs-webpack-plugin": "^1.1.6",
     "url-loader": "^0.6.1",
     "webpack": "^3.10.0",
-    "webpack-bundle-analyzer": "^2.9.1",
+    "webpack-bundle-analyzer": "^2.9.2",
     "webpack-dev-server": "^2.10.0",
     "worker-loader": "^1.1.0"
   },

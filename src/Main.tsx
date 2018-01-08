@@ -7,6 +7,7 @@ import Routes from './routes'
 interface Props {
   initial: boolean,
   setPopup: (o: { waiting?: boolean, error?: string | null }) => void,
+  onLoadError: (err: Error) => void,
 }
 
 class Main extends PureComponent<Props> {
@@ -18,6 +19,7 @@ class Main extends PureComponent<Props> {
         <Routes
           initial={props.initial}
           setPopup={props.setPopup}
+          onLoadError={props.onLoadError}
         />
       </>
     )

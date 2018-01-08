@@ -23,6 +23,15 @@ class App extends PureComponent<Props, State> {
     error: null,
   }
 
+  private onError = (err: Error) => {
+    const { message } = err
+    this.setState({
+      initial: false,
+      waiting: false,
+      error: message.startsWith('Cannot find module') ? 'Could not load site' : message,
+    })
+  }
+
   private setPopup = (o: State) => {
     if (o.waiting === false) {
       o.initial = false
@@ -57,9 +66,11 @@ class App extends PureComponent<Props, State> {
       <Root>
         <Import
           component={import(/* webpackChunkName: "main" */ './Main')}
+          onError={this.onError}
           initial={this.state.initial}
           setPopup={this.setPopup}
           getPopup={this.getPopup}
+          onLoadError={this.onError}
         />
         {this.getPopup()}
       </Root>
