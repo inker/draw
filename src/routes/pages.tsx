@@ -11,6 +11,7 @@ import parseWc from 'model/parsePotsData/wc'
 import Team from 'model/team'
 
 import getCountryFlagUrl from 'utils/getCountryFlagUrl'
+import { timelimit } from 'utils/promise-timeout'
 import prefetchImage from 'utils/prefetchImage'
 import currentSeasonByTournament from 'utils/currentSeasonByTournament'
 
@@ -104,7 +105,7 @@ class Pages extends PureComponent<Props, State> {
         ? getWcPots(season)
         : getPotsFromBert(tournament, stage, season)
       const pots = await potsPromise
-      await prefetchImages(pots)
+      await timelimit(prefetchImages(pots), 5000)
       await delay(0)
       this.setState({
         pots,
