@@ -10,7 +10,7 @@ const proxies = shuffle([
 export default async (url: string, encoding: string) => {
   while (!navigator.onLine) {
     console.error("you're offline, retrying...")
-    await delay(1000)
+    await delay(250)
   }
   const query = `?url=${encodeURIComponent(url)}${encoding ? `&encoding=${encoding}` : ''}`
   for (const proxy of proxies) {
