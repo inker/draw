@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react'
 import { Route, Switch, Redirect } from 'react-router-dom'
 import Helmet from 'react-helmet'
 import delay from 'delay.js'
+import timelimit from 'timelimit'
 import { uniqueId, memoize } from 'lodash'
 
 import fetchPots from 'model/fetchPotsData'
@@ -11,7 +12,6 @@ import parseWc from 'model/parsePotsData/wc'
 import Team from 'model/team'
 
 import getCountryFlagUrl from 'utils/getCountryFlagUrl'
-import { timelimit } from 'utils/promise-timeout'
 import prefetchImage from 'utils/prefetchImage'
 import currentSeasonByTournament from 'utils/currentSeasonByTournament'
 
@@ -105,7 +105,9 @@ class Pages extends PureComponent<Props, State> {
         ? getWcPots(season)
         : getPotsFromBert(tournament, stage, season)
       const pots = await potsPromise
-      await timelimit(prefetchImages(pots), 5000)
+      await timelimit(prefetchImages(pots), 5000, {
+        rejectOnTimeout: false,
+      })
       await delay(0)
       this.setState({
         pots,
