@@ -31,7 +31,6 @@ interface Props {
 }
 
 class PotsContainer extends PureComponent<Props> {
-
   render() {
     const {
       initialPots,

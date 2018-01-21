@@ -38,7 +38,6 @@ interface Props {
 }
 
 class TeamBowl extends PureComponent<Props> {
-
   private onBallPick = (ev: React.MouseEvent<HTMLDivElement>) => {
     const {
       pot,

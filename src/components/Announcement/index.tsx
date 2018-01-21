@@ -64,7 +64,6 @@ interface State {
 }
 
 class Announcement extends PureComponent<Props, State> {
-
   private lastAnnouncement
 
   state: State = {

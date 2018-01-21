@@ -17,11 +17,10 @@ const Root = styled.div`
 interface Props {
   completed: boolean,
   possibleGroups: number[] | null,
-  onPick: any,
+  onPick: (groupNum: number) => void,
 }
 
 class GroupBowl extends PureComponent<Props> {
-
   private onBallPick = (ev: React.MouseEvent<HTMLDivElement>) => {
     const ball = ev.target as HTMLDivElement
     const pickedGroup = +(ball.dataset.group || 0)
