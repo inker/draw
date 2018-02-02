@@ -21,6 +21,7 @@ import TeamBowl from 'components/bowls/TeamBowl'
 import Announcement from 'components/Announcement'
 
 import Root from 'pages/Root'
+// @ts-ignore
 import WcWorker from './worker'
 
 interface Props {
