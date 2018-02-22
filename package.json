@@ -9,7 +9,7 @@
     "fast-delete": "^1.0.1",
     "fast-levenshtein": "^2.0.6",
     "fastclick": "^1.0.6",
-    "flag-icon-css": "^2.9.0",
+    "flag-icon-css": "^3.0.0",
     "history": "^4.7.2",
     "lodash": "^4.17.5",
     "normalize.css": "^8.0.0",
