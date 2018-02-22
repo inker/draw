@@ -55,7 +55,8 @@
     "clean": "rimraf docs",
     "build:prod": "webpack --colors --config webpack/webpack.config.js --env=prod",
     "build:analyze": "npm run clean && webpack --colors --config webpack/webpack.config.js --env=analyze",
-    "start": "npm run clean && webpack-dev-server --colors --watch --config webpack/webpack.config.js --env=dev"
+    "start": "npm run clean && webpack-dev-server --colors --watch --config webpack/webpack.config.js --env=dev",
+    "test": "echo \"No test\""
   },
   "repository": {
     "type": "git",
