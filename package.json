@@ -33,8 +33,8 @@
     "@types/react-helmet": "^5.0.3",
     "@types/react-router-dom": "^4.2.3",
     "@types/shallowequal": "^0.2.1",
-    "awesome-typescript-loader": "^3.4.1",
-    "copy-webpack-plugin": "^4.3.1",
+    "awesome-typescript-loader": "^3.5.0",
+    "copy-webpack-plugin": "^4.4.2",
     "css-loader": "^0.28.9",
     "file-loader": "^1.1.6",
     "html-webpack-plugin": "^2.30.1",
@@ -45,11 +45,11 @@
     "tslint-react": "^3.4.0",
     "typescript": "^2.7.1",
     "typescript-plugin-lodash": "^0.1.0",
-    "uglifyjs-webpack-plugin": "^1.1.8",
-    "webpack": "^4.0.0",
-    "webpack-bundle-analyzer": "^2.10.0",
-    "webpack-dev-server": "^3.0.0",
-    "worker-loader": "^1.1.0"
+    "uglifyjs-webpack-plugin": "^1.2.2",
+    "webpack": "^3.10.0",
+    "webpack-bundle-analyzer": "^2.11.0",
+    "webpack-dev-server": "^2.11.1",
+    "worker-loader": "^1.1.1"
   },
   "scripts": {
     "clean": "rimraf docs",
