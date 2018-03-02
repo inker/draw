@@ -45,7 +45,7 @@ const Matchup: React.SFC<Props> = ({
   potNum,
   airborneTeams,
 }) => {
-  const [ru, gw] = teams || [] as Team[]
+  const [ru, gw] = teams || []!
   const ruIsPresent = ru && !airborneTeams.includes(ru)
   const gwIsPresent = gw && !airborneTeams.includes(gw)
   return (

@@ -45,7 +45,7 @@ function groupIsPossible(
     return true
   }
   const currentPot = pots[currentPotIndex]
-  const team = currentPot.pop() as Team
+  const team = currentPot.pop()!
   let possible = false
   for (const groupNum of filterGroupsBasic(groups, team, currentPotIndex)) {
     const group = groups[groupNum]
