@@ -6,6 +6,7 @@ const rootDir = process.cwd()
 const distDir = path.join(rootDir, 'docs')
 
 module.exports = env => ({
+  mode: env === 'dev' ? 'development' : 'production',
   target: 'web',
   entry: {
     app: './src/index.tsx',
@@ -32,6 +33,12 @@ module.exports = env => ({
     // },
   },
   devtool: env === 'dev' ? 'source-map' : undefined,
+  optimization: {
+    runtimeChunk: true,
+    splitChunks: {
+      chunks: 'all',
+    },
+  },
   module: {
     rules: rules(env),
   },

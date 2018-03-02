@@ -4,7 +4,6 @@ const {
   DefinePlugin,
   HotModuleReplacementPlugin,
   optimize: {
-    CommonsChunkPlugin,
     OccurrenceOrderPlugin,
   },
   NamedChunksPlugin,
@@ -53,33 +52,6 @@ module.exports = env => [
   new NamedChunksPlugin(chunkToName),
 
   // new (env === 'dev' ? NamedModulesPlugin : HashedModuleIdsPlugin)(),
-
-  new CommonsChunkPlugin({
-    name: 'app',
-    children: true,
-    deepChildren: true,
-    minChunks: 2,
-    async: 'commons',
-  }),
-
-  new CommonsChunkPlugin({
-    name: 'vendor-static',
-    // names: 'vendor',
-    // chunks: ['app'],
-    minChunks: ({ context }) => context && context.includes('node_modules'),
-  }),
-
-  new CommonsChunkPlugin({
-    async: 'vendor-main',
-    // names: 'vendor',
-    chunks: ['main'],
-    minChunks: ({ context }) => context && context.includes('node_modules'),
-  }),
-
-  new CommonsChunkPlugin({
-    name: 'runtime',
-    minChunks: Infinity,
-  }),
 
   new HtmlWebpackPlugin({
     filename: 'index.html',
