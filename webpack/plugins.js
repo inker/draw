@@ -34,7 +34,7 @@ const moduleToFileNames = (module) => {
 
 const chunkToName = (chunk) =>
   chunk.name
-  || chunk.modules.map(moduleToFileNames).find((name) => name)
+  || Array.from(chunk.modulesIterable, moduleToFileNames).find((name) => name)
   || null
 
 module.exports = env => [
