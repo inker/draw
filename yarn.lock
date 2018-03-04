@@ -2,12 +2,6 @@
 # yarn lockfile v1
 
 
-"@types/bowser@^1.1.1":
-  version "1.1.1"
-  resolved "https://registry.yarnpkg.com/@types/bowser/-/bowser-1.1.1.tgz#9bbe3c93fef1c787f565d252ce51326ada506611"
-  dependencies:
-    bowser "*"
-
 "@types/fast-levenshtein@0.0.1":
   version "0.0.1"
   resolved "https://registry.yarnpkg.com/@types/fast-levenshtein/-/fast-levenshtein-0.0.1.tgz#3a3615cf173645c8fca58d051e4e32824e4bd286"
@@ -478,7 +472,7 @@ boom@5.x.x:
   dependencies:
     hoek "4.x.x"
 
-bowser@*, bowser@^1.9.2:
+bowser@^1.9.2:
   version "1.9.2"
   resolved "https://registry.yarnpkg.com/bowser/-/bowser-1.9.2.tgz#d66fc868ca5f4ba895bee1363c343fe7b37d3394"
 
