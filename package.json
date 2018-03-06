@@ -32,7 +32,7 @@
     "@types/react-helmet": "^5.0.5",
     "@types/react-router-dom": "^4.2.3",
     "@types/shallowequal": "^0.2.1",
-    "awesome-typescript-loader": "^3.5.0",
+    "awesome-typescript-loader": "^4.0.0",
     "copy-webpack-plugin": "^4.5.0",
     "css-loader": "^0.28.9",
     "file-loader": "^1.1.11",
