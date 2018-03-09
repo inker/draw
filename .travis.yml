@@ -7,8 +7,11 @@ before_deploy:
 
 deploy:
 - provider: pages
+  edge:
+    branch: v1.8.47
   local_dir: docs
   skip_cleanup: true
+  # keep-history: true
   github_token: $GITHUB_TOKEN
   fqdn: https://draw.inker.fun
   on:
