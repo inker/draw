@@ -1,4 +1,6 @@
 const path = require('path')
+
+const optimization = require('./optimization')
 const rules = require('./rules')
 const plugins = require('./plugins')
 
@@ -33,12 +35,7 @@ module.exports = env => ({
     // },
   },
   devtool: env === 'dev' ? 'source-map' : undefined,
-  optimization: {
-    runtimeChunk: true,
-    splitChunks: {
-      chunks: 'all',
-    },
-  },
+  optimization: optimization(env),
   module: {
     rules: rules(env),
   },

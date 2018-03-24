@@ -46,10 +46,10 @@
     "typescript": "^2.7.1",
     "typescript-plugin-lodash": "^0.1.0",
     "uglifyjs-webpack-plugin": "^1.2.4",
-    "webpack": "^4.1.1",
+    "webpack": "^4.2.0",
     "webpack-bundle-analyzer": "^2.11.1",
-    "webpack-cli": "^2.0.10",
-    "webpack-dev-server": "^3.1.0",
+    "webpack-cli": "^2.0.13",
+    "webpack-dev-server": "^3.1.1",
     "worker-loader": "^1.1.1"
   },
   "scripts": {
