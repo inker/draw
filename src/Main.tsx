@@ -4,6 +4,8 @@ import fastclick from 'fastclick'
 
 import Routes from './routes'
 
+const versionPromise = import(/* webpackChunkName: "version" */ './Version')
+
 interface Props {
   initial: boolean,
   setPopup: (o: { waiting?: boolean, error?: string | null }) => void,
@@ -15,7 +17,7 @@ class Main extends PureComponent<Props> {
     const { props } = this
     return (
       <>
-        <Import component={import(/* webpackChunkName: "version" */ './Version')} />
+        <Import component={versionPromise} />
         <Routes
           initial={props.initial}
           setPopup={props.setPopup}

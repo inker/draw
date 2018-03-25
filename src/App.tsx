@@ -4,6 +4,8 @@ import styled from 'styled-components'
 
 import Popup from 'components/Popup'
 
+const mainPromise = import(/* webpackChunkName: "main" */ './Main')
+
 const Root = styled.div`
   font-family: Tahoma, Arial, sans-serif;
 `
@@ -65,7 +67,7 @@ class App extends PureComponent<Props, State> {
     return (
       <Root>
         <Import
-          component={import(/* webpackChunkName: "main" */ './Main')}
+          component={mainPromise}
           onError={this.onError}
           initial={this.state.initial}
           setPopup={this.setPopup}
