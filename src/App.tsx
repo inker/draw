@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react'
 import Import from 'react-import'
 import styled from 'styled-components'
 
-import Popup from 'components/Popup'
+import Notification from 'components/Notification'
 
 const mainPromise = import(/* webpackChunkName: "main" */ './Main')
 
@@ -42,7 +42,7 @@ class App extends PureComponent<Props, State> {
   }
 
   private getWrappedPopup = (props) => (
-    <Popup
+    <Notification
       {...props}
       noAnimation={this.state.initial}
     />

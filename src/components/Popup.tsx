@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { PureComponent } from 'react'
 import styled, { keyframes } from 'styled-components'
 
 import Overlay from './Overlay'
@@ -15,40 +15,41 @@ interface BackgroundProps {
 }
 
 const Background = styled<BackgroundProps>(Overlay)`
+  z-index: 100000000;
   background-color: white;
   opacity: 0.75;
   ${props => props.animate && `
-    animation: ${BackgroundAnimation} 0.1s ease-out;
+    animation: ${BackgroundAnimation} 0.25s ease-out;
   `}
 `
 
-const Text = styled(Overlay)`
+const Body = styled(Overlay)`
+  z-index: 100000000;
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 5vw;
-  color: #808080;
-  user-select: none;
-
-  @media (max-width: 999px) {
-    font-size: 8vw;
-  }
 `
 
 interface Props {
   noAnimation: boolean,
 }
 
-const Popup: React.SFC<Props> = ({
-  noAnimation,
-  children,
-}) => (
-  <div>
-    <Background animate={!noAnimation}/>
-    <Text>
-      {children}
-    </Text>
-  </div>
-)
+class Popup extends PureComponent<Props> {
+  render() {
+    const {
+      noAnimation,
+      children,
+    } = this.props
+
+    return (
+      <div>
+        <Background animate={!noAnimation} />
+        <Body>
+          {children}
+        </Body>
+      </div>
+    )
+  }
+}
 
 export default Popup

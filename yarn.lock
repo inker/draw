@@ -45,9 +45,9 @@
   dependencies:
     "@types/react" "*"
 
-"@types/react-router-dom@^4.2.5":
-  version "4.2.5"
-  resolved "https://registry.yarnpkg.com/@types/react-router-dom/-/react-router-dom-4.2.5.tgz#a6fc921f1008567eae35244e30f34f5f7655d5f0"
+"@types/react-router-dom@^4.2.6":
+  version "4.2.6"
+  resolved "https://registry.yarnpkg.com/@types/react-router-dom/-/react-router-dom-4.2.6.tgz#9f7eb3c0e6661a9607d878ff8675cc4ea95cd276"
   dependencies:
     "@types/history" "*"
     "@types/react" "*"
@@ -64,9 +64,9 @@
   version "16.0.38"
   resolved "https://registry.yarnpkg.com/@types/react/-/react-16.0.38.tgz#76617433ea10274505f60bb86eddfdd0476ffdc2"
 
-"@types/react@^16.0.41":
-  version "16.0.41"
-  resolved "https://registry.yarnpkg.com/@types/react/-/react-16.0.41.tgz#72146737f4d439dc95a53315de4bfb43ac8542ca"
+"@types/react@^16.1.0":
+  version "16.1.0"
+  resolved "https://registry.yarnpkg.com/@types/react/-/react-16.1.0.tgz#6c0e9955ce73f332b4a1948d45decaf18c764c6e"
 
 "@types/shallowequal@^0.2.1":
   version "0.2.1"
@@ -5313,9 +5313,9 @@ typescript-plugin-lodash@^0.1.0:
     "@types/lodash" "4.14.x"
     lodash "4.17.x"
 
-typescript@^2.7.1:
-  version "2.7.2"
-  resolved "https://registry.yarnpkg.com/typescript/-/typescript-2.7.2.tgz#2d615a1ef4aee4f574425cdff7026edf81919836"
+typescript@^2.8.1:
+  version "2.8.1"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-2.8.1.tgz#6160e4f8f195d5ba81d4876f9c0cc1fbc0820624"
 
 ua-parser-js@^0.7.9:
   version "0.7.17"
