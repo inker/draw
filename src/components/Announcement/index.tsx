@@ -70,16 +70,18 @@ class Announcement extends PureComponent<Props, State> {
     lastSelected: null,
   }
 
-  componentWillReceiveProps(nextProps: Props) {
+  static getDerivedStateFromProps(nextProps: Props): Partial<State> | null {
     if (nextProps.completed) {
-      this.setState({
+      return {
         lastSelected: null,
-      })
-    } else if (nextProps.selectedTeam) {
-      this.setState({
-        lastSelected: nextProps.selectedTeam,
-      })
+      }
     }
+    if (nextProps.selectedTeam) {
+      return {
+        lastSelected: nextProps.selectedTeam,
+      }
+    }
+    return null
   }
 
   render() {

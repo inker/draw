@@ -23,7 +23,7 @@ class PageLoader extends PureComponent<Props, State> {
     this.loadPromise(this.props)
   }
 
-  componentWillReceiveProps(nextProps: Props) {
+  UNSAFE_componentWillReceiveProps(nextProps: Props) {
     const { props } = this
     if (props.tournament === nextProps.tournament && props.stage === nextProps.stage) {
       return
