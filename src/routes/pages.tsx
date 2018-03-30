@@ -66,7 +66,7 @@ class Pages extends PureComponent<Props, State> {
     this.update(this.props, true)
   }
 
-  componentWillReceiveProps(nextProps: Props) {
+  UNSAFE_componentWillReceiveProps(nextProps: Props) {
     this.update(nextProps, false)
   }
 

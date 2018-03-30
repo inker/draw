@@ -34,6 +34,11 @@ interface State {
 }
 
 class Routes extends PureComponent<Props, State> {
+  constructor(props) {
+    super(props)
+    this.unlisten = history.listen(this.updateLocation)
+  }
+
   private unlisten: (() => void) | undefined
 
   state: State = {
@@ -44,8 +49,7 @@ class Routes extends PureComponent<Props, State> {
     location: history.location,
   }
 
-  componentWillMount() {
-    this.unlisten = history.listen(this.updateLocation)
+  componentDidMount() {
     this.updateLocation(this.state.location, null)
   }
 
@@ -62,6 +66,7 @@ class Routes extends PureComponent<Props, State> {
   private updateLocation = (location, type) => {
     const season = getCurrentSeason(location)
     const [, tournament, stage] = location.pathname.split('/')
+
     this.setState({
       tournament,
       stage,
@@ -83,6 +88,7 @@ class Routes extends PureComponent<Props, State> {
       stage,
       season,
     } = this.state
+
     return tournament && stage ? (
       <Pages
         {...props}
