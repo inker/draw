@@ -37,7 +37,6 @@ class Routes extends PureComponent<Props, State> {
   constructor(props) {
     super(props)
     this.unlisten = history.listen(this.updateLocation)
-    this.updateLocation(this.state.location, null)
   }
 
   private unlisten: (() => void) | undefined
@@ -48,6 +47,10 @@ class Routes extends PureComponent<Props, State> {
     stage: null,
     season: getCurrentSeason(history.location),
     location: history.location,
+  }
+
+  componentDidMount() {
+    this.updateLocation(this.state.location, null)
   }
 
   componentWillUnmount() {
@@ -63,6 +66,7 @@ class Routes extends PureComponent<Props, State> {
   private updateLocation = (location, type) => {
     const season = getCurrentSeason(location)
     const [, tournament, stage] = location.pathname.split('/')
+
     this.setState({
       tournament,
       stage,
@@ -84,6 +88,7 @@ class Routes extends PureComponent<Props, State> {
       stage,
       season,
     } = this.state
+
     return tournament && stage ? (
       <Pages
         {...props}
