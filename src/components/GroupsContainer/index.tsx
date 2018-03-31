@@ -8,15 +8,10 @@ import Group from './Group'
 const Root = styled.div`
   display: flex;
   flex-flow: row wrap;
+
   & > * {
     flex: 1;
     flex-basis: 22%;
-  }
-  & > :nth-child(-n + ${({ numGroups }) => (numGroups ? numGroups >> 1 : 0)}) {
-    background-color: rgb(255, 248, 240);
-  }
-  & > :nth-child(n + ${({ numGroups }) => (numGroups ? (numGroups >> 1) + 1 : 0)}) {
-    background-color: rgb(240, 248, 255);
   }
 `
 
@@ -26,6 +21,7 @@ interface Props {
   groups: Team[][],
   possibleGroups: number[] | null,
   airborneTeams: Team[],
+  groupColors?: string[],
 }
 
 class GroupsContainer extends PureComponent<Props> {
@@ -36,11 +32,21 @@ class GroupsContainer extends PureComponent<Props> {
       groups,
       possibleGroups,
       airborneTeams,
+      groupColors,
     } = this.props
+
     return (
-      <Root numGroups={groups.length}>
+      <Root
+        groupColors={groupColors}
+        numGroups={groups.length}
+      >
         {groups && groups.map((group, i) => {
           const letter = getGroupLetter(i)
+          let color: string | undefined
+          if (groupColors) {
+            color = groupColors && groupColors[~~(i / groups.length * groupColors.length)]
+          }
+
           return (
             <Group
               key={letter}
@@ -50,6 +56,7 @@ class GroupsContainer extends PureComponent<Props> {
               potNum={currentPotNum}
               possible={possibleGroups !== null && possibleGroups.includes(i)}
               airborneTeams={airborneTeams}
+              color={color}
             />
           )
         })}
