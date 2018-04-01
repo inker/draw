@@ -29,7 +29,7 @@ const GroupCell = styled<Props>(CellWithFlag)`
     box-shadow: 0 0 5px #6af;
   `}
   ${props => props.picked && `
-    animation: ${Appear} 1s normal forwards;
+    animation: ${Appear} 5s normal forwards;
   `}
 `
 
