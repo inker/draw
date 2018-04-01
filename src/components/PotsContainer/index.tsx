@@ -6,6 +6,9 @@ import Team from 'model/team'
 import BasePot from './Pot'
 import SplitPot from './SplitPot'
 
+const HEADER_BACKGROUND = 'rgba(0, 0, 0, 0.75)'
+const HEADER_COLOR = '#fff'
+
 const Root = styled.div`
   display: flex;
   flex-flow: row wrap;
@@ -43,9 +46,10 @@ class PotsContainer extends PureComponent<Props> {
     return (
       <Root limitWidth={!split}>
         {initialPots && initialPots.map((pot, i) => {
+          const Pot = split ? SplitPot : BasePot
           const isCurrent = i === currentPotNum
           const pickedTeams = difference(initialPots[i], pots[i], selectedTeams || [])
-          const Pot = split ? SplitPot : BasePot
+
           return (
             <Pot
               key={pot[0].id}
@@ -55,6 +59,8 @@ class PotsContainer extends PureComponent<Props> {
               pickedTeams={pickedTeams}
               selectedTeams={selectedTeams}
               depleted={!pot || pickedTeams.length === pot.length}
+              background={HEADER_BACKGROUND}
+              color={HEADER_COLOR}
             />
           )
         })}
