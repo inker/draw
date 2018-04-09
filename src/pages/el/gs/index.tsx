@@ -24,6 +24,11 @@ import Root from 'pages/Root'
 // @ts-ignore
 import EsWorker from './worker'
 
+const groupColors = [
+  'rgba(255, 0, 0, 0.25)',
+  'rgba(0, 128, 255, 0.25)',
+]
+
 interface Props {
   pots: Team[][],
 }
@@ -217,6 +222,7 @@ export default class ELGS extends PureComponent<Props, State> {
             groups={groups}
             possibleGroups={null}
             airborneTeams={airborneTeams}
+            groupColors={groupColors}
           />
         </TablesContainer>
         <BowlsContainer>

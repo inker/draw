@@ -24,6 +24,10 @@ import Root from 'pages/Root'
 // @ts-ignore
 import WcWorker from './worker'
 
+const groupColors = [
+  'rgba(0, 128, 0, 0.25)',
+]
+
 interface Props {
   pots: Team[][],
 }
@@ -224,6 +228,7 @@ export default class WCGS extends PureComponent<Props, State> {
             groups={groups}
             possibleGroups={null}
             airborneTeams={airborneTeams}
+            groupColors={groupColors}
           />
         </TablesContainer>
         <BowlsContainer>

@@ -14,6 +14,8 @@ interface Props {
   potNum: number,
   possible: boolean,
   airborneTeams: Team[],
+  background?: string,
+  color?: string,
 }
 
 const Group: React.SFC<Props> = ({
@@ -23,11 +25,16 @@ const Group: React.SFC<Props> = ({
   potNum,
   possible,
   airborneTeams,
+  background,
+  color,
 }) => {
   const nonAirborneTeams = difference(teams, airborneTeams)
   return (
     <Table>
-      <Header>
+      <Header
+        background={background}
+        color={color}
+      >
         Group {groupLetter}
       </Header>
       <Body>

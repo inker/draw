@@ -19,6 +19,11 @@ import Announcement from 'components/Announcement'
 
 import Root from 'pages/Root'
 
+const groupColors = [
+  'rgba(255, 0, 0, 0.25)',
+  'rgba(0, 128, 255, 0.25)',
+]
+
 interface Props {
   pots: Team[][],
 }
@@ -183,6 +188,7 @@ export default class CLGS extends PureComponent<Props, State> {
             groups={groups}
             possibleGroups={possibleGroups}
             airborneTeams={airborneTeams}
+            groupColors={groupColors}
           />
         </TablesContainer>
         <BowlsContainer>

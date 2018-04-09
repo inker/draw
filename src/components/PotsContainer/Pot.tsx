@@ -25,6 +25,8 @@ interface Props {
   pickedTeams: Team[],
   selectedTeams: Team[] | null,
   depleted: boolean,
+  background?: string,
+  color?: string,
 }
 
 const Pot: React.SFC<Props> = ({
@@ -34,12 +36,16 @@ const Pot: React.SFC<Props> = ({
   pickedTeams,
   selectedTeams,
   depleted,
+  background,
+  color,
 }) => {
   return (
     <Root highlighted={isCurrent}>
       <Header
         highlighted={isCurrent}
         depleted={depleted}
+        background={background}
+        color={color}
       >
         Pot {potNum + 1}
       </Header>
