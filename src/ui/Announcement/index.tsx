@@ -1,8 +1,8 @@
 import React, { PureComponent } from 'react'
 import styled from 'styled-components'
 
-import ALink from 'components/ALink'
-import DivLink from 'components/DivLink'
+import ALink from 'ui/ALink'
+import DivLink from 'ui/DivLink'
 import Team from 'model/team'
 import getGroupLetter from 'utils/getGroupLetter'
 

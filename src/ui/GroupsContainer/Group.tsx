@@ -2,9 +2,9 @@ import React from 'react'
 import { difference, range } from 'lodash'
 
 import Team from 'model/team'
-import Table from 'components/table/Table'
-import Header from 'components/table/Header'
-import Body from 'components/table/Body'
+import Table from 'ui/table/Table'
+import Header from 'ui/table/Header'
+import Body from 'ui/table/Body'
 import Cell from './GroupCell'
 
 interface Props {

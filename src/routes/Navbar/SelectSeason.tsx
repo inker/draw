@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react'
 import { range } from 'lodash'
 
-import Select from 'components/SelectWithHiddenLabel'
+import Select from 'ui/SelectWithHiddenLabel'
 
 import currentSeasonByTournament from 'utils/currentSeasonByTournament'
 import seasonAsString from 'utils/seasonAsString'

@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 
-import CellWithFlag from 'components/table/CellWithFlag'
+import CellWithFlag from 'ui/table/CellWithFlag'
 
 const FakeCell = styled(CellWithFlag)`
   color: initial !important;

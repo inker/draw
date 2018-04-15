@@ -3,8 +3,8 @@ import styled from 'styled-components'
 
 import Team from 'model/team'
 import GSTeam from 'model/team/GSTeam'
-import Table from 'components/table/Table'
-import Body from 'components/table/Body'
+import Table from 'ui/table/Table'
+import Body from 'ui/table/Body'
 import Header from './PotHeader'
 import Cell from './PotCell'
 
