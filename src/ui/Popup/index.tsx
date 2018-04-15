@@ -15,7 +15,6 @@ interface BackgroundProps {
 }
 
 const Background = styled<BackgroundProps>(Overlay)`
-  z-index: 100000000;
   background-color: white;
   opacity: 0.75;
   ${props => props.animate && `
@@ -24,7 +23,6 @@ const Background = styled<BackgroundProps>(Overlay)`
 `
 
 const Body = styled(Overlay)`
-  z-index: 100000000;
   display: flex;
   justify-content: center;
   align-items: center;

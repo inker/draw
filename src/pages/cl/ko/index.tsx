@@ -6,14 +6,14 @@ import getPossiblePairings from 'model/possible-pairings'
 
 import animateContentTransfer from 'utils/animateContentTransfer'
 
-import PotsContainer from 'components/PotsContainer'
-// import AirborneContainer from 'components/AirborneContainer'
-import MatchupsContainer from 'components/MatchupsContainer'
-import TablesContainer from 'components/TablesContainer'
-import BowlsContainer from 'components/BowlsContainer'
-import TeamBowl from 'components/bowls/TeamBowl'
-import Separator from 'components/Separator'
-import Announcement from 'components/Announcement'
+import PotsContainer from 'ui/PotsContainer'
+// import AirborneContainer from 'ui/AirborneContainer'
+import MatchupsContainer from 'ui/MatchupsContainer'
+import TablesContainer from 'ui/TablesContainer'
+import BowlsContainer from 'ui/BowlsContainer'
+import TeamBowl from 'ui/bowls/TeamBowl'
+import Separator from 'ui/Separator'
+import Announcement from 'ui/Announcement'
 
 import Root from 'pages/Root'
 

@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react'
 import Import from 'react-import'
 import styled from 'styled-components'
 
-import Notification from 'components/Notification'
+import Notification from 'ui/Notification'
 
 const mainPromise = import(/* webpackChunkName: "main" */ './Main')
 

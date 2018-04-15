@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import Team from 'model/team'
 import Matchup from './Matchup'
 
-import Table from 'components/table/Table'
+import Table from 'ui/table/Table'
 
 const RootTable = styled(Table)`
   width: 340px;

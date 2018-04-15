@@ -19,7 +19,8 @@ const Versus = styled.div`
   font-family: Tahoma, Arial, sans-serif;
   font-size: 12px;
   color: #444;
-  :before {
+
+  &:before {
     content: "v";
   }
 `

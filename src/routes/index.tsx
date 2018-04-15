@@ -9,7 +9,7 @@ import {
 
 import config from '../config.json'
 
-import Visibility from 'components/Visibility'
+import Visibility from 'ui/Visibility'
 
 import getCurrentSeason from 'utils/getCurrentSeason'
 
