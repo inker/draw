@@ -1,13 +1,11 @@
 import styled from 'styled-components'
 
-const DivLink = styled.div`
-  color: blue;
-  text-decoration: underline;
-  cursor: pointer;
+import StyledLink from './StyledLink'
 
-  &:hover {
-    color: orange;
-  }
+const WithDiv = StyledLink.withComponent('div')
+
+const DivLink = styled(WithDiv)`
+  cursor: pointer;
 `
 
 export default DivLink
