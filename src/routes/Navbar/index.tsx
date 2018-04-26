@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react'
 import styled from 'styled-components'
 import { mobile } from 'bowser'
 
-import ALink from 'ui/ALink'
+import StyledLink from 'ui/StyledLink'
 import DivLink from 'ui/DivLink'
 import getCurrentSeason from 'utils/getCurrentSeason'
 import SelectSeason from './SelectSeason'
@@ -61,13 +61,13 @@ class Navbar extends PureComponent<Props> {
         />
         {!mobile &&
           <>
-            <ALink
+            <StyledLink
               href="https://github.com/inker/draw/issues"
               target="_blank"
               rel="noopener"
             >
               Issues
-            </ALink>
+            </StyledLink>
             <GithubButton />
           </>
         }

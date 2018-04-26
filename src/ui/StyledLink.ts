@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 
-const ALink = styled.a`
+const StyledLink = styled.a`
   color: blue;
   text-decoration: underline;
 
@@ -9,4 +9,4 @@ const ALink = styled.a`
   }
 `
 
-export default ALink
+export default StyledLink

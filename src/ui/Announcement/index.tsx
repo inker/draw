@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react'
 import styled from 'styled-components'
 
-import ALink from 'ui/ALink'
+import StyledLink from 'ui/StyledLink'
 import DivLink from 'ui/DivLink'
 import Team from 'model/team'
 import getGroupLetter from 'utils/getGroupLetter'
@@ -107,7 +107,7 @@ class Announcement extends PureComponent<Props, State> {
                 Calculation is taking too long.
               </div>
               <div>
-                And <ALink href={ISSUE_URL} target="_blank" rel="noopener">here's why</ALink>.
+                And <StyledLink href={ISSUE_URL} target="_blank" rel="noopener">here's why</StyledLink>.
               </div>
             </Bug>
           ) :
