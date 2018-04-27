@@ -66,21 +66,21 @@ class Pages extends PureComponent<Props, State> {
     this.update(this.props, true)
   }
 
-  UNSAFE_componentWillReceiveProps(nextProps: Props) {
-    this.update(nextProps, false)
+  componentDidUpdate(prevProps: Props) {
+    this.update(prevProps, false)
   }
 
-  private update(nextProps: Props, force: boolean) {
-    const { props } = this
+  private update(prevProps: Props, force: boolean) {
     const {
       tournament,
       stage,
       season,
       dummyKey,
-    } = nextProps
-    if (force || props.season !== season || props.stage !== stage || props.tournament !== tournament) {
+    } = this.props
+
+    if (force || season !== prevProps.season || stage !== prevProps.stage || tournament !== prevProps.tournament) {
       this.fetchData(tournament, stage, season)
-    } else if (props.dummyKey !== dummyKey) {
+    } else if (dummyKey !== prevProps.dummyKey) {
       this.setState({
         key: dummyKey,
       })
