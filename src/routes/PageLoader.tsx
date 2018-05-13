@@ -20,22 +20,24 @@ class PageLoader extends PureComponent<Props, State> {
   }
 
   componentDidMount() {
-    this.loadPromise(this.props)
+    this.loadPromise()
   }
 
-  UNSAFE_componentWillReceiveProps(nextProps: Props) {
+  componentDidUpdate(prevProps: Props) {
     const { props } = this
-    if (props.tournament === nextProps.tournament && props.stage === nextProps.stage) {
+    if (props.tournament === prevProps.tournament && props.stage === prevProps.stage) {
       return
     }
-    this.loadPromise(nextProps)
+
+    this.loadPromise()
   }
 
-  private loadPromise(props: Props) {
+  private loadPromise() {
     const {
       tournament,
       stage,
-    } = props
+    } = this.props
+
     this.setState({
       componentPromise: import(`pages/${tournament}/${stage}`),
     })
