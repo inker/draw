@@ -49,7 +49,7 @@
     "webpack": "^3.12.0",
     "webpack-bundle-analyzer": "^2.12.0",
     "webpack-dev-server": "^2.11.2",
-    "worker-loader": "^1.1.1"
+    "worker-loader": "^2.0.0"
   },
   "scripts": {
     "clean": "rimraf docs",
