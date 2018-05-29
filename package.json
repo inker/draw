@@ -13,13 +13,13 @@
     "history": "^4.7.2",
     "lodash": "^4.17.10",
     "normalize.css": "^8.0.0",
-    "react": "^16.3.2",
-    "react-dom": "^16.3.2",
+    "react": "^16.4.0",
+    "react-dom": "^16.4.0",
     "react-helmet": "^5.2.0",
     "react-import": "^1.5.3",
     "react-router-dom": "^4.2.2",
     "shallowequal": "^1.0.2",
-    "styled-components": "^3.2.6",
+    "styled-components": "^3.3.0",
     "timelimit": "^1.0.0",
     "tslib": "^1.9.1"
   },
@@ -27,7 +27,7 @@
     "@types/bowser": "^1.1.1",
     "@types/fast-levenshtein": "0.0.1",
     "@types/fastclick": "^1.0.28",
-    "@types/lodash": "^4.14.108",
+    "@types/lodash": "^4.14.109",
     "@types/react": "^16.3.14",
     "@types/react-dom": "^16.0.5",
     "@types/react-helmet": "^5.0.6",
@@ -47,9 +47,9 @@
     "typescript-plugin-lodash": "^0.1.0",
     "uglifyjs-webpack-plugin": "^1.2.5",
     "webpack": "^3.12.0",
-    "webpack-bundle-analyzer": "^2.12.0",
+    "webpack-bundle-analyzer": "^2.13.1",
     "webpack-dev-server": "^2.11.2",
-    "worker-loader": "^1.1.1"
+    "worker-loader": "^2.0.0"
   },
   "scripts": {
     "clean": "rimraf docs",
