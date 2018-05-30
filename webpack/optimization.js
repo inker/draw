@@ -25,6 +25,6 @@ module.exports = dev => ({
         enforce: true,
         reuseExistingChunk: true,
       },
-    }
+    },
   },
 })

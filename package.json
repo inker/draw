@@ -21,7 +21,7 @@
     "shallowequal": "^1.0.2",
     "styled-components": "^3.3.0",
     "timelimit": "^1.0.0",
-    "tslib": "^1.9.1"
+    "tslib": "^1.9.2"
   },
   "devDependencies": {
     "@types/bowser": "^1.1.1",
@@ -46,7 +46,7 @@
     "typescript": "^2.8.3",
     "typescript-plugin-lodash": "^0.1.0",
     "uglifyjs-webpack-plugin": "^1.2.5",
-    "webpack": "^4.10.1",
+    "webpack": "^4.10.2",
     "webpack-bundle-analyzer": "^2.13.1",
     "webpack-cli": "^2.1.4",
     "webpack-dev-server": "^3.1.4",
