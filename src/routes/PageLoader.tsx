@@ -39,7 +39,7 @@ class PageLoader extends PureComponent<Props, State> {
     } = this.props
 
     this.setState({
-      componentPromise: import(`pages/${tournament}/${stage}`),
+      componentPromise: import(`pages/${tournament}/${stage}/index`),
     })
   }
 
