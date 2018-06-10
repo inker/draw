@@ -4,6 +4,7 @@
     "module": "esnext",
     "moduleResolution": "node",
     "allowSyntheticDefaultImports": true,
+    "resolveJsonModule": true,
     "baseUrl": "./src",
     // "sourceMap": true, // not needed when assembled with webpack
     // "watch": true, // not needed when assembled with webpack

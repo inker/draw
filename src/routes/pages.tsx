@@ -19,7 +19,7 @@ import PageLoader from './PageLoader'
 
 const getWcPots = memoize(async (season: number) => {
   const file = await import(/* webpackChunkName: "wc-data" */ `data/wc-${season}.json`)
-  return parseWc(file)
+  return parseWc(file.default) // TODO: only works with 'default' right now
 })
 
 const getPotsFromBert = memoize(async (tournament: string, stage: string, season: number) => {
@@ -100,14 +100,18 @@ class Pages extends PureComponent<Props, State> {
     this.props.setPopup({
       waiting: true,
     })
+
     try {
       const potsPromise = tournament === 'wc'
-        ? getWcPots(season)
+        ? getWcPots(2018) // TODO
         : getPotsFromBert(tournament, stage, season)
+
       const pots = await potsPromise
+
       await timelimit(prefetchImages(pots), 5000, {
         rejectOnTimeout: false,
       })
+
       await delay(0)
       this.setState({
         pots,
@@ -116,6 +120,7 @@ class Pages extends PureComponent<Props, State> {
         // stage,
         season,
       })
+
       this.props.setPopup({
         waiting: false,
         error: null,
