@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 
 const Roundel = styled.div`
   display: flex;
@@ -15,9 +15,9 @@ const Roundel = styled.div`
 
   font-size: 18px;
 
-  ${props => props.possible ? `
+  ${props => props.possible ? css`
     color: ${props.color};
-  ` : `
+  ` : css`
     color: #000;
     border-color: rgba(0,0,0,0);
     filter: opacity(0.25);

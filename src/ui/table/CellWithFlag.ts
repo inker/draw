@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 import Cell from './Cell'
 
 import getCountryFlagUrl from 'utils/getCountryFlagUrl'
@@ -18,7 +18,7 @@ const CellWithoutFlag = styled(Cell)`
 `
 
 const CellWithFlag = styled(CellWithoutFlag)`
-  ${({ country }) => country && `
+  ${({ country }) => country && css`
     background-image: url('${getCountryFlagUrl(country)}');
   `}
 `

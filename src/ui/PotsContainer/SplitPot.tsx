@@ -25,6 +25,7 @@ const Pair = styled.div`
   margin-top: 1px;
   margin-bottom: 1px;
   margin-right: -1px;
+
   &:last-child {
     margin-bottom: 0px;
   }
