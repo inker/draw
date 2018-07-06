@@ -135,6 +135,7 @@ class Pages extends PureComponent<Props, State> {
       waiting: false,
       error: 'Could not fetch data',
     })
+
     await delay(1000)
     console.error(err)
     const { tournament, stage } = this.getMatchParams()
@@ -154,10 +155,22 @@ class Pages extends PureComponent<Props, State> {
         <Route path="/cl">
           <>
             <Helmet>
-              <title>CL draw simulator</title>
-              <link rel="icon" href="//img.uefa.com/imgml/favicon/comp/ucl.ico" type="image/x-icon" />
-              <meta name="theme-color" content="#00336a" />
-              <meta name="description" content="Champions League draw simulator" />
+              <title>
+                CL draw simulator
+              </title>
+              <link
+                rel="icon"
+                href="//img.uefa.com/imgml/favicon/comp/ucl.ico"
+                type="image/x-icon"
+              />
+              <meta
+                name="theme-color"
+                content="#00336a"
+              />
+              <meta
+                name="description"
+                content="Champions League draw simulator"
+              />
             </Helmet>
             <Switch>
               <Route path="/cl/gs">
@@ -184,10 +197,22 @@ class Pages extends PureComponent<Props, State> {
         <Route path="/el">
           <>
             <Helmet>
-              <title>EL draw simulator</title>
-              <link rel="icon" href="//img.uefa.com/imgml/favicon/comp/uefacup.ico" type="image/x-icon" />
-              <meta name="theme-color" content="#f68e00" />
-              <meta name="description" content="Europa League draw simulator" />
+              <title>
+                EL draw simulator
+              </title>
+              <link
+                rel="icon"
+                href="//img.uefa.com/imgml/favicon/comp/uefacup.ico"
+                type="image/x-icon"
+              />
+              <meta
+                name="theme-color"
+                content="#f68e00"
+              />
+              <meta
+                name="description"
+                content="Europa League draw simulator"
+              />
             </Helmet>
             <Switch>
               <Route path="/el/gs">
@@ -214,10 +239,22 @@ class Pages extends PureComponent<Props, State> {
         <Route path="/wc">
           <>
             <Helmet>
-              <title>FIFA World Cup draw simulator</title>
-              <link rel="icon" href="//www.fifa.com/imgml/favicon/favicon.ico" type="image/x-icon" />
-              <meta name="theme-color" content="#326295" />
-              <meta name="description" content="FIFA World Cup draw simulator" />
+              <title>
+                FIFA World Cup draw simulator
+              </title>
+              <link
+                rel="icon"
+                href="//www.fifa.com/imgml/favicon/favicon.ico"
+                type="image/x-icon"
+              />
+              <meta
+                name="theme-color"
+                content="#326295"
+              />
+              <meta
+                name="description"
+                content="FIFA World Cup draw simulator"
+              />
             </Helmet>
             <Switch>
               <Route path="/wc/gs">

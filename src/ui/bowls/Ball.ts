@@ -26,8 +26,10 @@ const Ball = styled.div`
   &:hover {
     ${({ noHover }) => !noHover && 'background: radial-gradient(#ccf, #ccf)'};
   }
+
   @media (max-width: 999px) {
     flex-flow: row wrap;
+
     & > * {
       flex: 1;
       flex-basis: 22%;
