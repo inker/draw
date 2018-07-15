@@ -36,15 +36,10 @@ class GroupsContainer extends PureComponent<Props> {
     } = this.props
 
     return (
-      <Root
-        numGroups={groups.length}
-      >
+      <Root>
         {groups && groups.map((group, i) => {
           const letter = getGroupLetter(i)
-          let background: string | undefined
-          if (groupColors) {
-            background = groupColors && groupColors[~~(i / groups.length * groupColors.length)]
-          }
+          const background = groupColors && groupColors[~~(i / groups.length * groupColors.length)]
 
           return (
             <Group

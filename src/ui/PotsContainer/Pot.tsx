@@ -57,6 +57,7 @@ const Pot: React.SFC<Props> = ({
             shortName,
             pairing,
           } = team as GSTeam
+
           return (
             <Cell
               key={team.id}

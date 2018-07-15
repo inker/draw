@@ -44,8 +44,10 @@ class Navbar extends PureComponent<Props> {
       refresh,
       onSeasonChange,
     } = this.props
+
     const [, tournament, stage] = location.pathname.split('/')
     const season = getCurrentSeason(location)
+
     return (
       <Root>
         {location &&

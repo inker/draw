@@ -49,6 +49,7 @@ const Matchup: React.SFC<Props> = ({
   const [ru, gw] = teams || []!
   const ruIsPresent = ru && !airborneTeams.includes(ru)
   const gwIsPresent = gw && !airborneTeams.includes(gw)
+
   return (
     <Root>
       <LeftCell

@@ -107,6 +107,7 @@ class Routes extends PureComponent<Props, State> {
     const {
       location,
     } = this.state
+
     return (
       <Router>
         <>

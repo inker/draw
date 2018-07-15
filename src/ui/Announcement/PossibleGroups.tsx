@@ -21,6 +21,7 @@ const PossibleGroups: React.SFC<Props> = ({
   possibleGroups,
 }) => {
   const halfNum = numGroups >> 1
+
   return (
     <Root>
       {range(numGroups).map(i => {

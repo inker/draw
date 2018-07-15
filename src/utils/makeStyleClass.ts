@@ -1,6 +1,6 @@
 import { isNil } from 'lodash'
 
-const randomId = () => `styled-element-${Math.random().toString(36).slice(2)}`
+import getRandomId from 'utils/getRandomId'
 
 let styleElement: HTMLStyleElement
 
@@ -12,7 +12,7 @@ export default (strings: TemplateStringsArray, ...keys: any[]) => {
     styleElement = document.createElement('style')
     document.head.appendChild(styleElement)
   }
-  const className = randomId()
+  const className = getRandomId('styled-element-')
   const content = template(strings, ...keys)
   styleElement.textContent += `.${className}{${content}}`
   return className

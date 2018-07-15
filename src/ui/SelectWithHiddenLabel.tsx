@@ -1,7 +1,7 @@
-import React from 'react'
+import React, { PureComponent } from 'react'
 import styled from 'styled-components'
 
-const PREFIX = `label-${Math.random().toString(36).slice(2)}`
+import getRandomId from 'utils/getRandomId'
 
 const Root = styled.div`
   display: inline;
@@ -18,27 +18,32 @@ interface Props {
   [property: string]: any,
 }
 
-const SelectWithHiddenLabel: React.SFC<Props> = ({
-  label,
-  children,
-  ...props
-}) => {
-  const id = `${PREFIX}-${label}`
-  return (
-    <Root>
-      <HiddenLabel htmlFor={id}>
-        {label}
-      </HiddenLabel>
-      <select
-        id={id}
-        className="needsclick"
-        title={label}
-        {...props}
-      >
-        {children}
-      </select>
-    </Root>
-  )
+class SelectWithHiddenLabel extends PureComponent<Props> {
+  id = getRandomId('select-')
+
+  render() {
+    const {
+      label,
+      children,
+      ...props
+    } = this.props
+
+    return (
+      <Root>
+        <HiddenLabel htmlFor={this.id}>
+          {label}
+        </HiddenLabel>
+        <select
+          id={this.id}
+          className="needsclick"
+          title={label}
+          {...props}
+        >
+          {children}
+        </select>
+      </Root>
+    )
+  }
 }
 
 export default SelectWithHiddenLabel

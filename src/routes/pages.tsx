@@ -150,6 +150,7 @@ class Pages extends PureComponent<Props, State> {
   render() {
     const { props } = this
     const { pots, key } = this.state
+
     return (
       <Switch>
         <Route path="/cl">

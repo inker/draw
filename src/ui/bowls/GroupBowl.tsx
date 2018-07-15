@@ -32,6 +32,7 @@ class GroupBowl extends PureComponent<Props> {
       completed,
       possibleGroups,
     } = this.props
+
     return (
       <Root>
         {!completed && possibleGroups &&

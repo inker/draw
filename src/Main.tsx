@@ -15,6 +15,7 @@ interface Props {
 class Main extends PureComponent<Props> {
   render() {
     const { props } = this
+
     return (
       <>
         <Import component={versionPromise} />

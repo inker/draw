@@ -29,6 +29,7 @@ const Group: React.SFC<Props> = ({
   color,
 }) => {
   const nonAirborneTeams = difference(teams, airborneTeams)
+
   return (
     <Table>
       <Header
