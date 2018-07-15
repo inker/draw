@@ -4,7 +4,7 @@
   "description": "A Champions League draw simulator",
   "main": "index.html",
   "dependencies": {
-    "bowser": "^2.0.0-alpha.1",
+    "bowser": "^1.9.4",
     "delay.js": "^1.0.2",
     "fast-delete": "^1.0.1",
     "fast-levenshtein": "^2.0.6",

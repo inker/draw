@@ -651,9 +651,9 @@ boom@5.x.x:
   dependencies:
     hoek "4.x.x"
 
-bowser@^2.0.0-alpha.1:
-  version "2.0.0-alpha.1"
-  resolved "https://registry.yarnpkg.com/bowser/-/bowser-2.0.0-alpha.1.tgz#7dd3bc2c5f3c67325a9d5dc60cbee04123060dc2"
+bowser@^1.9.4:
+  version "1.9.4"
+  resolved "https://registry.yarnpkg.com/bowser/-/bowser-1.9.4.tgz#890c58a2813a9d3243704334fa81b96a5c150c9a"
 
 brace-expansion@^1.0.0, brace-expansion@^1.1.7:
   version "1.1.11"

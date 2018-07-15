@@ -9,7 +9,7 @@ const tsOptions = env => env === 'dev' ? {
   useCache: true,
 } : {
   getCustomTransformers: () => ({ before: [createLodashTransformer()] }),
-  ignoreDiagnostics: [2320, 2339, 2345, 2459, 2717],
+  ignoreDiagnostics: [2339, 2345, 2459],
 }
 
 module.exports = env => [
