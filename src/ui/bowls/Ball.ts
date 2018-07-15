@@ -5,8 +5,8 @@ const Ball = styled.div`
   justify-content: center; /* align horizontal */
   align-items: center; /* align vertical */
 
-  width: 50px;
-  height: 50px;
+  width: 70px;
+  height: 70px;
 
   margin: 2px;
   padding: 10px;
@@ -35,8 +35,8 @@ const Ball = styled.div`
       flex-basis: 22%;
     }
 
-    width: 18px;
-    height: 18px;
+    width: 21px;
+    height: 21px;
 
     font-size: ${props => props.selected ? 8 : 0}px;
   }

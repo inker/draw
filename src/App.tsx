@@ -8,6 +8,10 @@ const mainPromise = import(/* webpackChunkName: "main" */ './Main')
 
 const Root = styled.div`
   font-family: Tahoma, Arial, sans-serif;
+
+  & * {
+    box-sizing: border-box;
+  }
 `
 
 interface Props {}

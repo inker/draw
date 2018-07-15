@@ -2,7 +2,7 @@ import { firefox } from 'bowser'
 import styled from './makeStyleClass'
 
 const OFFSET_LEFT = 2
-const OFFSET_TOP = 2
+const OFFSET_TOP = 1
 
 const airborneDivClass = styled`
   position: fixed;
@@ -21,6 +21,7 @@ const fakeCellClass = styled`
   position: fixed !important;
   border: initial !important;
   user-select: none !important;
+  box-sizing: border-box !important;
 `
 
 const airborneDiv = document.createElement('div')
