@@ -10,11 +10,7 @@ const BackgroundAnimation = keyframes`
   to {}
 `
 
-interface BackgroundProps {
-  animate: boolean,
-}
-
-const Background = styled<BackgroundProps>(Overlay)`
+const Background = styled(Overlay)`
   background-color: white;
   opacity: 0.75;
   ${props => props.animate && `

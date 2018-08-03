@@ -29,6 +29,7 @@ class Main extends PureComponent<Props> {
   }
 }
 
+// @ts-ignore
 fastclick.attach(document.body)
 
 export default Main

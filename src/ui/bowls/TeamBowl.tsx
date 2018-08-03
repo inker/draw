@@ -15,14 +15,7 @@ const Root = styled.div`
   }
 `
 
-interface TeamBallProps {
-  selected: boolean,
-  notSelected: boolean | null,
-  noHover: any,
-  onClick: any,
-}
-
-const TeamBall = styled<TeamBallProps>(Ball)`
+const TeamBall = styled(Ball)`
   background: ${
     ({ selected, notSelected }) => selected ? '#004' : notSelected ? '#ddd' : 'radial-gradient(#fff, #004)'
   };

@@ -88,6 +88,7 @@ class Pages extends PureComponent<Props, State> {
   }
 
   private getMatchParams() {
+    // @ts-ignore
     const { params } = this.props.match
     const season = params.season ? +params.season : currentSeasonByTournament(params.tournament, params.stage)
     return {

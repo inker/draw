@@ -2,11 +2,6 @@ import styled, { css } from 'styled-components'
 
 import CellWithFlag from '../table/CellWithFlag'
 
-interface Props {
-  selected: boolean,
-  picked: boolean,
-}
-
 const Selected = css`
   color: blue;
 `
@@ -16,7 +11,7 @@ const Picked = css`
   opacity: 0.4;
 `
 
-const PotCell = styled<Props>(CellWithFlag)`
+const PotCell = styled(CellWithFlag)`
   ${props => props.selected && Selected}
   ${props => props.picked && Picked}
 `

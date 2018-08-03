@@ -2,11 +2,6 @@ import styled, { css, keyframes } from 'styled-components'
 
 import CellWithFlag from '../table/CellWithFlag'
 
-interface Props {
-  possible: boolean,
-  picked: boolean,
-}
-
 const BorderGlow = keyframes`
   from {
     background-color: white;
@@ -32,7 +27,7 @@ const Picked = css`
   animation: ${Appear} 5s normal forwards;
 `
 
-const MatchupCell = styled<Props>(CellWithFlag)`
+const MatchupCell = styled(CellWithFlag)`
   width: 150px;
   ${props => props.possible && Possible}
   ${props => props.picked && Picked}
