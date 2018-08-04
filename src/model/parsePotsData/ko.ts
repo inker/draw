@@ -1,10 +1,10 @@
-import { mobile } from 'bowser'
-
 import countryNames from 'data/country-names.json'
 
 import KnockoutTeam from 'model/team/KnockoutTeam'
 
-const getClubName = mobile && import(/* webpackChunkName: "short-names" */ 'utils/club-name')
+import { isHandheld } from 'utils/browser'
+
+const getClubName = isHandheld && import(/* webpackChunkName: "short-names" */ 'utils/club-name')
 
 export default async (data: string) => {
   const tokens = data.match(/Round 2 \(\d+? teams\)[\s\S]+?--------([\s\S]+)/)

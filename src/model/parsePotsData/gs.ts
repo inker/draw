@@ -1,11 +1,11 @@
-import { mobile } from 'bowser'
-
 import countryNames from 'data/country-names.json'
 
 import GSTeam from 'model/team/GSTeam'
 import pairUpTeams from 'model/pairUpTeams'
 
-const getClubName = mobile && import(/* webpackChunkName: "short-names" */ 'utils/club-name')
+import { isHandheld } from 'utils/browser'
+
+const getClubName = isHandheld && import(/* webpackChunkName: "short-names" */ 'utils/club-name')
 
 async function parseGSTeams(data: string) {
   const textRe = /Pot 1\s{5}([\s\S]+?)<\/table>/
