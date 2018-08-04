@@ -106,7 +106,6 @@ export default class ELGS extends PureComponent<Props, State> {
 
   private onTeamBallPick = async (i: number) => {
     const {
-      groups,
       pots,
       currentPotNum,
     } = this.state
@@ -120,9 +119,22 @@ export default class ELGS extends PureComponent<Props, State> {
       selectedTeam,
       pickedGroup: null,
       calculating: true,
-    }, () => {
-      this.setLongCalculating(this.state)
-    })
+    }, this.onTeamSelect)
+  }
+
+  private onTeamSelect = async () => {
+    this.setLongCalculating()
+
+    const {
+      pots,
+      groups,
+      selectedTeam,
+      currentPotNum,
+    } = this.state
+
+    if (!selectedTeam) {
+      throw new Error('no selected team')
+    }
 
     const { pickedGroup } = await this.workerWrapper.sendAndReceive({
       pots,
@@ -159,12 +171,15 @@ export default class ELGS extends PureComponent<Props, State> {
     })
   }
 
-  private async setLongCalculating({ airborneTeams, ...oldState }: State) {
+  private async setLongCalculating() {
+    const oldState = omit(this.state as State, 'airborneTeams')
+
     await delay(3000)
-    const currentState = omit(this.state as State, 'airborneTeams') as typeof oldState
+    const currentState = omit(this.state as State, 'airborneTeams')
     if (!isShallowEqual(currentState, oldState)) {
       return
     }
+
     this.setState({
       longCalculating: true,
     })
