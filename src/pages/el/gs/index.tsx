@@ -9,6 +9,7 @@ import {
 
 import Team from 'model/team/GSTeam'
 
+import WorkerWrapper from 'utils/WorkerWrapper'
 import animateContentTransfer from 'utils/animateContentTransfer'
 import getGroupLetter from 'utils/getGroupLetter'
 
@@ -51,7 +52,7 @@ interface State {
 }
 
 export default class ELGS extends PureComponent<Props, State> {
-  private worker: Worker
+  private workerWrapper: WorkerWrapper
 
   constructor(props) {
     super(props)
@@ -59,8 +60,8 @@ export default class ELGS extends PureComponent<Props, State> {
   }
 
   componentWillUnmount() {
-    if (this.worker) {
-      this.worker.terminate()
+    if (this.workerWrapper) {
+      this.workerWrapper.terminate()
     }
   }
 
@@ -69,11 +70,13 @@ export default class ELGS extends PureComponent<Props, State> {
   }
 
   private reset(isNew: boolean) {
-    if (this.worker) {
-      this.worker.terminate()
+    if (this.workerWrapper) {
+      this.workerWrapper.terminate()
     }
-    this.worker = new (EsWorker as any)()
-    this.worker.onmessage = this.workerOnMessage
+
+    const worker = new EsWorker()
+    this.workerWrapper = new WorkerWrapper(worker)
+
     const initialPots = this.props.pots
     const currentPotNum = 0
     const pots = initialPots.map(pot => shuffle(pot))
@@ -101,7 +104,7 @@ export default class ELGS extends PureComponent<Props, State> {
     }
   }
 
-  private onTeamBallPick = (i: number) => {
+  private onTeamBallPick = async (i: number) => {
     const {
       groups,
       pots,
@@ -121,42 +124,20 @@ export default class ELGS extends PureComponent<Props, State> {
       this.setLongCalculating(this.state)
     })
 
-    this.worker.postMessage({
+    const { pickedGroup } = await this.workerWrapper.sendAndReceive({
       pots,
       groups,
       selectedTeam,
       currentPotNum,
     })
-  }
-
-  private async setLongCalculating({ airborneTeams, ...oldState }: State) {
-    await delay(3000)
-    const currentState = omit(this.state as State, 'airborneTeams') as typeof oldState
-    if (!isShallowEqual(currentState, oldState)) {
-      return
-    }
-    this.setState({
-      longCalculating: true,
-    })
-  }
-
-  private workerOnMessage = (e: MessageEvent) => {
-    const {
-      selectedTeam,
-      pickedGroup,
-    } = e.data
-    const {
-      groups,
-      pots,
-      currentPotNum,
-    } = this.state
 
     groups[pickedGroup].push(selectedTeam)
     const newCurrentPotNum = pots[currentPotNum].length > 0 ? currentPotNum : currentPotNum + 1
     const completed = newCurrentPotNum >= pots.length
     if (completed) {
-      this.worker.terminate()
+      this.workerWrapper.terminate()
     }
+
     this.state.airborneTeams.push(selectedTeam)
     const animation = this.animateCell(selectedTeam, pickedGroup)
 
@@ -175,6 +156,17 @@ export default class ELGS extends PureComponent<Props, State> {
       this.setState({
         airborneTeams: this.state.airborneTeams.filter(team => team !== selectedTeam),
       })
+    })
+  }
+
+  private async setLongCalculating({ airborneTeams, ...oldState }: State) {
+    await delay(3000)
+    const currentState = omit(this.state as State, 'airborneTeams') as typeof oldState
+    if (!isShallowEqual(currentState, oldState)) {
+      return
+    }
+    this.setState({
+      longCalculating: true,
     })
   }
 

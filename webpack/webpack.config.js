@@ -17,6 +17,7 @@ module.exports = env => ({
     path: distDir,
     filename: env === 'dev' ? '[name].js' : '[name].[chunkhash].js',
     sourceMapFilename: '[file].map',
+    globalObject: env === 'dev' ? 'this' : undefined, // TODO
   },
   resolve: {
     extensions: [
