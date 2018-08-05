@@ -54,20 +54,18 @@ class TeamBowl extends PureComponent<Props> {
 
     return (
       <Root>
-        {!completed && pot &&
-          pot.map((team, i) => (
-            <TeamBall
-              key={team.id}
-              data-teamid={team.id}
-              selected={team === selectedTeam}
-              notSelected={forceNoSelect || selectedTeam && team !== selectedTeam}
-              noHover={noSelect}
-              onClick={!noSelect && this.onBallPick}
-            >
-              {team.shortName || team.name}
-            </TeamBall>
-          ))
-        }
+        {!completed && pot && pot.map((team, i) => (
+          <TeamBall
+            key={team.id}
+            data-teamid={team.id}
+            selected={team === selectedTeam}
+            notSelected={forceNoSelect || selectedTeam && team !== selectedTeam}
+            noHover={noSelect}
+            onClick={!noSelect && this.onBallPick}
+          >
+            {team.shortName || team.name}
+          </TeamBall>
+        ))}
       </Root>
     )
   }

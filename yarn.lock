@@ -1413,7 +1413,7 @@ del@^3.0.0:
     pify "^3.0.0"
     rimraf "^2.2.8"
 
-delay.js@^1.0.2:
+delay.js@>=1.0.2, delay.js@^1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/delay.js/-/delay.js-1.0.2.tgz#5e56cb92f094f3dd0976bffa37a88ab571cedc6f"
 
@@ -5480,7 +5480,14 @@ tryer@^1.0.0:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/tryer/-/tryer-1.0.1.tgz#f2c85406800b9b0f74c9f7465b81eaad241252f8"
 
-tslib@^1.8.0, tslib@^1.8.1, tslib@^1.9.0, tslib@^1.9.3:
+tryfunc@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/tryfunc/-/tryfunc-2.0.1.tgz#af513481d3a995e4dc5805532e42f5cf0f70d5b6"
+  dependencies:
+    delay.js ">=1.0.2"
+    tslib ">=1.8.0"
+
+tslib@>=1.8.0, tslib@^1.8.0, tslib@^1.8.1, tslib@^1.9.0, tslib@^1.9.3:
   version "1.9.3"
   resolved "https://registry.yarnpkg.com/tslib/-/tslib-1.9.3.tgz#d7e4dd79245d85428c4d7e4822a79917954ca286"
 

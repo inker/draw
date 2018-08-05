@@ -12,8 +12,6 @@ addEventListener('message', e => {
     },
   } = e.data
 
-  console.log('hehe', e)
-
   // const pickedGroup = firstPossibleGroup(pots, groups, selectedTeam, currentPotNum, predicate)
   const pickedGroup = firstPossibleGroup(pots, groups, selectedTeam, currentPotNum)
 

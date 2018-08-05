@@ -1,14 +1,16 @@
-import getRandomId from 'utils/getRandomId'
+import timelimit from 'timelimit'
 
-type Resolver<T> = (value?: T | PromiseLike<T> | undefined) => void
+import SimplifiedResolvers from './SimplifiedResolvers'
 
 class WorkerWrapper {
   private worker: Worker
-  private resolvers = new Map<string, Resolver<any>>()
+  private resolvers = new SimplifiedResolvers<any>()
+  private timeout?: number
 
-  constructor(worker) {
+  constructor(worker, timeout?: number) {
     this.worker = worker
     this.worker.onmessage = this.onMessage
+    this.timeout = timeout
   }
 
   private onMessage = (e: MessageEvent) => {
@@ -17,27 +19,20 @@ class WorkerWrapper {
       data,
     } = e.data
 
-    const resolver = this.resolvers.get(messageId)
-    if (!resolver) {
-      throw new Error(`no resolver with id = ${messageId}`)
-    }
-
-    resolver(data)
+    this.resolvers.resolve(messageId, data)
   }
 
   sendAndReceive(msg) {
-    const messageId = getRandomId()
-
-    const promise = new Promise<any>(resolve => {
-      this.resolvers.set(messageId, resolve)
+    const promise = this.resolvers.getPromise(id => {
+      this.worker.postMessage({
+        messageId: id,
+        data: msg,
+      })
     })
 
-    this.worker.postMessage({
-      messageId,
-      data: msg,
-    })
-
-    return promise
+    return this.timeout === undefined
+      ? promise
+      : timelimit(promise, this.timeout)
   }
 
   terminate() {

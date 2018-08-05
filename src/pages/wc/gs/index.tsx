@@ -75,7 +75,7 @@ export default class WCGS extends PureComponent<Props, State> {
     }
 
     const worker = new WcWorker()
-    this.workerWrapper = new WorkerWrapper(worker)
+    this.workerWrapper = new WorkerWrapper(worker, 120000)
 
     const initialPots = this.props.pots
     const currentPotNum = 0
@@ -142,14 +142,13 @@ export default class WCGS extends PureComponent<Props, State> {
       throw new Error('no selected team')
     }
 
-    const {
-      pickedGroup,
-    } = await this.workerWrapper.sendAndReceive({
-      pots,
-      groups,
-      selectedTeam,
-      currentPotNum,
-    })
+    const pickedGroup = await this.getPickedGroup()
+    if (pickedGroup === undefined) {
+      this.setState({
+        error: 'Could not determine the group',
+      })
+      return
+    }
 
     groups[pickedGroup].push(selectedTeam)
     const newCurrentPotNum = pots[currentPotNum].length > 0 ? currentPotNum : currentPotNum + 1
@@ -177,6 +176,28 @@ export default class WCGS extends PureComponent<Props, State> {
         airborneTeams: this.state.airborneTeams.filter(team => team !== selectedTeam),
       })
     })
+  }
+
+  private async getPickedGroup() {
+    try {
+      const {
+        pots,
+        groups,
+        selectedTeam,
+        currentPotNum,
+      } = this.state
+
+      const { pickedGroup } = await this.workerWrapper.sendAndReceive({
+        pots,
+        groups,
+        selectedTeam,
+        currentPotNum,
+      })
+
+      return pickedGroup as number
+    } catch (err) {
+      console.error(err)
+    }
   }
 
   private async setLongCalculating() {
