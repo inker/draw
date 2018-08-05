@@ -9,10 +9,8 @@ const tsOptions = env => env === 'dev' ? {
   useCache: true,
 } : {
   getCustomTransformers: () => ({ before: [createLodashTransformer()] }),
-  ignoreDiagnostics: [2304],
+  ignoreDiagnostics: [2707],
 }
-
-// TODO: 2304: Cannot find name 'Component'
 
 module.exports = env => [
   {

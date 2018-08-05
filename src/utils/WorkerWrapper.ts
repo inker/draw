@@ -1,10 +1,9 @@
+import AsyncManager from 'async-manager-promise'
 import timelimit from 'timelimit'
-
-import SimplifiedResolvers from './SimplifiedResolvers'
 
 class WorkerWrapper {
   private worker: Worker
-  private resolvers = new SimplifiedResolvers<any>()
+  private asyncManager = new AsyncManager<any, string>()
   private timeout?: number
 
   constructor(worker, timeout?: number) {
@@ -19,11 +18,11 @@ class WorkerWrapper {
       data,
     } = e.data
 
-    this.resolvers.resolve(messageId, data)
+    this.asyncManager.resolve(messageId, data)
   }
 
   sendAndReceive(msg) {
-    const promise = this.resolvers.getPromise(id => {
+    const promise = this.asyncManager.getPromiseWithId(id => {
       this.worker.postMessage({
         messageId: id,
         data: msg,

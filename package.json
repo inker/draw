@@ -4,6 +4,7 @@
   "description": "A Champions League draw simulator",
   "main": "index.html",
   "dependencies": {
+    "async-manager-promise": "^0.0.5",
     "bowser": "^2.0.0-alpha.4",
     "delay.js": "^1.0.2",
     "fast-delete": "^1.0.1",
@@ -19,7 +20,7 @@
     "react-import": "^1.5.3",
     "react-router-dom": "^4.3.1",
     "shallowequal": "^1.1.0",
-    "styled-components": "^3.4.0",
+    "styled-components": "^3.4.1",
     "timelimit": "^1.0.0",
     "tryfunc": "^2.0.1",
     "tslib": "^1.9.3"
