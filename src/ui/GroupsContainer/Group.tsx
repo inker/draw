@@ -41,6 +41,7 @@ const Group: React.SFC<Props> = ({
       <Body>
         {nonAirborneTeams.map((team, i) => (
           <Cell
+            key={i}
             country={team.country}
             picked
           >
@@ -49,6 +50,7 @@ const Group: React.SFC<Props> = ({
         ))}
         {range(nonAirborneTeams.length, maxTeams).map(i => (
           <Cell
+            key={i}
             possible={i === potNum && possible}
             data-cellid={`${groupLetter}${i}`}
           />

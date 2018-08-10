@@ -61,7 +61,7 @@ class TeamBowl extends PureComponent<Props> {
             selected={team === selectedTeam}
             notSelected={forceNoSelect || selectedTeam && team !== selectedTeam}
             noHover={noSelect}
-            onClick={!noSelect && this.onBallPick}
+            onClick={noSelect ? undefined : this.onBallPick}
           >
             {team.shortName || team.name}
           </TeamBall>
