@@ -2,7 +2,6 @@ import countryNames from 'data/country-names.json'
 
 import KnockoutTeam from 'model/team/KnockoutTeam'
 
-import { isHandheld } from 'utils/browser'
 import getClubName from 'utils/club-name'
 
 export default async (data: string) => {

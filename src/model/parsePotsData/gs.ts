@@ -3,7 +3,6 @@ import countryNames from 'data/country-names.json'
 import GSTeam from 'model/team/GSTeam'
 import pairUpTeams from 'model/pairUpTeams'
 
-import { isHandheld } from 'utils/browser'
 import getClubName from 'utils/club-name'
 
 async function parseGSTeams(data: string) {

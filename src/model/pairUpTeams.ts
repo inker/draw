@@ -3,9 +3,6 @@ import fastDelete from 'fast-delete'
 import pairings from 'data/pairings.json'
 import GSTeam from 'model/team/GSTeam'
 
-const findTeam = (teams: GSTeam[], name: string) =>
-  teams.find(team => team.name.includes(name))
-
 export default (teams: GSTeam[]): GSTeam[] => {
   const teamsCopy = teams.slice()
   for (const [team1str, team2str] of pairings) {
