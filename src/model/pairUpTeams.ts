@@ -9,8 +9,8 @@ const findTeam = (teams: GSTeam[], name: string) =>
 export default (teams: GSTeam[]): GSTeam[] => {
   const teamsCopy = teams.slice()
   for (const [team1str, team2str] of pairings) {
-    const team1 = findTeam(teamsCopy, team1str)
-    const team2 = findTeam(teamsCopy, team2str)
+    const team1 = teams.find(item => item.shortName === team1str)
+    const team2 = teams.find(item => item.shortName === team2str)
     if (!team1 || !team2) {
       continue
     }

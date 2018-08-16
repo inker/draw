@@ -3,8 +3,7 @@ import countryNames from 'data/country-names.json'
 import KnockoutTeam from 'model/team/KnockoutTeam'
 
 import { isHandheld } from 'utils/browser'
-
-const getClubName = isHandheld && import(/* webpackChunkName: "short-names" */ 'utils/club-name')
+import getClubName from 'utils/club-name'
 
 export default async (data: string) => {
   const tokens = data.match(/Round 2 \(\d+? teams\)[\s\S]+?--------([\s\S]+)/)
@@ -21,7 +20,7 @@ export default async (data: string) => {
     if (!country) {
       break
     }
-    const shortName = getClubName && (await getClubName).default(name, country) || undefined
+    const shortName = getClubName(name, country) || undefined
     const group = i < 24 ? i >> 1 : i
     pots[i % 2].push(new KnockoutTeam(name, country, group, shortName))
   }

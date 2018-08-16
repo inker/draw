@@ -4,8 +4,7 @@ import GSTeam from 'model/team/GSTeam'
 import pairUpTeams from 'model/pairUpTeams'
 
 import { isHandheld } from 'utils/browser'
-
-const getClubName = isHandheld && import(/* webpackChunkName: "short-names" */ 'utils/club-name')
+import getClubName from 'utils/club-name'
 
 async function parseGSTeams(data: string) {
   const textRe = /Pot 1\s{5}([\s\S]+?)<\/table>/
@@ -22,7 +21,7 @@ async function parseGSTeams(data: string) {
       .replace(/\*|(@\d)/g, '')
       .trim()
     const country = countryNames[matches[4].toLowerCase()]
-    const shortName = getClubName && (await getClubName).default(longName, country) || undefined
+    const shortName = getClubName(longName, country) || undefined
     const coefficient = +matches[5]
     teams.push(new GSTeam(longName, country, coefficient, shortName))
   }
