@@ -80,7 +80,7 @@ const Pot: React.SFC<Props> = ({
                   <Cell
                     key={team.id}
                     data-cellid={team.id}
-                    title={pairing && `paired with ${pairing.name}`}
+                    title={pairing && `paired with ${pairing.shortName || pairing.name}`}
                     selected={selectedTeams && selectedTeams.includes(team)}
                     picked={pickedTeams.includes(team)}
                     country={country}
