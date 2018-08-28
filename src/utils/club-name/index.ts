@@ -10,6 +10,7 @@ export default (teamName: string, country: string) => {
     console.error('no clubs from', country, 'including', teamName, 'exist yet')
     return null
   }
+
   const norm = normalize(teamName)
   const countryTeams = teams[country]
   const including = countryTeams.filter(o => nameIncludes(norm, normalize(o.name)))

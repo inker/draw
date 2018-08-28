@@ -8,6 +8,7 @@ const KH_RE = /kh/g
 const ZH_RE = /zh/g
 const CZ = /red star/ig
 const RENNES = /stade rennais/ig
+const VIDI = /videoton fehervar/ig
 
 const normalize = (s: string) => deburr(s)
   .toLowerCase()
@@ -16,5 +17,6 @@ const normalize = (s: string) => deburr(s)
   .replace(ZH_RE, 'j')
   .replace(CZ, 'crvena zvezda')
   .replace(RENNES, 'rennes')
+  .replace(VIDI, 'vidi')
 
 export default memoize(normalize)
