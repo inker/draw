@@ -13,15 +13,12 @@ const GithubButton = () => (
     <a
       target="_blank"
       rel="noopener"
-      className="github-button"
       href="https://github.com/inker/draw"
-      data-icon="octicon-star"
-      data-show-count="true"
-      data-count-href="/inker/draw/stargazers"
-      data-count-aria-label="# stargazers on GitHub"
-      aria-label="Star inker/draw on GitHub"
     >
-      Star
+      <img
+        alt="Star"
+        src="http://githubbadges.com/star.svg?user=inker&repo=draw&style=flat"
+      />
     </a>
   </Wrapper>
 )
