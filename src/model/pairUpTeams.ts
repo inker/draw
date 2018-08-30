@@ -6,8 +6,8 @@ import GSTeam from 'model/team/GSTeam'
 export default (teams: GSTeam[]): GSTeam[] => {
   const teamsCopy = teams.slice()
   for (const [team1str, team2str] of pairings) {
-    const team1 = teams.find(item => item.shortName === team1str)
-    const team2 = teams.find(item => item.shortName === team2str)
+    const team1 = teamsCopy.find(item => item.shortName === team1str)
+    const team2 = teamsCopy.find(item => item.shortName === team2str)
     if (!team1 || !team2) {
       continue
     }
