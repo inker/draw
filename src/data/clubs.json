@@ -282,7 +282,8 @@
     "Brann",
     "Viking",
     "Odd",
-    "Molde"
+    "Molde",
+    "Sarpsborg"
   ],
   "md": [
     "Sheriff"
@@ -400,5 +401,8 @@
     "Shkëndija",
     "Vardar",
     "Rabotnički"
+  ],
+  "lu": [
+    "Dudelange"
   ]
 }
