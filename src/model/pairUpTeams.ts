@@ -1,10 +1,10 @@
 import fastDelete from 'fast-delete'
 
-import pairings from 'data/pairings.json'
 import GSTeam from 'model/team/GSTeam'
 
-export default (teams: GSTeam[]): GSTeam[] => {
+export default async (teams: GSTeam[], pairings: [string, string][]): Promise<GSTeam[]> => {
   const teamsCopy = teams.slice()
+
   for (const [team1str, team2str] of pairings) {
     const team1 = teamsCopy.find(item => item.shortName === team1str)
     const team2 = teamsCopy.find(item => item.shortName === team2str)
@@ -19,7 +19,9 @@ export default (teams: GSTeam[]): GSTeam[] => {
     fastDelete(teamsCopy, team1)
     fastDelete(teamsCopy, team2)
   }
+
   teamsCopy.sort((a, b) => b.coefficient - a.coefficient)
+
   const len = teamsCopy.length
   const lenm1 = len - 1
   for (let i = 0; i < lenm1; ++i) {
@@ -37,5 +39,6 @@ export default (teams: GSTeam[]): GSTeam[] => {
       break
     }
   }
+
   return teams
 }

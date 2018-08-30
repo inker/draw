@@ -6,6 +6,7 @@ import timelimit from 'timelimit'
 import { uniqueId, memoize } from 'lodash'
 
 import fetchPots from 'model/fetchPotsData'
+import getPairings from 'model/getPairings'
 import parseGS from 'model/parsePotsData/gs'
 import parseKo from 'model/parsePotsData/ko'
 import parseWc from 'model/parsePotsData/wc'
@@ -23,9 +24,13 @@ const getWcPots = memoize(async (season: number) => {
 })
 
 const getPotsFromBert = memoize(async (tournament: string, stage: string, season: number) => {
-  const data = await fetchPots(tournament, season)
-  const parse = stage === 'ko' ? parseKo : parseGS
-  return parse(data)
+  const fetchPotsPromise = fetchPots(tournament, season)
+  const pairings = await getPairings(season, tournament)
+  const data = await fetchPotsPromise
+
+  return stage === 'ko'
+    ? parseKo(data)
+    : parseGS(data, pairings)
 }, (tournament, stage, season) => `${tournament}:${stage}:${season}`)
 
 function prefetchImages(pots: Team[][]) {
