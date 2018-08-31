@@ -17,7 +17,7 @@ const GithubButton = () => (
     >
       <img
         alt="Star"
-        src="http://githubbadges.com/star.svg?user=inker&repo=draw&style=flat"
+        src="https://githubbadges.com/star.svg?user=inker&repo=draw&style=flat"
       />
     </a>
   </Wrapper>
