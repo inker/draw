@@ -24,7 +24,6 @@
     "no-implicit-dependencies": false,
     "no-submodule-imports": false,
     "no-this-assignment": false,
-    "no-unused-variable": true,
     "object-literal-key-quotes": [
       true,
       "as-needed"
