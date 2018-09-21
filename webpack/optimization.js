@@ -1,4 +1,6 @@
-module.exports = dev => ({
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
+
+module.exports = env => ({
   runtimeChunk: true,
   splitChunks: {
     chunks: 'all',
@@ -27,4 +29,25 @@ module.exports = dev => ({
       },
     },
   },
+  // minimizer: env === 'dev' ? undefined : [
+  //   new UglifyJsPlugin({
+  //     uglifyOptions: {
+  //       compress: {
+  //         warnings: true,
+  //         dead_code: true,
+  //         properties: true,
+  //         unused: true,
+  //         join_vars: true,
+  //         conditionals: false, // to fix firefox
+  //       },
+  //       // mangle: {
+  //       //   safari10: true,
+  //       // },
+  //       output: {
+  //         comments: false,
+  //       },
+  //     },
+  //     // sourceMap: true, // retains sourcemaps for typescript
+  //   }),
+  // ],
 })

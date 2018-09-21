@@ -12,7 +12,6 @@ const {
 } = require('webpack')
 
 const { TsConfigPathsPlugin } = require('awesome-typescript-loader')
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 
 const HtmlWebpackPlugin = require('html-webpack-plugin')
@@ -82,26 +81,6 @@ module.exports = env => [
   //     from: 'src/404.html',
   //   }
   // ]),
-
-  env !== 'dev' && new UglifyJsPlugin({
-    uglifyOptions: {
-      compress: {
-        warnings: false,
-        dead_code: true,
-        properties: true,
-        unused: true,
-        join_vars: true,
-        conditionals: false, // to fix firefox
-      },
-      mangle: {
-        safari10: true,
-      },
-      output: {
-        comments: false,
-      },
-    },
-    // sourceMap: true, // retains sourcemaps for typescript
-  }),
 
   env === 'analyze' && new BundleAnalyzerPlugin(),
 ].filter(item => item)
