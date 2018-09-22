@@ -1,5 +1,5 @@
 import { range } from 'lodash'
-import Team from './team/GSTeam'
+import Team from 'model/team/GSTeam'
 import extraConstraints from './extraConstraints'
 
 export function allPossibleGroups(

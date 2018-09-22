@@ -1,7 +1,7 @@
 import { memoize, uniqueId } from 'lodash'
 
 import Team from 'model/team/GSTeam'
-import extraConstraints from 'model/extraConstraints'
+import extraConstraints from '../extraConstraints'
 
 const groupIds = new WeakMap<Team[], string>()
 

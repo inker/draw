@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react'
 import { range, shuffle, uniqueId } from 'lodash'
 
 import Team from 'model/team/KnockoutTeam'
-import getPossiblePairings from 'model/possible-pairings'
+import getPossiblePairings from 'engine/possible-pairings'
 
 import animateContentTransfer from 'utils/animateContentTransfer'
 

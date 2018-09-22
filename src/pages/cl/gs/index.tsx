@@ -2,8 +2,8 @@ import React, { PureComponent } from 'react'
 import { shuffle, uniqueId } from 'lodash'
 
 import Team from 'model/team/GSTeam'
-import { allPossibleGroups } from 'model/possible-groups'
-// import predicate from 'model/experimental/predicate'
+import { allPossibleGroups } from 'engine/possible-groups'
+// import predicate from 'engine/experimental/predicate'
 
 import animateContentTransfer from 'utils/animateContentTransfer'
 import getGroupLetter from 'utils/getGroupLetter'

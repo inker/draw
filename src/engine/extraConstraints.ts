@@ -1,4 +1,4 @@
-import Team from './team'
+import Team from 'model/team'
 
 const CODE_RU = 'ru'
 const CODE_UA = 'ua'

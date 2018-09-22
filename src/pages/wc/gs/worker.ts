@@ -1,5 +1,5 @@
-import { firstPossibleGroup } from 'model/experimental/possible-groups'
-import predicate from 'model/experimental/wcPredicate'
+import { firstPossibleGroup } from 'engine/experimental/possible-groups'
+import predicate from 'engine/experimental/wcPredicate'
 
 addEventListener('message', e => {
   const {
