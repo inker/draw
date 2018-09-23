@@ -4,7 +4,7 @@ import {
   last,
 } from 'lodash'
 
-type Predicate<T> = (picked: T, groupIndex: number, currentPotIndex: number, groups: T[][]) => boolean
+import Predicate from './types/Predicate'
 
 export const allPossibleGroups = <T>(
   pots: T[][],
@@ -13,7 +13,7 @@ export const allPossibleGroups = <T>(
   currentPotIndex: number,
   predicate: Predicate<T>,
 ) =>
-  filterGroups(pots, groups, teamPicked, currentPotIndex, predicate)
+  filterGroups(groups, teamPicked, currentPotIndex, predicate)
     .filter(groupNum => groupPredicate(pots, groups, teamPicked, groupNum, currentPotIndex, predicate))
 
 export const firstPossibleGroup = <T>(
@@ -23,11 +23,10 @@ export const firstPossibleGroup = <T>(
   currentPotIndex: number,
   predicate: Predicate<T>,
 ) =>
-  filterGroups(pots, groups, teamPicked, currentPotIndex, predicate)
+  filterGroups(groups, teamPicked, currentPotIndex, predicate)
     .find(groupNum => groupPredicate(pots, groups, teamPicked, groupNum, currentPotIndex, predicate))
 
 const filterGroups = <T>(
-  pots: T[][],
   groups: T[][],
   teamPicked: T,
   currentPotIndex: number,
@@ -62,6 +61,6 @@ function groupIsPossible<T>(
   const oldPot = newPots[currentPotIndex]
   newPots[currentPotIndex] = initial(oldPot)
   const team = last(oldPot)!
-  return filterGroups(pots, groups, team, currentPotIndex, predicate)
+  return filterGroups(groups, team, currentPotIndex, predicate)
     .some(groupNum => groupPredicate(newPots, groups, team, groupNum, currentPotIndex, predicate))
 }

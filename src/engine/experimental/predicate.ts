@@ -1,6 +1,7 @@
 import { memoize, uniqueId } from 'lodash'
 
 import Team from 'model/team/GSTeam'
+import Predicate from './types/Predicate'
 import extraConstraints from '../extraConstraints'
 
 const groupIds = new WeakMap<Team[], string>()
@@ -19,7 +20,12 @@ const groupContainsPairing = memoize(
   serialize,
 )
 
-export default (picked: Team, groupIndex: number, currentPotIndex: number, groups: Team[][]) => {
+const predicate: Predicate<Team> = (
+  picked: Team,
+  groupIndex: number,
+  currentPotIndex: number,
+  groups: Team[][],
+) => {
   const group = groups[groupIndex]
   if (group.length > currentPotIndex) {
     return false
@@ -34,3 +40,5 @@ export default (picked: Team, groupIndex: number, currentPotIndex: number, group
     .slice(start, start + half)
     .every(g => groupContainsPairing(g, picked))
 }
+
+export default predicate

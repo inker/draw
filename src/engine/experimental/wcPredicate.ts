@@ -1,8 +1,13 @@
 import Team from 'model/team/NationalTeam'
-
 import countGreaterThan from 'utils/countGreaterThan'
+import Predicate from './types/Predicate'
 
-export default (picked: Team, groupIndex: number, currentPotIndex: number, groups: Team[][]) => {
+const predicate: Predicate<Team> = (
+  picked: Team,
+  groupIndex: number,
+  currentPotIndex: number,
+  groups: Team[][],
+) => {
   const group = groups[groupIndex]
   if (group.length > currentPotIndex) {
     return false
@@ -15,3 +20,5 @@ export default (picked: Team, groupIndex: number, currentPotIndex: number, group
       && (currentPotIndex !== 3 || group.some(team => team.confederation === 'uefa'))
     )
 }
+
+export default predicate
