@@ -56,6 +56,9 @@ export default class WCGS extends PureComponent<Props, State> {
   constructor(props) {
     super(props)
     this.reset(true)
+  }
+
+  componentDidMount() {
     this.onInit()
   }
 
