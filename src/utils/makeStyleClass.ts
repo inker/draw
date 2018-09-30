@@ -10,7 +10,7 @@ const template = (strings: TemplateStringsArray, ...keys: any[]) =>
 export default (strings: TemplateStringsArray, ...keys: any[]) => {
   if (!styleElement) {
     styleElement = document.createElement('style')
-    document.head.appendChild(styleElement)
+    document.head!.appendChild(styleElement)
   }
   const className = getRandomId('styled-element-')
   const content = template(strings, ...keys)
