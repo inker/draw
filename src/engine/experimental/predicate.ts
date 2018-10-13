@@ -1,24 +1,17 @@
-import { memoize, uniqueId } from 'lodash'
-
 import Team from 'model/team/GSTeam'
 import Predicate from './types/Predicate'
 import extraConstraints from '../extraConstraints'
 
-const groupIds = new WeakMap<Team[], string>()
-
-const serialize = (group: Team[], picked: Team) => {
-  let groupId = groupIds.get(group)
-  if (!groupId) {
-    groupId = uniqueId('gr')
-    groupIds.set(group, groupId)
-  }
-  return `${groupId}...${picked.id}`
+function getHalf<T>(array: T[], index: number) {
+  const mid = array.length >> 1
+  const start = index < mid ? 0 : mid
+  return array.slice(start, start + mid)
 }
 
-const groupContainsPairing = memoize(
-  (group: Team[], picked: Team) => group.every(team => team !== picked.pairing),
-  serialize,
-)
+function groupHasPairing(group: Team[], picked: Team) {
+  const { pairing } = picked
+  return !!pairing && group.some(team => team.id === pairing.id)
+}
 
 const predicate: Predicate<Team> = (
   picked: Team,
@@ -30,15 +23,14 @@ const predicate: Predicate<Team> = (
   if (group.length > currentPotIndex) {
     return false
   }
+
   const extra = extraConstraints(picked)
   if (group.some(team => team.country === picked.country || extra(team))) {
     return false
   }
-  const half = groups.length >> 1
-  const start = groupIndex < half ? 0 : half
-  return groups
-    .slice(start, start + half)
-    .every(g => groupContainsPairing(g, picked))
+
+  const halfGroups = getHalf(groups, groupIndex)
+  return !halfGroups.some(g => groupHasPairing(g, picked))
 }
 
 export default predicate
