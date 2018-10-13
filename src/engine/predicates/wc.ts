@@ -1,6 +1,7 @@
+import { Predicate } from '@draws/engine'
+
 import Team from 'model/team/NationalTeam'
 import countGreaterThan from 'utils/countGreaterThan'
-import Predicate from './types/Predicate'
 
 const predicate: Predicate<Team> = (
   picked: Team,

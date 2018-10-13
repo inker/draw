@@ -1,9 +1,10 @@
 import React, { PureComponent } from 'react'
+import { allPossibleGroups } from '@draws/engine'
 import { shuffle, uniqueId } from 'lodash'
 
 import Team from 'model/team/GSTeam'
-import { allPossibleGroups } from 'engine/possible-groups'
-// import predicate from 'engine/experimental/predicate'
+// import { allPossibleGroups } from 'engine/possible-groups'
+import predicate from 'engine/predicates/gs'
 
 import animateContentTransfer from 'utils/animateContentTransfer'
 import getGroupLetter from 'utils/getGroupLetter'
@@ -93,8 +94,8 @@ export default class CLGS extends PureComponent<Props, State> {
     const currentPot = pots[currentPotNum]
     const hungPot = currentPot.slice()
     const selectedTeam = currentPot.splice(i, 1)[0]
-    // const possibleGroups = allPossibleGroups(pots, groups, selectedTeam, currentPotNum, predicate)
-    const possibleGroups = allPossibleGroups(pots, groups, selectedTeam, currentPotNum)
+    const possibleGroups = allPossibleGroups(pots, groups, selectedTeam, currentPotNum, predicate)
+    // const possibleGroups = allPossibleGroups(pots, groups, selectedTeam, currentPotNum)
 
     this.setState({
       hungPot,

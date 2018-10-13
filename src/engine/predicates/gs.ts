@@ -1,5 +1,6 @@
+import { Predicate } from '@draws/engine'
+
 import Team from 'model/team/GSTeam'
-import Predicate from './types/Predicate'
 import extraConstraints from '../extraConstraints'
 
 function getHalf<T>(array: T[], index: number) {
@@ -8,9 +9,9 @@ function getHalf<T>(array: T[], index: number) {
   return array.slice(start, start + mid)
 }
 
-function groupHasPairing(group: Team[], picked: Team) {
-  const { pairing } = picked
-  return !!pairing && group.some(team => team.id === pairing.id)
+function groupHasPairing(group: Team[], pairing: Team) {
+  const pairingId = pairing.id
+  return group.some(team => team.id === pairingId)
 }
 
 const predicate: Predicate<Team> = (
@@ -29,8 +30,13 @@ const predicate: Predicate<Team> = (
     return false
   }
 
+  const { pairing } = picked
+  if (!pairing) {
+    return true
+  }
+
   const halfGroups = getHalf(groups, groupIndex)
-  return !halfGroups.some(g => groupHasPairing(g, picked))
+  return !halfGroups.some(g => groupHasPairing(g, pairing))
 }
 
 export default predicate

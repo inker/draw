@@ -3,8 +3,8 @@ import {
 } from 'lodash'
 
 import { allPossibleGroups } from 'engine/possible-groups'
-import { allPossibleGroups as allPossibleGroupsExperimental } from 'engine/experimental/possible-groups'
-import predicate from 'engine/experimental/predicate'
+import { allPossibleGroups as allPossibleGroupsExperimental } from '@draws/engine'
+import predicate from 'engine/predicates/gs'
 
 import getPots from './getPots'
 import run from './run'

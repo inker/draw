@@ -4,6 +4,7 @@
   "description": "A Champions League draw simulator",
   "main": "index.html",
   "dependencies": {
+    "@draws/engine": "^0.0.2",
     "async-manager-promise": "^0.0.5",
     "bowser": "^2.0.0-beta.3",
     "delay.js": "^1.0.2",
