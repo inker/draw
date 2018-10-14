@@ -1,39 +1,45 @@
-import { range } from 'lodash'
 import Team from 'model/team/KnockoutTeam'
 
-import extraConstraints from './extraConstraints'
+import predicate from './predicates/ko'
 
 export default ([ groupWinners, runnersUp ]: Team[][], matchups: [Team, Team][], matchupNum: number): number[] => {
 
   function anyGroupWinners(branchNum: number, currentMatchupNum: number): boolean {
-    const currentMatchup = matchups[currentMatchupNum]
-    const currentlyPicked = currentMatchup[0]
-    const extraCondition = extraConstraints(currentlyPicked)
     const o = groupWinners[branchNum]
-    if (o.country === currentlyPicked.country || o.group === currentlyPicked.group || extraCondition(o)) {
+    if (!predicate(o, currentMatchupNum, 0, matchups)) {
       return false
     }
+
+    const currentMatchup = matchups[currentMatchupNum]
     groupWinners.splice(branchNum, 1)
     currentMatchup.push(o)
-    const hasDescendants = ++currentMatchupNum === matchups.length || anyRunnersUp(matchups, currentMatchupNum)
+
+    const nextMatchupNum = currentMatchupNum + 1
+    const hasDescendants = nextMatchupNum === matchups.length
+      || anyRunnersUp(nextMatchupNum)
+    // restore
     currentMatchup.pop()
     groupWinners.splice(branchNum, 0, o)
+    // return
     return hasDescendants
   }
 
-  function anyRunnersUp(virtualMatchups: Team[][], virtualMatchupNum: number): boolean {
-    const virtualMatchup = virtualMatchups[virtualMatchupNum]
-    const groupWinnersIndices = range(groupWinners.length)
-    return runnersUp.some((ru, ruIndex) => {
-      const virtualPicked = runnersUp.splice(ruIndex, 1)[0]
-      virtualMatchup.push(virtualPicked)
-      const hasAnyDescendants = groupWinnersIndices.some(j => anyGroupWinners(j, virtualMatchupNum))
-      virtualMatchup.pop()
-      runnersUp.splice(ruIndex, 0, virtualPicked)
-      return hasAnyDescendants
-    })
+  function anyRunnersUp(virtualMatchupNum: number): boolean {
+    const virtualMatchup = matchups[virtualMatchupNum]
+
+    const virtualPicked = runnersUp.pop()!
+    virtualMatchup.push(virtualPicked)
+
+    const hasDescendants = groupWinners
+      .some((item, i) => anyGroupWinners(i, virtualMatchupNum))
+    // restore
+    virtualMatchup.pop()
+    runnersUp.push(virtualPicked)
+    // return
+    return hasDescendants
   }
 
-  return range(groupWinners.length)
+  return groupWinners
+    .map((item, i) => i)
     .filter(i => anyGroupWinners(i, matchupNum))
 }
