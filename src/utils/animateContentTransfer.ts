@@ -1,5 +1,8 @@
 import { firefox } from 'bowser'
+import delay from 'delay.js'
+
 import styled from './makeStyleClass'
+import { transitionEnd } from './events'
 
 const OFFSET_LEFT = 1
 const OFFSET_TOP = 1
@@ -47,23 +50,18 @@ function makeFakeCell(sourceCell: HTMLElement) {
   return fakeCell
 }
 
-export default (sourceCell: HTMLElement, targetCell: HTMLElement, duration: number) => {
+export default async (sourceCell: HTMLElement, targetCell: HTMLElement, duration: number) => {
   const fakeCell = makeFakeCell(sourceCell)
   airborneDiv.appendChild(fakeCell)
 
   const targetCellBox = targetCell.getBoundingClientRect()
   fakeCell.style.transition = `transform ${duration}ms ease-in-out`
   adjustPositioning(fakeCell, targetCellBox)
-  return new Promise<void>(resolve => {
-    fakeCell.addEventListener('transitionend', e => {
-      resolve()
-      if (!firefox) {
-        airborneDiv.removeChild(fakeCell)
-        return
-      }
-      setTimeout(() => {
-        airborneDiv.removeChild(fakeCell)
-      }, 0)
-    })
-  })
+
+  await transitionEnd(fakeCell)
+  if (firefox) {
+    await delay(0)
+  }
+
+  airborneDiv.removeChild(fakeCell)
 }
