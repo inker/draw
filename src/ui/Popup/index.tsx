@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react'
-import styled, { keyframes } from 'styled-components'
+import styled, { css, keyframes } from 'styled-components'
 
 import Overlay from './Overlay'
 
@@ -13,7 +13,7 @@ const BackgroundAnimation = keyframes`
 const Background = styled(Overlay)`
   background-color: white;
   opacity: 0.75;
-  ${props => props.animate && `
+  ${props => props.animate && css`
     animation: ${BackgroundAnimation} 0.25s ease-out;
   `}
 `

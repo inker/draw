@@ -7,20 +7,18 @@ import Matchup from './Matchup'
 import Table from 'ui/table/Table'
 
 const RootTable = styled(Table)`
-  width: 340px;
+  width: auto;
   align-self: center;
   max-width: initial;
 `
 
 interface Props {
-  currentPotNum: number,
   currentMatchupNum: number,
   matchups: [Team, Team][],
   airborneTeams: Team[],
 }
 
 const MatchupContainer: React.SFC<Props> = ({
-  currentPotNum,
   matchups,
   airborneTeams,
 }) => (
@@ -29,7 +27,6 @@ const MatchupContainer: React.SFC<Props> = ({
       <Matchup
         index={i}
         teams={matchup}
-        potNum={currentPotNum}
         airborneTeams={airborneTeams}
       />
     ))}

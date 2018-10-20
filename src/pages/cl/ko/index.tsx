@@ -1,5 +1,9 @@
 import React, { PureComponent } from 'react'
-import { range, shuffle, uniqueId } from 'lodash'
+import {
+  range,
+  shuffle,
+  uniqueId,
+} from 'lodash'
 
 import Team from 'model/team/KnockoutTeam'
 import getPossiblePairings from 'engine/possible-pairings'
@@ -154,7 +158,6 @@ export default class CLKO extends PureComponent<Props, State> {
             currentPotNum={currentPotNum}
           />
           <MatchupsContainer
-            currentPotNum={currentPotNum}
             currentMatchupNum={currentMatchupNum}
             matchups={matchups}
             airborneTeams={airborneTeams}

@@ -36,14 +36,12 @@ const RightCell = styled(MatchupCell)`
 interface Props {
   index: number,
   teams: [Team, Team] | null,
-  potNum: number,
   airborneTeams: Team[],
 }
 
 const Matchup: React.SFC<Props> = ({
   index,
   teams,
-  potNum,
   airborneTeams,
 }) => {
   const [ru, gw] = teams || []!
