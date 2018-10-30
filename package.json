@@ -21,7 +21,7 @@
     "react-import": "^1.5.3",
     "react-router-dom": "^4.3.1",
     "shallowequal": "^1.1.0",
-    "styled-components": "4.0.2",
+    "styled-components": "4.0.3",
     "timelimit": "^1.0.1",
     "tslib": "^1.9.3"
   },
