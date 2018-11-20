@@ -9,6 +9,13 @@ const reduceDidComplete = <T, Acc>(
   collection: Iterable<T>,
 ) => predicate(reduceWhile(predicate, reducer, initialValue, collection))
 
-export default (n: number) =>
-  <T>(collection: Iterable<T>, pred: Predicate<T>) =>
-    reduceDidComplete(acc => acc < n, (acc, item) => pred(item) ? acc + 1 : acc, 0, collection)
+export default <T>(
+  n: number,
+  collection: Iterable<T>,
+  predicate: Predicate<T>,
+) => reduceDidComplete(
+  acc => acc < n,
+  (acc, item) => predicate(item) ? acc + 1 : acc,
+  0,
+  collection,
+)

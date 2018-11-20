@@ -3,13 +3,11 @@ import { Predicate } from '@draws/engine'
 import Team from 'model/team/NationalTeam'
 import hasLessThan from './hasLessThan'
 
-const hasLessThanTwo = hasLessThan(2)
-
 const isFromUefa = (team: Team) =>
   team.confederation === 'uefa'
 
 const uefaLessThanTwo = (group: Iterable<Team>) =>
-  hasLessThanTwo(group, isFromUefa)
+  hasLessThan(2, group, isFromUefa)
 
 const predicate: Predicate<Team> = (
   picked: Team,

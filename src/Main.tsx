@@ -1,10 +1,17 @@
-import React, { PureComponent } from 'react'
-import Import from 'react-import'
+import React, {
+  PureComponent,
+  lazy,
+  Suspense,
+} from 'react'
+import {
+  stubFalse,
+} from 'lodash'
+
 import fastclick from 'fastclick'
 
 import Routes from './routes'
 
-const versionPromise = import(/* webpackChunkName: "version" */ './Version')
+const Version = lazy(() => import(/* webpackChunkName: "version" */ './Version'))
 
 interface Props {
   initial: boolean,
@@ -18,7 +25,9 @@ class Main extends PureComponent<Props> {
 
     return (
       <>
-        <Import component={versionPromise} />
+        <Suspense fallback={stubFalse}>
+          <Version />
+        </Suspense>
         <Routes
           initial={props.initial}
           setPopup={props.setPopup}

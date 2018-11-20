@@ -1,10 +1,17 @@
-import React, { PureComponent } from 'react'
-import Import from 'react-import'
+import React, {
+  PureComponent,
+  lazy,
+  Suspense,
+} from 'react'
 import styled from 'styled-components'
+import {
+  stubFalse,
+} from 'lodash'
 
 import Notification from 'ui/Notification'
 
 const mainPromise = import(/* webpackChunkName: "main" */ './Main')
+const Main = lazy(() => mainPromise)
 
 const Root = styled.div`
   font-family: Tahoma, Arial, sans-serif;
@@ -70,14 +77,15 @@ class App extends PureComponent<Props, State> {
   render() {
     return (
       <Root>
-        <Import
-          component={mainPromise}
-          onError={this.onError}
-          initial={this.state.initial}
-          setPopup={this.setPopup}
-          getPopup={this.getPopup}
-          onLoadError={this.onError}
-        />
+        <Suspense fallback={stubFalse}>
+          <Main
+            // onError={this.onError}
+            initial={this.state.initial}
+            setPopup={this.setPopup}
+            // getPopup={this.getPopup}
+            onLoadError={this.onError}
+          />
+        </Suspense>
         {this.getPopup()}
       </Root>
     )
