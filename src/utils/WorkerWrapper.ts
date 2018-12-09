@@ -6,7 +6,7 @@ class WorkerWrapper {
   private asyncManager = new AsyncManager<any, string>()
   private timeout?: number
 
-  constructor(worker, timeout?: number) {
+  constructor(worker: Worker, timeout?: number) {
     this.worker = worker
     this.worker.onmessage = this.onMessage
     this.timeout = timeout
@@ -21,7 +21,7 @@ class WorkerWrapper {
     this.asyncManager.resolve(messageId, data)
   }
 
-  sendAndReceive(msg) {
+  sendAndReceive(msg: any) {
     const promise = this.asyncManager.getPromiseWithId(id => {
       this.worker.postMessage({
         messageId: id,
