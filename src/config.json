@@ -1,12 +1,12 @@
 {
   "defaultTournament": "cl",
-  "defaultStage": "gs",
+  "defaultStage": "ko",
   "currentSeason": {
     "wc": 2018,
     "uefa": {
       "cl": {
         "gs": 2018,
-        "ko": 2017
+        "ko": 2018
       },
       "el": {
         "gs": 2018,
