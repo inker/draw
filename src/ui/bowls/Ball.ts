@@ -5,8 +5,8 @@ const Ball = styled.div`
   justify-content: center; /* align horizontal */
   align-items: center; /* align vertical */
 
-  width: 70px;
-  height: 70px;
+  width: 67px;
+  height: 67px;
 
   margin: 2px;
   padding: 10px;
