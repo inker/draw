@@ -271,10 +271,10 @@
     "@types/node" "*"
     "@types/tough-cookie" "*"
 
-"@types/shallowequal@^0.2.3":
-  version "0.2.3"
-  resolved "https://registry.yarnpkg.com/@types/shallowequal/-/shallowequal-0.2.3.tgz#d25150c25ef5f128b65a154e33ad62f3134e0cd8"
-  integrity sha512-Dj0AAVyoclTZnm2QiK+6mqs65yO5b7RFQtlUS0ZgUqTVvCTXFVVwNhZQ5m27ICF/tr7Mt/jGaqwRRyOPX2zZxQ==
+"@types/shallowequal@^1.1.0":
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/@types/shallowequal/-/shallowequal-1.1.0.tgz#60ca2ebbfcb4f99ba3d2a625b5fca6589eac87ac"
+  integrity sha512-TaWi1DCELnxeNfo4L2T0NbOkR+/uqdr9ERn2hn/k/5pzmc52xo9bin07y3NYfckwET3x1vjVHINXbawhGnG8cQ==
 
 "@types/tough-cookie@*":
   version "2.3.4"
