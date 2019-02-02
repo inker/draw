@@ -1,10 +1,11 @@
 import React, { PureComponent } from 'react'
 import styled from 'styled-components'
-import { mobile } from 'bowser'
 
 import StyledLink from 'ui/StyledLink'
 import DivLink from 'ui/DivLink'
 import getCurrentSeason from 'utils/getCurrentSeason'
+import { isHandheld } from 'utils/browser'
+
 import SelectSeason from './SelectSeason'
 import GithubButton from './GithubButton'
 
@@ -61,7 +62,7 @@ class Navbar extends PureComponent<Props> {
           season={season}
           onChange={onSeasonChange}
         />
-        {!mobile &&
+        {!isHandheld &&
           <>
             <StyledLink
               href="https://github.com/inker/draw/issues"

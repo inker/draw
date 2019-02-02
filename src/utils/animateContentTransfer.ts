@@ -1,5 +1,6 @@
-import { firefox } from 'bowser'
 import delay from 'delay.js'
+
+import { isFirefox } from 'utils/browser'
 
 import styled from './makeStyleClass'
 import { transitionEnd } from './events'
@@ -59,7 +60,7 @@ export default async (sourceCell: HTMLElement, targetCell: HTMLElement, duration
   adjustPositioning(fakeCell, targetCellBox)
 
   await transitionEnd(fakeCell)
-  if (firefox) {
+  if (isFirefox) {
     await delay(0)
   }
 

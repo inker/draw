@@ -1,9 +1,8 @@
 import bowser from 'bowser'
 
-const browser = bowser.getParser(window.navigator.userAgent)
-
-const platformType = browser.parsedResult.platform.type
+const parser = bowser.getParser(window.navigator.userAgent)
+const platformType = parser.getPlatformType()
 
 export const isHandheld = platformType === 'mobile' || platformType === 'tablet'
 
-export default browser
+export const isFirefox = parser.getBrowserName() === 'Firefox'

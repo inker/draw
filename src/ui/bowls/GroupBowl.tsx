@@ -23,7 +23,12 @@ interface Props {
 class GroupBowl extends PureComponent<Props> {
   private onBallPick = (ev: React.MouseEvent<HTMLDivElement>) => {
     const ball = ev.target as HTMLDivElement
-    const pickedGroup = +(ball.dataset.group || 0)
+    // @ts-ignore
+    const pickedGroup = +ball.dataset.group
+    if (Number.isNaN(pickedGroup)) {
+      console.error('incorrect group ball', ball.dataset.group)
+      throw new Error(`Incorrect group ball`)
+    }
     this.props.onPick(pickedGroup)
   }
 
