@@ -1,4 +1,4 @@
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
+const TerserWebpackPlugin = require('terser-webpack-plugin')
 
 module.exports = env => ({
   runtimeChunk: true,
@@ -29,6 +29,9 @@ module.exports = env => ({
       },
     },
   },
+  minimizer: env === 'dev' ? undefined : [
+    new TerserWebpackPlugin(),
+  ],
   // minimizer: env === 'dev' ? undefined : [
   //   new UglifyJsPlugin({
   //     uglifyOptions: {
