@@ -54,9 +54,10 @@ interface State {
 export default class ELGS extends PureComponent<Props, State> {
   private workerWrapper: WorkerWrapper
 
-  constructor(props) {
+  constructor(props: Props) {
     super(props)
-    this.reset(true)
+    this.resetWorker()
+    this.state = this.getNewState()
   }
 
   componentWillUnmount() {
@@ -66,22 +67,16 @@ export default class ELGS extends PureComponent<Props, State> {
   }
 
   private onReset = () => {
-    this.reset(false)
+    this.resetWorker()
+    this.setState(this.getNewState())
   }
 
-  private reset(isNew: boolean) {
-    if (this.workerWrapper) {
-      this.workerWrapper.terminate()
-    }
-
-    const worker = new EsWorker()
-    this.workerWrapper = new WorkerWrapper(worker, 120000)
-
+  private getNewState(): State {
     const initialPots = this.props.pots
     const currentPotNum = 0
     const pots = initialPots.map(pot => shuffle(pot))
     const currentPot = pots[currentPotNum]
-    const newState = {
+    return {
       drawId: uniqueId('draw-'),
       initialPots,
       pots,
@@ -97,11 +92,15 @@ export default class ELGS extends PureComponent<Props, State> {
       completed: false,
       error: null,
     }
-    if (isNew) {
-      this.state = newState
-    } else {
-      this.setState(newState)
+  }
+
+  private resetWorker() {
+    if (this.workerWrapper) {
+      this.workerWrapper.terminate()
     }
+
+    const worker = new EsWorker()
+    this.workerWrapper = new WorkerWrapper(worker, 120000)
   }
 
   private onTeamBallPick = async (i: number) => {

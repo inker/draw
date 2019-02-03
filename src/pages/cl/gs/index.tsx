@@ -47,21 +47,21 @@ interface State {
 }
 
 export default class CLGS extends PureComponent<Props, State> {
-  constructor(props) {
+  constructor(props: Props) {
     super(props)
-    this.reset(true)
+    this.state = this.getNewState()
   }
 
   private onReset = () => {
-    this.reset(false)
+    this.setState(this.getNewState())
   }
 
-  private reset(isNew: boolean) {
+  private getNewState(): State {
     const initialPots = this.props.pots
     const currentPotNum = 0
     const pots = initialPots.map(pot => shuffle(pot))
     const currentPot = pots[currentPotNum]
-    const newState = {
+    return {
       drawId: uniqueId('draw-'),
       initialPots,
       pots,
@@ -76,11 +76,6 @@ export default class CLGS extends PureComponent<Props, State> {
       possibleGroupsShuffled: null,
       completed: false,
       error: null,
-    }
-    if (isNew) {
-      this.state = newState
-    } else {
-      this.setState(newState)
     }
   }
 

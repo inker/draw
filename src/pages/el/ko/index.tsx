@@ -39,21 +39,21 @@ interface State {
 }
 
 export default class ELKO extends PureComponent<Props, State> {
-  constructor(props) {
+  constructor(props: Props) {
     super(props)
-    this.reset(true)
+    this.state = this.getNewState()
   }
 
   private onReset = () => {
-    this.reset(false)
+    this.setState(this.getNewState())
   }
 
-  private reset(isNew: boolean) {
+  private getNewState(): State {
     const initialPots = this.props.pots
     const currentPotNum = 1
     const currentMatchupNum = 0
     const pots = initialPots.map(pot => shuffle(pot))
-    const newState = {
+    return {
       drawId: uniqueId('draw-'),
       initialPots,
       pots,
@@ -64,11 +64,6 @@ export default class ELKO extends PureComponent<Props, State> {
       possiblePairings: null,
       completed: false,
       error: null,
-    }
-    if (isNew) {
-      this.state = newState
-    } else {
-      this.setState(newState)
     }
   }
 
