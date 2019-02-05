@@ -51,11 +51,10 @@ interface State {
 }
 
 export default class WCGS extends PureComponent<Props, State> {
-  private workerWrapper: WorkerWrapper
+  private workerWrapper = new WorkerWrapper(new WcWorker(), 120000)
 
   constructor(props: Props) {
     super(props)
-    this.resetWorker()
     this.state = this.getNewState()
   }
 
@@ -70,13 +69,10 @@ export default class WCGS extends PureComponent<Props, State> {
   }
 
   componentWillUnmount() {
-    if (this.workerWrapper) {
-      this.workerWrapper.terminate()
-    }
+    this.workerWrapper.terminate()
   }
 
   private onReset = () => {
-    this.resetWorker()
     this.setState(this.getNewState())
   }
 
@@ -101,15 +97,6 @@ export default class WCGS extends PureComponent<Props, State> {
       completed: false,
       error: null,
     }
-  }
-
-  private resetWorker() {
-    if (this.workerWrapper) {
-      this.workerWrapper.terminate()
-    }
-
-    const worker = new WcWorker()
-    this.workerWrapper = new WorkerWrapper(worker, 120000)
   }
 
   private drawHost() {
@@ -161,9 +148,6 @@ export default class WCGS extends PureComponent<Props, State> {
     groups[pickedGroup].push(selectedTeam)
     const newCurrentPotNum = pots[currentPotNum].length > 0 ? currentPotNum : currentPotNum + 1
     const completed = newCurrentPotNum >= pots.length
-    if (completed) {
-      this.workerWrapper.terminate()
-    }
 
     this.state.airborneTeams.push(selectedTeam)
     const animation = this.animateCell(selectedTeam, pickedGroup)
