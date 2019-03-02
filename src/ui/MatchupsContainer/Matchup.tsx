@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { memo } from 'react'
 import styled from 'styled-components'
 
 import Team from 'model/team'
@@ -39,11 +39,11 @@ interface Props {
   airborneTeams: Team[],
 }
 
-const Matchup: React.SFC<Props> = ({
+const Matchup = ({
   index,
   teams,
   airborneTeams,
-}) => {
+}: Props) => {
   const [ru, gw] = teams || []!
   const ruIsPresent = ru && !airborneTeams.includes(ru)
   const gwIsPresent = gw && !airborneTeams.includes(gw)
@@ -69,4 +69,4 @@ const Matchup: React.SFC<Props> = ({
   )
 }
 
-export default Matchup
+export default memo(Matchup)

@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react'
+import React, { memo } from 'react'
 import styled from 'styled-components'
 
 import StyledLink from 'ui/StyledLink'
@@ -38,45 +38,41 @@ interface Props {
   onSeasonChange: (tournament: string, stage: string, season: number) => void,
 }
 
-class Navbar extends PureComponent<Props> {
-  render() {
-    const {
-      location,
-      refresh,
-      onSeasonChange,
-    } = this.props
+const Navbar = ({
+  location,
+  refresh,
+  onSeasonChange,
+}: Props) => {
+  const [, tournament, stage] = location.pathname.split('/')
+  const season = getCurrentSeason(location)
 
-    const [, tournament, stage] = location.pathname.split('/')
-    const season = getCurrentSeason(location)
-
-    return (
-      <Root>
-        {location &&
-          <DivLink onClick={refresh}>
-            Restart
-          </DivLink>
-        }
-        <SelectSeason
-          tournament={tournament}
-          stage={stage}
-          season={season}
-          onChange={onSeasonChange}
-        />
-        {!isHandheld &&
-          <>
-            <StyledLink
-              href="https://github.com/inker/draw/issues"
-              target="_blank"
-              rel="noopener"
-            >
-              Issues
-            </StyledLink>
-            <GithubButton />
-          </>
-        }
-      </Root>
-    )
-  }
+  return (
+    <Root>
+      {location &&
+        <DivLink onClick={refresh}>
+          Restart
+        </DivLink>
+      }
+      <SelectSeason
+        tournament={tournament}
+        stage={stage}
+        season={season}
+        onChange={onSeasonChange}
+      />
+      {!isHandheld &&
+        <>
+          <StyledLink
+            href="https://github.com/inker/draw/issues"
+            target="_blank"
+            rel="noopener"
+          >
+            Issues
+          </StyledLink>
+          <GithubButton />
+        </>
+      }
+    </Root>
+  )
 }
 
-export default Navbar
+export default memo(Navbar)

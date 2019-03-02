@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react'
+import React, { memo } from 'react'
 import styled, { css, keyframes } from 'styled-components'
 
 import Overlay from './Overlay'
@@ -28,22 +28,16 @@ interface Props {
   noAnimation: boolean,
 }
 
-class Popup extends PureComponent<Props> {
-  render() {
-    const {
-      noAnimation,
-      children,
-    } = this.props
+const Popup: React.FC<Props> = ({
+  noAnimation,
+  children,
+}) => (
+  <div>
+    <Background animate={!noAnimation} />
+    <Body>
+      {children}
+    </Body>
+  </div>
+)
 
-    return (
-      <div>
-        <Background animate={!noAnimation} />
-        <Body>
-          {children}
-        </Body>
-      </div>
-    )
-  }
-}
-
-export default Popup
+export default memo(Popup)

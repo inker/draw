@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { memo } from 'react'
 import styled from 'styled-components'
 import { range } from 'lodash'
 
@@ -43,7 +43,7 @@ interface Props {
   color?: string,
 }
 
-const Pot: React.SFC<Props> = ({
+const Pot = ({
   isCurrent,
   potNum,
   teams,
@@ -52,49 +52,47 @@ const Pot: React.SFC<Props> = ({
   depleted,
   background,
   color,
-}) => {
-  return (
-    <Root highlighted={isCurrent}>
-      <Header
-        highlighted={isCurrent}
-        depleted={depleted}
-        background={background}
-        color={color}
-      >
-        Pot {potNum + 1}
-      </Header>
-      <Body>
-        {range(teams.length / 2).map(i => {
-          const pair = [teams[i * 2], teams[i * 2 + 1]]
-          return (
-            <Pair key={i}>
-              {pair.map(team => {
-                const {
-                  name,
-                  country,
-                  shortName,
-                  pairing,
-                } = team as GSTeam
+}: Props) => (
+  <Root highlighted={isCurrent}>
+    <Header
+      highlighted={isCurrent}
+      depleted={depleted}
+      background={background}
+      color={color}
+    >
+      Pot {potNum + 1}
+    </Header>
+    <Body>
+      {range(teams.length / 2).map(i => {
+        const pair = [teams[i * 2], teams[i * 2 + 1]]
+        return (
+          <Pair key={i}>
+            {pair.map(team => {
+              const {
+                name,
+                country,
+                shortName,
+                pairing,
+              } = team as GSTeam
 
-                return (
-                  <Cell
-                    key={team.id}
-                    data-cellid={team.id}
-                    title={pairing && `paired with ${pairing.shortName || pairing.name}`}
-                    selected={selectedTeams && selectedTeams.includes(team)}
-                    picked={pickedTeams.includes(team)}
-                    country={country}
-                  >
-                    {shortName || name}
-                  </Cell>
-                )
-              })}
-            </Pair>
-          )
-        })}
-      </Body>
-    </Root>
-  )
-}
+              return (
+                <Cell
+                  key={team.id}
+                  data-cellid={team.id}
+                  title={pairing && `paired with ${pairing.shortName || pairing.name}`}
+                  selected={selectedTeams && selectedTeams.includes(team)}
+                  picked={pickedTeams.includes(team)}
+                  country={country}
+                >
+                  {shortName || name}
+                </Cell>
+              )
+            })}
+          </Pair>
+        )
+      })}
+    </Body>
+  </Root>
+)
 
-export default Pot
+export default memo(Pot)

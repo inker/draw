@@ -1,5 +1,5 @@
 import React, {
-  PureComponent,
+  memo,
   lazy,
   Suspense,
 } from 'react'
@@ -19,26 +19,20 @@ interface Props {
   onLoadError: (err: Error) => void,
 }
 
-class Main extends PureComponent<Props> {
-  render() {
-    const { props } = this
-
-    return (
-      <>
-        <Suspense fallback={stubFalse}>
-          <Version />
-        </Suspense>
-        <Routes
-          initial={props.initial}
-          setPopup={props.setPopup}
-          onLoadError={props.onLoadError}
-        />
-      </>
-    )
-  }
-}
+const Main = (props: Props) => (
+  <>
+    <Suspense fallback={stubFalse}>
+      <Version />
+    </Suspense>
+    <Routes
+      initial={props.initial}
+      setPopup={props.setPopup}
+      onLoadError={props.onLoadError}
+    />
+  </>
+)
 
 // @ts-ignore
 fastclick.attach(document.body)
 
-export default Main
+export default memo(Main)

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { memo } from 'react'
 import styled from 'styled-components'
 
 import Team from 'model/team'
@@ -18,10 +18,10 @@ interface Props {
   airborneTeams: Team[],
 }
 
-const MatchupContainer: React.SFC<Props> = ({
+const MatchupContainer = ({
   matchups,
   airborneTeams,
-}) => (
+}: Props) => (
   <RootTable>
     {matchups && matchups.map((matchup, i) => (
       <Matchup
@@ -33,4 +33,4 @@ const MatchupContainer: React.SFC<Props> = ({
   </RootTable>
 )
 
-export default MatchupContainer
+export default memo(MatchupContainer)

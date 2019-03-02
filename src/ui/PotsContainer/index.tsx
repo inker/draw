@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react'
+import React, { memo } from 'react'
 import styled from 'styled-components'
 import { difference } from 'lodash'
 
@@ -33,40 +33,34 @@ interface Props {
   split?: boolean,
 }
 
-class PotsContainer extends PureComponent<Props> {
-  render() {
-    const {
-      initialPots,
-      pots,
-      selectedTeams,
-      currentPotNum,
-      split,
-    } = this.props
+const PotsContainer = ({
+  initialPots,
+  pots,
+  selectedTeams,
+  currentPotNum,
+  split,
+}: Props) => (
+  <Root limitWidth={!split}>
+    {initialPots && initialPots.map((pot, i) => {
+      const Pot = split ? SplitPot : BasePot
+      const isCurrent = i === currentPotNum
+      const pickedTeams = difference(initialPots[i], pots[i], selectedTeams || [])
 
-    return (
-      <Root limitWidth={!split}>
-        {initialPots && initialPots.map((pot, i) => {
-          const Pot = split ? SplitPot : BasePot
-          const isCurrent = i === currentPotNum
-          const pickedTeams = difference(initialPots[i], pots[i], selectedTeams || [])
+      return (
+        <Pot
+          key={pot[0].id}
+          potNum={i}
+          isCurrent={isCurrent}
+          teams={pot}
+          pickedTeams={pickedTeams}
+          selectedTeams={selectedTeams}
+          depleted={!pot || pickedTeams.length === pot.length}
+          background={HEADER_BACKGROUND}
+          color={HEADER_COLOR}
+        />
+      )
+    })}
+  </Root>
+)
 
-          return (
-            <Pot
-              key={pot[0].id}
-              potNum={i}
-              isCurrent={isCurrent}
-              teams={pot}
-              pickedTeams={pickedTeams}
-              selectedTeams={selectedTeams}
-              depleted={!pot || pickedTeams.length === pot.length}
-              background={HEADER_BACKGROUND}
-              color={HEADER_COLOR}
-            />
-          )
-        })}
-      </Root>
-    )
-  }
-}
-
-export default PotsContainer
+export default memo(PotsContainer)

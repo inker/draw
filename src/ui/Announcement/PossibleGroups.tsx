@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { memo } from 'react'
 import styled from 'styled-components'
 import { range } from 'lodash'
 
@@ -16,10 +16,10 @@ interface Props {
   possibleGroups: number[],
 }
 
-const PossibleGroups: React.SFC<Props> = ({
+const PossibleGroups = ({
   numGroups,
   possibleGroups,
-}) => {
+}: Props) => {
   const halfNum = numGroups >> 1
 
   return (
@@ -40,4 +40,4 @@ const PossibleGroups: React.SFC<Props> = ({
   )
 }
 
-export default PossibleGroups
+export default memo(PossibleGroups)

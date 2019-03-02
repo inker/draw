@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react'
+import React, { memo } from 'react'
 import styled from 'styled-components'
 
 import Popup from './Popup'
@@ -17,21 +17,16 @@ interface Props {
   noAnimation: boolean,
 }
 
-class Notification extends PureComponent<Props> {
-  render() {
-    const {
-      noAnimation,
-      children,
-    } = this.props
+const Notification: React.FC<Props> = ({
+  noAnimation,
+  children,
+}) => (
+  // @ts-ignore
+  <Popup noAnimation={noAnimation}>
+    <Text>
+      {children}
+    </Text>
+  </Popup>
+)
 
-    return (
-      <Popup noAnimation={noAnimation}>
-        <Text>
-          {children}
-        </Text>
-      </Popup>
-    )
-  }
-}
-
-export default Notification
+export default memo(Notification)

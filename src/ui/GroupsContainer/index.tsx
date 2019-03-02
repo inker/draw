@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react'
+import React, { memo } from 'react'
 import styled from 'styled-components'
 
 import getGroupLetter from 'utils/getGroupLetter'
@@ -24,39 +24,33 @@ interface Props {
   groupColors?: string[],
 }
 
-class GroupsContainer extends PureComponent<Props> {
-  render() {
-    const {
-      maxTeams,
-      currentPotNum,
-      groups,
-      possibleGroups,
-      airborneTeams,
-      groupColors,
-    } = this.props
+const GroupsContainer = ({
+  maxTeams,
+  currentPotNum,
+  groups,
+  possibleGroups,
+  airborneTeams,
+  groupColors,
+}: Props) => (
+  <Root>
+    {groups && groups.map((group, i) => {
+      const letter = getGroupLetter(i)
+      const background = groupColors && groupColors[~~(i / groups.length * groupColors.length)]
 
-    return (
-      <Root>
-        {groups && groups.map((group, i) => {
-          const letter = getGroupLetter(i)
-          const background = groupColors && groupColors[~~(i / groups.length * groupColors.length)]
+      return (
+        <Group
+          key={letter}
+          maxTeams={maxTeams}
+          groupLetter={letter}
+          teams={group}
+          potNum={currentPotNum}
+          possible={possibleGroups !== null && possibleGroups.includes(i)}
+          airborneTeams={airborneTeams}
+          background={background}
+        />
+      )
+    })}
+  </Root>
+)
 
-          return (
-            <Group
-              key={letter}
-              maxTeams={maxTeams}
-              groupLetter={letter}
-              teams={group}
-              potNum={currentPotNum}
-              possible={possibleGroups !== null && possibleGroups.includes(i)}
-              airborneTeams={airborneTeams}
-              background={background}
-            />
-          )
-        })}
-      </Root>
-    )
-  }
-}
-
-export default GroupsContainer
+export default memo(GroupsContainer)

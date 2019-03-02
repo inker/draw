@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { memo } from 'react'
 import { difference, range } from 'lodash'
 
 import Team from 'model/team'
@@ -18,7 +18,7 @@ interface Props {
   color?: string,
 }
 
-const Group: React.SFC<Props> = ({
+const Group = ({
   maxTeams,
   groupLetter,
   teams,
@@ -27,7 +27,7 @@ const Group: React.SFC<Props> = ({
   airborneTeams,
   background,
   color,
-}) => {
+}: Props) => {
   const nonAirborneTeams = difference(teams, airborneTeams)
 
   return (
@@ -60,4 +60,4 @@ const Group: React.SFC<Props> = ({
   )
 }
 
-export default Group
+export default memo(Group)

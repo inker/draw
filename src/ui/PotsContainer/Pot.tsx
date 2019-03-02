@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { memo } from 'react'
 import styled from 'styled-components'
 
 import Team from 'model/team'
@@ -25,7 +25,7 @@ interface Props {
   color?: string,
 }
 
-const Pot: React.SFC<Props> = ({
+const Pot = ({
   isCurrent,
   potNum,
   teams,
@@ -34,7 +34,7 @@ const Pot: React.SFC<Props> = ({
   depleted,
   background,
   color,
-}) => {
+}: Props) => {
   return (
     <Root highlighted={isCurrent}>
       <Header
@@ -72,4 +72,4 @@ const Pot: React.SFC<Props> = ({
   )
 }
 
-export default Pot
+export default memo(Pot)
