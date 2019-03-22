@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react'
+import React, { memo, useState } from 'react'
 import styled from 'styled-components'
 
 import getRandomId from 'utils/getRandomId'
@@ -18,32 +18,28 @@ interface Props {
   [property: string]: any,
 }
 
-class SelectWithHiddenLabel extends PureComponent<Props> {
-  id = getRandomId('select-')
+const SelectWithHiddenLabel: React.FC<Props> = ({
+  label,
+  children,
+  ...props
+}) => {
+  const [id] = useState(getRandomId('select-'))
 
-  render() {
-    const {
-      label,
-      children,
-      ...props
-    } = this.props
-
-    return (
-      <Root>
-        <HiddenLabel htmlFor={this.id}>
-          {label}
-        </HiddenLabel>
-        <select
-          id={this.id}
-          className="needsclick"
-          title={label}
-          {...props}
-        >
-          {children}
-        </select>
-      </Root>
-    )
-  }
+  return (
+    <Root>
+      <HiddenLabel htmlFor={id}>
+        {label}
+      </HiddenLabel>
+      <select
+        id={id}
+        className="needsclick"
+        title={label}
+        {...props}
+      >
+        {children}
+      </select>
+    </Root>
+  )
 }
 
-export default SelectWithHiddenLabel
+export default memo(SelectWithHiddenLabel)
