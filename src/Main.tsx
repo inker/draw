@@ -3,9 +3,6 @@ import React, {
   lazy,
   Suspense,
 } from 'react'
-import {
-  stubFalse,
-} from 'lodash'
 
 import fastclick from 'fastclick'
 
@@ -21,7 +18,7 @@ interface Props {
 
 const Main = (props: Props) => (
   <>
-    <Suspense fallback={stubFalse}>
+    <Suspense fallback={false}>
       <Version />
     </Suspense>
     <Routes

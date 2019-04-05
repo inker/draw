@@ -4,9 +4,6 @@ import React, {
   Suspense,
 } from 'react'
 import styled from 'styled-components'
-import {
-  stubFalse,
-} from 'lodash'
 
 import Notification from 'ui/Notification'
 
@@ -77,7 +74,7 @@ class App extends PureComponent<Props, State> {
   render() {
     return (
       <Root>
-        <Suspense fallback={stubFalse}>
+        <Suspense fallback={false}>
           <Main
             // onError={this.onError}
             initial={this.state.initial}

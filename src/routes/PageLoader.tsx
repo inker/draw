@@ -1,11 +1,11 @@
-import React, { PureComponent } from 'react'
-import Import from 'react-import'
+import React, {
+  useState,
+  useCallback,
+  useEffect,
+  memo,
+} from 'react'
 
 import Team from 'model/team'
-
-interface State {
-  componentPromise: Promise<React.Component> | null,
-}
 
 interface Props {
   tournament: string,
@@ -14,53 +14,36 @@ interface Props {
   onLoadError: (err: Error) => void,
 }
 
-class PageLoader extends PureComponent<Props, State> {
-  state: State = {
-    componentPromise: null,
-  }
+const PageLoader = ({
+  tournament,
+  stage,
+  pots,
+  onLoadError,
+  ...props
+}: Props) => {
+  const [mod, setMod] = useState<{ default: any } | null>(null)
 
-  componentDidMount() {
-    this.loadPromise()
-  }
+  const nextComp = useCallback(
+    () => import(`pages/${tournament}/${stage}/index`),
+    [tournament, stage],
+  )
 
-  componentDidUpdate(prevProps: Props) {
-    const { props } = this
-    if (props.tournament === prevProps.tournament && props.stage === prevProps.stage) {
-      return
-    }
+  useEffect(() => {
+    nextComp()
+      .then(setMod)
+      .catch(onLoadError)
+  }, [tournament, stage])
 
-    this.loadPromise()
-  }
+  const Comp = mod && mod.default
 
-  private loadPromise() {
-    const {
-      tournament,
-      stage,
-    } = this.props
+  console.log('comp', pots && Comp)
 
-    this.setState({
-      componentPromise: import(`pages/${tournament}/${stage}/index`),
-    })
-  }
-
-  render() {
-    const {
-      tournament,
-      stage,
-      pots,
-      onLoadError,
-      ...props
-    } = this.props
-
-    return pots && (
-      <Import
-        {...props}
-        pots={pots}
-        component={this.state.componentPromise}
-        onError={onLoadError}
-      />
-    )
-  }
+  return pots && Comp && (
+    <Comp
+      {...props}
+      pots={pots}
+    />
+  )
 }
 
-export default PageLoader
+export default memo(PageLoader)

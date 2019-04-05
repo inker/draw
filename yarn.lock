@@ -5046,11 +5046,6 @@ react-helmet@^5.2.0:
     prop-types "^15.5.4"
     react-side-effect "^1.1.0"
 
-react-import@^1.5.3:
-  version "1.5.3"
-  resolved "https://registry.yarnpkg.com/react-import/-/react-import-1.5.3.tgz#2052eb84536544d4d5786b2aea18188f453f8a6b"
-  integrity sha512-hdAOlUujaPV5ELHYs07xGX1ltJBPXtS7gEXQLaHLq4vOgt+IFZFUIxt/A+amz067Z3XmruDtyXGHR1ztT4Xt/w==
-
 react-is@^16.6.0, react-is@^16.7.0, react-is@^16.8.1:
   version "16.8.6"
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.8.6.tgz#5bbc1e2d29141c9fbdfed456343fe2bc430a6a16"
