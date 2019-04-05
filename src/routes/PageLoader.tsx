@@ -34,12 +34,10 @@ const PageLoader = ({
       .catch(onLoadError)
   }, [tournament, stage])
 
-  const Comp = mod && mod.default
+  const Page = mod && mod.default
 
-  console.log('comp', pots && Comp)
-
-  return pots && Comp && (
-    <Comp
+  return pots && Page && (
+    <Page
       {...props}
       pots={pots}
     />
