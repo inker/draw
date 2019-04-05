@@ -1,4 +1,7 @@
-import React, { PureComponent } from 'react'
+import React, {
+  memo,
+  useCallback,
+} from 'react'
 import styled from 'styled-components'
 
 import Team from 'model/team'
@@ -30,45 +33,38 @@ interface Props {
   onPick: (i: number, teams: Team[]) => void,
 }
 
-class TeamBowl extends PureComponent<Props> {
-  private onBallPick = (ev: React.MouseEvent<HTMLDivElement>) => {
-    const {
-      pot,
-      onPick,
-    } = this.props
+const TeamBowl = ({
+  forceNoSelect,
+  calculating,
+  completed,
+  pot,
+  selectedTeam,
+  onPick,
+}: Props) => {
+  const onBallPick = useCallback((ev: React.MouseEvent<HTMLDivElement>) => {
     const ball = ev.target as HTMLDivElement
     const i = pot.findIndex(team => team.id === ball.dataset.teamid)
     onPick(i, pot)
-  }
+  }, [pot, onPick])
 
-  render() {
-    const {
-      forceNoSelect,
-      calculating,
-      completed,
-      pot,
-      selectedTeam,
-    } = this.props
+  const noSelect = forceNoSelect || calculating || selectedTeam
 
-    const noSelect = forceNoSelect || calculating || selectedTeam
-
-    return (
-      <Root>
-        {!completed && pot && pot.map((team, i) => (
-          <TeamBall
-            key={team.id}
-            data-teamid={team.id}
-            selected={team === selectedTeam}
-            notSelected={forceNoSelect || selectedTeam && team !== selectedTeam}
-            noHover={noSelect}
-            onClick={noSelect ? undefined : this.onBallPick}
-          >
-            {team.shortName || team.name}
-          </TeamBall>
-        ))}
-      </Root>
-    )
-  }
+  return (
+    <Root>
+      {!completed && pot && pot.map(team => (
+        <TeamBall
+          key={team.id}
+          data-teamid={team.id}
+          selected={team === selectedTeam}
+          notSelected={forceNoSelect || selectedTeam && team !== selectedTeam}
+          noHover={noSelect}
+          onClick={noSelect ? undefined : onBallPick}
+        >
+          {team.shortName || team.name}
+        </TeamBall>
+      ))}
+    </Root>
+  )
 }
 
-export default TeamBowl
+export default memo(TeamBowl)

@@ -98,59 +98,77 @@ class Announcement extends PureComponent<Props, State> {
 
     const selected = this.state.lastSelected || selectedTeam
 
+    if (calculating) {
+      return (
+        <Root>
+          <Bug>
+            <div>
+              Calculation is taking too long.
+            </div>
+            <div>
+              And <StyledLink href={ISSUE_URL} target="_blank" rel="noopener">here's why</StyledLink>.
+            </div>
+          </Bug>
+        </Root>
+      )
+    }
+
+    if (completed) {
+      return (
+        <Root>
+          <Completed>
+            <div>Draw completed!</div>
+            <DivLink onClick={reset}>Restart</DivLink>
+          </Completed>
+        </Root>
+      )
+    }
+
+    if (pickedGroup !== null) {
+      this.lastAnnouncement = (
+        <Root>
+          <div>
+            {long && selected ? (
+              <span>
+                <Bold>{selected.shortName || selected.name}</Bold> goes to group
+              </span>
+            ) : (
+              <span>
+                Group
+              </span>
+            )}
+            &nbsp;
+            <Bold>
+              {getGroupLetter(pickedGroup)}
+            </Bold>
+            !
+          </div>
+        </Root>
+      )
+      return this.lastAnnouncement
+    }
+
+    if (selected) {
+      return (
+        <Root>
+          {possibleGroups ? (
+            <div>
+              Possible groups for <SelectedTeamWithColon>
+                <Bold>{selected.name}</Bold>:
+              </SelectedTeamWithColon>
+              <PossibleGroups
+                numGroups={numGroups}
+                possibleGroups={possibleGroups}
+              />
+            </div>
+          ) : this.lastAnnouncement}
+        </Root>
+      )
+    }
+
     return (
       <Root>
-        {
-          calculating ? (
-            <Bug>
-              <div>
-                Calculation is taking too long.
-              </div>
-              <div>
-                And <StyledLink href={ISSUE_URL} target="_blank" rel="noopener">here's why</StyledLink>.
-              </div>
-            </Bug>
-          ) :
-          completed ? (
-            <Completed>
-              <div>Draw completed!</div>
-              <DivLink onClick={reset}>Restart</DivLink>
-            </Completed>
-          ) :
-          pickedGroup !== null ? (this.lastAnnouncement =
-            <div>
-              {long && selected ? (
-                <span>
-                  <Bold>{selected.shortName || selected.name}</Bold> goes to group
-                </span>
-              ) : (
-                <span>Group</span>
-              )}
-              &nbsp;
-              <Bold>
-                {getGroupLetter(pickedGroup)}
-              </Bold>
-              !
-            </div>
-          ) :
-          selected ? (
-            possibleGroups ? (
-              <div>
-                Possible groups for <SelectedTeamWithColon>
-                  <Bold>{selected.name}</Bold>:
-                </SelectedTeamWithColon>
-                <PossibleGroups
-                  numGroups={numGroups}
-                  possibleGroups={possibleGroups}
-                />
-              </div>
-            ) : this.lastAnnouncement
-          ) : (
-            <div>
-              Pick a ball
-            </div>
-          )
-        }
+        Pick a ball
       </Root>
     )
   }

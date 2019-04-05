@@ -1,4 +1,7 @@
-import React, { PureComponent } from 'react'
+import React, {
+  memo,
+  useCallback,
+} from 'react'
 import styled from 'styled-components'
 
 import getGroupLetter from 'utils/getGroupLetter'
@@ -20,8 +23,12 @@ interface Props {
   onPick: (groupNum: number) => void,
 }
 
-class GroupBowl extends PureComponent<Props> {
-  private onBallPick = (ev: React.MouseEvent<HTMLDivElement>) => {
+const GroupBowl = ({
+  completed,
+  possibleGroups,
+  onPick,
+}: Props) => {
+  const onBallPick = useCallback((ev: React.MouseEvent<HTMLDivElement>) => {
     const ball = ev.target as HTMLDivElement
     // @ts-ignore
     const pickedGroup = +ball.dataset.group
@@ -29,30 +36,23 @@ class GroupBowl extends PureComponent<Props> {
       console.error('incorrect group ball', ball.dataset.group)
       throw new Error(`Incorrect group ball`)
     }
-    this.props.onPick(pickedGroup)
-  }
+    onPick(pickedGroup)
+  }, [onPick])
 
-  render() {
-    const {
-      completed,
-      possibleGroups,
-    } = this.props
-
-    return (
-      <Root>
-        {!completed && possibleGroups &&
-          possibleGroups.map(groupNum => (
-            <Ball
-              data-group={groupNum}
-              onClick={this.onBallPick}
-            >
-              {getGroupLetter(groupNum)}
-            </Ball>
-          ))
-        }
-      </Root>
-    )
-  }
+  return (
+    <Root>
+      {!completed && possibleGroups &&
+        possibleGroups.map(groupNum => (
+          <Ball
+            data-group={groupNum}
+            onClick={onBallPick}
+          >
+            {getGroupLetter(groupNum)}
+          </Ball>
+        ))
+      }
+    </Root>
+  )
 }
 
-export default GroupBowl
+export default memo(GroupBowl)
