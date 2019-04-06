@@ -1,7 +1,6 @@
 import React, {
   memo,
   lazy,
-  Suspense,
 } from 'react'
 
 import fastclick from 'fastclick'
@@ -18,13 +17,9 @@ interface Props {
 
 const Main = (props: Props) => (
   <>
-    <Suspense fallback={false}>
-      <Version />
-    </Suspense>
+    <Version />
     <Routes
-      initial={props.initial}
-      setPopup={props.setPopup}
-      onLoadError={props.onLoadError}
+      {...props}
     />
   </>
 )

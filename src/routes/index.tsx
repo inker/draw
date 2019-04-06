@@ -1,11 +1,13 @@
 import React, { PureComponent } from 'react'
-import { uniqueId } from 'lodash'
+
 import {
   HashRouter as Router,
   Route,
   Redirect,
   Switch,
 } from 'react-router-dom'
+
+import { uniqueId } from 'lodash'
 
 import config from '../config.json'
 
@@ -17,7 +19,14 @@ import Navbar from './Navbar'
 import Pages from './pages'
 import history from './history'
 
-const { defaultTournament, defaultStage } = config
+const {
+  defaultTournament,
+  defaultStage,
+} = config
+
+function onSeasonChange(tournament: string, stage: string, season?: number) {
+  history.push(`/${tournament}/${stage}${season ? `/${season}` : ''}`)
+}
 
 interface Props {
   initial: boolean,
@@ -39,7 +48,7 @@ class Routes extends PureComponent<Props, State> {
     this.unlisten = history.listen(this.updateLocation)
   }
 
-  private unlisten: (() => void) | undefined
+  private unlisten: () => void
 
   state: State = {
     key: uniqueId(),
@@ -54,13 +63,7 @@ class Routes extends PureComponent<Props, State> {
   }
 
   componentWillUnmount() {
-    if (this.unlisten) {
-      this.unlisten()
-    }
-  }
-
-  private onSeasonChange = (tournament: string, stage: string, season?: number) => {
-    history.push(`/${tournament}/${stage}${season ? `/${season}` : ''}`)
+    this.unlisten()
   }
 
   private updateLocation = (location, type) => {
@@ -98,7 +101,7 @@ class Routes extends PureComponent<Props, State> {
         season={season}
         setPopup={this.props.setPopup}
         onLoadError={this.props.onLoadError}
-        onSeasonChange={this.onSeasonChange}
+        onSeasonChange={onSeasonChange}
       />
     ) : null
   }
@@ -115,7 +118,7 @@ class Routes extends PureComponent<Props, State> {
             <Navbar
               refresh={this.refresh}
               location={location}
-              onSeasonChange={this.onSeasonChange}
+              onSeasonChange={onSeasonChange}
             />
           </Visibility>
           <Switch>
