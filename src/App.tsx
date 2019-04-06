@@ -1,6 +1,7 @@
 import React, {
   useState,
   useCallback,
+  useEffect,
   memo,
   lazy,
   Suspense,
@@ -20,23 +21,29 @@ const Root = styled.div`
   }
 `
 
-interface State {
-  initial: boolean,
+interface PopupState {
   waiting: boolean,
   error: string | null,
 }
 
 const App = () => {
-  const [state, setState] = useState<State>({
-    initial: true,
+  const [initial, setInitial] = useState(true)
+  const [popupState, setPopupState] = useState<PopupState>({
     waiting: true,
     error: null,
   })
 
+  const setPopup = (s: Partial<PopupState>) => {
+    setPopupState({
+      ...popupState,
+      ...s,
+    })
+  }
+
   const onError = useCallback((err: Error) => {
     const { message } = err
-    setState({
-      initial: false,
+    setInitial(false)
+    setPopupState({
       waiting: false,
       error: message.startsWith('Cannot find module') ? 'Could not load site' : message,
     })
@@ -45,12 +52,12 @@ const App = () => {
   const getWrappedPopup = useCallback((props) => (
     <Notification
       {...props}
-      noAnimation={state.initial}
+      noAnimation={initial}
     />
-  ), [state])
+  ), [popupState])
 
   const Popup = useCallback(() => {
-    const { error, waiting } = state
+    const { error, waiting } = popupState
     const WrappedPopup = getWrappedPopup
     if (!navigator.onLine) {
       return <WrappedPopup>you're offline</WrappedPopup>
@@ -62,15 +69,21 @@ const App = () => {
       return <WrappedPopup>wait...</WrappedPopup>
     }
     return null
-  }, [state])
+  }, [popupState])
+
+  useEffect(() => {
+    if (initial && !popupState.waiting) {
+      setInitial(false)
+    }
+  }, [popupState.waiting])
 
   return (
     <Root>
       <Suspense fallback={false}>
         <Main
           // onError={this.onError}
-          initial={state.initial}
-          setPopup={setState}
+          initial={initial}
+          setPopup={setPopup}
           // getPopup={this.getPopup}
           onLoadError={onError}
         />
