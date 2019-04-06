@@ -84,7 +84,6 @@ export default class ELKO extends PureComponent<Props, State> {
 
     matchups[currentMatchupNum].push(selectedTeam)
 
-    matchups[currentMatchupNum].push()
     const possiblePairings = currentPotNum === 1
       ? getPossiblePairings(pots, matchups, currentMatchupNum)
       : null

@@ -84,7 +84,7 @@ class Routes extends PureComponent<Props, State> {
     })
   }
 
-  private getPages = (props) => {
+  private getPages = (pageProps) => {
     const {
       key,
       tournament,
@@ -94,7 +94,7 @@ class Routes extends PureComponent<Props, State> {
 
     return tournament && stage ? (
       <Pages
-        {...props}
+        {...pageProps}
         dummyKey={key}
         tournament={tournament}
         stage={stage}
