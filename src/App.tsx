@@ -40,7 +40,7 @@ const App = () => {
       waiting: false,
       error: message.startsWith('Cannot find module') ? 'Could not load site' : message,
     })
-  }, [setState])
+  }, [])
 
   const getWrappedPopup = useCallback((props) => (
     <Notification
