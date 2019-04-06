@@ -8,7 +8,7 @@ module.exports = env => ({
       // vendor: {
       vendors: {
         test: /node_modules/,
-        chunks: 'initial',
+        // chunks: 'initial',
         name: 'vendor',
         priority: -10000,
         enforce: true,
