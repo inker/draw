@@ -13,6 +13,7 @@ export default async (data: string) => {
   const pots: KnockoutTeam[][] = [[], []]
   const re = /\s*(.+?)(\s\*+\d?|\([CE]L-TH\)?\s+)?\s{2,}(\w{3})\s+/g
   let matches: RegExpExecArray | null
+  // tslint:disable-next-line:no-conditional-assignment
   for (let i = 0; (matches = re.exec(substring)) !== null; ++i) {
     const name = matches[1].replace(/(@\d|#|\*+|\(TH\))/g, '').trim()
     const country = countryNames[matches[3].toLowerCase()]

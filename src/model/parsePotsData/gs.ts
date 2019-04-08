@@ -15,6 +15,7 @@ async function parseGSTeams(data: string) {
   const re = /\s*(.+?)\s*(\*+\d?|\(([CE]L-)?TH\))?\s+(\w{3})\s+(\d{1,3}\.\d{3})/g
   const teams: GSTeam[] = []
   let matches: RegExpExecArray | null
+  // tslint:disable-next-line:no-conditional-assignment
   while ((matches = re.exec(data)) !== null) {
     const longName = matches[1]
       .replace(/\*|(@\d)/g, '')

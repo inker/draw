@@ -44,6 +44,7 @@ const GroupBowl = ({
       {!completed && possibleGroups &&
         possibleGroups.map(groupNum => (
           <Ball
+            key={groupNum}
             data-group={groupNum}
             onClick={onBallPick}
           >
