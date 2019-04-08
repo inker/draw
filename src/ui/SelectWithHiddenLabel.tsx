@@ -1,7 +1,7 @@
-import React, { memo, useState } from 'react'
+import React, { memo } from 'react'
 import styled from 'styled-components'
 
-import getRandomId from 'utils/getRandomId'
+import useRandom from 'utils/hooks/useRandom'
 
 const Root = styled.div`
   display: inline;
@@ -23,7 +23,7 @@ const SelectWithHiddenLabel: React.FC<Props> = ({
   children,
   ...props
 }) => {
-  const [id] = useState(getRandomId('select-'))
+  const [id] = useRandom('select-')
 
   return (
     <Root>

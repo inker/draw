@@ -1,4 +1,9 @@
-import React, { PureComponent } from 'react'
+import React, {
+  useState,
+  useEffect,
+  useCallback,
+  memo,
+} from 'react'
 
 import {
   HashRouter as Router,
@@ -28,125 +33,112 @@ function onSeasonChange(tournament: string, stage: string, season?: number) {
   history.push(`/${tournament}/${stage}${season ? `/${season}` : ''}`)
 }
 
+function parseHistoryLocation(historyLocation: typeof history.location): SeasonTournamentStage {
+  const season = getCurrentSeason(historyLocation)
+  const [, tournament, stage] = historyLocation.pathname.split('/')
+  return {
+    season,
+    tournament,
+    stage,
+  }
+}
+
+function useRefresh(): [string, () => void] {
+  const [key, setKey] = useState(uniqueId())
+  const refresh = useCallback(() => {
+    setKey(uniqueId())
+  }, [])
+  return [key, refresh]
+}
+
+function useHistoryLocationManagement() {
+  const [historyLocation, setHistoryLocation] = useState(history.location)
+
+  const updateLocation = useCallback((newLocation) => {
+    setHistoryLocation(newLocation)
+  }, [])
+
+  useEffect(() => {
+    setHistoryLocation(historyLocation)
+    const unlisten = history.listen(updateLocation)
+    return unlisten
+  }, [])
+
+  return historyLocation
+}
+
+interface SeasonTournamentStage {
+  tournament: string | null,
+  stage: string | null,
+  season: number,
+}
+
 interface Props {
   initial: boolean,
   setPopup: (o: { waiting?: boolean, error?: string | null }) => void,
   onLoadError: (err: Error) => void,
 }
 
-interface State {
-  key: string,
-  tournament: string | null,
-  stage: string | null,
-  season: number,
-  location: typeof history.location,
+const Routes = ({
+  initial,
+  setPopup,
+  onLoadError,
+}: Props) => {
+  const [key, refresh] = useRefresh()
+  const historyLocation = useHistoryLocationManagement()
+
+  const {
+    tournament,
+    stage,
+    season,
+  } = parseHistoryLocation(historyLocation)
+
+  return (
+    <Router>
+      <>
+        <Visibility visible={!initial}>
+          <Navbar
+            refresh={refresh}
+            location={historyLocation}
+            onSeasonChange={onSeasonChange}
+          />
+        </Visibility>
+        <Switch>
+          <Route
+            path="/:tournament/:stage/:season?"
+          >
+            {tournament && stage ? (
+              <Pages
+                dummyKey={key}
+                tournament={tournament}
+                stage={stage}
+                season={season}
+                setPopup={setPopup}
+                onLoadError={onLoadError}
+                onSeasonChange={onSeasonChange}
+              />
+            ) : null}
+          </Route>
+          <Redirect
+            from="/wc"
+            to={`/wc/${defaultStage}`}
+          />
+          <Redirect
+            from="/el"
+            to={`/el/${defaultStage}`}
+          />
+          <Redirect
+            from="/cl"
+            to={`/cl/${defaultStage}`}
+          />
+          <Redirect
+            from="/"
+            to={`/${defaultTournament}`}
+          />
+        </Switch>
+      </>
+    </Router>
+  )
 }
 
-class Routes extends PureComponent<Props, State> {
-  constructor(props) {
-    super(props)
-    this.unlisten = history.listen(this.updateLocation)
-  }
-
-  private unlisten: () => void
-
-  state: State = {
-    key: uniqueId(),
-    tournament: null,
-    stage: null,
-    season: getCurrentSeason(history.location),
-    location: history.location,
-  }
-
-  componentDidMount() {
-    this.updateLocation(this.state.location, null)
-  }
-
-  componentWillUnmount() {
-    this.unlisten()
-  }
-
-  private updateLocation = (location, type) => {
-    const season = getCurrentSeason(location)
-    const [, tournament, stage] = location.pathname.split('/')
-
-    this.setState({
-      tournament,
-      stage,
-      season,
-      location: history.location,
-    })
-  }
-
-  private refresh = () => {
-    this.setState({
-      key: uniqueId(),
-    })
-  }
-
-  private getPages = (pageProps) => {
-    const {
-      key,
-      tournament,
-      stage,
-      season,
-    } = this.state
-
-    return tournament && stage ? (
-      <Pages
-        {...pageProps}
-        dummyKey={key}
-        tournament={tournament}
-        stage={stage}
-        season={season}
-        setPopup={this.props.setPopup}
-        onLoadError={this.props.onLoadError}
-        onSeasonChange={onSeasonChange}
-      />
-    ) : null
-  }
-
-  render() {
-    const {
-      location,
-    } = this.state
-
-    return (
-      <Router>
-        <>
-          <Visibility visible={!this.props.initial}>
-            <Navbar
-              refresh={this.refresh}
-              location={location}
-              onSeasonChange={onSeasonChange}
-            />
-          </Visibility>
-          <Switch>
-            <Route
-              path="/:tournament/:stage/:season?"
-              component={this.getPages}
-            />
-            <Redirect
-              from="/wc"
-              to={`/wc/${defaultStage}`}
-            />
-            <Redirect
-              from="/el"
-              to={`/el/${defaultStage}`}
-            />
-            <Redirect
-              from="/cl"
-              to={`/cl/${defaultStage}`}
-            />
-            <Redirect
-              from="/"
-              to={`/${defaultTournament}`}
-            />
-          </Switch>
-        </>
-      </Router>
-    )
-  }
-}
-
-export default Routes
+export default memo(Routes)
