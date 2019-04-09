@@ -10,8 +10,8 @@ import styled from 'styled-components'
 
 import Notification from 'ui/Notification'
 
-const mainPromise = import(/* webpackChunkName: "main" */ './Main')
-const Main = lazy(() => mainPromise)
+const Routes = lazy(() => import(/* webpackChunkName: "routes" */ './routes'))
+const Version = lazy(() => import(/* webpackChunkName: "version" */ './Version'))
 
 const Root = styled.div`
   font-family: Tahoma, Arial, sans-serif;
@@ -80,8 +80,9 @@ const App = () => {
 
   return (
     <Root>
+      <Popup />
       <Suspense fallback={false}>
-        <Main
+        <Routes
           // onError={this.onError}
           initial={initial}
           setPopup={setPopup}
@@ -89,7 +90,9 @@ const App = () => {
           onLoadError={onError}
         />
       </Suspense>
-      <Popup />
+      <Suspense fallback={false}>
+        <Version />
+      </Suspense>
     </Root>
   )
 }
