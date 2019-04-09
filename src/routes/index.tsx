@@ -18,7 +18,7 @@ import config from '../config.json'
 
 import Visibility from 'ui/Visibility'
 
-import getCurrentSeason from 'utils/getCurrentSeason'
+import currentSeasonByTournament from 'utils/currentSeasonByTournament'
 
 import Navbar from './Navbar'
 import Pages from './pages'
@@ -31,6 +31,14 @@ const {
 
 function onSeasonChange(tournament: string, stage: string, season?: number) {
   history.push(`/${tournament}/${stage}${season ? `/${season}` : ''}`)
+}
+
+function getCurrentSeason(location?: typeof history.location) {
+  if (!location) {
+    return currentSeasonByTournament(defaultTournament, defaultStage)
+  }
+  const [, tournament, stage, seasonString] = location.pathname.split('/')
+  return +(seasonString || currentSeasonByTournament(tournament, stage))
 }
 
 function parseHistoryLocation(historyLocation: typeof history.location): SeasonTournamentStage {
@@ -105,9 +113,7 @@ const Routes = ({
           />
         </Visibility>
         <Switch>
-          <Route
-            path="/:tournament/:stage/:season?"
-          >
+          <Route path="/:tournament/:stage/:season?">
             {tournament && stage ? (
               <Pages
                 dummyKey={key}
