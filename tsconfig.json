@@ -15,6 +15,7 @@
     "noImplicitThis": true,
     "noUnusedLocals": true,
     "downlevelIteration": true,
+    "resolveJsonModule": true,
     "noEmitHelpers": true,
     "importHelpers": true,
     "lib": [

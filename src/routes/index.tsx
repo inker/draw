@@ -12,9 +12,14 @@ import {
   Switch,
 } from 'react-router-dom'
 
-import { uniqueId } from 'lodash'
+import {
+  uniqueId,
+} from 'lodash'
 
-import config from '../config.json'
+import {
+  defaultTournament,
+  defaultStage,
+} from '../config.json'
 
 import Visibility from 'ui/Visibility'
 
@@ -23,11 +28,6 @@ import currentSeasonByTournament from 'utils/currentSeasonByTournament'
 import Navbar from './Navbar'
 import Pages from './pages'
 import history from './history'
-
-const {
-  defaultTournament,
-  defaultStage,
-} = config
 
 function onSeasonChange(tournament: string, stage: string, season?: number) {
   history.push(`/${tournament}/${stage}${season ? `/${season}` : ''}`)

@@ -8,5 +8,5 @@ export default async (season: number, tournament: string): Promise<[string, stri
     console.log('pairings for ', tournament, season, 'do not exist, using the default ones')
   }
 
-  return defaultPairings
+  return defaultPairings as [string, string][]
 }
