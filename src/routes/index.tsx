@@ -51,7 +51,7 @@ function useRefresh(): [string, () => void] {
   return [key, refresh]
 }
 
-function useHistoryLocationManagement() {
+function useSeasonTournamentStage() {
   const [historyLocation, setHistoryLocation] = useState(history.location)
 
   const updateLocation = useCallback((newLocation) => {
@@ -64,7 +64,7 @@ function useHistoryLocationManagement() {
     return unlisten
   }, [])
 
-  return historyLocation
+  return parseHistoryLocation(historyLocation)
 }
 
 interface SeasonTournamentStage {
@@ -85,13 +85,12 @@ const Routes = ({
   onLoadError,
 }: Props) => {
   const [key, refresh] = useRefresh()
-  const historyLocation = useHistoryLocationManagement()
 
   const {
     tournament,
     stage,
     season,
-  } = parseHistoryLocation(historyLocation)
+  } = useSeasonTournamentStage()
 
   return (
     <Router>
@@ -99,7 +98,9 @@ const Routes = ({
         <Visibility visible={!initial}>
           <Navbar
             refresh={refresh}
-            location={historyLocation}
+            season={season}
+            tournament={tournament!}
+            stage={stage!}
             onSeasonChange={onSeasonChange}
           />
         </Visibility>

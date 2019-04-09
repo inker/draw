@@ -28,17 +28,18 @@ interface PopupState {
 
 const App = () => {
   const [initial, setInitial] = useState(true)
+
   const [popupState, setPopupState] = useState<PopupState>({
     waiting: true,
     error: null,
   })
 
-  const setPopup = (s: Partial<PopupState>) => {
+  const setPopup = useCallback((s: Partial<PopupState>) => {
     setPopupState({
       ...popupState,
       ...s,
     })
-  }
+  }, [popupState])
 
   const onError = useCallback((err: Error) => {
     const { message } = err
@@ -54,7 +55,7 @@ const App = () => {
       {...props}
       noAnimation={initial}
     />
-  ), [popupState])
+  ), [initial])
 
   const Popup = useCallback(() => {
     const { error, waiting } = popupState

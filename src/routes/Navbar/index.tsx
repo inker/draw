@@ -3,7 +3,6 @@ import styled from 'styled-components'
 
 import StyledLink from 'ui/StyledLink'
 import DivLink from 'ui/DivLink'
-import getCurrentSeason from 'utils/getCurrentSeason'
 import { isHandheld } from 'utils/browser'
 
 import SelectSeason from './SelectSeason'
@@ -33,19 +32,20 @@ const Root = styled.div`
 `
 
 interface Props {
-  location: any,
+  season: number,
+  tournament: string,
+  stage: string,
   refresh: () => void,
   onSeasonChange: (tournament: string, stage: string, season: number) => void,
 }
 
 const Navbar = ({
-  location,
+  season,
+  tournament,
+  stage,
   refresh,
   onSeasonChange,
 }: Props) => {
-  const [, tournament, stage] = location.pathname.split('/')
-  const season = getCurrentSeason(location)
-
   return (
     <Root>
       {location &&
