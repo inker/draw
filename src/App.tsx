@@ -27,10 +27,10 @@ type PopupStateHookReturnValue = [
 function usePopupState(initial: PopupState): PopupStateHookReturnValue {
   const [popupState, setPopupState] = useState<PopupState>(initial)
 
-  const setPopupStateNew = useCallback((s: Partial<PopupState>) => {
+  const setPopupStateNew = useCallback((newState: PartialPopupState) => {
     setPopupState({
       ...popupState,
-      ...s,
+      ...newState,
     })
   }, [popupState])
 
