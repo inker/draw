@@ -13,6 +13,30 @@ import Notification from 'ui/Notification'
 const Routes = lazy(() => import(/* webpackChunkName: "routes" */ './routes'))
 const Version = lazy(() => import(/* webpackChunkName: "version" */ './Version'))
 
+interface PopupState {
+  waiting: boolean,
+  error: string | null,
+}
+
+type PartialPopupState = Partial<PopupState>
+type PopupStateHookReturnValue = [
+  PartialPopupState,
+  (partialPopupState: PartialPopupState) => void,
+]
+
+function usePopupState(initial: PopupState): PopupStateHookReturnValue {
+  const [popupState, setPopupState] = useState<PopupState>(initial)
+
+  const setPopupStateNew = useCallback((s: Partial<PopupState>) => {
+    setPopupState({
+      ...popupState,
+      ...s,
+    })
+  }, [popupState])
+
+  return [popupState, setPopupStateNew]
+}
+
 const Root = styled.div`
   font-family: Tahoma, Arial, sans-serif;
 
@@ -21,25 +45,13 @@ const Root = styled.div`
   }
 `
 
-interface PopupState {
-  waiting: boolean,
-  error: string | null,
-}
-
 const App = () => {
   const [initial, setInitial] = useState(true)
 
-  const [popupState, setPopupState] = useState<PopupState>({
+  const [popupState, setPopupState] = usePopupState({
     waiting: true,
     error: null,
   })
-
-  const setPopup = useCallback((s: Partial<PopupState>) => {
-    setPopupState({
-      ...popupState,
-      ...s,
-    })
-  }, [popupState])
 
   const onError = useCallback((err: Error) => {
     const { message } = err
@@ -85,7 +97,7 @@ const App = () => {
         <Routes
           // onError={this.onError}
           initial={initial}
-          setPopup={setPopup}
+          setPopup={setPopupState}
           // getPopup={this.getPopup}
           onLoadError={onError}
         />
