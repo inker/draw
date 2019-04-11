@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { memo } from 'react'
 import styled from 'styled-components'
 
 const Wrapper = styled.div`
@@ -23,4 +23,4 @@ const GithubButton = () => (
   </Wrapper>
 )
 
-export default GithubButton
+export default memo(GithubButton)
