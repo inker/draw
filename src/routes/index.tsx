@@ -21,6 +21,8 @@ import {
   defaultStage,
 } from '../config.json'
 
+import usePopup from 'store/usePopup'
+
 import Visibility from 'ui/Visibility'
 
 import currentSeasonByTournament from 'utils/currentSeasonByTournament'
@@ -82,17 +84,14 @@ interface SeasonTournamentStage {
 }
 
 interface Props {
-  initial: boolean,
-  setPopup: (o: { waiting?: boolean, error?: string | null }) => void,
   onLoadError: (err: Error) => void,
 }
 
 const Routes = ({
-  initial,
-  setPopup,
   onLoadError,
 }: Props) => {
   const [key, refresh] = useRefresh()
+  const [popup, setPopup] = usePopup()
 
   const {
     tournament,
@@ -103,7 +102,7 @@ const Routes = ({
   return (
     <Router>
       <>
-        <Visibility visible={!initial}>
+        <Visibility visible={!popup.initial}>
           <Navbar
             refresh={refresh}
             season={season}

@@ -1,5 +1,8 @@
 import React, { memo } from 'react'
-import { difference, range } from 'lodash'
+import {
+  difference,
+  range,
+} from 'lodash'
 
 import Team from 'model/team'
 import Table from 'ui/table/Table'
