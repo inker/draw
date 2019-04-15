@@ -91,7 +91,7 @@ const Routes = ({
   onLoadError,
 }: Props) => {
   const [key, refresh] = useRefresh()
-  const [popup, setPopup] = usePopup()
+  const [popup] = usePopup()
 
   const {
     tournament,
@@ -119,7 +119,6 @@ const Routes = ({
                 tournament={tournament}
                 stage={stage}
                 season={season}
-                setPopup={setPopup}
                 onLoadError={onLoadError}
                 onSeasonChange={onSeasonChange}
               />

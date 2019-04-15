@@ -17,7 +17,7 @@
     "normalize.css": "^8.0.1",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
-    "react-helmet": "^5.2.0",
+    "react-helmet": "6.0.0-beta",
     "react-router-dom": "^5.0.0",
     "shallowequal": "^1.1.0",
     "styled-components": "4.2.0",

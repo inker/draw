@@ -1,6 +1,11 @@
-import React, { PureComponent } from 'react'
+import React, {
+  useCallback,
+  useEffect,
+  memo,
+} from 'react'
 import { Route, Switch, Redirect } from 'react-router-dom'
-import Helmet from 'react-helmet'
+import { Helmet } from 'react-helmet'
+
 import delay from 'delay.js'
 import timelimit from 'timelimit'
 import { uniqueId, memoize } from 'lodash'
@@ -12,9 +17,14 @@ import parseKo from 'model/parsePotsData/ko'
 import parseWc from 'model/parsePotsData/wc'
 import Team from 'model/team'
 
+import usePopup from 'store/usePopup'
+
 import getCountryFlagUrl from 'utils/getCountryFlagUrl'
 import prefetchImage from 'utils/prefetchImage'
 import currentSeasonByTournament from 'utils/currentSeasonByTournament'
+
+import usePartialState from 'utils/hooks/usePartialState'
+import useOnUpdate from 'utils/hooks/useOnUpdate'
 
 import PageLoader from './PageLoader'
 
@@ -47,7 +57,6 @@ interface Props {
   stage: string,
   season: number,
   dummyKey: string,
-  setPopup: (o: { waiting?: boolean, error?: string | null }) => void,
   onLoadError: (err: Error) => void,
   onSeasonChange: (tournament: string, stage: string, season?: number) => void,
 }
@@ -60,41 +69,26 @@ interface State {
   season: number, // for error handling (so that we know the previous season)
 }
 
-class Pages extends PureComponent<Props, State> {
-  state: State = {
+const Pages = ({
+  tournament,
+  stage,
+  season,
+  dummyKey,
+  // @ts-ignore
+  match,
+  onLoadError,
+  onSeasonChange,
+}: Props) => {
+  const [, setPopup] = usePopup()
+
+  const [state, setState] = usePartialState<State>({
     key: uniqueId(),
     pots: null,
     season: currentSeasonByTournament('cl', 'gs'),
-  }
+  })
 
-  componentDidMount() {
-    this.update(this.props, true)
-  }
-
-  componentDidUpdate(prevProps: Props) {
-    this.update(prevProps, false)
-  }
-
-  private update(prevProps: Props, force: boolean) {
-    const {
-      tournament,
-      stage,
-      season,
-      dummyKey,
-    } = this.props
-
-    if (force || season !== prevProps.season || stage !== prevProps.stage || tournament !== prevProps.tournament) {
-      this.fetchData(tournament, stage, season)
-    } else if (dummyKey !== prevProps.dummyKey) {
-      this.setState({
-        key: dummyKey,
-      })
-    }
-  }
-
-  private getMatchParams() {
-    // @ts-ignore
-    const { params } = this.props.match
+  const getMatchParams = useCallback(() => {
+    const { params } = match
     const season = params.season
       ? +params.season
       : currentSeasonByTournament(params.tournament, params.stage)
@@ -103,10 +97,32 @@ class Pages extends PureComponent<Props, State> {
       ...params,
       season,
     }
-  }
+  }, [match])
 
-  private async fetchData(tournament: string, stage: string, season: number) {
-    this.props.setPopup({
+  const onFetchError = useCallback(async (err) => {
+    console.error(err)
+    setPopup({
+      waiting: false,
+      error: 'Could not fetch data',
+    })
+
+    await delay(1000)
+    const {
+      tournament: newTournament,
+      stage: newStage,
+    } = getMatchParams()
+
+    const newSeason = state.pots && state.season !== currentSeasonByTournament(newTournament, newStage)
+      ? state.season
+      : undefined
+    onSeasonChange(newTournament, newStage, newSeason)
+    setPopup({
+      error: null,
+    })
+  }, [match, state, setPopup, onSeasonChange])
+
+  const fetchData = useCallback(async () => {
+    setPopup({
       waiting: true,
     })
 
@@ -115,177 +131,166 @@ class Pages extends PureComponent<Props, State> {
         ? getWcPots(2018) // TODO
         : getPotsFromBert(tournament, stage, season)
 
-      const pots = await potsPromise
+      const newPots = await potsPromise
 
-      await timelimit(prefetchImages(pots), 5000, {
+      await timelimit(prefetchImages(newPots), 5000, {
         rejectOnTimeout: false,
       })
 
-      await delay(0)
-      this.setState({
-        pots,
+      setState({
+        pots: newPots,
         key: uniqueId(),
         // tournament,
         // stage,
         season,
       })
 
-      this.props.setPopup({
+      setPopup({
         waiting: false,
         error: null,
       })
     } catch (err) {
-      this.onFetchError(err)
+      onFetchError(err)
     }
-  }
+  }, [season, stage, tournament, setPopup])
 
-  private async onFetchError(err) {
-    this.props.setPopup({
-      waiting: false,
-      error: 'Could not fetch data',
+  useEffect(() => {
+    fetchData()
+  }, [season, stage, tournament])
+
+  useOnUpdate(() => {
+    setState({
+      key: dummyKey,
     })
+  }, [dummyKey])
 
-    await delay(1000)
-    console.error(err)
-    const { tournament, stage } = this.getMatchParams()
-    const { pots, season } = this.state
-    const newSeason = pots && season !== currentSeasonByTournament(tournament, stage) ? season : undefined
-    this.props.onSeasonChange(tournament, stage, newSeason)
-    this.props.setPopup({
-      error: null,
-    })
-  }
+  const { pots, key } = state
 
-  render() {
-    const { props } = this
-    const { pots, key } = this.state
-
-    return (
-      <Switch>
-        <Route path="/cl">
-          <>
-            <Helmet>
-              <title>
-                CL draw simulator
-              </title>
-              <link
-                rel="icon"
-                href="//img.uefa.com/imgml/favicon/comp/ucl.ico"
-                type="image/x-icon"
+  return (
+    <Switch>
+      <Route path="/cl">
+        <>
+          <Helmet>
+            <title>
+              CL draw simulator
+            </title>
+            <link
+              rel="icon"
+              href="//img.uefa.com/imgml/favicon/comp/ucl.ico"
+              type="image/x-icon"
+            />
+            <meta
+              name="theme-color"
+              content="#00336a"
+            />
+            <meta
+              name="description"
+              content="Champions League draw simulator"
+            />
+          </Helmet>
+          <Switch>
+            <Route path="/cl/gs">
+              <PageLoader
+                tournament="cl"
+                stage="gs"
+                pots={pots}
+                key={key}
+                onLoadError={onLoadError}
               />
-              <meta
-                name="theme-color"
-                content="#00336a"
+            </Route>
+            <Route path="/cl/ko">
+              <PageLoader
+                tournament="cl"
+                stage="ko"
+                pots={pots}
+                key={key}
+                onLoadError={onLoadError}
               />
-              <meta
-                name="description"
-                content="Champions League draw simulator"
+            </Route>
+          </Switch>
+        </>
+      </Route>
+      <Route path="/el">
+        <>
+          <Helmet>
+            <title>
+              EL draw simulator
+            </title>
+            <link
+              rel="icon"
+              href="//img.uefa.com/imgml/favicon/comp/uefacup.ico"
+              type="image/x-icon"
+            />
+            <meta
+              name="theme-color"
+              content="#f68e00"
+            />
+            <meta
+              name="description"
+              content="Europa League draw simulator"
+            />
+          </Helmet>
+          <Switch>
+            <Route path="/el/gs">
+              <PageLoader
+                tournament="el"
+                stage="gs"
+                pots={pots}
+                key={key}
+                onLoadError={onLoadError}
               />
-            </Helmet>
-            <Switch>
-              <Route path="/cl/gs">
-                <PageLoader
-                  tournament="cl"
-                  stage="gs"
-                  pots={pots}
-                  key={key}
-                  onLoadError={props.onLoadError}
-                />
-              </Route>
-              <Route path="/cl/ko">
-                <PageLoader
-                  tournament="cl"
-                  stage="ko"
-                  pots={pots}
-                  key={key}
-                  onLoadError={props.onLoadError}
-                />
-              </Route>
-            </Switch>
-          </>
-        </Route>
-        <Route path="/el">
-          <>
-            <Helmet>
-              <title>
-                EL draw simulator
-              </title>
-              <link
-                rel="icon"
-                href="//img.uefa.com/imgml/favicon/comp/uefacup.ico"
-                type="image/x-icon"
+            </Route>
+            <Route path="/el/ko">
+              <PageLoader
+                tournament="el"
+                stage="ko"
+                pots={pots}
+                key={key}
+                onLoadError={onLoadError}
               />
-              <meta
-                name="theme-color"
-                content="#f68e00"
+            </Route>
+          </Switch>
+        </>
+      </Route>
+      <Route path="/wc">
+        <>
+          <Helmet>
+            <title>
+              FIFA World Cup draw simulator
+            </title>
+            <link
+              rel="icon"
+              href="//www.fifa.com/imgml/favicon/favicon.ico"
+              type="image/x-icon"
+            />
+            <meta
+              name="theme-color"
+              content="#326295"
+            />
+            <meta
+              name="description"
+              content="FIFA World Cup draw simulator"
+            />
+          </Helmet>
+          <Switch>
+            <Route path="/wc/gs">
+              <PageLoader
+                tournament="wc"
+                stage="gs"
+                pots={pots}
+                key={key}
+                onLoadError={onLoadError}
               />
-              <meta
-                name="description"
-                content="Europa League draw simulator"
-              />
-            </Helmet>
-            <Switch>
-              <Route path="/el/gs">
-                <PageLoader
-                  tournament="el"
-                  stage="gs"
-                  pots={pots}
-                  key={key}
-                  onLoadError={props.onLoadError}
-                />
-              </Route>
-              <Route path="/el/ko">
-                <PageLoader
-                  tournament="el"
-                  stage="ko"
-                  pots={pots}
-                  key={key}
-                  onLoadError={props.onLoadError}
-                />
-              </Route>
-            </Switch>
-          </>
-        </Route>
-        <Route path="/wc">
-          <>
-            <Helmet>
-              <title>
-                FIFA World Cup draw simulator
-              </title>
-              <link
-                rel="icon"
-                href="//www.fifa.com/imgml/favicon/favicon.ico"
-                type="image/x-icon"
-              />
-              <meta
-                name="theme-color"
-                content="#326295"
-              />
-              <meta
-                name="description"
-                content="FIFA World Cup draw simulator"
-              />
-            </Helmet>
-            <Switch>
-              <Route path="/wc/gs">
-                <PageLoader
-                  tournament="wc"
-                  stage="gs"
-                  pots={pots}
-                  key={key}
-                  onLoadError={props.onLoadError}
-                />
-              </Route>
-              <Redirect
-                from="/wc/*"
-                to="/wc/gs"
-              />
-            </Switch>
-          </>
-        </Route>
-      </Switch>
-    )
-  }
+            </Route>
+            <Redirect
+              from="/wc/*"
+              to="/wc/gs"
+            />
+          </Switch>
+        </>
+      </Route>
+    </Switch>
+  )
 }
 
-export default Pages
+export default memo(Pages)
