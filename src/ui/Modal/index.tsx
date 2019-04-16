@@ -28,7 +28,7 @@ interface Props {
   noAnimation: boolean,
 }
 
-const Popup: React.FC<Props> = ({
+const Modal: React.FC<Props> = ({
   noAnimation,
   children,
 }) => (
@@ -40,4 +40,4 @@ const Popup: React.FC<Props> = ({
   </div>
 )
 
-export default memo(Popup)
+export default memo(Modal)

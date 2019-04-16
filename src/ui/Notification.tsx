@@ -1,7 +1,7 @@
 import React, { memo } from 'react'
 import styled from 'styled-components'
 
-import Popup from './Popup'
+import Modal from './Modal'
 
 const Text = styled.div`
   font-size: 5vw;
@@ -22,11 +22,11 @@ const Notification: React.FC<Props> = ({
   children,
 }) => (
   // @ts-ignore
-  <Popup noAnimation={noAnimation}>
+  <Modal noAnimation={noAnimation}>
     <Text>
       {children}
     </Text>
-  </Popup>
+  </Modal>
 )
 
 export default memo(Notification)
