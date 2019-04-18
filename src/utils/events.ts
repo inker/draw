@@ -3,8 +3,8 @@ export const once = <K extends keyof HTMLElementEventMap>(
   eventType: K,
 ) => new Promise<HTMLElementEventMap[K]>(resolve => {
   el.addEventListener(eventType, function handler(e) {
-      el.removeEventListener(eventType, handler)
-      resolve(e)
+    el.removeEventListener(eventType, handler)
+    resolve(e)
   })
 })
 

@@ -3,12 +3,23 @@ import React, {
   useEffect,
   memo,
 } from 'react'
-import { Route, Switch, Redirect } from 'react-router-dom'
-import { Helmet } from 'react-helmet'
+
+import {
+  Route,
+  Switch,
+  Redirect,
+} from 'react-router-dom'
+
+import {
+  Helmet,
+} from 'react-helmet'
 
 import delay from 'delay.js'
 import timelimit from 'timelimit'
-import { uniqueId, memoize } from 'lodash'
+import {
+  uniqueId,
+  memoize,
+} from 'lodash'
 
 import fetchPots from 'model/fetchPotsData'
 import getPairings from 'model/getPairings'
