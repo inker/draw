@@ -25,11 +25,10 @@ const MovingDiv = ({
     const fromCell = document.querySelector(from)
     const toCell = document.querySelector(to)
     if (fromCell instanceof HTMLElement && toCell instanceof HTMLElement) {
-      let p = animateContentTransfer(fromCell, toCell, duration)
+      const p = animateContentTransfer(fromCell, toCell, duration)
       if (onAnimationEnd) {
-        p = p.then(() => onAnimationEnd(data))
+        p.then(() => onAnimationEnd(data))
       }
-      return p
     }
   }, [from, to, duration, data, onAnimationEnd])
 
