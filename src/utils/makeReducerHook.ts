@@ -4,6 +4,10 @@ import {
   useEffect,
 } from 'react'
 
+import {
+  pull,
+} from 'lodash'
+
 export default <State extends { [key: string]: any }>(initialState: State) => {
   type PartialState = Partial<State>
   type StateHookReturnValue = [
@@ -12,7 +16,7 @@ export default <State extends { [key: string]: any }>(initialState: State) => {
   ]
 
   let state = initialState
-  let listeners: React.Dispatch<State>[] = []
+  const listeners: React.Dispatch<State>[] = []
 
   return (): StateHookReturnValue => {
     const setState = useState<State>(state)[1]
@@ -20,7 +24,7 @@ export default <State extends { [key: string]: any }>(initialState: State) => {
     useEffect(() => {
       listeners.push(setState)
       return () => {
-        listeners = listeners.filter(item => item !== setState)
+        pull(listeners, setState)
       }
     }, [])
 
