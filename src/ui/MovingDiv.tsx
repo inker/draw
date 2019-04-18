@@ -4,6 +4,10 @@ import {
   memo,
 } from 'react'
 
+import {
+  noop,
+} from 'lodash'
+
 import animateContentTransfer from 'utils/animateContentTransfer'
 
 interface Props {
@@ -21,14 +25,16 @@ const MovingDiv = ({
   data,
   onAnimationEnd,
 }: Props) => {
+  const onAnimationEndCb = useCallback(() => {
+    const cb = onAnimationEnd || noop
+    cb(data)
+  }, [data, onAnimationEnd])
+
   const animateCell = useCallback(() => {
     const fromCell = document.querySelector(from)
     const toCell = document.querySelector(to)
     if (fromCell instanceof HTMLElement && toCell instanceof HTMLElement) {
-      const p = animateContentTransfer(fromCell, toCell, duration)
-      if (onAnimationEnd) {
-        p.then(() => onAnimationEnd(data))
-      }
+      animateContentTransfer(fromCell, toCell, duration).then(onAnimationEndCb)
     }
   }, [from, to, duration, data, onAnimationEnd])
 
