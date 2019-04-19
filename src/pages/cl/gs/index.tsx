@@ -1,8 +1,11 @@
 import React, {
   useCallback,
+  useMemo,
   memo,
 } from 'react'
+
 import { allPossibleGroups } from '@draws/engine'
+
 import {
   shuffle,
   uniqueId,
@@ -37,10 +40,8 @@ interface Props {
 
 interface State {
   drawId: string,
-  initialPots: Team[][],
   pots: Team[][],
   groups: Team[][],
-  maxTeamsInGroup: number,
   airborneTeams: Team[],
   currentPotNum: number,
   selectedTeam: Team | null,
@@ -58,10 +59,8 @@ function getState(initialPots: Team[][]): State {
   const currentPot = pots[currentPotNum]
   return {
     drawId: uniqueId('draw-'),
-    initialPots,
     pots,
     groups: currentPot.map(team => []),
-    maxTeamsInGroup: pots.length,
     airborneTeams: [],
     currentPotNum,
     selectedTeam: null,
@@ -77,10 +76,11 @@ function getState(initialPots: Team[][]): State {
 const CLGS = ({
   pots: initialPots,
 }: Props) => {
-  const [state, setState] = usePartialState(getState(initialPots))
+  const initialState = useMemo(() => getState(initialPots), [initialPots])
+  const [state, setState] = usePartialState(initialState)
 
   const onReset = useCallback(() => {
-    setState(getState(initialPots))
+    setState(initialState)
   }, [initialPots])
 
   const onTeamBallPick = useCallback((i: number) => {
@@ -153,7 +153,7 @@ const CLGS = ({
           currentPotNum={state.currentPotNum}
         />
         <GroupsContainer
-          maxTeams={state.maxTeamsInGroup}
+          maxTeams={state.pots.length}
           currentPotNum={state.currentPotNum}
           groups={state.groups}
           possibleGroups={state.possibleGroups}
