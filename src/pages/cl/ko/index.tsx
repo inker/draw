@@ -174,6 +174,7 @@ const CLKO = ({
             forceNoSelect={state.currentPotNum === 1}
             completed={state.completed}
             selectedTeam={null}
+            // @ts-ignore
             pot={state.pots[0].filter((team, i) => state.possiblePairings.includes(i))}
             onPick={onBallPick}
           />

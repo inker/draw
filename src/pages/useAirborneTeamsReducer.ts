@@ -2,19 +2,24 @@ import { useReducer } from 'react'
 
 import Team from 'model/team'
 
-interface Action<T> {
-  type: string,
-  payload: T,
-}
-
-const initialState: Team[] = []
+const initialState: State = []
 
 export const types = Object.freeze({
   add: 'AIRBORNE_TEAMS_ADD',
   remove: 'AIRBORNE_TEAMS_REMOVE',
-})
+}) as Readonly<{
+  add: 'AIRBORNE_TEAMS_ADD',
+  remove: 'AIRBORNE_TEAMS_REMOVE',
+}>
 
-function reducer<T extends Team>(airborneTeams: T[], action: Action<T>) {
+type State = Team[]
+
+interface Action {
+  type: typeof types.add | typeof types.remove,
+  payload: Team,
+}
+
+function reducer(airborneTeams: State, action: Action) {
   switch (action.type) {
     case types.add:
       return [...airborneTeams, action.payload]

@@ -6,9 +6,7 @@ import React, {
 } from 'react'
 
 import delay from 'delay.js'
-import isShallowEqual from 'shallowequal'
 import {
-  omit,
   shuffle,
   uniqueId,
 } from 'lodash'
@@ -32,6 +30,9 @@ import Root from 'pages/Root'
 import useAirborneTeamsReducer, {
   types as airborneTeamsTypes,
 } from 'pages/useAirborneTeamsReducer'
+import useLongCalculatingReducer, {
+  types as longCalculatingTypes,
+} from 'pages/useLongCalculatingReducer'
 
 // @ts-ignore
 import EsWorker from './worker'
@@ -54,7 +55,6 @@ interface State {
   pickedGroup: number | null,
   hungPot: Team[],
   calculating: boolean,
-  longCalculating: boolean,
   completed: boolean,
   error: string | null,
 }
@@ -72,7 +72,6 @@ function getState(initialPots: Team[][]): State {
     pickedGroup: null,
     hungPot: currentPot,
     calculating: false,
-    longCalculating: false,
     completed: false,
     error: null,
   }
@@ -84,6 +83,7 @@ const ELGS = ({
   const ww = useMemo(() => new WorkerWrapper(new EsWorker(), 120000), [])
 
   const initialState = useMemo(() => getState(initialPots), [initialPots])
+  const [longCalculating, dispatchLongCalculating] = useLongCalculatingReducer()
   const [state, setState] = usePartialState(initialState)
   const [airborneTeams, dispatchAirborne] = useAirborneTeamsReducer()
 
@@ -103,19 +103,17 @@ const ELGS = ({
     setState(getState(initialPots))
   }, [initialPots])
 
-  const setLongCalculating = useCallback(async () => {
-    const oldState = omit(state, 'airborneTeams')
-
-    await delay(3000)
-    const currentState = omit(state, 'airborneTeams')
-    if (!isShallowEqual(currentState, oldState)) {
-      return
-    }
-
-    setState({
-      longCalculating: true,
+  const runCalculatingTimer = useCallback(async (oldSelectedTeam: Team) => {
+    dispatchLongCalculating({
+      type: longCalculatingTypes.set,
+      payload: oldSelectedTeam,
     })
-  }, [state])
+    await delay(3000)
+    dispatchLongCalculating({
+      type: longCalculatingTypes.set,
+      payload: oldSelectedTeam,
+    })
+  }, [])
 
   const getPickedGroup = useCallback(async (selectedTeam: Team) => {
     const {
@@ -153,7 +151,6 @@ const ELGS = ({
   }, [state])
 
   const onTeamSelected = useCallback(async () => {
-    // setLongCalculating()
     const {
       selectedTeam,
     } = state
@@ -161,6 +158,8 @@ const ELGS = ({
     if (!selectedTeam) {
       throw new Error('no selected team')
     }
+
+    runCalculatingTimer(selectedTeam)
 
     let pickedGroup: number | undefined
     try {
@@ -197,13 +196,15 @@ const ELGS = ({
       type: airborneTeamsTypes.add,
       payload: selectedTeam,
     })
+    dispatchLongCalculating({
+      type: longCalculatingTypes.reset,
+    })
     setState({
       selectedTeam: null,
       pickedGroup,
       hungPot: pots[newCurrentPotNum],
       currentPotNum: newCurrentPotNum,
       calculating: false,
-      longCalculating: false,
       completed: newCurrentPotNum >= pots.length,
     })
   }, [state])
@@ -243,7 +244,7 @@ const ELGS = ({
         />
         <Announcement
           long
-          calculating={state.longCalculating}
+          calculating={longCalculating.isLong}
           completed={state.completed}
           selectedTeam={state.selectedTeam}
           pickedGroup={state.pickedGroup}
