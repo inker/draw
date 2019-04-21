@@ -12,7 +12,6 @@ import {
 
 import Team from 'model/team/GSTeam'
 
-import WorkerWrapper from 'utils/WorkerWrapper'
 import usePartialState from 'utils/hooks/usePartialState'
 import getGroupLetter from 'utils/getGroupLetter'
 
@@ -26,6 +25,7 @@ import TeamBowl from 'ui/bowls/TeamBowl'
 import Announcement from 'ui/Announcement'
 
 import Root from 'pages/Root'
+import useWorkerWrapper from 'pages/useWorkerWrapper'
 import useLongCalculating from 'pages/useLongCalculating'
 import useAirborneTeamsReducer, {
   types as airborneTeamsTypes,
@@ -77,18 +77,11 @@ function getState(initialPots: Team[][]): State {
 const ELGS = ({
   pots: initialPots,
 }: Props) => {
-  const ww = useMemo(() => new WorkerWrapper(new EsWorker(), 120000), [])
-
   const initialState = useMemo(() => getState(initialPots), [initialPots])
+  const workerSendAndReceive = useWorkerWrapper(EsWorker)
   const [isLongCalculating, runCalculatingTimer, resetLongCalculating] = useLongCalculating(3000)
   const [state, setState] = usePartialState(initialState)
   const [airborneTeams, dispatchAirborne] = useAirborneTeamsReducer()
-
-  useEffect(() => {
-    return () => {
-      ww.terminate()
-    }
-  }, [])
 
   useEffect(() => {
     if (state.selectedTeam) {
@@ -107,7 +100,7 @@ const ELGS = ({
       currentPotNum,
     } = state
 
-    const { pickedGroup } = await ww.sendAndReceive({
+    const { pickedGroup } = await workerSendAndReceive({
       pots,
       groups,
       selectedTeam,
