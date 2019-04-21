@@ -1,4 +1,10 @@
-import React, { PureComponent } from 'react'
+import React, {
+  useCallback,
+  useMemo,
+  useEffect,
+  memo,
+} from 'react'
+
 import delay from 'delay.js'
 import isShallowEqual from 'shallowequal'
 import {
@@ -10,9 +16,10 @@ import {
 import Team from 'model/team/GSTeam'
 
 import WorkerWrapper from 'utils/WorkerWrapper'
-import animateContentTransfer from 'utils/animateContentTransfer'
+import usePartialState from 'utils/hooks/usePartialState'
 import getGroupLetter from 'utils/getGroupLetter'
 
+import MovingDiv from 'ui/MovingDiv'
 import PotsContainer from 'ui/PotsContainer'
 // import AirborneContainer from 'ui/AirborneContainer'
 import GroupsContainer from 'ui/GroupsContainer'
@@ -36,10 +43,8 @@ interface Props {
 
 interface State {
   drawId: string,
-  initialPots: Team[][],
   pots: Team[][],
   groups: Team[][],
-  maxTeamsInGroup: number,
   airborneTeams: Team[],
   currentPotNum: number,
   selectedTeam: Team | null,
@@ -51,213 +56,214 @@ interface State {
   error: string | null,
 }
 
-export default class ELGS extends PureComponent<Props, State> {
-  private workerWrapper = new WorkerWrapper(new EsWorker(), 120000)
-
-  constructor(props: Props) {
-    super(props)
-    this.state = this.getNewState()
+function getState(initialPots: Team[][]): State {
+  const currentPotNum = 0
+  const pots = initialPots.map(pot => shuffle(pot))
+  const currentPot = pots[currentPotNum]
+  return {
+    drawId: uniqueId('draw-'),
+    pots,
+    groups: currentPot.map(team => []),
+    airborneTeams: [],
+    currentPotNum,
+    selectedTeam: null,
+    pickedGroup: null,
+    hungPot: currentPot,
+    calculating: false,
+    longCalculating: false,
+    completed: false,
+    error: null,
   }
+}
 
-  componentWillUnmount() {
-    this.workerWrapper.terminate()
-  }
+const ELGS = ({
+  pots: initialPots,
+}: Props) => {
+  const ww = useMemo(() => new WorkerWrapper(new EsWorker(), 120000), [])
 
-  private onReset = () => {
-    this.setState(this.getNewState())
-  }
+  const initialState = useMemo(() => getState(initialPots), [initialPots])
+  const [state, setState] = usePartialState(initialState)
 
-  private getNewState(): State {
-    const initialPots = this.props.pots
-    const currentPotNum = 0
-    const pots = initialPots.map(pot => shuffle(pot))
-    const currentPot = pots[currentPotNum]
-    return {
-      drawId: uniqueId('draw-'),
-      initialPots,
-      pots,
-      groups: currentPot.map(team => []),
-      maxTeamsInGroup: pots.length,
-      airborneTeams: [],
-      currentPotNum,
-      selectedTeam: null,
-      pickedGroup: null,
-      hungPot: currentPot,
-      calculating: false,
-      longCalculating: false,
-      completed: false,
-      error: null,
+  useEffect(() => {
+    return () => {
+      ww.terminate()
     }
-  }
+  }, [])
 
-  private onTeamBallPick = async (i: number) => {
+  useEffect(() => {
+    if (state.selectedTeam) {
+      onTeamSelected()
+    }
+  }, [state.selectedTeam])
+
+  const onReset = useCallback(() => {
+    setState(initialState)
+  }, [initialPots])
+
+  const setLongCalculating = useCallback(async () => {
+    const oldState = omit(state, 'airborneTeams')
+
+    await delay(3000)
+    const currentState = omit(state, 'airborneTeams')
+    if (!isShallowEqual(currentState, oldState)) {
+      return
+    }
+
+    setState({
+      longCalculating: true,
+    })
+  }, [state])
+
+  const getPickedGroup = useCallback(async (selectedTeam: Team) => {
+    const {
+      pots,
+      groups,
+      currentPotNum,
+    } = state
+
+    const { pickedGroup } = await ww.sendAndReceive({
+      pots,
+      groups,
+      selectedTeam,
+      currentPotNum,
+    })
+
+    return pickedGroup as number
+  }, [state])
+
+  const onTeamBallPick = useCallback(async (i: number) => {
     const {
       pots,
       currentPotNum,
-    } = this.state
+    } = state
 
     const currentPot = pots[currentPotNum]
     const hungPot = currentPot.slice()
     const selectedTeam = currentPot.splice(i, 1)[0]
 
-    this.setState({
+    setState({
       hungPot,
       selectedTeam,
       pickedGroup: null,
       calculating: true,
-    }, this.onTeamSelect)
-  }
+    })
+  }, [state])
 
-  private onTeamSelect = async () => {
-    this.setLongCalculating()
-
+  const onTeamSelected = useCallback(async () => {
+    // setLongCalculating()
     const {
-      pots,
-      groups,
       selectedTeam,
-      currentPotNum,
-    } = this.state
+    } = state
 
     if (!selectedTeam) {
       throw new Error('no selected team')
     }
 
-    const pickedGroup = await this.getPickedGroup()
-    if (pickedGroup === undefined) {
-      this.setState({
+    let pickedGroup: number | undefined
+    try {
+      pickedGroup = await getPickedGroup(selectedTeam)
+    } catch (err) {
+      console.error(err)
+      setState({
         error: 'Could not determine the group',
+      })
+      return
+    }
+
+    onGroupPick(selectedTeam, pickedGroup)
+  }, [state])
+
+  const onGroupPick = useCallback((selectedTeam: Team, pickedGroup: number) => {
+    const {
+      pots,
+      groups,
+      airborneTeams,
+      currentPotNum,
+    } = state
+
+    if (!selectedTeam) {
+      setState({
+        error: 'shit',
       })
       return
     }
 
     groups[pickedGroup].push(selectedTeam)
     const newCurrentPotNum = pots[currentPotNum].length > 0 ? currentPotNum : currentPotNum + 1
-    const completed = newCurrentPotNum >= pots.length
 
-    this.state.airborneTeams.push(selectedTeam)
-    const animation = this.animateCell(selectedTeam, pickedGroup)
-
-    this.setState({
-      groups,
+    setState({
       selectedTeam: null,
       pickedGroup,
       hungPot: pots[newCurrentPotNum],
       currentPotNum: newCurrentPotNum,
       calculating: false,
       longCalculating: false,
-      completed,
-      airborneTeams: this.state.airborneTeams,
-    }, async () => {
-      await animation
-      this.setState({
-        airborneTeams: this.state.airborneTeams.filter(team => team !== selectedTeam),
-      })
+      completed: newCurrentPotNum >= pots.length,
+      airborneTeams: [...airborneTeams, selectedTeam],
     })
-  }
+  }, [state])
 
-  private async getPickedGroup() {
-    try {
-      const {
-        pots,
-        groups,
-        selectedTeam,
-        currentPotNum,
-      } = this.state
-
-      const { pickedGroup } = await this.workerWrapper.sendAndReceive({
-        pots,
-        groups,
-        selectedTeam,
-        currentPotNum,
-      })
-
-      return pickedGroup as number
-    } catch (err) {
-      console.error(err)
-    }
-  }
-
-  private async setLongCalculating() {
-    const oldState = omit(this.state as State, 'airborneTeams')
-
-    await delay(3000)
-    const currentState = omit(this.state as State, 'airborneTeams')
-    if (!isShallowEqual(currentState, oldState)) {
-      return
-    }
-
-    this.setState({
-      longCalculating: true,
+  const onAnimationEnd = useCallback((teamData: Team) => {
+    const newAirborneTeams = state.airborneTeams.filter(t => t !== teamData)
+    setState({
+      airborneTeams: newAirborneTeams,
     })
-  }
+  }, [state])
 
-  private animateCell(selectedTeam: Team, pickedGroup: number) {
-    const { currentPotNum } = this.state
-    if (!selectedTeam) {
-      return
-    }
-    const fromCell = document.querySelector(`[data-cellid='${selectedTeam.id}']`)
-    const toCellSelector = `[data-cellid='${getGroupLetter(pickedGroup)}${currentPotNum}']`
-    const toCell = document.querySelector(toCellSelector)
-    if (fromCell instanceof HTMLElement && toCell instanceof HTMLElement) {
-      return animateContentTransfer(fromCell, toCell, 350)
-    }
-  }
-
-  render() {
-    const {
-      initialPots,
-      pots,
-      groups,
-      maxTeamsInGroup,
-      currentPotNum,
-      hungPot,
-      airborneTeams,
-      selectedTeam,
-      pickedGroup,
-      calculating,
-      longCalculating,
-      completed,
-    } = this.state
-
-    return (
-      <Root>
-        <TablesContainer>
-          <PotsContainer
-            selectedTeams={selectedTeam && [selectedTeam]}
-            initialPots={initialPots}
-            pots={pots}
-            currentPotNum={currentPotNum}
+  return (
+    <Root>
+      <TablesContainer>
+        <PotsContainer
+          selectedTeams={state.selectedTeam && [state.selectedTeam]}
+          initialPots={initialPots}
+          pots={state.pots}
+          currentPotNum={state.currentPotNum}
+        />
+        <GroupsContainer
+          maxTeams={state.pots.length}
+          currentPotNum={state.currentPotNum}
+          groups={state.groups}
+          possibleGroups={null}
+          airborneTeams={state.airborneTeams}
+          groupColors={groupColors}
+        />
+      </TablesContainer>
+      <BowlsContainer>
+        <TeamBowl
+          calculating={state.calculating}
+          completed={state.completed}
+          selectedTeam={state.selectedTeam}
+          pot={state.hungPot}
+          onPick={onTeamBallPick}
+        />
+        <Announcement
+          long
+          calculating={state.longCalculating}
+          completed={state.completed}
+          selectedTeam={state.selectedTeam}
+          pickedGroup={state.pickedGroup}
+          possibleGroups={null}
+          numGroups={state.groups.length}
+          reset={onReset}
+        />
+      </BowlsContainer>
+      {state.airborneTeams.map(team => {
+        const { groups } = state
+        const pg = groups.findIndex(g => g.includes(team))
+        const pos = groups[pg].indexOf(team)
+        return (
+          <MovingDiv
+            key={team.id}
+            from={`[data-cellid='${team.id}']`}
+            to={`[data-cellid='${getGroupLetter(pg)}${pos}']`}
+            duration={350}
+            data={team}
+            onAnimationEnd={onAnimationEnd}
           />
-          <GroupsContainer
-            maxTeams={maxTeamsInGroup}
-            currentPotNum={currentPotNum}
-            groups={groups}
-            possibleGroups={null}
-            airborneTeams={airborneTeams}
-            groupColors={groupColors}
-          />
-        </TablesContainer>
-        <BowlsContainer>
-          <TeamBowl
-            forceNoSelect={calculating}
-            display={!completed}
-            selectedTeam={selectedTeam}
-            pot={hungPot}
-            onPick={this.onTeamBallPick}
-          />
-          <Announcement
-            long
-            calculating={longCalculating}
-            completed={completed}
-            selectedTeam={selectedTeam}
-            pickedGroup={pickedGroup}
-            possibleGroups={null}
-            numGroups={groups.length}
-            reset={this.onReset}
-          />
-        </BowlsContainer>
-      </Root>
-    )
-  }
+        )
+      })}
+    </Root>
+  )
 }
+
+export default memo(ELGS)
