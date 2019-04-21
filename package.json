@@ -10,7 +10,6 @@
     "delay.js": "^1.0.2",
     "fast-delete": "^1.0.1",
     "fast-levenshtein": "^2.0.6",
-    "fastclick": "^1.0.6",
     "flag-icon-css": "^3.3.0",
     "history": "^4.9.0",
     "lodash": "^4.17.11",
@@ -26,7 +25,6 @@
   },
   "devDependencies": {
     "@types/fast-levenshtein": "0.0.1",
-    "@types/fastclick": "^1.0.28",
     "@types/lodash": "^4.14.123",
     "@types/react": "^16.8.13",
     "@types/react-dom": "^16.8.4",

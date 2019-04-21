@@ -32,7 +32,6 @@ const SelectWithHiddenLabel: React.FC<Props> = ({
       </HiddenLabel>
       <select
         id={id}
-        className="needsclick"
         title={label}
         {...props}
       >
