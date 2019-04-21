@@ -28,8 +28,8 @@ import GroupBowl from 'ui/bowls/GroupBowl'
 import Announcement from 'ui/Announcement'
 
 import Root from 'pages/Root'
-import setAirborneTeamsReducer, {
-  types as airBorneTeamsTypes,
+import useAirborneTeamsReducer, {
+  types as airborneTeamsTypes,
 } from 'pages/useAirborneTeamsReducer'
 
 const groupColors = [
@@ -79,10 +79,10 @@ const CLGS = ({
 }: Props) => {
   const initialState = useMemo(() => getState(initialPots), [initialPots])
   const [state, setState] = usePartialState(initialState)
-  const [airborneTeams, dispatchAirborne] = setAirborneTeamsReducer()
+  const [airborneTeams, dispatchAirborne] = useAirborneTeamsReducer()
 
   const onReset = useCallback(() => {
-    setState(initialState)
+    setState(getState(initialPots))
   }, [initialPots])
 
   const onTeamBallPick = useCallback((i: number) => {
@@ -135,17 +135,17 @@ const CLGS = ({
       completed: newCurrentPotNum >= pots.length,
     })
     dispatchAirborne({
-      type: airBorneTeamsTypes.add,
+      type: airborneTeamsTypes.add,
       payload: selectedTeam,
     })
   }, [state])
 
   const onAnimationEnd = useCallback((teamData: Team) => {
     dispatchAirborne({
-      type: airBorneTeamsTypes.remove,
+      type: airborneTeamsTypes.remove,
       payload: teamData,
     })
-  }, [state])
+  }, [])
 
   return (
     <Root>
