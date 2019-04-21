@@ -85,8 +85,8 @@ const CLGS = ({
 
   const onTeamBallPick = useCallback((i: number) => {
     const {
-      groups,
       pots,
+      groups,
       currentPotNum,
     } = state
 
@@ -107,10 +107,10 @@ const CLGS = ({
 
   const onGroupBallPick = useCallback((pickedGroup: number) => {
     const {
+      pots,
       groups,
       airborneTeams,
       selectedTeam,
-      pots,
       currentPotNum,
     } = state
 
