@@ -29,6 +29,10 @@ import TeamBowl from 'ui/bowls/TeamBowl'
 import Announcement from 'ui/Announcement'
 
 import Root from 'pages/Root'
+import useAirborneTeamsReducer, {
+  types as airborneTeamsTypes,
+} from 'pages/useAirborneTeamsReducer'
+
 // @ts-ignore
 import EsWorker from './worker'
 
@@ -45,7 +49,6 @@ interface State {
   drawId: string,
   pots: Team[][],
   groups: Team[][],
-  airborneTeams: Team[],
   currentPotNum: number,
   selectedTeam: Team | null,
   pickedGroup: number | null,
@@ -64,7 +67,6 @@ function getState(initialPots: Team[][]): State {
     drawId: uniqueId('draw-'),
     pots,
     groups: currentPot.map(team => []),
-    airborneTeams: [],
     currentPotNum,
     selectedTeam: null,
     pickedGroup: null,
@@ -83,6 +85,7 @@ const ELGS = ({
 
   const initialState = useMemo(() => getState(initialPots), [initialPots])
   const [state, setState] = usePartialState(initialState)
+  const [airborneTeams, dispatchAirborne] = useAirborneTeamsReducer()
 
   useEffect(() => {
     return () => {
@@ -94,10 +97,10 @@ const ELGS = ({
     if (state.selectedTeam) {
       onTeamSelected()
     }
-  }, [state.selectedTeam])
+  }, [state])
 
   const onReset = useCallback(() => {
-    setState(initialState)
+    setState(getState(initialPots))
   }, [initialPots])
 
   const setLongCalculating = useCallback(async () => {
@@ -177,7 +180,6 @@ const ELGS = ({
     const {
       pots,
       groups,
-      airborneTeams,
       currentPotNum,
     } = state
 
@@ -191,6 +193,10 @@ const ELGS = ({
     groups[pickedGroup].push(selectedTeam)
     const newCurrentPotNum = pots[currentPotNum].length > 0 ? currentPotNum : currentPotNum + 1
 
+    dispatchAirborne({
+      type: airborneTeamsTypes.add,
+      payload: selectedTeam,
+    })
     setState({
       selectedTeam: null,
       pickedGroup,
@@ -199,16 +205,15 @@ const ELGS = ({
       calculating: false,
       longCalculating: false,
       completed: newCurrentPotNum >= pots.length,
-      airborneTeams: [...airborneTeams, selectedTeam],
     })
   }, [state])
 
   const onAnimationEnd = useCallback((teamData: Team) => {
-    const newAirborneTeams = state.airborneTeams.filter(t => t !== teamData)
-    setState({
-      airborneTeams: newAirborneTeams,
+    dispatchAirborne({
+      type: airborneTeamsTypes.remove,
+      payload: teamData,
     })
-  }, [state])
+  }, [])
 
   return (
     <Root>
@@ -224,7 +229,7 @@ const ELGS = ({
           currentPotNum={state.currentPotNum}
           groups={state.groups}
           possibleGroups={null}
-          airborneTeams={state.airborneTeams}
+          airborneTeams={airborneTeams}
           groupColors={groupColors}
         />
       </TablesContainer>
@@ -247,15 +252,15 @@ const ELGS = ({
           reset={onReset}
         />
       </BowlsContainer>
-      {state.airborneTeams.map(team => {
+      {airborneTeams.map((team: Team) => {
         const { groups } = state
-        const pg = groups.findIndex(g => g.includes(team))
-        const pos = groups[pg].indexOf(team)
+        const groupNum = groups.findIndex(g => g.includes(team))
+        const pos = groups[groupNum].indexOf(team)
         return (
           <MovingDiv
             key={team.id}
             from={`[data-cellid='${team.id}']`}
-            to={`[data-cellid='${getGroupLetter(pg)}${pos}']`}
+            to={`[data-cellid='${getGroupLetter(groupNum)}${pos}']`}
             duration={350}
             data={team}
             onAnimationEnd={onAnimationEnd}
