@@ -21,7 +21,6 @@ const Notification: React.FC<Props> = ({
   noAnimation,
   children,
 }) => (
-  // @ts-ignore
   <Modal noAnimation={noAnimation}>
     <Text>
       {children}
