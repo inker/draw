@@ -5,7 +5,6 @@ import React, {
   memo,
 } from 'react'
 
-import delay from 'delay.js'
 import {
   shuffle,
   uniqueId,
@@ -27,12 +26,10 @@ import TeamBowl from 'ui/bowls/TeamBowl'
 import Announcement from 'ui/Announcement'
 
 import Root from 'pages/Root'
+import useLongCalculating from 'pages/useLongCalculating'
 import useAirborneTeamsReducer, {
   types as airborneTeamsTypes,
 } from 'pages/useAirborneTeamsReducer'
-import useLongCalculatingReducer, {
-  types as longCalculatingTypes,
-} from 'pages/useLongCalculatingReducer'
 
 // @ts-ignore
 import EsWorker from './worker'
@@ -82,7 +79,7 @@ const WCGS = ({
   const ww = useMemo(() => new WorkerWrapper(new WcWorker(), 120000), [])
 
   const initialState = useMemo(() => getState(initialPots), [initialPots])
-  const [longCalculating, dispatchLongCalculating] = useLongCalculatingReducer()
+  const [isLongCalculating, runCalculatingTimer, resetLongCalculating] = useLongCalculating(3000)
   const [state, setState] = usePartialState(initialState)
   const [airborneTeams, dispatchAirborne] = useAirborneTeamsReducer()
 
@@ -96,7 +93,7 @@ const WCGS = ({
     if (state.selectedTeam) {
       onTeamSelected()
     }
-  }, [state])
+  }, [state.selectedTeam])
 
   useEffect(() => {
     // pick host ball
@@ -108,18 +105,6 @@ const WCGS = ({
   const onReset = useCallback(() => {
     setState(getState(initialPots))
   }, [initialPots])
-
-  const runCalculatingTimer = useCallback(async (oldSelectedTeam: Team) => {
-    dispatchLongCalculating({
-      type: longCalculatingTypes.set,
-      payload: oldSelectedTeam,
-    })
-    await delay(3000)
-    dispatchLongCalculating({
-      type: longCalculatingTypes.set,
-      payload: oldSelectedTeam,
-    })
-  }, [])
 
   const getPickedGroup = useCallback(async (selectedTeam: Team) => {
     const {
@@ -202,9 +187,7 @@ const WCGS = ({
       type: airborneTeamsTypes.add,
       payload: selectedTeam,
     })
-    dispatchLongCalculating({
-      type: longCalculatingTypes.reset,
-    })
+    resetLongCalculating()
     setState({
       selectedTeam: null,
       pickedGroup,
@@ -250,7 +233,7 @@ const WCGS = ({
         />
         <Announcement
           long
-          calculating={longCalculating.isLong}
+          calculating={isLongCalculating}
           completed={state.completed}
           selectedTeam={state.selectedTeam}
           pickedGroup={state.pickedGroup}
