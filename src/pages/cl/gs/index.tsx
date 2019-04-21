@@ -28,6 +28,9 @@ import GroupBowl from 'ui/bowls/GroupBowl'
 import Announcement from 'ui/Announcement'
 
 import Root from 'pages/Root'
+import setAirborneTeamsReducer, {
+  types as airBorneTeamsTypes,
+} from 'pages/useAirborneTeamsReducer'
 
 const groupColors = [
   'rgba(255, 0, 0, 0.25)',
@@ -42,7 +45,6 @@ interface State {
   drawId: string,
   pots: Team[][],
   groups: Team[][],
-  airborneTeams: Team[],
   currentPotNum: number,
   selectedTeam: Team | null,
   pickedGroup: number | null,
@@ -61,7 +63,6 @@ function getState(initialPots: Team[][]): State {
     drawId: uniqueId('draw-'),
     pots,
     groups: currentPot.map(team => []),
-    airborneTeams: [],
     currentPotNum,
     selectedTeam: null,
     pickedGroup: null,
@@ -78,6 +79,7 @@ const CLGS = ({
 }: Props) => {
   const initialState = useMemo(() => getState(initialPots), [initialPots])
   const [state, setState] = usePartialState(initialState)
+  const [airborneTeams, dispatchAirborne] = setAirborneTeamsReducer()
 
   const onReset = useCallback(() => {
     setState(initialState)
@@ -109,7 +111,6 @@ const CLGS = ({
     const {
       pots,
       groups,
-      airborneTeams,
       selectedTeam,
       currentPotNum,
     } = state
@@ -132,14 +133,17 @@ const CLGS = ({
       possibleGroupsShuffled: null,
       currentPotNum: newCurrentPotNum,
       completed: newCurrentPotNum >= pots.length,
-      airborneTeams: [...airborneTeams, selectedTeam],
+    })
+    dispatchAirborne({
+      type: airBorneTeamsTypes.add,
+      payload: selectedTeam,
     })
   }, [state])
 
   const onAnimationEnd = useCallback((teamData: Team) => {
-    const newAirborneTeams = state.airborneTeams.filter(t => t !== teamData)
-    setState({
-      airborneTeams: newAirborneTeams,
+    dispatchAirborne({
+      type: airBorneTeamsTypes.remove,
+      payload: teamData,
     })
   }, [state])
 
@@ -157,7 +161,7 @@ const CLGS = ({
           currentPotNum={state.currentPotNum}
           groups={state.groups}
           possibleGroups={state.possibleGroups}
-          airborneTeams={state.airborneTeams}
+          airborneTeams={airborneTeams}
           groupColors={groupColors}
         />
       </TablesContainer>
@@ -183,15 +187,15 @@ const CLGS = ({
           onPick={onGroupBallPick}
         />
       </BowlsContainer>
-      {state.airborneTeams.map(team => {
+      {airborneTeams.map((team: Team) => {
         const { groups } = state
-        const pg = groups.findIndex(g => g.includes(team))
-        const pos = groups[pg].indexOf(team)
+        const groupNum = groups.findIndex(g => g.includes(team))
+        const pos = groups[groupNum].indexOf(team)
         return (
           <MovingDiv
             key={team.id}
             from={`[data-cellid='${team.id}']`}
-            to={`[data-cellid='${getGroupLetter(pg)}${pos}']`}
+            to={`[data-cellid='${getGroupLetter(groupNum)}${pos}']`}
             duration={350}
             data={team}
             onAnimationEnd={onAnimationEnd}
