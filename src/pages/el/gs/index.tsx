@@ -198,7 +198,7 @@ const ELGS = ({
       </TablesContainer>
       <BowlsContainer>
         <TeamBowl
-          calculating={state.calculating}
+          forceNoSelect={state.calculating}
           completed={state.completed}
           selectedTeam={state.selectedTeam}
           pot={state.hungPot}
