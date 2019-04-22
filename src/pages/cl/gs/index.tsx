@@ -15,6 +15,7 @@ import Team from 'model/team/GSTeam'
 import predicate from 'engine/predicates/gs'
 
 import usePartialState from 'utils/hooks/usePartialState'
+import useCollectionActions from 'utils/hooks/useCollectionActions'
 import getGroupLetter from 'utils/getGroupLetter'
 
 import MovingDiv from 'ui/MovingDiv'
@@ -28,9 +29,6 @@ import GroupBowl from 'ui/bowls/GroupBowl'
 import Announcement from 'ui/Announcement'
 
 import Root from 'pages/Root'
-import useAirborneTeamsReducer, {
-  types as airborneTeamsTypes,
-} from 'pages/useAirborneTeamsReducer'
 
 const groupColors = [
   'rgba(255, 0, 0, 0.25)',
@@ -79,7 +77,7 @@ const CLGS = ({
 }: Props) => {
   const initialState = useMemo(() => getState(initialPots), [initialPots])
   const [state, setState] = usePartialState(initialState)
-  const [airborneTeams, dispatchAirborne] = useAirborneTeamsReducer()
+  const [airborneTeams, airborneTeamsActions] = useCollectionActions<Team>()
 
   const onReset = useCallback(() => {
     setState(getState(initialPots))
@@ -134,18 +132,8 @@ const CLGS = ({
       currentPotNum: newCurrentPotNum,
       completed: newCurrentPotNum >= pots.length,
     })
-    dispatchAirborne({
-      type: airborneTeamsTypes.add,
-      payload: selectedTeam,
-    })
+    airborneTeamsActions.add(selectedTeam)
   }, [state])
-
-  const onAnimationEnd = useCallback((teamData: Team) => {
-    dispatchAirborne({
-      type: airborneTeamsTypes.remove,
-      payload: teamData,
-    })
-  }, [])
 
   return (
     <Root>
@@ -198,7 +186,7 @@ const CLGS = ({
             to={`[data-cellid='${getGroupLetter(groupNum)}${pos}']`}
             duration={350}
             data={team}
-            onAnimationEnd={onAnimationEnd}
+            onAnimationEnd={airborneTeamsActions.remove}
           />
         )
       })}

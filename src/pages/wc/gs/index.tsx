@@ -13,6 +13,7 @@ import {
 import Team from 'model/team/NationalTeam'
 
 import usePartialState from 'utils/hooks/usePartialState'
+import useCollectionActions from 'utils/hooks/useCollectionActions'
 import getGroupLetter from 'utils/getGroupLetter'
 
 import MovingDiv from 'ui/MovingDiv'
@@ -27,9 +28,6 @@ import Announcement from 'ui/Announcement'
 import Root from 'pages/Root'
 import useWorkerWrapper from 'pages/useWorkerWrapper'
 import useLongCalculating from 'pages/useLongCalculating'
-import useAirborneTeamsReducer, {
-  types as airborneTeamsTypes,
-} from 'pages/useAirborneTeamsReducer'
 
 // @ts-ignore
 import EsWorker from './worker'
@@ -80,7 +78,7 @@ const WCGS = ({
   const workerSendAndReceive = useWorkerWrapper(WcWorker)
   const [isLongCalculating, runCalculatingTimer, resetLongCalculating] = useLongCalculating(3000)
   const [state, setState] = usePartialState(initialState)
-  const [airborneTeams, dispatchAirborne] = useAirborneTeamsReducer()
+  const [airborneTeams, airborneTeamsActions] = useCollectionActions<Team>()
 
   useEffect(() => {
     if (state.selectedTeam) {
@@ -176,10 +174,7 @@ const WCGS = ({
     groups[pickedGroup].push(selectedTeam)
     const newCurrentPotNum = pots[currentPotNum].length > 0 ? currentPotNum : currentPotNum + 1
 
-    dispatchAirborne({
-      type: airborneTeamsTypes.add,
-      payload: selectedTeam,
-    })
+    airborneTeamsActions.add(selectedTeam)
     resetLongCalculating()
     setState({
       selectedTeam: null,
@@ -190,13 +185,6 @@ const WCGS = ({
       completed: newCurrentPotNum >= pots.length,
     })
   }, [state])
-
-  const onAnimationEnd = useCallback((teamData: Team) => {
-    dispatchAirborne({
-      type: airborneTeamsTypes.remove,
-      payload: teamData,
-    })
-  }, [])
 
   return (
     <Root>
@@ -246,7 +234,7 @@ const WCGS = ({
             to={`[data-cellid='${getGroupLetter(groupNum)}${pos}']`}
             duration={350}
             data={team}
-            onAnimationEnd={onAnimationEnd}
+            onAnimationEnd={airborneTeamsActions.remove}
           />
         )
       })}

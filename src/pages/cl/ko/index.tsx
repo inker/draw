@@ -15,6 +15,7 @@ import Team from 'model/team/KnockoutTeam'
 import getPossiblePairings from 'engine/possible-pairings'
 
 import usePartialState from 'utils/hooks/usePartialState'
+import useCollectionActions from 'utils/hooks/useCollectionActions'
 
 import MovingDiv from 'ui/MovingDiv'
 import PotsContainer from 'ui/PotsContainer'
@@ -27,9 +28,6 @@ import Separator from 'ui/Separator'
 import Announcement from 'ui/Announcement'
 
 import Root from 'pages/Root'
-import useAirborneTeamsReducer, {
-  types as airborneTeamsTypes,
-} from 'pages/useAirborneTeamsReducer'
 
 interface Props {
   pots: Team[][],
@@ -67,7 +65,7 @@ const CLKO = ({
 }: Props) => {
   const initialState = useMemo(() => getState(initialPots), [initialPots])
   const [state, setState] = usePartialState(initialState)
-  const [airborneTeams, dispatchAirborne] = useAirborneTeamsReducer()
+  const [airborneTeams, airborneTeamsActions] = useCollectionActions<Team>()
 
   useEffect(() => {
     setTimeout(autoPickIfOneBall, 250)
@@ -103,10 +101,7 @@ const CLKO = ({
       possiblePairings,
       completed: newCurrentMatchNum >= initialPots[0].length,
     })
-    dispatchAirborne({
-      type: airborneTeamsTypes.add,
-      payload: selectedTeam,
-    })
+    airborneTeamsActions.add(selectedTeam)
   }, [state, airborneTeams])
 
   const autoPickIfOneBall = useCallback(() => {
@@ -119,13 +114,6 @@ const CLKO = ({
       onBallPick(0)
     }
   }, [state, onBallPick])
-
-  const onAnimationEnd = useCallback((teamData: Team) => {
-    dispatchAirborne({
-      type: airborneTeamsTypes.remove,
-      payload: teamData,
-    })
-  }, [])
 
   const selectedTeams = state.possiblePairings ? state.possiblePairings.map(i => state.pots[0][i]) : []
 
@@ -191,7 +179,7 @@ const CLKO = ({
             to={`[data-cellid='${matchupNum}${pos === 1 ? 'gw' : 'ru'}']`}
             duration={350}
             data={team}
-            onAnimationEnd={onAnimationEnd}
+            onAnimationEnd={airborneTeamsActions.remove}
           />
         )
       })}
