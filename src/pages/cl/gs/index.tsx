@@ -41,9 +41,6 @@ interface Props {
 }
 
 interface State {
-  drawId: string,
-  pots: Team[][],
-  groups: Team[][],
   currentPotNum: number,
   selectedTeam: Team | null,
   pickedGroup: number | null,
@@ -53,14 +50,10 @@ interface State {
   completed: boolean,
 }
 
-function getState(initialPots: Team[][]): State {
+function getState(pots: Team[][]): State {
   const currentPotNum = 0
-  const pots = initialPots.map(pot => shuffle(pot))
   const currentPot = pots[currentPotNum]
   return {
-    drawId: uniqueId('draw-'),
-    pots,
-    groups: currentPot.map(team => []),
     currentPotNum,
     selectedTeam: null,
     pickedGroup: null,
@@ -74,20 +67,23 @@ function getState(initialPots: Team[][]): State {
 const CLGS = ({
   pots: initialPots,
 }: Props) => {
-  const initialState = useMemo(() => getState(initialPots), [initialPots])
+  const [drawId, setDrawId] = useState(uniqueId('draw-'))
+  const pots = useMemo(() => initialPots.map(pot => shuffle(pot)), [initialPots, drawId])
+  const groups = useMemo(() => initialPots[0].map(team => [] as Team[]), [initialPots, drawId])
+
+  const initialState = useMemo(() => getState(pots), [pots])
   const [state, setState] = usePartialState(initialState)
 
   const [error, setError] = useState<string | null>(null)
   const [airborneTeams, airborneTeamsActions] = useCollectionActions<Team>()
 
   const onReset = useCallback(() => {
+    setDrawId(uniqueId('draw-'))
     setState(getState(initialPots))
   }, [initialPots])
 
   const onTeamBallPick = useCallback((i: number) => {
     const {
-      pots,
-      groups,
       currentPotNum,
     } = state
 
@@ -104,12 +100,10 @@ const CLGS = ({
       possibleGroupsShuffled: shuffle(possibleGroups),
       pickedGroup: null,
     })
-  }, [state.pots, state.groups, state.currentPotNum])
+  }, [pots, groups, state.currentPotNum])
 
   const onGroupBallPick = useCallback((pickedGroup: number) => {
     const {
-      pots,
-      groups,
       selectedTeam,
       currentPotNum,
     } = state
@@ -132,7 +126,7 @@ const CLGS = ({
       completed: newCurrentPotNum >= pots.length,
     })
     airborneTeamsActions.add(selectedTeam)
-  }, [state])
+  }, [pots, groups, state])
 
   return (
     <Root>
@@ -140,13 +134,13 @@ const CLGS = ({
         <PotsContainer
           selectedTeams={state.selectedTeam && [state.selectedTeam]}
           initialPots={initialPots}
-          pots={state.pots}
+          pots={pots}
           currentPotNum={state.currentPotNum}
         />
         <GroupsContainer
-          maxTeams={state.pots.length}
+          maxTeams={pots.length}
           currentPotNum={state.currentPotNum}
-          groups={state.groups}
+          groups={groups}
           possibleGroups={state.possibleGroups}
           airborneTeams={airborneTeams}
           groupColors={groupColors}
@@ -165,7 +159,7 @@ const CLGS = ({
           selectedTeam={state.selectedTeam}
           pickedGroup={state.pickedGroup}
           possibleGroups={state.possibleGroups}
-          numGroups={state.groups.length}
+          numGroups={groups.length}
           reset={onReset}
         />
         <GroupBowl
@@ -175,7 +169,6 @@ const CLGS = ({
         />
       </BowlsContainer>
       {airborneTeams.map((team: Team) => {
-        const { groups } = state
         const groupNum = groups.findIndex(g => g.includes(team))
         const pos = groups[groupNum].indexOf(team)
         return (

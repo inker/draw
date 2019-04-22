@@ -1,4 +1,5 @@
 import React, {
+  useState,
   useCallback,
   useMemo,
   useEffect,
@@ -34,23 +35,16 @@ interface Props {
 }
 
 interface State {
-  drawId: string,
-  pots: Team[][],
-  matchups: [Team, Team][],
   currentMatchupNum: number,
   currentPotNum: number,
   possiblePairings: number[] | null,
   completed: boolean,
 }
 
-function getState(initialPots: Team[][]): State {
+function getState(): State {
   const currentPotNum = 1
   const currentMatchupNum = 0
-  const pots = initialPots.map(pot => shuffle(pot))
   return {
-    drawId: uniqueId('draw-'),
-    pots,
-    matchups: range(8).map(i => [] as any as [Team, Team]),
     currentMatchupNum,
     currentPotNum,
     possiblePairings: null,
@@ -61,7 +55,11 @@ function getState(initialPots: Team[][]): State {
 const CLKO = ({
   pots: initialPots,
 }: Props) => {
-  const initialState = useMemo(() => getState(initialPots), [initialPots])
+  const [drawId, setDrawId] = useState(uniqueId('draw-'))
+  const pots = useMemo(() => initialPots.map(pot => shuffle(pot)), [initialPots, drawId])
+  const matchups = useMemo(() => range(8).map(i => [] as any as [Team, Team]), [initialPots, drawId])
+
+  const initialState = useMemo(getState, [])
   const [state, setState] = usePartialState(initialState)
 
   const [airborneTeams, airborneTeamsActions] = useCollectionActions<Team>()
@@ -71,13 +69,12 @@ const CLKO = ({
   }, [state])
 
   const onReset = useCallback(() => {
-    setState(getState(initialPots))
+    setDrawId(uniqueId('draw-'))
+    setState(getState())
   }, [initialPots])
 
   const onBallPick = useCallback((i: number) => {
     const {
-      matchups,
-      pots,
       currentPotNum,
       currentMatchupNum,
     } = state
@@ -101,20 +98,19 @@ const CLKO = ({
       completed: newCurrentMatchNum >= initialPots[0].length,
     })
     airborneTeamsActions.add(selectedTeam)
-  }, [state, airborneTeams])
+  }, [pots, matchups, state, airborneTeams])
 
   const autoPickIfOneBall = useCallback(() => {
     const {
       possiblePairings,
       currentPotNum,
-      pots,
     } = state
     if (possiblePairings && possiblePairings.length === 1 || currentPotNum === 1 && pots[1].length === 1) {
       onBallPick(0)
     }
-  }, [state, onBallPick])
+  }, [pots, state, onBallPick])
 
-  const selectedTeams = state.possiblePairings ? state.possiblePairings.map(i => state.pots[0][i]) : []
+  const selectedTeams = state.possiblePairings ? state.possiblePairings.map(i => pots[0][i]) : []
 
   return (
     <Root>
@@ -122,12 +118,12 @@ const CLKO = ({
         <PotsContainer
           selectedTeams={selectedTeams}
           initialPots={initialPots}
-          pots={state.pots}
+          pots={pots}
           currentPotNum={state.currentPotNum}
         />
         <MatchupsContainer
           currentMatchupNum={state.currentMatchupNum}
-          matchups={state.matchups}
+          matchups={matchups}
           airborneTeams={airborneTeams}
         />
       </TablesContainer>
@@ -139,7 +135,7 @@ const CLKO = ({
           forceNoSelect={state.currentPotNum === 0}
           display={!state.completed}
           selectedTeam={null}
-          pot={state.pots[1]}
+          pot={pots[1]}
           onPick={onBallPick}
         />
         {!state.completed &&
@@ -162,13 +158,12 @@ const CLKO = ({
             display={!state.completed}
             selectedTeam={null}
             // @ts-ignore
-            pot={state.pots[0].filter((team, i) => state.possiblePairings.includes(i))}
+            pot={pots[0].filter((team, i) => state.possiblePairings.includes(i))}
             onPick={onBallPick}
           />
         }
       </BowlsContainer>
       {airborneTeams.map((team: Team) => {
-        const { matchups } = state
         const matchupNum = matchups.findIndex(m => m.includes(team))
         const pos = matchups[matchupNum].indexOf(team)
         return (

@@ -43,9 +43,6 @@ interface Props {
 }
 
 interface State {
-  drawId: string,
-  pots: Team[][],
-  groups: Team[][],
   currentPotNum: number,
   selectedTeam: Team | null,
   pickedGroup: number | null,
@@ -54,14 +51,10 @@ interface State {
   completed: boolean,
 }
 
-function getState(initialPots: Team[][]): State {
+function getState(pots: Team[][]): State {
   const currentPotNum = 0
-  const pots = initialPots.map(pot => shuffle(pot))
   const currentPot = pots[currentPotNum]
   return {
-    drawId: uniqueId('draw-'),
-    pots,
-    groups: currentPot.map(team => []),
     currentPotNum,
     selectedTeam: null,
     pickedGroup: null,
@@ -74,7 +67,11 @@ function getState(initialPots: Team[][]): State {
 const WCGS = ({
   pots: initialPots,
 }: Props) => {
-  const initialState = useMemo(() => getState(initialPots), [initialPots])
+  const [drawId, setDrawId] = useState(uniqueId('draw-'))
+  const pots = useMemo(() => initialPots.map(pot => shuffle(pot)), [initialPots, drawId])
+  const groups = useMemo(() => initialPots[0].map(team => [] as Team[]), [initialPots, drawId])
+
+  const initialState = useMemo(() => getState(pots), [pots])
   const [state, setState] = usePartialState(initialState)
 
   const [error, setError] = useState<string | null>(null)
@@ -90,19 +87,18 @@ const WCGS = ({
 
   useEffect(() => {
     // pick host ball
-    const { pots, currentPotNum } = state
+    const { currentPotNum } = state
     const i = pots[currentPotNum].findIndex(team => team.host)
     onTeamBallPick(i)
-  }, [state.drawId])
+  }, [drawId])
 
   const onReset = useCallback(() => {
+    setDrawId(uniqueId('draw-'))
     setState(getState(initialPots))
   }, [initialPots])
 
   const getPickedGroup = useCallback(async (selectedTeam: Team) => {
     const {
-      pots,
-      groups,
       currentPotNum,
     } = state
 
@@ -114,11 +110,10 @@ const WCGS = ({
     })
 
     return pickedGroup as number
-  }, [state])
+  }, [pots, groups, state.currentPotNum])
 
   const onTeamBallPick = useCallback(async (i: number) => {
     const {
-      pots,
       currentPotNum,
     } = state
 
@@ -132,7 +127,7 @@ const WCGS = ({
       pickedGroup: null,
       calculating: true,
     })
-  }, [state.pots, state.currentPotNum])
+  }, [pots, state.currentPotNum])
 
   const onTeamSelected = useCallback(async () => {
     const {
@@ -159,8 +154,6 @@ const WCGS = ({
 
   const onGroupPick = useCallback((selectedTeam: Team, pickedGroup: number) => {
     const {
-      pots,
-      groups,
       currentPotNum,
     } = state
 
@@ -182,7 +175,7 @@ const WCGS = ({
       calculating: false,
       completed: newCurrentPotNum >= pots.length,
     })
-  }, [state.pots, state.groups, state.currentPotNum])
+  }, [pots, groups, state.currentPotNum])
 
   return (
     <Root>
@@ -190,13 +183,13 @@ const WCGS = ({
         <PotsContainer
           selectedTeams={state.selectedTeam && [state.selectedTeam]}
           initialPots={initialPots}
-          pots={state.pots}
+          pots={pots}
           currentPotNum={state.currentPotNum}
         />
         <GroupsContainer
-          maxTeams={state.pots.length}
+          maxTeams={pots.length}
           currentPotNum={state.currentPotNum}
-          groups={state.groups}
+          groups={groups}
           possibleGroups={null}
           airborneTeams={airborneTeams}
           groupColors={groupColors}
@@ -217,12 +210,11 @@ const WCGS = ({
           selectedTeam={state.selectedTeam}
           pickedGroup={state.pickedGroup}
           possibleGroups={null}
-          numGroups={state.groups.length}
+          numGroups={groups.length}
           reset={onReset}
         />
       </BowlsContainer>
       {airborneTeams.map((team: Team) => {
-        const { groups } = state
         const groupNum = groups.findIndex(g => g.includes(team))
         const pos = groups[groupNum].indexOf(team)
         return (
