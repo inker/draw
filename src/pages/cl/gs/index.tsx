@@ -154,7 +154,7 @@ const CLGS = ({
       </TablesContainer>
       <BowlsContainer>
         <TeamBowl
-          completed={state.completed}
+          display={!state.completed}
           selectedTeam={state.selectedTeam}
           pot={state.hungPot}
           onPick={onTeamBallPick}
@@ -169,7 +169,7 @@ const CLGS = ({
           reset={onReset}
         />
         <GroupBowl
-          completed={state.completed}
+          display={!state.completed}
           possibleGroups={state.possibleGroupsShuffled}
           onPick={onGroupBallPick}
         />

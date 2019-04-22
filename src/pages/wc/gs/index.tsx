@@ -205,7 +205,7 @@ const WCGS = ({
       <BowlsContainer>
         <TeamBowl
           forceNoSelect={state.calculating}
-          completed={state.completed}
+          display={!state.completed}
           selectedTeam={state.selectedTeam}
           pot={state.hungPot}
           onPick={onTeamBallPick}

@@ -138,7 +138,7 @@ const ELKO = ({
         }
         <TeamBowl
           forceNoSelect={state.currentPotNum === 0}
-          completed={state.completed}
+          display={!state.completed}
           selectedTeam={null}
           pot={state.pots[1]}
           onPick={onBallPick}
@@ -160,7 +160,7 @@ const ELKO = ({
         {state.possiblePairings &&
           <TeamBowl
             forceNoSelect={state.currentPotNum === 1}
-            completed={state.completed}
+            display={!state.completed}
             selectedTeam={null}
             // @ts-ignore
             pot={state.pots[0].filter((team, i) => state.possiblePairings.includes(i))}
