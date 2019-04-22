@@ -1,4 +1,5 @@
 import React, {
+  useState,
   useCallback,
   useMemo,
   useEffect,
@@ -51,7 +52,6 @@ interface State {
   hungPot: Team[],
   calculating: boolean,
   completed: boolean,
-  error: string | null,
 }
 
 function getState(initialPots: Team[][]): State {
@@ -68,7 +68,6 @@ function getState(initialPots: Team[][]): State {
     hungPot: currentPot,
     calculating: false,
     completed: false,
-    error: null,
   }
 }
 
@@ -78,6 +77,7 @@ const WCGS = ({
   const initialState = useMemo(() => getState(initialPots), [initialPots])
   const [state, setState] = usePartialState(initialState)
 
+  const [error, setError] = useState<string | null>(null)
   const workerSendAndReceive = useWorkerWrapper(WcWorker)
   const [airborneTeams, airborneTeamsActions] = useCollectionActions<Team>()
   const [isLongCalculating, timeoutActions] = useTimeout<Team>(3000)
@@ -150,9 +150,7 @@ const WCGS = ({
       pickedGroup = await getPickedGroup(selectedTeam)
     } catch (err) {
       console.error(err)
-      setState({
-        error: 'Could not determine the group',
-      })
+      setError('Could not determine the group')
       return
     }
 
@@ -167,9 +165,7 @@ const WCGS = ({
     } = state
 
     if (!selectedTeam) {
-      setState({
-        error: 'shit',
-      })
+      setError('No selected team...')
       return
     }
 

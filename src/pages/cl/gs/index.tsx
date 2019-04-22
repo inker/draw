@@ -1,4 +1,5 @@
 import React, {
+  useState,
   useCallback,
   useMemo,
   memo,
@@ -50,7 +51,6 @@ interface State {
   possibleGroups: number[] | null,
   possibleGroupsShuffled: number[] | null,
   completed: boolean,
-  error: string | null,
 }
 
 function getState(initialPots: Team[][]): State {
@@ -68,7 +68,6 @@ function getState(initialPots: Team[][]): State {
     possibleGroups: null,
     possibleGroupsShuffled: null,
     completed: false,
-    error: null,
   }
 }
 
@@ -78,6 +77,7 @@ const CLGS = ({
   const initialState = useMemo(() => getState(initialPots), [initialPots])
   const [state, setState] = usePartialState(initialState)
 
+  const [error, setError] = useState<string | null>(null)
   const [airborneTeams, airborneTeamsActions] = useCollectionActions<Team>()
 
   const onReset = useCallback(() => {
@@ -115,9 +115,7 @@ const CLGS = ({
     } = state
 
     if (!selectedTeam) {
-      setState({
-        error: 'shit',
-      })
+      setError('No selected team...')
       return
     }
 

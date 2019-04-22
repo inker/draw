@@ -41,7 +41,6 @@ interface State {
   currentPotNum: number,
   possiblePairings: number[] | null,
   completed: boolean,
-  error: string | null,
 }
 
 function getState(initialPots: Team[][]): State {
@@ -56,7 +55,6 @@ function getState(initialPots: Team[][]): State {
     currentPotNum,
     possiblePairings: null,
     completed: false,
-    error: null,
   }
 }
 
