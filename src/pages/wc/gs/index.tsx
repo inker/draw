@@ -132,7 +132,7 @@ const WCGS = ({
       pickedGroup: null,
       calculating: true,
     })
-  }, [state])
+  }, [state.pots, state.currentPotNum])
 
   const onTeamSelected = useCallback(async () => {
     const {
@@ -157,7 +157,7 @@ const WCGS = ({
     }
 
     onGroupPick(selectedTeam, pickedGroup)
-  }, [state])
+  }, [state.selectedTeam])
 
   const onGroupPick = useCallback((selectedTeam: Team, pickedGroup: number) => {
     const {
@@ -186,7 +186,7 @@ const WCGS = ({
       calculating: false,
       completed: newCurrentPotNum >= pots.length,
     })
-  }, [state])
+  }, [state.pots, state.groups, state.currentPotNum])
 
   return (
     <Root>

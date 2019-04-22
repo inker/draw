@@ -126,7 +126,7 @@ const ELGS = ({
       pickedGroup: null,
       calculating: true,
     })
-  }, [state])
+  }, [state.pots, state.currentPotNum])
 
   const onTeamSelected = useCallback(async () => {
     const {
@@ -151,7 +151,7 @@ const ELGS = ({
     }
 
     onGroupPick(selectedTeam, pickedGroup)
-  }, [state])
+  }, [state.selectedTeam])
 
   const onGroupPick = useCallback((selectedTeam: Team, pickedGroup: number) => {
     const {
@@ -180,7 +180,7 @@ const ELGS = ({
       calculating: false,
       completed: newCurrentPotNum >= pots.length,
     })
-  }, [state])
+  }, [state.pots, state.groups, state.currentPotNum])
 
   return (
     <Root>

@@ -77,6 +77,7 @@ const CLGS = ({
 }: Props) => {
   const initialState = useMemo(() => getState(initialPots), [initialPots])
   const [state, setState] = usePartialState(initialState)
+
   const [airborneTeams, airborneTeamsActions] = useCollectionActions<Team>()
 
   const onReset = useCallback(() => {
@@ -103,7 +104,7 @@ const CLGS = ({
       possibleGroupsShuffled: shuffle(possibleGroups),
       pickedGroup: null,
     })
-  }, [state])
+  }, [state.pots, state.groups, state.currentPotNum])
 
   const onGroupBallPick = useCallback((pickedGroup: number) => {
     const {
