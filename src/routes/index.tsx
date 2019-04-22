@@ -84,11 +84,11 @@ interface SeasonTournamentStage {
 }
 
 interface Props {
-  onLoadError: (err: Error) => void,
+  onError: (err: Error) => void,
 }
 
 const Routes = ({
-  onLoadError,
+  onError,
 }: Props) => {
   const [key, refresh] = useRefresh()
   const [popup] = usePopup()
@@ -119,7 +119,7 @@ const Routes = ({
                 tournament={tournament}
                 stage={stage}
                 season={season}
-                onLoadError={onLoadError}
+                onError={onError}
                 onSeasonChange={onSeasonChange}
               />
             ) : null}

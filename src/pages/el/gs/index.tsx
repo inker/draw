@@ -240,8 +240,8 @@ export default class ELGS extends PureComponent<Props, State> {
         </TablesContainer>
         <BowlsContainer>
           <TeamBowl
-            calculating={calculating}
-            completed={completed}
+            forceNoSelect={calculating}
+            display={!completed}
             selectedTeam={selectedTeam}
             pot={hungPot}
             onPick={this.onTeamBallPick}

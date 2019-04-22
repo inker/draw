@@ -18,13 +18,13 @@ const Root = styled.div`
 `
 
 interface Props {
-  completed: boolean,
+  display: boolean,
   possibleGroups: number[] | null,
   onPick: (groupNum: number) => void,
 }
 
 const GroupBowl = ({
-  completed,
+  display,
   possibleGroups,
   onPick,
 }: Props) => {
@@ -41,7 +41,7 @@ const GroupBowl = ({
 
   return (
     <Root>
-      {!completed && possibleGroups &&
+      {display && possibleGroups &&
         possibleGroups.map(groupNum => (
           <Ball
             key={groupNum}

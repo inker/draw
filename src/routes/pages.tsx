@@ -35,7 +35,7 @@ import prefetchImage from 'utils/prefetchImage'
 import currentSeasonByTournament from 'utils/currentSeasonByTournament'
 
 import usePartialState from 'utils/hooks/usePartialState'
-import useOnUpdate from 'utils/hooks/useOnUpdate'
+import useUpdateEffect from 'utils/hooks/useUpdateEffect'
 
 import PageLoader from './PageLoader'
 
@@ -68,7 +68,7 @@ interface Props {
   stage: string,
   season: number,
   dummyKey: string,
-  onLoadError: (err: Error) => void,
+  onError: (err: Error) => void,
   onSeasonChange: (tournament: string, stage: string, season?: number) => void,
 }
 
@@ -87,7 +87,7 @@ const Pages = ({
   dummyKey,
   // @ts-ignore
   match,
-  onLoadError,
+  onError,
   onSeasonChange,
 }: Props) => {
   const [, setPopup] = usePopup()
@@ -169,7 +169,7 @@ const Pages = ({
     fetchData()
   }, [season, stage, tournament])
 
-  useOnUpdate(() => {
+  useUpdateEffect(() => {
     setState({
       key: dummyKey,
     })
@@ -206,7 +206,7 @@ const Pages = ({
                 stage="gs"
                 pots={pots}
                 key={key}
-                onLoadError={onLoadError}
+                onLoadError={onError}
               />
             </Route>
             <Route path="/cl/ko">
@@ -215,7 +215,7 @@ const Pages = ({
                 stage="ko"
                 pots={pots}
                 key={key}
-                onLoadError={onLoadError}
+                onLoadError={onError}
               />
             </Route>
           </Switch>
@@ -248,7 +248,7 @@ const Pages = ({
                 stage="gs"
                 pots={pots}
                 key={key}
-                onLoadError={onLoadError}
+                onLoadError={onError}
               />
             </Route>
             <Route path="/el/ko">
@@ -257,7 +257,7 @@ const Pages = ({
                 stage="ko"
                 pots={pots}
                 key={key}
-                onLoadError={onLoadError}
+                onLoadError={onError}
               />
             </Route>
           </Switch>
@@ -290,7 +290,7 @@ const Pages = ({
                 stage="gs"
                 pots={pots}
                 key={key}
-                onLoadError={onLoadError}
+                onLoadError={onError}
               />
             </Route>
             <Redirect

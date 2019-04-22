@@ -189,7 +189,7 @@ export default class CLGS extends PureComponent<Props, State> {
         </TablesContainer>
         <BowlsContainer>
           <TeamBowl
-            completed={completed}
+            display={!completed}
             selectedTeam={selectedTeam}
             pot={hungPot}
             onPick={this.onTeamBallPick}
@@ -204,7 +204,7 @@ export default class CLGS extends PureComponent<Props, State> {
             reset={this.onReset}
           />
           <GroupBowl
-            completed={completed}
+            display={!completed}
             possibleGroups={possibleGroupsShuffled}
             onPick={this.onGroupBallPick}
           />

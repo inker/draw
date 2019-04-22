@@ -26,8 +26,7 @@ const TeamBall = styled(Ball)`
 
 interface Props {
   forceNoSelect?: boolean,
-  calculating?: boolean,
-  completed: boolean,
+  display: boolean,
   selectedTeam: Team | null,
   pot: Team[],
   onPick: (i: number, teams: Team[]) => void,
@@ -35,8 +34,7 @@ interface Props {
 
 const TeamBowl = ({
   forceNoSelect,
-  calculating,
-  completed,
+  display,
   pot,
   selectedTeam,
   onPick,
@@ -47,11 +45,11 @@ const TeamBowl = ({
     onPick(i, pot)
   }, [pot, onPick])
 
-  const noSelect = forceNoSelect || calculating || selectedTeam
+  const noSelect = forceNoSelect || selectedTeam
 
   return (
     <Root>
-      {!completed && pot && pot.map(team => (
+      {display && pot && pot.map(team => (
         <TeamBall
           key={team.id}
           data-teamid={team.id}

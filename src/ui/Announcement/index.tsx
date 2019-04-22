@@ -1,4 +1,9 @@
-import React, { PureComponent } from 'react'
+import React, {
+  useEffect,
+  useRef,
+  memo,
+} from 'react'
+
 import styled from 'styled-components'
 
 import StyledLink from 'ui/StyledLink'
@@ -59,119 +64,98 @@ interface Props {
   reset: any,
 }
 
-interface State {
-  lastSelected: Team | null,
-}
+const Announcement = ({
+  long,
+  calculating,
+  completed,
+  selectedTeam,
+  pickedGroup,
+  possibleGroups,
+  numGroups,
+  reset,
+}: Props) => {
+  const lastAnnouncement = useRef<React.ReactElement | null>(null)
+  const lastSelected = useRef<Team | null>(null)
 
-class Announcement extends PureComponent<Props, State> {
-  private lastAnnouncement
+  useEffect(() => {
+    lastSelected.current = completed ? null : selectedTeam
+  }, [completed, selectedTeam])
 
-  state: State = {
-    lastSelected: null,
-  }
+  const selected = (lastSelected.current || selectedTeam)!
 
-  static getDerivedStateFromProps(nextProps: Props): Partial<State> | null {
-    if (nextProps.completed) {
-      return {
-        lastSelected: null,
-      }
-    }
-    if (nextProps.selectedTeam) {
-      return {
-        lastSelected: nextProps.selectedTeam,
-      }
-    }
-    return null
-  }
-
-  render() {
-    const {
-      long,
-      calculating,
-      completed,
-      selectedTeam,
-      pickedGroup,
-      possibleGroups,
-      numGroups,
-      reset,
-    } = this.props
-
-    const selected = this.state.lastSelected || selectedTeam
-
-    if (calculating) {
-      return (
-        <Root>
-          <Bug>
-            <div>
-              Calculation is taking too long.
-            </div>
-            <div>
-              And <StyledLink href={ISSUE_URL} target="_blank" rel="noopener">here's why</StyledLink>.
-            </div>
-          </Bug>
-        </Root>
-      )
-    }
-
-    if (completed) {
-      return (
-        <Root>
-          <Completed>
-            <div>Draw completed!</div>
-            <DivLink onClick={reset}>Restart</DivLink>
-          </Completed>
-        </Root>
-      )
-    }
-
-    if (pickedGroup !== null) {
-      this.lastAnnouncement = (
-        <Root>
-          <div>
-            {long && selected ? (
-              <span>
-                <Bold>{selected.shortName || selected.name}</Bold> goes to group
-              </span>
-            ) : (
-              <span>
-                Group
-              </span>
-            )}
-            &nbsp;
-            <Bold>
-              {getGroupLetter(pickedGroup)}
-            </Bold>
-            !
-          </div>
-        </Root>
-      )
-      return this.lastAnnouncement
-    }
-
-    if (selected) {
-      return (
-        <Root>
-          {possibleGroups ? (
-            <div>
-              Possible groups for <SelectedTeamWithColon>
-                <Bold>{selected.name}</Bold>:
-              </SelectedTeamWithColon>
-              <PossibleGroups
-                numGroups={numGroups}
-                possibleGroups={possibleGroups}
-              />
-            </div>
-          ) : this.lastAnnouncement}
-        </Root>
-      )
-    }
-
+  if (calculating) {
     return (
       <Root>
-        Pick a ball
+        <Bug>
+          <div>
+            Calculation is taking too long.
+          </div>
+          <div>
+            And <StyledLink href={ISSUE_URL} target="_blank" rel="noopener">here's why</StyledLink>.
+          </div>
+        </Bug>
       </Root>
     )
   }
+
+  if (completed) {
+    return (
+      <Root>
+        <Completed>
+          <div>Draw completed!</div>
+          <DivLink onClick={reset}>Restart</DivLink>
+        </Completed>
+      </Root>
+    )
+  }
+
+  if (pickedGroup !== null) {
+    lastAnnouncement.current = (
+      <Root>
+        <div>
+          {long && selected ? (
+            <span>
+              <Bold>{selected.shortName || selected.name}</Bold> goes to group
+            </span>
+          ) : (
+            <span>
+              Group
+            </span>
+          )}
+          &nbsp;
+          <Bold>
+            {getGroupLetter(pickedGroup)}
+          </Bold>
+          !
+        </div>
+      </Root>
+    )
+    return lastAnnouncement.current
+  }
+
+  if (selected) {
+    return (
+      <Root>
+        {possibleGroups ? (
+          <div>
+            Possible groups for <SelectedTeamWithColon>
+              <Bold>{selected.name}</Bold>:
+            </SelectedTeamWithColon>
+            <PossibleGroups
+              numGroups={numGroups}
+              possibleGroups={possibleGroups}
+            />
+          </div>
+        ) : lastAnnouncement.current}
+      </Root>
+    )
+  }
+
+  return (
+    <Root>
+      Pick a ball
+    </Root>
+  )
 }
 
-export default Announcement
+export default memo(Announcement)

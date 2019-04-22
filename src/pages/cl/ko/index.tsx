@@ -163,7 +163,7 @@ export default class CLKO extends PureComponent<Props, State> {
           }
           <TeamBowl
             forceNoSelect={currentPotNum === 0}
-            completed={completed}
+            display={!completed}
             selectedTeam={null}
             pot={pots[1]}
             onPick={this.onBallPick}
@@ -185,7 +185,7 @@ export default class CLKO extends PureComponent<Props, State> {
           {possiblePairings &&
             <TeamBowl
               forceNoSelect={currentPotNum === 1}
-              completed={completed}
+              display={!completed}
               selectedTeam={null}
               pot={pots[0].filter((team, i) => possiblePairings.includes(i))}
               onPick={this.onBallPick}
