@@ -60,13 +60,19 @@ const CLKO = ({
   const matchups = useMemo(() => range(8).map(i => [] as any as [Team, Team]), [initialPots, drawId])
 
   const initialState = useMemo(getState, [])
-  const [state, setState] = usePartialState(initialState)
+  const [{
+    currentMatchupNum,
+    currentPotNum,
+    possiblePairings,
+    completed,
+  }, setState] = usePartialState(initialState)
 
   const [airborneTeams, airborneTeamsActions] = useCollection<Team>()
 
   useEffect(() => {
     setTimeout(autoPickIfOneBall, 250)
-  }, [state])
+    // @ts-ignore
+  }, [autoPickIfOneBall])
 
   const onReset = useCallback(() => {
     setDrawId(uniqueId('draw-'))
@@ -74,18 +80,13 @@ const CLKO = ({
   }, [initialPots])
 
   const onBallPick = useCallback((i: number) => {
-    const {
-      currentPotNum,
-      currentMatchupNum,
-    } = state
-
     const currentPot = pots[currentPotNum]
-    const index = state.possiblePairings ? state.possiblePairings[i] : i
+    const index = possiblePairings ? possiblePairings[i] : i
     const selectedTeam = currentPot.splice(index, 1)[0]
 
     matchups[currentMatchupNum].push(selectedTeam)
 
-    const possiblePairings = currentPotNum === 1
+    const newPossiblePairings = currentPotNum === 1
       ? getPossiblePairings(pots, matchups, currentMatchupNum)
       : null
 
@@ -94,23 +95,19 @@ const CLKO = ({
     setState({
       currentPotNum: 1 - currentPotNum,
       currentMatchupNum: newCurrentMatchNum,
-      possiblePairings,
+      possiblePairings: newPossiblePairings,
       completed: newCurrentMatchNum >= initialPots[0].length,
     })
     airborneTeamsActions.add(selectedTeam)
-  }, [pots, matchups, state, airborneTeams])
+  }, [pots, matchups, currentPotNum, currentMatchupNum, possiblePairings, airborneTeams])
 
   const autoPickIfOneBall = useCallback(() => {
-    const {
-      possiblePairings,
-      currentPotNum,
-    } = state
     if (possiblePairings && possiblePairings.length === 1 || currentPotNum === 1 && pots[1].length === 1) {
       onBallPick(0)
     }
-  }, [pots, state, onBallPick])
+  }, [pots, possiblePairings, currentPotNum, onBallPick])
 
-  const selectedTeams = state.possiblePairings ? state.possiblePairings.map(i => pots[0][i]) : []
+  const selectedTeams = possiblePairings ? possiblePairings.map(i => pots[0][i]) : []
 
   return (
     <Root>
@@ -119,32 +116,32 @@ const CLKO = ({
           selectedTeams={selectedTeams}
           initialPots={initialPots}
           pots={pots}
-          currentPotNum={state.currentPotNum}
+          currentPotNum={currentPotNum}
         />
         <MatchupsContainer
-          currentMatchupNum={state.currentMatchupNum}
+          currentMatchupNum={currentMatchupNum}
           matchups={matchups}
           airborneTeams={airborneTeams}
         />
       </TablesContainer>
       <BowlsContainer>
-        {!state.completed &&
+        {!completed &&
           <Separator>Runners-up</Separator>
         }
         <TeamBowl
-          forceNoSelect={state.currentPotNum === 0}
-          display={!state.completed}
+          forceNoSelect={currentPotNum === 0}
+          display={!completed}
           selectedTeam={null}
           pot={pots[1]}
           onPick={onBallPick}
         />
-        {!state.completed &&
+        {!completed &&
           <Separator>Group Winners</Separator>
         }
-        {state.completed &&
+        {completed &&
           <Announcement
             long={false}
-            completed={state.completed}
+            completed={completed}
             selectedTeam={null}
             pickedGroup={null}
             possibleGroups={null}
@@ -152,13 +149,12 @@ const CLKO = ({
             reset={onReset}
           />
         }
-        {state.possiblePairings &&
+        {possiblePairings &&
           <TeamBowl
-            forceNoSelect={state.currentPotNum === 1}
-            display={!state.completed}
+            forceNoSelect={currentPotNum === 1}
+            display={!completed}
             selectedTeam={null}
-            // @ts-ignore
-            pot={pots[0].filter((team, i) => state.possiblePairings.includes(i))}
+            pot={pots[0].filter((team, i) => possiblePairings.includes(i))}
             onPick={onBallPick}
           />
         }

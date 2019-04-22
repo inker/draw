@@ -74,7 +74,14 @@ const WCGS = ({
   const groups = useMemo(() => initialPots[0].map(team => [] as Team[]), [initialPots, drawId])
 
   const initialState = useMemo(() => getState(pots), [pots])
-  const [state, setState] = usePartialState(initialState)
+  const [{
+    currentPotNum,
+    selectedTeam,
+    pickedGroup,
+    hungPot,
+    calculating,
+    completed,
+  }, setState] = usePartialState(initialState)
 
   const [, setPopup] = usePopup()
   const workerSendAndReceive = useWorkerWrapper(WcWorker)
@@ -82,14 +89,13 @@ const WCGS = ({
   const [isLongCalculating, timeoutActions] = useTimeout<Team>(3000)
 
   useEffect(() => {
-    if (state.selectedTeam) {
+    if (selectedTeam) {
       onTeamSelected()
     }
-  }, [state.selectedTeam])
+  }, [selectedTeam])
 
   useEffect(() => {
     // pick host ball
-    const { currentPotNum } = state
     const i = pots[currentPotNum].findIndex(team => team.host)
     onTeamBallPick(i)
   }, [drawId])
@@ -99,52 +105,38 @@ const WCGS = ({
     setState(getState(initialPots))
   }, [initialPots])
 
-  const getPickedGroup = useCallback(async (selectedTeam: Team) => {
-    const {
-      currentPotNum,
-    } = state
-
-    const { pickedGroup } = await workerSendAndReceive({
+  const getPickedGroup = useCallback(async (newSelectedTeam: Team) => {
+    const response = await workerSendAndReceive({
       pots,
       groups,
-      selectedTeam,
+      selectedTeam: newSelectedTeam,
       currentPotNum,
     })
 
-    return pickedGroup as number
-  }, [pots, groups, state.currentPotNum])
+    return response.pickedGroup as number
+  }, [pots, groups, currentPotNum])
 
   const onTeamBallPick = useCallback(async (i: number) => {
-    const {
-      currentPotNum,
-    } = state
-
     const currentPot = pots[currentPotNum]
-    const hungPot = currentPot.slice()
-    const selectedTeam = currentPot.splice(i, 1)[0]
 
     setState({
-      hungPot,
-      selectedTeam,
+      hungPot: currentPot.slice(),
+      selectedTeam: currentPot.splice(i, 1)[0],
       pickedGroup: null,
       calculating: true,
     })
-  }, [pots, state.currentPotNum])
+  }, [pots, currentPotNum])
 
   const onTeamSelected = useCallback(async () => {
-    const {
-      selectedTeam,
-    } = state
-
     if (!selectedTeam) {
       throw new Error('no selected team')
     }
 
     timeoutActions.set(selectedTeam)
 
-    let pickedGroup: number | undefined
+    let newPickedGroup: number | undefined
     try {
-      pickedGroup = await getPickedGroup(selectedTeam)
+      newPickedGroup = await getPickedGroup(selectedTeam)
     } catch (err) {
       console.error(err)
       setPopup({
@@ -153,48 +145,44 @@ const WCGS = ({
       return
     }
 
-    onGroupPick(selectedTeam, pickedGroup)
-  }, [state.selectedTeam])
+    onGroupPick(selectedTeam, newPickedGroup)
+  }, [selectedTeam])
 
-  const onGroupPick = useCallback((selectedTeam: Team, pickedGroup: number) => {
-    const {
-      currentPotNum,
-    } = state
-
-    if (!selectedTeam) {
+  const onGroupPick = useCallback((newSelectedTeam: Team, newPickedGroup: number) => {
+    if (!newSelectedTeam) {
       setPopup({
         error: 'No selected team...',
       })
       return
     }
 
-    groups[pickedGroup].push(selectedTeam)
+    groups[newPickedGroup].push(newSelectedTeam)
     const newCurrentPotNum = pots[currentPotNum].length > 0 ? currentPotNum : currentPotNum + 1
 
-    airborneTeamsActions.add(selectedTeam)
+    airborneTeamsActions.add(newSelectedTeam)
     timeoutActions.reset()
     setState({
       selectedTeam: null,
-      pickedGroup,
+      pickedGroup: newPickedGroup,
       hungPot: pots[newCurrentPotNum],
       currentPotNum: newCurrentPotNum,
       calculating: false,
       completed: newCurrentPotNum >= pots.length,
     })
-  }, [pots, groups, state.currentPotNum])
+  }, [pots, groups, currentPotNum])
 
   return (
     <Root>
       <TablesContainer>
         <PotsContainer
-          selectedTeams={state.selectedTeam && [state.selectedTeam]}
+          selectedTeams={selectedTeam && [selectedTeam]}
           initialPots={initialPots}
           pots={pots}
-          currentPotNum={state.currentPotNum}
+          currentPotNum={currentPotNum}
         />
         <GroupsContainer
           maxTeams={pots.length}
-          currentPotNum={state.currentPotNum}
+          currentPotNum={currentPotNum}
           groups={groups}
           possibleGroups={null}
           airborneTeams={airborneTeams}
@@ -203,18 +191,18 @@ const WCGS = ({
       </TablesContainer>
       <BowlsContainer>
         <TeamBowl
-          forceNoSelect={state.calculating}
-          display={!state.completed}
-          selectedTeam={state.selectedTeam}
-          pot={state.hungPot}
+          forceNoSelect={calculating}
+          display={!completed}
+          selectedTeam={selectedTeam}
+          pot={hungPot}
           onPick={onTeamBallPick}
         />
         <Announcement
           long
           calculating={isLongCalculating}
-          completed={state.completed}
-          selectedTeam={state.selectedTeam}
-          pickedGroup={state.pickedGroup}
+          completed={completed}
+          selectedTeam={selectedTeam}
+          pickedGroup={pickedGroup}
           possibleGroups={null}
           numGroups={groups.length}
           reset={onReset}

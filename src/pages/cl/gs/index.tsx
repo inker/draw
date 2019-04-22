@@ -74,7 +74,15 @@ const CLGS = ({
   const groups = useMemo(() => initialPots[0].map(team => [] as Team[]), [initialPots, drawId])
 
   const initialState = useMemo(() => getState(pots), [pots])
-  const [state, setState] = usePartialState(initialState)
+  const [{
+    currentPotNum,
+    selectedTeam,
+    pickedGroup,
+    hungPot,
+    possibleGroups,
+    possibleGroupsShuffled,
+    completed,
+  }, setState] = usePartialState(initialState)
 
   const [, setPopup] = usePopup()
   const [airborneTeams, airborneTeamsActions] = useCollection<Team>()
@@ -85,31 +93,21 @@ const CLGS = ({
   }, [initialPots])
 
   const onTeamBallPick = useCallback((i: number) => {
-    const {
-      currentPotNum,
-    } = state
-
     const currentPot = pots[currentPotNum]
-    const hungPot = currentPot.slice()
-    const selectedTeam = currentPot.splice(i, 1)[0]
-    const possibleGroups = allPossibleGroups(pots, groups, selectedTeam, currentPotNum, predicate)
+    const newSelectedTeam = currentPot.splice(i, 1)[0]
+    const newPossibleGroups = allPossibleGroups(pots, groups, newSelectedTeam, currentPotNum, predicate)
     // const possibleGroups = allPossibleGroups(pots, groups, selectedTeam, currentPotNum)
 
     setState({
-      hungPot,
-      selectedTeam,
-      possibleGroups,
-      possibleGroupsShuffled: shuffle(possibleGroups),
+      hungPot: currentPot.slice(),
+      selectedTeam: newSelectedTeam,
+      possibleGroups: newPossibleGroups,
+      possibleGroupsShuffled: shuffle(newPossibleGroups),
       pickedGroup: null,
     })
-  }, [pots, groups, state.currentPotNum])
+  }, [pots, groups, currentPotNum])
 
-  const onGroupBallPick = useCallback((pickedGroup: number) => {
-    const {
-      selectedTeam,
-      currentPotNum,
-    } = state
-
+  const onGroupBallPick = useCallback((newPickedGroup: number) => {
     if (!selectedTeam) {
       setPopup({
         error: 'No selected team...',
@@ -117,12 +115,12 @@ const CLGS = ({
       return
     }
 
-    groups[pickedGroup].push(selectedTeam)
+    groups[newPickedGroup].push(selectedTeam)
     const newCurrentPotNum = pots[currentPotNum].length > 0 ? currentPotNum : currentPotNum + 1
 
     setState({
       selectedTeam: null,
-      pickedGroup,
+      pickedGroup: newPickedGroup,
       hungPot: pots[newCurrentPotNum],
       possibleGroups: null,
       possibleGroupsShuffled: null,
@@ -130,45 +128,45 @@ const CLGS = ({
       completed: newCurrentPotNum >= pots.length,
     })
     airborneTeamsActions.add(selectedTeam)
-  }, [pots, groups, state])
+  }, [pots, groups, selectedTeam, currentPotNum])
 
   return (
     <Root>
       <TablesContainer>
         <PotsContainer
-          selectedTeams={state.selectedTeam && [state.selectedTeam]}
+          selectedTeams={selectedTeam && [selectedTeam]}
           initialPots={initialPots}
           pots={pots}
-          currentPotNum={state.currentPotNum}
+          currentPotNum={currentPotNum}
         />
         <GroupsContainer
           maxTeams={pots.length}
-          currentPotNum={state.currentPotNum}
+          currentPotNum={currentPotNum}
           groups={groups}
-          possibleGroups={state.possibleGroups}
+          possibleGroups={possibleGroups}
           airborneTeams={airborneTeams}
           groupColors={groupColors}
         />
       </TablesContainer>
       <BowlsContainer>
         <TeamBowl
-          display={!state.completed}
-          selectedTeam={state.selectedTeam}
-          pot={state.hungPot}
+          display={!completed}
+          selectedTeam={selectedTeam}
+          pot={hungPot}
           onPick={onTeamBallPick}
         />
         <Announcement
           long={false}
-          completed={state.completed}
-          selectedTeam={state.selectedTeam}
-          pickedGroup={state.pickedGroup}
-          possibleGroups={state.possibleGroups}
+          completed={completed}
+          selectedTeam={selectedTeam}
+          pickedGroup={pickedGroup}
+          possibleGroups={possibleGroups}
           numGroups={groups.length}
           reset={onReset}
         />
         <GroupBowl
-          display={!state.completed}
-          possibleGroups={state.possibleGroupsShuffled}
+          display={!completed}
+          possibleGroups={possibleGroupsShuffled}
           onPick={onGroupBallPick}
         />
       </BowlsContainer>
