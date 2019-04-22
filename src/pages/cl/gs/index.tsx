@@ -15,6 +15,8 @@ import {
 import Team from 'model/team/GSTeam'
 import predicate from 'engine/predicates/gs'
 
+import usePopup from 'store/usePopup'
+
 import usePartialState from 'utils/hooks/usePartialState'
 import useCollection from 'utils/hooks/useCollection'
 import getGroupLetter from 'utils/getGroupLetter'
@@ -74,7 +76,7 @@ const CLGS = ({
   const initialState = useMemo(() => getState(pots), [pots])
   const [state, setState] = usePartialState(initialState)
 
-  const [error, setError] = useState<string | null>(null)
+  const [, setPopup] = usePopup()
   const [airborneTeams, airborneTeamsActions] = useCollection<Team>()
 
   const onReset = useCallback(() => {
@@ -109,7 +111,9 @@ const CLGS = ({
     } = state
 
     if (!selectedTeam) {
-      setError('No selected team...')
+      setPopup({
+        error: 'No selected team...',
+      })
       return
     }
 

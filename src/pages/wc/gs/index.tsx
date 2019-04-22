@@ -13,6 +13,8 @@ import {
 
 import Team from 'model/team/NationalTeam'
 
+import usePopup from 'store/usePopup'
+
 import usePartialState from 'utils/hooks/usePartialState'
 import useCollection from 'utils/hooks/useCollection'
 import useTimeout from 'utils/hooks/useTimeout'
@@ -74,7 +76,7 @@ const WCGS = ({
   const initialState = useMemo(() => getState(pots), [pots])
   const [state, setState] = usePartialState(initialState)
 
-  const [error, setError] = useState<string | null>(null)
+  const [, setPopup] = usePopup()
   const workerSendAndReceive = useWorkerWrapper(WcWorker)
   const [airborneTeams, airborneTeamsActions] = useCollection<Team>()
   const [isLongCalculating, timeoutActions] = useTimeout<Team>(3000)
@@ -145,7 +147,9 @@ const WCGS = ({
       pickedGroup = await getPickedGroup(selectedTeam)
     } catch (err) {
       console.error(err)
-      setError('Could not determine the group')
+      setPopup({
+        error: 'Could not determine the group',
+      })
       return
     }
 
@@ -158,7 +162,9 @@ const WCGS = ({
     } = state
 
     if (!selectedTeam) {
-      setError('No selected team...')
+      setPopup({
+        error: 'No selected team...',
+      })
       return
     }
 
