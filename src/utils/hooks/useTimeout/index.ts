@@ -4,7 +4,7 @@ import {
 } from 'react'
 import delay from 'delay.js'
 
-import useLongCalculatingReducer, { types } from './useTimeoutReducer'
+import useReducer, { types } from './reducer'
 
 type ReturnType<T> = [
   boolean,
@@ -15,7 +15,7 @@ type ReturnType<T> = [
 ]
 
 export default <T>(delayMs: number): ReturnType<T> => {
-  const [longCalculating, dispatchLongCalculating] = useLongCalculatingReducer<T>()
+  const [longCalculating, dispatchLongCalculating] = useReducer<T>()
 
   const runCalculatingTimer = useCallback(async (oldValue: T) => {
     dispatchLongCalculating({

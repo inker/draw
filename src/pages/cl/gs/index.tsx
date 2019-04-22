@@ -16,7 +16,7 @@ import Team from 'model/team/GSTeam'
 import predicate from 'engine/predicates/gs'
 
 import usePartialState from 'utils/hooks/usePartialState'
-import useCollectionActions from 'utils/hooks/useCollectionActions'
+import useCollection from 'utils/hooks/useCollection'
 import getGroupLetter from 'utils/getGroupLetter'
 
 import MovingDiv from 'ui/MovingDiv'
@@ -75,7 +75,7 @@ const CLGS = ({
   const [state, setState] = usePartialState(initialState)
 
   const [error, setError] = useState<string | null>(null)
-  const [airborneTeams, airborneTeamsActions] = useCollectionActions<Team>()
+  const [airborneTeams, airborneTeamsActions] = useCollection<Team>()
 
   const onReset = useCallback(() => {
     setDrawId(uniqueId('draw-'))

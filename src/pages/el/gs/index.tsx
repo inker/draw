@@ -14,7 +14,7 @@ import {
 import Team from 'model/team/GSTeam'
 
 import usePartialState from 'utils/hooks/usePartialState'
-import useCollectionActions from 'utils/hooks/useCollectionActions'
+import useCollection from 'utils/hooks/useCollection'
 import useTimeout from 'utils/hooks/useTimeout'
 import useWorkerWrapper from 'utils/hooks/useWorkerWrapper'
 
@@ -77,7 +77,7 @@ const ELGS = ({
 
   const [error, setError] = useState<string | null>(null)
   const workerSendAndReceive = useWorkerWrapper(EsWorker)
-  const [airborneTeams, airborneTeamsActions] = useCollectionActions<Team>()
+  const [airborneTeams, airborneTeamsActions] = useCollection<Team>()
   const [isLongCalculating, timeoutActions] = useTimeout<Team>(3000)
 
   useEffect(() => {

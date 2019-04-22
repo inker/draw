@@ -16,7 +16,7 @@ import Team from 'model/team/KnockoutTeam'
 import getPossiblePairings from 'engine/possible-pairings'
 
 import usePartialState from 'utils/hooks/usePartialState'
-import useCollectionActions from 'utils/hooks/useCollectionActions'
+import useCollection from 'utils/hooks/useCollection'
 
 import MovingDiv from 'ui/MovingDiv'
 import PotsContainer from 'ui/PotsContainer'
@@ -62,7 +62,7 @@ const ELKO = ({
   const initialState = useMemo(getState, [])
   const [state, setState] = usePartialState(initialState)
 
-  const [airborneTeams, airborneTeamsActions] = useCollectionActions<Team>()
+  const [airborneTeams, airborneTeamsActions] = useCollection<Team>()
 
   useEffect(() => {
     setTimeout(autoPickIfOneBall, 250)

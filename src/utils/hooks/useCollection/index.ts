@@ -3,7 +3,7 @@ import {
   useMemo,
 } from 'react'
 
-import useCollectionReducer, { types } from './useCollectionReducer'
+import useReducer, { types } from './reducer'
 
 type ReturnType<T> = [
   T[],
@@ -14,7 +14,7 @@ type ReturnType<T> = [
 ]
 
 export default <T>(): ReturnType<T> => {
-  const [state, dispatch] = useCollectionReducer<T>()
+  const [state, dispatch] = useReducer<T>()
 
   const add = useCallback((item: T) => {
     dispatch({
