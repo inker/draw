@@ -77,8 +77,9 @@ const ELGS = ({
   pots: initialPots,
 }: Props) => {
   const initialState = useMemo(() => getState(initialPots), [initialPots])
-  const workerSendAndReceive = useWorkerWrapper(EsWorker)
   const [state, setState] = usePartialState(initialState)
+
+  const workerSendAndReceive = useWorkerWrapper(EsWorker)
   const [airborneTeams, airborneTeamsActions] = useCollectionActions<Team>()
   const [isLongCalculating, timeoutActions] = useTimeout<Team>(3000)
 

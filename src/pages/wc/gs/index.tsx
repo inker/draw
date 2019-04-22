@@ -76,8 +76,9 @@ const WCGS = ({
   pots: initialPots,
 }: Props) => {
   const initialState = useMemo(() => getState(initialPots), [initialPots])
-  const workerSendAndReceive = useWorkerWrapper(WcWorker)
   const [state, setState] = usePartialState(initialState)
+
+  const workerSendAndReceive = useWorkerWrapper(WcWorker)
   const [airborneTeams, airborneTeamsActions] = useCollectionActions<Team>()
   const [isLongCalculating, timeoutActions] = useTimeout<Team>(3000)
 
