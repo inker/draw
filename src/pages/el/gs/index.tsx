@@ -14,6 +14,9 @@ import Team from 'model/team/GSTeam'
 
 import usePartialState from 'utils/hooks/usePartialState'
 import useCollectionActions from 'utils/hooks/useCollectionActions'
+import useTimeout from 'utils/hooks/useTimeout'
+import useWorkerWrapper from 'utils/hooks/useWorkerWrapper'
+
 import getGroupLetter from 'utils/getGroupLetter'
 
 import MovingDiv from 'ui/MovingDiv'
@@ -26,8 +29,6 @@ import TeamBowl from 'ui/bowls/TeamBowl'
 import Announcement from 'ui/Announcement'
 
 import Root from 'pages/Root'
-import useWorkerWrapper from 'pages/useWorkerWrapper'
-import useLongCalculating from 'pages/useLongCalculating'
 
 // @ts-ignore
 import EsWorker from './worker'
@@ -77,9 +78,9 @@ const ELGS = ({
 }: Props) => {
   const initialState = useMemo(() => getState(initialPots), [initialPots])
   const workerSendAndReceive = useWorkerWrapper(EsWorker)
-  const [isLongCalculating, runCalculatingTimer, resetLongCalculating] = useLongCalculating(3000)
   const [state, setState] = usePartialState(initialState)
   const [airborneTeams, airborneTeamsActions] = useCollectionActions<Team>()
+  const [isLongCalculating, timeoutActions] = useTimeout<Team>(3000)
 
   useEffect(() => {
     if (state.selectedTeam) {
@@ -135,7 +136,7 @@ const ELGS = ({
       throw new Error('no selected team')
     }
 
-    runCalculatingTimer(selectedTeam)
+    timeoutActions.set(selectedTeam)
 
     let pickedGroup: number | undefined
     try {
@@ -169,7 +170,7 @@ const ELGS = ({
     const newCurrentPotNum = pots[currentPotNum].length > 0 ? currentPotNum : currentPotNum + 1
 
     airborneTeamsActions.add(selectedTeam)
-    resetLongCalculating()
+    timeoutActions.reset()
     setState({
       selectedTeam: null,
       pickedGroup,

@@ -1,33 +1,31 @@
 import { useReducer } from 'react'
 
-import Team from 'model/team'
-
-const initialState: State = {
+const initialState = {
   team: null,
   isLong: false,
 }
 
 export const types = Object.freeze({
-  set: 'LONG_CALCULATING_SET',
-  reset: 'LONG_CALCULATING_RESET',
+  set: 'TIMEOUT_VALUE_SET',
+  reset: 'TIMEOUT_RESET',
 }) as Readonly<{
-  set: 'LONG_CALCULATING_SET',
-  reset: 'LONG_CALCULATING_RESET',
+  set: 'TIMEOUT_VALUE_SET',
+  reset: 'TIMEOUT_RESET',
 }>
 
-interface State {
-  team: Team | null,
+interface State<T> {
+  team: T | null,
   isLong: boolean,
 }
 
-type Action = {
+type Action<T> = {
   type: typeof types.set,
-  payload: Team,
+  payload: T,
 } | {
   type: typeof types.reset,
 }
 
-function reducer(state: State, action: Action) {
+function reducer<T>(state: State<T>, action: Action<T>) {
   switch (action.type) {
     case types.set:
       return {
@@ -43,5 +41,7 @@ function reducer(state: State, action: Action) {
   }
 }
 
-export default () =>
-  useReducer(reducer, initialState)
+type Reducer<T> = (collection: State<T>, action: Action<T>) => State<T>
+
+export default <T>() =>
+  useReducer<Reducer<T>>(reducer, initialState)
