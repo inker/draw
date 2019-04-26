@@ -18,9 +18,10 @@ export default async (url: string, encoding: string) => {
     searchParams.set('encoding', encoding)
   }
   for (const proxy of proxies) {
-    const host = `https://${proxy}.glitch.me`
+    const wrappedUrl = new URL(`https://${proxy}.glitch.me`)
+    wrappedUrl.search = searchParams.toString()
     try {
-      const response = await fetch(`${host}/?${searchParams.toString()}`)
+      const response = await fetch(wrappedUrl.toString())
       if (response.status !== 200) {
         throw new Error(`${url}: ${response.status}`)
       }
