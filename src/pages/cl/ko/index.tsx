@@ -38,7 +38,6 @@ interface State {
   currentMatchupNum: number,
   currentPotNum: number,
   possiblePairings: number[] | null,
-  completed: boolean,
 }
 
 function getState(): State {
@@ -48,7 +47,6 @@ function getState(): State {
     currentMatchupNum,
     currentPotNum,
     possiblePairings: null,
-    completed: false,
   }
 }
 
@@ -64,7 +62,6 @@ const CLKO = ({
     currentMatchupNum,
     currentPotNum,
     possiblePairings,
-    completed,
   }, setState] = usePartialState(initialState)
 
   const [airborneTeams, airborneTeamsActions] = useCollection<Team>()
@@ -96,7 +93,6 @@ const CLKO = ({
       currentPotNum: 1 - currentPotNum,
       currentMatchupNum: newCurrentMatchNum,
       possiblePairings: newPossiblePairings,
-      completed: newCurrentMatchNum >= initialPots[0].length,
     })
     airborneTeamsActions.add(selectedTeam)
   }, [pots, matchups, currentPotNum, currentMatchupNum, possiblePairings, airborneTeams])
@@ -107,6 +103,7 @@ const CLKO = ({
     }
   }, [pots, possiblePairings, currentPotNum, onBallPick])
 
+  const completed = currentMatchupNum >= initialPots[0].length
   const selectedTeams = possiblePairings ? possiblePairings.map(i => pots[0][i]) : []
 
   return (

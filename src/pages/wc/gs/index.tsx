@@ -49,8 +49,6 @@ interface State {
   selectedTeam: Team | null,
   pickedGroup: number | null,
   hungPot: Team[],
-  calculating: boolean,
-  completed: boolean,
 }
 
 function getState(pots: Team[][]): State {
@@ -61,8 +59,6 @@ function getState(pots: Team[][]): State {
     selectedTeam: null,
     pickedGroup: null,
     hungPot: currentPot,
-    calculating: false,
-    completed: false,
   }
 }
 
@@ -79,8 +75,6 @@ const WCGS = ({
     selectedTeam,
     pickedGroup,
     hungPot,
-    calculating,
-    completed,
   }, setState] = usePartialState(initialState)
 
   const [, setPopup] = usePopup()
@@ -123,7 +117,6 @@ const WCGS = ({
       hungPot: currentPot.slice(),
       selectedTeam: currentPot.splice(i, 1)[0],
       pickedGroup: null,
-      calculating: true,
     })
   }, [pots, currentPotNum])
 
@@ -155,10 +148,10 @@ const WCGS = ({
       pickedGroup: newPickedGroup,
       hungPot: pots[newCurrentPotNum],
       currentPotNum: newCurrentPotNum,
-      calculating: false,
-      completed: newCurrentPotNum >= pots.length,
     })
   }, [selectedTeam, pots, groups, currentPotNum])
+
+  const completed = currentPotNum >= pots.length
 
   return (
     <Root>
@@ -180,7 +173,7 @@ const WCGS = ({
       </TablesContainer>
       <BowlsContainer>
         <TeamBowl
-          forceNoSelect={calculating}
+          forceNoSelect={!!selectedTeam}
           display={!completed}
           selectedTeam={selectedTeam}
           pot={hungPot}

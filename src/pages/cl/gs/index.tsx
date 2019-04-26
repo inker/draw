@@ -49,7 +49,6 @@ interface State {
   hungPot: Team[],
   possibleGroups: number[] | null,
   possibleGroupsShuffled: number[] | null,
-  completed: boolean,
 }
 
 function getState(pots: Team[][]): State {
@@ -62,7 +61,6 @@ function getState(pots: Team[][]): State {
     hungPot: currentPot,
     possibleGroups: null,
     possibleGroupsShuffled: null,
-    completed: false,
   }
 }
 
@@ -81,7 +79,6 @@ const CLGS = ({
     hungPot,
     possibleGroups,
     possibleGroupsShuffled,
-    completed,
   }, setState] = usePartialState(initialState)
 
   const [, setPopup] = usePopup()
@@ -125,10 +122,11 @@ const CLGS = ({
       possibleGroups: null,
       possibleGroupsShuffled: null,
       currentPotNum: newCurrentPotNum,
-      completed: newCurrentPotNum >= pots.length,
     })
     airborneTeamsActions.add(selectedTeam)
   }, [pots, groups, selectedTeam, currentPotNum])
+
+  const completed = currentPotNum >= pots.length
 
   return (
     <Root>
