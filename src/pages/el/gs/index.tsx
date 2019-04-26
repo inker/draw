@@ -140,21 +140,10 @@ const ELGS = ({
       return
     }
 
-    onGroupPick(selectedTeam, newPickedGroup)
-  }, [selectedTeam])
-
-  const onGroupPick = useCallback((newSelectedTeam: Team, newPickedGroup: number) => {
-    if (!newSelectedTeam) {
-      setPopup({
-        error: 'No selected team...',
-      })
-      return
-    }
-
-    groups[newPickedGroup].push(newSelectedTeam)
+    groups[newPickedGroup].push(selectedTeam)
     const newCurrentPotNum = pots[currentPotNum].length > 0 ? currentPotNum : currentPotNum + 1
 
-    airborneTeamsActions.add(newSelectedTeam)
+    airborneTeamsActions.add(selectedTeam)
     timeoutActions.reset()
     setState({
       selectedTeam: null,
@@ -164,7 +153,7 @@ const ELGS = ({
       calculating: false,
       completed: newCurrentPotNum >= pots.length,
     })
-  }, [pots, groups, currentPotNum])
+  }, [selectedTeam, pots, groups, currentPotNum])
 
   return (
     <Root>
