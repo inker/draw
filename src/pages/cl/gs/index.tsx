@@ -5,20 +5,20 @@ import React, {
   memo,
 } from 'react'
 
-import { allPossibleGroups } from '@draws/engine'
-
 import {
   shuffle,
   uniqueId,
 } from 'lodash'
 
 import Team from 'model/team/GSTeam'
-import predicate from 'engine/predicates/gs'
 
 import usePopup from 'store/usePopup'
 
 import usePartialState from 'utils/hooks/usePartialState'
 import useCollection from 'utils/hooks/useCollection'
+import useTimeout from 'utils/hooks/useTimeout'
+import useWorkerWrapper from 'utils/hooks/useWorkerWrapper'
+
 import getGroupLetter from 'utils/getGroupLetter'
 
 import MovingDiv from 'ui/MovingDiv'
@@ -32,6 +32,9 @@ import GroupBowl from 'ui/bowls/GroupBowl'
 import Announcement from 'ui/Announcement'
 
 import Root from 'pages/Root'
+
+// @ts-ignore
+import ClWorker from './worker'
 
 const groupColors = [
   'rgba(255, 0, 0, 0.25)',
@@ -82,18 +85,33 @@ const CLGS = ({
   }, setState] = usePartialState(initialState)
 
   const [, setPopup] = usePopup()
+  const workerSendAndReceive = useWorkerWrapper(ClWorker)
   const [airborneTeams, airborneTeamsActions] = useCollection<Team>()
+  const [isLongCalculating, timeoutActions] = useTimeout<Team>(3000)
 
   const onReset = useCallback(() => {
     setDrawId(uniqueId('draw-'))
     setState(getState(initialPots))
   }, [initialPots])
 
-  const onTeamBallPick = useCallback((i: number) => {
+  const getPickedGroup = useCallback(async (newSelectedTeam: Team) => {
+    const response = await workerSendAndReceive({
+      pots,
+      groups,
+      selectedTeam: newSelectedTeam,
+      currentPotNum,
+    })
+
+    return response.possibleGroups as number[]
+  }, [pots, groups, currentPotNum])
+
+  const onTeamBallPick = useCallback(async (i: number) => {
     const currentPot = pots[currentPotNum]
     const newSelectedTeam = currentPot.splice(i, 1)[0]
-    const newPossibleGroups = allPossibleGroups(pots, groups, newSelectedTeam, currentPotNum, predicate)
-    // const possibleGroups = allPossibleGroups(pots, groups, selectedTeam, currentPotNum)
+
+    timeoutActions.set(newSelectedTeam)
+    const newPossibleGroups = await getPickedGroup(newSelectedTeam)
+    timeoutActions.reset()
 
     setState({
       hungPot: currentPot.slice(),
@@ -115,6 +133,7 @@ const CLGS = ({
     groups[newPickedGroup].push(selectedTeam)
     const newCurrentPotNum = pots[currentPotNum].length > 0 ? currentPotNum : currentPotNum + 1
 
+    airborneTeamsActions.add(selectedTeam)
     setState({
       selectedTeam: null,
       pickedGroup: newPickedGroup,
@@ -123,7 +142,6 @@ const CLGS = ({
       possibleGroupsShuffled: null,
       currentPotNum: newCurrentPotNum,
     })
-    airborneTeamsActions.add(selectedTeam)
   }, [pots, groups, selectedTeam, currentPotNum])
 
   const completed = currentPotNum >= pots.length
@@ -155,6 +173,7 @@ const CLGS = ({
         />
         <Announcement
           long={false}
+          calculating={isLongCalculating}
           completed={completed}
           selectedTeam={selectedTeam}
           pickedGroup={pickedGroup}
