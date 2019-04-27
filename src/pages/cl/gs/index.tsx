@@ -34,7 +34,7 @@ import Announcement from 'ui/Announcement'
 import Root from 'pages/Root'
 
 // @ts-ignore
-import ClWorker from './worker'
+import EsWorker from './worker'
 
 const groupColors = [
   'rgba(255, 0, 0, 0.25)',
@@ -85,7 +85,7 @@ const CLGS = ({
   }, setState] = usePartialState(initialState)
 
   const [, setPopup] = usePopup()
-  const workerSendAndReceive = useWorkerWrapper(ClWorker)
+  const workerSendAndReceive = useWorkerWrapper(EsWorker)
   const [airborneTeams, airborneTeamsActions] = useCollection<Team>()
   const [isLongCalculating, timeoutActions] = useTimeout<Team>(3000)
 

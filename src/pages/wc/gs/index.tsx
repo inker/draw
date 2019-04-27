@@ -78,7 +78,7 @@ const WCGS = ({
   }, setState] = usePartialState(initialState)
 
   const [, setPopup] = usePopup()
-  const workerSendAndReceive = useWorkerWrapper(WcWorker)
+  const workerSendAndReceive = useWorkerWrapper(EsWorker)
   const [airborneTeams, airborneTeamsActions] = useCollection<Team>()
   const [isLongCalculating, timeoutActions] = useTimeout<Team>(3000)
 
