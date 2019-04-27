@@ -3,7 +3,6 @@ import { allPossibleGroups } from '@draws/engine'
 import { shuffle, uniqueId } from 'lodash'
 
 import Team from 'model/team/GSTeam'
-// import { allPossibleGroups } from 'engine/possible-groups'
 import predicate from 'engine/predicates/gs'
 
 import animateContentTransfer from 'utils/animateContentTransfer'

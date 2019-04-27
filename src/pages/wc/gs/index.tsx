@@ -23,7 +23,7 @@ import Announcement from 'ui/Announcement'
 
 import Root from 'pages/Root'
 // @ts-ignore
-import WcWorker from './worker'
+import EsWorker from './worker'
 
 const groupColors = [
   'rgba(0, 128, 0, 0.25)',
@@ -51,7 +51,7 @@ interface State {
 }
 
 export default class WCGS extends PureComponent<Props, State> {
-  private workerWrapper = new WorkerWrapper(new WcWorker(), 120000)
+  private workerWrapper = new WorkerWrapper(new EsWorker(), 120000)
 
   constructor(props: Props) {
     super(props)

@@ -1,4 +1,3 @@
-// import { firstPossibleGroup } from 'engine/possible-groups'
 import { firstPossibleGroup } from '@draws/engine'
 
 import predicate from 'engine/predicates/gs'
