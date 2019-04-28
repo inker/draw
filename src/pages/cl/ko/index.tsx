@@ -1,4 +1,11 @@
-import React, { PureComponent } from 'react'
+import React, {
+  useState,
+  useCallback,
+  useMemo,
+  useEffect,
+  memo,
+} from 'react'
+
 import {
   range,
   shuffle,
@@ -8,8 +15,10 @@ import {
 import Team from 'model/team/KnockoutTeam'
 import getPossiblePairings from 'engine/possible-pairings'
 
-import animateContentTransfer from 'utils/animateContentTransfer'
+import usePartialState from 'utils/hooks/usePartialState'
+import useCollection from 'utils/hooks/useCollection'
 
+import MovingDiv from 'ui/MovingDiv'
 import PotsContainer from 'ui/PotsContainer'
 // import AirborneContainer from 'ui/AirborneContainer'
 import MatchupsContainer from 'ui/MatchupsContainer'
@@ -26,173 +35,143 @@ interface Props {
 }
 
 interface State {
-  drawId: string,
-  initialPots: Team[][],
-  pots: Team[][],
-  matchups: [Team, Team][],
-  airborneTeams: Team[],
   currentMatchupNum: number,
   currentPotNum: number,
   possiblePairings: number[] | null,
-  completed: boolean,
-  error: string | null,
 }
 
-export default class CLKO extends PureComponent<Props, State> {
-  constructor(props: Props) {
-    super(props)
-    this.state = this.getNewState()
+function getState(): State {
+  const currentPotNum = 1
+  const currentMatchupNum = 0
+  return {
+    currentMatchupNum,
+    currentPotNum,
+    possiblePairings: null,
   }
+}
 
-  private onReset = () => {
-    this.setState(this.getNewState())
-  }
+const CLKO = ({
+  pots: initialPots,
+}: Props) => {
+  const [drawId, setDrawId] = useState(uniqueId('draw-'))
+  const pots = useMemo(() => initialPots.map(pot => shuffle(pot)), [initialPots, drawId])
+  const matchups = useMemo(() => range(8).map(i => [] as any as [Team, Team]), [initialPots, drawId])
 
-  private getNewState(): State {
-    const initialPots = this.props.pots
-    const currentPotNum = 1
-    const currentMatchupNum = 0
-    const pots = initialPots.map(pot => shuffle(pot))
-    return {
-      drawId: uniqueId('draw-'),
-      initialPots,
-      pots,
-      matchups: range(8).map(i => [] as any as [Team, Team]),
-      airborneTeams: [],
-      currentMatchupNum,
-      currentPotNum,
-      possiblePairings: null,
-      completed: false,
-      error: null,
-    }
-  }
+  const initialState = useMemo(getState, [])
+  const [{
+    currentMatchupNum,
+    currentPotNum,
+    possiblePairings,
+  }, setState] = usePartialState(initialState)
 
-  private onBallPick = (i: number) => {
-    const { state } = this
-    const {
-      initialPots,
-      matchups,
-      pots,
-      currentPotNum,
-      currentMatchupNum,
-      airborneTeams,
-    } = state
+  const [airborneTeams, airborneTeamsActions] = useCollection<Team>()
 
+  useEffect(() => {
+    setTimeout(autoPickIfOneBall, 250)
+    // @ts-ignore
+  }, [autoPickIfOneBall])
+
+  const onReset = useCallback(() => {
+    setDrawId(uniqueId('draw-'))
+    setState(getState())
+  }, [initialPots])
+
+  const onBallPick = useCallback((i: number) => {
     const currentPot = pots[currentPotNum]
-    const index = state.possiblePairings ? state.possiblePairings[i] : i
+    const index = possiblePairings ? possiblePairings[i] : i
     const selectedTeam = currentPot.splice(index, 1)[0]
 
     matchups[currentMatchupNum].push(selectedTeam)
 
-    const possiblePairings = currentPotNum === 1
+    const newPossiblePairings = currentPotNum === 1
       ? getPossiblePairings(pots, matchups, currentMatchupNum)
       : null
 
     const newCurrentMatchNum = currentMatchupNum - currentPotNum + 1
-    airborneTeams.push(selectedTeam)
-    const animation = this.animateCell(selectedTeam)
 
-    this.setState({
+    setState({
       currentPotNum: 1 - currentPotNum,
       currentMatchupNum: newCurrentMatchNum,
-      possiblePairings,
-      completed: newCurrentMatchNum >= initialPots[0].length,
-    }, async () => {
-      setTimeout(this.autoPickIfOneBall, 250)
-      await animation
-      this.setState({
-        airborneTeams: this.state.airborneTeams.filter(team => team !== selectedTeam),
-      })
+      possiblePairings: newPossiblePairings,
     })
-  }
+    airborneTeamsActions.add(selectedTeam)
+  }, [pots, matchups, currentPotNum, currentMatchupNum, possiblePairings, airborneTeams])
 
-  private autoPickIfOneBall = () => {
-    const {
-      possiblePairings,
-      currentPotNum,
-      pots,
-    } = this.state
+  const autoPickIfOneBall = useCallback(() => {
     if (possiblePairings && possiblePairings.length === 1 || currentPotNum === 1 && pots[1].length === 1) {
-      this.onBallPick(0)
+      onBallPick(0)
     }
-  }
+  }, [pots, possiblePairings, currentPotNum, onBallPick])
 
-  private animateCell(selectedTeam: Team) {
-    const { currentPotNum, currentMatchupNum } = this.state
-    const fromCell = document.querySelector(`[data-cellid='${selectedTeam.id}']`)
-    const foo = currentPotNum === 0 ? 'gw' : 'ru'
-    const toCellSelector = `[data-cellid='${currentMatchupNum}${foo}']`
-    const toCell = document.querySelector(toCellSelector)
-    if (fromCell instanceof HTMLElement && toCell instanceof HTMLElement) {
-      return animateContentTransfer(fromCell, toCell, 350)
-    }
-  }
+  const completed = currentMatchupNum >= initialPots[0].length
+  const selectedTeams = possiblePairings ? possiblePairings.map(i => pots[0][i]) : []
 
-  render() {
-    const {
-      initialPots,
-      pots,
-      matchups,
-      currentPotNum,
-      currentMatchupNum,
-      airborneTeams,
-      possiblePairings,
-      completed,
-    } = this.state
-
-    const selectedTeams = possiblePairings ? possiblePairings.map(i => pots[0][i]) : []
-
-    return (
-      <Root>
-        <TablesContainer>
-          <PotsContainer
-            selectedTeams={selectedTeams}
-            initialPots={initialPots}
-            pots={pots}
-            currentPotNum={currentPotNum}
+  return (
+    <Root>
+      <TablesContainer>
+        <PotsContainer
+          selectedTeams={selectedTeams}
+          initialPots={initialPots}
+          pots={pots}
+          currentPotNum={currentPotNum}
+        />
+        <MatchupsContainer
+          currentMatchupNum={currentMatchupNum}
+          matchups={matchups}
+          airborneTeams={airborneTeams}
+        />
+      </TablesContainer>
+      <BowlsContainer>
+        {!completed &&
+          <Separator>Runners-up</Separator>
+        }
+        <TeamBowl
+          forceNoSelect={currentPotNum === 0}
+          display={!completed}
+          selectedTeam={null}
+          pot={pots[1]}
+          onPick={onBallPick}
+        />
+        {!completed &&
+          <Separator>Group Winners</Separator>
+        }
+        {completed &&
+          <Announcement
+            long={false}
+            completed={completed}
+            selectedTeam={null}
+            pickedGroup={null}
+            possibleGroups={null}
+            numGroups={0}
+            reset={onReset}
           />
-          <MatchupsContainer
-            currentMatchupNum={currentMatchupNum}
-            matchups={matchups}
-            airborneTeams={airborneTeams}
-          />
-        </TablesContainer>
-        <BowlsContainer>
-          {!completed &&
-            <Separator>Runners-up</Separator>
-          }
+        }
+        {possiblePairings &&
           <TeamBowl
-            forceNoSelect={currentPotNum === 0}
+            forceNoSelect={currentPotNum === 1}
             display={!completed}
             selectedTeam={null}
-            pot={pots[1]}
-            onPick={this.onBallPick}
+            pot={pots[0].filter((team, i) => possiblePairings.includes(i))}
+            onPick={onBallPick}
           />
-          {!completed &&
-            <Separator>Group Winners</Separator>
-          }
-          {completed &&
-            <Announcement
-              long={false}
-              completed={completed}
-              selectedTeam={null}
-              pickedGroup={null}
-              possibleGroups={null}
-              numGroups={0}
-              reset={this.onReset}
-            />
-          }
-          {possiblePairings &&
-            <TeamBowl
-              forceNoSelect={currentPotNum === 1}
-              display={!completed}
-              selectedTeam={null}
-              pot={pots[0].filter((team, i) => possiblePairings.includes(i))}
-              onPick={this.onBallPick}
-            />
-          }
-        </BowlsContainer>
-      </Root>
-    )
-  }
+        }
+      </BowlsContainer>
+      {airborneTeams.map((team: Team) => {
+        const matchupNum = matchups.findIndex(m => m.includes(team))
+        const pos = matchups[matchupNum].indexOf(team)
+        return (
+          <MovingDiv
+            key={team.id}
+            from={`[data-cellid='${team.id}']`}
+            to={`[data-cellid='${matchupNum}${pos === 1 ? 'gw' : 'ru'}']`}
+            duration={350}
+            data={team}
+            onAnimationEnd={airborneTeamsActions.remove}
+          />
+        )
+      })}
+    </Root>
+  )
 }
+
+export default memo(CLKO)
