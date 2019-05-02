@@ -1,13 +1,6 @@
-import {
-  useCallback,
-  useRef,
-  memo,
-} from 'react'
+import { memo } from 'react'
 
-import {
-  noop,
-} from 'lodash'
-
+import useOnce from 'utils/hooks/useOnce'
 import animateContentTransfer from 'utils/animateContentTransfer'
 
 interface Props {
@@ -25,20 +18,17 @@ const MovingDiv = ({
   data,
   onAnimationEnd,
 }: Props) => {
-  const animationRef = useRef<boolean>(false)
-  const onAnimationEndCb = useCallback(() => {
-    const cb = onAnimationEnd || noop
-    cb(data)
-  }, [data, onAnimationEnd])
-
-  if (!animationRef.current) {
-    animationRef.current = true
+  useOnce(() => {
     const fromCell = document.querySelector(from)
     const toCell = document.querySelector(to)
     if (fromCell instanceof HTMLElement && toCell instanceof HTMLElement) {
-      animateContentTransfer(fromCell, toCell, duration).then(onAnimationEndCb)
+      animateContentTransfer(fromCell, toCell, duration).then(() => {
+        if (onAnimationEnd) {
+          onAnimationEnd(data)
+        }
+      })
     }
-  }
+  })
 
   return null
 }
