@@ -64,13 +64,9 @@ function useRefresh(): [string, () => void] {
 function useSeasonTournamentStage() {
   const [historyLocation, setHistoryLocation] = useState(history.location)
 
-  const updateLocation = useCallback((newLocation) => {
-    setHistoryLocation(newLocation)
-  }, [])
-
   useEffect(() => {
     setHistoryLocation(historyLocation)
-    const unlisten = history.listen(updateLocation)
+    const unlisten = history.listen(setHistoryLocation)
     return unlisten
   }, [])
 

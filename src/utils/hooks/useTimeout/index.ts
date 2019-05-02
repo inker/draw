@@ -1,7 +1,4 @@
-import {
-  useCallback,
-  useMemo,
-} from 'react'
+import { useMemo } from 'react'
 import delay from 'delay.js'
 
 import useReducer, { types } from './reducer'
@@ -17,7 +14,7 @@ type ReturnType<T> = [
 export default <T>(delayMs: number): ReturnType<T> => {
   const [longCalculating, dispatchLongCalculating] = useReducer<T>()
 
-  const runCalculatingTimer = useCallback(async (oldValue: T) => {
+  const runCalculatingTimer = async (oldValue: T) => {
     dispatchLongCalculating({
       type: types.set,
       payload: oldValue,
@@ -27,13 +24,13 @@ export default <T>(delayMs: number): ReturnType<T> => {
       type: types.set,
       payload: oldValue,
     })
-  }, [])
+  }
 
-  const resetLongCalculating = useCallback(() => {
+  const resetLongCalculating = () => {
     dispatchLongCalculating({
       type: types.reset,
     })
-  }, [])
+  }
 
   const actions = useMemo(() => ({
     set: runCalculatingTimer,

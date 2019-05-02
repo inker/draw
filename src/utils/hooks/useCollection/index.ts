@@ -1,7 +1,4 @@
-import {
-  useCallback,
-  useMemo,
-} from 'react'
+import { useMemo } from 'react'
 
 import useReducer, { types } from './reducer'
 
@@ -16,19 +13,19 @@ type ReturnType<T> = [
 export default <T>(): ReturnType<T> => {
   const [state, dispatch] = useReducer<T>()
 
-  const add = useCallback((item: T) => {
+  const add = (item: T) => {
     dispatch({
       type: types.add,
       payload: item,
     })
-  }, [])
+  }
 
-  const remove = useCallback((item: T) => {
+  const remove = (item: T) => {
     dispatch({
       type: types.remove,
       payload: item,
     })
-  }, [])
+  }
 
   const actions = useMemo(() => ({
     add,

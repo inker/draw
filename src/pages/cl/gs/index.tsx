@@ -94,7 +94,7 @@ const CLGS = ({
     setState(getState(initialPots))
   }, [initialPots])
 
-  const getPickedGroup = useCallback(async (newSelectedTeam: Team) => {
+  const getPickedGroup = async (newSelectedTeam: Team) => {
     const response = await workerSendAndReceive({
       pots,
       groups,
@@ -103,7 +103,7 @@ const CLGS = ({
     })
 
     return response.possibleGroups as number[]
-  }, [pots, groups, currentPotNum])
+  }
 
   const onTeamBallPick = useCallback(async (i: number) => {
     const currentPot = pots[currentPotNum]

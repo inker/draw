@@ -99,7 +99,7 @@ const WCGS = ({
     setState(getState(initialPots))
   }, [initialPots])
 
-  const getPickedGroup = useCallback(async (newSelectedTeam: Team) => {
+  const getPickedGroup = async (newSelectedTeam: Team) => {
     const response = await workerSendAndReceive({
       pots,
       groups,
@@ -108,7 +108,7 @@ const WCGS = ({
     })
 
     return response.pickedGroup as number
-  }, [pots, groups, currentPotNum])
+  }
 
   const onTeamBallPick = useCallback(async (i: number) => {
     const currentPot = pots[currentPotNum]
@@ -120,7 +120,7 @@ const WCGS = ({
     })
   }, [pots, currentPotNum])
 
-  const onTeamSelected = useCallback(async () => {
+  const onTeamSelected = async () => {
     if (!selectedTeam) {
       throw new Error('no selected team')
     }
@@ -149,7 +149,7 @@ const WCGS = ({
       hungPot: pots[newCurrentPotNum],
       currentPotNum: newCurrentPotNum,
     })
-  }, [selectedTeam, pots, groups, currentPotNum])
+  }
 
   const completed = currentPotNum >= pots.length
 

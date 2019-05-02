@@ -69,7 +69,7 @@ const ELKO = ({
   useEffect(() => {
     setTimeout(autoPickIfOneBall, 250)
     // @ts-ignore
-  }, [autoPickIfOneBall])
+  })
 
   const onReset = useCallback(() => {
     setDrawId(uniqueId('draw-'))
@@ -97,11 +97,11 @@ const ELKO = ({
     airborneTeamsActions.add(selectedTeam)
   }, [pots, matchups, currentPotNum, currentMatchupNum, possiblePairings, airborneTeams])
 
-  const autoPickIfOneBall = useCallback(() => {
+  const autoPickIfOneBall = () => {
     if (possiblePairings && possiblePairings.length === 1 || currentPotNum === 1 && pots[1].length === 1) {
       onBallPick(0)
     }
-  }, [pots, possiblePairings, currentPotNum, onBallPick])
+  }
 
   const completed = currentMatchupNum >= initialPots[0].length
   const selectedTeams = possiblePairings ? possiblePairings.map(i => pots[0][i]) : []

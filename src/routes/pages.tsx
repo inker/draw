@@ -1,5 +1,4 @@
 import React, {
-  useCallback,
   useEffect,
   memo,
 } from 'react'
@@ -98,7 +97,7 @@ const Pages = ({
     season: currentSeasonByTournament('cl', 'gs'),
   })
 
-  const getMatchParams = useCallback(() => {
+  const getMatchParams = () => {
     const { params } = match
     const season = params.season
       ? +params.season
@@ -108,9 +107,9 @@ const Pages = ({
       ...params,
       season,
     }
-  }, [match])
+  }
 
-  const onFetchError = useCallback(async (err) => {
+  const onFetchError = async (err) => {
     console.error(err)
     setPopup({
       waiting: false,
@@ -130,9 +129,9 @@ const Pages = ({
     setPopup({
       error: null,
     })
-  }, [match, state, setPopup, onSeasonChange])
+  }
 
-  const fetchData = useCallback(async () => {
+  const fetchData = async () => {
     setPopup({
       waiting: true,
     })
@@ -163,7 +162,7 @@ const Pages = ({
     } catch (err) {
       onFetchError(err)
     }
-  }, [season, stage, tournament, setPopup])
+  }
 
   useEffect(() => {
     fetchData()
