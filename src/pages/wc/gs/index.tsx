@@ -192,12 +192,13 @@ const WCGS = ({
       </BowlsContainer>
       {airborneTeams.map((team: Team) => {
         const groupNum = groups.findIndex(g => g.includes(team))
+        const groupLetter = getGroupLetter(groupNum)
         const pos = groups[groupNum].indexOf(team)
         return (
           <MovingDiv
             key={team.id}
             from={`[data-cellid='${team.id}']`}
-            to={`[data-cellid='${getGroupLetter(groupNum)}${pos}']`}
+            to={`[data-cellid='${groupLetter}${pos}']`}
             duration={350}
             data={team}
             onAnimationEnd={airborneTeamsActions.remove}

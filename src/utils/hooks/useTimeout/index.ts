@@ -8,7 +8,7 @@ type ReturnType<T> = [
   {
     set: (oldValue: T) => Promise<void>,
     reset: () => void,
-  }
+  },
 ]
 
 export default <T>(delayMs: number): ReturnType<T> => {

@@ -1,6 +1,5 @@
 import React, {
   useState,
-  useCallback,
   useEffect,
   memo,
 } from 'react'
@@ -23,13 +22,8 @@ const PageLoader = ({
 }: Props) => {
   const [mod, setMod] = useState<{ default: any } | null>(null)
 
-  const nextComp = useCallback(
-    () => import(`pages/${tournament}/${stage}/index`),
-    [tournament, stage],
-  )
-
   useEffect(() => {
-    nextComp()
+    import(`pages/${tournament}/${stage}/index`)
       .then(setMod)
       .catch(onLoadError)
   }, [tournament, stage])
