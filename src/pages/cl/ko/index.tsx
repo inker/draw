@@ -68,7 +68,6 @@ const CLKO = ({
 
   useEffect(() => {
     setTimeout(autoPickIfOneBall, 250)
-    // @ts-ignore
   })
 
   const onReset = useCallback(() => {

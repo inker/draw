@@ -7,10 +7,6 @@ import {
 
 const TIMEOUT = 120000
 
-interface Msg {
-  [key: string]: any,
-}
-
 export default (WorkerClass) => {
   const ww = useMemo(() => new WorkerWrapper(new WorkerClass(), TIMEOUT), [])
 
@@ -20,5 +16,5 @@ export default (WorkerClass) => {
     }
   }, [])
 
-  return (msg: Msg) => ww.sendAndReceive(msg)
+  return (msg: any) => ww.sendAndReceive(msg)
 }

@@ -55,7 +55,7 @@ const ELKO = ({
 }: Props) => {
   const [drawId, setDrawId] = useState(uniqueId('draw-'))
   const pots = useMemo(() => initialPots.map(pot => shuffle(pot)), [initialPots, drawId])
-  const matchups = useMemo(() => range(8).map(i => [] as any as [Team, Team]), [initialPots, drawId])
+  const matchups = useMemo(() => range(16).map(i => [] as any as [Team, Team]), [initialPots, drawId])
 
   const initialState = useMemo(getState, [])
   const [{
@@ -68,7 +68,6 @@ const ELKO = ({
 
   useEffect(() => {
     setTimeout(autoPickIfOneBall, 250)
-    // @ts-ignore
   })
 
   const onReset = useCallback(() => {
