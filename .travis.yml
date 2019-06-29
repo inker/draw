@@ -11,7 +11,7 @@ deploy:
   skip_cleanup: true
   # keep-history: true
   github_token: $GITHUB_TOKEN
-  fqdn: https://draw.inker.fun
+  fqdn: https://draw.inker.one
   on:
     branch: master
 - provider: surge
