@@ -1,6 +1,6 @@
 import * as request from 'request-promise-native'
 
-const BERT_HOST = 'http://kassiesa.home.xs4all.nl/bert/uefa'
+const BERT_HOST = 'https://kassiesa.net/uefa'
 
 const currentSeason = 2018
 
