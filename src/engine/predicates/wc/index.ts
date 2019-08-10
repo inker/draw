@@ -1,13 +1,19 @@
 import { Predicate } from '@draws/engine'
 
-import Team from 'model/team/NationalTeam'
+import Team, { Confederation } from 'model/team/NationalTeam'
 import hasLessThan from './hasLessThan'
-
-const isFromUefa = (team: Team) =>
-  team.confederation === 'uefa'
 
 const uefaLessThanTwo = (group: Iterable<Team>) =>
   hasLessThan(2, group, isFromUefa)
+
+const isFrom = (confederation: Confederation) =>
+  (team: Team) =>
+    team.confederation === confederation
+
+const isFromConfederationOf = (team: Team) =>
+  isFrom(team.confederation)
+
+const isFromUefa = isFrom('uefa')
 
 const predicate: Predicate<Team> = (
   picked: Team,
@@ -19,11 +25,10 @@ const predicate: Predicate<Team> = (
   if (group.length > currentPotIndex) {
     return false
   }
-  const pickedConfederation = picked.confederation
-  return pickedConfederation === 'uefa'
+  return picked.confederation === 'uefa'
     ? uefaLessThanTwo(group)
     : (
-      group.every(team => team.confederation !== pickedConfederation)
+      !group.some(isFromConfederationOf(picked))
       && (currentPotIndex !== 3 || group.some(isFromUefa))
     )
 }

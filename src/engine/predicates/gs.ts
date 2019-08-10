@@ -1,17 +1,26 @@
 import { Predicate } from '@draws/engine'
 
 import Team from 'model/team/GSTeam'
+import getHalfArrayOfIndex from 'utils/getHalfArrayOfIndex'
 import extraConstraints from '../extraConstraints'
 
-function getHalf<T>(array: T[], index: number) {
-  const mid = array.length >> 1
-  const start = index < mid ? 0 : mid
-  return array.slice(start, start + mid)
+const isFrom = (country: string) =>
+  (team: Team) =>
+    team.country === country
+
+const isFromCountryOf = (team: Team) =>
+  isFrom(team.country)
+
+const isTeamEqualTo = (team: Team) => {
+  const { id } = team
+  return (otherTeam: Team) =>
+    otherTeam.id === id
 }
 
-function groupHasPairing(group: Team[], pairing: Team) {
-  const pairingId = pairing.id
-  return group.some(team => team.id === pairingId)
+const hasTeam = (team: Team) => {
+  const isEqualToTeam = isTeamEqualTo(team)
+  return (group: Team[]) =>
+    group.some(isEqualToTeam)
 }
 
 const predicate: Predicate<Team> = (
@@ -21,22 +30,13 @@ const predicate: Predicate<Team> = (
   groups: Team[][],
 ) => {
   const group = groups[groupIndex]
-  if (group.length > currentPotIndex) {
-    return false
-  }
 
-  const extra = extraConstraints(picked)
-  if (group.some(team => team.country === picked.country || extra(team))) {
-    return false
-  }
+  const isImpossible = group.length > currentPotIndex
+    || group.some(isFromCountryOf(picked))
+    || group.some(extraConstraints(picked))
+    || picked.pairing && getHalfArrayOfIndex(groups, groupIndex).some(hasTeam(picked.pairing))
 
-  const { pairing } = picked
-  if (!pairing) {
-    return true
-  }
-
-  const halfGroups = getHalf(groups, groupIndex)
-  return !halfGroups.some(g => groupHasPairing(g, pairing))
+  return !isImpossible
 }
 
 export default predicate

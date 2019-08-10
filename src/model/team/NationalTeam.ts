@@ -1,6 +1,6 @@
 import Team from './index'
 
-type Confederation = 'uefa' | 'afc' | 'caf' | 'conmebol' | 'concacaf' | 'ofc'
+export type Confederation = 'uefa' | 'afc' | 'caf' | 'conmebol' | 'concacaf' | 'ofc'
 
 export default class NationalTeam extends Team {
   coefficient: number
