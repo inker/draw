@@ -1,5 +1,3 @@
-import countryNames from 'data/country-names.json'
-
 import KnockoutTeam from 'model/team/KnockoutTeam'
 
 import getClubName from 'utils/club-name'
@@ -16,7 +14,7 @@ export default async (data: string) => {
   // tslint:disable-next-line:no-conditional-assignment
   for (let i = 0; (matches = re.exec(substring)) !== null; ++i) {
     const name = matches[1].replace(/(@\d|#|\*+|\(TH\))/g, '').trim()
-    const country = countryNames[matches[3].toLowerCase()]
+    const country = matches[3].toLowerCase()
     if (!country) {
       break
     }

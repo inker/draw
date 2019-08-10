@@ -1,5 +1,3 @@
-import countryNames from 'data/country-names.json'
-
 import GSTeam from 'model/team/GSTeam'
 import pairUpTeams from 'model/pairUpTeams'
 
@@ -20,7 +18,7 @@ async function parseGSTeams(data: string) {
     const longName = matches[1]
       .replace(/\*|(@\d)/g, '')
       .trim()
-    const country = countryNames[matches[4].toLowerCase()]
+    const country = matches[4].toLowerCase()
     const shortName = getClubName(longName, country) || undefined
     const coefficient = +matches[5]
     teams.push(new GSTeam(longName, country, coefficient, shortName))

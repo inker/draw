@@ -1,5 +1,5 @@
 {
-  "gb-eng": [
+  "eng": [
     "Bournemouth",
     "Arsenal",
     "Brighton",
@@ -28,7 +28,7 @@
     "Fulham",
     "Wigan"
   ],
-  "es": [
+  "esp": [
     "Alavés",
     "Athletic",
     "Atlético",
@@ -55,7 +55,7 @@
     "Recreativo",
     "Almería"
   ],
-  "it": [
+  "ita": [
     "Atalanta",
     "Benevento",
     "Bologna",
@@ -85,7 +85,7 @@
     "Bari",
     "Pisa"
   ],
-  "de": [
+  "ger": [
     "Mainz",
     "Frankfurt",
     "Köln",
@@ -112,7 +112,7 @@
     "Energie",
     "Hannover"
   ],
-  "fr": [
+  "fra": [
     "Angers",
     "Montpellier",
     "Guingamp",
@@ -138,7 +138,7 @@
     "Châteauroux",
     "Lens"
   ],
-  "ru": [
+  "rus": [
     "CSKA",
     "Lokomotiv",
     "Zenit",
@@ -151,7 +151,7 @@
     "Dinamo Moskva",
     "Ufa"
   ],
-  "pt": [
+  "por": [
     "Porto",
     "Benfica",
     "Sporting CP",
@@ -165,7 +165,7 @@
     "Belenenses",
     "Académica"
   ],
-  "nl": [
+  "ned": [
     "PSV",
     "Ajax",
     "AZ",
@@ -180,7 +180,7 @@
     "Zwolle",
     "Vitesse"
   ],
-  "be": [
+  "bel": [
     "Anderlecht",
     "Standard",
     "Club Brugge",
@@ -189,7 +189,7 @@
     "Lokeren",
     "Zulte Waregem"
   ],
-  "ua": [
+  "ukr": [
     "Dynamo",
     "Shakhtar",
     "Metalist",
@@ -200,7 +200,7 @@
     "Chornomorets",
     "Vorskla"
   ],
-  "tr": [
+  "tur": [
     "Bursaspor",
     "Konyaspor",
     "Galatasaray",
@@ -212,7 +212,7 @@
     "Osmanlıspor",
     "Akhisarspor"
   ],
-  "ro": [
+  "rom": [
     "Steaua",
     "Dinamo București",
     "Rapid București",
@@ -224,7 +224,7 @@
     "Pandurii",
     "Vaslui"
   ],
-  "cz": [
+  "cze": [
     "Sparta",
     "Slavia",
     "Plzeň",
@@ -235,7 +235,7 @@
     "Liberec",
     "Jablonec"
   ],
-  "sk": [
+  "svk": [
     "Petržalka",
     "Ružomberok",
     "Žilina",
@@ -243,7 +243,7 @@
     "Trenčín",
     "Spartak Trnava"
   ],
-  "ch": [
+  "sui": [
     "Basel",
     "Zürich",
     "Thun",
@@ -256,7 +256,7 @@
     "St Gallen",
     "Luzern"
   ],
-  "at": [
+  "aut": [
     "Austria Wien",
     "Rapid Wien",
     "Salzburg",
@@ -265,11 +265,11 @@
     "Admira",
     "Wolfsberg"
   ],
-  "by": [
+  "bls": [
     "BATE",
     "Dinamo Minsk"
   ],
-  "kz": [
+  "kaz": [
     "Astana",
     "Kairat",
     "Irtysh",
@@ -277,7 +277,7 @@
     "Aktobe",
     "Ordabasy"
   ],
-  "no": [
+  "nor": [
     "Rosenborg",
     "Vålerenga",
     "Start",
@@ -288,10 +288,10 @@
     "Sarpsborg",
     "Tromsø"
   ],
-  "md": [
+  "mol": [
     "Sheriff"
   ],
-  "se": [
+  "swe": [
     "Malmö",
     "Elfsborg",
     "Norrköping",
@@ -300,7 +300,7 @@
     "Helsingborg",
     "Östersund"
   ],
-  "gb-sct": [
+  "sco": [
     "Celtic",
     "Rangers",
     "Aberdeen",
@@ -310,18 +310,18 @@
     "Partick",
     "Hearts"
   ],
-  "pl": [
+  "pol": [
     "Legia",
     "Wisła Kraków",
     "Śląsk",
     "Lech"
   ],
-  "rs": [
+  "srb": [
     "Partizan",
     "Crvena zvezda",
     "Vojvodina"
   ],
-  "il": [
+  "isr": [
     "M. Haifa",
     "Bnei Yehuda",
     "H. Haifa",
@@ -332,24 +332,24 @@
     "H. Kiryat Shmona",
     "H. Beer-Sheva"
   ],
-  "hu": [
+  "hun": [
     "Debrecen",
     "Újpest",
     "Ferencváros",
     "Vidi",
     "Fehérvár"
   ],
-  "hr": [
+  "cro": [
     "Dinamo Zagreb",
     "Hajduk",
     "Rijeka"
   ],
-  "si": [
+  "slo": [
     "Domžale",
     "Olimpija Ljubljana",
     "Maribor"
   ],
-  "gr": [
+  "gre": [
     "Olympiacos",
     "Panathinaikos",
     "AEK",
@@ -359,7 +359,7 @@
     "Aris",
     "Asteras"
   ],
-  "dk": [
+  "den": [
     "København",
     "Brøndby",
     "Nordsjælland",
@@ -369,43 +369,43 @@
     "Esbjerg",
     "OB"
   ],
-  "bg": [
+  "bul": [
     "Levski",
     "CSKA Sofia",
     "Ludogorets",
     "Litex",
     "Lokomotiv Sofia"
   ],
-  "cy": [
+  "cyp": [
     "Anorthosis",
     "APOEL",
     "Omonia",
     "AEL",
     "Apollon"
   ],
-  "az": [
+  "azb": [
     "Qarabağ",
     "Qäbälä",
     "Neftçi"
   ],
-  "lv": [
+  "lat": [
     "Ventspils"
   ],
-  "fi": [
+  "fin": [
     "HJK"
   ],
-  "al": [
+  "alb": [
     "Skënderbeu",
     "Kukës",
     "Partizani",
     "Vllaznia"
   ],
-  "mk": [
+  "mac": [
     "Shkëndija",
     "Vardar",
     "Rabotnički"
   ],
-  "lu": [
+  "lux": [
     "Dudelange"
   ]
 }
