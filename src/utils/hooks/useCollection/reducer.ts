@@ -2,13 +2,10 @@ import { useReducer } from 'react'
 
 const initialState = []
 
-export const types = Object.freeze({
+export const types = {
   add: 'COLLECTION_ADD',
   remove: 'COLLECTION_REMOVE',
-}) as Readonly<{
-  add: 'COLLECTION_ADD',
-  remove: 'COLLECTION_REMOVE',
-}>
+} as const
 
 type State<T> = T[]
 

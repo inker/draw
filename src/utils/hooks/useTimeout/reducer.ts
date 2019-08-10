@@ -5,13 +5,10 @@ const initialState = {
   isLong: false,
 }
 
-export const types = Object.freeze({
+export const types = {
   set: 'TIMEOUT_VALUE_SET',
   reset: 'TIMEOUT_RESET',
-}) as Readonly<{
-  set: 'TIMEOUT_VALUE_SET',
-  reset: 'TIMEOUT_RESET',
-}>
+} as const
 
 interface State<T> {
   team: T | null,
