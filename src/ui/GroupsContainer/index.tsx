@@ -1,9 +1,13 @@
 import React, { memo } from 'react'
 import styled from 'styled-components'
 
+import Club from 'model/team/Club'
+import NationalTeam from 'model/team/NationalTeam'
 import getGroupLetter from 'utils/getGroupLetter'
-import Team from 'model/team'
+
 import Group from './Group'
+
+type Team = Club | NationalTeam
 
 const Root = styled.div`
   display: flex;

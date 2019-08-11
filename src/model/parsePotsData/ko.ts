@@ -1,6 +1,7 @@
 import KnockoutTeam from 'model/team/KnockoutTeam'
 
 import getClubName from 'utils/club-name'
+import codeToCountryName from 'utils/codeToCountryName'
 
 export default async (data: string) => {
   const tokens = data.match(/Round 2 \(\d+? teams\)[\s\S]+?--------([\s\S]+)/)
@@ -14,7 +15,7 @@ export default async (data: string) => {
   // tslint:disable-next-line:no-conditional-assignment
   for (let i = 0; (matches = re.exec(substring)) !== null; ++i) {
     const name = matches[1].replace(/(@\d|#|\*+|\(TH\))/g, '').trim()
-    const country = matches[3].toLowerCase()
+    const country = codeToCountryName(matches[3].toLowerCase())
     if (!country) {
       break
     }

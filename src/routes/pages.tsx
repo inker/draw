@@ -16,6 +16,7 @@ import {
 import delay from 'delay.js'
 import timelimit from 'timelimit'
 import {
+  compact,
   uniqueId,
   memoize,
 } from 'lodash'
@@ -25,7 +26,8 @@ import getPairings from 'model/getPairings'
 import parseGS from 'model/parsePotsData/gs'
 import parseKo from 'model/parsePotsData/ko'
 import parseWc from 'model/parsePotsData/wc'
-import Team from 'model/team'
+import Club from 'model/team/Club'
+import NationalTeam from 'model/team/NationalTeam'
 
 import usePopup from 'store/usePopup'
 
@@ -39,8 +41,11 @@ import useUpdateEffect from 'utils/hooks/useUpdateEffect'
 import PageLoader from './PageLoader'
 
 const getWcPots = memoize(async (season: number) => {
-  const file = await import(/* webpackChunkName: "wc-data" */ `data/wc-${season}.json`)
-  return parseWc(file.default) // TODO: only works with 'default' right now
+  const txt = await import(/* webpackChunkName: "wc-data" */ `data/wc-${season}.txt`)
+  const [ths, rest] = txt.default
+    .split('\n\n')
+    .map(l => compact(l.split('\n')))
+  return parseWc(ths, rest) // TODO: only works with 'default' right now
 })
 
 const getPotsFromBert = memoize(async (tournament: string, stage: string, season: number) => {
@@ -53,10 +58,10 @@ const getPotsFromBert = memoize(async (tournament: string, stage: string, season
     : parseGS(data, pairings)
 }, (tournament, stage, season) => `${tournament}:${stage}:${season}`)
 
-function prefetchImages(pots: Team[][]) {
+function prefetchImages(pots: (Club & NationalTeam)[][]) {
   const promises: Promise<void>[] = []
   for (const pot of pots) {
-    const urls = pot.map(team => getCountryFlagUrl(team.country))
+    const urls = pot.map(team => getCountryFlagUrl(team.country || team.name))
     promises.push(...urls.map(prefetchImage))
   }
   return Promise.all(promises)
@@ -73,7 +78,7 @@ interface Props {
 
 interface State {
   key: string,
-  pots: Team[][] | null,
+  pots: Club[][] | null,
   // tournament: string,
   // stage: string,
   season: number, // for error handling (so that we know the previous season)
@@ -143,11 +148,13 @@ const Pages = ({
 
       const newPots = await potsPromise
 
+      // @ts-ignore
       await timelimit(prefetchImages(newPots), 5000, {
         rejectOnTimeout: false,
       })
 
       setState({
+        // @ts-ignore
         pots: newPots,
         key: uniqueId(),
         // tournament,

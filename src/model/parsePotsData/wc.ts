@@ -1,8 +1,13 @@
 import { chunk } from 'lodash'
 
+import countryNames from 'data/country-names.json'
+
 import Team from 'model/team/NationalTeam'
 
-export default (teamData: any[]) => {
-  const teams = teamData.map(o => new Team(o.name, o.code, 0, o.confederation, o.host))
+export default (hosts: string[], rest: string[]) => {
+  const teams = [
+    ...hosts.map(c => new Team(c, 0, countryNames[c].confederation, true)),
+    ...rest.map(c => new Team(c, 0, countryNames[c].confederation, false)),
+  ]
   return chunk(teams, 8)
 }

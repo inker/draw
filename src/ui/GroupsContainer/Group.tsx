@@ -4,11 +4,18 @@ import {
   range,
 } from 'lodash'
 
-import Team from 'model/team'
+import Club from 'model/team/Club'
+import NationalTeam from 'model/team/NationalTeam'
+
+import getTeamCountryName from 'utils/getTeamCountryName'
+
 import Table from 'ui/table/Table'
 import Header from 'ui/table/Header'
 import Body from 'ui/table/Body'
+
 import Cell from './GroupCell'
+
+type Team = Club | NationalTeam
 
 interface Props {
   maxTeams: number,
@@ -45,10 +52,10 @@ const Group = ({
         {nonAirborneTeams.map((team, i) => (
           <Cell
             key={i}
-            country={team.country}
+            country={getTeamCountryName(team)}
             picked
           >
-            {team.shortName || team.name}
+            {(team as Club).shortName || team.name}
           </Cell>
         ))}
         {range(nonAirborneTeams.length, maxTeams).map(i => (

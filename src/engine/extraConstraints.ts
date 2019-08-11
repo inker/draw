@@ -1,12 +1,12 @@
 import { stubFalse } from 'lodash'
 
-import Team from 'model/team'
+import Team from 'model/team/Club'
 
-const CODE_RU = 'ru'
-const CODE_UA = 'ua'
+const RUSSIA = 'Russia'
+const UKRAINE = 'Ukraine'
 
-const pickedRu = (otherTeam: Team) => otherTeam.country === CODE_UA
-const pickedUa = (otherTeam: Team) => otherTeam.country === CODE_RU
+const pickedRu = (otherTeam: Team) => otherTeam.country === UKRAINE
+const pickedUa = (otherTeam: Team) => otherTeam.country === RUSSIA
 
 export default (teamPicked: Team) =>
-  teamPicked.country === CODE_RU ? pickedRu : teamPicked.country === CODE_UA ? pickedUa : stubFalse
+  teamPicked.country === RUSSIA ? pickedRu : teamPicked.country === UKRAINE ? pickedUa : stubFalse

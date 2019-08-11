@@ -6,12 +6,15 @@ import React, {
 
 import styled from 'styled-components'
 
+import Club from 'model/team/Club'
+import NationalTeam from 'model/team/NationalTeam'
 import StyledLink from 'ui/StyledLink'
 import DivLink from 'ui/DivLink'
-import Team from 'model/team'
 import getGroupLetter from 'utils/getGroupLetter'
 
 import PossibleGroups from './PossibleGroups'
+
+type Team = Club | NationalTeam
 
 const ISSUE_URL = 'https://github.com/inker/draw/issues/14'
 
@@ -115,7 +118,7 @@ const Announcement = ({
         <div>
           {long && selected ? (
             <span>
-              <Bold>{selected.shortName || selected.name}</Bold> goes to group
+              <Bold>{(selected as Club).shortName || selected.name}</Bold> goes to group
             </span>
           ) : (
             <span>

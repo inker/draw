@@ -42,4 +42,8 @@ module.exports = env => [
       },
     },
   },
+  {
+    test: /\.txt$/,
+    use: 'raw-loader',
+  },
 ].filter(item => item)

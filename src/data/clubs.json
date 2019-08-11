@@ -1,5 +1,5 @@
 {
-  "eng": [
+  "England": [
     "Bournemouth",
     "Arsenal",
     "Brighton",
@@ -28,7 +28,7 @@
     "Fulham",
     "Wigan"
   ],
-  "esp": [
+  "Spain": [
     "Alavés",
     "Athletic",
     "Atlético",
@@ -55,7 +55,7 @@
     "Recreativo",
     "Almería"
   ],
-  "ita": [
+  "Italy": [
     "Atalanta",
     "Benevento",
     "Bologna",
@@ -85,7 +85,7 @@
     "Bari",
     "Pisa"
   ],
-  "ger": [
+  "Germany": [
     "Mainz",
     "Frankfurt",
     "Köln",
@@ -112,7 +112,7 @@
     "Energie",
     "Hannover"
   ],
-  "fra": [
+  "France": [
     "Angers",
     "Montpellier",
     "Guingamp",
@@ -138,7 +138,7 @@
     "Châteauroux",
     "Lens"
   ],
-  "rus": [
+  "Russia": [
     "CSKA",
     "Lokomotiv",
     "Zenit",
@@ -151,7 +151,7 @@
     "Dinamo Moskva",
     "Ufa"
   ],
-  "por": [
+  "Portugal": [
     "Porto",
     "Benfica",
     "Sporting CP",
@@ -165,7 +165,7 @@
     "Belenenses",
     "Académica"
   ],
-  "ned": [
+  "Netherlands": [
     "PSV",
     "Ajax",
     "AZ",
@@ -180,7 +180,7 @@
     "Zwolle",
     "Vitesse"
   ],
-  "bel": [
+  "Belgium": [
     "Anderlecht",
     "Standard",
     "Club Brugge",
@@ -189,7 +189,7 @@
     "Lokeren",
     "Zulte Waregem"
   ],
-  "ukr": [
+  "Ukraine": [
     "Dynamo",
     "Shakhtar",
     "Metalist",
@@ -200,7 +200,7 @@
     "Chornomorets",
     "Vorskla"
   ],
-  "tur": [
+  "Turkey": [
     "Bursaspor",
     "Konyaspor",
     "Galatasaray",
@@ -212,7 +212,7 @@
     "Osmanlıspor",
     "Akhisarspor"
   ],
-  "rom": [
+  "Romania": [
     "Steaua",
     "Dinamo București",
     "Rapid București",
@@ -224,7 +224,7 @@
     "Pandurii",
     "Vaslui"
   ],
-  "cze": [
+  "Czech Republic": [
     "Sparta",
     "Slavia",
     "Plzeň",
@@ -235,7 +235,7 @@
     "Liberec",
     "Jablonec"
   ],
-  "svk": [
+  "Slovakia": [
     "Petržalka",
     "Ružomberok",
     "Žilina",
@@ -243,7 +243,7 @@
     "Trenčín",
     "Spartak Trnava"
   ],
-  "sui": [
+  "Switzerland": [
     "Basel",
     "Zürich",
     "Thun",
@@ -256,7 +256,7 @@
     "St Gallen",
     "Luzern"
   ],
-  "aut": [
+  "Austria": [
     "Austria Wien",
     "Rapid Wien",
     "Salzburg",
@@ -265,11 +265,11 @@
     "Admira",
     "Wolfsberg"
   ],
-  "bls": [
+  "Belarus": [
     "BATE",
     "Dinamo Minsk"
   ],
-  "kaz": [
+  "Kazakhstan": [
     "Astana",
     "Kairat",
     "Irtysh",
@@ -277,7 +277,7 @@
     "Aktobe",
     "Ordabasy"
   ],
-  "nor": [
+  "Norway": [
     "Rosenborg",
     "Vålerenga",
     "Start",
@@ -288,10 +288,10 @@
     "Sarpsborg",
     "Tromsø"
   ],
-  "mol": [
+  "Moldova": [
     "Sheriff"
   ],
-  "swe": [
+  "Sweden": [
     "Malmö",
     "Elfsborg",
     "Norrköping",
@@ -300,7 +300,7 @@
     "Helsingborg",
     "Östersund"
   ],
-  "sco": [
+  "Scotland": [
     "Celtic",
     "Rangers",
     "Aberdeen",
@@ -310,18 +310,18 @@
     "Partick",
     "Hearts"
   ],
-  "pol": [
+  "Poland": [
     "Legia",
     "Wisła Kraków",
     "Śląsk",
     "Lech"
   ],
-  "srb": [
+  "Serbia": [
     "Partizan",
     "Crvena zvezda",
     "Vojvodina"
   ],
-  "isr": [
+  "Israel": [
     "M. Haifa",
     "Bnei Yehuda",
     "H. Haifa",
@@ -332,24 +332,24 @@
     "H. Kiryat Shmona",
     "H. Beer-Sheva"
   ],
-  "hun": [
+  "Hungary": [
     "Debrecen",
     "Újpest",
     "Ferencváros",
     "Vidi",
     "Fehérvár"
   ],
-  "cro": [
+  "Croatia": [
     "Dinamo Zagreb",
     "Hajduk",
     "Rijeka"
   ],
-  "slo": [
+  "Slovenia": [
     "Domžale",
     "Olimpija Ljubljana",
     "Maribor"
   ],
-  "gre": [
+  "Greece": [
     "Olympiacos",
     "Panathinaikos",
     "AEK",
@@ -359,7 +359,7 @@
     "Aris",
     "Asteras"
   ],
-  "den": [
+  "Denmark": [
     "København",
     "Brøndby",
     "Nordsjælland",
@@ -369,43 +369,43 @@
     "Esbjerg",
     "OB"
   ],
-  "bul": [
+  "Bulgaria": [
     "Levski",
     "CSKA Sofia",
     "Ludogorets",
     "Litex",
     "Lokomotiv Sofia"
   ],
-  "cyp": [
+  "Cyprus": [
     "Anorthosis",
     "APOEL",
     "Omonia",
     "AEL",
     "Apollon"
   ],
-  "azb": [
+  "Azerbaijan": [
     "Qarabağ",
     "Qäbälä",
     "Neftçi"
   ],
-  "lat": [
+  "Latvia": [
     "Ventspils"
   ],
-  "fin": [
+  "Finland": [
     "HJK"
   ],
-  "alb": [
+  "Albania": [
     "Skënderbeu",
     "Kukës",
     "Partizani",
     "Vllaznia"
   ],
-  "mac": [
+  "North Macedonia": [
     "Shkëndija",
     "Vardar",
     "Rabotnički"
   ],
-  "lux": [
+  "Luxembourg": [
     "Dudelange"
   ]
 }

@@ -1,8 +1,10 @@
-import Team from './index'
+import { Country } from 'model/types'
 
-export default class KnockoutTeam extends Team {
+import Club from './Club'
+
+export default class KnockoutTeam extends Club {
   group: number
-  constructor(name: string, country: string, group: number, shortName?: string) {
+  constructor(name: string, country: Country, group: number, shortName?: string) {
     super(name, country)
     this.group = group
     this.shortName = shortName

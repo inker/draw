@@ -4,9 +4,12 @@ import React, {
 } from 'react'
 import styled from 'styled-components'
 
-import Team from 'model/team'
+import Club from 'model/team/Club'
+import NationalTeam from 'model/team/NationalTeam'
 
 import Ball from './Ball'
+
+type Team = Club | NationalTeam
 
 const Root = styled.div`
   display: flex;
@@ -58,7 +61,7 @@ const TeamBowl = ({
           noHover={noSelect}
           onClick={noSelect ? undefined : onBallPick}
         >
-          {team.shortName || team.name}
+          {(team as Club).shortName || team.name}
         </TeamBall>
       ))}
     </Root>
