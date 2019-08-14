@@ -40,7 +40,7 @@
     "raw-loader": "^3.1.0",
     "request": "^2.88.0",
     "request-promise-native": "^1.0.7",
-    "rimraf": "^2.6.3",
+    "rimraf": "^3.0.0",
     "style-loader": "^1.0.0",
     "stylelint": "^10.1.0",
     "stylelint-config-standard": "^18.3.0",
