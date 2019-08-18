@@ -11,17 +11,17 @@ async function parseGSTeams(data: string) {
     throw new Error('could not parse')
   }
   data = tokens[1]
-  const re = /\s*(.+?)\s*(\*+\d?|\(([CE]L-)?TH\))?\s+(\w{3})\s+(\d{1,3}\.\d{3})/g
+  const re = /(.{1,25})([A-Z][a-z]{2})\s([\s\d]{2}\d\.\d{3})/g
   const teams: GSTeam[] = []
   let matches: RegExpExecArray | null
   // tslint:disable-next-line:no-conditional-assignment
   while ((matches = re.exec(data)) !== null) {
     const longName = matches[1]
-      .replace(/\*|(@\d)/g, '')
+      .replace(/\*|(@\d)|\(([CE]L-)?TH\)/g, '')
       .trim()
-    const country = codeToCountryName(matches[4].toLowerCase())
+    const country = codeToCountryName(matches[2].toLowerCase())
     const shortName = getClubName(longName, country) || undefined
-    const coefficient = +matches[5]
+    const coefficient = +matches[3]
     teams.push(new GSTeam(longName, country, coefficient, shortName))
   }
   return teams

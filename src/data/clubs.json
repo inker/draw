@@ -26,7 +26,8 @@
     "Norwich",
     "Hull",
     "Fulham",
-    "Wigan"
+    "Wigan",
+    "Wolverhampton"
   ],
   "Spain": [
     "Alavés",
@@ -407,5 +408,8 @@
   ],
   "Luxembourg": [
     "Dudelange"
+  ],
+  "Lithuania": [
+    "Sūduva"
   ]
 }
