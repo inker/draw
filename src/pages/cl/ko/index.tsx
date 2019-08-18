@@ -68,7 +68,7 @@ const CLKO = ({
 
   useEffect(() => {
     setTimeout(autoPickIfOneBall, 250)
-  })
+  }, [currentPotNum])
 
   const onReset = useCallback(() => {
     setDrawId(uniqueId('draw-'))

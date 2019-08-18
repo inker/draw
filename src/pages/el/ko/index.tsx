@@ -68,7 +68,7 @@ const ELKO = ({
 
   useEffect(() => {
     setTimeout(autoPickIfOneBall, 250)
-  })
+  }, [currentPotNum])
 
   const onReset = useCallback(() => {
     setDrawId(uniqueId('draw-'))
