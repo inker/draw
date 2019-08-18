@@ -17,7 +17,7 @@ async function parseGSTeams(data: string) {
   // tslint:disable-next-line:no-conditional-assignment
   while ((matches = re.exec(data)) !== null) {
     const longName = matches[1]
-      .replace(/\*|(@\d)|\(([CE]L-)?TH\)/g, '')
+      .replace(/\*\d?|(@\d)|\(([CE]L-)?TH\)/g, '')
       .trim()
     const country = codeToCountryName(matches[2].toLowerCase())
     const shortName = getClubName(longName, country) || undefined
