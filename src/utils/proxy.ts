@@ -5,6 +5,8 @@ const proxies = shuffle([
   'heather-guardian',
   'button-match',
   'conscious-cheek',
+  'alder-wax',
+  'trapezoidal-scorpion',
 ])
 
 export default async (url: string, encoding: string) => {
