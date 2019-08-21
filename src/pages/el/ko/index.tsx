@@ -13,7 +13,7 @@ import {
 } from 'lodash'
 
 import Team from 'model/team/KnockoutTeam'
-import getPossiblePairings from 'engine/possible-pairings'
+import getPossiblePairings from 'engine/getPossiblePairings'
 import predicate from 'engine/predicates/ko'
 
 import usePartialState from 'utils/hooks/usePartialState'
