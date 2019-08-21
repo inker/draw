@@ -1,9 +1,8 @@
 import delay from 'delay.js'
 
 import { isFirefox } from 'utils/browser'
-
-import styled from './makeStyleClass'
-import { transitionEnd } from './events'
+import styled from 'utils/makeStyleClass'
+import { transitionEnd } from 'utils/events'
 
 const OFFSET_LEFT = 1
 const OFFSET_TOP = 1

@@ -7,13 +7,12 @@ import {
 import Club from 'model/team/Club'
 import NationalTeam from 'model/team/NationalTeam'
 
-import getTeamCountryName from 'utils/getTeamCountryName'
-
 import Table from 'ui/table/Table'
 import Header from 'ui/table/Header'
 import Body from 'ui/table/Body'
 
 import Cell from './GroupCell'
+import getTeamCountryName from './getTeamCountryName'
 
 type Team = Club | NationalTeam
 

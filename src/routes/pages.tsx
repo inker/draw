@@ -33,12 +33,12 @@ import usePopup from 'store/usePopup'
 
 import getCountryFlagUrl from 'utils/getCountryFlagUrl'
 import prefetchImage from 'utils/prefetchImage'
-import currentSeasonByTournament from 'utils/currentSeasonByTournament'
 
 import usePartialState from 'utils/hooks/usePartialState'
 import useUpdateEffect from 'utils/hooks/useUpdateEffect'
 
 import PageLoader from './PageLoader'
+import currentSeasonByTournament from './currentSeasonByTournament'
 
 const getWcPots = memoize(async (season: number) => {
   const txt = await import(/* webpackChunkName: "wc-data" */ `data/wc-${season}.txt`)

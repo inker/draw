@@ -1,14 +1,21 @@
-import countryNames from 'data/country-names.json'
+import countries from 'data/countries.json'
 
-import { Country } from 'model/types'
+import {
+  Country,
+  UefaCountry,
+} from 'model/types'
 
 import objectToFunction from 'utils/objectToFunction'
 
-const o: { [code: string]: Country } = {}
+interface CodeToCountryNameDictionary {
+  [code: string]: Country | UefaCountry,
+}
 
-for (const [name, { bert, flag }] of Object.entries(countryNames)) {
+const o: CodeToCountryNameDictionary = {}
+
+for (const [name, { bert, flag }] of Object.entries(countries)) {
   if (bert) {
-    o[bert] = name as Country
+    o[bert] = name as UefaCountry
   }
   o[flag] = name as Country
 }

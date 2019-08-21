@@ -25,11 +25,10 @@ import usePopup from 'store/usePopup'
 
 import Visibility from 'ui/Visibility'
 
-import currentSeasonByTournament from 'utils/currentSeasonByTournament'
-
 import Navbar from './Navbar'
 import Pages from './pages'
 import history from './history'
+import currentSeasonByTournament from './currentSeasonByTournament'
 
 function onSeasonChange(tournament: string, stage: string, season?: number) {
   history.push(`/${tournament}/${stage}${season ? `/${season}` : ''}`)

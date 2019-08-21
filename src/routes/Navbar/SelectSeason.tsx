@@ -8,9 +8,9 @@ import {
 } from 'lodash'
 
 import Select from 'ui/SelectWithHiddenLabel'
+import currentSeasonByTournament from '../currentSeasonByTournament'
 
-import currentSeasonByTournament from 'utils/currentSeasonByTournament'
-import seasonAsString from 'utils/seasonAsString'
+import seasonAsString from './seasonAsString'
 
 const minSeasons = {
   cl: 2000,
