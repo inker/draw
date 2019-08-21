@@ -11,13 +11,13 @@ const isFrom = (country: string) =>
 const isFromCountryOf = (team: Team) =>
   isFrom(team.country)
 
-const isTeamEqualTo = (team: Team) => {
+function isTeamEqualTo(team: Team) {
   const { id } = team
   return (otherTeam: Team) =>
     otherTeam.id === id
 }
 
-const hasTeam = (team: Team) => {
+function hasTeam(team: Team) {
   const isEqualToTeam = isTeamEqualTo(team)
   return (group: Team[]) =>
     group.some(isEqualToTeam)

@@ -4,6 +4,8 @@ import { Confederation } from 'model/types'
 import Team from 'model/team/NationalTeam'
 import hasLessThan from './hasLessThan'
 
+const GROUP_SIZE = 4
+
 const uefaLessThanTwo = (group: Iterable<Team>) =>
   hasLessThan(2, group, isFromUefa)
 
@@ -16,6 +18,14 @@ const isFromConfederationOf = (team: Team) =>
 
 const isFromUefa = isFrom('UEFA')
 
+const canFitUefa = (group: Team[]) =>
+  group.length < GROUP_SIZE - 1 || group.some(isFromUefa)
+
+const groupIsPossibleForTeam = (team: Team, group: Team[]) =>
+  team.confederation === 'UEFA'
+    ? uefaLessThanTwo(group)
+    : !group.some(isFromConfederationOf(team)) && canFitUefa(group)
+
 const predicate: Predicate<Team> = (
   picked: Team,
   groupIndex: number,
@@ -23,15 +33,7 @@ const predicate: Predicate<Team> = (
   groups: Team[][],
 ) => {
   const group = groups[groupIndex]
-  if (group.length > currentPotIndex) {
-    return false
-  }
-  return picked.confederation === 'UEFA'
-    ? uefaLessThanTwo(group)
-    : (
-      !group.some(isFromConfederationOf(picked))
-      && (currentPotIndex !== 3 || group.some(isFromUefa))
-    )
+  return group.length <= currentPotIndex && groupIsPossibleForTeam(picked, group)
 }
 
 export default predicate
