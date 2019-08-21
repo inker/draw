@@ -1,4 +1,5 @@
 {
+  "bertHost": "https://kassiesa.net/uefa",
   "defaultTournament": "cl",
   "defaultStage": "gs",
   "currentSeason": {
