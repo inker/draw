@@ -4,4 +4,4 @@ export default [
   'https://conscious-cheek.glitch.me',
   'https://heather-guardian.glitch.me',
   'https://trapezoidal-scorpion.glitch.me',
-]
+] as const

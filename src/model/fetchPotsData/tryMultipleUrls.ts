@@ -1,12 +1,13 @@
 import { flatten } from 'lodash'
 
 import waitUntilOnline from 'utils/waitUntilOnline'
-import proxy from 'utils/proxy'
 import makeRequest from 'utils/makeRequest'
 import tryMultipleAsync from 'utils/tryMultipleAsync'
 
+import reqAllProxies from './reqAllProxies'
+
 const fetchWithEncoding = (url: string) =>
-  proxy(url, 'latin1')
+  reqAllProxies(url, 'latin1')
 
 async function tryFetch(url: string, dataGetter: (url: string) => Promise<string> | string) {
   await waitUntilOnline(250)
