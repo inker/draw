@@ -14,6 +14,7 @@ import {
 
 import Team from 'model/team/KnockoutTeam'
 import getPossiblePairings from 'engine/possible-pairings'
+import predicate from 'engine/predicates/ko'
 
 import usePartialState from 'utils/hooks/usePartialState'
 import useCollection from 'utils/hooks/useCollection'
@@ -83,7 +84,7 @@ const ELKO = ({
     matchups[currentMatchupNum].push(selectedTeam)
 
     const newPossiblePairings = currentPotNum === 1
-      ? getPossiblePairings(pots, matchups, currentMatchupNum)
+      ? getPossiblePairings(pots, matchups, currentMatchupNum, predicate)
       : null
 
     const newCurrentMatchNum = currentMatchupNum - currentPotNum + 1

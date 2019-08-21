@@ -1,45 +1,48 @@
-import Team from 'model/team/KnockoutTeam'
+import { Predicate } from '@draws/engine'
 
-import predicate from './predicates/ko'
+type OneOrTwo<T> = [T] | [T, T]
 
-export default ([ groupWinners, runnersUp ]: Team[][], matchups: [Team, Team][], matchupNum: number): number[] => {
-
-  function anyGroupWinners(branchNum: number, currentMatchupNum: number): boolean {
-    const o = groupWinners[branchNum]
-    if (!predicate(o, currentMatchupNum, 0, matchups)) {
-      return false
-    }
-
-    const currentMatchup = matchups[currentMatchupNum]
-    groupWinners.splice(branchNum, 1)
-    currentMatchup.push(o)
-
-    const nextMatchupNum = currentMatchupNum + 1
-    const hasDescendants = nextMatchupNum === matchups.length
-      || anyRunnersUp(nextMatchupNum)
-    // restore
-    currentMatchup.pop()
-    groupWinners.splice(branchNum, 0, o)
-    // return
-    return hasDescendants
+function anyGroupWinners<T>(
+  item: T,
+  [groupWinners, runnersUp]: T[][],
+  matchups: OneOrTwo<T>[],
+  matchupNum: number,
+  predicate: Predicate<T>,
+): boolean {
+  if (!predicate(item, matchupNum, 0, matchups)) {
+    return false
   }
 
-  function anyRunnersUp(virtualMatchupNum: number): boolean {
-    const virtualMatchup = matchups[virtualMatchupNum]
+  const newMatchups = [...matchups]
+  const ex = newMatchups[matchupNum][0]
+  newMatchups[matchupNum] = [ex, item]
 
-    const virtualPicked = runnersUp.pop()!
-    virtualMatchup.push(virtualPicked)
+  const nextMatchupNum = matchupNum + 1
+  return nextMatchupNum === newMatchups.length
+    || anyRunnersUp([groupWinners.filter(i => i !== item), runnersUp], newMatchups, nextMatchupNum, predicate)
+}
 
-    const hasDescendants = groupWinners
-      .some((item, i) => anyGroupWinners(i, virtualMatchupNum))
-    // restore
-    virtualMatchup.pop()
-    runnersUp.push(virtualPicked)
-    // return
-    return hasDescendants
-  }
+function anyRunnersUp<T>(
+  [groupWinners, runnersUp]: T[][],
+  matchups: OneOrTwo<T>[],
+  matchupNum: number,
+  predicate: Predicate<T>,
+): boolean {
+  const [virtualPicked, ...newRunnersUp] = runnersUp
+  const newMatchups = [...matchups]
+  newMatchups[matchupNum] = [virtualPicked]
 
   return groupWinners
+    .some(item => anyGroupWinners(item, [groupWinners, newRunnersUp], newMatchups, matchupNum, predicate))
+}
+
+export default <T>(
+  [groupWinners, runnersUp]: T[][],
+  matchups: OneOrTwo<T>[],
+  matchupNum: number,
+  predicate: Predicate<T>,
+): number[] => {
+  return groupWinners
     .map((item, i) => i)
-    .filter(i => anyGroupWinners(i, matchupNum))
+    .filter(i => anyGroupWinners(groupWinners[i], [groupWinners, runnersUp], matchups, matchupNum, predicate))
 }
