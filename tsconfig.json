@@ -19,7 +19,7 @@
     "noEmitHelpers": true,
     "importHelpers": true,
     "lib": [
-      "es2017",
+      "es2019",
       "dom",
       "dom.iterable",
       "webworker"
