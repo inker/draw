@@ -20,7 +20,6 @@ interface Props {
   teams: Team[],
   pickedTeams: Team[],
   selectedTeams: Team[] | null,
-  depleted: boolean,
   background?: string,
   color?: string,
 }
@@ -31,7 +30,6 @@ const Pot = ({
   teams,
   pickedTeams,
   selectedTeams,
-  depleted,
   background,
   color,
 }: Props) => {
@@ -39,7 +37,7 @@ const Pot = ({
     <Root highlighted={isCurrent}>
       <Header
         highlighted={isCurrent}
-        depleted={depleted}
+        depleted={!teams || pickedTeams.length === teams.length}
         background={background}
         color={color}
       >

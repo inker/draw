@@ -14,6 +14,7 @@ const Root = styled.div`
   flex-flow: row wrap;
   flex-wrap: nowrap;
   justify-content: center;
+
   & > * {
     flex: 1;
     flex-basis: 22%;
@@ -54,7 +55,6 @@ const PotsContainer = ({
           teams={pot}
           pickedTeams={pickedTeams}
           selectedTeams={selectedTeams}
-          depleted={!pot || pickedTeams.length === pot.length}
           background={HEADER_BACKGROUND}
           color={HEADER_COLOR}
         />
