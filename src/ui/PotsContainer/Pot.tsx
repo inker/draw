@@ -6,7 +6,7 @@ import GSTeam from 'model/team/GSTeam'
 import Table from 'ui/table/Table'
 import Body from 'ui/table/Body'
 import Header from './PotHeader'
-import Cell from './PotCell'
+import PotCell from './PotCell'
 
 const Root = styled(Table)`
   transform: box-shadow 1s linear;
@@ -53,7 +53,7 @@ const Pot = ({
           } = team as GSTeam
 
           return (
-            <Cell
+            <PotCell
               key={team.id}
               data-cellid={team.id}
               title={pairing && `paired with ${pairing.shortName || pairing.name}`}
@@ -62,7 +62,7 @@ const Pot = ({
               country={country || name}
             >
               {shortName || name}
-            </Cell>
+            </PotCell>
           )
         })}
       </Body>

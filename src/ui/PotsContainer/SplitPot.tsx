@@ -81,7 +81,7 @@ const SplitPot = ({
                     title={pairing && `paired with ${pairing.shortName || pairing.name}`}
                     selected={selectedTeams && selectedTeams.includes(team)}
                     picked={pickedTeams.includes(team)}
-                    country={country}
+                    country={country || name}
                   >
                     {shortName || name}
                   </Cell>
