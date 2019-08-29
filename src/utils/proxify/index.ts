@@ -1,8 +1,13 @@
-import { shuffle } from 'lodash'
+import {
+  compact,
+  shuffle,
+} from 'lodash'
 
 import getLoopArray from 'utils/getLoopArray'
 
-import list from './list'
+import listRaw from './list.txt'
+
+const list = compact(listRaw.split('\n'))
 
 const getProxy = getLoopArray(shuffle(list))
 

@@ -4,3 +4,8 @@ declare module 'styled-components' {
   export const keyframes: any
   export const css: any
 }
+
+declare module '*.txt' {
+  const value: string
+  export default value
+}
