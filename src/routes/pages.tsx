@@ -42,9 +42,9 @@ import currentSeasonByTournament from './currentSeasonByTournament'
 
 const getWcPots = memoize(async (season: number) => {
   const txt = await import(/* webpackChunkName: "wc-data" */ `data/wc-${season}.txt`)
-  const [ths, rest] = txt.default
+  const [ths, rest] = (txt.default as string)
     .split('\n\n')
-    .map(l => compact(l.split('\n')))
+    .map(line => compact(line.split('\n')))
   return parseWc(ths, rest) // TODO: only works with 'default' right now
 })
 
