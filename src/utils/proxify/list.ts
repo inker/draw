@@ -1,4 +1,6 @@
 export default [
+  'https://adaptive-throat.glitch.me',
+  'https://aerial-lancer.glitch.me',
   'https://alder-wax.glitch.me',
   'https://brief-trowel.glitch.me',
   'https://button-match.glitch.me',
