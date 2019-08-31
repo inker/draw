@@ -99,7 +99,6 @@ const CLGS = ({
       pots,
       groups,
       selectedTeam: newSelectedTeam,
-      currentPotNum,
     })
 
     return response.possibleGroups as number[]

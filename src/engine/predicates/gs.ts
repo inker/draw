@@ -1,6 +1,7 @@
 import { Predicate } from '@draws/engine'
 
 import Team from 'model/team/GSTeam'
+import getSmallestArrayLength from 'utils/getSmallestArrayLength'
 import getHalfArrayOfIndex from 'utils/getHalfArrayOfIndex'
 import extraConstraints from '../extraConstraints'
 
@@ -25,11 +26,11 @@ function hasTeam(team: Team) {
 
 const predicate: Predicate<Team> = (
   picked: Team,
-  groupIndex: number,
-  currentPotIndex: number,
   groups: Team[][],
+  groupIndex: number,
 ) => {
   const group = groups[groupIndex]
+  const currentPotIndex = getSmallestArrayLength(groups)
 
   const isImpossible = group.length > currentPotIndex
     || group.some(isFromCountryOf(picked))

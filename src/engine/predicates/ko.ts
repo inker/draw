@@ -13,9 +13,8 @@ const canFit = (pair: Team[], picked: Team) =>
 
 const predicate: Predicate<Team> = (
   picked: Team,
-  groupIndex: number,
-  currentPotIndex: number,
   groups: Team[][],
+  groupIndex: number,
 ) => canFit(groups[groupIndex], picked)
 
 export default predicate

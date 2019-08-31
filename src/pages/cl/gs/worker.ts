@@ -9,11 +9,10 @@ addEventListener('message', e => {
       pots,
       groups,
       selectedTeam,
-      currentPotNum,
     },
   } = e.data
 
-  const possibleGroups = allPossibleGroups(pots, groups, selectedTeam, currentPotNum, predicate)
+  const possibleGroups = allPossibleGroups(pots, groups, selectedTeam, predicate)
   // const pickedGroup = firstPossibleGroup(pots, groups, selectedTeam, currentPotNum)
 
   postMessage({

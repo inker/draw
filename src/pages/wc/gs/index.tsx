@@ -104,7 +104,6 @@ const WCGS = ({
       pots,
       groups,
       selectedTeam: newSelectedTeam,
-      currentPotNum,
     })
 
     return response.pickedGroup as number

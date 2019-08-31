@@ -84,7 +84,7 @@ const ELKO = ({
     matchups[currentMatchupNum].push(selectedTeam)
 
     const newPossiblePairings = currentPotNum === 1
-      ? getPossiblePairings(pots, matchups, currentMatchupNum, predicate)
+      ? getPossiblePairings(pots, matchups, predicate)
       : null
 
     const newCurrentMatchNum = currentMatchupNum - currentPotNum + 1

@@ -6,10 +6,10 @@ function anyGroupWinners<T>(
   item: T,
   [groupWinners, runnersUp]: T[][],
   matchups: OneOrTwo<T>[],
-  matchupNum: number,
   predicate: Predicate<T>,
 ): boolean {
-  if (!predicate(item, matchupNum, 0, matchups)) {
+  const matchupNum = matchups.findIndex(m => m.length === 1)
+  if (!predicate(item, matchups, matchupNum)) {
     return false
   }
 
@@ -19,30 +19,30 @@ function anyGroupWinners<T>(
 
   const nextMatchupNum = matchupNum + 1
   return nextMatchupNum === newMatchups.length
-    || anyRunnersUp([groupWinners.filter(i => i !== item), runnersUp], newMatchups, nextMatchupNum, predicate)
+    || anyRunnersUp([groupWinners.filter(i => i !== item), runnersUp], newMatchups, predicate)
 }
 
 function anyRunnersUp<T>(
   [groupWinners, runnersUp]: T[][],
   matchups: OneOrTwo<T>[],
-  matchupNum: number,
   predicate: Predicate<T>,
 ): boolean {
+  const matchupNum = matchups.findIndex(m => !m.length)
+
   const [virtualPicked, ...newRunnersUp] = runnersUp
   const newMatchups = [...matchups]
   newMatchups[matchupNum] = [virtualPicked]
 
   return groupWinners
-    .some(item => anyGroupWinners(item, [groupWinners, newRunnersUp], newMatchups, matchupNum, predicate))
+    .some(item => anyGroupWinners(item, [groupWinners, newRunnersUp], newMatchups, predicate))
 }
 
 export default <T>(
   [groupWinners, runnersUp]: T[][],
   matchups: OneOrTwo<T>[],
-  matchupNum: number,
   predicate: Predicate<T>,
 ): number[] => {
   return groupWinners
     .map((item, i) => i)
-    .filter(i => anyGroupWinners(groupWinners[i], [groupWinners, runnersUp], matchups, matchupNum, predicate))
+    .filter(i => anyGroupWinners(groupWinners[i], [groupWinners, runnersUp], matchups, predicate))
 }

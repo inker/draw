@@ -2,6 +2,7 @@ import { Predicate } from '@draws/engine'
 
 import { Confederation } from 'model/types'
 import Team from 'model/team/NationalTeam'
+import getSmallestArrayLength from 'utils/getSmallestArrayLength'
 import hasLessThan from './hasLessThan'
 
 const GROUP_SIZE = 4
@@ -28,11 +29,11 @@ const groupIsPossibleForTeam = (team: Team, group: Team[]) =>
 
 const predicate: Predicate<Team> = (
   picked: Team,
-  groupIndex: number,
-  currentPotIndex: number,
   groups: Team[][],
+  groupIndex: number,
 ) => {
   const group = groups[groupIndex]
+  const currentPotIndex = getSmallestArrayLength(groups)
   return group.length <= currentPotIndex && groupIsPossibleForTeam(picked, group)
 }
 
