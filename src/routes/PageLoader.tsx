@@ -23,7 +23,7 @@ const PageLoader = ({
   const [mod, setMod] = useState<{ default: any } | null>(null)
 
   useEffect(() => {
-    import(`pages/${tournament}/${stage}/index`)
+    import(`pages/${tournament}/${stage}`)
       .then(setMod)
       .catch(onLoadError)
   }, [tournament, stage])

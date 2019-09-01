@@ -41,7 +41,7 @@ import PageLoader from './PageLoader'
 import currentSeasonByTournament from './currentSeasonByTournament'
 
 const getWcPots = memoize(async (season: number) => {
-  const txt = await import(/* webpackChunkName: "wc-data" */ `data/wc-${season}.txt`)
+  const txt = await import(/* webpackChunkName: "wc-data-[request]" */ `data/wc-${season}.txt`)
   const [ths, rest] = (txt.default as string)
     .split('\n\n')
     .map(line => compact(line.split('\n')))
