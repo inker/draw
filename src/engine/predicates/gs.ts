@@ -3,7 +3,7 @@ import { Predicate } from '@draws/engine'
 import Team from 'model/team/GSTeam'
 import getSmallestArrayLength from 'utils/getSmallestArrayLength'
 import getHalfArrayOfIndex from 'utils/getHalfArrayOfIndex'
-import extraConstraints from '../extraConstraints'
+import rusUkrConstraint from '../rusUkrConstraint'
 
 const isFrom = (country: string) =>
   (team: Team) =>
@@ -24,20 +24,24 @@ function hasTeam(team: Team) {
     group.some(isEqualToTeam)
 }
 
-const predicate: Predicate<Team> = (
-  picked: Team,
-  groups: Team[][],
-  groupIndex: number,
-) => {
-  const group = groups[groupIndex]
-  const currentPotIndex = getSmallestArrayLength(groups)
+export default (season: number) => {
+  const isIncompatibleWith = rusUkrConstraint(season)
 
-  const isImpossible = group.length > currentPotIndex
-    || group.some(isFromCountryOf(picked))
-    || group.some(extraConstraints(picked))
-    || picked.pairing && getHalfArrayOfIndex(groups, groupIndex).some(hasTeam(picked.pairing))
+  const predicate: Predicate<Team> = (
+    picked: Team,
+    groups: Team[][],
+    groupIndex: number,
+  ) => {
+    const group = groups[groupIndex]
+    const currentPotIndex = getSmallestArrayLength(groups)
 
-  return !isImpossible
+    const isImpossible = group.length > currentPotIndex
+      || group.some(isFromCountryOf(picked))
+      || group.some(isIncompatibleWith(picked))
+      || picked.pairing && getHalfArrayOfIndex(groups, groupIndex).some(hasTeam(picked.pairing))
+
+    return !isImpossible
+  }
+
+  return predicate
 }
-
-export default predicate

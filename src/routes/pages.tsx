@@ -208,6 +208,7 @@ const Pages = ({
           <Switch>
             <Route path="/cl/gs">
               <PageLoader
+                season={season}
                 tournament="cl"
                 stage="gs"
                 pots={pots}
@@ -217,6 +218,7 @@ const Pages = ({
             </Route>
             <Route path="/cl/ko">
               <PageLoader
+                season={season}
                 tournament="cl"
                 stage="ko"
                 pots={pots}
@@ -250,6 +252,7 @@ const Pages = ({
           <Switch>
             <Route path="/el/gs">
               <PageLoader
+                season={season}
                 tournament="el"
                 stage="gs"
                 pots={pots}
@@ -259,6 +262,7 @@ const Pages = ({
             </Route>
             <Route path="/el/ko">
               <PageLoader
+                season={season}
                 tournament="el"
                 stage="ko"
                 pots={pots}
@@ -292,6 +296,7 @@ const Pages = ({
           <Switch>
             <Route path="/wc/gs">
               <PageLoader
+                season={season}
                 tournament="wc"
                 stage="gs"
                 pots={pots}

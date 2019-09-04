@@ -14,7 +14,7 @@ import {
 
 import Team from 'model/team/KnockoutTeam'
 import getPossiblePairings from 'engine/getPossiblePairings'
-import predicate from 'engine/predicates/ko'
+import getPredicate from 'engine/predicates/ko'
 
 import usePartialState from 'utils/hooks/usePartialState'
 import useCollection from 'utils/hooks/useCollection'
@@ -32,6 +32,7 @@ import Announcement from 'ui/Announcement'
 import Root from 'pages/Root'
 
 interface Props {
+  season: number,
   pots: Team[][],
 }
 
@@ -52,11 +53,13 @@ function getState(): State {
 }
 
 const ELKO = ({
+  season,
   pots: initialPots,
 }: Props) => {
   const [drawId, setDrawId] = useState(uniqueId('draw-'))
   const pots = useMemo(() => initialPots.map(pot => shuffle(pot)), [initialPots, drawId])
   const matchups = useMemo(() => range(16).map(i => [] as any as [Team, Team]), [initialPots, drawId])
+  const predicate = useMemo(() => getPredicate(season), [season])
 
   const initialState = useMemo(getState, [])
   const [{
@@ -95,7 +98,7 @@ const ELKO = ({
       possiblePairings: newPossiblePairings,
     })
     airborneTeamsActions.add(selectedTeam)
-  }, [pots, matchups, currentPotNum, currentMatchupNum, possiblePairings, airborneTeams])
+  }, [predicate, pots, matchups, currentPotNum, currentMatchupNum, possiblePairings, airborneTeams])
 
   const autoPickIfOneBall = () => {
     if (possiblePairings && possiblePairings.length === 1 || currentPotNum === 1 && pots[1].length === 1) {

@@ -1,19 +1,22 @@
 import { allPossibleGroups } from '@draws/engine'
 
-import predicate from 'engine/predicates/gs'
+import getPredicate from 'engine/predicates/gs'
+import Team from 'model/team/GSTeam'
+import { WorkerData } from 'model/types'
 
 addEventListener('message', e => {
   const {
     messageId,
     data: {
+      season,
       pots,
       groups,
       selectedTeam,
     },
-  } = e.data
+  } = e.data as WorkerData<Team>
 
+  const predicate = getPredicate(season)
   const possibleGroups = allPossibleGroups(pots, groups, selectedTeam, predicate)
-  // const pickedGroup = firstPossibleGroup(pots, groups, selectedTeam, currentPotNum)
 
   postMessage({
     messageId,

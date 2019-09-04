@@ -42,6 +42,7 @@ const groupColors = [
 ]
 
 interface Props {
+  season: number,
   pots: Team[][],
 }
 
@@ -68,6 +69,7 @@ function getState(pots: Team[][]): State {
 }
 
 const CLGS = ({
+  season,
   pots: initialPots,
 }: Props) => {
   const [drawId, setDrawId] = useState(uniqueId('draw-'))
@@ -96,6 +98,7 @@ const CLGS = ({
 
   const getPickedGroup = async (newSelectedTeam: Team) => {
     const response = await workerSendAndReceive({
+      season,
       pots,
       groups,
       selectedTeam: newSelectedTeam,

@@ -1,20 +1,24 @@
 import { Predicate } from '@draws/engine'
 
 import Team from 'model/team/KnockoutTeam'
-import extraConstraints from '../extraConstraints'
+import rusUkrConstraint from '../rusUkrConstraint'
 
-const areCompatible = (a: Team, b: Team) =>
-  a.country !== b.country
-    && a.group !== b.group
-    && !extraConstraints(a)(b)
+export default (season: number) => {
+  const isIncompatibleWith = rusUkrConstraint(season)
 
-const canFit = (pair: Team[], picked: Team) =>
-  pair.length === 0 || pair.length === 1 && areCompatible(picked, pair[0])
+  const areCompatible = (a: Team, b: Team) =>
+    a.country !== b.country
+      && a.group !== b.group
+      && !isIncompatibleWith(a)(b)
 
-const predicate: Predicate<Team> = (
-  picked: Team,
-  groups: Team[][],
-  groupIndex: number,
-) => canFit(groups[groupIndex], picked)
+  const canFit = (pair: Team[], picked: Team) =>
+    pair.length === 0 || pair.length === 1 && areCompatible(picked, pair[0])
 
-export default predicate
+  const predicate: Predicate<Team> = (
+    picked: Team,
+    groups: Team[][],
+    groupIndex: number,
+  ) => canFit(groups[groupIndex], picked)
+
+  return predicate
+}

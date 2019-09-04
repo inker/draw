@@ -7,6 +7,7 @@ import React, {
 import Team from 'model/team'
 
 interface Props {
+  season: number,
   tournament: string,
   stage: string,
   pots: Team[][] | null,
@@ -14,6 +15,7 @@ interface Props {
 }
 
 const PageLoader = ({
+  season,
   tournament,
   stage,
   pots,
@@ -33,6 +35,7 @@ const PageLoader = ({
   return pots && Page && (
     <Page
       {...props}
+      season={season}
       pots={pots}
     />
   )
