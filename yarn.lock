@@ -140,10 +140,10 @@
     lodash "^4.17.13"
     to-fast-properties "^2.0.0"
 
-"@draws/engine@^0.1.6":
-  version "0.1.6"
-  resolved "https://registry.yarnpkg.com/@draws/engine/-/engine-0.1.6.tgz#b69450a236283237865a649eff8ab41edc094105"
-  integrity sha512-H88l7JS0CYO6xEY368TBEw3rt9E5iwZ7SK1bGkyom93i1f8EWTUAHkFnojY3dCeU+rCSLy2gWLWf8cD4W0WKeQ==
+"@draws/engine@^0.1.8":
+  version "0.1.8"
+  resolved "https://registry.yarnpkg.com/@draws/engine/-/engine-0.1.8.tgz#05c93cefc35479f0b4fc793a5d37dbd153687422"
+  integrity sha512-ivhBLhlfNJ8asPRmVset6264tk7sXWAawKyRyl6OuCvVIwl9nhMMRKp4kI6iKIxAQHNpjVGiMpLreBlkTLJ5Ww==
 
 "@emotion/is-prop-valid@^0.8.1":
   version "0.8.2"
