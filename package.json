@@ -6,7 +6,7 @@
   "dependencies": {
     "@draws/engine": "^0.1.6",
     "async-manager-promise": "^0.0.5",
-    "bowser": "^2.5.3",
+    "bowser": "^2.5.4",
     "delay.js": "^1.0.2",
     "fast-delete": "^1.0.1",
     "fast-levenshtein": "^2.0.6",
