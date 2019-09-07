@@ -16,7 +16,6 @@ import {
 import delay from 'delay.js'
 import timelimit from 'timelimit'
 import {
-  compact,
   uniqueId,
   memoize,
 } from 'lodash'
@@ -43,8 +42,9 @@ import currentSeasonByTournament from './currentSeasonByTournament'
 const getWcPots = memoize(async (season: number) => {
   const txt = await import(/* webpackChunkName: "wc-data-[request]" */ `data/wc-${season}.txt`)
   const [ths, rest] = (txt.default as string)
+    .trim()
     .split('\n\n')
-    .map(line => compact(line.split('\n')))
+    .map(line => line.trim().split('\n'))
   return parseWc(ths, rest) // TODO: only works with 'default' right now
 })
 
