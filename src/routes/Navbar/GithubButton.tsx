@@ -1,15 +1,12 @@
 import React, { memo } from 'react'
 import styled from 'styled-components'
+import Image from 'react-image'
 
-import proxify from 'utils/proxify'
+import proxifyAllPossible from './proxifyAllPossible'
 
 const BUTTON_IMAGE_URL = 'http://githubbadges.com/star.svg?user=inker&repo=draw&style=flat'
 
-const searchParams = new URLSearchParams({
-  url: BUTTON_IMAGE_URL,
-})
-
-const buttonImgUrl = proxify(searchParams)
+const proxifiedImageUrls = proxifyAllPossible(BUTTON_IMAGE_URL)
 
 const Wrapper = styled.div`
   display: flex;
@@ -25,9 +22,9 @@ const GithubButton = () => (
       rel="noopener"
       href="https://github.com/inker/draw"
     >
-      <img
+      <Image
         alt="Star"
-        src={buttonImgUrl}
+        src={proxifiedImageUrls}
       />
     </a>
   </Wrapper>
