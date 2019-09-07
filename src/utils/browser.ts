@@ -1,6 +1,6 @@
-import { getParser } from 'bowser'
+import bowser from 'bowser'
 
-const parser = getParser(window.navigator.userAgent)
+const parser = bowser.getParser(window.navigator.userAgent)
 const platformType = parser.getPlatformType()
 
 export const isHandheld = platformType === 'mobile' || platformType === 'tablet'
