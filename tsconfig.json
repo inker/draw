@@ -9,6 +9,8 @@
     // "sourceMap": true, // not needed when assembled with webpack
     // "watch": true, // not needed when assembled with webpack
     "pretty": true,
+    "alwaysStrict": true,
+    "strictBindCallApply": true,
     "experimentalDecorators": true,
     "jsx": "react",
     "strictNullChecks": true,
