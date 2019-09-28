@@ -2,12 +2,12 @@ import React, { memo } from 'react'
 
 import Team from 'model/team'
 import GSTeam from 'model/team/GSTeam'
+
 import Body from 'ui/table/Body'
 
-import Header from '../PotHeader'
-import PotCell from '../PotCell'
-
-import Root from './Root'
+import Root from './PotRoot'
+import Header from './PotHeader'
+import PotCell from './PotCell'
 
 interface Props {
   isCurrent: boolean,
