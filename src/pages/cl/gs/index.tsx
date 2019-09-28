@@ -96,7 +96,7 @@ const CLGS = ({
     setState(getState(initialPots))
   }, [initialPots])
 
-  const getPickedGroup = async (newSelectedTeam: Team) => {
+  const getPickedGroup = useCallback(async (newSelectedTeam: Team) => {
     const response = await workerSendAndReceive({
       season,
       pots,
@@ -105,7 +105,7 @@ const CLGS = ({
     })
 
     return response.possibleGroups as number[]
-  }
+  }, [pots, groups, season, workerSendAndReceive])
 
   const onTeamBallPick = useCallback(async (i: number) => {
     const currentPot = pots[currentPotNum]
@@ -122,7 +122,7 @@ const CLGS = ({
       possibleGroupsShuffled: shuffle(newPossibleGroups),
       pickedGroup: null,
     })
-  }, [pots, groups, currentPotNum])
+  }, [pots, groups, currentPotNum, getPickedGroup])
 
   const onGroupBallPick = useCallback((newPickedGroup: number) => {
     if (!selectedTeam) {

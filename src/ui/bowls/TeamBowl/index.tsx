@@ -7,7 +7,7 @@ import styled from 'styled-components'
 import Club from 'model/team/Club'
 import NationalTeam from 'model/team/NationalTeam'
 
-import TeamBall from './TeamBall'
+import Ball from './Ball'
 
 type Team = Club | NationalTeam
 
@@ -42,21 +42,21 @@ const TeamBowl = ({
     onPick(i, pot)
   }, [pot, onPick])
 
-  const noSelect = !forceNoSelect && !selectedTeam
+  const noSelect = forceNoSelect || selectedTeam
 
   return (
     <Root>
       {display && pot && pot.map(team => (
-        <TeamBall
+        <Ball
           key={team.id}
           data-teamid={team.id}
           selected={team === selectedTeam}
           notSelected={forceNoSelect || !!selectedTeam && team !== selectedTeam}
-          noHover={noSelect}
+          noHover={!!noSelect}
           onClick={noSelect ? undefined : onBallPick}
         >
           {(team as Club).shortName || team.name}
-        </TeamBall>
+        </Ball>
       ))}
     </Root>
   )
