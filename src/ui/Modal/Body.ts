@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 
-import Overlay from './Overlay'
+import Overlay from '../Overlay'
 
 const Body = styled(Overlay)`
   display: flex;

@@ -1,6 +1,6 @@
 import styled, { css, keyframes } from 'styled-components'
 
-import Overlay from './Overlay'
+import Overlay from '../Overlay'
 
 const BackgroundAnimation = keyframes`
   from {
