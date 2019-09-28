@@ -1,18 +1,13 @@
 import React, { memo } from 'react'
-import styled from 'styled-components'
 
 import Team from 'model/team'
 import GSTeam from 'model/team/GSTeam'
-import Table from 'ui/table/Table'
 import Body from 'ui/table/Body'
-import Header from './PotHeader'
-import PotCell from './PotCell'
 
-const Root = styled(Table)`
-  transform: box-shadow 1s linear;
-  ${props => props.highlighted && `
-  `}
-`
+import Header from '../PotHeader'
+import PotCell from '../PotCell'
+
+import Root from './Root'
 
 interface Props {
   isCurrent: boolean,
@@ -57,7 +52,7 @@ const Pot = ({
               key={team.id}
               data-cellid={team.id}
               title={pairing && `paired with ${pairing.shortName || pairing.name}`}
-              selected={selectedTeams && selectedTeams.includes(team)}
+              selected={!!selectedTeams && selectedTeams.includes(team)}
               picked={pickedTeams.includes(team)}
               country={country || name}
             >

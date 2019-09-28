@@ -1,7 +1,9 @@
 import styled, { css } from 'styled-components'
-import Cell from './Cell'
 
+import { Country } from 'model/types'
 import getCountryFlagUrl from 'utils/getCountryFlagUrl'
+
+import Cell from './Cell'
 
 const CellWithoutFlag = styled(Cell)`
   background-position: 3px;
@@ -17,7 +19,11 @@ const CellWithoutFlag = styled(Cell)`
   }
 `
 
-const CellWithFlag = styled(CellWithoutFlag)`
+interface Props {
+  country?: Country,
+}
+
+const CellWithFlag = styled(CellWithoutFlag)<Props>`
   ${({ country }) => country && css`
     background-image: url('${getCountryFlagUrl(country)}');
   `}

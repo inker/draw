@@ -11,7 +11,12 @@ const Highlighted = css`
   color: #f70;
 `
 
-const PotHeader = styled(Header)`
+interface Props {
+  depleted: boolean,
+  highlighted: boolean,
+}
+
+const PotHeader = styled(Header)<Props>`
   ${props => props.depleted && Depleted}
   ${props => props.highlighted && Highlighted}
 `

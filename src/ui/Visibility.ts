@@ -1,6 +1,10 @@
 import styled from 'styled-components'
 
-const Visibility = styled.div`
+interface Props {
+  visible: boolean,
+}
+
+const Visibility = styled.div<Props>`
   visibility: ${props => props.visible ? '' : 'hidden'};
 `
 

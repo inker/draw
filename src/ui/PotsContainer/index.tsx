@@ -1,30 +1,14 @@
 import React, { memo } from 'react'
-import styled from 'styled-components'
 import { difference } from 'lodash'
 
 import Team from 'model/team'
+
+import Root from './Root'
 import BasePot from './Pot'
 import SplitPot from './SplitPot'
 
 const HEADER_BACKGROUND = 'rgba(0, 0, 0, 0.75)'
 const HEADER_COLOR = '#fff'
-
-const Root = styled.div`
-  display: flex;
-  flex-flow: row wrap;
-  flex-wrap: nowrap;
-  justify-content: center;
-
-  & > * {
-    flex: 1;
-    flex-basis: 22%;
-    ${props => props.limitWidth ? 'max-width: 160px' : ''};
-
-    @media (max-width: 999px) {
-      max-width: initial;
-    }
-  }
-`
 
 interface Props {
   initialPots: Team[][],

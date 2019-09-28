@@ -27,7 +27,12 @@ const Picked = css`
   animation: ${Appear} 5s normal forwards;
 `
 
-const MatchupCell = styled(CellWithFlag)`
+interface Props {
+  possible?: boolean,
+  picked?: boolean,
+}
+
+const MatchupCell = styled(CellWithFlag)<Props>`
   width: 150px;
   ${props => props.possible && Possible}
   ${props => props.picked && Picked}

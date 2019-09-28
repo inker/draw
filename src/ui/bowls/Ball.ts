@@ -1,6 +1,11 @@
 import styled from 'styled-components'
 
-const Ball = styled.div`
+interface Props {
+  selected?: boolean,
+  noHover?: boolean,
+}
+
+const Ball = styled.div<Props>`
   display: flex;
   justify-content: center; /* align horizontal */
   align-items: center; /* align vertical */

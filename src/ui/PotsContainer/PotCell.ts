@@ -11,7 +11,12 @@ const Picked = css`
   opacity: 0.4;
 `
 
-const PotCell = styled(CellWithFlag)`
+interface Props {
+  selected: boolean,
+  picked: boolean,
+}
+
+const PotCell = styled(CellWithFlag)<Props>`
   ${props => props.selected && Selected}
   ${props => props.picked && Picked}
 `

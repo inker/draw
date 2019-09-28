@@ -3,15 +3,7 @@ import delay from 'delay.js'
 
 import useReducer, { types } from './reducer'
 
-type ReturnType<T> = [
-  boolean,
-  {
-    set: (oldValue: T) => Promise<void>,
-    reset: () => void,
-  },
-]
-
-export default <T>(delayMs: number): ReturnType<T> => {
+export default <T>(delayMs: number) => {
   const [longCalculating, dispatchLongCalculating] = useReducer<T>()
 
   const runCalculatingTimer = async (oldValue: T) => {
@@ -37,5 +29,5 @@ export default <T>(delayMs: number): ReturnType<T> => {
     reset: resetLongCalculating,
   }), [])
 
-  return [longCalculating.isLong, actions]
+  return [longCalculating.isLong, actions] as const
 }

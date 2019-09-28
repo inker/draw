@@ -7,7 +7,7 @@ import styled from 'styled-components'
 import Club from 'model/team/Club'
 import NationalTeam from 'model/team/NationalTeam'
 
-import Ball from './Ball'
+import TeamBall from './TeamBall'
 
 type Team = Club | NationalTeam
 
@@ -19,12 +19,6 @@ const Root = styled.div`
   @media (max-width: 999px) {
     justify-content: center;
   }
-`
-
-const TeamBall = styled(Ball)`
-  background: ${
-    ({ selected, notSelected }) => selected ? '#004' : notSelected ? '#ddd' : 'radial-gradient(#fff, #004)'
-  };
 `
 
 interface Props {
@@ -48,7 +42,7 @@ const TeamBowl = ({
     onPick(i, pot)
   }, [pot, onPick])
 
-  const noSelect = forceNoSelect || selectedTeam
+  const noSelect = !forceNoSelect && !selectedTeam
 
   return (
     <Root>
@@ -57,7 +51,7 @@ const TeamBowl = ({
           key={team.id}
           data-teamid={team.id}
           selected={team === selectedTeam}
-          notSelected={forceNoSelect || selectedTeam && team !== selectedTeam}
+          notSelected={forceNoSelect || !!selectedTeam && team !== selectedTeam}
           noHover={noSelect}
           onClick={noSelect ? undefined : onBallPick}
         >

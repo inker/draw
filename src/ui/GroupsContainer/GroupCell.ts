@@ -27,7 +27,12 @@ const Picked = css`
   animation: ${Appear} 5s normal forwards;
 `
 
-const GroupCell = styled(CellWithFlag)`
+interface Props {
+  possible?: boolean,
+  picked?: boolean,
+}
+
+const GroupCell = styled(CellWithFlag)<Props>`
   ${props => props.possible && Possible}
   ${props => props.picked && Picked}
 `

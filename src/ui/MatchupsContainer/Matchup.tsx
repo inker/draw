@@ -51,7 +51,7 @@ const Matchup = ({
   return (
     <Root>
       <LeftCell
-        country={ruIsPresent && ru.country}
+        country={ruIsPresent ? ru.country : undefined}
         picked={ruIsPresent}
         data-cellid={`${index}ru`}
       >
@@ -59,7 +59,7 @@ const Matchup = ({
       </LeftCell>
       <Versus />
       <RightCell
-        country={gwIsPresent && gw.country}
+        country={gwIsPresent ? gw.country : undefined}
         picked={gwIsPresent}
         data-cellid={`${index}gw`}
       >

@@ -1,6 +1,10 @@
 import styled, { css } from 'styled-components'
 
-const Roundel = styled.div`
+interface Props {
+  possible: boolean,
+}
+
+const Roundel = styled.div<Props>`
   display: flex;
   justify-content: center;
   align-items: center;

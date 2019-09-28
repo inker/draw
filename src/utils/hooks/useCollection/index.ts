@@ -2,15 +2,7 @@ import { useMemo } from 'react'
 
 import useReducer, { types } from './reducer'
 
-type ReturnType<T> = [
-  T[],
-  {
-    add: (item: T) => void,
-    remove: (item: T) => void,
-  },
-]
-
-export default <T>(): ReturnType<T> => {
+export default <T>() => {
   const [state, dispatch] = useReducer<T>()
 
   const add = (item: T) => {
@@ -32,5 +24,5 @@ export default <T>(): ReturnType<T> => {
     remove,
   }), [])
 
-  return [state, actions]
+  return [state, actions] as const
 }

@@ -5,10 +5,10 @@ import {
 
 import getRandomId from 'utils/getRandomId'
 
-export default (prefix?: string): [string, (prefix?: string) => void] => {
+export default (prefix?: string) => {
   const [random, setRandom] = useState(getRandomId(prefix))
   const setRandomNew = useCallback(() => {
     setRandom(getRandomId(prefix))
   }, [])
-  return [random, setRandomNew]
+  return [random, setRandomNew] as const
 }
