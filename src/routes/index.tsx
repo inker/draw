@@ -23,7 +23,9 @@ import Visibility from 'ui/Visibility'
 
 import Helmets from './Helmets'
 import Navbar from './Navbar'
-import Pages, { RouteProps } from './pages'
+import Pages from './Pages'
+import RouteProps from './Pages/RouteProps'
+
 import history from './history'
 import currentSeasonByTournament from './currentSeasonByTournament'
 
@@ -83,7 +85,7 @@ const Routes = ({
     season,
   } = useSeasonTournamentStage()
 
-  const routeRender = useCallback((props: RouteProps) => {
+  const pageRender = useCallback((props: RouteProps) => {
     return tournament && stage ? (
       <Pages
         {...props}
@@ -114,7 +116,7 @@ const Routes = ({
         <Switch>
           <Route
             path="/:tournament/:stage/:season?"
-            render={routeRender}
+            render={pageRender}
           />
           <Redirect
             from="/wc"

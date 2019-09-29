@@ -3,70 +3,22 @@ import React, {
   memo,
 } from 'react'
 
-import {
-  RouteComponentProps,
-} from 'react-router-dom'
-
 import delay from 'delay.js'
 import timelimit from 'timelimit'
-import {
-  memoize,
-} from 'lodash'
 
-import fetchPots from 'model/fetchPotsData'
-import getPairings from 'model/getPairings'
-import parseGS from 'model/parsePotsData/gs'
-import parseKo from 'model/parsePotsData/ko'
-import parseWc from 'model/parsePotsData/wc'
 import Team from 'model/team'
-import Club from 'model/team/Club'
-import NationalTeam from 'model/team/NationalTeam'
 
 import usePopup from 'store/usePopup'
 
-import getCountryFlagUrl from 'utils/getCountryFlagUrl'
-import prefetchImage from 'utils/prefetchImage'
-
 import usePartialState from 'utils/hooks/usePartialState'
 
+import currentSeasonByTournament from '../currentSeasonByTournament'
+
+import getPotsFromBert from './getPotsFromBert'
+import getWcPots from './getWcPots'
+import prefetchImages from './prefetchImages'
 import PageLoader from './PageLoader'
-import currentSeasonByTournament from './currentSeasonByTournament'
-
-const getWcPots = memoize(async (season: number) => {
-  const txt = await import(/* webpackChunkName: "wc-data-[request]" */ `data/wc-${season}.txt`)
-  const [ths, rest] = (txt.default as string)
-    .trim()
-    .split('\n\n')
-    .map(line => line.trim().split('\n'))
-  return parseWc(ths, rest) // TODO: only works with 'default' right now
-})
-
-const getPotsFromBert = memoize(async (tournament: string, stage: string, season: number) => {
-  const fetchPotsPromise = fetchPots(tournament, season)
-  const pairings = await getPairings(season, tournament)
-  const data = await fetchPotsPromise
-
-  return stage === 'ko'
-    ? parseKo(data)
-    : parseGS(data, pairings)
-}, (tournament, stage, season) => `${tournament}:${stage}:${season}`)
-
-function prefetchImages(pots: (Club & NationalTeam)[][]) {
-  const promises: Promise<void>[] = []
-  for (const pot of pots) {
-    const urls = pot.map(team => getCountryFlagUrl(team.country || team.name))
-    promises.push(...urls.map(prefetchImage))
-  }
-  return Promise.all(promises)
-}
-
-interface Match {
-  tournament: string,
-  stage: string,
-  season: string,
-}
-
-export type RouteProps = RouteComponentProps<Match>
+import RouteProps from './RouteProps'
 
 interface Props extends RouteProps {
   tournament: string,
