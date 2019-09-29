@@ -85,7 +85,7 @@ const Routes = ({
     season,
   } = useSeasonTournamentStage()
 
-  const pageRender = useCallback((props: RouteProps) => {
+  const renderPage = useCallback((props: RouteProps) => {
     return tournament && stage ? (
       <Pages
         {...props}
@@ -116,7 +116,7 @@ const Routes = ({
         <Switch>
           <Route
             path="/:tournament/:stage/:season?"
-            render={pageRender}
+            render={renderPage}
           />
           <Redirect
             from="/wc"
