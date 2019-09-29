@@ -3,6 +3,10 @@ import React, {
   memo,
 } from 'react'
 
+import {
+  RouteComponentProps,
+} from 'react-router-dom'
+
 import delay from 'delay.js'
 import timelimit from 'timelimit'
 import {
@@ -56,7 +60,15 @@ function prefetchImages(pots: (Club & NationalTeam)[][]) {
   return Promise.all(promises)
 }
 
-interface Props {
+interface Match {
+  tournament: string,
+  stage: string,
+  season: string,
+}
+
+export type RouteProps = RouteComponentProps<Match>
+
+interface Props extends RouteProps {
   tournament: string,
   stage: string,
   season: number,
@@ -78,7 +90,6 @@ const Pages = ({
   tournament,
   stage,
   season,
-  // @ts-ignore
   match,
   onError,
   onRefreshDrawId,

@@ -23,7 +23,7 @@ import Visibility from 'ui/Visibility'
 
 import Helmets from './Helmets'
 import Navbar from './Navbar'
-import Pages from './pages'
+import Pages, { RouteProps } from './pages'
 import history from './history'
 import currentSeasonByTournament from './currentSeasonByTournament'
 
@@ -83,7 +83,7 @@ const Routes = ({
     season,
   } = useSeasonTournamentStage()
 
-  const routeRender = useCallback((props) => {
+  const routeRender = useCallback((props: RouteProps) => {
     return tournament && stage ? (
       <Pages
         {...props}
