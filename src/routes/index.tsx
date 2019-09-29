@@ -73,7 +73,7 @@ interface Props {
 const Routes = ({
   onError,
 }: Props) => {
-  const [key, refresh] = useUniqueId()
+  const [drawId, refreshDrawId] = useUniqueId('draw-')
   const [popup] = usePopup()
 
   const {
@@ -88,7 +88,7 @@ const Routes = ({
         <Helmets />
         <Visibility visible={!popup.initial}>
           <Navbar
-            refresh={refresh}
+            refresh={refreshDrawId}
             season={season}
             tournament={tournament!}
             stage={stage!}
@@ -99,11 +99,12 @@ const Routes = ({
           <Route path="/:tournament/:stage/:season?">
             {tournament && stage ? (
               <Pages
-                dummyKey={key}
+                drawId={drawId}
                 tournament={tournament}
                 stage={stage}
                 season={season}
                 onError={onError}
+                onRefreshDrawId={refreshDrawId}
                 onSeasonChange={onSeasonChange}
               />
             ) : null}

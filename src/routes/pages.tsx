@@ -29,8 +29,6 @@ import getCountryFlagUrl from 'utils/getCountryFlagUrl'
 import prefetchImage from 'utils/prefetchImage'
 
 import usePartialState from 'utils/hooks/usePartialState'
-import useUpdateEffect from 'utils/hooks/useUpdateEffect'
-import useUniqueId from 'utils/hooks/useUniqueId'
 
 import PageLoader from './PageLoader'
 import currentSeasonByTournament from './currentSeasonByTournament'
@@ -67,8 +65,9 @@ interface Props {
   tournament: string,
   stage: string,
   season: number,
-  dummyKey: string,
+  drawId: string,
   onError: (err: Error) => void,
+  onRefreshDrawId: () => void,
   onSeasonChange: (tournament: string, stage: string, season?: number) => void,
 }
 
@@ -80,17 +79,17 @@ interface State {
 }
 
 const Pages = ({
+  drawId,
   tournament,
   stage,
   season,
-  dummyKey,
   // @ts-ignore
   match,
   onError,
+  onRefreshDrawId,
   onSeasonChange,
 }: Props) => {
   const [, setPopup] = usePopup()
-  const [key, resetKey] = useUniqueId()
 
   const [state, setState] = usePartialState<State>({
     pots: null,
@@ -148,7 +147,7 @@ const Pages = ({
         rejectOnTimeout: false,
       })
 
-      resetKey()
+      onRefreshDrawId()
 
       setState({
         // @ts-ignore
@@ -171,10 +170,6 @@ const Pages = ({
     fetchData()
   }, [season, stage, tournament])
 
-  useUpdateEffect(() => {
-    resetKey()
-  }, [dummyKey])
-
   const { pots } = state
 
   return (
@@ -185,7 +180,7 @@ const Pages = ({
           tournament="cl"
           stage="gs"
           pots={pots}
-          key={key}
+          key={drawId}
           onLoadError={onError}
         />
       </Route>
@@ -195,7 +190,7 @@ const Pages = ({
           tournament="cl"
           stage="ko"
           pots={pots}
-          key={key}
+          key={drawId}
           onLoadError={onError}
         />
       </Route>
@@ -205,7 +200,7 @@ const Pages = ({
           tournament="el"
           stage="gs"
           pots={pots}
-          key={key}
+          key={drawId}
           onLoadError={onError}
         />
       </Route>
@@ -215,7 +210,7 @@ const Pages = ({
           tournament="el"
           stage="ko"
           pots={pots}
-          key={key}
+          key={drawId}
           onLoadError={onError}
         />
       </Route>
@@ -225,7 +220,7 @@ const Pages = ({
           tournament="wc"
           stage="gs"
           pots={pots}
-          key={key}
+          key={drawId}
           onLoadError={onError}
         />
       </Route>
