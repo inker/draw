@@ -93,39 +93,6 @@ const Pages = ({
     season: currentSeasonByTournament('cl', 'gs'),
   })
 
-  const getMatchParams = () => {
-    const season = params.season
-      ? +params.season
-      : currentSeasonByTournament(params.tournament, params.stage)
-
-    return {
-      ...params,
-      season,
-    }
-  }
-
-  const onFetchError = async (err) => {
-    console.error(err)
-    setPopup({
-      waiting: false,
-      error: 'Could not fetch data',
-    })
-
-    await delay(1000)
-    const {
-      tournament: newTournament,
-      stage: newStage,
-    } = getMatchParams()
-
-    const newSeason = state.pots && state.season !== currentSeasonByTournament(newTournament, newStage)
-      ? state.season
-      : undefined
-    onSeasonChange(newTournament, newStage, newSeason)
-    setPopup({
-      error: null,
-    })
-  }
-
   const fetchData = async () => {
     setPopup({
       waiting: true,
@@ -157,7 +124,25 @@ const Pages = ({
         error: null,
       })
     } catch (err) {
-      onFetchError(err)
+      console.error(err)
+      setPopup({
+        waiting: false,
+        error: 'Could not fetch data',
+      })
+
+      await delay(1000)
+      const {
+        tournament: newTournament,
+        stage: newStage,
+      } = params
+
+      const newSeason = state.pots && state.season !== currentSeasonByTournament(newTournament, newStage)
+        ? state.season
+        : undefined
+      onSeasonChange(newTournament, newStage, newSeason)
+      setPopup({
+        error: null,
+      })
     }
   }
 
@@ -165,14 +150,12 @@ const Pages = ({
     fetchData()
   }, [season, stage, tournament])
 
-  const { pots } = state
-
   return (
     <PageLoader
       season={season}
       tournament={params.tournament}
       stage={params.stage}
-      pots={pots}
+      pots={state.pots}
       key={drawId}
       onLoadError={onError}
     />
