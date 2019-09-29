@@ -3,12 +3,6 @@ import React, {
   memo,
 } from 'react'
 
-import {
-  Route,
-  Switch,
-  Redirect,
-} from 'react-router-dom'
-
 import delay from 'delay.js'
 import timelimit from 'timelimit'
 import {
@@ -90,6 +84,8 @@ const Pages = ({
   onRefreshDrawId,
   onSeasonChange,
 }: Props) => {
+  const { params } = match
+
   const [, setPopup] = usePopup()
 
   const [state, setState] = usePartialState<State>({
@@ -98,7 +94,6 @@ const Pages = ({
   })
 
   const getMatchParams = () => {
-    const { params } = match
     const season = params.season
       ? +params.season
       : currentSeasonByTournament(params.tournament, params.stage)
@@ -173,62 +168,14 @@ const Pages = ({
   const { pots } = state
 
   return (
-    <Switch>
-      <Route path="/cl/gs">
-        <PageLoader
-          season={season}
-          tournament="cl"
-          stage="gs"
-          pots={pots}
-          key={drawId}
-          onLoadError={onError}
-        />
-      </Route>
-      <Route path="/cl/ko">
-        <PageLoader
-          season={season}
-          tournament="cl"
-          stage="ko"
-          pots={pots}
-          key={drawId}
-          onLoadError={onError}
-        />
-      </Route>
-      <Route path="/el/gs">
-        <PageLoader
-          season={season}
-          tournament="el"
-          stage="gs"
-          pots={pots}
-          key={drawId}
-          onLoadError={onError}
-        />
-      </Route>
-      <Route path="/el/ko">
-        <PageLoader
-          season={season}
-          tournament="el"
-          stage="ko"
-          pots={pots}
-          key={drawId}
-          onLoadError={onError}
-        />
-      </Route>
-      <Route path="/wc/gs">
-        <PageLoader
-          season={season}
-          tournament="wc"
-          stage="gs"
-          pots={pots}
-          key={drawId}
-          onLoadError={onError}
-        />
-      </Route>
-      <Redirect
-        from="/wc/*"
-        to="/wc/gs"
-      />
-    </Switch>
+    <PageLoader
+      season={season}
+      tournament={params.tournament}
+      stage={params.stage}
+      pots={pots}
+      key={drawId}
+      onLoadError={onError}
+    />
   )
 }
 
