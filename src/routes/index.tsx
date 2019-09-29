@@ -1,7 +1,6 @@
 import React, {
   useState,
   useEffect,
-  useCallback,
   memo,
 } from 'react'
 
@@ -13,16 +12,12 @@ import {
 } from 'react-router-dom'
 
 import {
-  uniqueId,
-} from 'lodash'
-
-import {
   defaultTournament,
   defaultStage,
 } from '../config.json'
 
 import usePopup from 'store/usePopup'
-
+import useUniqueId from 'utils/hooks/useUniqueId'
 import Visibility from 'ui/Visibility'
 
 import Navbar from './Navbar'
@@ -52,14 +47,6 @@ function parseHistoryLocation(historyLocation: typeof history.location): SeasonT
   }
 }
 
-function useRefresh(): [string, () => void] {
-  const [key, setKey] = useState(uniqueId())
-  const refresh = useCallback(() => {
-    setKey(uniqueId())
-  }, [])
-  return [key, refresh]
-}
-
 function useSeasonTournamentStage() {
   const [historyLocation, setHistoryLocation] = useState(history.location)
 
@@ -85,7 +72,7 @@ interface Props {
 const Routes = ({
   onError,
 }: Props) => {
-  const [key, refresh] = useRefresh()
+  const [key, refresh] = useUniqueId()
   const [popup] = usePopup()
 
   const {
