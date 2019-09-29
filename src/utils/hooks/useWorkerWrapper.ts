@@ -2,6 +2,7 @@ import WorkerWrapper from 'utils/WorkerWrapper'
 
 import {
   useMemo,
+  useCallback,
   useEffect,
 } from 'react'
 
@@ -16,5 +17,8 @@ export default (WorkerClass) => {
     }
   }, [])
 
-  return (msg: any) => ww.sendAndReceive(msg)
+  return useCallback(
+    (msg: any) => ww.sendAndReceive(msg),
+    [ww],
+  )
 }

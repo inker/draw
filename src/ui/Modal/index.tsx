@@ -1,4 +1,7 @@
-import React, { memo } from 'react'
+import React, {
+  memo,
+  FC,
+} from 'react'
 
 import Background from './Background'
 import Body from './Body'
@@ -7,7 +10,7 @@ interface Props {
   noAnimation: boolean,
 }
 
-const Modal: React.FC<Props> = ({
+const Modal: FC<Props> = ({
   noAnimation,
   children,
 }) => (

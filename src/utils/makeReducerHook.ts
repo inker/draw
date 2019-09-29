@@ -10,15 +10,11 @@ import {
 
 export default <State extends { [key: string]: any }>(initialState: State) => {
   type PartialState = Partial<State>
-  type StateHookReturnValue = [
-    PartialState,
-    (partialPopupState: PartialState) => void,
-  ]
 
   let state = initialState
   const listeners: React.Dispatch<State>[] = []
 
-  return (): StateHookReturnValue => {
+  return () => {
     const setState = useState<State>(state)[1]
 
     useEffect(() => {
@@ -38,6 +34,6 @@ export default <State extends { [key: string]: any }>(initialState: State) => {
       }
     }, [state, listeners])
 
-    return [state, setStateNew]
+    return [state, setStateNew] as const
   }
 }

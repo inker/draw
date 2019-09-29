@@ -4,8 +4,8 @@ import clubs from 'data/clubs.json'
 import { UefaCountry } from 'model/types'
 import Team from 'model/team/Club'
 
-interface Clubs {
-  [country: string]: string[]
+type Clubs = {
+  [country in UefaCountry]: string[]
 }
 
 const mapper = (arr: string[], country: UefaCountry) =>

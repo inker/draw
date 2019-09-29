@@ -1,14 +1,9 @@
-import {
-  useState,
-  useCallback,
-} from 'react'
+import { useCallback } from 'react'
 
 import getRandomId from 'utils/getRandomId'
+import useMappedState from './useMappedState'
 
 export default (prefix?: string) => {
-  const [random, setRandom] = useState(getRandomId(prefix))
-  const setRandomNew = useCallback(() => {
-    setRandom(getRandomId(prefix))
-  }, [])
-  return [random, setRandomNew] as const
+  const mapper = useCallback(() => getRandomId(prefix), [prefix])
+  return useMappedState(mapper)
 }

@@ -1,4 +1,8 @@
-import React, { memo } from 'react'
+import React, {
+  memo,
+  FC,
+} from 'react'
+
 import styled from 'styled-components'
 
 import Modal from './Modal'
@@ -17,7 +21,7 @@ interface Props {
   noAnimation: boolean,
 }
 
-const Notification: React.FC<Props> = ({
+const Notification: FC<Props> = ({
   noAnimation,
   children,
 }) => (

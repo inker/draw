@@ -8,7 +8,7 @@ export default async (season: number, tournament: string): Promise<[string, stri
       .split('\n\n')
       .map(line => line.trim().split('\n') as [string, string])
   } catch (err) {
-    console.log('pairings for', tournament, season, 'do not exist, using the default ones')
+    console.error('pairings for', tournament, season, 'do not exist, using the default ones')
   }
 
   return defaultPairings as [string, string][]

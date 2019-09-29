@@ -1,4 +1,9 @@
-import React, { memo } from 'react'
+import React, {
+  memo,
+  FC,
+  DetailedHTMLProps,
+  SelectHTMLAttributes,
+} from 'react'
 import styled from 'styled-components'
 
 import useRandom from 'utils/hooks/useRandom'
@@ -13,12 +18,13 @@ const HiddenLabel = styled.label`
   display: none;
 `
 
-interface Props {
+type SelectProps = DetailedHTMLProps<SelectHTMLAttributes<HTMLSelectElement>, HTMLSelectElement>
+
+interface Props extends SelectProps {
   label: string,
-  [property: string]: any,
 }
 
-const SelectWithHiddenLabel: React.FC<Props> = ({
+const SelectWithHiddenLabel: FC<Props> = ({
   label,
   children,
   ...props

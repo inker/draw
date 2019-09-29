@@ -1,7 +1,6 @@
 import React, {
   useCallback,
   useEffect,
-  memo,
   lazy,
   Suspense,
 } from 'react'
@@ -55,4 +54,4 @@ const App = () => {
   )
 }
 
-export default memo(App)
+export default App
