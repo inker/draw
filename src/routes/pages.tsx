@@ -12,7 +12,6 @@ import {
 import delay from 'delay.js'
 import timelimit from 'timelimit'
 import {
-  uniqueId,
   memoize,
 } from 'lodash'
 
@@ -31,6 +30,7 @@ import prefetchImage from 'utils/prefetchImage'
 
 import usePartialState from 'utils/hooks/usePartialState'
 import useUpdateEffect from 'utils/hooks/useUpdateEffect'
+import useUniqueId from 'utils/hooks/useUniqueId'
 
 import Helmets from './Helmets'
 import PageLoader from './PageLoader'
@@ -74,7 +74,6 @@ interface Props {
 }
 
 interface State {
-  key: string,
   pots: Club[][] | null,
   // tournament: string,
   // stage: string,
@@ -92,9 +91,9 @@ const Pages = ({
   onSeasonChange,
 }: Props) => {
   const [, setPopup] = usePopup()
+  const [key, resetKey] = useUniqueId()
 
   const [state, setState] = usePartialState<State>({
-    key: uniqueId(),
     pots: null,
     season: currentSeasonByTournament('cl', 'gs'),
   })
@@ -150,10 +149,11 @@ const Pages = ({
         rejectOnTimeout: false,
       })
 
+      resetKey()
+
       setState({
         // @ts-ignore
         pots: newPots,
-        key: uniqueId(),
         // tournament,
         // stage,
         season,
@@ -173,12 +173,10 @@ const Pages = ({
   }, [season, stage, tournament])
 
   useUpdateEffect(() => {
-    setState({
-      key: dummyKey,
-    })
+    resetKey()
   }, [dummyKey])
 
-  const { pots, key } = state
+  const { pots } = state
 
   return (
     <>
