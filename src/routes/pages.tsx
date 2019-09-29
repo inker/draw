@@ -32,7 +32,6 @@ import usePartialState from 'utils/hooks/usePartialState'
 import useUpdateEffect from 'utils/hooks/useUpdateEffect'
 import useUniqueId from 'utils/hooks/useUniqueId'
 
-import Helmets from './Helmets'
 import PageLoader from './PageLoader'
 import currentSeasonByTournament from './currentSeasonByTournament'
 
@@ -179,65 +178,62 @@ const Pages = ({
   const { pots } = state
 
   return (
-    <>
-      <Helmets />
-      <Switch>
-        <Route path="/cl/gs">
-          <PageLoader
-            season={season}
-            tournament="cl"
-            stage="gs"
-            pots={pots}
-            key={key}
-            onLoadError={onError}
-          />
-        </Route>
-        <Route path="/cl/ko">
-          <PageLoader
-            season={season}
-            tournament="cl"
-            stage="ko"
-            pots={pots}
-            key={key}
-            onLoadError={onError}
-          />
-        </Route>
-        <Route path="/el/gs">
-          <PageLoader
-            season={season}
-            tournament="el"
-            stage="gs"
-            pots={pots}
-            key={key}
-            onLoadError={onError}
-          />
-        </Route>
-        <Route path="/el/ko">
-          <PageLoader
-            season={season}
-            tournament="el"
-            stage="ko"
-            pots={pots}
-            key={key}
-            onLoadError={onError}
-          />
-        </Route>
-        <Route path="/wc/gs">
-          <PageLoader
-            season={season}
-            tournament="wc"
-            stage="gs"
-            pots={pots}
-            key={key}
-            onLoadError={onError}
-          />
-        </Route>
-        <Redirect
-          from="/wc/*"
-          to="/wc/gs"
+    <Switch>
+      <Route path="/cl/gs">
+        <PageLoader
+          season={season}
+          tournament="cl"
+          stage="gs"
+          pots={pots}
+          key={key}
+          onLoadError={onError}
         />
-      </Switch>
-    </>
+      </Route>
+      <Route path="/cl/ko">
+        <PageLoader
+          season={season}
+          tournament="cl"
+          stage="ko"
+          pots={pots}
+          key={key}
+          onLoadError={onError}
+        />
+      </Route>
+      <Route path="/el/gs">
+        <PageLoader
+          season={season}
+          tournament="el"
+          stage="gs"
+          pots={pots}
+          key={key}
+          onLoadError={onError}
+        />
+      </Route>
+      <Route path="/el/ko">
+        <PageLoader
+          season={season}
+          tournament="el"
+          stage="ko"
+          pots={pots}
+          key={key}
+          onLoadError={onError}
+        />
+      </Route>
+      <Route path="/wc/gs">
+        <PageLoader
+          season={season}
+          tournament="wc"
+          stage="gs"
+          pots={pots}
+          key={key}
+          onLoadError={onError}
+        />
+      </Route>
+      <Redirect
+        from="/wc/*"
+        to="/wc/gs"
+      />
+    </Switch>
   )
 }
 
