@@ -1,5 +1,4 @@
 import React, {
-  useState,
   useCallback,
   useMemo,
   memo,
@@ -7,7 +6,6 @@ import React, {
 
 import {
   shuffle,
-  uniqueId,
 } from 'lodash'
 
 import Team from 'model/team/GSTeam'
@@ -18,6 +16,7 @@ import usePartialState from 'utils/hooks/usePartialState'
 import useCollection from 'utils/hooks/useCollection'
 import useTimeout from 'utils/hooks/useTimeout'
 import useWorkerWrapper from 'utils/hooks/useWorkerWrapper'
+import useUniqueId from 'utils/hooks/useUniqueId'
 
 import getGroupLetter from 'utils/getGroupLetter'
 
@@ -72,7 +71,7 @@ const CLGS = ({
   season,
   pots: initialPots,
 }: Props) => {
-  const [drawId, setDrawId] = useState(uniqueId('draw-'))
+  const [drawId, setNewDrawId] = useUniqueId('draw-')
   const pots = useMemo(() => initialPots.map(pot => shuffle(pot)), [initialPots, drawId])
   const groups = useMemo(() => initialPots[0].map(team => [] as Team[]), [initialPots, drawId])
 
@@ -92,7 +91,7 @@ const CLGS = ({
   const [isLongCalculating, timeoutActions] = useTimeout<Team>(3000)
 
   const onReset = useCallback(() => {
-    setDrawId(uniqueId('draw-'))
+    setNewDrawId()
     setState(getState(initialPots))
   }, [initialPots])
 

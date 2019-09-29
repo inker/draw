@@ -1,5 +1,4 @@
 import React, {
-  useState,
   useCallback,
   useMemo,
   useEffect,
@@ -9,7 +8,6 @@ import React, {
 import {
   range,
   shuffle,
-  uniqueId,
 } from 'lodash'
 
 import Team from 'model/team/KnockoutTeam'
@@ -18,6 +16,7 @@ import getPredicate from 'engine/predicates/ko'
 
 import usePartialState from 'utils/hooks/usePartialState'
 import useCollection from 'utils/hooks/useCollection'
+import useUniqueId from 'utils/hooks/useUniqueId'
 
 import MovingDiv from 'ui/MovingDiv'
 import PotsContainer from 'ui/PotsContainer'
@@ -56,7 +55,7 @@ const CLKO = ({
   season,
   pots: initialPots,
 }: Props) => {
-  const [drawId, setDrawId] = useState(uniqueId('draw-'))
+  const [drawId, setNewDrawId] = useUniqueId('draw-')
   const pots = useMemo(() => initialPots.map(pot => shuffle(pot)), [initialPots, drawId])
   const matchups = useMemo(() => range(8).map(i => [] as any as [Team, Team]), [initialPots, drawId])
   const predicate = useMemo(() => getPredicate(season), [season])
@@ -75,7 +74,7 @@ const CLKO = ({
   }, [currentPotNum])
 
   const onReset = useCallback(() => {
-    setDrawId(uniqueId('draw-'))
+    setNewDrawId()
     setState(getState())
   }, [initialPots])
 
