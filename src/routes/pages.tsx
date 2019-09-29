@@ -20,6 +20,7 @@ import getPairings from 'model/getPairings'
 import parseGS from 'model/parsePotsData/gs'
 import parseKo from 'model/parsePotsData/ko'
 import parseWc from 'model/parsePotsData/wc'
+import Team from 'model/team'
 import Club from 'model/team/Club'
 import NationalTeam from 'model/team/NationalTeam'
 
@@ -72,7 +73,7 @@ interface Props {
 }
 
 interface State {
-  pots: Club[][] | null,
+  pots: Team[][] | null,
   // tournament: string,
   // stage: string,
   season: number, // for error handling (so that we know the previous season)
@@ -150,7 +151,6 @@ const Pages = ({
       onRefreshDrawId()
 
       setState({
-        // @ts-ignore
         pots: newPots,
         // tournament,
         // stage,
