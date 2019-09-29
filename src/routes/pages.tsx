@@ -9,10 +9,6 @@ import {
   Redirect,
 } from 'react-router-dom'
 
-import {
-  Helmet,
-} from 'react-helmet'
-
 import delay from 'delay.js'
 import timelimit from 'timelimit'
 import {
@@ -36,6 +32,7 @@ import prefetchImage from 'utils/prefetchImage'
 import usePartialState from 'utils/hooks/usePartialState'
 import useUpdateEffect from 'utils/hooks/useUpdateEffect'
 
+import Helmets from './Helmets'
 import PageLoader from './PageLoader'
 import currentSeasonByTournament from './currentSeasonByTournament'
 
@@ -184,134 +181,65 @@ const Pages = ({
   const { pots, key } = state
 
   return (
-    <Switch>
-      <Route path="/cl">
-        <>
-          <Helmet>
-            <title>
-              CL draw simulator
-            </title>
-            <link
-              rel="icon"
-              href="//img.uefa.com/imgml/favicon/comp/ucl.ico"
-              type="image/x-icon"
-            />
-            <meta
-              name="theme-color"
-              content="#00336a"
-            />
-            <meta
-              name="description"
-              content="Champions League draw simulator"
-            />
-          </Helmet>
-          <Switch>
-            <Route path="/cl/gs">
-              <PageLoader
-                season={season}
-                tournament="cl"
-                stage="gs"
-                pots={pots}
-                key={key}
-                onLoadError={onError}
-              />
-            </Route>
-            <Route path="/cl/ko">
-              <PageLoader
-                season={season}
-                tournament="cl"
-                stage="ko"
-                pots={pots}
-                key={key}
-                onLoadError={onError}
-              />
-            </Route>
-          </Switch>
-        </>
-      </Route>
-      <Route path="/el">
-        <>
-          <Helmet>
-            <title>
-              EL draw simulator
-            </title>
-            <link
-              rel="icon"
-              href="//img.uefa.com/imgml/favicon/comp/uefacup.ico"
-              type="image/x-icon"
-            />
-            <meta
-              name="theme-color"
-              content="#f68e00"
-            />
-            <meta
-              name="description"
-              content="Europa League draw simulator"
-            />
-          </Helmet>
-          <Switch>
-            <Route path="/el/gs">
-              <PageLoader
-                season={season}
-                tournament="el"
-                stage="gs"
-                pots={pots}
-                key={key}
-                onLoadError={onError}
-              />
-            </Route>
-            <Route path="/el/ko">
-              <PageLoader
-                season={season}
-                tournament="el"
-                stage="ko"
-                pots={pots}
-                key={key}
-                onLoadError={onError}
-              />
-            </Route>
-          </Switch>
-        </>
-      </Route>
-      <Route path="/wc">
-        <>
-          <Helmet>
-            <title>
-              FIFA World Cup draw simulator
-            </title>
-            <link
-              rel="icon"
-              href="//www.fifa.com/imgml/favicon/favicon.ico"
-              type="image/x-icon"
-            />
-            <meta
-              name="theme-color"
-              content="#326295"
-            />
-            <meta
-              name="description"
-              content="FIFA World Cup draw simulator"
-            />
-          </Helmet>
-          <Switch>
-            <Route path="/wc/gs">
-              <PageLoader
-                season={season}
-                tournament="wc"
-                stage="gs"
-                pots={pots}
-                key={key}
-                onLoadError={onError}
-              />
-            </Route>
-            <Redirect
-              from="/wc/*"
-              to="/wc/gs"
-            />
-          </Switch>
-        </>
-      </Route>
-    </Switch>
+    <>
+      <Helmets />
+      <Switch>
+        <Route path="/cl/gs">
+          <PageLoader
+            season={season}
+            tournament="cl"
+            stage="gs"
+            pots={pots}
+            key={key}
+            onLoadError={onError}
+          />
+        </Route>
+        <Route path="/cl/ko">
+          <PageLoader
+            season={season}
+            tournament="cl"
+            stage="ko"
+            pots={pots}
+            key={key}
+            onLoadError={onError}
+          />
+        </Route>
+        <Route path="/el/gs">
+          <PageLoader
+            season={season}
+            tournament="el"
+            stage="gs"
+            pots={pots}
+            key={key}
+            onLoadError={onError}
+          />
+        </Route>
+        <Route path="/el/ko">
+          <PageLoader
+            season={season}
+            tournament="el"
+            stage="ko"
+            pots={pots}
+            key={key}
+            onLoadError={onError}
+          />
+        </Route>
+        <Route path="/wc/gs">
+          <PageLoader
+            season={season}
+            tournament="wc"
+            stage="gs"
+            pots={pots}
+            key={key}
+            onLoadError={onError}
+          />
+        </Route>
+        <Redirect
+          from="/wc/*"
+          to="/wc/gs"
+        />
+      </Switch>
+    </>
   )
 }
 
