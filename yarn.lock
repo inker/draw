@@ -5272,7 +5272,7 @@ react-is@^16.6.0, react-is@^16.7.0, react-is@^16.8.1:
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.10.1.tgz#0612786bf19df406502d935494f0450b40b8294f"
   integrity sha512-BXUMf9sIOPXXZWqr7+c5SeOKJykyVr2u0UDzEf4LNGc6taGkQe1A9DFD07umCIXz45RLr9oAAwZbAJ0Pkknfaw==
 
-react-router-dom@^5.0.1:
+react-router-dom@^5.1.0:
   version "5.1.1"
   resolved "https://registry.yarnpkg.com/react-router-dom/-/react-router-dom-5.1.1.tgz#53caa089c291f64c1d597a52827b978b54d7c25d"
   integrity sha512-r8R8H0Vt2ISqpk02rR6VZBLk+JZdR6pZV+h9K1y0ISh3/G4GGByNevYBS69x6czcOcWVRcZmXjwY8l9UBCKV+w==

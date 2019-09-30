@@ -18,7 +18,7 @@
     "react-dom": "^16.10.1",
     "react-helmet": "6.0.0-beta",
     "react-image": "^2.2.0",
-    "react-router-dom": "^5.0.1",
+    "react-router-dom": "^5.1.0",
     "shallowequal": "^1.1.0",
     "styled-components": "^5.0.0-beta.8",
     "timelimit": "^1.0.1",

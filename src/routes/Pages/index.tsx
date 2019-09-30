@@ -3,6 +3,7 @@ import React, {
   memo,
 } from 'react'
 
+import { useParams } from 'react-router-dom'
 import delay from 'delay.js'
 import timelimit from 'timelimit'
 
@@ -18,9 +19,14 @@ import getPotsFromBert from './getPotsFromBert'
 import getWcPots from './getWcPots'
 import prefetchImages from './prefetchImages'
 import PageLoader from './PageLoader'
-import RouteProps from './RouteProps'
 
-interface Props extends RouteProps {
+interface Match {
+  tournament: string,
+  stage: string,
+  season: string,
+}
+
+interface Props {
   tournament: string,
   stage: string,
   season: number,
@@ -42,13 +48,11 @@ const Pages = ({
   tournament,
   stage,
   season,
-  match,
   onError,
   onRefreshDrawId,
   onSeasonChange,
 }: Props) => {
-  const { params } = match
-
+  const params = useParams<Match>()
   const [, setPopup] = usePopup()
 
   const [state, setState] = usePartialState<State>({

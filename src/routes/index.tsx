@@ -1,6 +1,5 @@
 import React, {
   useState,
-  useCallback,
   useEffect,
   memo,
 } from 'react'
@@ -24,7 +23,6 @@ import Visibility from 'ui/Visibility'
 import HeadMetadata from './HeadMetadata'
 import Navbar from './Navbar'
 import Pages from './Pages'
-import RouteProps from './Pages/RouteProps'
 
 import history from './history'
 import currentSeasonByTournament from './currentSeasonByTournament'
@@ -85,21 +83,6 @@ const Routes = ({
     season,
   } = useSeasonTournamentStage()
 
-  const renderPage = useCallback((props: RouteProps) => {
-    return tournament && stage ? (
-      <Pages
-        {...props}
-        drawId={drawId}
-        tournament={tournament}
-        stage={stage}
-        season={season}
-        onError={onError}
-        onRefreshDrawId={refreshDrawId}
-        onSeasonChange={onSeasonChange}
-      />
-    ) : null
-  }, [drawId, tournament, stage, season, onError, refreshDrawId, onSeasonChange])
-
   return (
     <Router>
       <>
@@ -114,10 +97,17 @@ const Routes = ({
           />
         </Visibility>
         <Switch>
-          <Route
-            path="/:tournament/:stage/:season?"
-            render={renderPage}
-          />
+          <Route path="/:tournament/:stage/:season?">
+            <Pages
+              drawId={drawId}
+              tournament={tournament!}
+              stage={stage!}
+              season={season}
+              onError={onError}
+              onRefreshDrawId={refreshDrawId}
+              onSeasonChange={onSeasonChange}
+            />
+          </Route>
           <Redirect
             from="/wc"
             to={`/wc/${defaultStage}`}
