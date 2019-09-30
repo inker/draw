@@ -97,6 +97,11 @@ const Routes = ({
           />
         </Visibility>
         <Switch>
+          {/* TODO */}
+          <Redirect
+            from="/wc/ko"
+            to={`/wc/${defaultStage}`}
+          />
           <Route path="/:tournament/:stage/:season?">
             <Pages
               drawId={drawId}
