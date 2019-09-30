@@ -21,7 +21,7 @@ import usePopup from 'store/usePopup'
 import useUniqueId from 'utils/hooks/useUniqueId'
 import Visibility from 'ui/Visibility'
 
-import Helmets from './Helmets'
+import HeadMetadata from './HeadMetadata'
 import Navbar from './Navbar'
 import Pages from './Pages'
 import RouteProps from './Pages/RouteProps'
@@ -103,7 +103,7 @@ const Routes = ({
   return (
     <Router>
       <>
-        <Helmets />
+        <HeadMetadata />
         <Visibility visible={!popup.initial}>
           <Navbar
             refresh={refreshDrawId}

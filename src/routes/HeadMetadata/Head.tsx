@@ -1,12 +1,13 @@
-import React from 'react'
-import { Route } from 'react-router-dom'
+import React, { memo } from 'react'
 import { Helmet } from 'react-helmet'
 
-import data from './data'
 import RouteProps from './RouteProps'
+import data from './data'
 
-function render(props: RouteProps) {
-  const o = data(props.match.params.tournament) || null
+const Head = ({
+  match,
+}: RouteProps) => {
+  const o = data(match.params.tournament) || null
   return o && (
     <Helmet>
       <title>
@@ -29,11 +30,4 @@ function render(props: RouteProps) {
   )
 }
 
-const Helmets = () => (
-  <Route
-    path="/:tournament"
-    render={render}
-  />
-)
-
-export default Helmets
+export default memo(Head)
