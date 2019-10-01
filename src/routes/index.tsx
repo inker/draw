@@ -103,15 +103,17 @@ const Routes = ({
             to={`/wc/${defaultStage}`}
           />
           <Route path="/:tournament/:stage/:season?">
-            <Pages
-              drawId={drawId}
-              tournament={tournament!}
-              stage={stage!}
-              season={season}
-              onError={onError}
-              onRefreshDrawId={refreshDrawId}
-              onSeasonChange={onSeasonChange}
-            />
+            {tournament && stage ? (
+              <Pages
+                drawId={drawId}
+                tournament={tournament!}
+                stage={stage!}
+                season={season}
+                onError={onError}
+                onRefreshDrawId={refreshDrawId}
+                onSeasonChange={onSeasonChange}
+              />
+            ) : null}
           </Route>
           <Redirect
             from="/wc"
