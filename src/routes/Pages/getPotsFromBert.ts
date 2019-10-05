@@ -15,7 +15,7 @@ async function getPotsFromBert(tournament: string, stage: string, season: number
     : parseGS(data, pairings)
 }
 
-const resolver = (tournament, stage, season) =>
-  `${tournament}:${stage}:${season}`
+const resolver = (...args: Parameters<typeof getPotsFromBert>) =>
+  args.join(':')
 
 export default memoize(getPotsFromBert, resolver)
