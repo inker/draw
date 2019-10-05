@@ -1,4 +1,5 @@
 import React, {
+  useState,
   useEffect,
   memo,
 } from 'react'
@@ -11,14 +12,12 @@ import Team from 'model/team'
 
 import usePopup from 'store/usePopup'
 
-import usePartialState from 'utils/hooks/usePartialState'
-
 import currentSeasonByTournament from '../currentSeasonByTournament'
 
+import getPage from './getPage'
 import getPotsFromBert from './getPotsFromBert'
 import getWcPots from './getWcPots'
 import prefetchImages from './prefetchImages'
-import PageLoader from './PageLoader'
 
 interface Match {
   tournament: string,
@@ -37,6 +36,7 @@ interface Props {
 }
 
 interface State {
+  Page: React.ComponentType<any> | null,
   pots: Team[][] | null,
   // tournament: string,
   // stage: string,
@@ -55,7 +55,8 @@ const Pages = ({
   const params = useParams<Match>()
   const [, setPopup] = usePopup()
 
-  const [state, setState] = usePartialState<State>({
+  const [state, setState] = useState<State>({
+    Page: null,
     pots: null,
     season: currentSeasonByTournament('cl', 'gs'),
   })
@@ -70,6 +71,8 @@ const Pages = ({
         ? getWcPots(2018) // TODO
         : getPotsFromBert(tournament, stage, season)
 
+      const newPage = await getPage(tournament, stage)
+
       const newPots = await potsPromise
 
       // @ts-ignore
@@ -80,6 +83,7 @@ const Pages = ({
       onRefreshDrawId()
 
       setState({
+        Page: newPage,
         pots: newPots,
         // tournament,
         // stage,
@@ -117,14 +121,18 @@ const Pages = ({
     fetchData()
   }, [season, stage, tournament])
 
-  return (
-    <PageLoader
-      season={season}
+  const {
+    Page,
+    pots,
+  } = state
+
+  return pots && Page && (
+    <Page
+      key={drawId}
       tournament={params.tournament}
       stage={params.stage}
-      pots={state.pots}
-      key={drawId}
-      onLoadError={onError}
+      season={season}
+      pots={pots}
     />
   )
 }
