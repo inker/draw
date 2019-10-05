@@ -1,4 +1,5 @@
 import React, {
+  useState,
   useCallback,
   useMemo,
   memo,
@@ -12,7 +13,6 @@ import Team from 'model/team/GSTeam'
 
 import usePopup from 'store/usePopup'
 
-import usePartialState from 'utils/hooks/usePartialState'
 import useCollection from 'utils/hooks/useCollection'
 import useTimeout from 'utils/hooks/useTimeout'
 import useWorkerWrapper from 'utils/hooks/useWorkerWrapper'
@@ -83,7 +83,7 @@ const CLGS = ({
     hungPot,
     possibleGroups,
     possibleGroupsShuffled,
-  }, setState] = usePartialState(initialState)
+  }, setState] = useState(initialState)
 
   const [, setPopup] = usePopup()
   const workerSendAndReceive = useWorkerWrapper(EsWorker)
@@ -115,6 +115,7 @@ const CLGS = ({
     timeoutActions.reset()
 
     setState({
+      currentPotNum,
       hungPot: currentPot.slice(),
       selectedTeam: newSelectedTeam,
       possibleGroups: newPossibleGroups,

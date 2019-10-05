@@ -1,4 +1,5 @@
 import React, {
+  useState,
   useCallback,
   useMemo,
   useEffect,
@@ -14,7 +15,6 @@ import Team from 'model/team/KnockoutTeam'
 import getPossiblePairings from 'engine/getPossiblePairings'
 import getPredicate from 'engine/predicates/ko'
 
-import usePartialState from 'utils/hooks/usePartialState'
 import useCollection from 'utils/hooks/useCollection'
 import useUniqueId from 'utils/hooks/useUniqueId'
 
@@ -65,7 +65,7 @@ const CLKO = ({
     currentMatchupNum,
     currentPotNum,
     possiblePairings,
-  }, setState] = usePartialState(initialState)
+  }, setState] = useState(initialState)
 
   const [airborneTeams, airborneTeamsActions] = useCollection<Team>()
 

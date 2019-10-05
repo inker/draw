@@ -1,4 +1,5 @@
 import React, {
+  useState,
   useCallback,
   useMemo,
   useEffect,
@@ -13,7 +14,6 @@ import Team from 'model/team/NationalTeam'
 
 import usePopup from 'store/usePopup'
 
-import usePartialState from 'utils/hooks/usePartialState'
 import useCollection from 'utils/hooks/useCollection'
 import useTimeout from 'utils/hooks/useTimeout'
 import useWorkerWrapper from 'utils/hooks/useWorkerWrapper'
@@ -74,7 +74,7 @@ const WCGS = ({
     selectedTeam,
     pickedGroup,
     hungPot,
-  }, setState] = usePartialState(initialState)
+  }, setState] = useState(initialState)
 
   const [, setPopup] = usePopup()
   const workerSendAndReceive = useWorkerWrapper(EsWorker)
@@ -112,6 +112,7 @@ const WCGS = ({
     const currentPot = pots[currentPotNum]
 
     setState({
+      currentPotNum,
       hungPot: currentPot.slice(),
       selectedTeam: currentPot.splice(i, 1)[0],
       pickedGroup: null,
