@@ -1,5 +1,3 @@
-import { flatten } from 'lodash'
-
 import waitUntilOnline from 'utils/waitUntilOnline'
 import makeRequest from 'utils/makeRequest'
 import tryMultipleAsync from 'utils/tryMultipleAsync'
@@ -33,7 +31,7 @@ const urlToSeq = (url: string) => [
 ]
 
 export default async (urls: string[]) => {
-  const funcs = flatten(urls.map(urlToSeq))
+  const funcs = urls.map(urlToSeq).flat()
   try {
     return await tryMultipleAsync(funcs)
   } catch (err) {
