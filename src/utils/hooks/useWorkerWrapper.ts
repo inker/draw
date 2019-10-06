@@ -8,8 +8,8 @@ import {
 
 const TIMEOUT = 120000
 
-export default (WorkerClass) => {
-  const ww = useMemo(() => new WorkerWrapper(new WorkerClass(), TIMEOUT), [])
+export default <Request, Response>(WorkerClass) => {
+  const ww = useMemo(() => new WorkerWrapper<Request, Response>(new WorkerClass(), TIMEOUT), [])
 
   useEffect(() => {
     return () => {
@@ -18,7 +18,7 @@ export default (WorkerClass) => {
   }, [])
 
   return useCallback(
-    (msg: any) => ww.sendAndReceive(msg),
+    ww.sendAndReceive.bind(ww),
     [ww],
   )
 }

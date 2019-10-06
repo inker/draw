@@ -1,9 +1,9 @@
 import AsyncManager from 'async-manager-promise'
 import timelimit from 'timelimit'
 
-class WorkerWrapper {
+class WorkerWrapper<Request, Response> {
   private worker: Worker
-  private asyncManager = new AsyncManager<any, string>()
+  private asyncManager = new AsyncManager<Response, string>()
   private timeout?: number
 
   constructor(worker: Worker, timeout?: number) {
@@ -21,7 +21,7 @@ class WorkerWrapper {
     this.asyncManager.resolve(messageId, data)
   }
 
-  sendAndReceive(msg: any) {
+  sendAndReceive(msg: Request) {
     const promise = this.asyncManager.getPromiseWithId(id => {
       this.worker.postMessage({
         messageId: id,

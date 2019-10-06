@@ -40,6 +40,17 @@ const groupColors = [
   'rgba(0, 128, 255, 0.25)',
 ]
 
+interface WorkerRequest {
+  season: number,
+  pots: Team[][],
+  groups: Team[][],
+  selectedTeam: Team,
+}
+
+interface WorkerResponse {
+  pickedGroup: number,
+}
+
 interface Props {
   season: number,
   pots: Team[][],
@@ -80,7 +91,7 @@ const ELGS = ({
   }, setState] = useState(initialState)
 
   const [, setPopup] = usePopup()
-  const workerSendAndReceive = useWorkerWrapper(EsWorker)
+  const workerSendAndReceive = useWorkerWrapper<WorkerRequest, WorkerResponse>(EsWorker)
   const [airborneTeams, airborneTeamsActions] = useCollection<Team>()
   const [isLongCalculating, timeoutActions] = useTimeout<Team>(3000)
 
@@ -95,7 +106,7 @@ const ELGS = ({
     setState(getState(initialPots))
   }, [initialPots])
 
-  const getPickedGroup = async (newSelectedTeam: Team) => {
+  const getPickedGroup = useCallback(async (newSelectedTeam: Team) => {
     const response = await workerSendAndReceive({
       season,
       pots,
@@ -103,8 +114,8 @@ const ELGS = ({
       selectedTeam: newSelectedTeam,
     })
 
-    return response.pickedGroup as number
-  }
+    return response.pickedGroup
+  }, [pots, groups, season, workerSendAndReceive])
 
   const onTeamBallPick = useCallback(async (i: number) => {
     const currentPot = pots[currentPotNum]
