@@ -1833,10 +1833,10 @@ del@^4.1.1:
     pify "^4.0.1"
     rimraf "^2.6.3"
 
-delay.js@^1.0.2:
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/delay.js/-/delay.js-1.0.2.tgz#5e56cb92f094f3dd0976bffa37a88ab571cedc6f"
-  integrity sha512-bpTZG+IGL06Y9h26v2E5TkzjGF7ThuPl07x7Zi/XfZLvzmr3m6Un7NdW9a1KwIOmxbeweaUGmgbwwJ7OTnuufA==
+delay.js@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/delay.js/-/delay.js-2.0.0.tgz#f4636f935c21bc2f2386fced25f3f68a8bbcf0bc"
+  integrity sha512-KsHpVLL/OqTGtb1TSonwimEBlwfebIKxo6CaXQiBzmL0jZ2/sas9L7vrkRE5y4FAn5icgpg8hpY2XytPVhojkA==
 
 delayed-stream@~1.0.0:
   version "1.0.0"
