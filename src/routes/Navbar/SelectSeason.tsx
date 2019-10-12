@@ -7,6 +7,9 @@ import {
   range,
 } from 'lodash'
 
+import Tournament from 'model/Tournament'
+import Stage from 'model/Stage'
+
 import Select from 'ui/SelectWithHiddenLabel'
 import currentSeasonByTournament from '../currentSeasonByTournament'
 
@@ -19,10 +22,10 @@ const minSeasons = {
 }
 
 interface Props {
-  tournament: string,
-  stage: string,
+  tournament: Tournament,
+  stage: Stage,
   season: number,
-  onChange: (tournament: string, stage: string, season?: number) => void,
+  onChange: (tournament: Tournament, stage: Stage, season?: number) => void,
 }
 
 const SelectSeason = ({
@@ -37,12 +40,12 @@ const SelectSeason = ({
   }, [tournament, stage, onChange])
 
   const onTournamentChange = useCallback((e: React.ChangeEvent<HTMLSelectElement>) => {
-    const newTournament = e.target.value
+    const newTournament = e.target.value as Tournament
     onChange(newTournament, stage, currentSeasonByTournament(newTournament, stage))
   }, [stage, onChange])
 
   const onStageChange = useCallback((e: React.ChangeEvent<HTMLSelectElement>) => {
-    const newStage = e.target.value
+    const newStage = e.target.value as Stage
     onChange(tournament, newStage, currentSeasonByTournament(tournament, newStage))
   }, [tournament, onChange])
 

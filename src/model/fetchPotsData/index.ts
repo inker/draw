@@ -1,17 +1,19 @@
-import config from '../../config.json'
+import config from '../../config'
+
+import Tournament from 'model/Tournament'
 
 import tryMultipleUrls from './tryMultipleUrls'
 
 const { bertHost } = config
 const currentSeason = config.currentSeason.uefa.cl.gs
 
-const getUrl = (tournament: string, year: number) =>
+const getUrl = (tournament: Tournament, year: number) =>
   `${bertHost}/seed${tournament}${year}.html`
 
-const getHistoryUrl = (tournament: string, year: number) =>
+const getHistoryUrl = (tournament: Tournament, year: number) =>
   `${bertHost}/history/seed${tournament}${year}.html`
 
-export default (tournament: string, season: number) => {
+export default (tournament: Tournament, season: number) => {
   const urls = [
     getUrl(tournament, season),
     getHistoryUrl(tournament, season),

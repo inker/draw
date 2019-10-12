@@ -11,14 +11,14 @@ import {
   Switch,
 } from 'react-router-dom'
 
-import {
-  defaultTournament,
-  defaultStage,
-} from '../config.json'
+import config from '../config'
 
 import usePopup from 'store/usePopup'
 import useUniqueId from 'utils/hooks/useUniqueId'
 import Visibility from 'ui/Visibility'
+
+import Tournament from 'model/Tournament'
+import Stage from 'model/Stage'
 
 import HeadMetadata from './HeadMetadata'
 import Navbar from './Navbar'
@@ -27,7 +27,19 @@ import Pages from './Pages'
 import history from './history'
 import currentSeasonByTournament from './currentSeasonByTournament'
 
-function onSeasonChange(tournament: string, stage: string, season?: number) {
+type Path = [
+  any,
+  Tournament | null,
+  Stage | null,
+  number | null,
+]
+
+const {
+  defaultTournament,
+  defaultStage,
+} = config
+
+function onSeasonChange(tournament: Tournament, stage: Stage, season?: number) {
   history.push(`/${tournament}/${stage}${season ? `/${season}` : ''}`)
 }
 
@@ -35,13 +47,13 @@ function getCurrentSeason(location?: typeof history.location) {
   if (!location) {
     return currentSeasonByTournament(defaultTournament, defaultStage)
   }
-  const [, tournament, stage, seasonString] = location.pathname.split('/')
+  const [, tournament, stage, seasonString] = location.pathname.split('/') as Path
   return +(seasonString || currentSeasonByTournament(tournament, stage))
 }
 
-function parseHistoryLocation(historyLocation: typeof history.location): SeasonTournamentStage {
+function parseHistoryLocation(historyLocation: typeof history.location) {
   const season = getCurrentSeason(historyLocation)
-  const [, tournament, stage] = historyLocation.pathname.split('/')
+  const [, tournament, stage] = historyLocation.pathname.split('/') as Path
   return {
     season,
     tournament,
@@ -59,12 +71,6 @@ function useSeasonTournamentStage() {
   }, [])
 
   return parseHistoryLocation(historyLocation)
-}
-
-interface SeasonTournamentStage {
-  tournament: string | null,
-  stage: string | null,
-  season: number,
 }
 
 interface Props {

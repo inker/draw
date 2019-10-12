@@ -1,6 +1,8 @@
 import defaultPairings from 'data/pairings.json'
 
-export default async (season: number, tournament: string): Promise<[string, string][]> => {
+import Tournament from 'model/Tournament'
+
+export default async (season: number, tournament: Tournament): Promise<[string, string][]> => {
   try {
     const pairings = await import(/* webpackChunkName: "pairings-[request]" */ `data/pairings/${season}/${tournament}.txt`)
     return (pairings.default as string)

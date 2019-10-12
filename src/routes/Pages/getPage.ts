@@ -1,12 +1,12 @@
-import validTournaments from './validTournaments'
-import validStages from './validStages'
+import Tournament, { isValidTournament } from 'model/Tournament'
+import Stage, { isValidStage } from 'model/Stage'
 
-export default async (tournament: string, stage: string) => {
-  if (!validTournaments.includes(tournament)) {
+export default async (tournament: Tournament, stage: Stage) => {
+  if (!isValidTournament(tournament)) {
     throw new Error(`Invalid tournament: ${tournament}`)
   }
 
-  if (!validStages.includes(stage)) {
+  if (!isValidStage(stage)) {
     throw new Error(`Invalid stage: ${stage}`)
   }
 

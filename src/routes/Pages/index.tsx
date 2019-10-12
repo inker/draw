@@ -9,6 +9,8 @@ import delay from 'delay.js'
 import timelimit from 'timelimit'
 
 import Team from 'model/team'
+import Tournament from 'model/Tournament'
+import Stage from 'model/Stage'
 
 import usePopup from 'store/usePopup'
 
@@ -20,26 +22,26 @@ import getWcPots from './getWcPots'
 import prefetchImages from './prefetchImages'
 
 interface Match {
-  tournament: string,
-  stage: string,
+  tournament: Tournament,
+  stage: Stage,
   season: string,
 }
 
 interface Props {
-  tournament: string,
-  stage: string,
+  tournament: Tournament,
+  stage: Stage,
   season: number,
   drawId: string,
   onError: (err: Error) => void,
   onRefreshDrawId: () => void,
-  onSeasonChange: (tournament: string, stage: string, season?: number) => void,
+  onSeasonChange: (tournament: Tournament, stage: Stage, season?: number) => void,
 }
 
 interface State {
   Page: React.ComponentType<any> | null,
   pots: Team[][] | null,
-  // tournament: string,
-  // stage: string,
+  // tournament: Tournament,
+  // stage: Stage,
   season: number, // for error handling (so that we know the previous season)
 }
 
@@ -52,7 +54,7 @@ const Pages = ({
   onRefreshDrawId,
   onSeasonChange,
 }: Props) => {
-  const params = useParams<Match>()
+  const params = useParams<Match>() as Match
   const [, setPopup] = usePopup()
 
   const [state, setState] = useState<State>({

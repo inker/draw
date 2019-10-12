@@ -2,6 +2,8 @@ import React, { memo } from 'react'
 import { useRouteMatch } from 'react-router-dom'
 import { Helmet } from 'react-helmet'
 
+import Tournament from 'model/Tournament'
+
 import data from './data'
 
 const routeProps = {
@@ -10,7 +12,7 @@ const routeProps = {
 }
 
 interface Match {
-  tournament: string,
+  tournament: Tournament,
 }
 
 const HeadMetaData = () => {

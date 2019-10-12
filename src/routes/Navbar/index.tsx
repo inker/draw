@@ -1,6 +1,9 @@
 import React, { memo } from 'react'
 import styled from 'styled-components'
 
+import Tournament from 'model/Tournament'
+import Stage from 'model/Stage'
+
 import StyledLink from 'ui/StyledLink'
 import DivLink from 'ui/DivLink'
 import { isHandheld } from 'utils/browser'
@@ -33,10 +36,10 @@ const Root = styled.div`
 
 interface Props {
   season: number,
-  tournament: string,
-  stage: string,
+  tournament: Tournament,
+  stage: Stage,
   refresh: () => void,
-  onSeasonChange: (tournament: string, stage: string, season: number) => void,
+  onSeasonChange: (tournament: Tournament, stage: Stage, season: number) => void,
 }
 
 const Navbar = ({
