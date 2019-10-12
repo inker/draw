@@ -21,6 +21,12 @@ import getPotsFromBert from './getPotsFromBert'
 import getWcPots from './getWcPots'
 import prefetchImages from './prefetchImages'
 
+const initialState = {
+  Page: null,
+  pots: null,
+  season: currentSeasonByTournament('cl', 'gs'),
+}
+
 interface Match {
   tournament: Tournament,
   stage: Stage,
@@ -57,11 +63,10 @@ const Pages = ({
   const params = useParams<Match>() as Match
   const [, setPopup] = usePopup()
 
-  const [state, setState] = useState<State>({
-    Page: null,
-    pots: null,
-    season: currentSeasonByTournament('cl', 'gs'),
-  })
+  const [{
+    Page,
+    pots,
+  }, setState] = useState<State>(initialState)
 
   const fetchData = async () => {
     setPopup({
@@ -109,8 +114,8 @@ const Pages = ({
         stage: newStage,
       } = params
 
-      const newSeason = state.pots && state.season !== currentSeasonByTournament(newTournament, newStage)
-        ? state.season
+      const newSeason = pots && season !== currentSeasonByTournament(newTournament, newStage)
+        ? season
         : undefined
       onSeasonChange(newTournament, newStage, newSeason)
       setPopup({
@@ -122,11 +127,6 @@ const Pages = ({
   useEffect(() => {
     fetchData()
   }, [season, stage, tournament])
-
-  const {
-    Page,
-    pots,
-  } = state
 
   return pots && Page && (
     <Page
