@@ -77,6 +77,11 @@ module.exports = {
       maxBOF: 0,
       maxEOF: 0,
     }],
+    'no-console': [2, {
+      allow: [
+        'error',
+      ],
+    }],
 
     'func-names': 0,
     'arrow-parens': 0,
@@ -150,6 +155,8 @@ module.exports = {
     'react/prop-types': 0,
 
     'react/jsx-one-expression-per-line': 0,
+
+    'react/jsx-props-no-spreading': 0,
 
     '@typescript-eslint/no-unused-vars': [2, {
       'vars': 'all',
