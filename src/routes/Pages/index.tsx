@@ -1,3 +1,7 @@
+import delay from 'delay.js'
+
+import timelimit from 'timelimit'
+
 import React, {
   useState,
   useEffect,
@@ -5,8 +9,6 @@ import React, {
 } from 'react'
 
 import { useParams } from 'react-router-dom'
-import delay from 'delay.js'
-import timelimit from 'timelimit'
 
 import Team from 'model/team'
 import Tournament from 'model/Tournament'
@@ -38,7 +40,6 @@ interface Props {
   stage: Stage,
   season: number,
   drawId: string,
-  onError: (err: Error) => void,
   onRefreshDrawId: () => void,
   onSeasonChange: (tournament: Tournament, stage: Stage, season?: number) => void,
 }
@@ -56,7 +57,6 @@ const Pages = ({
   tournament,
   stage,
   season,
-  onError,
   onRefreshDrawId,
   onSeasonChange,
 }: Props) => {

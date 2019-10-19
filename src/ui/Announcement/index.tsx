@@ -94,7 +94,7 @@ const Announcement = ({
             Calculation is taking too long.
           </div>
           <div>
-            And <StyledLink href={ISSUE_URL} target="_blank" rel="noopener">here's why</StyledLink>.
+            And <StyledLink href={ISSUE_URL} target="_blank" rel="noopener">here&apos;s why</StyledLink>.
           </div>
         </Bug>
       </Root>

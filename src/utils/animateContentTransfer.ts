@@ -34,6 +34,7 @@ document.body.insertBefore(airborneDiv, document.getElementById('app'))
 function adjustPositioning(cell: HTMLElement, { left, top }: ClientRect) {
   const x = left + OFFSET_LEFT
   const y = top + OFFSET_TOP
+  // eslint-disable-next-line no-param-reassign
   cell.style.transform = `translate3d(${x}px, ${y}px, 0px)`
 }
 

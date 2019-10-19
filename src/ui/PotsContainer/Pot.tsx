@@ -27,42 +27,40 @@ const Pot = ({
   selectedTeams,
   background,
   color,
-}: Props) => {
-  return (
-    <Root highlighted={isCurrent}>
-      <Header
-        highlighted={isCurrent}
-        depleted={!teams || pickedTeams.length === teams.length}
-        background={background}
-        color={color}
-      >
-        Pot {potNum + 1}
-      </Header>
-      <Body>
-        {teams && teams.map(team => {
-          const {
-            name,
-            country,
-            shortName,
-            pairing,
-          } = team as GSTeam
+}: Props) => (
+  <Root highlighted={isCurrent}>
+    <Header
+      highlighted={isCurrent}
+      depleted={!teams || pickedTeams.length === teams.length}
+      background={background}
+      color={color}
+    >
+      Pot {potNum + 1}
+    </Header>
+    <Body>
+      {teams && teams.map(team => {
+        const {
+          name,
+          country,
+          shortName,
+          pairing,
+        } = team as GSTeam
 
-          return (
-            <PotCell
-              key={team.id}
-              data-cellid={team.id}
-              title={pairing && `paired with ${pairing.shortName || pairing.name}`}
-              selected={!!selectedTeams && selectedTeams.includes(team)}
-              picked={pickedTeams.includes(team)}
-              country={country || name}
-            >
-              {shortName || name}
-            </PotCell>
-          )
-        })}
-      </Body>
-    </Root>
-  )
-}
+        return (
+          <PotCell
+            key={team.id}
+            data-cellid={team.id}
+            title={pairing && `paired with ${pairing.shortName || pairing.name}`}
+            selected={!!selectedTeams && selectedTeams.includes(team)}
+            picked={pickedTeams.includes(team)}
+            country={country || name}
+          >
+            {shortName || name}
+          </PotCell>
+        )
+      })}
+    </Body>
+  </Root>
+)
 
 export default memo(Pot)

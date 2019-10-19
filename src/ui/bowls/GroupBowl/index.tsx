@@ -5,6 +5,7 @@ import React, {
 import styled from 'styled-components'
 
 import getGroupLetter from 'utils/getGroupLetter'
+
 import Ball from './Ball'
 
 const Root = styled.div`
@@ -34,24 +35,22 @@ const GroupBowl = ({
     const pickedGroup = +ball.dataset.group
     if (Number.isNaN(pickedGroup)) {
       console.error('incorrect group ball', ball.dataset.group)
-      throw new Error(`Incorrect group ball`)
+      throw new Error('Incorrect group ball')
     }
     onPick(pickedGroup)
   }, [onPick])
 
   return (
     <Root>
-      {display && possibleGroups &&
-        possibleGroups.map(groupNum => (
-          <Ball
-            key={groupNum}
-            data-group={groupNum}
-            onClick={onBallPick}
-          >
-            {getGroupLetter(groupNum)}
-          </Ball>
-        ))
-      }
+      {display && possibleGroups && possibleGroups.map(groupNum => (
+        <Ball
+          key={groupNum}
+          data-group={groupNum}
+          onClick={onBallPick}
+        >
+          {getGroupLetter(groupNum)}
+        </Ball>
+      ))}
     </Root>
   )
 }

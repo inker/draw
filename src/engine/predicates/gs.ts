@@ -3,6 +3,7 @@ import { Predicate } from '@draws/engine'
 import Team from 'model/team/GSTeam'
 import getSmallestArrayLength from 'utils/getSmallestArrayLength'
 import getHalfArrayOfIndex from 'utils/getHalfArrayOfIndex'
+
 import rusUkrConstraint from '../rusUkrConstraint'
 
 const isFrom = (country: string) =>

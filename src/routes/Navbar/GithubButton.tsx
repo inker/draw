@@ -1,6 +1,7 @@
+import Image from 'react-image'
+
 import React, { memo } from 'react'
 import styled from 'styled-components'
-import Image from 'react-image'
 
 import proxifyAllPossible from './proxifyAllPossible'
 
@@ -19,7 +20,7 @@ const GithubButton = () => (
   <Wrapper>
     <a
       target="_blank"
-      rel="noopener"
+      rel="noopener noreferrer"
       href="https://github.com/inker/draw"
     >
       <Image

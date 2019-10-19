@@ -3,6 +3,7 @@ import styled from 'styled-components'
 // import { memoize } from 'lodash'
 
 import Team from 'model/team/Club'
+
 import FakeCell from './FakeCell'
 
 const Root = styled.div`
@@ -39,22 +40,22 @@ class AirborneContainer extends PureComponent<Props> {
   render() {
     const { teams, duration } = this.props
     return (
-        <Root>
-          {teams.map(({ team, groupNum, position }) => {
-            {/* const cells = getCells({ team, groupNum, position }) */}
-            return (
-              <FakeCell
-                key={team.id}
-                country={team.country}
-                style={{
-                  transition: `transform ${duration}ms ease-in-out`,
-                }}
-              >
-                {team.name}
-              </FakeCell>
-            )
-          })}
-        </Root>
+      <Root>
+        {teams.map(({ team }) => {
+          { /* const cells = getCells({ team, groupNum, position }) */ }
+          return (
+            <FakeCell
+              key={team.id}
+              country={team.country}
+              style={{
+                transition: `transform ${duration}ms ease-in-out`,
+              }}
+            >
+              {team.name}
+            </FakeCell>
+          )
+        })}
+      </Root>
     )
   }
 }

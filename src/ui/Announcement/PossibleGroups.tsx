@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import { range } from 'lodash'
 
 import getGroupLetter from 'utils/getGroupLetter'
+
 import Roundel from './Roundel'
 
 const Root = styled.div`

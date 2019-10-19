@@ -84,7 +84,7 @@ const CLGS = ({
 }: Props) => {
   const [drawId, setNewDrawId] = useUniqueId('draw-')
   const pots = useMemo(() => initialPots.map(pot => shuffle(pot)), [initialPots, drawId])
-  const groups = useMemo(() => initialPots[0].map(team => [] as Team[]), [initialPots, drawId])
+  const groups = useMemo(() => initialPots[0].map(() => [] as Team[]), [initialPots, drawId])
 
   const initialState = useMemo(() => getState(pots), [pots])
   const [{

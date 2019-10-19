@@ -11,6 +11,7 @@ import Tournament from 'model/Tournament'
 import Stage from 'model/Stage'
 
 import Select from 'ui/SelectWithHiddenLabel'
+
 import currentSeasonByTournament from '../currentSeasonByTournament'
 
 import seasonAsString from './seasonAsString'
@@ -68,9 +69,9 @@ const SelectSeason = ({
         value={stage}
       >
         <option value="gs">Group Stage</option>
-        {tournament !== 'wc' &&
+        {tournament !== 'wc' && (
           <option value="ko">Knockout Stage</option>
-        }
+        )}
       </Select>
       <Select
         label="season"

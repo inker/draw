@@ -19,6 +19,7 @@ function anyGroupWinners<T>(
 
   const nextMatchupNum = matchupNum + 1
   return nextMatchupNum === newMatchups.length
+    // eslint-disable-next-line no-use-before-define
     || anyRunnersUp([groupWinners.filter(i => i !== item), runnersUp], newMatchups, predicate)
 }
 
@@ -41,8 +42,7 @@ export default <T>(
   [groupWinners, runnersUp]: T[][],
   matchups: OneOrTwo<T>[],
   predicate: Predicate<T>,
-): number[] => {
-  return groupWinners
+): number[] =>
+  groupWinners
     .map((item, i) => i)
     .filter(i => anyGroupWinners(groupWinners[i], [groupWinners, runnersUp], matchups, predicate))
-}

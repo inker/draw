@@ -13,13 +13,13 @@ async function parseGSTeams(data: string) {
     throw new Error('could not parse')
   }
 
-  data = tokens[1]
+  const substr = tokens[1]
   const re = /(.{1,25})([A-Z][a-z]{2})\s([\s\d]{2}\d\.\d{3})/g
   const teams: GSTeam[] = []
   let matches: RegExpExecArray | null
 
-  // tslint:disable-next-line:no-conditional-assignment
-  while ((matches = re.exec(data)) !== null) {
+  // eslint-disable-next-line no-cond-assign
+  while ((matches = re.exec(substr)) !== null) {
     const longName = matches[1]
       .replace(/\*\d?|(@\d)|\(([CE]L-)?TH\)/g, '')
       .trim()

@@ -1,6 +1,6 @@
-import config from '../../config'
-
 import Tournament from 'model/Tournament'
+
+import config from '../../config'
 
 import tryMultipleUrls from './tryMultipleUrls'
 
