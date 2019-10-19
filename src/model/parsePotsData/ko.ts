@@ -17,7 +17,7 @@ export default async (data: string) => {
   const re = /\s*(.+?)(\s\*+\d?|\([CE]L-TH\)?\s+)?\s{2,}(\w{3})\s+/g
   let matches: RegExpExecArray | null
 
-  // tslint:disable-next-line:no-conditional-assignment
+  // eslint-disable-next-line no-cond-assign
   for (let i = 0; (matches = re.exec(substring)) !== null; ++i) {
     const name = matches[1].replace(/(@\d|#|\*+|\(TH\))/g, '').trim()
     const country = codeToCountryName(matches[3].toLowerCase()) as UefaCountry

@@ -48,34 +48,32 @@ const Navbar = ({
   stage,
   refresh,
   onSeasonChange,
-}: Props) => {
-  return (
-    <Root>
-      {location &&
-        <DivLink onClick={refresh}>
-          Restart
-        </DivLink>
-      }
-      <SelectSeason
-        tournament={tournament}
-        stage={stage}
-        season={season}
-        onChange={onSeasonChange}
-      />
-      {!isHandheld &&
-        <>
-          <StyledLink
-            href="https://github.com/inker/draw/issues"
-            target="_blank"
-            rel="noopener"
-          >
-            Issues
-          </StyledLink>
-          <GithubButton />
-        </>
-      }
-    </Root>
-  )
-}
+}: Props) => (
+  <Root>
+    {location && (
+      <DivLink onClick={refresh}>
+        Restart
+      </DivLink>
+    )}
+    <SelectSeason
+      tournament={tournament}
+      stage={stage}
+      season={season}
+      onChange={onSeasonChange}
+    />
+    {!isHandheld && (
+      <>
+        <StyledLink
+          href="https://github.com/inker/draw/issues"
+          target="_blank"
+          rel="noopener"
+        >
+        Issues
+        </StyledLink>
+        <GithubButton />
+      </>
+    )}
+  </Root>
+)
 
 export default memo(Navbar)

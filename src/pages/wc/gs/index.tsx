@@ -76,7 +76,7 @@ const WCGS = ({
 }: Props) => {
   const [drawId, setNewDrawId] = useUniqueId('draw-')
   const pots = useMemo(() => initialPots.map(pot => shuffle(pot)), [initialPots, drawId])
-  const groups = useMemo(() => initialPots[0].map(team => [] as Team[]), [initialPots, drawId])
+  const groups = useMemo(() => initialPots[0].map(() => [] as Team[]), [initialPots, drawId])
 
   const initialState = useMemo(() => getState(pots), [pots])
   const [{
@@ -91,23 +91,6 @@ const WCGS = ({
   const [airborneTeams, airborneTeamsActions] = useCollection<Team>()
   const [isLongCalculating, timeoutActions] = useTimeout<Team>(3000)
 
-  useEffect(() => {
-    if (selectedTeam) {
-      onTeamSelected()
-    }
-  }, [selectedTeam])
-
-  useEffect(() => {
-    // pick host ball
-    const i = pots[currentPotNum].findIndex(team => team.host)
-    onTeamBallPick(i)
-  }, [drawId])
-
-  const onReset = useCallback(() => {
-    setNewDrawId()
-    setState(getState(initialPots))
-  }, [initialPots])
-
   const getPickedGroup = useCallback(async (newSelectedTeam: Team) => {
     const response = await workerSendAndReceive({
       pots,
@@ -117,17 +100,6 @@ const WCGS = ({
 
     return response.pickedGroup
   }, [pots, groups, workerSendAndReceive])
-
-  const onTeamBallPick = useCallback(async (i: number) => {
-    const currentPot = pots[currentPotNum]
-
-    setState({
-      currentPotNum,
-      hungPot: currentPot.slice(),
-      selectedTeam: currentPot.splice(i, 1)[0],
-      pickedGroup: null,
-    })
-  }, [pots, currentPotNum])
 
   const onTeamSelected = async () => {
     if (!selectedTeam) {
@@ -159,6 +131,34 @@ const WCGS = ({
       currentPotNum: newCurrentPotNum,
     })
   }
+
+  const onTeamBallPick = useCallback(async (i: number) => {
+    const currentPot = pots[currentPotNum]
+
+    setState({
+      currentPotNum,
+      hungPot: currentPot.slice(),
+      selectedTeam: currentPot.splice(i, 1)[0],
+      pickedGroup: null,
+    })
+  }, [pots, currentPotNum])
+
+  useEffect(() => {
+    if (selectedTeam) {
+      onTeamSelected()
+    }
+  }, [selectedTeam])
+
+  useEffect(() => {
+    // pick host ball
+    const i = pots[currentPotNum].findIndex(team => team.host)
+    onTeamBallPick(i)
+  }, [drawId])
+
+  const onReset = useCallback(() => {
+    setNewDrawId()
+    setState(getState(initialPots))
+  }, [initialPots])
 
   const completed = currentPotNum >= pots.length
 

@@ -11,14 +11,14 @@ import {
   Switch,
 } from 'react-router-dom'
 
-import config from '../config'
-
 import usePopup from 'store/usePopup'
 import useUniqueId from 'utils/hooks/useUniqueId'
 import Visibility from 'ui/Visibility'
 
 import Tournament from 'model/Tournament'
 import Stage from 'model/Stage'
+
+import config from '../config'
 
 import HeadMetadata from './HeadMetadata'
 import Navbar from './Navbar'
@@ -73,13 +73,7 @@ function useSeasonTournamentStage() {
   return parseHistoryLocation(historyLocation)
 }
 
-interface Props {
-  onError: (err: Error) => void,
-}
-
-const Routes = ({
-  onError,
-}: Props) => {
+const Routes = () => {
   const [drawId, refreshDrawId] = useUniqueId('draw-')
   const [popup] = usePopup()
 
@@ -115,7 +109,6 @@ const Routes = ({
                 tournament={tournament!}
                 stage={stage!}
                 season={season}
-                onError={onError}
                 onRefreshDrawId={refreshDrawId}
                 onSeasonChange={onSeasonChange}
               />

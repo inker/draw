@@ -1,6 +1,7 @@
 import { Predicate } from '@draws/engine'
 
 import Team from 'model/team/KnockoutTeam'
+
 import rusUkrConstraint from '../rusUkrConstraint'
 
 export default (season: number) => {

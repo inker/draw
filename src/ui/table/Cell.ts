@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+
 import BaseCell from './BaseCell'
 
 const Cell = styled(BaseCell)`

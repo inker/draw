@@ -1,4 +1,6 @@
+// eslint-disable-next-line import/order
 import { useMemo } from 'react'
+// eslint-disable-next-line import/order
 import delay from 'delay.js'
 
 import useReducer, { types } from './reducer'

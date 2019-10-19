@@ -2,7 +2,9 @@ import React, { memo } from 'react'
 import styled from 'styled-components'
 
 import Team from 'model/team/Club'
+
 import BaseCell from '../table/BaseCell'
+
 import MatchupCell from './MatchupCell'
 
 const Root = styled(BaseCell)`

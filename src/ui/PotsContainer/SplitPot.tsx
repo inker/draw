@@ -46,49 +46,47 @@ const SplitPot = ({
   selectedTeams,
   background,
   color,
-}: Props) => {
-  return (
-    <Root highlighted={isCurrent}>
-      <Header
-        highlighted={isCurrent}
-        depleted={!teams || pickedTeams.length === teams.length}
-        background={background}
-        color={color}
-      >
-        Pot {potNum + 1}
-      </Header>
-      <Body>
-        {range(teams.length / 2).map(i => {
-          const pair = [teams[i * 2], teams[i * 2 + 1]]
-          return (
-            <Pair key={i}>
-              {pair.map(team => {
-                const {
-                  name,
-                  country,
-                  shortName,
-                  pairing,
-                } = team as GSTeam
+}: Props) => (
+  <Root highlighted={isCurrent}>
+    <Header
+      highlighted={isCurrent}
+      depleted={!teams || pickedTeams.length === teams.length}
+      background={background}
+      color={color}
+    >
+      Pot {potNum + 1}
+    </Header>
+    <Body>
+      {range(teams.length / 2).map(i => {
+        const pair = [teams[i * 2], teams[i * 2 + 1]]
+        return (
+          <Pair key={i}>
+            {pair.map(team => {
+              const {
+                name,
+                country,
+                shortName,
+                pairing,
+              } = team as GSTeam
 
-                return (
-                  <Cell
-                    key={team.id}
-                    data-cellid={team.id}
-                    title={pairing && `paired with ${pairing.shortName || pairing.name}`}
-                    selected={!!selectedTeams && selectedTeams.includes(team)}
-                    picked={pickedTeams.includes(team)}
-                    country={country || name}
-                  >
-                    {shortName || name}
-                  </Cell>
-                )
-              })}
-            </Pair>
-          )
-        })}
-      </Body>
-    </Root>
-  )
-}
+              return (
+                <Cell
+                  key={team.id}
+                  data-cellid={team.id}
+                  title={pairing && `paired with ${pairing.shortName || pairing.name}`}
+                  selected={!!selectedTeams && selectedTeams.includes(team)}
+                  picked={pickedTeams.includes(team)}
+                  country={country || name}
+                >
+                  {shortName || name}
+                </Cell>
+              )
+            })}
+          </Pair>
+        )
+      })}
+    </Body>
+  </Root>
+)
 
 export default memo(SplitPot)

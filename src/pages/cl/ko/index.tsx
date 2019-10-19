@@ -57,7 +57,11 @@ const CLKO = ({
 }: Props) => {
   const [drawId, setNewDrawId] = useUniqueId('draw-')
   const pots = useMemo(() => initialPots.map(pot => shuffle(pot)), [initialPots, drawId])
-  const matchups = useMemo(() => range(8).map(i => [] as any as [Team, Team]), [initialPots, drawId])
+  const matchups = useMemo(
+    () =>
+      range(8).map(() => [] as any as [Team, Team]),
+    [initialPots, drawId],
+  )
   const predicate = useMemo(() => getPredicate(season), [season])
 
   const initialState = useMemo(getState, [])
@@ -68,15 +72,6 @@ const CLKO = ({
   }, setState] = useState(initialState)
 
   const [airborneTeams, airborneTeamsActions] = useCollection<Team>()
-
-  useEffect(() => {
-    setTimeout(autoPickIfOneBall, 250)
-  }, [currentPotNum])
-
-  const onReset = useCallback(() => {
-    setNewDrawId()
-    setState(getState())
-  }, [initialPots])
 
   const onBallPick = useCallback((i: number) => {
     const currentPot = pots[currentPotNum]
@@ -100,10 +95,21 @@ const CLKO = ({
   }, [predicate, pots, matchups, currentPotNum, currentMatchupNum, possiblePairings, airborneTeams])
 
   const autoPickIfOneBall = () => {
-    if (possiblePairings && possiblePairings.length === 1 || currentPotNum === 1 && pots[1].length === 1) {
+    const isOnlyChoice = possiblePairings && possiblePairings.length === 1
+      || currentPotNum === 1 && pots[1].length === 1
+    if (isOnlyChoice) {
       onBallPick(0)
     }
   }
+
+  useEffect(() => {
+    setTimeout(autoPickIfOneBall, 250)
+  }, [currentPotNum])
+
+  const onReset = useCallback(() => {
+    setNewDrawId()
+    setState(getState())
+  }, [initialPots])
 
   const completed = currentMatchupNum >= initialPots[0].length
   const selectedTeams = possiblePairings ? possiblePairings.map(i => pots[0][i]) : []
@@ -124,9 +130,9 @@ const CLKO = ({
         />
       </TablesContainer>
       <BowlsContainer>
-        {!completed &&
+        {!completed && (
           <Separator>Runners-up</Separator>
-        }
+        )}
         <TeamBowl
           forceNoSelect={currentPotNum === 0}
           display={!completed}
@@ -134,10 +140,10 @@ const CLKO = ({
           pot={pots[1]}
           onPick={onBallPick}
         />
-        {!completed &&
+        {!completed && (
           <Separator>Group Winners</Separator>
-        }
-        {completed &&
+        )}
+        {completed && (
           <Announcement
             long={false}
             completed={completed}
@@ -147,8 +153,8 @@ const CLKO = ({
             numGroups={0}
             reset={onReset}
           />
-        }
-        {possiblePairings &&
+        )}
+        {possiblePairings && (
           <TeamBowl
             forceNoSelect={currentPotNum === 1}
             display={!completed}
@@ -156,7 +162,7 @@ const CLKO = ({
             pot={pots[0].filter((team, i) => possiblePairings.includes(i))}
             onPick={onBallPick}
           />
-        }
+        )}
       </BowlsContainer>
       {airborneTeams.map((team: Team) => {
         const matchupNum = matchups.findIndex(m => m.includes(team))

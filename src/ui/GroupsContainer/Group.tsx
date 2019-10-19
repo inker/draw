@@ -45,12 +45,13 @@ const Group = ({
         background={background}
         color={color}
       >
-        Group {groupLetter}
+        Group
+        {' '}
+        {groupLetter}
       </Header>
       <Body>
-        {nonAirborneTeams.map((team, i) => (
+        {nonAirborneTeams.map(team => (
           <Cell
-            key={i}
             country={getTeamCountryName(team)}
             picked
           >

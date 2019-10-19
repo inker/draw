@@ -2,9 +2,10 @@ import React, { memo } from 'react'
 import styled from 'styled-components'
 
 import Team from 'model/team/Club'
-import Matchup from './Matchup'
 
 import Table from 'ui/table/Table'
+
+import Matchup from './Matchup'
 
 const RootTable = styled(Table)`
   width: auto;
@@ -25,7 +26,6 @@ const MatchupContainer = ({
   <RootTable>
     {matchups && matchups.map((matchup, i) => (
       <Matchup
-        key={i}
         index={i}
         teams={matchup}
         airborneTeams={airborneTeams}

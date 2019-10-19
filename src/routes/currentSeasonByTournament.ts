@@ -1,7 +1,7 @@
-import config from '../config'
-
 import Tournament from 'model/Tournament'
 import Stage from 'model/Stage'
+
+import config from '../config'
 
 const { wc, uefa } = config.currentSeason
 

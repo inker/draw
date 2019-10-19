@@ -3,21 +3,22 @@ import { Predicate } from '@draws/engine'
 import { Confederation } from 'model/types'
 import Team from 'model/team/NationalTeam'
 import getSmallestArrayLength from 'utils/getSmallestArrayLength'
+
 import hasLessThan from './hasLessThan'
 
 const GROUP_SIZE = 4
-
-const uefaLessThanTwo = (group: Iterable<Team>) =>
-  hasLessThan(2, group, isFromUefa)
 
 const isFrom = (confederation: Confederation) =>
   (team: Team) =>
     team.confederation === confederation
 
+const isFromUefa = isFrom('UEFA')
+
+const uefaLessThanTwo = (group: Iterable<Team>) =>
+  hasLessThan(2, group, isFromUefa)
+
 const isFromConfederationOf = (team: Team) =>
   isFrom(team.confederation)
-
-const isFromUefa = isFrom('UEFA')
 
 const canFitUefa = (group: Team[]) =>
   group.length < GROUP_SIZE - 1 || group.some(isFromUefa)

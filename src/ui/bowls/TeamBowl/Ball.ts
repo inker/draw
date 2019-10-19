@@ -13,7 +13,7 @@ const TeamBall = styled(BowlBall)<Props>`
       : props.notSelected
         ? '#ddd'
         : 'radial-gradient(#fff, #004)'
-  };
+};
 
   cursor: ${props => props.noHover ? 'not-allowed' : 'pointer'};
 

@@ -19,12 +19,12 @@ async function tryFetch(url: string, dataGetter: (url: string) => Promise<string
 
 const urlToSeq = (url: string) => [
   () => {
-    // tslint:disable-next-line: no-console
+    // eslint-disable-next-line no-console
     console.log('Fetching with proxy & encoding')
     return tryFetch(url, fetchWithEncoding)
   },
   () => {
-    // tslint:disable-next-line: no-console
+    // eslint-disable-next-line no-console
     console.log('Trying without proxy or encoding')
     return tryFetch(url, makeRequest)
   },
