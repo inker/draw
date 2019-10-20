@@ -1,5 +1,4 @@
 import React, {
-  useCallback,
   useEffect,
   lazy,
   Suspense,
@@ -23,15 +22,6 @@ const Root = styled.div`
 
 const App = () => {
   const [popup, setPopup] = usePopup()
-
-  const onError = useCallback((err: Error) => {
-    const { message } = err
-    setPopup({
-      initial: false,
-      waiting: false,
-      error: message.startsWith('Cannot find module') ? 'Could not load site' : message,
-    })
-  }, [])
 
   useEffect(() => {
     if (popup.initial && !popup.waiting) {
