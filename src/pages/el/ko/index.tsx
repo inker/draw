@@ -58,8 +58,7 @@ const ELKO = ({
   const [drawId, setNewDrawId] = useUniqueId('draw-')
   const pots = useMemo(() => initialPots.map(pot => shuffle(pot)), [initialPots, drawId])
   const matchups = useMemo(
-    () =>
-      range(16).map(() => [] as any as [Team, Team]),
+    () => range(16).map(() => [] as any as [Team, Team]),
     [initialPots, drawId],
   )
   const predicate = useMemo(() => getPredicate(season), [season])
@@ -111,6 +110,11 @@ const ELKO = ({
     setState(getState())
   }, [initialPots])
 
+  const teamBowlPot = useMemo(
+    () => possiblePairings && pots[0].filter((team, i) => possiblePairings.includes(i)),
+    [possiblePairings],
+  )
+
   const completed = currentMatchupNum >= initialPots[0].length
   const selectedTeams = possiblePairings ? possiblePairings.map(i => pots[0][i]) : []
 
@@ -155,12 +159,12 @@ const ELKO = ({
             reset={onReset}
           />
         )}
-        {possiblePairings && (
+        {teamBowlPot && (
           <TeamBowl
             forceNoSelect={currentPotNum === 1}
             display={!completed}
             selectedTeam={null}
-            pot={pots[0].filter((team, i) => possiblePairings.includes(i))}
+            pot={teamBowlPot}
             onPick={onBallPick}
           />
         )}
