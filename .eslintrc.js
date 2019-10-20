@@ -1,6 +1,7 @@
 module.exports = {
   extends: [
     'eslint-config-airbnb',
+    'plugin:@typescript-eslint/recommended',
     // 'plugin:import/errors',
     // 'plugin:import/warnings',
   ],
@@ -162,6 +163,21 @@ module.exports = {
       'vars': 'all',
       'args': 'after-used',
       'ignoreRestSiblings': false,
+    }],
+
+    '@typescript-eslint/ban-ts-ignore': 0,
+    '@typescript-eslint/explicit-function-return-type': 0,
+    '@typescript-eslint/no-explicit-any': 0,
+    '@typescript-eslint/no-non-null-assertion': 0,
+    '@typescript-eslint/member-delimiter-style': [2, {
+      multiline: {
+        delimiter: 'comma',
+        requireLast: true,
+      },
+      singleline: {
+        delimiter: 'comma',
+        requireLast: false,
+      },
     }],
   },
 
