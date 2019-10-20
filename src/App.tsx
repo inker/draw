@@ -45,7 +45,7 @@ const App = () => {
     <Root>
       <Popup />
       <Suspense fallback={false}>
-        <Routes onError={onError} />
+        <Routes />
       </Suspense>
       <Suspense fallback={false}>
         <Version />
