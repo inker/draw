@@ -4,12 +4,11 @@ import styled from 'styled-components'
 import Tournament from 'model/Tournament'
 import Stage from 'model/Stage'
 
-import StyledLink from 'ui/StyledLink'
 import DivLink from 'ui/DivLink'
 import { isHandheld } from 'utils/browser'
 
 import SelectSeason from './SelectSeason'
-import GithubButton from './GithubButton'
+import GitHubButtons from './GitHubButtons'
 
 const Root = styled.div`
   display: flex;
@@ -50,11 +49,9 @@ const Navbar = ({
   onSeasonChange,
 }: Props) => (
   <Root>
-    {location && (
-      <DivLink onClick={refresh}>
-        Restart
-      </DivLink>
-    )}
+    <DivLink onClick={refresh}>
+      Restart
+    </DivLink>
     <SelectSeason
       tournament={tournament}
       stage={stage}
@@ -62,16 +59,7 @@ const Navbar = ({
       onChange={onSeasonChange}
     />
     {!isHandheld && (
-      <>
-        <StyledLink
-          href="https://github.com/inker/draw/issues"
-          target="_blank"
-          rel="noopener"
-        >
-        Issues
-        </StyledLink>
-        <GithubButton />
-      </>
+      <GitHubButtons />
     )}
   </Root>
 )
