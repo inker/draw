@@ -1,7 +1,3 @@
-import delay from 'delay.js'
-
-import timelimit from 'timelimit'
-
 import React, {
   useState,
   useEffect,
@@ -9,6 +5,11 @@ import React, {
 } from 'react'
 
 import { useParams } from 'react-router-dom'
+
+// eslint-disable-next-line import/order
+import delay from 'delay.js'
+// eslint-disable-next-line import/order
+import timelimit from 'timelimit'
 
 import Team from 'model/team'
 import Tournament from 'model/Tournament'
@@ -21,7 +22,7 @@ import currentSeasonByTournament from '../currentSeasonByTournament'
 import getPage from './getPage'
 import getPotsFromBert from './getPotsFromBert'
 import getWcPots from './getWcPots'
-import prefetchImages from './prefetchImages'
+import prefetchFlags from './prefetchFlags'
 
 const initialState = {
   Page: null,
@@ -83,7 +84,7 @@ const Pages = ({
       const newPots = await potsPromise
 
       // @ts-ignore
-      await timelimit(prefetchImages(newPots), 5000, {
+      await timelimit(prefetchFlags(newPots), 5000, {
         rejectOnTimeout: false,
       })
 

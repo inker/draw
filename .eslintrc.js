@@ -134,6 +134,10 @@ module.exports = {
       exceptAfterSingleLine: true,
     }],
 
+    'object-property-newline': [2, {
+      allowAllPropertiesOnSameLine: false,
+    }],
+
     'import/order': [2, {
       groups: [
         'builtin',
