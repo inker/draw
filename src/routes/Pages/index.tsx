@@ -83,7 +83,6 @@ const Pages = ({
 
       const newPots = await potsPromise
 
-      // @ts-ignore
       await timelimit(prefetchFlags(newPots), 5000, {
         rejectOnTimeout: false,
       })

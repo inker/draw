@@ -4,10 +4,10 @@ import NationalTeam from 'model/team/NationalTeam'
 import getCountryFlagUrl from 'utils/getCountryFlagUrl'
 import prefetchImage from 'utils/prefetchImage'
 
-type TeamWithCountryAndName = Club & NationalTeam
+type TeamWithCountryAndName = Club | NationalTeam
 
 const getTeamFlag = (team: TeamWithCountryAndName) =>
-  getCountryFlagUrl(team.country || team.name)
+  getCountryFlagUrl((team as Club).country || team.name)
 
 export default (pots: TeamWithCountryAndName[][]) => {
   const promises: Promise<void>[] = []
