@@ -17,6 +17,8 @@ import Stage from 'model/Stage'
 
 import usePopup from 'store/usePopup'
 
+import { isFirefox } from 'utils/browser'
+
 import currentSeasonByTournament from '../currentSeasonByTournament'
 
 import getPage from './getPage'
@@ -83,9 +85,11 @@ const Pages = ({
 
       const newPots = await potsPromise
 
-      await timelimit(prefetchFlags(newPots), 5000, {
-        rejectOnTimeout: false,
-      })
+      if (!isFirefox) {
+        await timelimit(prefetchFlags(newPots), 5000, {
+          rejectOnTimeout: false,
+        })
+      }
 
       onRefreshDrawId()
 
