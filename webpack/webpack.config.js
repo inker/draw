@@ -7,7 +7,7 @@ const plugins = require('./plugins')
 const rootDir = process.cwd()
 const distDir = path.join(rootDir, 'docs')
 
-module.exports = env => ({
+module.exports = (env) => ({
   mode: env === 'dev' ? 'development' : 'production',
   target: 'web',
   entry: {

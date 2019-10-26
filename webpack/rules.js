@@ -3,16 +3,21 @@
 // const styledComponentsTransformer = createStyledComponentsTransformer()
 
 const { createLodashTransformer } = require('typescript-plugin-lodash')
+const { compact } = require('lodash')
 
-const tsOptions = env => env === 'dev' ? {
+const tsOptions = (env) => env === 'dev' ? {
   // getCustomTransformers: () => ({ before: [styledComponentsTransformer] }),
   useCache: true,
 } : {
-  getCustomTransformers: () => ({ before: [createLodashTransformer()] }),
+  getCustomTransformers: () => ({
+    before: [
+      createLodashTransformer(),
+    ],
+  }),
   ignoreDiagnostics: [],
 }
 
-module.exports = env => [
+module.exports = (env) => compact([
   {
     test: /worker\.[jt]s/,
     loader: 'worker-loader',
@@ -46,4 +51,4 @@ module.exports = env => [
     test: /\.txt$/,
     use: 'raw-loader',
   },
-].filter(item => item)
+])

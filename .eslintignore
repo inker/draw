@@ -1,4 +1,4 @@
-webpack/*.js
+# webpack/
 node_modules/**
 test/**
 scripts/**
