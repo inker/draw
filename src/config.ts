@@ -11,7 +11,7 @@ export default {
       },
       el: {
         gs: 2019,
-        ko: 2018,
+        ko: 2019,
       },
     },
   },
