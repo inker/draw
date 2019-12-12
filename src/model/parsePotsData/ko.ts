@@ -12,7 +12,7 @@ export default async (data: string) => {
     throw new Error('incorrect incoming data')
   }
 
-  const substring = tokens[1]
+  const substring = tokens[1].replace(/\*/g, ' ')
   const pots: KnockoutTeam[][] = [[], []]
   const re = /\s*(.+?)(\s\*+\d?|\([CE]L-TH\)?\s+)?\s{2,}(\w{3})\s+/g
   let matches: RegExpExecArray | null
