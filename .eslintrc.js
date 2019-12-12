@@ -150,6 +150,14 @@ module.exports = {
       'newlines-between': 'always-and-inside-groups',
     }],
 
+    'import/extensions': [2, 'always', {
+      js: 'never',
+      ts: 'never',
+      jsx: 'never',
+      tsx: 'never',
+      vue: 'never',
+    }],
+
     'react/jsx-filename-extension': [2, {
       extensions: [
         '.jsx',
