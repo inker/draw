@@ -1,10 +1,11 @@
 import {
   EffectCallback,
+  DependencyList,
   useEffect,
   useRef,
 } from 'react'
 
-export default (effect: EffectCallback, deps?: any[]) => {
+export default (effect: EffectCallback, deps?: DependencyList) => {
   const isInitialMount = useRef(true)
   useEffect(() => {
     if (isInitialMount.current) {
