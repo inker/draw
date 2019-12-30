@@ -38,7 +38,7 @@ const Pot = ({
       Pot {potNum + 1}
     </Header>
     <Body>
-      {teams && teams.map(team => {
+      {teams.map(team => {
         const {
           name,
           country,
@@ -50,12 +50,12 @@ const Pot = ({
           <PotCell
             key={team.id}
             data-cellid={team.id}
-            title={pairing && `paired with ${pairing.shortName || pairing.name}`}
-            selected={!!selectedTeams && selectedTeams.includes(team)}
+            title={pairing && `paired with ${pairing.shortName ?? pairing.name}`}
+            selected={!!selectedTeams?.includes(team)}
             picked={pickedTeams.includes(team)}
-            country={country || name}
+            country={country ?? name}
           >
-            {shortName || name}
+            {shortName ?? name}
           </PotCell>
         )
       })}

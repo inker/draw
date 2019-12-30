@@ -73,12 +73,12 @@ const SplitPot = ({
                 <Cell
                   key={team.id}
                   data-cellid={team.id}
-                  title={pairing && `paired with ${pairing.shortName || pairing.name}`}
+                  title={pairing && `paired with ${pairing.shortName ?? pairing.name}`}
                   selected={!!selectedTeams && selectedTeams.includes(team)}
                   picked={pickedTeams.includes(team)}
-                  country={country || name}
+                  country={country ?? name}
                 >
-                  {shortName || name}
+                  {shortName ?? name}
                 </Cell>
               )
             })}

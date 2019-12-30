@@ -11,6 +11,6 @@ export default async (tournament: Tournament, stage: Stage) => {
   }
 
   return import(`pages/${tournament}/${stage}`)
-    .then(mod => mod && mod.default)
+    .then(mod => mod?.default)
     .catch(console.error)
 }

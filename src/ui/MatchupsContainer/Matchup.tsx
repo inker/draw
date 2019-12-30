@@ -46,7 +46,7 @@ const Matchup = ({
   teams,
   airborneTeams,
 }: Props) => {
-  const [ru, gw] = teams || []!
+  const [ru, gw] = teams ?? []!
   const ruIsPresent = ru && !airborneTeams.includes(ru)
   const gwIsPresent = gw && !airborneTeams.includes(gw)
 
@@ -57,7 +57,7 @@ const Matchup = ({
         picked={ruIsPresent}
         data-cellid={`${index}ru`}
       >
-        {ruIsPresent && (ru.shortName || ru.name)}
+        {ruIsPresent && (ru.shortName ?? ru.name)}
       </LeftCell>
       <Versus />
       <RightCell
@@ -65,7 +65,7 @@ const Matchup = ({
         picked={gwIsPresent}
         data-cellid={`${index}gw`}
       >
-        {gwIsPresent && (gw.shortName || gw.name)}
+        {gwIsPresent && (gw.shortName ?? gw.name)}
       </RightCell>
     </Root>
   )

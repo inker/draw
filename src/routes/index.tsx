@@ -48,7 +48,7 @@ function getCurrentSeason(location?: typeof history.location) {
     return currentSeasonByTournament(defaultTournament, defaultStage)
   }
   const [, tournament, stage, seasonString] = location.pathname.split('/') as Path
-  return +(seasonString || currentSeasonByTournament(tournament, stage))
+  return +(seasonString ?? currentSeasonByTournament(tournament, stage))
 }
 
 function parseHistoryLocation(historyLocation: typeof history.location) {

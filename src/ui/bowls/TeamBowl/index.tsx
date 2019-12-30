@@ -46,7 +46,7 @@ const TeamBowl = ({
 
   return (
     <Root>
-      {display && pot && pot.map(team => (
+      {display && pot.map(team => (
         <Ball
           key={team.id}
           data-teamid={team.id}
@@ -55,7 +55,7 @@ const TeamBowl = ({
           noHover={!!noSelect}
           onClick={noSelect ? undefined : onBallPick}
         >
-          {(team as Club).shortName || team.name}
+          {(team as Club).shortName ?? team.name}
         </Ball>
       ))}
     </Root>

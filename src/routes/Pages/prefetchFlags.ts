@@ -7,7 +7,7 @@ import prefetchImage from 'utils/prefetchImage'
 type TeamWithCountryAndName = Club | NationalTeam
 
 const getTeamFlag = (team: TeamWithCountryAndName) =>
-  getCountryFlagUrl((team as Club).country || team.name)
+  getCountryFlagUrl((team as Club).country ?? team.name)
 
 export default (pots: TeamWithCountryAndName[][]) => {
   const promises: Promise<void>[] = []

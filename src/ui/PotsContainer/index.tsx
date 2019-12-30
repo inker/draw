@@ -26,10 +26,10 @@ const PotsContainer = ({
   split,
 }: Props) => (
   <Root limitWidth={!split}>
-    {initialPots && initialPots.map((pot, i) => {
+    {initialPots.map((pot, i) => {
       const Pot = split ? SplitPot : BasePot
       const isCurrent = i === currentPotNum
-      const pickedTeams = difference(initialPots[i], pots[i], selectedTeams || [])
+      const pickedTeams = difference(initialPots[i], pots[i], selectedTeams ?? [])
 
       return (
         <Pot

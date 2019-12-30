@@ -8,7 +8,7 @@ const TEXT_RE = /Round 2 \(\d+? teams\)[\s\S]+?--------([\s\S]+)/
 
 export default async (data: string) => {
   const tokens = data.match(TEXT_RE)
-  if (!tokens || !tokens[1]) {
+  if (!tokens?.[1]) {
     throw new Error('incorrect incoming data')
   }
 

@@ -84,7 +84,7 @@ const Announcement = ({
     lastSelected.current = completed ? null : selectedTeam
   }, [completed, selectedTeam])
 
-  const selected = (lastSelected.current || selectedTeam)!
+  const selected = (lastSelected.current ?? selectedTeam)!
 
   if (calculating) {
     return (
@@ -118,7 +118,7 @@ const Announcement = ({
         <div>
           {long && selected ? (
             <span>
-              <Bold>{(selected as Club).shortName || selected.name}</Bold> goes to group
+              <Bold>{(selected as Club).shortName ?? selected.name}</Bold> goes to group
             </span>
           ) : (
             <span>

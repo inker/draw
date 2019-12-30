@@ -55,7 +55,7 @@ const Group = ({
             country={getTeamCountryName(team)}
             picked
           >
-            {(team as Club).shortName || team.name}
+            {(team as Club).shortName ?? team.name}
           </Cell>
         ))}
         {range(nonAirborneTeams.length, maxTeams).map(i => (
