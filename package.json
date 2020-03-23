@@ -48,7 +48,7 @@
     "eslint-plugin-react": "^7.18.3",
     "eslint-plugin-react-hooks": "^2.5.0",
     "file-loader": "^5.1.0",
-    "html-webpack-plugin": "^3.2.0",
+    "html-webpack-plugin": "^4.0.0",
     "raw-loader": "^4.0.0",
     "request": "^2.88.2",
     "request-promise-native": "^1.0.8",
