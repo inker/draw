@@ -7,18 +7,16 @@ class WorkerWrapper<Request, Response> {
   private timeout?: number
 
   constructor(worker: Worker, timeout?: number) {
-    this.worker = worker
-    this.worker.onmessage = this.onMessage
     this.timeout = timeout
-  }
+    this.worker = worker
+    this.worker.onmessage = (e) => {
+      const {
+        messageId,
+        data,
+      } = e.data
 
-  private onMessage = (e: MessageEvent) => {
-    const {
-      messageId,
-      data,
-    } = e.data
-
-    this.asyncManager.resolve(messageId, data)
+      this.asyncManager.resolve(messageId, data)
+    }
   }
 
   sendAndReceive(msg: Request) {
