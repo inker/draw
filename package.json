@@ -17,7 +17,7 @@
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-github-btn": "^1.1.1",
-    "react-helmet": "6.0.0-beta",
+    "react-helmet": "6.0.0",
     "react-image": "^2.4.0",
     "react-router-dom": "^5.1.2",
     "shallowequal": "^1.1.0",
