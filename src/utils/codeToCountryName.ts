@@ -13,6 +13,7 @@ interface CodeToCountryNameDictionary {
 
 const o: CodeToCountryNameDictionary = {}
 
+// @ts-ignore
 for (const [name, { bert, flag }] of Object.entries(countries)) {
   if (bert) {
     o[bert] = name as UefaCountry
