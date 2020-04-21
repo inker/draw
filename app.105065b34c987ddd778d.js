@@ -31,10 +31,10 @@
   @media (max-width: 999px) {
     font-size: 8vw;
   }
-`;var v=Object(a.memo)(({noAnimation:e,children:t})=>i.a.createElement(d,{noAnimation:e},i.a.createElement(f,null,t)));var p=Object(a.memo)(()=>{const[e]=Object(c.a)(),t=Object(a.useCallback)(t=>i.a.createElement(v,Object.assign({},t,{noAnimation:e.initial})),[e.initial]),{error:n,waiting:l}=e;return navigator.onLine?n?i.a.createElement(t,null,n):l?i.a.createElement(t,null,"wait..."):null:i.a.createElement(t,null,"you're offline")});const E=Object(a.lazy)(()=>Promise.all([n.e("routes~version"),n.e("vendor"),n.e("routes")]).then(n.bind(null,526))),j=Object(a.lazy)(()=>Promise.all([n.e("routes~version"),n.e("version")]).then(n.bind(null,525))),w=o.b.div`
+`;var v=Object(a.memo)(({noAnimation:e,children:t})=>i.a.createElement(d,{noAnimation:e},i.a.createElement(f,null,t)));var p=Object(a.memo)(()=>{const[e]=Object(c.a)(),t=Object(a.useCallback)(t=>i.a.createElement(v,Object.assign({},t,{noAnimation:e.initial})),[e.initial]),{error:n,waiting:l}=e;return navigator.onLine?n?i.a.createElement(t,null,n):l?i.a.createElement(t,null,"wait..."):null:i.a.createElement(t,null,"you're offline")});const E=Promise.all([n.e("routes~version"),n.e("vendor"),n.e("routes")]).then(n.bind(null,526)),j=Promise.all([n.e("routes~version"),n.e("version")]).then(n.bind(null,525)),w=Object(a.lazy)(()=>E),O=Object(a.lazy)(()=>j),h=o.b.div`
   font-family: Tahoma, Arial, sans-serif;
 
   & * {
     box-sizing: border-box;
   }
-`;var O=()=>{const[e,t]=Object(c.a)();return Object(a.useEffect)(()=>{e.initial&&!e.waiting&&t({initial:!1})},[e.waiting]),i.a.createElement(w,null,i.a.createElement(p,null),i.a.createElement(a.Suspense,{fallback:!1},i.a.createElement(E,null)),i.a.createElement(a.Suspense,{fallback:!1},i.a.createElement(j,null)))};r.a.render(i.a.createElement(O,null),document.getElementById("app"))}},[[190,"runtime~app","react","vendor"]]]);
+`;var g=()=>{const[e,t]=Object(c.a)();return Object(a.useEffect)(()=>{e.initial&&!e.waiting&&t({initial:!1})},[e.waiting]),i.a.createElement(h,null,i.a.createElement(p,null),i.a.createElement(a.Suspense,{fallback:!1},i.a.createElement(w,null)),i.a.createElement(a.Suspense,{fallback:!1},i.a.createElement(O,null)))};r.a.render(i.a.createElement(g,null),document.getElementById("app"))}},[[190,"runtime~app","react","vendor"]]]);
