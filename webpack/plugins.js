@@ -57,5 +57,5 @@ module.exports = (env) => compact([
   //   }
   // ]),
 
-  env === 'analyze' && new BundleAnalyzerPlugin(),
+  process.env.npm_config_report && new BundleAnalyzerPlugin(),
 ])
