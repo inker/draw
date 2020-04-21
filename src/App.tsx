@@ -9,8 +9,11 @@ import usePopup from 'store/usePopup'
 
 import Popup from './Popup'
 
-const Routes = lazy(() => import(/* webpackChunkName: "routes" */ './routes'))
-const Version = lazy(() => import(/* webpackChunkName: "version" */ './Version'))
+const routesPromise = import(/* webpackPreload: true, webpackChunkName: "routes" */ './routes')
+const versionPromise = import(/* webpackPreload: true, webpackChunkName: "version" */ './Version')
+
+const Routes = lazy(() => routesPromise)
+const Version = lazy(() => versionPromise)
 
 const Root = styled.div`
   font-family: Tahoma, Arial, sans-serif;
