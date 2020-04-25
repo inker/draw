@@ -1,1 +1,0 @@
-(window.webpackJsonp=window.webpackJsonp||[]).push([[5],{487:function(n,o,w){n.exports=function(){return new Worker(w.p+"fa87c9770843b0a796c2.worker.js")}}}]);
