@@ -2,7 +2,35 @@
   "name": "draw",
   "version": "1.0.2",
   "description": "A Champions League draw simulator",
+  "keywords": [
+    "cl",
+    "draw",
+    "champions",
+    "league",
+    "seeding",
+    "football",
+    "uefa",
+    "fifa"
+  ],
+  "homepage": "https://github.com/inker/draw#readme",
+  "bugs": {
+    "url": "https://github.com/inker/draw/issues"
+  },
+  "license": "MIT",
+  "author": "Anton",
   "main": "index.html",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/inker/draw.git"
+  },
+  "scripts": {
+    "lint:js": "eslint --ext .ts,.tsx --max-warnings=0 src",
+    "lint:css": "stylelint './src/**/*.ts'",
+    "build": "webpack --colors --config webpack/webpack.config.js",
+    "start": "webpack-dev-server --colors --watch --env.dev --config webpack/webpack.config.js",
+    "test": "echo \"No test\"",
+    "test:performance": "ts-node -O '{\"module\":\"commonjs\"}' -r tsconfig-paths/register test/engine-performance"
+  },
   "dependencies": {
     "@draws/engine": "^0.1.8",
     "async-manager-promise": "^0.0.5",
@@ -69,33 +97,5 @@
     "webpack-cli": "^3.3.11",
     "webpack-dev-server": "^3.10.3",
     "worker-loader": "^2.0.0"
-  },
-  "scripts": {
-    "lint:js": "eslint --ext .ts,.tsx --max-warnings=0 src",
-    "lint:css": "stylelint './src/**/*.ts'",
-    "build": "webpack --colors --config webpack/webpack.config.js",
-    "start": "webpack-dev-server --colors --watch --env.dev --config webpack/webpack.config.js",
-    "test": "echo \"No test\"",
-    "test:performance": "ts-node -O '{\"module\":\"commonjs\"}' -r tsconfig-paths/register test/engine-performance"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/inker/draw.git"
-  },
-  "keywords": [
-    "cl",
-    "draw",
-    "champions",
-    "league",
-    "seeding",
-    "football",
-    "uefa",
-    "fifa"
-  ],
-  "author": "Anton",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/inker/draw/issues"
-  },
-  "homepage": "https://github.com/inker/draw#readme"
+  }
 }
