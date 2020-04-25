@@ -15,24 +15,24 @@ const chunkToName = require('./utils/chunkToName')
 const currentDate = getCurrentDate()
 const lastCommitHash = getLastCommitHash()
 
-module.exports = (env) => compact([
+module.exports = (isDev) => compact([
   new CleanWebpackPlugin(),
 
   // new OccurrenceOrderPlugin(),
 
   new webpack.DefinePlugin({
     'process.env': {
-      NODE_ENV: JSON.stringify(env === 'dev' ? 'development' : 'production'),
+      NODE_ENV: JSON.stringify(isDev ? 'development' : 'production'),
     },
     __MODIFICATION_DATE__: JSON.stringify(currentDate),
     __VERSION__: JSON.stringify(lastCommitHash),
   }),
 
-  env === 'dev' && new webpack.HotModuleReplacementPlugin(),
+  isDev && new webpack.HotModuleReplacementPlugin(),
 
   new webpack.NamedChunksPlugin(chunkToName),
 
-  // new (env === 'dev' ? NamedModulesPlugin : HashedModuleIdsPlugin)(),
+  // new (isDev ? NamedModulesPlugin : HashedModuleIdsPlugin)(),
 
   new HtmlWebpackPlugin({
     filename: 'index.html',

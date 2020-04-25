@@ -1,6 +1,6 @@
 const TerserWebpackPlugin = require('terser-webpack-plugin')
 
-module.exports = env => ({
+module.exports = (isDev) => ({
   runtimeChunk: true,
   splitChunks: {
     chunks: 'all',
@@ -29,10 +29,10 @@ module.exports = env => ({
       },
     },
   },
-  minimizer: env === 'dev' ? undefined : [
+  minimizer: isDev ? undefined : [
     new TerserWebpackPlugin(),
   ],
-  // minimizer: env === 'dev' ? undefined : [
+  // minimizer: isDev ? undefined : [
   //   new UglifyJsPlugin({
   //     uglifyOptions: {
   //       compress: {

@@ -5,6 +5,9 @@ on:
     branches:
       - master
 
+env:
+  GH_PAGES_DIR: gh-pages-dist
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -14,11 +17,11 @@ jobs:
         with:
           node-version: 12
       - run: npm ci
-      - run: npm run build
+      - run: npm run build -- --env.out=$GH_PAGES_DIR
       - name: Deploy
         uses: JamesIves/github-pages-deploy-action@releases/v3
         with:
           ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
           BRANCH: gh-pages # The branch the action should deploy to.
-          FOLDER: docs # The folder the action should deploy.
+          FOLDER: ${{ env.GH_PAGES_DIR }} # The folder the action should deploy.
           CLEAN: true

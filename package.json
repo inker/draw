@@ -73,8 +73,8 @@
   "scripts": {
     "lint:js": "eslint --ext .ts,.tsx --max-warnings=0 src",
     "lint:css": "stylelint './src/**/*.ts'",
-    "build": "webpack --colors --config webpack/webpack.config.js --env=prod",
-    "start": "webpack-dev-server --colors --watch --config webpack/webpack.config.js --env=dev",
+    "build": "webpack --colors --config webpack/webpack.config.js",
+    "start": "webpack-dev-server --colors --watch --env.dev --config webpack/webpack.config.js",
     "test": "echo \"No test\"",
     "test:performance": "ts-node -O '{\"module\":\"commonjs\"}' -r tsconfig-paths/register test/engine-performance"
   },
