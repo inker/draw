@@ -1,7 +1,7 @@
 import { mapValues } from 'lodash'
 
 import clubs from 'data/clubs.json'
-import { UefaCountry } from 'model/types'
+import type { UefaCountry } from 'model/types'
 import Team from 'model/team/Club'
 
 type Clubs = {

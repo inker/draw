@@ -54,6 +54,7 @@
     "tslib": "^1.11.1"
   },
   "devDependencies": {
+    "@inker/eslint-config-typescript": "^1.0.0",
     "@types/fast-levenshtein": "0.0.1",
     "@types/lodash": "^4.14.149",
     "@types/react": "^16.9.32",

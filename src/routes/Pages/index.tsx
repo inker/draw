@@ -6,9 +6,7 @@ import React, {
 
 import { useParams } from 'react-router-dom'
 
-// eslint-disable-next-line import/order
 import delay from 'delay.js'
-// eslint-disable-next-line import/order
 import timelimit from 'timelimit'
 
 import Team from 'model/team'

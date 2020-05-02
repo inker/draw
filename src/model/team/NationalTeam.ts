@@ -1,6 +1,6 @@
 import { Confederation } from 'model/types'
 
-import Team from './index'
+import Team from '.'
 
 export default class NationalTeam extends Team {
   coefficient: number

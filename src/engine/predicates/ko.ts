@@ -1,4 +1,4 @@
-import { Predicate } from '@draws/engine'
+import type { Predicate } from '@draws/engine'
 
 import Team from 'model/team/KnockoutTeam'
 

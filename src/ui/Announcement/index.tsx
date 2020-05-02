@@ -94,7 +94,16 @@ const Announcement = ({
             Calculation is taking too long.
           </div>
           <div>
-            And <StyledLink href={ISSUE_URL} target="_blank" rel="noopener">here&apos;s why</StyledLink>.
+            And
+            {' '}
+            <StyledLink
+              href={ISSUE_URL}
+              target="_blank"
+              rel="noopener"
+            >
+              here&apos;s why
+            </StyledLink>
+            .
           </div>
         </Bug>
       </Root>
@@ -141,7 +150,9 @@ const Announcement = ({
       <Root>
         {possibleGroups ? (
           <div>
-            Possible groups for <SelectedTeamWithColon>
+            Possible groups for
+            {' '}
+            <SelectedTeamWithColon>
               <Bold>{selected.name}</Bold>:
             </SelectedTeamWithColon>
             <PossibleGroups

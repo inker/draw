@@ -1,3 +1,4 @@
+/* eslint-disable eslint-comments/no-use */
 import React, { memo } from 'react'
 import { Helmet } from 'react-helmet'
 

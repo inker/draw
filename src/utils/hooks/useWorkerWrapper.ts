@@ -1,10 +1,10 @@
-import WorkerWrapper from 'utils/WorkerWrapper'
-
 import {
   useMemo,
   useCallback,
   useEffect,
 } from 'react'
+
+import WorkerWrapper from 'utils/WorkerWrapper'
 
 const TIMEOUT = 120000
 

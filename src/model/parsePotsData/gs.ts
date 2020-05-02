@@ -1,4 +1,4 @@
-import { UefaCountry } from 'model/types'
+import type { UefaCountry } from 'model/types'
 import GSTeam from 'model/team/GSTeam'
 import pairUpTeams from 'model/pairUpTeams'
 

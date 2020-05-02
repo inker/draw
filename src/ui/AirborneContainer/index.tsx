@@ -31,6 +31,7 @@ interface Props {
 
 // const foo = ({ team, groupNum, position }: Obj) => ({
 //   fromCell: document.querySelector(`[data-cellid='${team.id}']`),
+// eslint-disable-next-line max-len
 //   toCell: document.querySelector(`[data-cellid='${String.fromCharCode(65 + groupNum)}${position}']`),
 // })
 
@@ -42,6 +43,7 @@ class AirborneContainer extends PureComponent<Props> {
     return (
       <Root>
         {teams.map(({ team }) => {
+          // eslint-disable-next-line no-lone-blocks
           { /* const cells = getCells({ team, groupNum, position }) */ }
           return (
             <FakeCell

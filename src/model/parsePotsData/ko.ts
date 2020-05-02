@@ -1,4 +1,4 @@
-import { UefaCountry } from 'model/types'
+import type { UefaCountry } from 'model/types'
 import KnockoutTeam from 'model/team/KnockoutTeam'
 
 import getClubName from 'utils/club-name'

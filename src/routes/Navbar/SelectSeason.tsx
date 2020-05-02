@@ -7,8 +7,8 @@ import {
   range,
 } from 'lodash'
 
-import Tournament from 'model/Tournament'
-import Stage from 'model/Stage'
+import type Tournament from 'model/Tournament'
+import type Stage from 'model/Stage'
 
 import Select from 'ui/SelectWithHiddenLabel'
 

@@ -2,7 +2,7 @@ import { allPossibleGroups } from '@draws/engine'
 
 import getPredicate from 'engine/predicates/gs'
 import Team from 'model/team/GSTeam'
-import { WorkerData } from 'model/types'
+import type { WorkerData } from 'model/types'
 
 // eslint-disable-next-line no-restricted-globals
 addEventListener('message', e => {

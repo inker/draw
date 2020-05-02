@@ -1,6 +1,6 @@
 import defaultPairings from 'data/pairings.json'
 
-import Tournament from 'model/Tournament'
+import type Tournament from 'model/Tournament'
 
 export default async (season: number, tournament: Tournament): Promise<[string, string][]> => {
   try {

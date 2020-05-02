@@ -1,6 +1,6 @@
 import { UefaCountry } from 'model/types'
 
-import Team from './index'
+import Team from '.'
 
 export default class Club extends Team {
   shortName?: string

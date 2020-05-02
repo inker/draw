@@ -1,4 +1,4 @@
-import { Predicate } from '@draws/engine'
+import type { Predicate } from '@draws/engine'
 
 type OneOrTwo<T> = [T] | [T, T]
 
@@ -19,7 +19,7 @@ function anyGroupWinners<T>(
 
   const nextMatchupNum = matchupNum + 1
   return nextMatchupNum === newMatchups.length
-    // eslint-disable-next-line @typescript-eslint/no-use-before-define
+    // eslint-disable-next-line no-use-before-define
     || anyRunnersUp([groupWinners.filter(i => i !== item), runnersUp], newMatchups, predicate)
 }
 

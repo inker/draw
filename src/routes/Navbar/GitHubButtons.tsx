@@ -1,6 +1,4 @@
-// eslint-disable-next-line import/order
 import React, { memo } from 'react'
-// eslint-disable-next-line import/order
 import GitHubButton from 'react-github-btn'
 
 const GitHubButtons = () => (

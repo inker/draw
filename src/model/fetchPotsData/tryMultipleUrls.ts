@@ -31,7 +31,7 @@ const urlToSeq = (url: string) => [
 ]
 
 export default async (urls: string[]) => {
-  const funcs = urls.map(urlToSeq).flat()
+  const funcs = urls.flatMap(urlToSeq)
   try {
     return await tryMultipleAsync(funcs)
   } catch (err) {

@@ -1,4 +1,4 @@
-import Tournament from 'model/Tournament'
+import type Tournament from 'model/Tournament'
 
 import config from '../../config'
 
