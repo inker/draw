@@ -2,16 +2,16 @@ import { UefaCountry } from 'model/types'
 
 import Club from './Club'
 
-export default class GSTeam extends Club {
+export default class GsTeam extends Club {
   coefficient: number
-  pairing?: GSTeam
+  pairing?: GsTeam
 
   constructor(
     name: string,
     country: UefaCountry,
     coefficient: number,
     shortName?: string,
-    pairing?: GSTeam,
+    pairing?: GsTeam,
   ) {
     super(name, country, shortName)
     this.coefficient = coefficient
