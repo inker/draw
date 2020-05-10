@@ -6,9 +6,9 @@ import {
 const I_RE = /y|(ij)/g
 const KH_RE = /kh/g
 const ZH_RE = /zh/g
-const CZ = /red star/ig
-const RENNES = /stade rennais/ig
-const VIDI = /videoton fehervar/ig
+const CZ = /red star/gi
+const RENNES = /stade rennais/gi
+const VIDI = /videoton fehervar/gi
 
 const normalize = (s: string) => deburr(s)
   .toLowerCase()

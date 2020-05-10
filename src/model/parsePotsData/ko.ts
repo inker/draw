@@ -4,7 +4,7 @@ import KnockoutTeam from 'model/team/KnockoutTeam'
 import getClubName from 'utils/club-name'
 import codeToCountryName from 'utils/codeToCountryName'
 
-const TEXT_RE = /Round 2 \(\d+? teams\)[\s\S]+?--------([\s\S]+)/
+const TEXT_RE = /Round 2 \(\d+? teams\)[\S\s]+?-{8}([\S\s]+)/
 
 export default async (data: string) => {
   const tokens = data.match(TEXT_RE)

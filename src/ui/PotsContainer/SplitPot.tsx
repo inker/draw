@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { range } from 'lodash'
 
 import Team from 'model/team'
-import GSTeam from 'model/team/GSTeam'
+import GsTeam from 'model/team/GsTeam'
 
 import Body from 'ui/table/Body'
 
@@ -67,7 +67,7 @@ const SplitPot = ({
                 country,
                 shortName,
                 pairing,
-              } = team as GSTeam
+              } = team as GsTeam
 
               return (
                 <Cell

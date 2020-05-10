@@ -9,7 +9,7 @@ import {
   shuffle,
 } from 'lodash'
 
-import Team from 'model/team/GSTeam'
+import Team from 'model/team/GsTeam'
 
 import usePopup from 'store/usePopup'
 

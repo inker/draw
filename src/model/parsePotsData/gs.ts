@@ -1,11 +1,11 @@
 import type { UefaCountry } from 'model/types'
-import GSTeam from 'model/team/GSTeam'
+import GsTeam from 'model/team/GsTeam'
 import pairUpTeams from 'model/pairUpTeams'
 
 import getClubName from 'utils/club-name'
 import codeToCountryName from 'utils/codeToCountryName'
 
-const TEXT_RE = /Pot 1\s{5}([\s\S]+?)<\/table>/
+const TEXT_RE = /Pot 1\s{5}([\S\s]+?)<\/table>/
 
 async function parseGSTeams(data: string) {
   const tokens = data.match(TEXT_RE)
@@ -14,8 +14,8 @@ async function parseGSTeams(data: string) {
   }
 
   const substr = tokens[1]
-  const re = /(.{1,25})([A-Z][a-z]{2})\s([\s\d]{2}\d\.\d{3})/g
-  const teams: GSTeam[] = []
+  const re = /(.{1,25})([A-Z][a-z]{2})\s([\d\s]{2}\d\.\d{3})/g
+  const teams: GsTeam[] = []
   let matches: RegExpExecArray | null
 
   // eslint-disable-next-line no-cond-assign
@@ -26,14 +26,14 @@ async function parseGSTeams(data: string) {
     const country = codeToCountryName(matches[2].toLowerCase()) as UefaCountry
     const shortName = getClubName(longName, country) || undefined
     const coefficient = +matches[3]
-    teams.push(new GSTeam(longName, country, coefficient, shortName))
+    teams.push(new GsTeam(longName, country, coefficient, shortName))
   }
 
   return teams
 }
 
-function fillGSPots(teams: GSTeam[]): GSTeam[][] {
-  const pots: GSTeam[][] = [[], [], [], []]
+function fillGSPots(teams: GsTeam[]): GsTeam[][] {
+  const pots: GsTeam[][] = [[], [], [], []]
   const numTeams = teams.length
   const halfNum = numTeams >> 1
 

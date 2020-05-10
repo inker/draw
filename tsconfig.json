@@ -1,8 +1,8 @@
 {
   "compilerOptions": {
-    "target": "es2018",
-    "module": "esnext",
-    "moduleResolution": "node",
+    "target": "ES2018",
+    "module": "ESNext",
+    "moduleResolution": "Node",
     "allowSyntheticDefaultImports": true,
     // "resolveJsonModule": true,
     "baseUrl": "./src",
@@ -21,10 +21,10 @@
     "noEmitHelpers": true,
     "importHelpers": true,
     "lib": [
-      "es2019",
-      "dom",
-      "dom.iterable",
-      "webworker"
+      "ESNext",
+      "DOM",
+      "DOM.Iterable",
+      "WebWorker"
     ]
   },
   "awesomeTypescriptLoaderOptions": {

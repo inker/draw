@@ -1,7 +1,7 @@
 import React, { memo } from 'react'
 
 import Team from 'model/team'
-import GSTeam from 'model/team/GSTeam'
+import GsTeam from 'model/team/GsTeam'
 
 import Body from 'ui/table/Body'
 
@@ -44,7 +44,7 @@ const Pot = ({
           country,
           shortName,
           pairing,
-        } = team as GSTeam
+        } = team as GsTeam
 
         return (
           <PotCell

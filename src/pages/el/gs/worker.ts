@@ -1,7 +1,7 @@
 import { firstPossibleGroup } from '@draws/engine'
 
 import getPredicate from 'engine/predicates/gs'
-import Team from 'model/team/GSTeam'
+import Team from 'model/team/GsTeam'
 import type { WorkerData } from 'model/types'
 
 // eslint-disable-next-line no-restricted-globals
