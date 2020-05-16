@@ -1,7 +1,6 @@
 const webpack = require('webpack')
 
 // const { TsConfigPathsPlugin } = require('awesome-typescript-loader')
-// const CopyWebpackPlugin = require('copy-webpack-plugin')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer')
