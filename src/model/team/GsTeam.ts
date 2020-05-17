@@ -3,7 +3,7 @@ import { UefaCountry } from 'model/types'
 import Club from './Club'
 
 export default class GsTeam extends Club {
-  coefficient: number
+  readonly coefficient: number
   pairing?: GsTeam
 
   constructor(

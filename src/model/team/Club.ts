@@ -3,8 +3,8 @@ import { UefaCountry } from 'model/types'
 import Team from '.'
 
 export default class Club extends Team {
-  shortName?: string
-  country: UefaCountry
+  readonly shortName?: string
+  readonly country: UefaCountry
 
   constructor(
     name: string,

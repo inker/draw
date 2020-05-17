@@ -1,8 +1,8 @@
 import { uniqueId } from 'lodash'
 
 export default class Team {
-  id = uniqueId('team-')
-  name: string
+  readonly id = uniqueId('team-')
+  readonly name: string
 
   constructor(name: string) {
     this.name = name
