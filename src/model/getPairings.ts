@@ -10,7 +10,7 @@ export default async (season: number, tournament: Tournament): Promise<[string, 
       .trim()
       .split('\n\n')
       .map(line => line.trim().split('\n') as [string, string])
-  } catch (err) {
+  } catch {
     console.error('pairings for', tournament, season, 'do not exist, using the default ones')
   }
 
