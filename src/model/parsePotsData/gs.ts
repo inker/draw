@@ -1,11 +1,25 @@
-import type { UefaCountry } from 'model/types'
 import GsTeam from 'model/team/GsTeam'
 import pairUpTeams from 'model/pairUpTeams'
+import type {
+  UefaCountry,
+  FixedArray,
+} from 'model/types'
 
 import getClubName from 'utils/club-name'
 import codeToCountryName from 'utils/codeToCountryName'
 
 const TEXT_RE = /Pot 1\s{5}([\S\s]+?)<\/table>/
+const LINE_RE = /(.{1,25})([A-Z][a-z]{2})\s([\d\s]{2}\d\.\d{3})/g
+
+function tokensToGsTeam(tokens: FixedArray<string, 4>) {
+  const longName = tokens[1]
+    .replace(/\*\d?|(@\d)|\(([CE]L-)?TH\)/g, '')
+    .trim()
+  const country = codeToCountryName(tokens[2].toLowerCase()) as UefaCountry
+  const shortName = getClubName(longName, country) || undefined
+  const coefficient = +tokens[3]
+  return new GsTeam(longName, country, coefficient, shortName)
+}
 
 async function parseGSTeams(data: string) {
   const tokens = data.match(TEXT_RE)
@@ -14,22 +28,7 @@ async function parseGSTeams(data: string) {
   }
 
   const substr = tokens[1]
-  const re = /(.{1,25})([A-Z][a-z]{2})\s([\d\s]{2}\d\.\d{3})/g
-  const teams: GsTeam[] = []
-  let matches: RegExpExecArray | null
-
-  // eslint-disable-next-line no-cond-assign
-  while ((matches = re.exec(substr)) !== null) {
-    const longName = matches[1]
-      .replace(/\*\d?|(@\d)|\(([CE]L-)?TH\)/g, '')
-      .trim()
-    const country = codeToCountryName(matches[2].toLowerCase()) as UefaCountry
-    const shortName = getClubName(longName, country) || undefined
-    const coefficient = +matches[3]
-    teams.push(new GsTeam(longName, country, coefficient, shortName))
-  }
-
-  return teams
+  return Array.from(substr.matchAll(LINE_RE)).map(tokensToGsTeam)
 }
 
 function fillGSPots(teams: GsTeam[]): GsTeam[][] {

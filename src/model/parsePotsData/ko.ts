@@ -5,6 +5,7 @@ import getClubName from 'utils/club-name'
 import codeToCountryName from 'utils/codeToCountryName'
 
 const TEXT_RE = /Round 2 \(\d+? teams\)[\S\s]+?-{8}([\S\s]+)/
+const LINE_RE = /\s*(.+?)(\s\*+\d?|\([CE]L-TH\)?\s+)?\s{2,}(\w{3})\s+/g
 
 export default async (data: string) => {
   const tokens = data.match(TEXT_RE)
@@ -14,11 +15,8 @@ export default async (data: string) => {
 
   const substring = tokens[1].replace(/\*/g, ' ')
   const pots: KnockoutTeam[][] = [[], []]
-  const re = /\s*(.+?)(\s\*+\d?|\([CE]L-TH\)?\s+)?\s{2,}(\w{3})\s+/g
-  let matches: RegExpExecArray | null
 
-  // eslint-disable-next-line no-cond-assign
-  for (let i = 0; (matches = re.exec(substring)) !== null; ++i) {
+  for (const [i, matches] of Array.from(substring.matchAll(LINE_RE)).entries()) {
     const name = matches[1].replace(/(@\d|#|\*+|\(TH\))/g, '').trim()
     const country = codeToCountryName(matches[3].toLowerCase()) as UefaCountry
     if (!country) {
