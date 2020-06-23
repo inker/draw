@@ -45,7 +45,7 @@ const GroupsContainer = forwardRef((
   <Root ref={ref}>
     {groups?.map((group, i) => {
       const letter = getGroupLetter(i)
-      const background = groupColors && groupColors[~~(i / groups.length * groupColors.length)]
+      const background = groupColors?.[~~(i / groups.length * groupColors.length)]
 
       return (
         <Group
