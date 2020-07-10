@@ -28,7 +28,7 @@ async function parseGSTeams(data: string) {
   }
 
   const substr = tokens[1]
-  return Array.from(substr.matchAll(LINE_RE)).map(tokensToGsTeam)
+  return Array.from(substr.matchAll(LINE_RE), tokensToGsTeam)
 }
 
 function fillGSPots(teams: GsTeam[]): GsTeam[][] {
