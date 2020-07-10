@@ -42,7 +42,7 @@ module.exports = (isDev) => compact([
     use: {
       loader: 'file-loader',
       options: {
-        name: '[name].[hash].[ext]',
+        name: '[name].[hash:7].[ext]',
         outputPath: 'images',
       },
     },
