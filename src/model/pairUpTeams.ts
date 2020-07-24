@@ -39,6 +39,4 @@ export default (teams: readonly GsTeam[], pairings: readonly [string, string][])
       break
     }
   }
-
-  return teams
 }

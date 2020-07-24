@@ -44,7 +44,8 @@ function fillGSPots(teams: GsTeam[]): GsTeam[][] {
   return pots
 }
 
-export default (data: string, pairings) =>
-  parseGSTeams(data)
-    .then(teams => pairUpTeams(teams, pairings))
-    .then(fillGSPots)
+export default async (data: string, pairings: readonly [string, string][]) => {
+  const teams = await parseGSTeams(data)
+  pairUpTeams(teams, pairings)
+  return fillGSPots(teams)
+}
