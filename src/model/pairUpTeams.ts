@@ -2,7 +2,7 @@ import fastDelete from 'fast-delete'
 
 import GsTeam from 'model/team/GsTeam'
 
-export default async (teams: GsTeam[], pairings: [string, string][]): Promise<GsTeam[]> => {
+export default (teams: GsTeam[], pairings: [string, string][]): GsTeam[] => {
   const teamsCopy = teams.slice()
 
   for (const [team1str, team2str] of pairings) {
