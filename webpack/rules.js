@@ -7,7 +7,6 @@ const { compact } = require('lodash')
 
 const tsOptions = (isDev) => isDev ? {
   // getCustomTransformers: () => ({ before: [styledComponentsTransformer] }),
-  useCache: true,
 } : {
   getCustomTransformers: () => ({
     before: [
@@ -25,7 +24,7 @@ module.exports = (isDev) => compact([
   {
     test: /\.tsx?$/,
     use: {
-      loader: 'awesome-typescript-loader',
+      loader: 'ts-loader',
       options: tsOptions(isDev),
     },
     exclude: /node_modules/,
