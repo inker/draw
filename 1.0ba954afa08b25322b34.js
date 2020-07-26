@@ -312,4 +312,4 @@
   width: auto;
   align-self: center;
   max-width: initial;
-`;t.a=Object(a.memo)(({matchups:e,airborneTeams:t})=>r.a.createElement(v,null,e&&e.map((e,n)=>r.a.createElement(h,{index:n,teams:e,airborneTeams:t}))))},511:function(e,t,n){"use strict";var a=n(75);const r=e=>"Ukraine"===e.country,o=e=>"Russia"===e.country,i=()=>a,l=e=>"Russia"===e.country?r:"Ukraine"===e.country?o:a;t.a=e=>{const t=(e=>(e=>e>=2014)(e)?l:i)(e),n=(e,n)=>{return 0===e.length||1===e.length&&(a=n,r=e[0],a.country!==r.country&&a.group!==r.group&&!t(a)(r));var a,r};return(e,t,a)=>n(t[a],e)}}}]);
+`;t.a=Object(a.memo)(({matchups:e,airborneTeams:t})=>r.a.createElement(v,null,null==e?void 0:e.map((e,n)=>r.a.createElement(h,{index:n,teams:e,airborneTeams:t}))))},511:function(e,t,n){"use strict";var a=n(75);const r=e=>"Ukraine"===e.country,o=e=>"Russia"===e.country,i=()=>a,l=e=>"Russia"===e.country?r:"Ukraine"===e.country?o:a;t.a=e=>{const t=(e=>(e=>e>=2014)(e)?l:i)(e),n=(e,n)=>{return 0===e.length||1===e.length&&(a=n,r=e[0],a.country!==r.country&&a.group!==r.group&&!t(a)(r));var a,r};return(e,t,a)=>n(t[a],e)}}}]);
