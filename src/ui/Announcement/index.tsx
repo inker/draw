@@ -62,7 +62,7 @@ interface Props {
   completed: boolean,
   selectedTeam: Team | null,
   pickedGroup: number | null,
-  possibleGroups: number[] | null,
+  possibleGroups: readonly number[] | null,
   numGroups: number,
   reset: any,
 }

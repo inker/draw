@@ -12,9 +12,9 @@ import PotCell from './PotCell'
 interface Props {
   isCurrent: boolean,
   potNum: number,
-  teams: Team[],
-  pickedTeams: Team[],
-  selectedTeams: Team[] | null,
+  teams: readonly Team[],
+  pickedTeams: readonly Team[],
+  selectedTeams: readonly Team[] | null,
   background?: string,
   color?: string,
 }

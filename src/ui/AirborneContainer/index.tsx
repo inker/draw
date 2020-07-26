@@ -25,7 +25,7 @@ interface Obj {
 }
 
 interface Props {
-  teams: Obj[],
+  teams: readonly Obj[],
   duration: number,
 }
 

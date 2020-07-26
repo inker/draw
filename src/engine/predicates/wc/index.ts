@@ -20,17 +20,17 @@ const uefaLessThanTwo = (group: Iterable<Team>) =>
 const isFromConfederationOf = (team: Team) =>
   isFrom(team.confederation)
 
-const canFitUefa = (group: Team[]) =>
+const canFitUefa = (group: readonly Team[]) =>
   group.length < GROUP_SIZE - 1 || group.some(isFromUefa)
 
-const groupIsPossibleForTeam = (team: Team, group: Team[]) =>
+const groupIsPossibleForTeam = (team: Team, group: readonly Team[]) =>
   team.confederation === 'UEFA'
     ? uefaLessThanTwo(group)
     : !group.some(isFromConfederationOf(team)) && canFitUefa(group)
 
 const predicate: Predicate<Team> = (
   picked: Team,
-  groups: Team[][],
+  groups: readonly (readonly Team[])[],
   groupIndex: number,
 ) => {
   const group = groups[groupIndex]

@@ -32,13 +32,13 @@ import Root from 'pages/Root'
 
 interface Props {
   season: number,
-  pots: Team[][],
+  pots: readonly (readonly Team[])[],
 }
 
 interface State {
   currentMatchupNum: number,
   currentPotNum: number,
-  possiblePairings: number[] | null,
+  possiblePairings: readonly number[] | null,
 }
 
 function getState(): State {
@@ -128,7 +128,6 @@ const CLKO = ({
           currentPotNum={currentPotNum}
         />
         <MatchupsContainer
-          currentMatchupNum={currentMatchupNum}
           matchups={matchups}
           airborneTeams={airborneTeams}
         />

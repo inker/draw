@@ -20,7 +20,7 @@ const Root = styled.div`
 
 interface Props {
   display: boolean,
-  possibleGroups: number[] | null,
+  possibleGroups: readonly number[] | null,
   onPick: (groupNum: number) => void,
 }
 

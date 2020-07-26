@@ -14,7 +14,7 @@ const Root = styled.div`
 
 interface Props {
   numGroups: number,
-  possibleGroups: number[],
+  possibleGroups: readonly number[],
 }
 
 const PossibleGroups = ({

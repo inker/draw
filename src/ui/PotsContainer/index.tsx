@@ -11,9 +11,9 @@ const HEADER_BACKGROUND = 'rgba(0, 0, 0, 0.75)'
 const HEADER_COLOR = '#fff'
 
 interface Props {
-  initialPots: Team[][],
-  pots: Team[][],
-  selectedTeams: Team[] | null,
+  initialPots: readonly (readonly Team[])[],
+  pots: readonly (readonly Team[])[],
+  selectedTeams: readonly Team[] | null,
   currentPotNum: number,
   split?: boolean,
 }

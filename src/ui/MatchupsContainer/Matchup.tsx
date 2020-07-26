@@ -38,7 +38,7 @@ const RightCell = styled(MatchupCell)`
 interface Props {
   index: number,
   teams: [Team, Team] | null,
-  airborneTeams: Team[],
+  airborneTeams: readonly Team[],
 }
 
 const Matchup = ({

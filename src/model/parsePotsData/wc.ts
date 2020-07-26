@@ -11,7 +11,7 @@ const countryNameToTeam = (host: boolean) =>
 const makeHost = countryNameToTeam(true)
 const makeNonHost = countryNameToTeam(false)
 
-export default (hosts: string[], rest: string[]) => {
+export default (hosts: readonly string[], rest: readonly string[]) => {
   const teams = [
     ...hosts.map(makeHost),
     ...rest.map(makeNonHost),

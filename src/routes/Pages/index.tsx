@@ -47,7 +47,7 @@ interface Props {
 
 interface State {
   Page: React.ComponentType<any> | null,
-  pots: Team[][] | null,
+  pots: readonly (readonly Team[])[] | null,
   // tournament: Tournament,
   // stage: Stage,
   season: number, // for error handling (so that we know the previous season)

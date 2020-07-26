@@ -8,7 +8,7 @@ type Clubs = {
   [country in UefaCountry]: string[]
 }
 
-const mapper = (arr: string[], country: UefaCountry) =>
+const mapper = (arr: readonly string[], country: UefaCountry) =>
   arr.map(clubName => new Team(clubName, country))
 
 export default mapValues(clubs as Clubs, mapper)

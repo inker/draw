@@ -19,10 +19,10 @@ type Team = Club | NationalTeam
 interface Props {
   maxTeams: number,
   groupLetter: string,
-  teams: Team[],
+  teams: readonly Team[],
   potNum: number,
   possible: boolean,
-  airborneTeams: Team[],
+  airborneTeams: readonly Team[],
   background?: string,
   color?: string,
 }

@@ -21,7 +21,7 @@ function isTeamEqualTo(team: Team) {
 
 function hasTeam(team: Team) {
   const isEqualToTeam = isTeamEqualTo(team)
-  return (group: Team[]) =>
+  return (group: readonly Team[]) =>
     group.some(isEqualToTeam)
 }
 
@@ -30,7 +30,7 @@ export default (season: number) => {
 
   const predicate: Predicate<Team> = (
     picked: Team,
-    groups: Team[][],
+    groups: readonly (readonly Team[])[],
     groupIndex: number,
   ) => {
     const group = groups[groupIndex]

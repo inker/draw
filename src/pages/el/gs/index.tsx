@@ -42,8 +42,8 @@ const groupColors = [
 
 interface WorkerRequest {
   season: number,
-  pots: Team[][],
-  groups: Team[][],
+  pots: readonly (readonly Team[])[],
+  groups: readonly (readonly Team[])[],
   selectedTeam: Team,
 }
 
@@ -53,17 +53,17 @@ interface WorkerResponse {
 
 interface Props {
   season: number,
-  pots: Team[][],
+  pots: readonly (readonly Team[])[],
 }
 
 interface State {
   currentPotNum: number,
   selectedTeam: Team | null,
   pickedGroup: number | null,
-  hungPot: Team[],
+  hungPot: readonly Team[],
 }
 
-function getState(pots: Team[][]): State {
+function getState(pots: readonly (readonly Team[])[]): State {
   const currentPotNum = 0
   const currentPot = pots[currentPotNum]
   return {

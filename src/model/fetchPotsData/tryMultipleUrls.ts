@@ -30,7 +30,7 @@ const urlToSeq = (url: string) => [
   },
 ]
 
-export default async (urls: string[]) => {
+export default async (urls: readonly string[]) => {
   const funcs = urls.flatMap(urlToSeq)
   try {
     return await tryMultipleAsync(funcs)

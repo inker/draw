@@ -106,8 +106,8 @@ const Routes = () => {
             {tournament && stage ? (
               <Pages
                 drawId={drawId}
-                tournament={tournament!}
-                stage={stage!}
+                tournament={tournament}
+                stage={stage}
                 season={season}
                 onRefreshDrawId={refreshDrawId}
                 onSeasonChange={onSeasonChange}

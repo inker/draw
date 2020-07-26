@@ -8,7 +8,7 @@ import normalize from './normalize'
 const similarity = (a: string, b: string) =>
   1 - levenstein.get(a, b) / Math.max(a.length, b.length)
 
-export default (teams: Team[], norm: string, threshold: number) => {
+export default (teams: readonly Team[], norm: string, threshold: number) => {
   const distances = teams.map(team => ({
     team,
     dist: similarity(norm, normalize(team.name)),

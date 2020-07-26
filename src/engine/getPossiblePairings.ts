@@ -4,8 +4,8 @@ type OneOrTwo<T> = [T] | [T, T]
 
 function anyGroupWinners<T>(
   item: T,
-  [groupWinners, runnersUp]: T[][],
-  matchups: OneOrTwo<T>[],
+  [groupWinners, runnersUp]: readonly (readonly T[])[],
+  matchups: readonly OneOrTwo<T>[],
   predicate: Predicate<T>,
 ): boolean {
   const matchupNum = matchups.findIndex(m => m.length === 1)
@@ -19,13 +19,13 @@ function anyGroupWinners<T>(
 
   const nextMatchupNum = matchupNum + 1
   return nextMatchupNum === newMatchups.length
-    // eslint-disable-next-line no-use-before-define
+    // eslint-disable-next-line @typescript-eslint/no-use-before-define
     || anyRunnersUp([groupWinners.filter(i => i !== item), runnersUp], newMatchups, predicate)
 }
 
 function anyRunnersUp<T>(
-  [groupWinners, runnersUp]: T[][],
-  matchups: OneOrTwo<T>[],
+  [groupWinners, runnersUp]: readonly (readonly T[])[],
+  matchups: readonly OneOrTwo<T>[],
   predicate: Predicate<T>,
 ): boolean {
   const matchupNum = matchups.findIndex(m => !m.length)
@@ -39,8 +39,8 @@ function anyRunnersUp<T>(
 }
 
 export default <T>(
-  [groupWinners, runnersUp]: T[][],
-  matchups: OneOrTwo<T>[],
+  [groupWinners, runnersUp]: readonly (readonly T[])[],
+  matchups: readonly OneOrTwo<T>[],
   predicate: Predicate<T>,
 ): number[] =>
   groupWinners

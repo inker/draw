@@ -9,7 +9,7 @@ type TeamWithCountryAndName = Club | NationalTeam
 const getTeamFlag = (team: TeamWithCountryAndName) =>
   getCountryFlagUrl((team as Club).country ?? team.name)
 
-export default (pots: TeamWithCountryAndName[][]) => {
+export default (pots: readonly (readonly TeamWithCountryAndName[])[]) => {
   const promises: Promise<void>[] = []
   for (const pot of pots) {
     const urls = pot.map(getTeamFlag)

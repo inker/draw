@@ -22,10 +22,10 @@ const Root = styled.div`
 interface Props {
   maxTeams: number,
   currentPotNum: number,
-  groups: Team[][],
-  possibleGroups: number[] | null,
-  airborneTeams: Team[],
-  groupColors?: string[],
+  groups: readonly (readonly Team[])[],
+  possibleGroups: readonly number[] | null,
+  airborneTeams: readonly Team[],
+  groupColors?: readonly string[],
 }
 
 const GroupsContainer = ({
@@ -37,7 +37,7 @@ const GroupsContainer = ({
   groupColors,
 }: Props) => (
   <Root>
-    {groups && groups.map((group, i) => {
+    {groups?.map((group, i) => {
       const letter = getGroupLetter(i)
       const background = groupColors && groupColors[~~(i / groups.length * groupColors.length)]
 
@@ -48,7 +48,7 @@ const GroupsContainer = ({
           groupLetter={letter}
           teams={group}
           potNum={currentPotNum}
-          possible={possibleGroups !== null && possibleGroups.includes(i)}
+          possible={possibleGroups?.includes(i)}
           airborneTeams={airborneTeams}
           background={background}
         />

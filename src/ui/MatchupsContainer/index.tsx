@@ -14,9 +14,8 @@ const RootTable = styled(Table)`
 `
 
 interface Props {
-  currentMatchupNum: number,
-  matchups: [Team, Team][],
-  airborneTeams: Team[],
+  matchups: readonly [Team, Team][],
+  airborneTeams: readonly Team[],
 }
 
 const MatchupContainer = ({
@@ -24,7 +23,7 @@ const MatchupContainer = ({
   airborneTeams,
 }: Props) => (
   <RootTable>
-    {matchups && matchups.map((matchup, i) => (
+    {matchups?.map((matchup, i) => (
       <Matchup
         index={i}
         teams={matchup}

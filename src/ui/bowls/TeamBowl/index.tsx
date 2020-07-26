@@ -25,8 +25,8 @@ interface Props {
   forceNoSelect?: boolean,
   display: boolean,
   selectedTeam: Team | null,
-  pot: Team[],
-  onPick: (i: number, teams: Team[]) => void,
+  pot: readonly Team[],
+  onPick: (i: number, teams: readonly Team[]) => void,
 }
 
 const TeamBowl = ({

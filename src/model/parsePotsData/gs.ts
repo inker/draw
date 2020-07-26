@@ -31,7 +31,7 @@ async function parseGSTeams(data: string) {
   return Array.from(substr.matchAll(LINE_RE), tokensToGsTeam)
 }
 
-function fillGSPots(teams: GsTeam[]): GsTeam[][] {
+function fillGSPots(teams: readonly GsTeam[]): GsTeam[][] {
   const pots: GsTeam[][] = [[], [], [], []]
   const numTeams = teams.length
   const halfNum = numTeams >> 1

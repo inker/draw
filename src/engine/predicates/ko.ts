@@ -12,12 +12,12 @@ export default (season: number) => {
       && a.group !== b.group
       && !isIncompatibleWith(a)(b)
 
-  const canFit = (pair: Team[], picked: Team) =>
+  const canFit = (pair: readonly Team[], picked: Team) =>
     pair.length === 0 || pair.length === 1 && areCompatible(picked, pair[0])
 
   const predicate: Predicate<Team> = (
     picked: Team,
-    groups: Team[][],
+    groups: readonly (readonly Team[])[],
     groupIndex: number,
   ) => canFit(groups[groupIndex], picked)
 

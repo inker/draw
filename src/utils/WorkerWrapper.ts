@@ -2,9 +2,9 @@ import AsyncManager from 'async-manager-promise'
 import timelimit from 'timelimit'
 
 class WorkerWrapper<Request, Response> {
-  private worker: Worker
-  private asyncManager = new AsyncManager<Response, string>()
-  private timeout?: number
+  private readonly worker: Worker
+  private readonly asyncManager = new AsyncManager<Response, string>()
+  private readonly timeout?: number
 
   constructor(worker: Worker, timeout?: number) {
     this.timeout = timeout

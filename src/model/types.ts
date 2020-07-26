@@ -11,8 +11,8 @@ export interface WorkerData<T> {
   messageId: any,
   data: {
     season: number,
-    pots: T[][],
-    groups: T[][],
+    pots: readonly (readonly T[])[],
+    groups: readonly (readonly T[])[],
     selectedTeam: T,
   },
 }
