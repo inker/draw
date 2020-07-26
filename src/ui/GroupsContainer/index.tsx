@@ -48,7 +48,7 @@ const GroupsContainer = ({
           groupLetter={letter}
           teams={group}
           potNum={currentPotNum}
-          possible={possibleGroups?.includes(i)}
+          possible={!!possibleGroups?.includes(i)}
           airborneTeams={airborneTeams}
           background={background}
         />
