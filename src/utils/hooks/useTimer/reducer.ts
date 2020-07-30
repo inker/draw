@@ -1,8 +1,8 @@
 import { useReducer } from 'react'
 
 const initialState = {
-  team: null,
-  isLong: false,
+  key: null,
+  isTimedOut: false,
 }
 
 export const types = {
@@ -11,8 +11,8 @@ export const types = {
 } as const
 
 interface State<T> {
-  team: T | null,
-  isLong: boolean,
+  key: T | null,
+  isTimedOut: boolean,
 }
 
 type Action<T> = {
@@ -26,8 +26,8 @@ function reducer<T>(state: State<T>, action: Action<T>) {
   switch (action.type) {
     case types.set:
       return {
-        team: action.payload,
-        isLong: !!action.payload && action.payload === state.team,
+        key: action.payload,
+        isTimedOut: !!action.payload && action.payload === state.key,
       }
 
     case types.reset:

@@ -4,22 +4,22 @@ import delay from 'delay.js'
 import useReducer, { types } from './reducer'
 
 export default <T>(delayMs: number) => {
-  const [longCalculating, dispatchLongCalculating] = useReducer<T>()
+  const [state, dispatch] = useReducer<T>()
 
   const runCalculatingTimer = async (oldValue: T) => {
-    dispatchLongCalculating({
+    dispatch({
       type: types.set,
       payload: oldValue,
     })
     await delay(delayMs)
-    dispatchLongCalculating({
+    dispatch({
       type: types.set,
       payload: oldValue,
     })
   }
 
   const resetLongCalculating = () => {
-    dispatchLongCalculating({
+    dispatch({
       type: types.reset,
     })
   }
@@ -29,5 +29,5 @@ export default <T>(delayMs: number) => {
     reset: resetLongCalculating,
   }), [])
 
-  return [longCalculating.isLong, actions] as const
+  return [state.isTimedOut, actions] as const
 }

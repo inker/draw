@@ -15,7 +15,7 @@ import Team from 'model/team/NationalTeam'
 import usePopup from 'store/usePopup'
 
 import useCollection from 'utils/hooks/useCollection'
-import useTimeout from 'utils/hooks/useTimeout'
+import useTimer from 'utils/hooks/useTimer'
 import useWorkerWrapper from 'utils/hooks/useWorkerWrapper'
 import useUniqueId from 'utils/hooks/useUniqueId'
 
@@ -89,7 +89,7 @@ const WCGS = ({
   const [, setPopup] = usePopup()
   const workerSendAndReceive = useWorkerWrapper<WorkerRequest, WorkerResponse>(EsWorker)
   const [airborneTeams, airborneTeamsActions] = useCollection<Team>()
-  const [isLongCalculating, timeoutActions] = useTimeout<Team>(3000)
+  const [isTimedOut, timeoutActions] = useTimer<Team>(3000)
 
   const getPickedGroup = useCallback(async (newSelectedTeam: Team) => {
     const response = await workerSendAndReceive({
@@ -190,7 +190,7 @@ const WCGS = ({
         />
         <Announcement
           long
-          calculating={isLongCalculating}
+          calculating={isTimedOut}
           completed={completed}
           selectedTeam={selectedTeam}
           pickedGroup={pickedGroup}
