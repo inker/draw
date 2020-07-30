@@ -5,6 +5,7 @@ import React, {
 
 import usePopup from 'store/usePopup'
 import Notification from 'ui/Notification'
+import Dots from 'ui/Dots'
 
 const Popup = () => {
   const [popup] = usePopup()
@@ -24,7 +25,15 @@ const Popup = () => {
     return <WrappedPopup>{error}</WrappedPopup>
   }
   if (waiting) {
-    return <WrappedPopup>wait...</WrappedPopup>
+    return (
+      <WrappedPopup>
+        wait
+        <Dots
+          num={3}
+          interval={1000}
+        />
+      </WrappedPopup>
+    )
   }
   return null
 }
