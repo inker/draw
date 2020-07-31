@@ -4,6 +4,7 @@ import React, {
 } from 'react'
 import styled from 'styled-components'
 
+import useKeyDownNum from 'utils/hooks/useKeyDownNum'
 import getGroupLetter from 'utils/getGroupLetter'
 
 import Ball from './Ball'
@@ -39,6 +40,17 @@ const GroupBowl = ({
     }
     onPick(pickedGroup)
   }, [onPick])
+
+  const keyDownNumCb = useCallback((n: number) => {
+    if (!display || !possibleGroups) {
+      return
+    }
+    const i = n ? n - 1 : 9
+    const pickedGroup = possibleGroups[i]
+    onPick(pickedGroup)
+  }, [display, onPick, possibleGroups])
+
+  useKeyDownNum(keyDownNumCb)
 
   return (
     <Root>

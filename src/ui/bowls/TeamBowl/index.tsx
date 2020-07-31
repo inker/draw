@@ -7,6 +7,8 @@ import styled from 'styled-components'
 import Club from 'model/team/Club'
 import NationalTeam from 'model/team/NationalTeam'
 
+import useKeyDownNum from 'utils/hooks/useKeyDownNum'
+
 import Ball from './Ball'
 
 type Team = Club | NationalTeam
@@ -38,13 +40,23 @@ const TeamBowl = ({
   selectedTeam,
   onPick,
 }: Props) => {
+  const noSelect = forceNoSelect || selectedTeam
+
   const onBallPick = useCallback((ev: React.MouseEvent<HTMLDivElement>) => {
     const ball = ev.target as HTMLDivElement
     const i = pot.findIndex(team => team.id === ball.dataset.teamid)
     onPick(i, pot)
   }, [pot, onPick])
 
-  const noSelect = forceNoSelect || selectedTeam
+  const keyDownNumCb = useCallback((n: number) => {
+    if (!display || noSelect) {
+      return
+    }
+    const i = n ? n - 1 : 9
+    onPick(i, pot)
+  }, [display, noSelect, pot, onPick])
+
+  useKeyDownNum(keyDownNumCb)
 
   return (
     <Root>
