@@ -118,7 +118,15 @@ const CLGS = ({
   }, [pots, groups, season, workerSendAndReceive])
 
   const onTeamBallPick = useCallback(async (i: number) => {
+    if (selectedTeam) {
+      return
+    }
+
     const currentPot = pots[currentPotNum]
+    if (!currentPot[i]) {
+      return
+    }
+
     const newSelectedTeam = currentPot.splice(i, 1)[0]
 
     timeoutActions.set(newSelectedTeam)

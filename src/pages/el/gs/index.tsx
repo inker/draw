@@ -137,8 +137,15 @@ const ELGS = ({
     })
   }
 
-  const onTeamBallPick = useCallback(async (i: number) => {
+  const onTeamBallPick = useCallback((i: number) => {
+    if (selectedTeam) {
+      return
+    }
+
     const currentPot = pots[currentPotNum]
+    if (!currentPot[i]) {
+      return
+    }
 
     setState({
       currentPotNum,
