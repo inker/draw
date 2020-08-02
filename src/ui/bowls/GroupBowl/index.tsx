@@ -31,11 +31,9 @@ const GroupBowl = ({
 }: Props) => {
   const onBallPick = useCallback((ev: React.MouseEvent<HTMLDivElement>) => {
     const ball = ev.target as HTMLDivElement
-    // @ts-ignore
-    const pickedGroup = +ball.dataset.group
+    const pickedGroup = +ball.dataset.group!
     if (Number.isNaN(pickedGroup)) {
-      console.error('incorrect group ball', ball.dataset.group)
-      throw new Error('Incorrect group ball')
+      throw new TypeError(`Incorrect group ball: ${ball.dataset.group}`)
     }
     onPick(pickedGroup)
   }, [onPick])
