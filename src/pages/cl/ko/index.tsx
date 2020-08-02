@@ -94,7 +94,7 @@ const CLKO = ({
   }, [predicate, pots, matchups, currentPotNum, currentMatchupNum, possiblePairings, airborneTeams])
 
   const autoPickIfOneBall = () => {
-    const isOnlyChoice = possiblePairings && possiblePairings.length === 1
+    const isOnlyChoice = possiblePairings?.length === 1
       || currentPotNum === 1 && pots[1].length === 1
     if (isOnlyChoice) {
       onBallPick(0)

@@ -42,7 +42,7 @@ const GroupBowl = ({
 
   return (
     <Root>
-      {display && possibleGroups && possibleGroups.map(groupNum => (
+      {display && possibleGroups?.map(groupNum => (
         <Ball
           key={groupNum}
           data-group={groupNum}
