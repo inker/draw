@@ -1,38 +1,19 @@
-import {
-  useState,
-  useCallback,
-  useEffect,
-} from 'react'
+import { useCallback } from 'react'
 
-import {
-  pull,
-} from 'lodash'
+import makeReducerHook from 'utils/makeReducerHook'
 
 export default <State extends { [key: string]: any }>(initialState: State) => {
-  type PartialState = Partial<State>
-
-  let state = initialState
-  const listeners: React.Dispatch<State>[] = []
+  const use = makeReducerHook(initialState)
 
   return () => {
-    const setState = useState<State>(state)[1]
+    const [state, overwriteState] = use()
 
-    useEffect(() => {
-      listeners.push(setState)
-      return () => {
-        pull(listeners, setState)
-      }
-    }, [])
-
-    const setStateNew = useCallback((diff: PartialState) => {
-      state = {
+    const setStateNew = useCallback((diff: Partial<State>) => {
+      overwriteState({
         ...state,
         ...diff,
-      }
-      for (const listener of listeners) {
-        listener(state)
-      }
-    }, [state, listeners])
+      })
+    }, [state, overwriteState])
 
     return [state, setStateNew] as const
   }
