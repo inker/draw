@@ -1,6 +1,4 @@
-import {
-  useCallback,
-} from 'react'
+import { useCallback } from 'react'
 
 import makeReducerHook from 'utils/makeReducerHook'
 
