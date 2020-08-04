@@ -17,6 +17,7 @@ const Root = styled.label`
 
 const ChildrenWrapper = styled.div`
   margin-left: 0.5rem;
+  user-select: none;
 `
 
 type InputProps = DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>
