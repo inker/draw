@@ -5,6 +5,7 @@ import Ball from 'ui/Ball'
 interface Props {
   noHover?: boolean,
   selected?: boolean,
+  forceVisible?: boolean,
 }
 
 const BowlBall = styled(Ball)<Props>`
@@ -15,6 +16,10 @@ const BowlBall = styled(Ball)<Props>`
   ` : css`
     font-size: 0;
     background: radial-gradient(#004, #002, #002);
+  `}
+
+  ${props => props.forceVisible && css`
+    font-size: 0.8em;
   `}
 
   @media (max-width: 999px) {

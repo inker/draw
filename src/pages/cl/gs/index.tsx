@@ -12,6 +12,7 @@ import {
 import Team from 'model/team/GsTeam'
 
 import usePopup from 'store/usePopup'
+import useXRay from 'store/useXRay'
 
 import useCollection from 'utils/hooks/useCollection'
 import useTimer from 'utils/hooks/useTimer'
@@ -97,6 +98,7 @@ const CLGS = ({
   }, setState] = useState(initialState)
 
   const [, setPopup] = usePopup()
+  const [isXRay] = useXRay()
   const workerSendAndReceive = useWorkerWrapper<WorkerRequest, WorkerResponse>(EsWorker)
   const [airborneTeams, airborneTeamsActions] = useCollection<Team>()
   const [isTimedOut, timeoutActions] = useTimer<Team>(3000)
@@ -188,6 +190,7 @@ const CLGS = ({
       <BowlsContainer>
         <TeamBowl
           display={!completed}
+          displayTeams={isXRay}
           selectedTeam={selectedTeam}
           pot={hungPot}
           onPick={onTeamBallPick}
@@ -204,6 +207,7 @@ const CLGS = ({
         />
         <GroupBowl
           display={!completed}
+          displayGroups={isXRay}
           possibleGroups={possibleGroupsShuffled}
           onPick={onGroupBallPick}
         />

@@ -24,6 +24,7 @@ const Root = styled.div`
 interface Props {
   forceNoSelect?: boolean,
   display: boolean,
+  displayTeams: boolean,
   selectedTeam: Team | null,
   pot: readonly Team[],
   onPick: (i: number, teams: readonly Team[]) => void,
@@ -32,6 +33,7 @@ interface Props {
 const TeamBowl = ({
   forceNoSelect,
   display,
+  displayTeams,
   pot,
   selectedTeam,
   onPick,
@@ -52,6 +54,7 @@ const TeamBowl = ({
           data-teamid={team.id}
           selected={team === selectedTeam}
           notSelected={forceNoSelect || !!selectedTeam && team !== selectedTeam}
+          forceVisible={displayTeams}
           noHover={!!noSelect}
           onClick={noSelect ? undefined : onBallPick}
         >

@@ -12,6 +12,8 @@ import {
 } from 'react-router-dom'
 
 import usePopup from 'store/usePopup'
+import useBooleanLocalStorage from 'store/useXRay'
+
 import useUniqueId from 'utils/hooks/useUniqueId'
 import Visibility from 'ui/Visibility'
 
@@ -76,6 +78,7 @@ function useSeasonTournamentStage() {
 const Routes = () => {
   const [drawId, refreshDrawId] = useUniqueId('draw-')
   const [popup] = usePopup()
+  const [isXRay, setIsXRay] = useBooleanLocalStorage()
 
   const {
     tournament,
@@ -93,6 +96,8 @@ const Routes = () => {
             season={season}
             tournament={tournament!}
             stage={stage!}
+            isXRay={isXRay}
+            onSetIsXRay={setIsXRay}
             onSeasonChange={onSeasonChange}
           />
         </Visibility>

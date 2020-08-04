@@ -15,6 +15,8 @@ import Team from 'model/team/KnockoutTeam'
 import getPossiblePairings from 'engine/getPossiblePairings'
 import getPredicate from 'engine/predicates/ko'
 
+import useXRay from 'store/useXRay'
+
 import useCollection from 'utils/hooks/useCollection'
 import useUniqueId from 'utils/hooks/useUniqueId'
 
@@ -69,6 +71,8 @@ const CLKO = ({
     currentPotNum,
     possiblePairings,
   }, setState] = useState(initialState)
+
+  const [isXRay] = useXRay()
 
   const [airborneTeams, airborneTeamsActions] = useCollection<Team>()
 
@@ -139,6 +143,7 @@ const CLKO = ({
         <TeamBowl
           forceNoSelect={currentPotNum === 0}
           display={!completed}
+          displayTeams={isXRay}
           selectedTeam={null}
           pot={pots[1]}
           onPick={onBallPick}
@@ -161,6 +166,7 @@ const CLKO = ({
           <TeamBowl
             forceNoSelect={currentPotNum === 1}
             display={!completed}
+            displayTeams={isXRay}
             selectedTeam={null}
             pot={teamBowlPot}
             onPick={onBallPick}

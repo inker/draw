@@ -13,6 +13,7 @@ import {
 import Team from 'model/team/NationalTeam'
 
 import usePopup from 'store/usePopup'
+import useXRay from 'store/useXRay'
 
 import useCollection from 'utils/hooks/useCollection'
 import useTimer from 'utils/hooks/useTimer'
@@ -87,6 +88,7 @@ const WCGS = ({
   }, setState] = useState(initialState)
 
   const [, setPopup] = usePopup()
+  const [isXRay] = useXRay()
   const workerSendAndReceive = useWorkerWrapper<WorkerRequest, WorkerResponse>(EsWorker)
   const [airborneTeams, airborneTeamsActions] = useCollection<Team>()
   const [isTimedOut, timeoutActions] = useTimer<Team>(3000)
@@ -191,6 +193,7 @@ const WCGS = ({
         <TeamBowl
           forceNoSelect={!!selectedTeam}
           display={!completed}
+          displayTeams={isXRay}
           selectedTeam={selectedTeam}
           pot={hungPot}
           onPick={onTeamBallPick}

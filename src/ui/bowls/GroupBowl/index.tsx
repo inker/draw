@@ -20,12 +20,14 @@ const Root = styled.div`
 
 interface Props {
   display: boolean,
+  displayGroups: boolean,
   possibleGroups: readonly number[] | null,
   onPick: (groupNum: number) => void,
 }
 
 const GroupBowl = ({
   display,
+  displayGroups,
   possibleGroups,
   onPick,
 }: Props) => {
@@ -44,6 +46,7 @@ const GroupBowl = ({
         <Ball
           key={groupNum}
           data-group={groupNum}
+          forceVisible={displayGroups}
           onClick={onBallPick}
         >
           {getGroupLetter(groupNum)}

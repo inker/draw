@@ -4,6 +4,7 @@ import styled from 'styled-components'
 import Tournament from 'model/Tournament'
 import Stage from 'model/Stage'
 
+import Checkbox from 'ui/Checkbox'
 import DivLink from 'ui/DivLink'
 import { isHandheld } from 'utils/browser'
 
@@ -37,6 +38,8 @@ interface Props {
   season: number,
   tournament: Tournament,
   stage: Stage,
+  isXRay: boolean,
+  onSetIsXRay: (value: boolean) => void,
   refresh: () => void,
   onSeasonChange: (tournament: Tournament, stage: Stage, season: number) => void,
 }
@@ -46,6 +49,8 @@ const Navbar = ({
   tournament,
   stage,
   refresh,
+  isXRay,
+  onSetIsXRay,
   onSeasonChange,
 }: Props) => (
   <Root>
@@ -58,6 +63,12 @@ const Navbar = ({
       season={season}
       onChange={onSeasonChange}
     />
+    <Checkbox
+      checked={isXRay}
+      onChange={onSetIsXRay}
+    >
+      X-ray
+    </Checkbox>
     {!isHandheld && (
       <GitHubButtons />
     )}
