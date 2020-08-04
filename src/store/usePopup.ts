@@ -1,4 +1,4 @@
-import makeReducerHook from 'utils/makeReducerHook'
+import makeReducerHookPartial from 'utils/makeReducerHookPartial'
 
 interface PopupState {
   initial: boolean,
@@ -12,4 +12,4 @@ const state: PopupState = {
   error: null,
 }
 
-export default makeReducerHook(state)
+export default makeReducerHookPartial(state)
