@@ -11,10 +11,10 @@ export default <T>(key: string, initialValue: T) => {
       if (item) {
         return JSON.parse(item) as T
       }
+      window.localStorage.setItem(key, JSON.stringify(initialValue))
     } catch (err) {
       console.error(err)
     }
-    window.localStorage.setItem(key, JSON.stringify(initialValue))
     return initialValue
   })
 
