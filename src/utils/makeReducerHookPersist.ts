@@ -2,8 +2,6 @@ import { useCallback } from 'react'
 
 import makeReducerHook from 'utils/makeReducerHook'
 
-type StateSet<T> = (state: T) => T
-
 export default <T>(key: string, initialValue: T) => {
   const use = makeReducerHook(() => {
     try {
@@ -27,7 +25,7 @@ export default <T>(key: string, initialValue: T) => {
     const [storedValue, setStoredValue] = use()
     // Return a wrapped version of useState's setter function that ...
     // ... persists the new value to localStorage.
-    const setValue = useCallback((value: T | StateSet<T>) => {
+    const setValue = useCallback((value: React.SetStateAction<T>) => {
       try {
         // Allow value to be a function so we have same API as useState
         const valueToStore = value instanceof Function

@@ -8,13 +8,11 @@ import {
   pull,
 } from 'lodash'
 
-type StateSet<T> = (state: T) => T
-
 export default <State>(initialState: State | (() => State)) => {
   let state = initialState instanceof Function
     ? initialState()
     : initialState
-  const listeners: React.Dispatch<State>[] = []
+  const listeners: React.Dispatch<React.SetStateAction<State>>[] = []
 
   return () => {
     const setState = useState<State>(state)[1]
@@ -26,7 +24,7 @@ export default <State>(initialState: State | (() => State)) => {
       }
     }, [])
 
-    const setStateNew = useCallback((newValue: State | StateSet<State>) => {
+    const setStateNew = useCallback((newValue: React.SetStateAction<State>) => {
       state = newValue instanceof Function
         ? newValue(state)
         : newValue
