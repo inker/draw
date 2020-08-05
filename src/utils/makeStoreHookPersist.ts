@@ -2,6 +2,7 @@ import { useCallback } from 'react'
 import { stubTrue } from 'lodash'
 
 import makeStoreHook from 'utils/makeStoreHook'
+import useGlobalEvent from 'utils/hooks/useGlobalEvent'
 
 interface Options<ParsedType> {
   parse: (storedValue: string) => ParsedType,
@@ -46,6 +47,19 @@ export default <S>(key: string, initialState: S, options?: Options<S>) => {
 
   return () => {
     const [storedValue, setStoredValue] = use()
+
+    useGlobalEvent('storage', e => {
+      if (e.key !== key || e.newValue === null) {
+        return
+      }
+      try {
+        const parsed = o.parse(e.newValue)
+        setStoredValue(parsed)
+      } catch (err) {
+        console.error(err)
+      }
+    })
+
     // Return a wrapped version of useState's setter function that ...
     // ... persists the new value to localStorage.
     const setValue = useCallback((value: React.SetStateAction<S>) => {
