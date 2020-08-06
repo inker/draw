@@ -2,7 +2,7 @@ import { useCallback } from 'react'
 
 import makeReducerHook from 'utils/makeReducerHook'
 
-export default <S>(key: string, initialValue: S) => {
+export default <S>(key: string, initialState: S) => {
   const use = makeReducerHook(() => {
     try {
       const item = window.localStorage.getItem(key)
@@ -14,11 +14,11 @@ export default <S>(key: string, initialValue: S) => {
     }
 
     try {
-      window.localStorage.setItem(key, JSON.stringify(initialValue))
+      window.localStorage.setItem(key, JSON.stringify(initialState))
     } catch (err) {
       console.error(err)
     }
-    return initialValue
+    return initialState
   })
 
   return () => {
@@ -42,7 +42,7 @@ export default <S>(key: string, initialValue: S) => {
     }, [setStoredValue])
 
     const reset = useCallback(() => {
-      setStoredValue(initialValue)
+      setStoredValue(initialState)
       try {
         window.localStorage.removeItem(key)
       } catch (err) {
