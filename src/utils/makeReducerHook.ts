@@ -8,14 +8,14 @@ import {
   pull,
 } from 'lodash'
 
-export default <State>(initialState: State | (() => State)) => {
+export default <S>(initialState: S | (() => S)) => {
   let state = initialState instanceof Function
     ? initialState()
     : initialState
-  const listeners: React.Dispatch<React.SetStateAction<State>>[] = []
+  const listeners: React.Dispatch<React.SetStateAction<S>>[] = []
 
   return () => {
-    const setState = useState<State>(state)[1]
+    const setState = useState<S>(state)[1]
 
     useEffect(() => {
       listeners.push(setState)
@@ -24,7 +24,7 @@ export default <State>(initialState: State | (() => State)) => {
       }
     }, [])
 
-    const setStateNew = useCallback((newValue: React.SetStateAction<State>) => {
+    const setStateNew = useCallback((newValue: React.SetStateAction<S>) => {
       state = newValue instanceof Function
         ? newValue(state)
         : newValue
