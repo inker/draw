@@ -1,0 +1,102 @@
+[
+  [
+    {
+      "name": "Juventus",
+      "country": "Italy",
+      "bertName": "Juventus",
+      "group": 0
+    },
+    {
+      "name": "Arsenal",
+      "country": "England",
+      "bertName": "Arsenal",
+      "group": 1
+    },
+    {
+      "name": "FC Barcelona",
+      "country": "Spain",
+      "bertName": "Barcelona",
+      "group": 2
+    },
+    {
+      "name": "Villarreal",
+      "country": "Spain",
+      "bertName": "Villarreal",
+      "group": 3
+    },
+    {
+      "name": "AC Milan",
+      "country": "Italy",
+      "bertName": "Milan",
+      "group": 4
+    },
+    {
+      "name": "Olympique Lyon",
+      "country": "France",
+      "bertName": "Lyon",
+      "group": 5
+    },
+    {
+      "name": "Liverpool",
+      "country": "England",
+      "bertName": "Liverpool",
+      "group": 6
+    },
+    {
+      "name": "Internazionale",
+      "country": "Italy",
+      "bertName": "Internazionale",
+      "group": 7
+    }
+  ],
+  [
+    {
+      "name": "Bayern München",
+      "country": "Germany",
+      "bertName": "Bayern",
+      "group": 0
+    },
+    {
+      "name": "Ajax",
+      "country": "Netherlands",
+      "bertName": "Ajax",
+      "group": 1
+    },
+    {
+      "name": "Werder Bremen",
+      "country": "Germany",
+      "bertName": "Bremen",
+      "group": 2
+    },
+    {
+      "name": "Benfica",
+      "country": "Portugal",
+      "bertName": "Benfica",
+      "group": 3
+    },
+    {
+      "name": "PSV Eindhoven",
+      "country": "Netherlands",
+      "bertName": "PSV",
+      "group": 4
+    },
+    {
+      "name": "Real Madrid",
+      "country": "Spain",
+      "bertName": "Real Madrid",
+      "group": 5
+    },
+    {
+      "name": "Chelsea",
+      "country": "England",
+      "bertName": "Chelsea",
+      "group": 6
+    },
+    {
+      "name": "Glasgow Rangers",
+      "country": "Scotland",
+      "bertName": "Rangers",
+      "group": 7
+    }
+  ]
+]

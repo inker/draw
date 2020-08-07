@@ -1,0 +1,198 @@
+[
+  [
+    {
+      "name": "Villarreal",
+      "country": "Spain",
+      "bertName": "Villarreal",
+      "group": 0
+    },
+    {
+      "name": "Dinamo Kiev",
+      "country": "Ukraine",
+      "bertName": "Dynamo",
+      "group": 1
+    },
+    {
+      "name": "Sporting Braga",
+      "country": "Portugal",
+      "bertName": "Braga",
+      "group": 2
+    },
+    {
+      "name": "AC Milan",
+      "country": "Italy",
+      "bertName": "Milan",
+      "group": 3
+    },
+    {
+      "name": "Atalanta",
+      "country": "Italy",
+      "bertName": "Atalanta",
+      "group": 4
+    },
+    {
+      "name": "Lokomotiv Moscow",
+      "country": "Russia",
+      "bertName": "Lokomotiv",
+      "group": 5
+    },
+    {
+      "name": "Viktoria Plzen",
+      "country": "Czechia",
+      "bertName": "Plzeň",
+      "group": 6
+    },
+    {
+      "name": "Arsenal",
+      "country": "England",
+      "bertName": "Arsenal",
+      "group": 7
+    },
+    {
+      "name": "FC Salzburg",
+      "country": "Austria",
+      "bertName": "Salzburg",
+      "group": 8
+    },
+    {
+      "name": "Athletic Bilbao",
+      "country": "Spain",
+      "bertName": "Athletic",
+      "group": 9
+    },
+    {
+      "name": "Lazio",
+      "country": "Italy",
+      "bertName": "Lazio",
+      "group": 10
+    },
+    {
+      "name": "Zenit St. Petersburg",
+      "country": "Russia",
+      "bertName": "Zenit",
+      "group": 11
+    },
+    {
+      "name": "CSKA Moscow",
+      "country": "Russia",
+      "bertName": "CSKA",
+      "group": 24
+    },
+    {
+      "name": "Atlético Madrid",
+      "country": "Spain",
+      "bertName": "Atlético",
+      "group": 26
+    },
+    {
+      "name": "RB Leipzig",
+      "country": "Germany",
+      "bertName": "Leipzig",
+      "group": 28
+    },
+    {
+      "name": "Sporting CP Lisbon",
+      "country": "Portugal",
+      "bertName": "Sporting CP",
+      "group": 30
+    }
+  ],
+  [
+    {
+      "name": "FK Astana",
+      "country": "Kazakhstan",
+      "bertName": "Astana",
+      "group": 0
+    },
+    {
+      "name": "Partizan Belgrade",
+      "country": "Serbia",
+      "bertName": "Partizan",
+      "group": 1
+    },
+    {
+      "name": "Ludogorets Razgrad",
+      "country": "Bulgaria",
+      "bertName": "Ludogorets",
+      "group": 2
+    },
+    {
+      "name": "AEK Athens",
+      "country": "Greece",
+      "bertName": "AEK",
+      "group": 3
+    },
+    {
+      "name": "Olympique Lyon",
+      "country": "France",
+      "bertName": "Lyon",
+      "group": 4
+    },
+    {
+      "name": "FC København",
+      "country": "Denmark",
+      "bertName": "København",
+      "group": 5
+    },
+    {
+      "name": "Steaua Bucuresti",
+      "country": "Romania",
+      "bertName": "Steaua",
+      "group": 6
+    },
+    {
+      "name": "Red Star Belgrade",
+      "country": "Serbia",
+      "bertName": "Crvena zvezda",
+      "group": 7
+    },
+    {
+      "name": "Olympique Marseille",
+      "country": "France",
+      "bertName": "Marseille",
+      "group": 8
+    },
+    {
+      "name": "Östersunds FK",
+      "country": "Sweden",
+      "bertName": "Östersund",
+      "group": 9
+    },
+    {
+      "name": "OGC Nice",
+      "country": "France",
+      "bertName": "Nice",
+      "group": 10
+    },
+    {
+      "name": "Real Sociedad",
+      "country": "Spain",
+      "bertName": "Real Sociedad",
+      "group": 11
+    },
+    {
+      "name": "Napoli",
+      "country": "Italy",
+      "bertName": "Napoli",
+      "group": 25
+    },
+    {
+      "name": "Spartak Moscow",
+      "country": "Russia",
+      "bertName": "Spartak",
+      "group": 27
+    },
+    {
+      "name": "Celtic",
+      "country": "Scotland",
+      "bertName": "Celtic",
+      "group": 29
+    },
+    {
+      "name": "Borussia Dortmund",
+      "country": "Germany",
+      "bertName": "Dortmund",
+      "group": 31
+    }
+  ]
+]

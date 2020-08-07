@@ -1,0 +1,192 @@
+[
+  [
+    {
+      "name": "Valencia",
+      "country": "Spain",
+      "bertName": "Valencia",
+      "group": 0
+    },
+    {
+      "name": "Olympique Lyon",
+      "country": "France",
+      "bertName": "Lyon",
+      "group": 1
+    },
+    {
+      "name": "Tottenham Hotspur  4",
+      "country": "England",
+      "bertName": "Tottenham",
+      "group": 2
+    },
+    {
+      "name": "Rubin Kazan",
+      "country": "Russia",
+      "bertName": "Rubin",
+      "group": 3
+    },
+    {
+      "name": "Anzhi Makhachkala",
+      "country": "Russia",
+      "bertName": "Anji",
+      "group": 4
+    },
+    {
+      "name": "Real Betis  4",
+      "country": "Spain",
+      "bertName": "Betis",
+      "group": 5
+    },
+    {
+      "name": "Swansea City  3",
+      "country": "England",
+      "bertName": "Swansea",
+      "group": 6
+    },
+    {
+      "name": "Chernomorets Odesa",
+      "country": "Ukraine",
+      "bertName": "Chornomorets",
+      "group": 7
+    },
+    {
+      "name": "NK Maribor",
+      "country": "Slovenia",
+      "bertName": "Maribor",
+      "group": 8
+    },
+    {
+      "name": "Maccabi Tel-Aviv",
+      "country": "Israel",
+      "bertName": "M. Tel-Aviv",
+      "group": 9
+    },
+    {
+      "name": "Slovan Liberec",
+      "country": "Czechia",
+      "bertName": "Liberec",
+      "group": 10
+    },
+    {
+      "name": "Esbjerg fB  4",
+      "country": "Denmark",
+      "bertName": "Esbjerg",
+      "group": 11
+    },
+    {
+      "name": "Ajax",
+      "country": "Netherlands",
+      "bertName": "Ajax",
+      "group": 24
+    },
+    {
+      "name": "Juventus",
+      "country": "Italy",
+      "bertName": "Juventus",
+      "group": 26
+    },
+    {
+      "name": "FC Porto",
+      "country": "Portugal",
+      "bertName": "Porto",
+      "group": 28
+    },
+    {
+      "name": "Viktoria Plzen",
+      "country": "Czechia",
+      "bertName": "Plzeň",
+      "group": 30
+    }
+  ],
+  [
+    {
+      "name": "Dinamo Kiev  4",
+      "country": "Ukraine",
+      "bertName": "Dynamo",
+      "group": 0
+    },
+    {
+      "name": "Lazio Roma",
+      "country": "Italy",
+      "bertName": "Lazio",
+      "group": 1
+    },
+    {
+      "name": "PAOK Thessaloniki",
+      "country": "Greece",
+      "bertName": "PAOK",
+      "group": 2
+    },
+    {
+      "name": "Sevilla  3",
+      "country": "Spain",
+      "bertName": "Sevilla",
+      "group": 3
+    },
+    {
+      "name": "Fiorentina  4",
+      "country": "Italy",
+      "bertName": "Fiorentina",
+      "group": 4
+    },
+    {
+      "name": "AZ Alkmaar  4",
+      "country": "Netherlands",
+      "bertName": "AZ",
+      "group": 5
+    },
+    {
+      "name": "FC Salzburg",
+      "country": "Austria",
+      "bertName": "Salzburg",
+      "group": 6
+    },
+    {
+      "name": "Racing Genk  4",
+      "country": "Belgium",
+      "bertName": "Genk",
+      "group": 7
+    },
+    {
+      "name": "Trabzonspor",
+      "country": "Turkey",
+      "bertName": "Trabzonspor",
+      "group": 8
+    },
+    {
+      "name": "Eintracht Frankfurt  4",
+      "country": "Germany",
+      "bertName": "Frankfurt",
+      "group": 9
+    },
+    {
+      "name": "Ludogorets Razgrad",
+      "country": "Bulgaria",
+      "bertName": "Ludogorets",
+      "group": 10
+    },
+    {
+      "name": "Napoli",
+      "country": "Italy",
+      "bertName": "Napoli",
+      "group": 11
+    },
+    {
+      "name": "Benfica",
+      "country": "Portugal",
+      "bertName": "Benfica",
+      "group": 25
+    },
+    {
+      "name": "Shakhtar Donetsk",
+      "country": "Ukraine",
+      "bertName": "Shakhtar",
+      "group": 27
+    },
+    {
+      "name": "FC Basel",
+      "country": "Switzerland",
+      "bertName": "Basel",
+      "group": 29
+    }
+  ]
+]

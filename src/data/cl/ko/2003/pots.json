@@ -1,0 +1,102 @@
+[
+  [
+    {
+      "name": "Olympique Lyon",
+      "country": "France",
+      "bertName": "Lyon",
+      "group": 0
+    },
+    {
+      "name": "Arsenal",
+      "country": "England",
+      "bertName": "Arsenal",
+      "group": 1
+    },
+    {
+      "name": "AS Monaco",
+      "country": "France",
+      "bertName": "Monaco",
+      "group": 2
+    },
+    {
+      "name": "Juventus",
+      "country": "Italy",
+      "bertName": "Juventus",
+      "group": 3
+    },
+    {
+      "name": "Manchester United",
+      "country": "England",
+      "bertName": "Man United",
+      "group": 4
+    },
+    {
+      "name": "Real Madrid",
+      "country": "Spain",
+      "bertName": "Real Madrid",
+      "group": 5
+    },
+    {
+      "name": "Chelsea",
+      "country": "England",
+      "bertName": "Chelsea",
+      "group": 6
+    },
+    {
+      "name": "AC Milan",
+      "country": "Italy",
+      "bertName": "Milan",
+      "group": 7
+    }
+  ],
+  [
+    {
+      "name": "Bayern München",
+      "country": "Germany",
+      "bertName": "Bayern",
+      "group": 0
+    },
+    {
+      "name": "Lokomotiv Moscow",
+      "country": "Russia",
+      "bertName": "Lokomotiv",
+      "group": 1
+    },
+    {
+      "name": "Deportivo La Coruña",
+      "country": "Spain",
+      "bertName": "Deportivo",
+      "group": 2
+    },
+    {
+      "name": "Real Sociedad",
+      "country": "Spain",
+      "bertName": "Real Sociedad",
+      "group": 3
+    },
+    {
+      "name": "VfB Stuttgart",
+      "country": "Germany",
+      "bertName": "Stuttgart",
+      "group": 4
+    },
+    {
+      "name": "FC Porto",
+      "country": "Portugal",
+      "bertName": "Porto",
+      "group": 5
+    },
+    {
+      "name": "Sparta Praha",
+      "country": "Czechia",
+      "bertName": "Sparta",
+      "group": 6
+    },
+    {
+      "name": "Celta de Vigo",
+      "country": "Spain",
+      "bertName": "Celta",
+      "group": 7
+    }
+  ]
+]

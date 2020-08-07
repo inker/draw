@@ -1,0 +1,102 @@
+[
+  [
+    {
+      "name": "Real Madrid",
+      "country": "Spain",
+      "bertName": "Real Madrid",
+      "group": 0
+    },
+    {
+      "name": "VfL Wolfsburg",
+      "country": "Germany",
+      "bertName": "Wolfsburg",
+      "group": 1
+    },
+    {
+      "name": "Atlético Madrid",
+      "country": "Spain",
+      "bertName": "Atlético",
+      "group": 2
+    },
+    {
+      "name": "Manchester City",
+      "country": "England",
+      "bertName": "Man City",
+      "group": 3
+    },
+    {
+      "name": "FC Barcelona",
+      "country": "Spain",
+      "bertName": "Barcelona",
+      "group": 4
+    },
+    {
+      "name": "Bayern München",
+      "country": "Germany",
+      "bertName": "Bayern",
+      "group": 5
+    },
+    {
+      "name": "Chelsea",
+      "country": "England",
+      "bertName": "Chelsea",
+      "group": 6
+    },
+    {
+      "name": "Zenit St. Petersburg",
+      "country": "Russia",
+      "bertName": "Zenit",
+      "group": 7
+    }
+  ],
+  [
+    {
+      "name": "Paris Saint-Germain",
+      "country": "France",
+      "bertName": "Paris",
+      "group": 0
+    },
+    {
+      "name": "PSV Eindhoven",
+      "country": "Netherlands",
+      "bertName": "PSV",
+      "group": 1
+    },
+    {
+      "name": "Benfica",
+      "country": "Portugal",
+      "bertName": "Benfica",
+      "group": 2
+    },
+    {
+      "name": "Juventus",
+      "country": "Italy",
+      "bertName": "Juventus",
+      "group": 3
+    },
+    {
+      "name": "AS Roma",
+      "country": "Italy",
+      "bertName": "Roma",
+      "group": 4
+    },
+    {
+      "name": "Arsenal",
+      "country": "England",
+      "bertName": "Arsenal",
+      "group": 5
+    },
+    {
+      "name": "Dinamo Kiev",
+      "country": "Ukraine",
+      "bertName": "Dynamo",
+      "group": 6
+    },
+    {
+      "name": "AA Gent",
+      "country": "Belgium",
+      "bertName": "Gent",
+      "group": 7
+    }
+  ]
+]
