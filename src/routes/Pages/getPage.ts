@@ -10,7 +10,7 @@ export default async (tournament: Tournament, stage: Stage) => {
     throw new Error(`Invalid stage: ${stage}`)
   }
 
-  return import(`pages/${tournament}/${stage}`)
+  return import(/* webpackChunkName: "[request]" */ `pages/${tournament}/${stage}`)
     .then(mod => mod?.default)
     .catch(console.error)
 }
