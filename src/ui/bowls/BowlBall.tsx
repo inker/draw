@@ -40,23 +40,27 @@ type InputProps = DetailedHTMLProps<HTMLAttributes<HTMLElement>, HTMLElement>
 
 type Props = RootProps & InputProps
 
-const BowlBall = (props: Props) => {
+const BowlBall = ({
+  noHover,
+  ...props
+}: Props) => {
   const ballRef = useRef<HTMLDivElement | null>(null)
 
   const cb = useCallback((e: KeyboardEvent) => {
     const el = ballRef.current
-    if (el && document.activeElement === el && e.key === 'Enter') {
+    if (!noHover && el && document.activeElement === el && e.key === 'Enter') {
       el.click()
     }
-  }, [ballRef])
+  }, [ballRef, noHover])
 
   useGlobalEvent('keydown', cb)
 
   return (
     <Root
       {...props}
+      noHover={noHover}
       ref={ballRef}
-      tabIndex={0}
+      tabIndex={noHover ? undefined : 0}
     />
   )
 }
