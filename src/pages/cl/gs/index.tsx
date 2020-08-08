@@ -1,5 +1,6 @@
 import React, {
   useState,
+  useEffect,
   useCallback,
   useMemo,
   memo,
@@ -96,6 +97,10 @@ const CLGS = ({
     possibleGroups,
     possibleGroupsShuffled,
   }, setState] = useState(initialState)
+
+  useEffect(() => {
+    setState(initialState)
+  }, [pots, drawId])
 
   const [, setPopup] = usePopup()
   const [isXRay] = useXRay()

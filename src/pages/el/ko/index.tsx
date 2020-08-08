@@ -72,6 +72,10 @@ const ELKO = ({
     possiblePairings,
   }, setState] = useState(initialState)
 
+  useEffect(() => {
+    setState(initialState)
+  }, [pots, drawId])
+
   const [isXRay] = useXRay()
 
   const [airborneTeams, airborneTeamsActions] = useCollection<Team>()

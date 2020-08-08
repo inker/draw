@@ -87,6 +87,10 @@ const WCGS = ({
     hungPot,
   }, setState] = useState(initialState)
 
+  useEffect(() => {
+    setState(initialState)
+  }, [pots, drawId])
+
   const [, setPopup] = usePopup()
   const [isXRay] = useXRay()
   const workerSendAndReceive = useWorkerWrapper<WorkerRequest, WorkerResponse>(EsWorker)
