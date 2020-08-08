@@ -7,27 +7,27 @@
       "group": 0
     },
     {
-      "name": "Valencia  4",
+      "name": "Valencia",
       "country": "Spain",
-      "bertName": "Valencia",
+      "bertName": "Valencia  4",
       "group": 1
     },
     {
-      "name": "Hapoel Tel-Aviv  3",
+      "name": "H. Tel-Aviv",
       "country": "Israel",
-      "bertName": "H. Tel-Aviv",
+      "bertName": "Hapoel Tel-Aviv  3",
       "group": 2
     },
     {
-      "name": "Sporting CP Lisbon",
+      "name": "Sporting CP",
       "country": "Portugal",
-      "bertName": "Sporting CP",
+      "bertName": "Sporting CP Lisbon",
       "group": 3
     },
     {
-      "name": "AS Roma  3",
+      "name": "Roma",
       "country": "Italy",
-      "bertName": "Roma",
+      "bertName": "AS Roma  3",
       "group": 4
     },
     {
@@ -37,45 +37,45 @@
       "group": 5
     },
     {
-      "name": "FC Salzburg",
+      "name": "Salzburg",
       "country": "Austria",
-      "bertName": "Salzburg",
+      "bertName": "FC Salzburg",
       "group": 6
     },
     {
-      "name": "Fenerbahçe  3",
+      "name": "Fenerbahçe",
       "country": "Turkey",
-      "bertName": "Fenerbahçe",
+      "bertName": "Fenerbahçe  3",
       "group": 7
     },
     {
-      "name": "Benfica  4",
+      "name": "Benfica",
       "country": "Portugal",
-      "bertName": "Benfica",
+      "bertName": "Benfica  4",
       "group": 8
     },
     {
-      "name": "Shakhtar Donetsk",
+      "name": "Shakhtar",
       "country": "Ukraine",
-      "bertName": "Shakhtar",
+      "bertName": "Shakhtar Donetsk",
       "group": 9
     },
     {
-      "name": "PSV Eindhoven  3",
+      "name": "PSV",
       "country": "Netherlands",
-      "bertName": "PSV",
+      "bertName": "PSV Eindhoven  3",
       "group": 10
     },
     {
-      "name": "Werder Bremen  4",
+      "name": "Bremen",
       "country": "Germany",
-      "bertName": "Bremen",
+      "bertName": "Werder Bremen  4",
       "group": 11
     },
     {
-      "name": "Unirea Urziceni",
+      "name": "Unirea",
       "country": "Romania",
-      "bertName": "Unirea",
+      "bertName": "Unirea Urziceni",
       "group": 24
     },
     {
@@ -85,47 +85,47 @@
       "group": 26
     },
     {
-      "name": "VfL Wolfsburg",
+      "name": "Wolfsburg",
       "country": "Germany",
-      "bertName": "Wolfsburg",
+      "bertName": "VfL Wolfsburg",
       "group": 28
     },
     {
-      "name": "Olympique Marseille",
+      "name": "Marseille",
       "country": "France",
-      "bertName": "Marseille",
+      "bertName": "Olympique Marseille",
       "group": 30
     }
   ],
   [
     {
-      "name": "Ajax  4",
+      "name": "Ajax",
       "country": "Netherlands",
-      "bertName": "Ajax",
+      "bertName": "Ajax  4",
       "group": 0
     },
     {
-      "name": "Lille OSC  3",
+      "name": "Lille",
       "country": "France",
-      "bertName": "Lille",
+      "bertName": "Lille OSC  3",
       "group": 1
     },
     {
-      "name": "Hamburger SV  3",
+      "name": "Hamburg",
       "country": "Germany",
-      "bertName": "Hamburg",
+      "bertName": "Hamburger SV  3",
       "group": 2
     },
     {
-      "name": "Hertha BSC  4",
+      "name": "Hertha",
       "country": "Germany",
-      "bertName": "Hertha",
+      "bertName": "Hertha BSC  4",
       "group": 3
     },
     {
-      "name": "Fulham FC  3",
+      "name": "Fulham",
       "country": "England",
-      "bertName": "Fulham",
+      "bertName": "Fulham FC  3",
       "group": 4
     },
     {
@@ -135,39 +135,39 @@
       "group": 5
     },
     {
-      "name": "Villarreal  4",
+      "name": "Villarreal",
       "country": "Spain",
-      "bertName": "Villarreal",
+      "bertName": "Villarreal  4",
       "group": 6
     },
     {
-      "name": "FC Twente Enschede",
+      "name": "Twente",
       "country": "Netherlands",
-      "bertName": "Twente",
+      "bertName": "FC Twente Enschede",
       "group": 7
     },
     {
-      "name": "Everton  4",
+      "name": "Everton",
       "country": "England",
-      "bertName": "Everton",
+      "bertName": "Everton  4",
       "group": 8
     },
     {
-      "name": "Club Brugge  3",
+      "name": "Club Brugge",
       "country": "Belgium",
-      "bertName": "Club Brugge",
+      "bertName": "Club Brugge  3",
       "group": 9
     },
     {
-      "name": "FC København",
+      "name": "København",
       "country": "Denmark",
-      "bertName": "København",
+      "bertName": "FC København",
       "group": 10
     },
     {
-      "name": "Athletic Bilbao  3",
+      "name": "Athletic",
       "country": "Spain",
-      "bertName": "Athletic",
+      "bertName": "Athletic Bilbao  3",
       "group": 11
     },
     {
@@ -177,21 +177,21 @@
       "group": 25
     },
     {
-      "name": "Rubin Kazan",
+      "name": "Rubin",
       "country": "Russia",
-      "bertName": "Rubin",
+      "bertName": "Rubin Kazan",
       "group": 27
     },
     {
-      "name": "Standard Liège",
+      "name": "Standard",
       "country": "Belgium",
-      "bertName": "Standard",
+      "bertName": "Standard Liège",
       "group": 29
     },
     {
-      "name": "Atlético Madrid",
+      "name": "Atlético",
       "country": "Spain",
-      "bertName": "Atlético",
+      "bertName": "Atlético Madrid",
       "group": 31
     }
   ]

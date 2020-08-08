@@ -1,33 +1,33 @@
 [
   [
     {
-      "name": "Tottenham Hotspur",
+      "name": "Tottenham",
       "country": "England",
-      "bertName": "Tottenham",
+      "bertName": "Tottenham Hotspur",
       "group": 0
     },
     {
-      "name": "Schalke 04",
+      "name": "Schalke",
       "country": "Germany",
-      "bertName": "Schalke",
+      "bertName": "Schalke 04",
       "group": 1
     },
     {
-      "name": "Manchester United",
+      "name": "Man United",
       "country": "England",
-      "bertName": "Man United",
+      "bertName": "Manchester United",
       "group": 2
     },
     {
-      "name": "FC Barcelona",
+      "name": "Barcelona",
       "country": "Spain",
-      "bertName": "Barcelona",
+      "bertName": "FC Barcelona",
       "group": 3
     },
     {
-      "name": "Bayern München",
+      "name": "Bayern",
       "country": "Germany",
-      "bertName": "Bayern",
+      "bertName": "Bayern München",
       "group": 4
     },
     {
@@ -43,9 +43,9 @@
       "group": 6
     },
     {
-      "name": "Shakhtar Donetsk",
+      "name": "Shakhtar",
       "country": "Ukraine",
-      "bertName": "Shakhtar",
+      "bertName": "Shakhtar Donetsk",
       "group": 7
     }
   ],
@@ -57,9 +57,9 @@
       "group": 0
     },
     {
-      "name": "Olympique Lyon",
+      "name": "Lyon",
       "country": "France",
-      "bertName": "Lyon",
+      "bertName": "Olympique Lyon",
       "group": 1
     },
     {
@@ -69,27 +69,27 @@
       "group": 2
     },
     {
-      "name": "FC København",
+      "name": "København",
       "country": "Denmark",
-      "bertName": "København",
+      "bertName": "FC København",
       "group": 3
     },
     {
-      "name": "AS Roma",
+      "name": "Roma",
       "country": "Italy",
-      "bertName": "Roma",
+      "bertName": "AS Roma",
       "group": 4
     },
     {
-      "name": "Olympique Marseille",
+      "name": "Marseille",
       "country": "France",
-      "bertName": "Marseille",
+      "bertName": "Olympique Marseille",
       "group": 5
     },
     {
-      "name": "AC Milan",
+      "name": "Milan",
       "country": "Italy",
-      "bertName": "Milan",
+      "bertName": "AC Milan",
       "group": 6
     },
     {

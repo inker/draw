@@ -13,9 +13,9 @@
       "group": 1
     },
     {
-      "name": "FC Barcelona",
+      "name": "Barcelona",
       "country": "Spain",
-      "bertName": "Barcelona",
+      "bertName": "FC Barcelona",
       "group": 2
     },
     {
@@ -25,15 +25,15 @@
       "group": 3
     },
     {
-      "name": "AC Milan",
+      "name": "Milan",
       "country": "Italy",
-      "bertName": "Milan",
+      "bertName": "AC Milan",
       "group": 4
     },
     {
-      "name": "Olympique Lyon",
+      "name": "Lyon",
       "country": "France",
-      "bertName": "Lyon",
+      "bertName": "Olympique Lyon",
       "group": 5
     },
     {
@@ -51,9 +51,9 @@
   ],
   [
     {
-      "name": "Bayern München",
+      "name": "Bayern",
       "country": "Germany",
-      "bertName": "Bayern",
+      "bertName": "Bayern München",
       "group": 0
     },
     {
@@ -63,9 +63,9 @@
       "group": 1
     },
     {
-      "name": "Werder Bremen",
+      "name": "Bremen",
       "country": "Germany",
-      "bertName": "Bremen",
+      "bertName": "Werder Bremen",
       "group": 2
     },
     {
@@ -75,9 +75,9 @@
       "group": 3
     },
     {
-      "name": "PSV Eindhoven",
+      "name": "PSV",
       "country": "Netherlands",
-      "bertName": "PSV",
+      "bertName": "PSV Eindhoven",
       "group": 4
     },
     {
@@ -93,9 +93,9 @@
       "group": 6
     },
     {
-      "name": "Glasgow Rangers",
+      "name": "Rangers",
       "country": "Scotland",
-      "bertName": "Rangers",
+      "bertName": "Glasgow Rangers",
       "group": 7
     }
   ]

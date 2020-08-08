@@ -13,33 +13,33 @@
       "group": 1
     },
     {
-      "name": "FC Barcelona",
+      "name": "Barcelona",
       "country": "Spain",
-      "bertName": "Barcelona",
+      "bertName": "FC Barcelona",
       "group": 2
     },
     {
-      "name": "Atlético Madrid",
+      "name": "Atlético",
       "country": "Spain",
-      "bertName": "Atlético",
+      "bertName": "Atlético Madrid",
       "group": 3
     },
     {
-      "name": "AS Monaco  3",
+      "name": "Monaco",
       "country": "France",
-      "bertName": "Monaco",
+      "bertName": "AS Monaco  3",
       "group": 4
     },
     {
-      "name": "Borussia Dortmund",
+      "name": "Dortmund",
       "country": "Germany",
-      "bertName": "Dortmund",
+      "bertName": "Borussia Dortmund",
       "group": 5
     },
     {
-      "name": "Leicester City",
+      "name": "Leicester",
       "country": "England",
-      "bertName": "Leicester",
+      "bertName": "Leicester City",
       "group": 6
     },
     {
@@ -51,9 +51,9 @@
   ],
   [
     {
-      "name": "Paris Saint-Germain",
+      "name": "Paris",
       "country": "France",
-      "bertName": "Paris",
+      "bertName": "Paris Saint-Germain",
       "group": 0
     },
     {
@@ -65,18 +65,19 @@
     {
       "name": "Manchester City  4",
       "country": "England",
+      "bertName": "Manchester City  4",
       "group": 2
     },
     {
-      "name": "Bayern München",
+      "name": "Bayern",
       "country": "Germany",
-      "bertName": "Bayern",
+      "bertName": "Bayern München",
       "group": 3
     },
     {
-      "name": "Bayer Leverkusen",
+      "name": "Leverkusen",
       "country": "Germany",
-      "bertName": "Leverkusen",
+      "bertName": "Bayer Leverkusen",
       "group": 4
     },
     {
@@ -86,9 +87,9 @@
       "group": 5
     },
     {
-      "name": "FC Porto  4",
+      "name": "Porto",
       "country": "Portugal",
-      "bertName": "Porto",
+      "bertName": "FC Porto  4",
       "group": 6
     },
     {

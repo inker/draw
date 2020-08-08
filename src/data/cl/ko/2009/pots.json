@@ -1,15 +1,15 @@
 [
   [
     {
-      "name": "Girondins Bordeaux",
+      "name": "Bordeaux",
       "country": "France",
-      "bertName": "Bordeaux",
+      "bertName": "Girondins Bordeaux",
       "group": 0
     },
     {
-      "name": "Manchester United",
+      "name": "Man United",
       "country": "England",
-      "bertName": "Man United",
+      "bertName": "Manchester United",
       "group": 1
     },
     {
@@ -31,9 +31,9 @@
       "group": 4
     },
     {
-      "name": "FC Barcelona",
+      "name": "Barcelona",
       "country": "Spain",
-      "bertName": "Barcelona",
+      "bertName": "FC Barcelona",
       "group": 5
     },
     {
@@ -51,33 +51,33 @@
   ],
   [
     {
-      "name": "Bayern München",
+      "name": "Bayern",
       "country": "Germany",
-      "bertName": "Bayern",
+      "bertName": "Bayern München",
       "group": 0
     },
     {
-      "name": "CSKA Moscow",
+      "name": "CSKA",
       "country": "Russia",
-      "bertName": "CSKA",
+      "bertName": "CSKA Moscow",
       "group": 1
     },
     {
-      "name": "AC Milan",
+      "name": "Milan",
       "country": "Italy",
-      "bertName": "Milan",
+      "bertName": "AC Milan",
       "group": 2
     },
     {
-      "name": "FC Porto",
+      "name": "Porto",
       "country": "Portugal",
-      "bertName": "Porto",
+      "bertName": "FC Porto",
       "group": 3
     },
     {
-      "name": "Olympique Lyon",
+      "name": "Lyon",
       "country": "France",
-      "bertName": "Lyon",
+      "bertName": "Olympique Lyon",
       "group": 4
     },
     {
@@ -87,15 +87,15 @@
       "group": 5
     },
     {
-      "name": "VfB Stuttgart",
+      "name": "Stuttgart",
       "country": "Germany",
-      "bertName": "Stuttgart",
+      "bertName": "VfB Stuttgart",
       "group": 6
     },
     {
-      "name": "Olympiakos Piraeus",
+      "name": "Olympiacos",
       "country": "Greece",
-      "bertName": "Olympiacos",
+      "bertName": "Olympiakos Piraeus",
       "group": 7
     }
   ]

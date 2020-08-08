@@ -1,9 +1,9 @@
 [
   [
     {
-      "name": "Bayern München  4",
+      "name": "Bayern",
       "country": "Germany",
-      "bertName": "Bayern",
+      "bertName": "Bayern München  4",
       "group": 0
     },
     {
@@ -13,9 +13,9 @@
       "group": 1
     },
     {
-      "name": "Benfica  3",
+      "name": "Benfica",
       "country": "Portugal",
-      "bertName": "Benfica",
+      "bertName": "Benfica  3",
       "group": 2
     },
     {
@@ -31,21 +31,21 @@
       "group": 4
     },
     {
-      "name": "Arsenal  4",
+      "name": "Arsenal",
       "country": "England",
-      "bertName": "Arsenal",
+      "bertName": "Arsenal  4",
       "group": 5
     },
     {
-      "name": "APOEL Nicosia",
+      "name": "APOEL",
       "country": "Cyprus",
-      "bertName": "APOEL",
+      "bertName": "APOEL Nicosia",
       "group": 6
     },
     {
-      "name": "FC Barcelona",
+      "name": "Barcelona",
       "country": "Spain",
-      "bertName": "Barcelona",
+      "bertName": "FC Barcelona",
       "group": 7
     }
   ],
@@ -57,45 +57,45 @@
       "group": 0
     },
     {
-      "name": "CSKA Moscow",
+      "name": "CSKA",
       "country": "Russia",
-      "bertName": "CSKA",
+      "bertName": "CSKA Moscow",
       "group": 1
     },
     {
-      "name": "FC Basel",
+      "name": "Basel",
       "country": "Switzerland",
-      "bertName": "Basel",
+      "bertName": "FC Basel",
       "group": 2
     },
     {
-      "name": "Olympique Lyon  4",
+      "name": "Lyon",
       "country": "France",
-      "bertName": "Lyon",
+      "bertName": "Olympique Lyon  4",
       "group": 3
     },
     {
-      "name": "Bayer Leverkusen",
+      "name": "Leverkusen",
       "country": "Germany",
-      "bertName": "Leverkusen",
+      "bertName": "Bayer Leverkusen",
       "group": 4
     },
     {
-      "name": "Olympique Marseille",
+      "name": "Marseille",
       "country": "France",
-      "bertName": "Marseille",
+      "bertName": "Olympique Marseille",
       "group": 5
     },
     {
-      "name": "Zenit St. Petersburg",
+      "name": "Zenit",
       "country": "Russia",
-      "bertName": "Zenit",
+      "bertName": "Zenit St. Petersburg",
       "group": 6
     },
     {
-      "name": "AC Milan",
+      "name": "Milan",
       "country": "Italy",
-      "bertName": "Milan",
+      "bertName": "AC Milan",
       "group": 7
     }
   ]

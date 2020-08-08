@@ -1,21 +1,21 @@
 [
   [
     {
-      "name": "Paris Saint-Germain",
+      "name": "Paris",
       "country": "France",
-      "bertName": "Paris",
+      "bertName": "Paris Saint-Germain",
       "group": 0
     },
     {
-      "name": "Bayern München",
+      "name": "Bayern",
       "country": "Germany",
-      "bertName": "Bayern",
+      "bertName": "Bayern München",
       "group": 1
     },
     {
-      "name": "Manchester City",
+      "name": "Man City",
       "country": "England",
-      "bertName": "Man City",
+      "bertName": "Manchester City",
       "group": 2
     },
     {
@@ -31,15 +31,15 @@
       "group": 4
     },
     {
-      "name": "FC Barcelona",
+      "name": "Barcelona",
       "country": "Spain",
-      "bertName": "Barcelona",
+      "bertName": "FC Barcelona",
       "group": 5
     },
     {
-      "name": "RB Leipzig",
+      "name": "Leipzig",
       "country": "Germany",
-      "bertName": "Leipzig",
+      "bertName": "RB Leipzig",
       "group": 6
     },
     {
@@ -57,9 +57,9 @@
       "group": 0
     },
     {
-      "name": "Tottenham Hotspur",
+      "name": "Tottenham",
       "country": "England",
-      "bertName": "Tottenham",
+      "bertName": "Tottenham Hotspur",
       "group": 1
     },
     {
@@ -69,9 +69,9 @@
       "group": 2
     },
     {
-      "name": "Atlético Madrid",
+      "name": "Atlético",
       "country": "Spain",
-      "bertName": "Atlético",
+      "bertName": "Atlético Madrid",
       "group": 3
     },
     {
@@ -81,15 +81,15 @@
       "group": 4
     },
     {
-      "name": "Borussia Dortmund",
+      "name": "Dortmund",
       "country": "Germany",
-      "bertName": "Dortmund",
+      "bertName": "Borussia Dortmund",
       "group": 5
     },
     {
-      "name": "Olympique Lyon",
+      "name": "Lyon",
       "country": "France",
-      "bertName": "Lyon",
+      "bertName": "Olympique Lyon",
       "group": 6
     },
     {

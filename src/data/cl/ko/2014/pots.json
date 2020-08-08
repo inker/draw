@@ -1,9 +1,9 @@
 [
   [
     {
-      "name": "Atlético Madrid",
+      "name": "Atlético",
       "country": "Spain",
-      "bertName": "Atlético",
+      "bertName": "Atlético Madrid",
       "group": 0
     },
     {
@@ -13,27 +13,27 @@
       "group": 1
     },
     {
-      "name": "AS Monaco",
+      "name": "Monaco",
       "country": "France",
-      "bertName": "Monaco",
+      "bertName": "AS Monaco",
       "group": 2
     },
     {
-      "name": "Borussia Dortmund",
+      "name": "Dortmund",
       "country": "Germany",
-      "bertName": "Dortmund",
+      "bertName": "Borussia Dortmund",
       "group": 3
     },
     {
-      "name": "Bayern München",
+      "name": "Bayern",
       "country": "Germany",
-      "bertName": "Bayern",
+      "bertName": "Bayern München",
       "group": 4
     },
     {
-      "name": "FC Barcelona",
+      "name": "Barcelona",
       "country": "Spain",
-      "bertName": "Barcelona",
+      "bertName": "FC Barcelona",
       "group": 5
     },
     {
@@ -43,9 +43,9 @@
       "group": 6
     },
     {
-      "name": "FC Porto  4",
+      "name": "Porto",
       "country": "Portugal",
-      "bertName": "Porto",
+      "bertName": "FC Porto  4",
       "group": 7
     }
   ],
@@ -57,45 +57,45 @@
       "group": 0
     },
     {
-      "name": "FC Basel",
+      "name": "Basel",
       "country": "Switzerland",
-      "bertName": "Basel",
+      "bertName": "FC Basel",
       "group": 1
     },
     {
-      "name": "Bayer Leverkusen  4",
+      "name": "Leverkusen",
       "country": "Germany",
-      "bertName": "Leverkusen",
+      "bertName": "Bayer Leverkusen  4",
       "group": 2
     },
     {
-      "name": "Arsenal  4",
+      "name": "Arsenal",
       "country": "England",
-      "bertName": "Arsenal",
+      "bertName": "Arsenal  4",
       "group": 3
     },
     {
-      "name": "Manchester City",
+      "name": "Man City",
       "country": "England",
-      "bertName": "Man City",
+      "bertName": "Manchester City",
       "group": 4
     },
     {
-      "name": "Paris Saint-Germain",
+      "name": "Paris",
       "country": "France",
-      "bertName": "Paris",
+      "bertName": "Paris Saint-Germain",
       "group": 5
     },
     {
-      "name": "Schalke 04",
+      "name": "Schalke",
       "country": "Germany",
-      "bertName": "Schalke",
+      "bertName": "Schalke 04",
       "group": 6
     },
     {
-      "name": "Shakhtar Donetsk",
+      "name": "Shakhtar",
       "country": "Ukraine",
-      "bertName": "Shakhtar",
+      "bertName": "Shakhtar Donetsk",
       "group": 7
     }
   ]

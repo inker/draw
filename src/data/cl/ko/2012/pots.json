@@ -1,27 +1,27 @@
 [
   [
     {
-      "name": "Paris Saint-Germain",
+      "name": "Paris",
       "country": "France",
-      "bertName": "Paris",
+      "bertName": "Paris Saint-Germain",
       "group": 0
     },
     {
-      "name": "Schalke 04",
+      "name": "Schalke",
       "country": "Germany",
-      "bertName": "Schalke",
+      "bertName": "Schalke 04",
       "group": 1
     },
     {
-      "name": "Málaga CF  4",
+      "name": "Málaga",
       "country": "Spain",
-      "bertName": "Málaga",
+      "bertName": "Málaga CF  4",
       "group": 2
     },
     {
-      "name": "Borussia Dortmund",
+      "name": "Dortmund",
       "country": "Germany",
-      "bertName": "Dortmund",
+      "bertName": "Borussia Dortmund",
       "group": 3
     },
     {
@@ -31,29 +31,29 @@
       "group": 4
     },
     {
-      "name": "Bayern München",
+      "name": "Bayern",
       "country": "Germany",
-      "bertName": "Bayern",
+      "bertName": "Bayern München",
       "group": 5
     },
     {
-      "name": "FC Barcelona",
+      "name": "Barcelona",
       "country": "Spain",
-      "bertName": "Barcelona",
+      "bertName": "FC Barcelona",
       "group": 6
     },
     {
-      "name": "Manchester United",
+      "name": "Man United",
       "country": "England",
-      "bertName": "Man United",
+      "bertName": "Manchester United",
       "group": 7
     }
   ],
   [
     {
-      "name": "FC Porto",
+      "name": "Porto",
       "country": "Portugal",
-      "bertName": "Porto",
+      "bertName": "FC Porto",
       "group": 0
     },
     {
@@ -63,9 +63,9 @@
       "group": 1
     },
     {
-      "name": "AC Milan",
+      "name": "Milan",
       "country": "Italy",
-      "bertName": "Milan",
+      "bertName": "AC Milan",
       "group": 2
     },
     {
@@ -75,9 +75,9 @@
       "group": 3
     },
     {
-      "name": "Shakhtar Donetsk",
+      "name": "Shakhtar",
       "country": "Ukraine",
-      "bertName": "Shakhtar",
+      "bertName": "Shakhtar Donetsk",
       "group": 4
     },
     {
@@ -87,9 +87,9 @@
       "group": 5
     },
     {
-      "name": "Celtic  3",
+      "name": "Celtic",
       "country": "Scotland",
-      "bertName": "Celtic",
+      "bertName": "Celtic  3",
       "group": 6
     },
     {

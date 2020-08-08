@@ -7,9 +7,9 @@
       "group": 0
     },
     {
-      "name": "Bayern München",
+      "name": "Bayern",
       "country": "Germany",
-      "bertName": "Bayern",
+      "bertName": "Bayern München",
       "group": 1
     },
     {
@@ -25,15 +25,15 @@
       "group": 3
     },
     {
-      "name": "Olympique Lyon",
+      "name": "Lyon",
       "country": "France",
-      "bertName": "Lyon",
+      "bertName": "Olympique Lyon",
       "group": 4
     },
     {
-      "name": "Manchester United",
+      "name": "Man United",
       "country": "England",
-      "bertName": "Man United",
+      "bertName": "Manchester United",
       "group": 5
     },
     {
@@ -43,17 +43,17 @@
       "group": 6
     },
     {
-      "name": "AC Milan",
+      "name": "Milan",
       "country": "Italy",
-      "bertName": "Milan",
+      "bertName": "AC Milan",
       "group": 7
     }
   ],
   [
     {
-      "name": "FC Barcelona",
+      "name": "Barcelona",
       "country": "Spain",
-      "bertName": "Barcelona",
+      "bertName": "FC Barcelona",
       "group": 0
     },
     {
@@ -63,15 +63,15 @@
       "group": 1
     },
     {
-      "name": "PSV Eindhoven",
+      "name": "PSV",
       "country": "Netherlands",
-      "bertName": "PSV",
+      "bertName": "PSV Eindhoven",
       "group": 2
     },
     {
-      "name": "AS Roma",
+      "name": "Roma",
       "country": "Italy",
-      "bertName": "Roma",
+      "bertName": "AS Roma",
       "group": 3
     },
     {
@@ -87,15 +87,15 @@
       "group": 5
     },
     {
-      "name": "FC Porto",
+      "name": "Porto",
       "country": "Portugal",
-      "bertName": "Porto",
+      "bertName": "FC Porto",
       "group": 6
     },
     {
-      "name": "Lille OSC",
+      "name": "Lille",
       "country": "France",
-      "bertName": "Lille",
+      "bertName": "Lille OSC",
       "group": 7
     }
   ]

@@ -1,39 +1,39 @@
 [
   [
     {
-      "name": "Bor. Mönchengladbach  4",
+      "name": "Mönchengladbach",
       "country": "Germany",
-      "bertName": "Mönchengladbach",
+      "bertName": "Bor. Mönchengladbach  4",
       "group": 0
     },
     {
-      "name": "Club Brugge  3",
+      "name": "Club Brugge",
       "country": "Belgium",
-      "bertName": "Club Brugge",
+      "bertName": "Club Brugge  3",
       "group": 1
     },
     {
-      "name": "Besiktas",
+      "name": "Beşiktaş",
       "country": "Turkey",
-      "bertName": "Beşiktaş",
+      "bertName": "Besiktas",
       "group": 2
     },
     {
-      "name": "FC Salzburg",
+      "name": "Salzburg",
       "country": "Austria",
-      "bertName": "Salzburg",
+      "bertName": "FC Salzburg",
       "group": 3
     },
     {
-      "name": "Dinamo Moscow  3",
+      "name": "Dinamo Moskva",
       "country": "Russia",
-      "bertName": "Dinamo Moskva",
+      "bertName": "Dinamo Moscow  3",
       "group": 4
     },
     {
-      "name": "Internazionale  4",
+      "name": "Internazionale",
       "country": "Italy",
-      "bertName": "Internazionale",
+      "bertName": "Internazionale  4",
       "group": 5
     },
     {
@@ -43,33 +43,33 @@
       "group": 6
     },
     {
-      "name": "VfL Wolfsburg",
+      "name": "Wolfsburg",
       "country": "Germany",
-      "bertName": "Wolfsburg",
+      "bertName": "VfL Wolfsburg",
       "group": 7
     },
     {
-      "name": "Young Boys  3",
+      "name": "Young Boys",
       "country": "Switzerland",
-      "bertName": "Young Boys",
+      "bertName": "Young Boys  3",
       "group": 8
     },
     {
-      "name": "AaB Aalborg",
+      "name": "AaB",
       "country": "Denmark",
-      "bertName": "AaB",
+      "bertName": "AaB Aalborg",
       "group": 9
     },
     {
-      "name": "En Avant Guingamp",
+      "name": "Guingamp",
       "country": "France",
-      "bertName": "Guingamp",
+      "bertName": "En Avant Guingamp",
       "group": 10
     },
     {
-      "name": "Trabzonspor  4",
+      "name": "Trabzonspor",
       "country": "Turkey",
-      "bertName": "Trabzonspor",
+      "bertName": "Trabzonspor  4",
       "group": 11
     },
     {
@@ -91,29 +91,29 @@
       "group": 28
     },
     {
-      "name": "AS Roma",
+      "name": "Roma",
       "country": "Italy",
-      "bertName": "Roma",
+      "bertName": "AS Roma",
       "group": 30
     }
   ],
   [
     {
-      "name": "Villarreal  4",
+      "name": "Villarreal",
       "country": "Spain",
-      "bertName": "Villarreal",
+      "bertName": "Villarreal  4",
       "group": 0
     },
     {
-      "name": "Torino  3",
+      "name": "Torino",
       "country": "Italy",
-      "bertName": "Torino",
+      "bertName": "Torino  3",
       "group": 1
     },
     {
-      "name": "Tottenham Hotspur  4",
+      "name": "Tottenham",
       "country": "England",
-      "bertName": "Tottenham",
+      "bertName": "Tottenham Hotspur  4",
       "group": 2
     },
     {
@@ -123,9 +123,9 @@
       "group": 3
     },
     {
-      "name": "PSV Eindhoven  3",
+      "name": "PSV",
       "country": "Netherlands",
-      "bertName": "PSV",
+      "bertName": "PSV Eindhoven  3",
       "group": 4
     },
     {
@@ -147,9 +147,9 @@
       "group": 7
     },
     {
-      "name": "Dinamo Kiev",
+      "name": "Dynamo",
       "country": "Ukraine",
-      "bertName": "Dynamo",
+      "bertName": "Dinamo Kiev",
       "group": 8
     },
     {
@@ -159,33 +159,33 @@
       "group": 9
     },
     {
-      "name": "Legia Warsaw",
+      "name": "Legia",
       "country": "Poland",
-      "bertName": "Legia",
+      "bertName": "Legia Warsaw",
       "group": 10
     },
     {
-      "name": "Olympiakos Piraeus",
+      "name": "Olympiacos",
       "country": "Greece",
-      "bertName": "Olympiacos",
+      "bertName": "Olympiakos Piraeus",
       "group": 11
     },
     {
-      "name": "Sporting CP Lisbon",
+      "name": "Sporting CP",
       "country": "Portugal",
-      "bertName": "Sporting CP",
+      "bertName": "Sporting CP Lisbon",
       "group": 25
     },
     {
-      "name": "Athletic Bilbao",
+      "name": "Athletic",
       "country": "Spain",
-      "bertName": "Athletic",
+      "bertName": "Athletic Bilbao",
       "group": 27
     },
     {
-      "name": "Zenit St. Petersburg",
+      "name": "Zenit",
       "country": "Russia",
-      "bertName": "Zenit",
+      "bertName": "Zenit St. Petersburg",
       "group": 29
     }
   ]

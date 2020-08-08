@@ -7,9 +7,9 @@
       "group": 0
     },
     {
-      "name": "AC Milan",
+      "name": "Milan",
       "country": "Italy",
-      "bertName": "Milan",
+      "bertName": "AC Milan",
       "group": 1
     },
     {
@@ -25,15 +25,15 @@
       "group": 3
     },
     {
-      "name": "AS Monaco",
+      "name": "Monaco",
       "country": "France",
-      "bertName": "Monaco",
+      "bertName": "AS Monaco",
       "group": 4
     },
     {
-      "name": "Bayer Leverkusen",
+      "name": "Leverkusen",
       "country": "Germany",
-      "bertName": "Leverkusen",
+      "bertName": "Bayer Leverkusen",
       "group": 5
     },
     {
@@ -43,35 +43,35 @@
       "group": 6
     },
     {
-      "name": "Olympique Lyon",
+      "name": "Lyon",
       "country": "France",
-      "bertName": "Lyon",
+      "bertName": "Olympique Lyon",
       "group": 7
     }
   ],
   [
     {
-      "name": "PSV Eindhoven",
+      "name": "PSV",
       "country": "Netherlands",
-      "bertName": "PSV",
+      "bertName": "PSV Eindhoven",
       "group": 0
     },
     {
-      "name": "FC Barcelona",
+      "name": "Barcelona",
       "country": "Spain",
-      "bertName": "Barcelona",
+      "bertName": "FC Barcelona",
       "group": 1
     },
     {
-      "name": "Werder Bremen",
+      "name": "Bremen",
       "country": "Germany",
-      "bertName": "Bremen",
+      "bertName": "Werder Bremen",
       "group": 2
     },
     {
-      "name": "FC Porto",
+      "name": "Porto",
       "country": "Portugal",
-      "bertName": "Porto",
+      "bertName": "FC Porto",
       "group": 3
     },
     {
@@ -87,15 +87,15 @@
       "group": 5
     },
     {
-      "name": "Bayern München",
+      "name": "Bayern",
       "country": "Germany",
-      "bertName": "Bayern",
+      "bertName": "Bayern München",
       "group": 6
     },
     {
-      "name": "Manchester United",
+      "name": "Man United",
       "country": "England",
-      "bertName": "Man United",
+      "bertName": "Manchester United",
       "group": 7
     }
   ]

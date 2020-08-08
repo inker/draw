@@ -1,21 +1,21 @@
 [
   [
     {
-      "name": "Bayer Leverkusen",
+      "name": "Leverkusen",
       "country": "Germany",
-      "bertName": "Leverkusen",
+      "bertName": "Bayer Leverkusen",
       "group": 0
     },
     {
-      "name": "FC Salzburg",
+      "name": "Salzburg",
       "country": "Austria",
-      "bertName": "Salzburg",
+      "bertName": "FC Salzburg",
       "group": 1
     },
     {
-      "name": "Zenit St. Petersburg",
+      "name": "Zenit",
       "country": "Russia",
-      "bertName": "Zenit",
+      "bertName": "Zenit St. Petersburg",
       "group": 2
     },
     {
@@ -31,9 +31,9 @@
       "group": 4
     },
     {
-      "name": "Real Betis",
+      "name": "Betis",
       "country": "Spain",
-      "bertName": "Betis",
+      "bertName": "Real Betis",
       "group": 5
     },
     {
@@ -43,15 +43,15 @@
       "group": 6
     },
     {
-      "name": "Eintracht Frankfurt",
+      "name": "Frankfurt",
       "country": "Germany",
-      "bertName": "Frankfurt",
+      "bertName": "Eintracht Frankfurt",
       "group": 7
     },
     {
-      "name": "Racing Genk",
+      "name": "Genk",
       "country": "Belgium",
-      "bertName": "Genk",
+      "bertName": "Racing Genk",
       "group": 8
     },
     {
@@ -61,9 +61,9 @@
       "group": 9
     },
     {
-      "name": "Dinamo Kiev",
+      "name": "Dynamo",
       "country": "Ukraine",
-      "bertName": "Dynamo",
+      "bertName": "Dinamo Kiev",
       "group": 10
     },
     {
@@ -99,9 +99,9 @@
   ],
   [
     {
-      "name": "FC Zürich",
+      "name": "Zürich",
       "country": "Switzerland",
-      "bertName": "Zürich",
+      "bertName": "FC Zürich",
       "group": 0
     },
     {
@@ -111,9 +111,9 @@
       "group": 1
     },
     {
-      "name": "Slavia Praha",
+      "name": "Slavia",
       "country": "Czechia",
-      "bertName": "Slavia",
+      "bertName": "Slavia Praha",
       "group": 2
     },
     {
@@ -123,15 +123,15 @@
       "group": 3
     },
     {
-      "name": "Sporting CP Lisbon",
+      "name": "Sporting CP",
       "country": "Portugal",
-      "bertName": "Sporting CP",
+      "bertName": "Sporting CP Lisbon",
       "group": 4
     },
     {
-      "name": "Olympiakos Piraeus",
+      "name": "Olympiacos",
       "country": "Greece",
-      "bertName": "Olympiacos",
+      "bertName": "Olympiakos Piraeus",
       "group": 5
     },
     {
@@ -147,33 +147,33 @@
       "group": 7
     },
     {
-      "name": "Malmö FF",
+      "name": "Malmö",
       "country": "Sweden",
-      "bertName": "Malmö",
+      "bertName": "Malmö FF",
       "group": 8
     },
     {
-      "name": "FK Krasnodar",
+      "name": "Krasnodar",
       "country": "Russia",
-      "bertName": "Krasnodar",
+      "bertName": "FK Krasnodar",
       "group": 9
     },
     {
-      "name": "Stade Rennais",
+      "name": "Rennes",
       "country": "France",
-      "bertName": "Rennes",
+      "bertName": "Stade Rennais",
       "group": 10
     },
     {
-      "name": "BATE Borisov",
+      "name": "BATE",
       "country": "Belarus",
-      "bertName": "BATE",
+      "bertName": "BATE Borisov",
       "group": 11
     },
     {
-      "name": "Viktoria Plzen",
+      "name": "Plzeň",
       "country": "Czechia",
-      "bertName": "Plzeň",
+      "bertName": "Viktoria Plzen",
       "group": 25
     },
     {
@@ -183,9 +183,9 @@
       "group": 27
     },
     {
-      "name": "Shakhtar Donetsk",
+      "name": "Shakhtar",
       "country": "Ukraine",
-      "bertName": "Shakhtar",
+      "bertName": "Shakhtar Donetsk",
       "group": 29
     },
     {

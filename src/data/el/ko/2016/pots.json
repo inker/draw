@@ -7,33 +7,33 @@
       "group": 0
     },
     {
-      "name": "APOEL Nicosia",
+      "name": "APOEL",
       "country": "Cyprus",
-      "bertName": "APOEL",
+      "bertName": "APOEL Nicosia",
       "group": 1
     },
     {
-      "name": "AS Saint-Étienne  3",
+      "name": "St-Étienne",
       "country": "France",
-      "bertName": "St-Étienne",
+      "bertName": "AS Saint-Étienne  3",
       "group": 2
     },
     {
-      "name": "Zenit St. Petersburg",
+      "name": "Zenit",
       "country": "Russia",
-      "bertName": "Zenit",
+      "bertName": "Zenit St. Petersburg",
       "group": 3
     },
     {
-      "name": "AS Roma",
+      "name": "Roma",
       "country": "Italy",
-      "bertName": "Roma",
+      "bertName": "AS Roma",
       "group": 4
     },
     {
-      "name": "Racing Genk",
+      "name": "Genk",
       "country": "Belgium",
-      "bertName": "Genk",
+      "bertName": "Racing Genk",
       "group": 5
     },
     {
@@ -43,15 +43,15 @@
       "group": 6
     },
     {
-      "name": "Shakhtar Donetsk",
+      "name": "Shakhtar",
       "country": "Ukraine",
-      "bertName": "Shakhtar",
+      "bertName": "Shakhtar Donetsk",
       "group": 7
     },
     {
-      "name": "Schalke 04",
+      "name": "Schalke",
       "country": "Germany",
-      "bertName": "Schalke",
+      "bertName": "Schalke 04",
       "group": 8
     },
     {
@@ -61,53 +61,53 @@
       "group": 9
     },
     {
-      "name": "Sparta Praha",
+      "name": "Sparta",
       "country": "Czechia",
-      "bertName": "Sparta",
+      "bertName": "Sparta Praha",
       "group": 10
     },
     {
-      "name": "Osmanlispor",
+      "name": "Osmanlıspor",
       "country": "Turkey",
-      "bertName": "Osmanlıspor",
+      "bertName": "Osmanlispor",
       "group": 11
     },
     {
-      "name": "FC København",
+      "name": "København",
       "country": "Denmark",
-      "bertName": "København",
+      "bertName": "FC København",
       "group": 24
     },
     {
-      "name": "Olympique Lyon",
+      "name": "Lyon",
       "country": "France",
-      "bertName": "Lyon",
+      "bertName": "Olympique Lyon",
       "group": 26
     },
     {
-      "name": "Tottenham Hotspur",
+      "name": "Tottenham",
       "country": "England",
-      "bertName": "Tottenham",
+      "bertName": "Tottenham Hotspur",
       "group": 28
     },
     {
-      "name": "Besiktas",
+      "name": "Beşiktaş",
       "country": "Turkey",
-      "bertName": "Beşiktaş",
+      "bertName": "Besiktas",
       "group": 30
     }
   ],
   [
     {
-      "name": "Manchester United",
+      "name": "Man United",
       "country": "England",
-      "bertName": "Man United",
+      "bertName": "Manchester United",
       "group": 0
     },
     {
-      "name": "Olympiakos Piraeus",
+      "name": "Olympiacos",
       "country": "Greece",
-      "bertName": "Olympiacos",
+      "bertName": "Olympiakos Piraeus",
       "group": 1
     },
     {
@@ -117,51 +117,51 @@
       "group": 2
     },
     {
-      "name": "AZ Alkmaar  3",
+      "name": "AZ",
       "country": "Netherlands",
-      "bertName": "AZ",
+      "bertName": "AZ Alkmaar  3",
       "group": 3
     },
     {
-      "name": "Astra Giurgiu",
+      "name": "Astra",
       "country": "Romania",
-      "bertName": "Astra",
+      "bertName": "Astra Giurgiu",
       "group": 4
     },
     {
-      "name": "Athletic Bilbao",
+      "name": "Athletic",
       "country": "Spain",
-      "bertName": "Athletic",
+      "bertName": "Athletic Bilbao",
       "group": 5
     },
     {
-      "name": "Celta de Vigo",
+      "name": "Celta",
       "country": "Spain",
-      "bertName": "Celta",
+      "bertName": "Celta de Vigo",
       "group": 6
     },
     {
-      "name": "AA Gent  3",
+      "name": "Gent",
       "country": "Belgium",
-      "bertName": "Gent",
+      "bertName": "AA Gent  3",
       "group": 7
     },
     {
-      "name": "FK Krasnodar  3",
+      "name": "Krasnodar",
       "country": "Russia",
-      "bertName": "Krasnodar",
+      "bertName": "FK Krasnodar  3",
       "group": 8
     },
     {
-      "name": "PAOK Thessaloniki",
+      "name": "PAOK",
       "country": "Greece",
-      "bertName": "PAOK",
+      "bertName": "PAOK Thessaloniki",
       "group": 9
     },
     {
-      "name": "Hapoel Beer-Sheva",
+      "name": "H. Beer-Sheva",
       "country": "Israel",
-      "bertName": "H. Beer-Sheva",
+      "bertName": "Hapoel Beer-Sheva",
       "group": 10
     },
     {
@@ -171,27 +171,27 @@
       "group": 11
     },
     {
-      "name": "FK Rostov",
+      "name": "Rostov",
       "country": "Russia",
-      "bertName": "Rostov",
+      "bertName": "FK Rostov",
       "group": 25
     },
     {
-      "name": "Bor. Mönchengladbach",
+      "name": "Mönchengladbach",
       "country": "Germany",
-      "bertName": "Mönchengladbach",
+      "bertName": "Bor. Mönchengladbach",
       "group": 27
     },
     {
-      "name": "Legia Warsaw",
+      "name": "Legia",
       "country": "Poland",
-      "bertName": "Legia",
+      "bertName": "Legia Warsaw",
       "group": 29
     },
     {
-      "name": "Ludogorets Razgrad",
+      "name": "Ludogorets",
       "country": "Bulgaria",
-      "bertName": "Ludogorets",
+      "bertName": "Ludogorets Razgrad",
       "group": 31
     }
   ]

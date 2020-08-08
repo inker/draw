@@ -7,20 +7,21 @@
       "group": 0
     },
     {
-      "name": "Malmö FF",
+      "name": "Malmö",
       "country": "Sweden",
-      "bertName": "Malmö",
+      "bertName": "Malmö FF",
       "group": 1
     },
     {
-      "name": "FC Basel",
+      "name": "Basel",
       "country": "Switzerland",
-      "bertName": "Basel",
+      "bertName": "FC Basel",
       "group": 2
     },
     {
       "name": "LASK",
       "country": "Austria",
+      "bertName": "LASK",
       "group": 3
     },
     {
@@ -36,9 +37,9 @@
       "group": 5
     },
     {
-      "name": "FC Porto",
+      "name": "Porto",
       "country": "Portugal",
-      "bertName": "Porto",
+      "bertName": "FC Porto",
       "group": 6
     },
     {
@@ -48,27 +49,27 @@
       "group": 7
     },
     {
-      "name": "AA Gent",
+      "name": "Gent",
       "country": "Belgium",
-      "bertName": "Gent",
+      "bertName": "AA Gent",
       "group": 8
     },
     {
-      "name": "Istanbul Basaksehir",
+      "name": "Başakşehir",
       "country": "Turkey",
-      "bertName": "Başakşehir",
+      "bertName": "Istanbul Basaksehir",
       "group": 9
     },
     {
-      "name": "Sporting Braga  3",
+      "name": "Braga",
       "country": "Portugal",
-      "bertName": "Braga",
+      "bertName": "Sporting Braga  3",
       "group": 10
     },
     {
-      "name": "Manchester United",
+      "name": "Man United",
       "country": "England",
-      "bertName": "Man United",
+      "bertName": "Manchester United",
       "group": 11
     },
     {
@@ -78,9 +79,9 @@
       "group": 24
     },
     {
-      "name": "FC Salzburg",
+      "name": "Salzburg",
       "country": "Austria",
-      "bertName": "Salzburg",
+      "bertName": "FC Salzburg",
       "group": 26
     },
     {
@@ -98,15 +99,15 @@
   ],
   [
     {
-      "name": "APOEL Nicosia",
+      "name": "APOEL",
       "country": "Cyprus",
-      "bertName": "APOEL",
+      "bertName": "APOEL Nicosia",
       "group": 0
     },
     {
-      "name": "FC København",
+      "name": "København",
       "country": "Denmark",
-      "bertName": "København",
+      "bertName": "FC København",
       "group": 1
     },
     {
@@ -116,9 +117,9 @@
       "group": 2
     },
     {
-      "name": "Sporting CP Lisbon",
+      "name": "Sporting CP",
       "country": "Portugal",
-      "bertName": "Sporting CP",
+      "bertName": "Sporting CP Lisbon",
       "group": 3
     },
     {
@@ -128,63 +129,63 @@
       "group": 4
     },
     {
-      "name": "Eintracht Frankfurt",
+      "name": "Frankfurt",
       "country": "Germany",
-      "bertName": "Frankfurt",
+      "bertName": "Eintracht Frankfurt",
       "group": 5
     },
     {
-      "name": "Glasgow Rangers",
+      "name": "Rangers",
       "country": "Scotland",
-      "bertName": "Rangers",
+      "bertName": "Glasgow Rangers",
       "group": 6
     },
     {
-      "name": "Ludogorets Razgrad",
+      "name": "Ludogorets",
       "country": "Bulgaria",
-      "bertName": "Ludogorets",
+      "bertName": "Ludogorets Razgrad",
       "group": 7
     },
     {
-      "name": "VfL Wolfsburg",
+      "name": "Wolfsburg",
       "country": "Germany",
-      "bertName": "Wolfsburg",
+      "bertName": "VfL Wolfsburg",
       "group": 8
     },
     {
-      "name": "AS Roma",
+      "name": "Roma",
       "country": "Italy",
-      "bertName": "Roma",
+      "bertName": "AS Roma",
       "group": 9
     },
     {
-      "name": "Wolverhampton Wanderers",
+      "name": "Wolverhampton",
       "country": "England",
-      "bertName": "Wolverhampton",
+      "bertName": "Wolverhampton Wanderers",
       "group": 10
     },
     {
-      "name": "AZ Alkmaar",
+      "name": "AZ",
       "country": "Netherlands",
-      "bertName": "AZ",
+      "bertName": "AZ Alkmaar",
       "group": 11
     },
     {
-      "name": "Bayer Leverkusen",
+      "name": "Leverkusen",
       "country": "Germany",
-      "bertName": "Leverkusen",
+      "bertName": "Bayer Leverkusen",
       "group": 25
     },
     {
-      "name": "Shakhtar Donetsk",
+      "name": "Shakhtar",
       "country": "Ukraine",
-      "bertName": "Shakhtar",
+      "bertName": "Shakhtar Donetsk",
       "group": 27
     },
     {
-      "name": "Olympiakos Piraeus",
+      "name": "Olympiacos",
       "country": "Greece",
-      "bertName": "Olympiacos",
+      "bertName": "Olympiakos Piraeus",
       "group": 29
     },
     {

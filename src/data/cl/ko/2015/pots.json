@@ -7,33 +7,33 @@
       "group": 0
     },
     {
-      "name": "VfL Wolfsburg",
+      "name": "Wolfsburg",
       "country": "Germany",
-      "bertName": "Wolfsburg",
+      "bertName": "VfL Wolfsburg",
       "group": 1
     },
     {
-      "name": "Atlético Madrid",
+      "name": "Atlético",
       "country": "Spain",
-      "bertName": "Atlético",
+      "bertName": "Atlético Madrid",
       "group": 2
     },
     {
-      "name": "Manchester City",
+      "name": "Man City",
       "country": "England",
-      "bertName": "Man City",
+      "bertName": "Manchester City",
       "group": 3
     },
     {
-      "name": "FC Barcelona",
+      "name": "Barcelona",
       "country": "Spain",
-      "bertName": "Barcelona",
+      "bertName": "FC Barcelona",
       "group": 4
     },
     {
-      "name": "Bayern München",
+      "name": "Bayern",
       "country": "Germany",
-      "bertName": "Bayern",
+      "bertName": "Bayern München",
       "group": 5
     },
     {
@@ -43,23 +43,23 @@
       "group": 6
     },
     {
-      "name": "Zenit St. Petersburg",
+      "name": "Zenit",
       "country": "Russia",
-      "bertName": "Zenit",
+      "bertName": "Zenit St. Petersburg",
       "group": 7
     }
   ],
   [
     {
-      "name": "Paris Saint-Germain",
+      "name": "Paris",
       "country": "France",
-      "bertName": "Paris",
+      "bertName": "Paris Saint-Germain",
       "group": 0
     },
     {
-      "name": "PSV Eindhoven",
+      "name": "PSV",
       "country": "Netherlands",
-      "bertName": "PSV",
+      "bertName": "PSV Eindhoven",
       "group": 1
     },
     {
@@ -75,9 +75,9 @@
       "group": 3
     },
     {
-      "name": "AS Roma",
+      "name": "Roma",
       "country": "Italy",
-      "bertName": "Roma",
+      "bertName": "AS Roma",
       "group": 4
     },
     {
@@ -87,15 +87,15 @@
       "group": 5
     },
     {
-      "name": "Dinamo Kiev",
+      "name": "Dynamo",
       "country": "Ukraine",
-      "bertName": "Dynamo",
+      "bertName": "Dinamo Kiev",
       "group": 6
     },
     {
-      "name": "AA Gent",
+      "name": "Gent",
       "country": "Belgium",
-      "bertName": "Gent",
+      "bertName": "AA Gent",
       "group": 7
     }
   ]

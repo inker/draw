@@ -1,27 +1,27 @@
 [
   [
     {
-      "name": "Manchester United",
+      "name": "Man United",
       "country": "England",
-      "bertName": "Man United",
+      "bertName": "Manchester United",
       "group": 0
     },
     {
-      "name": "Paris Saint-Germain",
+      "name": "Paris",
       "country": "France",
-      "bertName": "Paris",
+      "bertName": "Paris Saint-Germain",
       "group": 1
     },
     {
-      "name": "AS Roma",
+      "name": "Roma",
       "country": "Italy",
-      "bertName": "Roma",
+      "bertName": "AS Roma",
       "group": 2
     },
     {
-      "name": "FC Barcelona",
+      "name": "Barcelona",
       "country": "Spain",
-      "bertName": "Barcelona",
+      "bertName": "FC Barcelona",
       "group": 3
     },
     {
@@ -31,35 +31,35 @@
       "group": 4
     },
     {
-      "name": "Manchester City",
+      "name": "Man City",
       "country": "England",
-      "bertName": "Man City",
+      "bertName": "Manchester City",
       "group": 5
     },
     {
-      "name": "Besiktas",
+      "name": "Beşiktaş",
       "country": "Turkey",
-      "bertName": "Beşiktaş",
+      "bertName": "Besiktas",
       "group": 6
     },
     {
-      "name": "Tottenham Hotspur",
+      "name": "Tottenham",
       "country": "England",
-      "bertName": "Tottenham",
+      "bertName": "Tottenham Hotspur",
       "group": 7
     }
   ],
   [
     {
-      "name": "FC Basel",
+      "name": "Basel",
       "country": "Switzerland",
-      "bertName": "Basel",
+      "bertName": "FC Basel",
       "group": 0
     },
     {
-      "name": "Bayern München",
+      "name": "Bayern",
       "country": "Germany",
-      "bertName": "Bayern",
+      "bertName": "Bayern München",
       "group": 1
     },
     {
@@ -81,15 +81,15 @@
       "group": 4
     },
     {
-      "name": "Shakhtar Donetsk",
+      "name": "Shakhtar",
       "country": "Ukraine",
-      "bertName": "Shakhtar",
+      "bertName": "Shakhtar Donetsk",
       "group": 5
     },
     {
-      "name": "FC Porto",
+      "name": "Porto",
       "country": "Portugal",
-      "bertName": "Porto",
+      "bertName": "FC Porto",
       "group": 6
     },
     {
