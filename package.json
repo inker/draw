@@ -48,7 +48,8 @@
     "react-router-dom": "^5.2.0",
     "styled-components": "^5.1.1",
     "timelimit": "^1.0.1",
-    "tslib": "^2.0.0"
+    "tslib": "^2.0.0",
+    "unfocus": "^1.0.1"
   },
   "devDependencies": {
     "@inker/eslint-config-typescript": "^1.1.2",
