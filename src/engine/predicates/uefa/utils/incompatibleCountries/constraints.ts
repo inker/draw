@@ -1,15 +1,17 @@
 import { stubTrue } from 'lodash'
 
+import Tournament from 'model/Tournament'
+import Stage from 'model/Stage'
 import { Country } from 'model/types'
 
 import isInsideInterval from 'utils/isInsideInterval'
 
 interface PartialItem {
   countries: [Country, Country],
-  predicate?: (season: number) => boolean,
+  predicate?: (season: number, tournament: Tournament, stage: Stage) => boolean,
 }
 
-const rawArray: PartialItem[] = [
+const constraints: PartialItem[] = [
   {
     countries: ['Russia', 'Ukraine'],
     predicate: isInsideInterval(2014, Number.MAX_SAFE_INTEGER),
@@ -40,7 +42,7 @@ const defaultItem: Required<Pick<PartialItem, ItemOptionalProperty>> = {
   predicate: stubTrue,
 }
 
-export default rawArray.map(item => ({
+export default constraints.map(item => ({
   ...defaultItem,
   ...item,
 }))
