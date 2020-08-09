@@ -2,7 +2,7 @@ import type { Predicate } from '@draws/engine'
 
 import Team from 'model/team/KnockoutTeam'
 
-import incompatibleCountries from '../incompatibleCountries'
+import incompatibleCountries from '../utils/incompatibleCountries'
 
 export default (season: number) => {
   const isCountryIncompatibleWith = incompatibleCountries(season)
