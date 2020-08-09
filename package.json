@@ -37,7 +37,6 @@
     "bowser": "^2.10.0",
     "delay.js": "^2.0.0",
     "fast-delete": "^1.0.1",
-    "fast-levenshtein": "^3.0.0",
     "flag-icon-css": "^3.5.0",
     "history": "^4.9.0",
     "lodash": "^4.17.19",
@@ -55,7 +54,6 @@
   },
   "devDependencies": {
     "@inker/eslint-config-typescript": "^1.1.2",
-    "@types/fast-levenshtein": "0.0.1",
     "@types/lodash": "^4.14.158",
     "@types/react": "^16.9.43",
     "@types/react-dom": "^16.9.8",
