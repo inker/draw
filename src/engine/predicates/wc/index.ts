@@ -28,14 +28,10 @@ const groupIsPossibleForTeam = (team: Team, group: readonly Team[]) =>
     ? uefaLessThanTwo(group)
     : !group.some(isFromConfederationOf(team)) && canFitUefa(group)
 
-const predicate: Predicate<Team> = (
-  picked: Team,
-  groups: readonly (readonly Team[])[],
-  groupIndex: number,
-) => {
-  const group = groups[groupIndex]
-  const currentPotIndex = getSmallestArrayLength(groups)
-  return group.length <= currentPotIndex && groupIsPossibleForTeam(picked, group)
-}
-
-export default predicate
+export default (): Predicate<Team> =>
+  // eslint-disable-next-line unicorn/consistent-function-scoping
+  (picked, groups, groupIndex) => {
+    const group = groups[groupIndex]
+    const currentPotIndex = getSmallestArrayLength(groups)
+    return group.length <= currentPotIndex && groupIsPossibleForTeam(picked, group)
+  }

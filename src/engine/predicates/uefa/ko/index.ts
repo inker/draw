@@ -4,7 +4,7 @@ import Team from 'model/team/KnockoutTeam'
 
 import incompatibleCountries from '../utils/incompatibleCountries'
 
-export default (season: number) => {
+export default (season: number): Predicate<Team> => {
   const isCountryIncompatibleWith = incompatibleCountries(season)
 
   const areCompatible = (a: Team, b: Team) =>
@@ -15,11 +15,6 @@ export default (season: number) => {
   const canFit = (pair: readonly Team[], picked: Team) =>
     pair.length === 0 || pair.length === 1 && areCompatible(picked, pair[0])
 
-  const predicate: Predicate<Team> = (
-    picked: Team,
-    groups: readonly (readonly Team[])[],
-    groupIndex: number,
-  ) => canFit(groups[groupIndex], picked)
-
-  return predicate
+  return (picked, groups, groupIndex) =>
+    canFit(groups[groupIndex], picked)
 }

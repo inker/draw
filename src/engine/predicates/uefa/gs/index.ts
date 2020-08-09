@@ -25,14 +25,10 @@ function hasTeam(team: Team) {
     group.some(isEqualToTeam)
 }
 
-export default (season: number) => {
+export default (season: number): Predicate<Team> => {
   const isCountryIncompatibleWith = incompatibleCountries(season)
 
-  const predicate: Predicate<Team> = (
-    picked: Team,
-    groups: readonly (readonly Team[])[],
-    groupIndex: number,
-  ) => {
+  return (picked, groups, groupIndex) => {
     const group = groups[groupIndex]
     const currentPotIndex = getSmallestArrayLength(groups)
 
@@ -43,6 +39,4 @@ export default (season: number) => {
 
     return !isImpossible
   }
-
-  return predicate
 }
