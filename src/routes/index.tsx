@@ -13,7 +13,7 @@ import {
 
 import usePopup from 'store/usePopup'
 import useDrawId from 'store/useDrawId'
-import useBooleanLocalStorage from 'store/useXRay'
+import useXRay from 'store/useXRay'
 
 import Visibility from 'ui/Visibility'
 
@@ -78,7 +78,7 @@ function useSeasonTournamentStage() {
 const Routes = () => {
   const [drawId, refreshDrawId] = useDrawId()
   const [popup] = usePopup()
-  const [isXRay, setIsXRay] = useBooleanLocalStorage()
+  const [isXRay, setIsXRay] = useXRay()
 
   const {
     tournament,

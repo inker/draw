@@ -9,13 +9,13 @@ interface PopupState {
   error: string | null,
 }
 
-const state: PopupState = {
+const initialState: PopupState = {
   initial: true,
   waiting: true,
   error: null,
 }
 
-const useStore = makeReducerHook(state)
+const useStore = makeReducerHook(initialState)
 
 export default () => {
   const [popupState, set] = useStore()
