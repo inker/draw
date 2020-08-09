@@ -15,10 +15,10 @@ import Team from 'model/team/KnockoutTeam'
 import getPossiblePairings from 'engine/getPossiblePairings'
 import getPredicate from 'engine/predicates/ko'
 
+import useDrawId from 'store/useDrawId'
 import useXRay from 'store/useXRay'
 
 import useCollection from 'utils/hooks/useCollection'
-import useUniqueId from 'utils/hooks/useUniqueId'
 
 import MovingDiv from 'ui/MovingDiv'
 import PotsContainer from 'ui/PotsContainer'
@@ -57,7 +57,7 @@ const CLKO = ({
   season,
   pots: initialPots,
 }: Props) => {
-  const [drawId, setNewDrawId] = useUniqueId('draw-')
+  const [drawId, setNewDrawId] = useDrawId()
   const pots = useMemo(() => initialPots.map(pot => shuffle(pot)), [initialPots, drawId])
   const matchups = useMemo(
     () => range(8).map(() => [] as any as [Team, Team]),

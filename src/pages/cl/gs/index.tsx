@@ -13,12 +13,12 @@ import {
 import Team from 'model/team/GsTeam'
 
 import usePopup from 'store/usePopup'
+import useDrawId from 'store/useDrawId'
 import useXRay from 'store/useXRay'
 
 import useCollection from 'utils/hooks/useCollection'
 import useTimer from 'utils/hooks/useTimer'
 import useWorkerWrapper from 'utils/hooks/useWorkerWrapper'
-import useUniqueId from 'utils/hooks/useUniqueId'
 
 import getGroupLetter from 'utils/getGroupLetter'
 
@@ -84,7 +84,7 @@ const CLGS = ({
   season,
   pots: initialPots,
 }: Props) => {
-  const [drawId, setNewDrawId] = useUniqueId('draw-')
+  const [drawId, setNewDrawId] = useDrawId()
   const pots = useMemo(() => initialPots.map(pot => shuffle(pot)), [initialPots, drawId])
   const groups = useMemo(() => initialPots[0].map(() => [] as Team[]), [initialPots, drawId])
 
