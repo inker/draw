@@ -22,7 +22,7 @@ const Versus = styled.div`
   font-size: 12px;
   color: #444;
 
-  &:before {
+  &::before {
     content: "v";
   }
 `

@@ -4,7 +4,7 @@ const TablesContainer = styled.div`
   display: flex;
   flex-direction: column;
   min-width: 65%;
-  margin: 0px 5px 10px 5px;
+  margin: 0 5px 10px 5px;
 `
 
 export default TablesContainer

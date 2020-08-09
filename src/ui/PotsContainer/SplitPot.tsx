@@ -19,13 +19,13 @@ const Pair = styled.div`
   margin-right: -1px;
 
   &:last-child {
-    margin-bottom: 0px;
+    margin-bottom: 0;
   }
 `
 
 const Cell = styled(PotCell)`
   width: 50%;
-  margin-right: 0px;
+  margin-right: 0;
 `
 
 interface Props {
