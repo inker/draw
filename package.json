@@ -41,6 +41,7 @@
     "flag-icon-css": "^3.5.0",
     "history": "^4.9.0",
     "lodash": "^4.17.19",
+    "memoize-one": "^5.1.1",
     "normalize.css": "^8.0.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
