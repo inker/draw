@@ -4,7 +4,7 @@ import Team from 'model/team/GsTeam'
 import getSmallestArrayLength from 'utils/getSmallestArrayLength'
 import getHalfArrayOfIndex from 'utils/getHalfArrayOfIndex'
 
-import rusUkrConstraint from '../rusUkrConstraint'
+import incompatibleCountries from '../incompatibleCountries'
 
 const isFrom = (country: string) =>
   (team: Team) =>
@@ -26,7 +26,7 @@ function hasTeam(team: Team) {
 }
 
 export default (season: number) => {
-  const isIncompatibleWith = rusUkrConstraint(season)
+  const isCountryIncompatibleWith = incompatibleCountries(season)
 
   const predicate: Predicate<Team> = (
     picked: Team,
@@ -38,7 +38,7 @@ export default (season: number) => {
 
     const isImpossible = group.length > currentPotIndex
       || group.some(isFromCountryOf(picked))
-      || group.some(isIncompatibleWith(picked))
+      || group.some(isCountryIncompatibleWith(picked))
       || picked.pairing && getHalfArrayOfIndex(groups, groupIndex).some(hasTeam(picked.pairing))
 
     return !isImpossible

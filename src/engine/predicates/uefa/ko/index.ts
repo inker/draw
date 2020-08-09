@@ -2,15 +2,15 @@ import type { Predicate } from '@draws/engine'
 
 import Team from 'model/team/KnockoutTeam'
 
-import rusUkrConstraint from '../rusUkrConstraint'
+import incompatibleCountries from '../incompatibleCountries'
 
 export default (season: number) => {
-  const isIncompatibleWith = rusUkrConstraint(season)
+  const isCountryIncompatibleWith = incompatibleCountries(season)
 
   const areCompatible = (a: Team, b: Team) =>
     a.country !== b.country
       && a.group !== b.group
-      && !isIncompatibleWith(a)(b)
+      && !isCountryIncompatibleWith(a)(b)
 
   const canFit = (pair: readonly Team[], picked: Team) =>
     pair.length === 0 || pair.length === 1 && areCompatible(picked, pair[0])

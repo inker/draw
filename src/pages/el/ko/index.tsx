@@ -12,8 +12,8 @@ import {
 } from 'lodash'
 
 import Team from 'model/team/KnockoutTeam'
-import getPossiblePairings from 'engine/getPossiblePairings'
-import getPredicate from 'engine/predicates/ko'
+import getPossiblePairings from 'engine/predicates/uefa/getPossiblePairings'
+import getPredicate from 'engine/predicates/uefa/ko'
 
 import useDrawId from 'store/useDrawId'
 import useXRay from 'store/useXRay'

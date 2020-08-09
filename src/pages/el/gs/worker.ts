@@ -1,6 +1,6 @@
 import { firstPossibleGroup } from '@draws/engine'
 
-import getPredicate from 'engine/predicates/gs'
+import getPredicate from 'engine/predicates/uefa/gs'
 import Team from 'model/team/GsTeam'
 import type { WorkerData } from 'model/types'
 
