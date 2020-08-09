@@ -1,6 +1,8 @@
 import { firstPossibleGroup } from '@draws/engine'
 
-import predicate from 'engine/predicates/wc'
+import getPredicate from 'engine/predicates/wc'
+
+const predicate = getPredicate()
 
 // eslint-disable-next-line no-restricted-globals
 addEventListener('message', e => {
