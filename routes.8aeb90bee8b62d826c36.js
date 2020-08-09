@@ -26,6 +26,7 @@
 
   & > * {
     margin-left: 5px;
+
     &:not(:last-child) {
       margin-right: 5px;
     }

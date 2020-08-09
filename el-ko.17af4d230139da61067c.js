@@ -36,7 +36,7 @@
   font-size: 12px;
   color: #444;
 
-  &:before {
+  &::before {
     content: "v";
   }
 `,g=Object(c.b)(p)`

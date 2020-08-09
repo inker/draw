@@ -1,11 +1,11 @@
 (window.webpackJsonp=window.webpackJsonp||[]).push([["cl-gs~cl-ko~el-gs~el-ko~wc-gs"],{381:function(e,t,n){"use strict";t.a=e=>String.fromCharCode(65+e)},383:function(e,t,n){"use strict";const r=n(4).b.div`
   border: #aaa solid 1px;
-  margin: 0px 5px 10px 5px;
+  margin: 0 5px 10px 5px;
   width: 150px;
   min-width: 0;
 
   @media (max-width: 999px) {
-    margin: 0px 3px 6px 3px;
+    margin: 0 3px 6px 3px;
   }
 `;t.a=r},385:function(e,t,n){"use strict";var r=n(4),o=n(419),a=n(402);var i=Object(r.b)(a.a)`
   padding-left: 3px;
@@ -40,13 +40,13 @@
   display: flex;
   flex-direction: column;
   min-width: 65%;
-  margin: 0px 5px 10px 5px;
+  margin: 0 5px 10px 5px;
 `;t.a=r},390:function(e,t,n){"use strict";const r=n(4).b.div`
   display: flex;
   flex-direction: column;
   text-align: center;
   min-width: 35%;
-  margin: 0px 5px 10px 5px;
+  margin: 0 5px 10px 5px;
 
   @media (max-width: 999px) {
     align-items: center;
@@ -102,11 +102,11 @@
   margin-right: -1px;
 
   &:last-child {
-    margin-bottom: 0px;
+    margin-bottom: 0;
   }
 `,j=Object(i.b)(g)`
   width: 50%;
-  margin-right: 0px;
+  margin-right: 0;
 `;var E=Object(r.memo)(({isCurrent:e,potNum:t,teams:n,pickedTeams:r,selectedTeams:a,background:i,color:c})=>o.a.createElement(u,{highlighted:e},o.a.createElement(m,{highlighted:e,depleted:!n||r.length===n.length,background:i,color:c},"Pot ",t+1),o.a.createElement(l.a,null,y(n.length/2).map(e=>{const t=[n[2*e],n[2*e+1]];return o.a.createElement(w,{key:e},t.map(e=>{var t;const{name:n,country:i,shortName:c,pairing:l}=e;return o.a.createElement(j,{key:e.id,"data-cellid":e.id,title:l&&"paired with "+(null!==(t=l.shortName)&&void 0!==t?t:l.name),selected:!!a&&a.includes(e),picked:r.includes(e),country:null!=i?i:n},null!=c?c:n)}))}))));t.a=Object(r.memo)(({initialPots:e,pots:t,selectedTeams:n,currentPotNum:r,split:i})=>o.a.createElement(c,{limitWidth:!i},e.map((c,l)=>{const s=i?E:v,u=l===r,d=a(e[l],t[l],null!=n?n:[]);return o.a.createElement(s,{key:c[0].id,potNum:l,isCurrent:u,teams:c,pickedTeams:d,selectedTeams:n,background:"rgba(0, 0, 0, 0.75)",color:"#fff"})})))},393:function(e,t,n){"use strict";var r=n(0),o=n(112),a=n.n(o),i=n(411),c=n(451),l=n(418);let s;var u=(e,...t)=>{s||(s=document.createElement("style"),document.head.appendChild(s));const n=Object(l.a)("styled-element-"),r=((e,...t)=>e.reduce((e,n,r)=>`${e}${n}${c(t[r])?"":t[r]}`,""))(e,...t);return s.textContent+=`.${n}{${r}}`,n};const d=e=>((e,t)=>new Promise(n=>{e.addEventListener(t,(function r(o){e.removeEventListener(t,r),n(o)}))}))(e,"transitionend"),p=u`
   position: fixed;
   top: 0;
