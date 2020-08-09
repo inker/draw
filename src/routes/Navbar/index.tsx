@@ -5,7 +5,7 @@ import Tournament from 'model/Tournament'
 import Stage from 'model/Stage'
 
 import Checkbox from 'ui/Checkbox'
-import DivLink from 'ui/DivLink'
+import Button from 'ui/Button'
 import { isHandheld } from 'utils/browser'
 
 import SelectSeason from './SelectSeason'
@@ -54,9 +54,9 @@ const Navbar = ({
   onSeasonChange,
 }: Props) => (
   <Root>
-    <DivLink onClick={refresh}>
+    <Button onClick={refresh}>
       Restart
-    </DivLink>
+    </Button>
     <SelectSeason
       tournament={tournament}
       stage={stage}
