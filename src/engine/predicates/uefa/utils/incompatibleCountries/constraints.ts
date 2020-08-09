@@ -8,7 +8,7 @@ import isInsideInterval from 'utils/isInsideInterval'
 
 interface PartialItem {
   countries: [Country, Country],
-  predicate?: (season: number, tournament: Tournament, stage: Stage) => boolean,
+  predicate?: (season: number, tournament?: Tournament, stage?: Stage) => boolean,
 }
 
 const constraints: PartialItem[] = [
