@@ -41,6 +41,7 @@ const groupColors = [
 ]
 
 interface WorkerRequest {
+  season: number,
   pots: readonly (readonly Team[])[],
   groups: readonly (readonly Team[])[],
   selectedTeam: Team,
@@ -51,6 +52,7 @@ interface WorkerResponse {
 }
 
 interface Props {
+  season: number,
   pots: readonly (readonly Team[])[],
 }
 
@@ -73,6 +75,7 @@ function getState(pots: readonly (readonly Team[])[]): State {
 }
 
 const WCGS = ({
+  season,
   pots: initialPots,
 }: Props) => {
   const [drawId, setNewDrawId] = useDrawId()
@@ -99,13 +102,14 @@ const WCGS = ({
 
   const getPickedGroup = useCallback(async (newSelectedTeam: Team) => {
     const response = await workerSendAndReceive({
+      season,
       pots,
       groups,
       selectedTeam: newSelectedTeam,
     })
 
     return response.pickedGroup
-  }, [pots, groups, workerSendAndReceive])
+  }, [pots, groups, season, workerSendAndReceive])
 
   const onTeamSelected = async () => {
     if (!selectedTeam) {

@@ -1,37 +1,40 @@
 import { Predicate } from '@draws/engine'
+import {
+  countBy,
+  sumBy,
+  mapValues,
+} from 'lodash'
 
 import { Confederation } from 'model/types'
 import Team from 'model/team/NationalTeam'
 import getSmallestArrayLength from 'utils/getSmallestArrayLength'
 
-import hasLessThan from './hasLessThan'
+import getNumGroupsByYear from './getNumGroupsByYear'
 
-const GROUP_SIZE = 4
+type BerthsByConf = {
+  [key in Confederation]: number
+}
 
-const isFrom = (confederation: Confederation) =>
-  (team: Team) =>
-    team.confederation === confederation
+export default (year: number, teams: readonly Team[]): Predicate<Team> => {
+  const numGroups = getNumGroupsByYear(year)
+  const groupSize = teams.length / numGroups
+  const berthsByConfederation = countBy(teams, team => team.confederation) as BerthsByConf
+  const confMinMax = mapValues(berthsByConfederation, v => {
+    const teamsPerGroup = v / numGroups
+    return [Math.floor(teamsPerGroup), Math.ceil(teamsPerGroup)] as const
+  })
 
-const isFromUefa = isFrom('UEFA')
-
-const uefaLessThanTwo = (group: Iterable<Team>) =>
-  hasLessThan(2, group, isFromUefa)
-
-const isFromConfederationOf = (team: Team) =>
-  isFrom(team.confederation)
-
-const canFitUefa = (group: readonly Team[]) =>
-  group.length < GROUP_SIZE - 1 || group.some(isFromUefa)
-
-const groupIsPossibleForTeam = (team: Team, group: readonly Team[]) =>
-  team.confederation === 'UEFA'
-    ? uefaLessThanTwo(group)
-    : !group.some(isFromConfederationOf(team)) && canFitUefa(group)
-
-export default (): Predicate<Team> =>
-  // eslint-disable-next-line unicorn/consistent-function-scoping
-  (picked, groups, groupIndex) => {
+  return (picked, groups, groupIndex) => {
     const group = groups[groupIndex]
     const currentPotIndex = getSmallestArrayLength(groups)
-    return group.length <= currentPotIndex && groupIsPossibleForTeam(picked, group)
+
+    if (group.length > currentPotIndex) {
+      return false
+    }
+
+    const conf = picked.confederation
+    const [min, max] = confMinMax[conf]
+    const n = sumBy(group, team => team.confederation === conf ? 1 : 0)
+    return n < max && n >= min - groupSize + group.length
   }
+}
