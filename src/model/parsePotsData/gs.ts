@@ -9,10 +9,10 @@ const objectToGsTeam = (o: any) =>
     o.name,
   )
 
-const arrayToPot = (arr: any[]) =>
+const arrayToPot = (arr: readonly any[]) =>
   arr.map(objectToGsTeam)
 
-export default async (data: any[][], pairings: readonly [string, string][]) => {
+export default async (data: readonly (readonly any[])[], pairings: readonly [string, string][]) => {
   const pots = data.map(arrayToPot)
   const teams = pots.flat(1)
   pairUpTeams(teams, pairings)

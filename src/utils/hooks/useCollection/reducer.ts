@@ -7,7 +7,7 @@ export const types = {
   remove: 'COLLECTION_REMOVE',
 } as const
 
-type State<T> = T[]
+type State<T> = readonly T[]
 
 interface Action<T> {
   type: typeof types.add | typeof types.remove,

@@ -8,8 +8,8 @@ const objectToKoTeam = (o: any) =>
     o.name,
   )
 
-const arrayToPot = (arr: any[]) =>
+const arrayToPot = (arr: readonly any[]) =>
   arr.map(objectToKoTeam)
 
-export default async (data: any[][]) =>
+export default async (data: readonly (readonly any[])[]) =>
   data.map(arrayToPot)
