@@ -58,9 +58,12 @@ const ELKO = ({
   pots: initialPots,
 }: Props) => {
   const [drawId, setNewDrawId] = useDrawId()
-  const pots = useMemo(() => initialPots.map(pot => shuffle(pot)), [initialPots, drawId])
+  const pots = useMemo(
+    () => initialPots.map(pot => shuffle(pot)) as readonly Team[][],
+    [initialPots, drawId],
+  )
   const matchups = useMemo(
-    () => range(16).map(() => [] as any as [Team, Team]),
+    () => range(16).map(() => [] as any) as readonly [Team, Team][],
     [initialPots, drawId],
   )
   const predicate = useMemo(() => getPredicate(season), [season])
