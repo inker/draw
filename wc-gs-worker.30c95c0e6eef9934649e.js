@@ -1,1 +1,0 @@
-(window.webpackJsonp=window.webpackJsonp||[]).push([["wc-gs-worker"],{410:function(n,o,w){n.exports=function(){return new Worker(w.p+"4cd419f6345c6dad99bc.worker.js")}}}]);
