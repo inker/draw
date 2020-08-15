@@ -23,6 +23,7 @@ export default (year: number, teams: readonly Team[]): Predicate<Team> => {
     const teamsPerGroup = v / numGroups
     return [Math.floor(teamsPerGroup), Math.ceil(teamsPerGroup)] as const
   })
+  const confMinMaxEntries = Object.entries(confMinMax)
 
   return (picked, groups, groupIndex) => {
     const group = groups[groupIndex]
@@ -32,9 +33,11 @@ export default (year: number, teams: readonly Team[]): Predicate<Team> => {
       return false
     }
 
-    const conf = picked.confederation
-    const [min, max] = confMinMax[conf]
-    const n = sumBy(group, team => team.confederation === conf ? 1 : 0)
-    return n < max && n >= min - groupSize + group.length
+    const numRemainingTeams = groupSize - group.length
+    const virtualGroup = [...group, picked]
+    return confMinMaxEntries.every(([conf, [min, max]]) => {
+      const n = sumBy(virtualGroup, team => team.confederation === conf ? 1 : 0)
+      return n <= max && n > min - numRemainingTeams
+    })
   }
 }
