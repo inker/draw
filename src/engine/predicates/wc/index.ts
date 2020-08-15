@@ -34,11 +34,11 @@ export default (year: number, teams: readonly Team[]): Predicate<Team> => {
       return false
     }
 
-    const numRemainingTeams = groupSize - group.length
-    const virtualGroup = [...group, picked]
+    const virtualGroup = [...group, picked] as const
+    const numRemainingTeams = groupSize - virtualGroup.length
     return confMinMaxEntries.every(([conf, [min, max]]) => {
-      const n = sumBy(virtualGroup, team => team.confederation === conf ? 1 : 0)
-      return n <= max && n > min - numRemainingTeams
+      const numConfTeams = sumBy(virtualGroup, team => team.confederation === conf ? 1 : 0)
+      return numConfTeams <= max && numConfTeams + numRemainingTeams >= min
     })
   }
 }
