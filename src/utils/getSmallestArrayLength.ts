@@ -1,6 +1,2 @@
-import { minBy } from 'lodash'
-
-export default <T>(arrays: readonly (readonly T[])[]) => {
-  const minArr = minBy(arrays, arr => arr.length)
-  return minArr ? minArr.length : Infinity
-}
+export default <T>(arrays: readonly (readonly T[])[]) =>
+  arrays.reduce((a, i) => Math.min(i.length, a), Infinity)
