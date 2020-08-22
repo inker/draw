@@ -89,17 +89,16 @@ const ELGS = ({
     [initialPots, drawId],
   )
 
-  const initialState = useMemo(() => getState(pots), [pots])
   const [{
     currentPotNum,
     selectedTeam,
     pickedGroup,
     hungPot,
-  }, setState] = useState(initialState)
+  }, setState] = useState(() => getState(pots))
 
   useEffect(() => {
-    setState(initialState)
-  }, [initialState])
+    setState(getState(pots))
+  }, [pots])
 
   const [, setPopup] = usePopup()
   const [isXRay] = useXRay()
@@ -173,11 +172,6 @@ const ELGS = ({
     }
   }, [selectedTeam])
 
-  const onReset = useCallback(() => {
-    setNewDrawId()
-    setState(getState(initialPots))
-  }, [initialPots])
-
   const completed = currentPotNum >= pots.length
 
   return (
@@ -215,7 +209,7 @@ const ELGS = ({
           pickedGroup={pickedGroup}
           possibleGroups={null}
           numGroups={groups.length}
-          reset={onReset}
+          reset={setNewDrawId}
         />
       </BowlsContainer>
       {airborneTeams.map((team: Team) => {

@@ -94,7 +94,6 @@ const CLGS = ({
     [initialPots, drawId],
   )
 
-  const initialState = useMemo(() => getState(pots), [pots])
   const [{
     currentPotNum,
     selectedTeam,
@@ -102,22 +101,17 @@ const CLGS = ({
     hungPot,
     possibleGroups,
     possibleGroupsShuffled,
-  }, setState] = useState(initialState)
+  }, setState] = useState(() => getState(pots))
 
   useEffect(() => {
-    setState(initialState)
-  }, [initialState])
+    setState(getState(pots))
+  }, [pots])
 
   const [, setPopup] = usePopup()
   const [isXRay] = useXRay()
   const workerSendAndReceive = useWorkerWrapper<WorkerRequest, WorkerResponse>(EsWorker)
   const [airborneTeams, airborneTeamsActions] = useCollection<Team>()
   const [isTimedOut, timeoutActions] = useTimer<Team>(3000)
-
-  const onReset = useCallback(() => {
-    setNewDrawId()
-    setState(getState(initialPots))
-  }, [initialPots])
 
   const getPickedGroup = useCallback(async (newSelectedTeam: Team) => {
     const response = await workerSendAndReceive({
@@ -214,7 +208,7 @@ const CLGS = ({
           pickedGroup={pickedGroup}
           possibleGroups={possibleGroups}
           numGroups={groups.length}
-          reset={onReset}
+          reset={setNewDrawId}
         />
         <GroupBowl
           display={!completed}

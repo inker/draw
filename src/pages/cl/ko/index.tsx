@@ -68,16 +68,11 @@ const CLKO = ({
   )
   const predicate = useMemo(() => getPredicate(season), [season])
 
-  const initialState = useMemo(getState, [])
   const [{
     currentMatchupNum,
     currentPotNum,
     possiblePairings,
-  }, setState] = useState(initialState)
-
-  useEffect(() => {
-    setState(initialState)
-  }, [initialState])
+  }, setState] = useState(getState)
 
   const [isXRay] = useXRay()
 
@@ -115,11 +110,6 @@ const CLKO = ({
   useEffect(() => {
     setTimeout(autoPickIfOneBall, 250)
   }, [currentPotNum])
-
-  const onReset = useCallback(() => {
-    setNewDrawId()
-    setState(getState())
-  }, [initialPots])
 
   const teamBowlPot = useMemo(
     () => possiblePairings && pots[0].filter((team, i) => possiblePairings.includes(i)),
@@ -166,7 +156,7 @@ const CLKO = ({
             pickedGroup={null}
             possibleGroups={null}
             numGroups={0}
-            reset={onReset}
+            reset={setNewDrawId}
           />
         )}
         {teamBowlPot && (
