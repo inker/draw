@@ -67,7 +67,7 @@ interface State {
   possibleGroupsShuffled: readonly number[] | null,
 }
 
-function getState(pots: readonly (readonly Team[])[]): State {
+function getInitialState(pots: readonly (readonly Team[])[]): State {
   const currentPotNum = 0
   const currentPot = pots[currentPotNum]
   return {
@@ -101,10 +101,10 @@ const CLGS = ({
     hungPot,
     possibleGroups,
     possibleGroupsShuffled,
-  }, setState] = useState(() => getState(pots))
+  }, setState] = useState(() => getInitialState(pots))
 
   useEffect(() => {
-    setState(getState(pots))
+    setState(getInitialState(pots))
   }, [pots])
 
   const [, setPopup] = usePopup()

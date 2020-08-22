@@ -63,7 +63,7 @@ interface State {
   hungPot: readonly Team[],
 }
 
-function getState(pots: readonly (readonly Team[])[]): State {
+function getInitialState(pots: readonly (readonly Team[])[]): State {
   const currentPotNum = 0
   const currentPot = pots[currentPotNum]
   return {
@@ -93,10 +93,10 @@ const WCGS = ({
     selectedTeam,
     pickedGroup,
     hungPot,
-  }, setState] = useState(() => getState(pots))
+  }, setState] = useState(() => getInitialState(pots))
 
   useEffect(() => {
-    setState(getState(pots))
+    setState(getInitialState(pots))
   }, [pots])
 
   const [, setPopup] = usePopup()

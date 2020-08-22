@@ -43,7 +43,7 @@ interface State {
   possiblePairings: readonly number[] | null,
 }
 
-function getState(): State {
+function getInitialState(): State {
   const currentPotNum = 1
   const currentMatchupNum = 0
   return {
@@ -72,7 +72,7 @@ const ELKO = ({
     currentMatchupNum,
     currentPotNum,
     possiblePairings,
-  }, setState] = useState(getState)
+  }, setState] = useState(getInitialState)
 
   const [isXRay] = useXRay()
 
