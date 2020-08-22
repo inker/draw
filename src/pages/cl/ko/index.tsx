@@ -13,6 +13,8 @@ import {
   shuffle,
 } from 'lodash'
 
+import type { FixedArray } from 'model/types'
+
 import Team from 'model/team/KnockoutTeam'
 import getPossiblePairings from 'engine/predicates/uefa/getPossiblePairings'
 import getPredicate from 'engine/predicates/uefa/ko'
@@ -34,7 +36,7 @@ import Root from 'pages/Root'
 
 interface Props {
   season: number,
-  pots: readonly (readonly Team[])[],
+  pots: FixedArray<FixedArray<Team, 8>, 2>,
 }
 
 interface State {

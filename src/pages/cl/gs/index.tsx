@@ -14,6 +14,8 @@ import {
   shuffle,
 } from 'lodash'
 
+import type { FixedArray } from 'model/types'
+
 import Team from 'model/team/GsTeam'
 
 import usePopup from 'store/usePopup'
@@ -58,7 +60,7 @@ interface WorkerResponse {
 
 interface Props {
   season: number,
-  pots: readonly (readonly Team[])[],
+  pots: FixedArray<FixedArray<Team, 8>, 4>,
 }
 
 interface State {
