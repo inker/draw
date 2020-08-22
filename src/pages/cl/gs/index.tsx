@@ -106,7 +106,7 @@ const CLGS = ({
 
   useEffect(() => {
     setState(initialState)
-  }, [pots, drawId])
+  }, [initialState])
 
   const [, setPopup] = usePopup()
   const [isXRay] = useXRay()

@@ -77,7 +77,7 @@ const CLKO = ({
 
   useEffect(() => {
     setState(initialState)
-  }, [pots, drawId])
+  }, [initialState])
 
   const [isXRay] = useXRay()
 
