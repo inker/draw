@@ -56,6 +56,16 @@ module.exports = (isDev) => compact([
     },
   },
   {
+    test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/,
+    use: {
+      loader: 'file-loader',
+      options: {
+        name: '[name].[hash:7].[ext]',
+        outputPath: 'fonts',
+      },
+    },
+  },
+  {
     test: /\.txt$/,
     use: 'raw-loader',
   },
