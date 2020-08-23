@@ -8,7 +8,6 @@ const { compact } = require('lodash')
 
 const getCurrentDate = require('./utils/getCurrentDate')
 const getLastCommitHash = require('./utils/getLastCommitHash')
-const chunkToName = require('./utils/chunkToName')
 
 const currentDate = getCurrentDate()
 const lastCommitHash = getLastCommitHash()
@@ -27,8 +26,6 @@ module.exports = (isDev) => compact([
   }),
 
   isDev && new webpack.HotModuleReplacementPlugin(),
-
-  new webpack.NamedChunksPlugin(chunkToName),
 
   // new (isDev ? NamedModulesPlugin : HashedModuleIdsPlugin)(),
 
