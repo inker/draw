@@ -11,7 +11,7 @@ import styled from 'styled-components'
 import Club from 'model/team/Club'
 import NationalTeam from 'model/team/NationalTeam'
 import StyledLink from 'ui/StyledLink'
-import DivLink from 'ui/DivLink'
+import ButtonLink from 'ui/ButtonLink'
 import NoTransitions from 'ui/NoTransitions'
 import getGroupLetter from 'utils/getGroupLetter'
 
@@ -61,6 +61,10 @@ const Completed = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+
+  & > * + * {
+    margin-top: 12px;
+  }
 `
 
 interface Props {
@@ -158,12 +162,14 @@ const Announcement = ({
         <Completed>
           <div>Draw completed!</div>
           {completed && !isAirborneAnimation && !!groupsElement && (
-            <>
-              <DivLink onClick={onDownloadPngClick}>Download PNG</DivLink>
-              <DivLink onClick={onDownloadSvgClick}>Download SVG</DivLink>
-            </>
+            <div>
+              {'Download as '}
+              <ButtonLink onClick={onDownloadPngClick}>PNG</ButtonLink>
+              {', '}
+              <ButtonLink onClick={onDownloadSvgClick}>SVG</ButtonLink>
+            </div>
           )}
-          <DivLink onClick={reset}>Restart</DivLink>
+          <ButtonLink onClick={reset}>Restart</ButtonLink>
         </Completed>
       </Root>
     )
