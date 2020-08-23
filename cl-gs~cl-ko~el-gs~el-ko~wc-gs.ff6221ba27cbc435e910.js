@@ -168,12 +168,7 @@
   padding: initial;
   border: initial;
   background-color: initial;
-`;var s=a.a`
-  body * {
-    transition-property: none !important;
-    animation: none !important;
-  }
-`,u=n(59),d=n(60);var p=a.c.div`
+`,s=n(59),u=n(60);var d=a.c.div`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -195,11 +190,16 @@
     border-color: rgba(0,0,0,0);
     filter: opacity(0.25);
   `}
-`;const f=a.c.div`
+`;const p=a.c.div`
   display: flex;
   justify-content: center;
   margin-top: 2px;
-`;var m=Object(r.memo)(({numGroups:e,possibleGroups:t})=>{const n=e>>1;return o.a.createElement(f,null,d(e).map(e=>{const r=Object(u.a)(e);return o.a.createElement(p,{key:r,color:e<n?"red":"blue",possible:t.includes(e)},r)}))});const b=n.e(79).then(n.bind(null,527)),x=a.c.div`
+`;var f=Object(r.memo)(({numGroups:e,possibleGroups:t})=>{const n=e>>1;return o.a.createElement(p,null,u(e).map(e=>{const r=Object(s.a)(e);return o.a.createElement(d,{key:r,color:e<n?"red":"blue",possible:t.includes(e)},r)}))});var m=a.a`
+  body * {
+    transition-property: none !important;
+    animation: none !important;
+  }
+`;const b=n.e(79).then(n.bind(null,527)),x=()=>({downloadClicked:null,transitionsEnabled:!0});var h=Object(r.memo)(({completed:e,groupsElement:t})=>{const[{downloadClicked:n,transitionsEnabled:a},i]=Object(r.useState)(x),c=Object(r.useCallback)(e=>{i({downloadClicked:e,transitionsEnabled:!1})},[i]);Object(r.useEffect)(()=>{(async()=>{if(n){try{if(!t)throw new Error("groups element is null");const e=await b;await e.default(t,n)}catch(e){console.error(e)}c(null)}})()},[n]),Object(r.useEffect)(()=>{e||i({downloadClicked:null,transitionsEnabled:!0})},[e]);const s=Object(r.useCallback)(()=>c("png"),[c]),u=Object(r.useCallback)(()=>c("svg"),[c]);return e&&t?o.a.createElement("div",null,!a&&o.a.createElement(m,null),"Download as ",o.a.createElement(l,{onClick:s},"PNG"),", ",o.a.createElement(l,{onClick:u},"SVG")):null});const g=a.c.div`
   width: 100%;
   font-size: 1.25em;
   line-height: 150%;
@@ -214,16 +214,16 @@
     margin-top: 15px;
     margin-bottom: 15px;
   }
-`,h=a.c.div`
+`,v=a.c.div`
   border-width: 2px;
   border-style: dashed;
   border-color: rgba(255, 0, 0, 0.5);
   padding: 10px;
-`,g=a.c.span`
+`,y=a.c.span`
   display: inline-block;
-`,v=a.c.strong`
+`,w=a.c.strong`
   font-weight: 600;
-`,y=a.c.div`
+`,j=a.c.div`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -231,7 +231,7 @@
   & > * + * {
     margin-top: 12px;
   }
-`;t.a=Object(r.memo)(({long:e,calculating:t,completed:n,isAirborneAnimation:a,selectedTeam:c,pickedGroup:d,possibleGroups:p,numGroups:f,groupsElement:w,reset:j})=>{var E,O;const k=Object(r.useRef)(null),C=Object(r.useRef)(null),[$,A]=Object(r.useState)(null);Object(r.useEffect)(()=>{C.current=n?null:c},[n,c]),Object(r.useEffect)(()=>{(async()=>{if($)try{if(!w)throw new Error("groups element is null");const e=await b;await e.default(w,$)}catch(e){console.error(e)}})()},[$]),Object(r.useEffect)(()=>{n||A(null)},[n]);const _=Object(r.useCallback)(()=>A("png"),[A]),T=Object(r.useCallback)(()=>A("svg"),[A]),N=null!==(E=C.current)&&void 0!==E?E:c;return t?o.a.createElement(x,null,o.a.createElement(h,null,o.a.createElement("div",null,"Calculation is taking too long."),o.a.createElement("div",null,"And"," ",o.a.createElement(i,{href:"https://github.com/inker/draw/issues/14",target:"_blank",rel:"noopener"},"here's why"),"."))):n?o.a.createElement(x,null,$&&o.a.createElement(s,null),o.a.createElement(y,null,o.a.createElement("div",null,"Draw completed!"),n&&!a&&!!w&&o.a.createElement("div",null,"Download as ",o.a.createElement(l,{onClick:_},"PNG"),", ",o.a.createElement(l,{onClick:T},"SVG")),o.a.createElement(l,{onClick:j},"Restart"))):null!==d?(k.current=o.a.createElement(x,null,o.a.createElement("div",null,e&&N?o.a.createElement("span",null,o.a.createElement(v,null,null!==(O=N.shortName)&&void 0!==O?O:N.name)," goes to group"):o.a.createElement("span",null,"Group")," ",o.a.createElement(v,null,Object(u.a)(d)),"!")),k.current):N?o.a.createElement(x,null,p?o.a.createElement("div",null,"Possible groups for"," ",o.a.createElement(g,null,o.a.createElement(v,null,N.name),":"),o.a.createElement(m,{numGroups:f,possibleGroups:p})):k.current):o.a.createElement(x,null,"Pick a ball")})},77:function(e,t,n){"use strict";var r=n(0),o=n(67),a=n.n(o),i=n(101),c=n(444),l=n(117);let s;var u=(e,...t)=>{s||(s=document.createElement("style"),document.head.appendChild(s));const n=Object(l.a)("styled-element-"),r=((e,...t)=>e.reduce((e,n,r)=>`${e}${n}${c(t[r])?"":t[r]}`,""))(e,...t);return s.textContent+=`.${n}{${r}}`,n};const d=e=>((e,t)=>new Promise(n=>{e.addEventListener(t,(function r(o){e.removeEventListener(t,r),n(o)}))}))(e,"transitionend"),p=u`
+`;t.a=Object(r.memo)(({long:e,calculating:t,completed:n,isAirborneAnimation:a,selectedTeam:c,pickedGroup:u,possibleGroups:d,numGroups:p,groupsElement:m,reset:b})=>{var x,E;const k=Object(r.useRef)(null),O=Object(r.useRef)(null);Object(r.useEffect)(()=>{O.current=n?null:c},[n,c]);const C=null!==(x=O.current)&&void 0!==x?x:c;return t?o.a.createElement(g,null,o.a.createElement(v,null,o.a.createElement("div",null,"Calculation is taking too long."),o.a.createElement("div",null,"And"," ",o.a.createElement(i,{href:"https://github.com/inker/draw/issues/14",target:"_blank",rel:"noopener"},"here's why"),"."))):n?o.a.createElement(g,null,o.a.createElement(j,null,o.a.createElement("div",null,"Draw completed!"),!a&&o.a.createElement(h,{completed:n,groupsElement:m}),o.a.createElement(l,{onClick:b},"Restart"))):null!==u?(k.current=o.a.createElement(g,null,o.a.createElement("div",null,e&&C?o.a.createElement("span",null,o.a.createElement(w,null,null!==(E=C.shortName)&&void 0!==E?E:C.name)," goes to group"):o.a.createElement("span",null,"Group")," ",o.a.createElement(w,null,Object(s.a)(u)),"!")),k.current):C?o.a.createElement(g,null,d?o.a.createElement("div",null,"Possible groups for"," ",o.a.createElement(y,null,o.a.createElement(w,null,C.name),":"),o.a.createElement(f,{numGroups:p,possibleGroups:d})):k.current):o.a.createElement(g,null,"Pick a ball")})},77:function(e,t,n){"use strict";var r=n(0),o=n(67),a=n.n(o),i=n(101),c=n(444),l=n(117);let s;var u=(e,...t)=>{s||(s=document.createElement("style"),document.head.appendChild(s));const n=Object(l.a)("styled-element-"),r=((e,...t)=>e.reduce((e,n,r)=>`${e}${n}${c(t[r])?"":t[r]}`,""))(e,...t);return s.textContent+=`.${n}{${r}}`,n};const d=e=>((e,t)=>new Promise(n=>{e.addEventListener(t,(function r(o){e.removeEventListener(t,r),n(o)}))}))(e,"transitionend"),p=u`
   position: fixed;
   top: 0;
   right: 0;
