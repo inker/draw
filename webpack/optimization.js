@@ -8,8 +8,8 @@ module.exports = (isDev) => ({
       // vendor: {
       vendors: {
         test: /node_modules/,
-        // chunks: 'initial',
-        name: 'vendor',
+        chunks: 'initial',
+        name: 'vendors',
         priority: -10000,
         enforce: true,
       },
