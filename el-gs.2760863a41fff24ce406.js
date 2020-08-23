@@ -1,0 +1,29 @@
+(window.webpackJsonp=window.webpackJsonp||[]).push([[3,7],{75:function(e,t,a){"use strict";var r=a(0);var n=class{constructor(){this.callbacks=new Map}add(e,t){this.callbacks.set(e,t)}addAndGetId(e){const t=Math.random().toString(36).slice(2);return this.add(t,e),t}resolve(e,t){this.getCallbackAndDelete(e)(null,t)}reject(e,t){this.getCallbackAndDelete(e)(t)}getCallbackAndDelete(e){const t=this.callbacks.get(e);if(!t)throw new Error("no resolver with id = "+e);return this.callbacks.delete(e),t}};const o=(e,t)=>(a,r)=>{a?t(a):e(r)};var s=class{constructor(){this.manager=new n}getPromise(e){return new Promise(async(t,a)=>{const r=o(t,a);this.manager.add(e,r)})}getPromiseWithId(e){return new Promise(async(t,a)=>{const r=o(t,a),n=this.manager.addAndGetId(r);e&&e(n)})}resolve(e,t){this.manager.resolve(e,t)}reject(e,t){this.manager.reject(e,t)}},c=a(84),l=a.n(c);var u=class{constructor(e,t){this.asyncManager=new s,this.timeout=t,this.worker=e,this.worker.onmessage=e=>{const{messageId:t,data:a}=e.data;this.asyncManager.resolve(t,a)}}sendAndReceive(e){const t=this.asyncManager.getPromiseWithId(t=>{this.worker.postMessage({messageId:t,data:e})});return void 0===this.timeout?t:l()(t,this.timeout)}terminate(){this.worker.terminate()}};t.a=e=>{const t=Object(r.useMemo)(()=>new u(new e,12e4),[]);return Object(r.useEffect)(()=>()=>{t.terminate()},[]),Object(r.useCallback)(t.sendAndReceive.bind(t),[t])}},78:function(e,t,a){"use strict";var r=a(0),n=a.n(r),o=a(1),s=a(59),c=a(89),l=a(60),u=a(62),i=a(90),d=a(70),m=a(64);const p=o.c`
+  from {
+    background-color: white;
+    box-shadow: 0 0 20px #08f;
+  }
+  to {}
+`,b=o.c`
+  from {
+    background-color: #ff8;
+  }
+  to {}
+`,g=o.a`
+  background-color: rgba(255, 255, 255, 0.9);
+  animation: ${p} 1s ease;
+  box-shadow: 0 0 5px #6af;
+`,h=o.a`
+  animation: ${b} 5s normal forwards;
+`;var k=Object(o.b)(m.a)`
+  ${e=>e.possible&&g}
+  ${e=>e.picked&&h}
+`,w=a(68),f=e=>{var t;return null!==(t=e.country)&&void 0!==t?t:e.name in w?e.name:void 0};var O=Object(r.memo)(({maxTeams:e,groupLetter:t,teams:a,potNum:r,possible:o,airborneTeams:s,background:m,color:p})=>{const b=c(a,s);return n.a.createElement(u.a,null,n.a.createElement(i.a,{background:m,color:p},"Group"," ",t),n.a.createElement(d.a,null,b.map(e=>{var t;return n.a.createElement(k,{country:f(e),picked:!0},null!==(t=e.shortName)&&void 0!==t?t:e.name)}),l(b.length,e).map(e=>n.a.createElement(k,{key:e,possible:e===r&&o,"data-cellid":`${t}${e}`}))))});const y=o.b.div`
+  display: flex;
+  flex-flow: row wrap;
+
+  & > * {
+    flex: 1;
+    flex-basis: 22%;
+  }
+`;t.a=Object(r.memo)(({maxTeams:e,currentPotNum:t,groups:a,possibleGroups:r,airborneTeams:o,groupColors:c})=>n.a.createElement(y,null,null==a?void 0:a.map((l,u)=>{const i=Object(s.a)(u),d=c&&c[~~(u/a.length*c.length)];return n.a.createElement(O,{key:i,maxTeams:e,groupLetter:i,teams:l,potNum:t,possible:!!(null==r?void 0:r.includes(u)),airborneTeams:o,background:d})})))},80:function(e,t,a){"use strict";var r=a(0),n=a(67),o=a.n(n);const s={key:null,isTimedOut:!1},c="TIMEOUT_VALUE_SET",l="TIMEOUT_RESET";function u(e,t){switch(t.type){case c:return{key:t.payload,isTimedOut:!!t.payload&&t.payload===e.key};case l:return s;default:throw new Error("Unknown action: "+t)}}t.a=e=>{const[t,a]=Object(r.useReducer)(u,s),n=async t=>{a({type:c,payload:t}),await o()(e),a({type:c,payload:t})},i=()=>{a({type:l})},d=Object(r.useMemo)(()=>({set:n,reset:i}),[]);return[t.isTimedOut,d]}},94:function(e,t,a){"use strict";a.r(t);var r=a(0),n=a.n(r),o=a(69),s=a(2),c=a(61),l=a(63),u=a(79),i=a(80),d=a(75),m=a(59),p=a(76),b=a(74),g=a(78),h=a(71),k=a(72),w=a(81),f=a(77),O=a(73),y=a(95),j=a.n(y);const E=["rgba(255, 0, 0, 0.25)","rgba(0, 128, 255, 0.25)"];function v(e){return{currentPotNum:0,selectedTeam:null,pickedGroup:null,hungPot:e[0]}}t.default=Object(r.memo)(({season:e,pots:t})=>{const[a,y]=Object(c.a)(),T=Object(r.useMemo)(()=>t.map(e=>o(e)),[t,a]),P=Object(r.useMemo)(()=>t[0].map(()=>[]),[t,a]),[{currentPotNum:x,selectedTeam:G,pickedGroup:M,hungPot:N},A]=Object(r.useState)(()=>v(T));Object(r.useEffect)(()=>{A(v(T))},[T]);const[,C]=Object(s.a)(),[I]=Object(l.a)(),$=Object(d.a)(j.a),[S,R]=Object(u.a)(),[U,D]=Object(i.a)(3e3),L=Object(r.useCallback)(async t=>(await $({season:e,pots:T,groups:P,selectedTeam:t})).pickedGroup,[T,P,e,$]),W=Object(r.useCallback)(e=>{if(G)return;const t=T[x];t[e]&&A({currentPotNum:x,hungPot:t.slice(),selectedTeam:t.splice(e,1)[0],pickedGroup:null})},[T,x]);Object(r.useEffect)(()=>{G&&(async()=>{if(!G)throw new Error("no selected team");let e;D.set(G);try{e=await L(G)}catch(e){return console.error(e),void C({error:"Could not determine the group"})}P[e].push(G);const t=T[x].length>0?x:x+1;R.add(G),D.reset(),A({selectedTeam:null,pickedGroup:e,hungPot:T[t],currentPotNum:t})})()},[G]);const _=x>=T.length;return n.a.createElement(O.a,null,n.a.createElement(h.a,null,n.a.createElement(b.a,{selectedTeams:G&&[G],initialPots:t,pots:T,currentPotNum:x}),n.a.createElement(g.a,{maxTeams:T.length,currentPotNum:x,groups:P,possibleGroups:null,airborneTeams:S,groupColors:E})),n.a.createElement(k.a,null,n.a.createElement(w.a,{forceNoSelect:!!G,display:!_,displayTeams:I,selectedTeam:G,pot:N,onPick:W}),n.a.createElement(f.a,{long:!0,calculating:U,completed:_,selectedTeam:G,pickedGroup:M,possibleGroups:null,numGroups:P.length,reset:y})),S.map(e=>{const t=P.findIndex(t=>t.includes(e)),a=Object(m.a)(t),r=P[t].indexOf(e);return n.a.createElement(p.a,{key:e.id,from:`[data-cellid='${e.id}']`,to:`[data-cellid='${a}${r}']`,duration:350,data:e,onAnimationEnd:R.remove})}))})},95:function(e,t,a){e.exports=function(){return new Worker(a.p+"f0d962be2a0e8e40c58c.worker.js")}}}]);
