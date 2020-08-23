@@ -1,7 +1,5 @@
 import React, {
-  useState,
   useEffect,
-  useCallback,
   useRef,
   memo,
 } from 'react'
@@ -12,14 +10,10 @@ import Club from 'model/team/Club'
 import NationalTeam from 'model/team/NationalTeam'
 import StyledLink from 'ui/StyledLink'
 import ButtonLink from 'ui/ButtonLink'
-import NoTransitions from 'ui/NoTransitions'
 import getGroupLetter from 'utils/getGroupLetter'
 
 import PossibleGroups from './PossibleGroups'
-
-const takeScreenshotPromise = (
-  import(/* webpackChunkName: "screenshot", webpackPrefetch: true */ 'utils/takeScreenshot')
-)
+import Download from './Download'
 
 type Team = Club | NationalTeam
 
@@ -95,37 +89,9 @@ const Announcement = ({
   const lastAnnouncement = useRef<React.ReactElement | null>(null)
   const lastSelected = useRef<Team | null>(null)
 
-  const [downloadClicked, setDownloadClicked] = useState<null | 'png' | 'svg'>(null)
-
   useEffect(() => {
     lastSelected.current = completed ? null : selectedTeam
   }, [completed, selectedTeam])
-
-  useEffect(() => {
-    (async () => {
-      if (!downloadClicked) {
-        return
-      }
-      try {
-        if (!groupsElement) {
-          throw new Error('groups element is null')
-        }
-        const mod = await takeScreenshotPromise
-        await mod.default(groupsElement, downloadClicked)
-      } catch (err) {
-        console.error(err)
-      }
-    })()
-  }, [downloadClicked])
-
-  useEffect(() => {
-    if (!completed) {
-      setDownloadClicked(null)
-    }
-  }, [completed])
-
-  const onDownloadPngClick = useCallback(() => setDownloadClicked('png'), [setDownloadClicked])
-  const onDownloadSvgClick = useCallback(() => setDownloadClicked('svg'), [setDownloadClicked])
 
   const selected = (lastSelected.current ?? selectedTeam)!
 
@@ -156,18 +122,13 @@ const Announcement = ({
   if (completed) {
     return (
       <Root>
-        {downloadClicked && (
-          <NoTransitions />
-        )}
         <Completed>
           <div>Draw completed!</div>
-          {completed && !isAirborneAnimation && !!groupsElement && (
-            <div>
-              {'Download as '}
-              <ButtonLink onClick={onDownloadPngClick}>PNG</ButtonLink>
-              {', '}
-              <ButtonLink onClick={onDownloadSvgClick}>SVG</ButtonLink>
-            </div>
+          {!isAirborneAnimation && (
+            <Download
+              completed={completed}
+              groupsElement={groupsElement}
+            />
           )}
           <ButtonLink onClick={reset}>Restart</ButtonLink>
         </Completed>
