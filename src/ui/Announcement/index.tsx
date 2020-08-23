@@ -8,16 +8,14 @@ import styled from 'styled-components'
 
 import Club from 'model/team/Club'
 import NationalTeam from 'model/team/NationalTeam'
-import StyledLink from 'ui/StyledLink'
 import ButtonLink from 'ui/ButtonLink'
 import getGroupLetter from 'utils/getGroupLetter'
 
 import PossibleGroups from './PossibleGroups'
+import LongCalculation from './LongCalculation'
 import Download from './Download'
 
 type Team = Club | NationalTeam
-
-const ISSUE_URL = 'https://github.com/inker/draw/issues/14'
 
 const Root = styled.div`
   width: 100%;
@@ -34,13 +32,6 @@ const Root = styled.div`
     margin-top: 15px;
     margin-bottom: 15px;
   }
-`
-
-const Bug = styled.div`
-  border-width: 2px;
-  border-style: dashed;
-  border-color: rgba(255, 0, 0, 0.5);
-  padding: 10px;
 `
 
 const SelectedTeamWithColon = styled.span`
@@ -98,23 +89,7 @@ const Announcement = ({
   if (calculating) {
     return (
       <Root>
-        <Bug>
-          <div>
-            Calculation is taking too long.
-          </div>
-          <div>
-            And
-            {' '}
-            <StyledLink
-              href={ISSUE_URL}
-              target="_blank"
-              rel="noopener"
-            >
-              here&apos;s why
-            </StyledLink>
-            .
-          </div>
-        </Bug>
+        <LongCalculation />
       </Root>
     )
   }
