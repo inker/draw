@@ -3,6 +3,7 @@ import React, {
   useEffect,
   useCallback,
   useMemo,
+  useRef,
   memo,
 } from 'react'
 
@@ -113,6 +114,8 @@ const CLGS = ({
   const [airborneTeams, airborneTeamsActions] = useCollection<Team>()
   const [isTimedOut, timeoutActions] = useTimer<Team>(3000)
 
+  const groupsContanerRef = useRef<HTMLElement>(null)
+
   const getPickedGroup = useCallback(async (newSelectedTeam: Team) => {
     const response = await workerSendAndReceive({
       season,
@@ -184,6 +187,7 @@ const CLGS = ({
           currentPotNum={currentPotNum}
         />
         <GroupsContainer
+          ref={groupsContanerRef}
           maxTeams={pots.length}
           currentPotNum={currentPotNum}
           groups={groups}
@@ -204,10 +208,12 @@ const CLGS = ({
           long={false}
           calculating={isTimedOut}
           completed={completed}
+          isAirborneAnimation={airborneTeams.length > 0}
           selectedTeam={selectedTeam}
           pickedGroup={pickedGroup}
           possibleGroups={possibleGroups}
           numGroups={groups.length}
+          groupsElement={groupsContanerRef.current}
           reset={setNewDrawId}
         />
         <GroupBowl

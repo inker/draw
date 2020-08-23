@@ -1,4 +1,7 @@
-import React, { memo } from 'react'
+import React, {
+  memo,
+  forwardRef,
+} from 'react'
 import styled from 'styled-components'
 
 import Team from 'model/team/Club'
@@ -18,11 +21,14 @@ interface Props {
   airborneTeams: readonly Team[],
 }
 
-const MatchupContainer = ({
-  matchups,
-  airborneTeams,
-}: Props) => (
-  <RootTable>
+const MatchupContainer = forwardRef((
+  {
+    matchups,
+    airborneTeams,
+  }: Props,
+  ref: any,
+) => (
+  <RootTable ref={ref}>
     {matchups?.map((matchup, i) => (
       <Matchup
         index={i}
@@ -31,6 +37,6 @@ const MatchupContainer = ({
       />
     ))}
   </RootTable>
-)
+))
 
 export default memo(MatchupContainer)

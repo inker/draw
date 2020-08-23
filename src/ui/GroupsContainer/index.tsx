@@ -1,4 +1,7 @@
-import React, { memo } from 'react'
+import React, {
+  memo,
+  forwardRef,
+} from 'react'
 import styled from 'styled-components'
 
 import Club from 'model/team/Club'
@@ -28,15 +31,18 @@ interface Props {
   groupColors?: readonly string[],
 }
 
-const GroupsContainer = ({
-  maxTeams,
-  currentPotNum,
-  groups,
-  possibleGroups,
-  airborneTeams,
-  groupColors,
-}: Props) => (
-  <Root>
+const GroupsContainer = forwardRef((
+  {
+    maxTeams,
+    currentPotNum,
+    groups,
+    possibleGroups,
+    airborneTeams,
+    groupColors,
+  }: Props,
+  ref: any,
+) => (
+  <Root ref={ref}>
     {groups?.map((group, i) => {
       const letter = getGroupLetter(i)
       const background = groupColors && groupColors[~~(i / groups.length * groupColors.length)]
@@ -55,6 +61,6 @@ const GroupsContainer = ({
       )
     })}
   </Root>
-)
+))
 
 export default memo(GroupsContainer)

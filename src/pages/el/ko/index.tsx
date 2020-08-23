@@ -3,6 +3,7 @@ import React, {
   useCallback,
   useMemo,
   useEffect,
+  useRef,
   memo,
 } from 'react'
 
@@ -78,6 +79,8 @@ const ELKO = ({
 
   const [airborneTeams, airborneTeamsActions] = useCollection<Team>()
 
+  const groupsContanerRef = useRef<HTMLElement>(null)
+
   const onBallPick = useCallback((i: number) => {
     const currentPot = pots[currentPotNum]
     const index = possiblePairings ? possiblePairings[i] : i
@@ -130,6 +133,7 @@ const ELKO = ({
           split
         />
         <MatchupsContainer
+          ref={groupsContanerRef}
           matchups={matchups}
           airborneTeams={airborneTeams}
         />
@@ -153,10 +157,12 @@ const ELKO = ({
           <Announcement
             long={false}
             completed={completed}
+            isAirborneAnimation={airborneTeams.length > 0}
             selectedTeam={null}
             pickedGroup={null}
             possibleGroups={null}
             numGroups={0}
+            groupsElement={groupsContanerRef.current}
             reset={setNewDrawId}
           />
         )}

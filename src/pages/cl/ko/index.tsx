@@ -3,6 +3,7 @@ import React, {
   useCallback,
   useMemo,
   useEffect,
+  useRef,
   memo,
 } from 'react'
 
@@ -78,6 +79,8 @@ const CLKO = ({
 
   const [airborneTeams, airborneTeamsActions] = useCollection<Team>()
 
+  const groupsContanerRef = useRef<HTMLElement>(null)
+
   const onBallPick = useCallback((i: number) => {
     const currentPot = pots[currentPotNum]
     const index = possiblePairings ? possiblePairings[i] : i
@@ -129,6 +132,7 @@ const CLKO = ({
           currentPotNum={currentPotNum}
         />
         <MatchupsContainer
+          ref={groupsContanerRef}
           matchups={matchups}
           airborneTeams={airborneTeams}
         />
@@ -152,10 +156,12 @@ const CLKO = ({
           <Announcement
             long={false}
             completed={completed}
+            isAirborneAnimation={airborneTeams.length > 0}
             selectedTeam={null}
             pickedGroup={null}
             possibleGroups={null}
             numGroups={0}
+            groupsElement={groupsContanerRef.current}
             reset={setNewDrawId}
           />
         )}
