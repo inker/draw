@@ -17,11 +17,31 @@ interface Props {
   groupsElement: HTMLElement | null,
 }
 
+interface State {
+  downloadClicked: null | 'png' | 'svg',
+  transitionsEnabled: boolean,
+}
+
+const getInitialState = (): State => ({
+  downloadClicked: null,
+  transitionsEnabled: true,
+})
+
 const Download = ({
   completed,
   groupsElement,
 }: Props) => {
-  const [downloadClicked, setDownloadClicked] = useState<null | 'png' | 'svg'>(null)
+  const [{
+    downloadClicked,
+    transitionsEnabled,
+  }, setState] = useState(getInitialState)
+
+  const setDownloadClicked = useCallback((format: State['downloadClicked']) => {
+    setState({
+      downloadClicked: format,
+      transitionsEnabled: false,
+    })
+  }, [setState])
 
   useEffect(() => {
     (async () => {
@@ -37,12 +57,16 @@ const Download = ({
       } catch (err) {
         console.error(err)
       }
+      setDownloadClicked(null)
     })()
   }, [downloadClicked])
 
   useEffect(() => {
     if (!completed) {
-      setDownloadClicked(null)
+      setState({
+        downloadClicked: null,
+        transitionsEnabled: true,
+      })
     }
   }, [completed])
 
@@ -51,7 +75,7 @@ const Download = ({
 
   return completed && !!groupsElement ? (
     <div>
-      {downloadClicked && (
+      {!transitionsEnabled && (
         <NoTransitions />
       )}
       {'Download as '}
