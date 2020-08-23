@@ -109,7 +109,82 @@
     width: 100%;
     flex-direction: column;
   }
-`;t.a=r},74:function(e,t,n){"use strict";var r=n(0),o=n.n(r),a=n(89),i=n(1);var c=i.c.div`
+`;t.a=r},74:function(e,t,n){"use strict";var r=n(0),o=n.n(r),a=n(1);var i=a.c.a`
+  color: blue;
+  text-decoration: underline;
+  cursor: pointer;
+
+  &:hover {
+    color: orange;
+  }
+`;const c=i.withComponent("button");var l=Object(a.c)(c)`
+  padding: initial;
+  border: initial;
+  background-color: initial;
+`,s=n(59),u=n(60);var d=a.c.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  width: 25px;
+  height: 25px;
+  margin: 2px;
+
+  border-width: 1px;
+  border-style: solid;
+  border-radius: 100%;
+
+  font-size: 18px;
+
+  ${e=>e.possible?a.b`
+    color: ${e.color};
+  `:a.b`
+    color: #000;
+    border-color: rgba(0,0,0,0);
+    filter: opacity(0.25);
+  `}
+`;const p=a.c.div`
+  display: flex;
+  justify-content: center;
+  margin-top: 2px;
+`;var f=Object(r.memo)(({numGroups:e,possibleGroups:t})=>{const n=e>>1;return o.a.createElement(p,null,u(e).map(e=>{const r=Object(s.a)(e);return o.a.createElement(d,{key:r,color:e<n?"red":"blue",possible:t.includes(e)},r)}))});const m=a.c.div`
+  border-width: 2px;
+  border-style: dashed;
+  border-color: rgba(255, 0, 0, 0.5);
+  padding: 10px;
+`;var b=Object(r.memo)(()=>o.a.createElement(m,null,o.a.createElement("div",null,"Calculation is taking too long."),o.a.createElement("div",null,"And"," ",o.a.createElement(i,{href:"https://github.com/inker/draw/issues/14",target:"_blank",rel:"noopener"},"here's why"),".")));var x=a.a`
+  body * {
+    transition-property: none !important;
+    animation: none !important;
+  }
+`;const h=n.e(79).then(n.bind(null,527)),g=()=>({downloadClicked:null,transitionsEnabled:!0});var v=Object(r.memo)(({completed:e,groupsElement:t})=>{const[{downloadClicked:n,transitionsEnabled:a},i]=Object(r.useState)(g),c=Object(r.useCallback)(e=>{i({downloadClicked:e,transitionsEnabled:!1})},[i]);Object(r.useEffect)(()=>{(async()=>{if(n){try{if(!t)throw new Error("groups element is null");const e=await h;await e.default(t,n)}catch(e){console.error(e)}c(null)}})()},[n]),Object(r.useEffect)(()=>{e||i({downloadClicked:null,transitionsEnabled:!0})},[e]);const s=Object(r.useCallback)(()=>c("png"),[c]),u=Object(r.useCallback)(()=>c("svg"),[c]);return e&&t?o.a.createElement("div",null,!a&&o.a.createElement(x,null),"Download as ",o.a.createElement(l,{onClick:s},"PNG"),", ",o.a.createElement(l,{onClick:u},"SVG")):null});const y=a.c.div`
+  width: 100%;
+  font-size: 1.25em;
+  line-height: 150%;
+  vertical-align: middle;
+
+  margin-top: 30px;
+  margin-bottom: 30px;
+
+  user-select: none;
+
+  @media (max-width: 999px) {
+    margin-top: 15px;
+    margin-bottom: 15px;
+  }
+`,w=a.c.span`
+  display: inline-block;
+`,j=a.c.strong`
+  font-weight: 600;
+`,E=a.c.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  & > * + * {
+    margin-top: 12px;
+  }
+`;t.a=Object(r.memo)(({long:e,calculating:t,completed:n,isAirborneAnimation:a,selectedTeam:i,pickedGroup:c,possibleGroups:u,numGroups:d,groupsElement:p,reset:m})=>{var x,h;const g=Object(r.useRef)(null),O=Object(r.useRef)(null);Object(r.useEffect)(()=>{O.current=n?null:i},[n,i]);const k=null!==(x=O.current)&&void 0!==x?x:i;return t?o.a.createElement(y,null,o.a.createElement(b,null)):n?o.a.createElement(y,null,o.a.createElement(E,null,o.a.createElement("div",null,"Draw completed!"),!a&&o.a.createElement(v,{completed:n,groupsElement:p}),o.a.createElement(l,{onClick:m},"Restart"))):null!==c?(g.current=o.a.createElement(y,null,o.a.createElement("div",null,e&&k?o.a.createElement("span",null,o.a.createElement(j,null,null!==(h=k.shortName)&&void 0!==h?h:k.name)," goes to group"):o.a.createElement("span",null,"Group")," ",o.a.createElement(j,null,Object(s.a)(c)),"!")),g.current):k?o.a.createElement(y,null,u?o.a.createElement("div",null,"Possible groups for"," ",o.a.createElement(w,null,o.a.createElement(j,null,k.name),":"),o.a.createElement(f,{numGroups:d,possibleGroups:u})):g.current):o.a.createElement(y,null,"Pick a ball")})},75:function(e,t,n){"use strict";var r=n(0),o=n.n(r),a=n(89),i=n(1);var c=i.c.div`
   display: flex;
   flex-flow: row wrap;
   flex-wrap: nowrap;
@@ -156,82 +231,7 @@
 `,j=Object(i.c)(g)`
   width: 50%;
   margin-right: 0;
-`;var E=Object(r.memo)(({isCurrent:e,potNum:t,teams:n,pickedTeams:r,selectedTeams:a,background:i,color:c})=>o.a.createElement(u,{highlighted:e},o.a.createElement(m,{highlighted:e,depleted:!n||r.length===n.length,background:i,color:c},"Pot ",t+1),o.a.createElement(l.a,null,y(n.length/2).map(e=>{const t=[n[2*e],n[2*e+1]];return o.a.createElement(w,{key:e},t.map(e=>{var t;const{name:n,country:i,shortName:c,pairing:l}=e;return o.a.createElement(j,{key:e.id,"data-cellid":e.id,title:l&&"paired with "+(null!==(t=l.shortName)&&void 0!==t?t:l.name),selected:!!a&&a.includes(e),picked:r.includes(e),country:null!=i?i:n},null!=c?c:n)}))}))));t.a=Object(r.memo)(({initialPots:e,pots:t,selectedTeams:n,currentPotNum:r,split:i})=>o.a.createElement(c,{limitWidth:!i},e.map((c,l)=>{const s=i?E:v,u=l===r,d=a(e[l],t[l],null!=n?n:[]);return o.a.createElement(s,{key:c[0].id,potNum:l,isCurrent:u,teams:c,pickedTeams:d,selectedTeams:n,background:"rgba(0, 0, 0, 0.75)",color:"#fff"})})))},75:function(e,t,n){"use strict";var r=n(0),o=n.n(r),a=n(1);var i=a.c.a`
-  color: blue;
-  text-decoration: underline;
-  cursor: pointer;
-
-  &:hover {
-    color: orange;
-  }
-`;const c=i.withComponent("button");var l=Object(a.c)(c)`
-  padding: initial;
-  border: initial;
-  background-color: initial;
-`,s=n(59),u=n(60);var d=a.c.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  width: 25px;
-  height: 25px;
-  margin: 2px;
-
-  border-width: 1px;
-  border-style: solid;
-  border-radius: 100%;
-
-  font-size: 18px;
-
-  ${e=>e.possible?a.b`
-    color: ${e.color};
-  `:a.b`
-    color: #000;
-    border-color: rgba(0,0,0,0);
-    filter: opacity(0.25);
-  `}
-`;const p=a.c.div`
-  display: flex;
-  justify-content: center;
-  margin-top: 2px;
-`;var f=Object(r.memo)(({numGroups:e,possibleGroups:t})=>{const n=e>>1;return o.a.createElement(p,null,u(e).map(e=>{const r=Object(s.a)(e);return o.a.createElement(d,{key:r,color:e<n?"red":"blue",possible:t.includes(e)},r)}))});var m=a.a`
-  body * {
-    transition-property: none !important;
-    animation: none !important;
-  }
-`;const b=n.e(79).then(n.bind(null,527)),x=()=>({downloadClicked:null,transitionsEnabled:!0});var h=Object(r.memo)(({completed:e,groupsElement:t})=>{const[{downloadClicked:n,transitionsEnabled:a},i]=Object(r.useState)(x),c=Object(r.useCallback)(e=>{i({downloadClicked:e,transitionsEnabled:!1})},[i]);Object(r.useEffect)(()=>{(async()=>{if(n){try{if(!t)throw new Error("groups element is null");const e=await b;await e.default(t,n)}catch(e){console.error(e)}c(null)}})()},[n]),Object(r.useEffect)(()=>{e||i({downloadClicked:null,transitionsEnabled:!0})},[e]);const s=Object(r.useCallback)(()=>c("png"),[c]),u=Object(r.useCallback)(()=>c("svg"),[c]);return e&&t?o.a.createElement("div",null,!a&&o.a.createElement(m,null),"Download as ",o.a.createElement(l,{onClick:s},"PNG"),", ",o.a.createElement(l,{onClick:u},"SVG")):null});const g=a.c.div`
-  width: 100%;
-  font-size: 1.25em;
-  line-height: 150%;
-  vertical-align: middle;
-
-  margin-top: 30px;
-  margin-bottom: 30px;
-
-  user-select: none;
-
-  @media (max-width: 999px) {
-    margin-top: 15px;
-    margin-bottom: 15px;
-  }
-`,v=a.c.div`
-  border-width: 2px;
-  border-style: dashed;
-  border-color: rgba(255, 0, 0, 0.5);
-  padding: 10px;
-`,y=a.c.span`
-  display: inline-block;
-`,w=a.c.strong`
-  font-weight: 600;
-`,j=a.c.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-
-  & > * + * {
-    margin-top: 12px;
-  }
-`;t.a=Object(r.memo)(({long:e,calculating:t,completed:n,isAirborneAnimation:a,selectedTeam:c,pickedGroup:u,possibleGroups:d,numGroups:p,groupsElement:m,reset:b})=>{var x,E;const k=Object(r.useRef)(null),O=Object(r.useRef)(null);Object(r.useEffect)(()=>{O.current=n?null:c},[n,c]);const C=null!==(x=O.current)&&void 0!==x?x:c;return t?o.a.createElement(g,null,o.a.createElement(v,null,o.a.createElement("div",null,"Calculation is taking too long."),o.a.createElement("div",null,"And"," ",o.a.createElement(i,{href:"https://github.com/inker/draw/issues/14",target:"_blank",rel:"noopener"},"here's why"),"."))):n?o.a.createElement(g,null,o.a.createElement(j,null,o.a.createElement("div",null,"Draw completed!"),!a&&o.a.createElement(h,{completed:n,groupsElement:m}),o.a.createElement(l,{onClick:b},"Restart"))):null!==u?(k.current=o.a.createElement(g,null,o.a.createElement("div",null,e&&C?o.a.createElement("span",null,o.a.createElement(w,null,null!==(E=C.shortName)&&void 0!==E?E:C.name)," goes to group"):o.a.createElement("span",null,"Group")," ",o.a.createElement(w,null,Object(s.a)(u)),"!")),k.current):C?o.a.createElement(g,null,d?o.a.createElement("div",null,"Possible groups for"," ",o.a.createElement(y,null,o.a.createElement(w,null,C.name),":"),o.a.createElement(f,{numGroups:p,possibleGroups:d})):k.current):o.a.createElement(g,null,"Pick a ball")})},77:function(e,t,n){"use strict";var r=n(0),o=n(67),a=n.n(o),i=n(101),c=n(444),l=n(117);let s;var u=(e,...t)=>{s||(s=document.createElement("style"),document.head.appendChild(s));const n=Object(l.a)("styled-element-"),r=((e,...t)=>e.reduce((e,n,r)=>`${e}${n}${c(t[r])?"":t[r]}`,""))(e,...t);return s.textContent+=`.${n}{${r}}`,n};const d=e=>((e,t)=>new Promise(n=>{e.addEventListener(t,(function r(o){e.removeEventListener(t,r),n(o)}))}))(e,"transitionend"),p=u`
+`;var E=Object(r.memo)(({isCurrent:e,potNum:t,teams:n,pickedTeams:r,selectedTeams:a,background:i,color:c})=>o.a.createElement(u,{highlighted:e},o.a.createElement(m,{highlighted:e,depleted:!n||r.length===n.length,background:i,color:c},"Pot ",t+1),o.a.createElement(l.a,null,y(n.length/2).map(e=>{const t=[n[2*e],n[2*e+1]];return o.a.createElement(w,{key:e},t.map(e=>{var t;const{name:n,country:i,shortName:c,pairing:l}=e;return o.a.createElement(j,{key:e.id,"data-cellid":e.id,title:l&&"paired with "+(null!==(t=l.shortName)&&void 0!==t?t:l.name),selected:!!a&&a.includes(e),picked:r.includes(e),country:null!=i?i:n},null!=c?c:n)}))}))));t.a=Object(r.memo)(({initialPots:e,pots:t,selectedTeams:n,currentPotNum:r,split:i})=>o.a.createElement(c,{limitWidth:!i},e.map((c,l)=>{const s=i?E:v,u=l===r,d=a(e[l],t[l],null!=n?n:[]);return o.a.createElement(s,{key:c[0].id,potNum:l,isCurrent:u,teams:c,pickedTeams:d,selectedTeams:n,background:"rgba(0, 0, 0, 0.75)",color:"#fff"})})))},77:function(e,t,n){"use strict";var r=n(0),o=n(67),a=n.n(o),i=n(101),c=n(444),l=n(117);let s;var u=(e,...t)=>{s||(s=document.createElement("style"),document.head.appendChild(s));const n=Object(l.a)("styled-element-"),r=((e,...t)=>e.reduce((e,n,r)=>`${e}${n}${c(t[r])?"":t[r]}`,""))(e,...t);return s.textContent+=`.${n}{${r}}`,n};const d=e=>((e,t)=>new Promise(n=>{e.addEventListener(t,(function r(o){e.removeEventListener(t,r),n(o)}))}))(e,"transitionend"),p=u`
   position: fixed;
   top: 0;
   right: 0;
