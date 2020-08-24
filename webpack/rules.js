@@ -19,7 +19,12 @@ const tsOptions = (isDev) => isDev ? {
 module.exports = (isDev) => compact([
   {
     test: /worker\.[jt]s/,
-    loader: 'worker-loader',
+    use: {
+      loader: 'worker-loader',
+      options: {
+        filename: '[name].[contenthash].worker.js',
+      },
+    },
   },
   {
     test: /\.tsx?$/,
