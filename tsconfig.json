@@ -27,9 +27,6 @@
       "WebWorker"
     ]
   },
-  "awesomeTypescriptLoaderOptions": {
-    /* ... */
-  },
   "exclude": [
     "node_modules"
   ]
