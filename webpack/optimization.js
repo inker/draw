@@ -14,14 +14,14 @@ module.exports = (isDev) => ({
         enforce: true,
       },
       react: {
-        test: /[\\/]react(-dom)?[\\/]/,
+        test: /[/\\]react(-dom)?[/\\]/,
         chunks: 'initial',
         name: 'react',
         enforce: true,
         reuseExistingChunk: true,
       },
       moment: {
-        test: /[\\/]moment(-timezone)?[\\/]/,
+        test: /[/\\]moment(-timezone)?[/\\]/,
         chunks: 'initial',
         name: 'moment',
         enforce: true,

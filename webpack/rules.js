@@ -42,7 +42,7 @@ module.exports = (isDev) => compact([
     ],
   },
   {
-    test: /\.(png|jpg|jpeg|gif|svg)$/,
+    test: /\.(png|jpe?g|gif|svg)$/,
     use: {
       loader: 'file-loader',
       options: {
