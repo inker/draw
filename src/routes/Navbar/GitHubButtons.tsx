@@ -6,8 +6,7 @@ const GitHubButtons = () => (
     <GitHubButton
       href="https://github.com/inker/draw/issues"
       data-icon="octicon-issue-opened"
-      // @ts-ignore
-      data-show-count="true"
+      data-show-count
       aria-label="Issues on GitHub"
     >
       Issues
@@ -15,8 +14,7 @@ const GitHubButtons = () => (
     <GitHubButton
       href="https://github.com/inker/draw"
       data-icon="octicon-star"
-      // @ts-ignore
-      data-show-count="true"
+      data-show-count
       aria-label="Star on GitHub"
     >
       Star
