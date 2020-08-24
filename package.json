@@ -41,7 +41,7 @@
     "fast-delete": "^1.0.1",
     "file-saver": "^2.0.2",
     "flag-icon-css": "^3.5.0",
-    "history": "^4.9.0",
+    "history": "^5.0.0",
     "lodash": "^4.17.20",
     "memoize-one": "^5.1.1",
     "normalize.css": "^8.0.1",

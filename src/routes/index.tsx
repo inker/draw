@@ -68,7 +68,7 @@ function useSeasonTournamentStage() {
 
   useEffect(() => {
     setHistoryLocation(historyLocation)
-    const unlisten = history.listen(setHistoryLocation)
+    const unlisten = history.listen(s => setHistoryLocation(s.location))
     return unlisten
   }, [])
 
