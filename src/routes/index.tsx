@@ -92,7 +92,7 @@ const Routes = () => {
         <HeadMetadata />
         <Visibility visible={!popup.initial}>
           <Navbar
-            refresh={refreshDrawId}
+            restartDraw={refreshDrawId}
             season={season}
             tournament={tournament!}
             stage={stage!}

@@ -41,7 +41,7 @@ interface Props {
   stage: Stage,
   isXRay: boolean,
   onSetIsXRay: (value: boolean) => void,
-  refresh: () => void,
+  restartDraw: () => void,
   onSeasonChange: (tournament: Tournament, stage: Stage, season: number) => void,
 }
 
@@ -49,13 +49,13 @@ const Navbar = ({
   season,
   tournament,
   stage,
-  refresh,
+  restartDraw,
   isXRay,
   onSetIsXRay,
   onSeasonChange,
 }: Props) => (
   <Root>
-    <Button onClick={refresh}>
+    <Button onClick={restartDraw}>
       Restart
     </Button>
     <SelectSeason
