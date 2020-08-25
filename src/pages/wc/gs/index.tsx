@@ -38,7 +38,7 @@ import Root from 'pages/Root'
 import EsWorker from './worker'
 
 const groupColors = [
-  'rgba(0, 128, 0, 0.25)',
+  '#c0e0c0',
 ]
 
 interface WorkerRequest {
