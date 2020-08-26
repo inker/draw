@@ -15,7 +15,7 @@ interface BackgroundProps {
 }
 
 const Background = styled(Overlay)<BackgroundProps>`
-  background-color: white;
+  background-color: ${props => props.theme.isDarkMode ? '#222' : 'white'};
   opacity: 0.75;
 
   ${props => props.animate && css`

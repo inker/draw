@@ -6,15 +6,22 @@ import styled, {
 
 import Cell from 'ui/table/Cell'
 
-const Appear = keyframes`
+const AppearLight = keyframes`
   from {
     background-color: rgba(255, 255, 0, 0.5);
   }
   to {}
 `
 
+const AppearDark = keyframes`
+  from {
+    background-color: rgba(192, 224, 255, 0.5);
+  }
+  to {}
+`
+
 const Picked = css`
-  animation: ${Appear} 3s ease-out normal forwards;
+  animation: ${props => props.theme.isDarkMode ? AppearDark : AppearLight} 3s ease-out normal forwards;
 `
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars

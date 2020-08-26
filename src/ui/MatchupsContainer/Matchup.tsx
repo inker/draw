@@ -12,7 +12,7 @@ import MatchupCellDeferred from './MatchupCellDeferred'
 const VersusCell = styled(Content)`
   justify-content: center;
   width: 23px;
-  color: #444;
+  color: ${props => props.theme.isDarkMode ? '#ccc' : '#333'};
 
   &::before {
     content: 'v';

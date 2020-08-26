@@ -36,7 +36,7 @@ import Announcement from 'ui/Announcement'
 import EsWorker from './worker'
 
 const getGroupHeaderStyles = constant(css`
-  background-color: #c0e0c0;
+  background-color: ${props => props.theme.isDarkMode ? '#363' : '#c0e0c0'};
 `)
 
 interface WorkerRequest {

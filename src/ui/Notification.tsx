@@ -9,7 +9,7 @@ import Modal from './Modal'
 
 const Text = styled.div`
   font-size: 5vw;
-  color: #808080;
+  color: ${props => props.theme.isDarkMode ? '' : '#808080'};
   user-select: none;
 
   @media (max-width: 999px) {

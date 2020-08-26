@@ -4,7 +4,7 @@ import React, {
   DetailedHTMLProps,
   SelectHTMLAttributes,
 } from 'react'
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 
 import useRandom from 'utils/hooks/useRandom'
 
@@ -21,6 +21,8 @@ const HiddenLabel = styled.label`
 const Select = styled.select`
   border-radius: 3px;
   border: ${props => props.theme.border};
+  background-color: ${props => props.theme.isDarkMode ? '#246' : 'white'};
+  color: ${props => props.theme.isDarkMode ? 'white' : ''};
   cursor: pointer;
 
   &:disabled {
@@ -28,7 +30,11 @@ const Select = styled.select`
   }
 
   &:hover {
-    border-color: black;
+    ${props => props.theme.isDarkMode ? css`
+      background-color: #468;
+    ` : css`
+      border-color: black;
+    `}
   }
 `
 

@@ -7,8 +7,9 @@ import styled, { ThemeProvider } from 'styled-components'
 import { HashRouter } from 'react-router-dom'
 
 import usePopup from 'store/usePopup'
+import useIsDarkMode from 'utils/hooks/useIsDarkMode'
 
-import defaultTheme from './theme'
+import * as themes from './themes'
 import Body from './Body'
 import Popup from './Popup'
 
@@ -26,6 +27,7 @@ const Root = styled.div`
 
 const App = () => {
   const [popup, setPopup] = usePopup()
+  const isDarkMode = useIsDarkMode()
 
   useEffect(() => {
     if (popup.initial && !popup.waiting) {
@@ -36,7 +38,7 @@ const App = () => {
   }, [popup.waiting])
 
   return (
-    <ThemeProvider theme={defaultTheme}>
+    <ThemeProvider theme={isDarkMode ? themes.dark : themes.light}>
       <Body />
       <Root>
         <Popup />

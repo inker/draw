@@ -1,5 +1,8 @@
-import React, { memo } from 'react'
-import styled from 'styled-components'
+import React, {
+  useContext,
+  memo,
+} from 'react'
+import styled, { ThemeContext } from 'styled-components'
 import GitHubButton from 'react-github-btn'
 
 const Root = styled.div`
@@ -13,25 +16,32 @@ const Root = styled.div`
   }
 `
 
-const GitHubButtons = () => (
-  <Root>
-    <GitHubButton
-      href="https://github.com/inker/draw/issues"
-      data-icon="octicon-issue-opened"
-      data-show-count
-      aria-label="Issues on GitHub"
-    >
-      Issues
-    </GitHubButton>
-    <GitHubButton
-      href="https://github.com/inker/draw"
-      data-icon="octicon-star"
-      data-show-count
-      aria-label="Star on GitHub"
-    >
-      Star
-    </GitHubButton>
-  </Root>
-)
+const GitHubButtons = () => {
+  const themeContext = useContext(ThemeContext)
+  const { isDarkMode } = themeContext
+
+  return (
+    <Root>
+      <GitHubButton
+        href="https://github.com/inker/draw/issues"
+        data-icon="octicon-issue-opened"
+        data-show-count
+        aria-label="Issues on GitHub"
+        data-color-scheme={isDarkMode ? 'dark' : 'light'}
+      >
+        Issues
+      </GitHubButton>
+      <GitHubButton
+        href="https://github.com/inker/draw"
+        data-icon="octicon-star"
+        data-show-count
+        aria-label="Star on GitHub"
+        data-color-scheme={isDarkMode ? 'dark' : 'light'}
+      >
+        Star
+      </GitHubButton>
+    </Root>
+  )
+}
 
 export default memo(GitHubButtons)

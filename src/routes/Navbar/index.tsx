@@ -7,6 +7,8 @@ import styled from 'styled-components'
 import Tournament from 'model/Tournament'
 import Stage from 'model/Stage'
 
+import useTheme from 'store/useTheme'
+
 import useMedia from 'utils/hooks/useMedia'
 import useDrawId from 'store/useDrawId'
 import useXRay from 'store/useXRay'
@@ -17,6 +19,7 @@ import Button from 'ui/Button'
 import StyledLink from 'ui/StyledLink'
 
 import SelectSeason from './SelectSeason'
+import SelectTheme from './SelectTheme'
 import GitHubButtons from './GitHubButtons'
 
 const Root = styled.div`
@@ -67,12 +70,13 @@ const Navbar = ({
   stage,
   onSeasonChange,
 }: Props) => {
+  const [theme, setTheme] = useTheme()
   const [isXRay, setIsXRay] = useXRay()
   const [, refreshDrawId] = useDrawId()
   const [isFastDraw, setIsFastDraw] = useFastDraw()
 
-  const isWidth800 = useMedia('(min-width: 800px)')
-  const isWidth650 = useMedia('(min-width: 650px)')
+  const isWidth900 = useMedia('(min-width: 900px)')
+  const isWidth700 = useMedia('(min-width: 700px)')
 
   const disableFastDrawAndRestart = useCallback(() => {
     setIsFastDraw(false)
@@ -107,13 +111,17 @@ const Navbar = ({
         >
           X-ray
         </Checkbox>
+        <SelectTheme
+          value={theme}
+          onChange={setTheme}
+        />
       </div>
       <div>
-        {isWidth800 && (
+        {isWidth900 && (
           <GitHubButtons />
         )}
         <small>
-          {isWidth650 ? 'Crafted with ♡ by' : '©'}
+          {isWidth700 ? 'Crafted with ♡ by' : '©'}
           {' '}
           <StyledLink
             href="https://github.com/inker"

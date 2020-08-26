@@ -3,7 +3,7 @@ import styled, { css } from 'styled-components'
 import ContentWithFlag from '../table/ContentWithFlag'
 
 const Selected = css`
-  color: blue;
+  color: ${props => props.theme.isDarkMode ? 'yellow' : 'blue'};
 `
 
 const Picked = css`
