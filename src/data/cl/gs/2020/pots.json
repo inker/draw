@@ -22,7 +22,7 @@
       "name": "Bayern",
       "country": "Germany",
       "bertName": "Bayern München",
-      "coefficient": 130
+      "coefficient": 136
     },
     {
       "name": "Paris",
@@ -143,19 +143,13 @@
       "coefficient": 41
     },
     {
-      "name": "Celtic",
-      "country": "Scotland",
-      "bertName": "Celtic",
-      "coefficient": 34
-    }
-  ],
-  [
-    {
       "name": "Atalanta",
       "country": "Italy",
       "bertName": "Atalanta",
       "coefficient": 33.5
-    },
+    }
+  ],
+  [
     {
       "name": "Dinamo Zagreb",
       "country": "Croatia",
@@ -179,6 +173,12 @@
       "country": "Belgium",
       "bertName": "Club Brugge",
       "coefficient": 28.5
+    },
+    {
+      "name": "Slavia",
+      "country": "Czechia",
+      "bertName": "Slavia Praha",
+      "coefficient": 27.5
     },
     {
       "name": "Mönchengladbach",
