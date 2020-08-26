@@ -13,7 +13,6 @@ const CellWithoutFlag = styled(Cell)`
   padding-left: 19px;
 
   @media (max-width: 999px) {
-    background-position-y: 2px;
     background-size: 12px;
     padding-left: 13px;
   }
