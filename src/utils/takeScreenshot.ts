@@ -6,18 +6,6 @@ type ImageFormat = 'png' | 'svg'
 
 const formatDate = format('yyyyMMddHHmmssSSS')
 
-function addCaption(el: HTMLElement) {
-  const mark = document.createElement('div')
-  mark.textContent = window.location.hostname
-  mark.style.fontSize = '12px'
-  mark.style.textAlign = 'center'
-  el.appendChild(mark)
-
-  return () => {
-    el.removeChild(mark)
-  }
-}
-
 function elToPng(el: HTMLElement, imageFormat: ImageFormat) {
   const scale = imageFormat === 'svg'
     ? 1
@@ -47,8 +35,6 @@ function elToPng(el: HTMLElement, imageFormat: ImageFormat) {
 export default async (el: HTMLElement, imageFormat: ImageFormat) => {
   const now = new Date()
   const fileName = `draw-${formatDate(now)}.${imageFormat}`
-  const removeCaption = addCaption(el)
   const dataUrl = await elToPng(el, imageFormat)
-  removeCaption()
   saveAs(dataUrl, fileName)
 }
