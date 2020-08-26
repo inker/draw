@@ -68,9 +68,9 @@
   @media (max-width: 999px) {
     height: 14px;
   }
-`;t.a=r},60:function(e,t,n){"use strict";t.a=e=>String.fromCharCode(65+e)},62:function(e,t,n){"use strict";const r=n(1).c.tr`
+`;t.a=r},60:function(e,t,n){"use strict";const r=n(1).c.tr`
   border: #aaa solid 1px;
-`;t.a=r},64:function(e,t,n){"use strict";const r=n(1).c.table`
+`;t.a=r},61:function(e,t,n){"use strict";t.a=e=>String.fromCharCode(65+e)},64:function(e,t,n){"use strict";const r=n(1).c.table`
   border-left: #aaa solid 1px;
   border-right: #aaa solid 1px;
   border-spacing: 0;
@@ -141,7 +141,7 @@
   padding: initial;
   border: initial;
   background-color: initial;
-`,s=n(60),u=n(61);var d=a.c.div`
+`,s=n(61),u=n(62);var d=a.c.div`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -221,7 +221,7 @@
       max-width: initial;
     }
   }
-`,l=n(62),s=n(59),u=n(64);var d=Object(i.c)(u.a)`
+`,l=n(60),s=n(59),u=n(64);var d=Object(i.c)(u.a)`
   transform: box-shadow 1s linear;
   ${e=>e.highlighted&&"\n  "}
 `,p=n(92);const f=i.b`
@@ -240,7 +240,7 @@
 `;var v=Object(i.c)(h.a)`
   ${e=>e.selected&&x}
   ${e=>e.picked&&g}
-`;var y=Object(r.memo)(({isCurrent:e,potNum:t,teams:n,pickedTeams:r,selectedTeams:a,background:i,color:c})=>o.a.createElement(d,{highlighted:e},o.a.createElement("thead",null,o.a.createElement(l.a,null,o.a.createElement(s.a,null,o.a.createElement(b,{highlighted:e,depleted:!n||r.length===n.length,background:i,color:c},"Pot ",t+1)))),o.a.createElement("tbody",null,n.map(e=>{var t;const{name:n,country:i,shortName:c,pairing:u}=e;return o.a.createElement(l.a,null,o.a.createElement(s.a,null,o.a.createElement(v,{key:e.id,"data-cellid":e.id,title:u&&"paired with "+(null!==(t=u.shortName)&&void 0!==t?t:u.name),selected:!!(null==a?void 0:a.includes(e)),picked:r.includes(e),country:null!=i?i:n},null!=c?c:n)))})))),w=n(61);const j=Object(i.c)(s.a)`
+`;var y=Object(r.memo)(({isCurrent:e,potNum:t,teams:n,pickedTeams:r,selectedTeams:a,background:i,color:c})=>o.a.createElement(d,{highlighted:e},o.a.createElement("thead",null,o.a.createElement(l.a,null,o.a.createElement(s.a,null,o.a.createElement(b,{highlighted:e,depleted:!n||r.length===n.length,background:i,color:c},"Pot ",t+1)))),o.a.createElement("tbody",null,n.map(e=>{var t;const{name:n,country:i,shortName:c,pairing:u}=e;return o.a.createElement(l.a,null,o.a.createElement(s.a,null,o.a.createElement(v,{key:e.id,"data-cellid":e.id,title:u&&"paired with "+(null!==(t=u.shortName)&&void 0!==t?t:u.name),selected:!!(null==a?void 0:a.includes(e)),picked:r.includes(e),country:null!=i?i:n},null!=c?c:n)))})))),w=n(62);const j=Object(i.c)(s.a)`
   width: 50%;
 
   & + & {
