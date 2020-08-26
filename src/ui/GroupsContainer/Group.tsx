@@ -9,9 +9,12 @@ import NationalTeam from 'model/team/NationalTeam'
 
 import Table from 'ui/table/Table'
 import Header from 'ui/table/Header'
-import Body from 'ui/table/Body'
+import Row from 'ui/table/Row'
+import CellContainer from 'ui/table/CellContainer'
+import CellWithFlag from 'ui/table/CellWithFlag'
+import DummyCell from 'ui/table/DummyCell'
 
-import Cell from './GroupCell'
+import GroupCellContainer from './GroupCellContainer'
 import getTeamCountryName from './getTeamCountryName'
 
 type Team = Club | NationalTeam
@@ -41,31 +44,38 @@ const Group = ({
 
   return (
     <Table>
-      <Header
-        background={background}
-        color={color}
-      >
-        Group
-        {' '}
-        {groupLetter}
-      </Header>
-      <Body>
+      <thead>
+        <Row>
+          <CellContainer>
+            <Header
+              background={background}
+              color={color}
+            >
+              Group
+              {' '}
+              {groupLetter}
+            </Header>
+          </CellContainer>
+        </Row>
+      </thead>
+      <tbody>
         {nonAirborneTeams.map(team => (
-          <Cell
-            country={getTeamCountryName(team)}
-            picked
-          >
-            {(team as Club).shortName ?? team.name}
-          </Cell>
+          <Row>
+            <GroupCellContainer picked>
+              <CellWithFlag country={getTeamCountryName(team)}>
+                {(team as Club).shortName ?? team.name}
+              </CellWithFlag>
+            </GroupCellContainer>
+          </Row>
         ))}
         {range(nonAirborneTeams.length, maxTeams).map(i => (
-          <Cell
-            key={i}
-            possible={i === potNum && possible}
-            data-cellid={`${groupLetter}${i}`}
-          />
+          <Row>
+            <GroupCellContainer possible={i === potNum && possible}>
+              <DummyCell data-cellid={`${groupLetter}${i}`} />
+            </GroupCellContainer>
+          </Row>
         ))}
-      </Body>
+      </tbody>
     </Table>
   )
 }

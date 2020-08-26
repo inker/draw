@@ -3,36 +3,30 @@ import styled from 'styled-components'
 
 import Team from 'model/team/Club'
 
-import BaseCell from '../table/BaseCell'
+import Row from 'ui/table/Row'
+import CellContainer from 'ui/table/CellContainer'
+import Cell from 'ui/table/Cell'
+import CellWithFlag from 'ui/table/CellWithFlag'
+import DummyCell from 'ui/table/DummyCell'
 
-import MatchupCell from './MatchupCell'
+import MatchupCellContainer from './MatchupCellContainer'
 
-const Root = styled(BaseCell)`
-  display: flex;
-`
-
-const Versus = styled.div`
-  display: flex;
-  align-items: center;
-  margin-left: 10px;
-  margin-right: 10px;
-  height: 19px;
-  text-align: center;
-  font-family: Tahoma, Arial, sans-serif;
-  font-size: 12px;
-  color: #444;
-
-  &::before {
-    content: "v";
-  }
-`
-
-const LeftCell = styled(MatchupCell)`
+const LeftCellContainer = styled(MatchupCellContainer)`
   border-right: 1px solid rgba(0, 0, 0, 0);
 `
 
-const RightCell = styled(MatchupCell)`
+const RightCellContainer = styled(MatchupCellContainer)`
   border-left: 1px solid rgba(0, 0, 0, 0);
+`
+
+const VersusCell = styled(Cell)`
+  justify-content: center;
+  width: 26px;
+  color: #444;
+
+  &::before {
+    content: 'v';
+  }
 `
 
 interface Props {
@@ -51,23 +45,29 @@ const Matchup = ({
   const gwIsPresent = gw && !airborneTeams.includes(gw)
 
   return (
-    <Root>
-      <LeftCell
-        country={ruIsPresent ? ru.country : undefined}
-        picked={ruIsPresent}
-        data-cellid={`${index}ru`}
-      >
-        {ruIsPresent && (ru.shortName ?? ru.name)}
-      </LeftCell>
-      <Versus />
-      <RightCell
-        country={gwIsPresent ? gw.country : undefined}
-        picked={gwIsPresent}
-        data-cellid={`${index}gw`}
-      >
-        {gwIsPresent && (gw.shortName ?? gw.name)}
-      </RightCell>
-    </Root>
+    <Row>
+      <LeftCellContainer picked={ruIsPresent}>
+        {ruIsPresent ? (
+          <CellWithFlag country={ruIsPresent ? ru.country : undefined}>
+            {ruIsPresent && (ru.shortName ?? ru.name)}
+          </CellWithFlag>
+        ) : (
+          <DummyCell data-cellid={`${index}ru`} />
+        )}
+      </LeftCellContainer>
+      <CellContainer>
+        <VersusCell />
+      </CellContainer>
+      <RightCellContainer picked={gwIsPresent}>
+        {gwIsPresent ? (
+          <CellWithFlag country={gwIsPresent ? gw.country : undefined}>
+            {ruIsPresent && (gw.shortName ?? gw.name)}
+          </CellWithFlag>
+        ) : (
+          <DummyCell data-cellid={`${index}gw`} />
+        )}
+      </RightCellContainer>
+    </Row>
   )
 }
 

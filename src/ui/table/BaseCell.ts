@@ -1,12 +1,8 @@
 import styled from 'styled-components'
 
-const BaseCell = styled.div`
+const BaseCell = styled.span`
   display: flex;
   align-items: center;
-
-  height: 21px;
-  margin: -1px -1px -1px -1px;
-  border: #aaa solid 1px;
 
   text-align: center;
   text-decoration: none;
@@ -14,7 +10,6 @@ const BaseCell = styled.div`
   font-size: 12px;
 
   @media (max-width: 999px) {
-    height: 14px;
     font-family: Roboto, sans-serif;
     font-size: 10px;
   }

@@ -6,16 +6,16 @@ import getCountryFlagUrl from 'utils/getCountryFlagUrl'
 import Cell from './Cell'
 
 const CellWithoutFlag = styled(Cell)`
-  background-position: 3px;
+  background-position-y: 1px;
   background-size: 16px;
   background-repeat: no-repeat;
 
-  padding-left: 22px;
+  padding-left: 19px;
 
   @media (max-width: 999px) {
-    background-position: 2px;
+    background-position-y: 2px;
     background-size: 12px;
-    padding-left: 16px;
+    padding-left: 13px;
   }
 `
 

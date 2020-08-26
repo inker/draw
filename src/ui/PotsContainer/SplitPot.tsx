@@ -5,26 +5,22 @@ import { range } from 'lodash'
 import Team from 'model/team'
 import GsTeam from 'model/team/GsTeam'
 
-import Body from 'ui/table/Body'
+import Row from 'ui/table/Row'
+import CellContainer from 'ui/table/CellContainer'
 
 import Root from './PotRoot'
 import Header from './PotHeader'
 import PotCell from './PotCell'
 
-const Pair = styled.div`
-  display: flex;
-  border: none;
-  margin-top: 1px;
-  margin-bottom: 1px;
-  margin-right: -1px;
+const SplitCellContainer = styled(CellContainer)`
+  width: 50%;
 
-  &:last-child {
-    margin-bottom: 0;
+  & + & {
+    border-left: #aaa solid 1px;
   }
 `
 
 const Cell = styled(PotCell)`
-  width: 50%;
   margin-right: 0;
 `
 
@@ -48,19 +44,25 @@ const SplitPot = ({
   color,
 }: Props) => (
   <Root highlighted={isCurrent}>
-    <Header
-      highlighted={isCurrent}
-      depleted={!teams || pickedTeams.length === teams.length}
-      background={background}
-      color={color}
-    >
-      Pot {potNum + 1}
-    </Header>
-    <Body>
+    <thead>
+      <Row>
+        <CellContainer colSpan={2}>
+          <Header
+            highlighted={isCurrent}
+            depleted={!teams || pickedTeams.length === teams.length}
+            background={background}
+            color={color}
+          >
+            Pot {potNum + 1}
+          </Header>
+        </CellContainer>
+      </Row>
+    </thead>
+    <tbody>
       {range(teams.length / 2).map(i => {
         const pair = [teams[i * 2], teams[i * 2 + 1]]
         return (
-          <Pair key={i}>
+          <Row key={i}>
             {pair.map(team => {
               const {
                 name,
@@ -70,22 +72,24 @@ const SplitPot = ({
               } = team as GsTeam
 
               return (
-                <Cell
-                  key={team.id}
-                  data-cellid={team.id}
-                  title={pairing && `paired with ${pairing.shortName ?? pairing.name}`}
-                  selected={!!selectedTeams && selectedTeams.includes(team)}
-                  picked={pickedTeams.includes(team)}
-                  country={country ?? name}
-                >
-                  {shortName ?? name}
-                </Cell>
+                <SplitCellContainer>
+                  <Cell
+                    key={team.id}
+                    data-cellid={team.id}
+                    title={pairing && `paired with ${pairing.shortName ?? pairing.name}`}
+                    selected={!!selectedTeams && selectedTeams.includes(team)}
+                    picked={pickedTeams.includes(team)}
+                    country={country ?? name}
+                  >
+                    {shortName ?? name}
+                  </Cell>
+                </SplitCellContainer>
               )
             })}
-          </Pair>
+          </Row>
         )
       })}
-    </Body>
+    </tbody>
   </Root>
 )
 

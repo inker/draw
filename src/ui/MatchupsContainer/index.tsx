@@ -29,13 +29,15 @@ const MatchupContainer = forwardRef((
   ref: any,
 ) => (
   <RootTable ref={ref}>
-    {matchups?.map((matchup, i) => (
-      <Matchup
-        index={i}
-        teams={matchup}
-        airborneTeams={airborneTeams}
-      />
-    ))}
+    <tbody>
+      {matchups?.map((matchup, i) => (
+        <Matchup
+          index={i}
+          teams={matchup}
+          airborneTeams={airborneTeams}
+        />
+      ))}
+    </tbody>
   </RootTable>
 ))
 

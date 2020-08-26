@@ -3,7 +3,8 @@ import React, { memo } from 'react'
 import Team from 'model/team'
 import GsTeam from 'model/team/GsTeam'
 
-import Body from 'ui/table/Body'
+import Row from 'ui/table/Row'
+import CellContainer from 'ui/table/CellContainer'
 
 import Root from './PotRoot'
 import Header from './PotHeader'
@@ -29,15 +30,21 @@ const Pot = ({
   color,
 }: Props) => (
   <Root highlighted={isCurrent}>
-    <Header
-      highlighted={isCurrent}
-      depleted={!teams || pickedTeams.length === teams.length}
-      background={background}
-      color={color}
-    >
-      Pot {potNum + 1}
-    </Header>
-    <Body>
+    <thead>
+      <Row>
+        <CellContainer>
+          <Header
+            highlighted={isCurrent}
+            depleted={!teams || pickedTeams.length === teams.length}
+            background={background}
+            color={color}
+          >
+            Pot {potNum + 1}
+          </Header>
+        </CellContainer>
+      </Row>
+    </thead>
+    <tbody>
       {teams.map(team => {
         const {
           name,
@@ -47,19 +54,23 @@ const Pot = ({
         } = team as GsTeam
 
         return (
-          <PotCell
-            key={team.id}
-            data-cellid={team.id}
-            title={pairing && `paired with ${pairing.shortName ?? pairing.name}`}
-            selected={!!selectedTeams?.includes(team)}
-            picked={pickedTeams.includes(team)}
-            country={country ?? name}
-          >
-            {shortName ?? name}
-          </PotCell>
+          <Row>
+            <CellContainer>
+              <PotCell
+                key={team.id}
+                data-cellid={team.id}
+                title={pairing && `paired with ${pairing.shortName ?? pairing.name}`}
+                selected={!!selectedTeams?.includes(team)}
+                picked={pickedTeams.includes(team)}
+                country={country ?? name}
+              >
+                {shortName ?? name}
+              </PotCell>
+            </CellContainer>
+          </Row>
         )
       })}
-    </Body>
+    </tbody>
   </Root>
 )
 

@@ -1,6 +1,6 @@
 import styled, { css, keyframes } from 'styled-components'
 
-import CellWithFlag from '../table/CellWithFlag'
+import CellContainer from 'ui/table/CellContainer'
 
 const BorderGlow = keyframes`
   from {
@@ -18,6 +18,7 @@ const Appear = keyframes`
 `
 
 const Possible = css`
+  position: relative; /* enables glow */
   background-color: rgba(255, 255, 255, 0.9);
   animation: ${BorderGlow} 1s ease;
   box-shadow: 0 0 5px #6af;
@@ -32,10 +33,9 @@ interface Props {
   picked?: boolean,
 }
 
-const MatchupCell = styled(CellWithFlag)<Props>`
-  width: 150px;
+const GroupCellContainer = styled(CellContainer)<Props>`
   ${props => props.possible && Possible}
   ${props => props.picked && Picked}
 `
 
-export default MatchupCell
+export default GroupCellContainer

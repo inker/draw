@@ -4,9 +4,6 @@ import { isFirefox } from 'utils/browser'
 import styled from 'utils/makeStyleClass'
 import { transitionEnd } from 'utils/events'
 
-const OFFSET_LEFT = 1
-const OFFSET_TOP = 1
-
 const airborneDivClass = styled`
   position: fixed;
   top: 0;
@@ -22,20 +19,19 @@ const airborneDivClass = styled`
 const fakeCellClass = styled`
   color: initial;
   position: fixed;
-  border: 1px solid transparent;
+  margin: 0;
   user-select: none;
-  box-sizing: border-box;
+  pointer-events: none;
 `
 
 const airborneDiv = document.createElement('div')
 airborneDiv.classList.add(airborneDivClass)
 document.body.insertBefore(airborneDiv, document.getElementById('app'))
 
-function adjustPositioning(cell: HTMLElement, { left, top }: ClientRect) {
-  const x = left + OFFSET_LEFT
-  const y = top + OFFSET_TOP
+function moveTo(cell: HTMLElement, posCell: HTMLElement) {
+  const { left, top } = posCell.getBoundingClientRect()
   // eslint-disable-next-line no-param-reassign
-  cell.style.transform = `translate3d(${x}px, ${y}px, 0px)`
+  cell.style.transform = `translate3d(${left}px, ${top}px, 0px)`
 }
 
 function makeFakeCell(sourceCell: HTMLElement) {
@@ -46,8 +42,7 @@ function makeFakeCell(sourceCell: HTMLElement) {
   style.width = width
   style.fontFamily = fontFamily
   fakeCell.textContent = sourceCell.textContent
-  const rect = sourceCell.getBoundingClientRect()
-  adjustPositioning(fakeCell, rect)
+  moveTo(fakeCell, sourceCell)
   return fakeCell
 }
 
@@ -55,9 +50,8 @@ export default async (sourceCell: HTMLElement, targetCell: HTMLElement, duration
   const fakeCell = makeFakeCell(sourceCell)
   airborneDiv.appendChild(fakeCell)
 
-  const targetCellBox = targetCell.getBoundingClientRect()
   fakeCell.style.transition = `transform ${duration}ms ease-in-out`
-  adjustPositioning(fakeCell, targetCellBox)
+  moveTo(fakeCell, targetCell)
 
   await transitionEnd(fakeCell)
   if (isFirefox) {
