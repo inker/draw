@@ -32,6 +32,7 @@ const MatchupContainer = forwardRef((
     <tbody>
       {matchups?.map((matchup, i) => (
         <Matchup
+          key={i}
           index={i}
           teams={matchup}
           airborneTeams={airborneTeams}
