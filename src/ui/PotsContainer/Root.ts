@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 
 interface Props {
   limitWidth: boolean,
@@ -13,7 +13,9 @@ const Root = styled.div<Props>`
   & > * {
     flex: 1;
     flex-basis: 22%;
-    ${props => props.limitWidth ? 'max-width: 160px' : ''};
+    ${props => props.limitWidth && css`
+      max-width: 160px;
+    `};
 
     @media (max-width: 999px) {
       max-width: initial;
