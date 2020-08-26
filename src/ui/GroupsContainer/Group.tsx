@@ -11,11 +11,8 @@ import Table from 'ui/table/Table'
 import Header from 'ui/table/Header'
 import Row from 'ui/table/Row'
 import CellContainer from 'ui/table/CellContainer'
-import CellWithFlag from 'ui/table/CellWithFlag'
-import DummyCell from 'ui/table/DummyCell'
 
-import GroupCellContainer from './GroupCellContainer'
-import getTeamCountryName from './getTeamCountryName'
+import GroupRow from './GroupRow'
 
 type Team = Club | NationalTeam
 
@@ -59,21 +56,14 @@ const Group = ({
         </Row>
       </thead>
       <tbody>
-        {nonAirborneTeams.map(team => (
-          <Row>
-            <GroupCellContainer picked>
-              <CellWithFlag country={getTeamCountryName(team)}>
-                {(team as Club).shortName ?? team.name}
-              </CellWithFlag>
-            </GroupCellContainer>
-          </Row>
-        ))}
-        {range(nonAirborneTeams.length, maxTeams).map(i => (
-          <Row>
-            <GroupCellContainer possible={i === potNum && possible}>
-              <DummyCell data-cellid={`${groupLetter}${i}`} />
-            </GroupCellContainer>
-          </Row>
+        {range(maxTeams).map(i => (
+          <GroupRow
+            key={i}
+            index={i}
+            teams={nonAirborneTeams}
+            possible={i === potNum && possible}
+            groupLetter={groupLetter}
+          />
         ))}
       </tbody>
     </Table>
