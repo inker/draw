@@ -1,16 +1,20 @@
-// const createStyledComponentsTransformer = require('typescript-plugin-styled-components').default
-
-// const styledComponentsTransformer = createStyledComponentsTransformer()
-
 const { createLodashTransformer } = require('typescript-plugin-lodash')
+const createStyledComponentsTransformer = require('typescript-plugin-styled-components').default
 const { compact } = require('lodash')
 
+const lodashTransformer = createLodashTransformer()
+const styledComponentsTransformer = createStyledComponentsTransformer()
+
 const tsOptions = (isDev) => isDev ? {
-  // getCustomTransformers: () => ({ before: [styledComponentsTransformer] }),
+  getCustomTransformers: () => ({
+    before: [
+      styledComponentsTransformer,
+    ],
+  }),
 } : {
   getCustomTransformers: () => ({
     before: [
-      createLodashTransformer(),
+      lodashTransformer,
     ],
   }),
   ignoreDiagnostics: [],
