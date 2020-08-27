@@ -1,4 +1,5 @@
 import React, { memo } from 'react'
+import { css } from 'styled-components'
 import { difference } from 'lodash'
 
 import Team from 'model/team'
@@ -7,8 +8,10 @@ import Root from './Root'
 import BasePot from './Pot'
 import SplitPot from './SplitPot'
 
-const HEADER_BACKGROUND = 'rgba(0, 0, 0, 0.75)'
-const HEADER_COLOR = '#fff'
+const headerStyles = css`
+  background-color: rgba(0, 0, 0, 0.75);
+  color: #fff;
+`
 
 interface Props {
   initialPots: readonly (readonly Team[])[],
@@ -39,8 +42,7 @@ const PotsContainer = ({
           teams={pot}
           pickedTeams={pickedTeams}
           selectedTeams={selectedTeams}
-          background={HEADER_BACKGROUND}
-          color={HEADER_COLOR}
+          headerStyles={headerStyles}
         />
       )
     })}

@@ -1,9 +1,9 @@
-import styled from 'styled-components'
+import styled, { FlattenSimpleInterpolation } from 'styled-components'
 
 import BaseCell from './BaseCell'
 
 interface Props {
-  background?: string,
+  styles?: FlattenSimpleInterpolation,
 }
 
 const Header = styled(BaseCell)<Props>`
@@ -11,8 +11,7 @@ const Header = styled(BaseCell)<Props>`
   height: 100%;
   width: 100%;
   font-weight: 600;
-  background-color: ${props => props.background};
-  color: ${props => props.color};
+  ${props => props.styles};
 `
 
 export default Header

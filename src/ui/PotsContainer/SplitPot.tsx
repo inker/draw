@@ -1,5 +1,5 @@
 import React, { memo } from 'react'
-import styled from 'styled-components'
+import styled, { FlattenSimpleInterpolation } from 'styled-components'
 import { range } from 'lodash'
 
 import Team from 'model/team'
@@ -30,8 +30,7 @@ interface Props {
   teams: readonly Team[],
   pickedTeams: readonly Team[],
   selectedTeams: readonly Team[] | null,
-  background?: string,
-  color?: string,
+  headerStyles?: FlattenSimpleInterpolation,
 }
 
 const SplitPot = ({
@@ -40,8 +39,7 @@ const SplitPot = ({
   teams,
   pickedTeams,
   selectedTeams,
-  background,
-  color,
+  headerStyles,
 }: Props) => (
   <Root highlighted={isCurrent}>
     <thead>
@@ -50,8 +48,7 @@ const SplitPot = ({
           <Header
             highlighted={isCurrent}
             depleted={!teams || pickedTeams.length === teams.length}
-            background={background}
-            color={color}
+            styles={headerStyles}
           >
             Pot {potNum + 1}
           </Header>

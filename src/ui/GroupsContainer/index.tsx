@@ -2,7 +2,7 @@ import React, {
   memo,
   forwardRef,
 } from 'react'
-import styled from 'styled-components'
+import styled, { FlattenSimpleInterpolation } from 'styled-components'
 
 import Club from 'model/team/Club'
 import NationalTeam from 'model/team/NationalTeam'
@@ -28,7 +28,7 @@ interface Props {
   groups: readonly (readonly Team[])[],
   possibleGroups: readonly number[] | null,
   airborneTeams: readonly Team[],
-  groupColors?: readonly string[],
+  getGroupHeaderStyles?: (index: number) => FlattenSimpleInterpolation,
 }
 
 const GroupsContainer = forwardRef((
@@ -38,14 +38,14 @@ const GroupsContainer = forwardRef((
     groups,
     possibleGroups,
     airborneTeams,
-    groupColors,
+    getGroupHeaderStyles,
   }: Props,
   ref: any,
 ) => (
   <Root ref={ref}>
     {groups?.map((group, i) => {
       const letter = getGroupLetter(i)
-      const background = groupColors?.[~~(i / groups.length * groupColors.length)]
+      const headerStyles = getGroupHeaderStyles?.(i)
 
       return (
         <Group
@@ -56,7 +56,7 @@ const GroupsContainer = forwardRef((
           potNum={currentPotNum}
           possible={!!possibleGroups?.includes(i)}
           airborneTeams={airborneTeams}
-          background={background}
+          headerStyles={headerStyles}
         />
       )
     })}

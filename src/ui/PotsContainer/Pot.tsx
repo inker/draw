@@ -1,4 +1,5 @@
 import React, { memo } from 'react'
+import { FlattenSimpleInterpolation } from 'styled-components'
 
 import Team from 'model/team'
 import GsTeam from 'model/team/GsTeam'
@@ -16,8 +17,7 @@ interface Props {
   teams: readonly Team[],
   pickedTeams: readonly Team[],
   selectedTeams: readonly Team[] | null,
-  background?: string,
-  color?: string,
+  headerStyles?: FlattenSimpleInterpolation,
 }
 
 const Pot = ({
@@ -26,8 +26,7 @@ const Pot = ({
   teams,
   pickedTeams,
   selectedTeams,
-  background,
-  color,
+  headerStyles,
 }: Props) => (
   <Root highlighted={isCurrent}>
     <thead>
@@ -36,8 +35,7 @@ const Pot = ({
           <Header
             highlighted={isCurrent}
             depleted={!teams || pickedTeams.length === teams.length}
-            background={background}
-            color={color}
+            styles={headerStyles}
           >
             Pot {potNum + 1}
           </Header>

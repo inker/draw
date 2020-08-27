@@ -7,7 +7,10 @@ import React, {
   memo,
 } from 'react'
 
+import { css } from 'styled-components'
+
 import {
+  constant,
   shuffle,
 } from 'lodash'
 
@@ -37,9 +40,9 @@ import Root from 'pages/Root'
 // @ts-ignore
 import EsWorker from './worker'
 
-const groupColors = [
-  '#c0e0c0',
-]
+const getGroupHeaderStyles = constant(css`
+  background-color: #c0e0c0;
+`)
 
 interface WorkerRequest {
   season: number,
@@ -198,7 +201,7 @@ const WCGS = ({
           groups={groups}
           possibleGroups={null}
           airborneTeams={airborneTeams}
-          groupColors={groupColors}
+          getGroupHeaderStyles={getGroupHeaderStyles}
         />
       </TablesContainer>
       <BowlsContainer>

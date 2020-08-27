@@ -1,4 +1,5 @@
 import React, { memo } from 'react'
+import { FlattenSimpleInterpolation } from 'styled-components'
 import {
   difference,
   range,
@@ -23,8 +24,7 @@ interface Props {
   potNum: number,
   possible: boolean,
   airborneTeams: readonly Team[],
-  background?: string,
-  color?: string,
+  headerStyles?: FlattenSimpleInterpolation,
 }
 
 const Group = ({
@@ -34,8 +34,7 @@ const Group = ({
   potNum,
   possible,
   airborneTeams,
-  background,
-  color,
+  headerStyles,
 }: Props) => {
   const nonAirborneTeams = difference(teams, airborneTeams)
 
@@ -44,10 +43,7 @@ const Group = ({
       <thead>
         <Row>
           <CellContainer>
-            <Header
-              background={background}
-              color={color}
-            >
+            <Header styles={headerStyles}>
               Group
               {' '}
               {groupLetter}

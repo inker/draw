@@ -7,6 +7,8 @@ import React, {
   memo,
 } from 'react'
 
+import { css } from 'styled-components'
+
 import {
   shuffle,
 } from 'lodash'
@@ -37,10 +39,13 @@ import Root from 'pages/Root'
 // @ts-ignore
 import EsWorker from './worker'
 
-const groupColors = [
-  '#ffc0c0',
-  '#c0e0ff',
-]
+const redGroup = css`
+  background-color: #ffc0c0;
+`
+
+const blueGroup = css`
+  background-color: #c0e0ff;
+`
 
 interface WorkerRequest {
   season: number,
@@ -108,6 +113,11 @@ const ELGS = ({
   const [isTimedOut, timeoutActions] = useTimer<Team>(3000)
 
   const groupsContanerRef = useRef<HTMLElement>(null)
+
+  const getGroupHeaderStyles = useCallback(
+    (i: number) => i < (groups.length >> 1) ? redGroup : blueGroup,
+    [groups.length],
+  )
 
   const getPickedGroup = useCallback(async (newSelectedTeam: Team) => {
     const response = await workerSendAndReceive({
@@ -193,7 +203,7 @@ const ELGS = ({
           groups={groups}
           possibleGroups={null}
           airborneTeams={airborneTeams}
-          groupColors={groupColors}
+          getGroupHeaderStyles={getGroupHeaderStyles}
         />
       </TablesContainer>
       <BowlsContainer>
