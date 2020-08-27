@@ -4,7 +4,7 @@ import CellContainer from 'ui/table/CellContainer'
 
 const Appear = keyframes`
   from {
-    background-color: #ff8;
+    background-color: rgba(255, 255, 0, 0.5);
   }
   to {}
 `
