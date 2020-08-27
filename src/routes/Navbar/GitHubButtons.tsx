@@ -1,7 +1,4 @@
-import React, {
-  useContext,
-  memo,
-} from 'react'
+import React, { memo } from 'react'
 import styled from 'styled-components'
 import GitHubButton from 'react-github-btn'
 
