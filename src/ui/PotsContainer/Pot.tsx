@@ -1,5 +1,5 @@
 import React, { memo } from 'react'
-import { FlattenSimpleInterpolation } from 'styled-components'
+import { FlattenInterpolation } from 'styled-components'
 
 import Team from 'model/team'
 import GsTeam from 'model/team/GsTeam'
@@ -17,7 +17,7 @@ interface Props {
   teams: readonly Team[],
   pickedTeams: readonly Team[],
   selectedTeams: readonly Team[] | null,
-  headerStyles?: FlattenSimpleInterpolation,
+  headerStyles?: FlattenInterpolation<any>,
 }
 
 const Pot = ({

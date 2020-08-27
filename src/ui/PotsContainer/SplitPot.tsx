@@ -1,5 +1,5 @@
 import React, { memo } from 'react'
-import styled, { FlattenSimpleInterpolation } from 'styled-components'
+import styled, { FlattenInterpolation } from 'styled-components'
 import { range } from 'lodash'
 
 import Team from 'model/team'
@@ -30,7 +30,7 @@ interface Props {
   teams: readonly Team[],
   pickedTeams: readonly Team[],
   selectedTeams: readonly Team[] | null,
-  headerStyles?: FlattenSimpleInterpolation,
+  headerStyles?: FlattenInterpolation<any>,
 }
 
 const SplitPot = ({

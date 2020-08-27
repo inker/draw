@@ -1,5 +1,5 @@
 import React, { memo } from 'react'
-import { FlattenSimpleInterpolation } from 'styled-components'
+import { FlattenInterpolation } from 'styled-components'
 import {
   difference,
   range,
@@ -24,7 +24,7 @@ interface Props {
   potNum: number,
   possible: boolean,
   airborneTeams: readonly Team[],
-  headerStyles?: FlattenSimpleInterpolation,
+  headerStyles?: FlattenInterpolation<any>,
 }
 
 const Group = ({

@@ -1,9 +1,9 @@
-import styled, { FlattenSimpleInterpolation } from 'styled-components'
+import styled, { FlattenInterpolation } from 'styled-components'
 
 import BaseCell from './BaseCell'
 
 interface Props {
-  styles?: FlattenSimpleInterpolation,
+  styles?: FlattenInterpolation<any>,
 }
 
 const Header = styled(BaseCell)<Props>`

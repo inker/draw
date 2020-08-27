@@ -2,7 +2,7 @@ import React, {
   memo,
   forwardRef,
 } from 'react'
-import styled, { FlattenSimpleInterpolation } from 'styled-components'
+import styled, { FlattenInterpolation } from 'styled-components'
 
 import Club from 'model/team/Club'
 import NationalTeam from 'model/team/NationalTeam'
@@ -28,7 +28,7 @@ interface Props {
   groups: readonly (readonly Team[])[],
   possibleGroups: readonly number[] | null,
   airborneTeams: readonly Team[],
-  getGroupHeaderStyles?: (index: number) => FlattenSimpleInterpolation,
+  getGroupHeaderStyles?: (index: number) => FlattenInterpolation<any>,
 }
 
 const GroupsContainer = forwardRef((
