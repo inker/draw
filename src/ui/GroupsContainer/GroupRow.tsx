@@ -29,7 +29,7 @@ const GroupRow = ({
   return (
     <Row>
       <GroupCellContainer
-        picked={!!team}
+        hasTeam={!!team}
         possible={possible}
       >
         {team ? (

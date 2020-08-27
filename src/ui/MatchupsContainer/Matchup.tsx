@@ -46,7 +46,7 @@ const Matchup = ({
 
   return (
     <Row>
-      <LeftCellContainer picked={ruIsPresent}>
+      <LeftCellContainer hasTeam={ruIsPresent}>
         {ruIsPresent ? (
           <CellWithFlag country={ruIsPresent ? ru.country : undefined}>
             {ruIsPresent && (ru.shortName ?? ru.name)}
@@ -58,7 +58,7 @@ const Matchup = ({
       <CellContainer>
         <VersusCell />
       </CellContainer>
-      <RightCellContainer picked={gwIsPresent}>
+      <RightCellContainer hasTeam={gwIsPresent}>
         {gwIsPresent ? (
           <CellWithFlag country={gwIsPresent ? gw.country : undefined}>
             {ruIsPresent && (gw.shortName ?? gw.name)}

@@ -29,13 +29,13 @@ const Picked = css`
 `
 
 interface Props {
-  possible?: boolean,
-  picked?: boolean,
+  possible: boolean,
+  hasTeam: boolean,
 }
 
 const GroupCellContainer = styled(CellContainer)<Props>`
   ${props => props.possible && Possible}
-  ${props => props.picked && Picked}
+  ${props => props.hasTeam && Picked}
 `
 
 export default GroupCellContainer
