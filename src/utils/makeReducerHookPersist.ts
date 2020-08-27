@@ -1,20 +1,43 @@
 import { useCallback } from 'react'
+import { stubTrue } from 'lodash'
 
 import makeReducerHook from 'utils/makeReducerHook'
 
-export default <S>(key: string, initialState: S) => {
+interface Options<ParsedType> {
+  parse: (storedValue: string) => ParsedType,
+  serialize: (value: any) => string,
+  validate?: (parsedValue: ParsedType) => boolean,
+}
+
+type RequiredOptions<ParsedType> = Required<Options<ParsedType>>
+
+const defaultOptions: RequiredOptions<unknown> = {
+  parse: (storedValue: string) => JSON.parse(storedValue),
+  serialize: (value: any) => JSON.stringify(value),
+  validate: stubTrue,
+}
+
+export default <S>(key: string, initialState: S, options?: Options<S>) => {
+  const o = {
+    ...(defaultOptions as RequiredOptions<S>),
+    ...options,
+  }
+
   const use = makeReducerHook(() => {
     try {
       const item = window.localStorage.getItem(key)
       if (item) {
-        return JSON.parse(item) as S
+        const parsed = o.parse(item)
+        if (o.validate(parsed)) {
+          return parsed as S
+        }
       }
     } catch (err) {
       console.error(err)
     }
 
     try {
-      window.localStorage.setItem(key, JSON.stringify(initialState))
+      window.localStorage.setItem(key, o.serialize(initialState))
     } catch (err) {
       console.error(err)
     }
@@ -34,7 +57,7 @@ export default <S>(key: string, initialState: S) => {
         // Save state
         setStoredValue(valueToStore)
         // Save to local storage
-        window.localStorage.setItem(key, JSON.stringify(valueToStore))
+        window.localStorage.setItem(key, o.serialize(valueToStore))
       } catch (err) {
         // A more advanced implementation would handle the error case
         console.error(err)
