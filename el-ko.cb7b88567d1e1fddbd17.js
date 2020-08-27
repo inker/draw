@@ -1,22 +1,22 @@
-(window.webpackJsonp=window.webpackJsonp||[]).push([[4],{107:function(e,t,n){"use strict";function a(e,[t,n],r,c){const o=r.findIndex(e=>1===e.length);if(!c(e,r,o))return!1;const l=[...r],i=l[o][0];l[o]=[i,e];return o+1===l.length||function([e,t],n,r){const c=n.findIndex(e=>!e.length),[o,...l]=t,i=[...n];return i[c]=[o],e.some(t=>a(t,[e,l],i,r))}([t.filter(t=>t!==e),n],l,c)}t.a=([e,t],n,r)=>e.map((e,t)=>t).filter(c=>a(e[c],[e,t],n,r))},108:function(e,t,n){"use strict";const a=n(1).c.div`
+(window.webpackJsonp=window.webpackJsonp||[]).push([[4],{107:function(e,t,n){"use strict";function a(e,[t,n],r,c){const o=r.findIndex(e=>1===e.length);if(!c(e,r,o))return!1;const l=[...r],i=l[o][0];l[o]=[i,e];return o+1===l.length||function([e,t],n,r){const c=n.findIndex(e=>!e.length),[o,...l]=t,i=[...n];return i[c]=[o],e.some(t=>a(t,[e,l],i,r))}([t.filter(t=>t!==e),n],l,c)}t.a=([e,t],n,r)=>e.map((e,t)=>t).filter(c=>a(e[c],[e,t],n,r))},108:function(e,t,n){"use strict";const a=n(1).d.div`
   margin-top: 10px;
   margin-bottom: 5px;
   user-select: none;
-`;t.a=a},109:function(e,t,n){"use strict";var a=n(106),r=n(102);const c=[{countries:["Russia","Ukraine"],predicate:(o=2014,l=Number.MAX_SAFE_INTEGER,e=>e>=o&&e<=l)},{countries:["Azerbaijan","Armenia"]},{countries:["Serbia","Kosovo"]},{countries:["Bosnia & Herzegovina","Kosovo"]},{countries:["Spain","Gibraltar"]}];var o,l;const i={predicate:r};var u=c.map(e=>({...i,...e})),s=e=>{const t=(e=>{const t=new Map;for(const{countries:n,predicate:a}of u)a(e)&&(t.set(n[0],n[1]),t.set(n[1],n[0]));return t.get.bind(t)})(e);return e=>{const n=t(e.country);return void 0===n?a:e=>e.country===n}};t.a=e=>{const t=s(e),n=(e,n)=>{return 0===e.length||1===e.length&&(a=n,r=e[0],a.country!==r.country&&a.group!==r.group&&!t(a)(r));var a,r};return(e,t,a)=>n(t[a],e)}},110:function(e,t,n){"use strict";var a=n(0),r=n.n(a),c=n(1),o=n(64),l=n(60),i=n(59),u=n(93),s=n(65),m=n(71);const d=c.d`
+`;t.a=a},109:function(e,t,n){"use strict";var a=n(106),r=n(102);const c=[{countries:["Russia","Ukraine"],predicate:(o=2014,l=Number.MAX_SAFE_INTEGER,e=>e>=o&&e<=l)},{countries:["Azerbaijan","Armenia"]},{countries:["Serbia","Kosovo"]},{countries:["Bosnia & Herzegovina","Kosovo"]},{countries:["Spain","Gibraltar"]}];var o,l;const i={predicate:r};var u=c.map(e=>({...i,...e})),s=e=>{const t=(e=>{const t=new Map;for(const{countries:n,predicate:a}of u)a(e)&&(t.set(n[0],n[1]),t.set(n[1],n[0]));return t.get.bind(t)})(e);return e=>{const n=t(e.country);return void 0===n?a:e=>e.country===n}};t.a=e=>{const t=s(e),n=(e,n)=>{return 0===e.length||1===e.length&&(a=n,r=e[0],a.country!==r.country&&a.group!==r.group&&!t(a)(r));var a,r};return(e,t,a)=>n(t[a],e)}},110:function(e,t,n){"use strict";var a=n(0),r=n.n(a),c=n(1),o=n(64),l=n(60),i=n(59),u=n(93),s=n(65),m=n(71);const d=c.e`
   from {
     background-color: #ff8;
   }
   to {}
-`,p=c.b`
+`,p=c.c`
   animation: ${d} 5s normal forwards;
-`;var b=Object(c.c)(i.a)`
+`;var b=Object(c.d)(i.a)`
   width: 150px;
   ${e=>e.picked&&p}
-`;const f=Object(c.c)(b)`
+`;const f=Object(c.d)(b)`
   border-right: 1px solid rgba(0, 0, 0, 0);
-`,E=Object(c.c)(b)`
+`,E=Object(c.d)(b)`
   border-left: 1px solid rgba(0, 0, 0, 0);
-`,g=Object(c.c)(u.a)`
+`,g=Object(c.d)(u.a)`
   justify-content: center;
   width: 26px;
   color: #444;
@@ -24,7 +24,7 @@
   &::before {
     content: 'v';
   }
-`;var j=Object(a.memo)(({index:e,teams:t,airborneTeams:n})=>{var a,c;const[o,u]=null!=t?t:[],d=o&&!n.includes(o),p=u&&!n.includes(u);return r.a.createElement(l.a,null,r.a.createElement(f,{picked:d},d?r.a.createElement(s.a,{country:d?o.country:void 0},d&&(null!==(a=o.shortName)&&void 0!==a?a:o.name)):r.a.createElement(m.a,{"data-cellid":e+"ru"})),r.a.createElement(i.a,null,r.a.createElement(g,null)),r.a.createElement(E,{picked:p},p?r.a.createElement(s.a,{country:p?u.country:void 0},d&&(null!==(c=u.shortName)&&void 0!==c?c:u.name)):r.a.createElement(m.a,{"data-cellid":e+"gw"})))});const h=Object(c.c)(o.a)`
+`;var j=Object(a.memo)(({index:e,teams:t,airborneTeams:n})=>{var a,c;const[o,u]=null!=t?t:[],d=o&&!n.includes(o),p=u&&!n.includes(u);return r.a.createElement(l.a,null,r.a.createElement(f,{picked:d},d?r.a.createElement(s.a,{country:d?o.country:void 0},d&&(null!==(a=o.shortName)&&void 0!==a?a:o.name)):r.a.createElement(m.a,{"data-cellid":e+"ru"})),r.a.createElement(i.a,null,r.a.createElement(g,null)),r.a.createElement(E,{picked:p},p?r.a.createElement(s.a,{country:p?u.country:void 0},d&&(null!==(c=u.shortName)&&void 0!==c?c:u.name)):r.a.createElement(m.a,{"data-cellid":e+"gw"})))});const h=Object(c.d)(o.a)`
   width: auto;
   align-self: center;
   max-width: initial;
