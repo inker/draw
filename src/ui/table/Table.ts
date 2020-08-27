@@ -3,8 +3,8 @@ import styled from 'styled-components'
 // min-width, so it can have text overflow
 
 const Table = styled.table`
-  border-left: #aaa solid 1px;
-  border-right: #aaa solid 1px;
+  border-left: ${props => props.theme.border};
+  border-right: ${props => props.theme.border};
   border-spacing: 0;
   border-collapse: collapse;
   margin: 0 5px 10px 5px;

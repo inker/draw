@@ -3,10 +3,11 @@ import React, {
   lazy,
   Suspense,
 } from 'react'
-import styled from 'styled-components'
+import styled, { ThemeProvider } from 'styled-components'
 
 import usePopup from 'store/usePopup'
 
+import defaultTheme from './theme'
 import Body from './Body'
 import Popup from './Popup'
 
@@ -34,7 +35,7 @@ const App = () => {
   }, [popup.waiting])
 
   return (
-    <>
+    <ThemeProvider theme={defaultTheme}>
       <Body />
       <Root>
         <Popup />
@@ -45,7 +46,7 @@ const App = () => {
           <Version />
         </Suspense>
       </Root>
-    </>
+    </ThemeProvider>
   )
 }
 

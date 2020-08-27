@@ -16,7 +16,7 @@ const SplitCellContainer = styled(CellContainer)`
   width: 50%;
 
   & + & {
-    border-left: #aaa solid 1px;
+    border-left: ${props => props.theme.border};
   }
 `
 

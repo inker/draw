@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 
 const Row = styled.tr`
-  border: #aaa solid 1px;
+  border: ${props => props.theme.border};
 `
 
 export default Row
