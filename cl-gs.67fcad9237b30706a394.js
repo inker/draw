@@ -1,4 +1,4 @@
-/*! For license information please see cl-gs.fa359209bbf606d69444.js.LICENSE.txt */
+/*! For license information please see cl-gs.67fcad9237b30706a394.js.LICENSE.txt */
 (window.webpackJsonp=window.webpackJsonp||[]).push([[1,6],{101:function(e,t,a){"use strict";a.r(t);var r=a(0),n=a.n(r),s=a(70),o=a(2),c=a(63),l=a(66),i=a(80),u=a(81),d=a(77),m=a(61),p=a(78),b=a(76),f=a(79),h=a(72),g=a(73),w=a(82),k=a(1),v=a(126);var E=Object(k.d)(v.a)`
   &:hover {
     ${e=>!e.noHover&&"background: radial-gradient(#ccf, #ccf)"};
@@ -19,7 +19,7 @@
   to {}
 `,h=s.e`
   from {
-    background-color: #ff8;
+    background-color: rgba(255, 255, 0, 0.5);
   }
   to {}
 `,g=s.c`

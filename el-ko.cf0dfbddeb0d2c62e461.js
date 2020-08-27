@@ -4,7 +4,7 @@
   user-select: none;
 `;t.a=a},109:function(e,t,n){"use strict";var a=n(106),r=n(102);const c=[{countries:["Russia","Ukraine"],predicate:(o=2014,l=Number.MAX_SAFE_INTEGER,e=>e>=o&&e<=l)},{countries:["Azerbaijan","Armenia"]},{countries:["Serbia","Kosovo"]},{countries:["Bosnia & Herzegovina","Kosovo"]},{countries:["Spain","Gibraltar"]}];var o,l;const i={predicate:r};var u=c.map(e=>({...i,...e})),s=e=>{const t=(e=>{const t=new Map;for(const{countries:n,predicate:a}of u)a(e)&&(t.set(n[0],n[1]),t.set(n[1],n[0]));return t.get.bind(t)})(e);return e=>{const n=t(e.country);return void 0===n?a:e=>e.country===n}};t.a=e=>{const t=s(e),n=(e,n)=>{return 0===e.length||1===e.length&&(a=n,r=e[0],a.country!==r.country&&a.group!==r.group&&!t(a)(r));var a,r};return(e,t,a)=>n(t[a],e)}},110:function(e,t,n){"use strict";var a=n(0),r=n.n(a),c=n(1),o=n(64),l=n(60),i=n(59),u=n(93),s=n(65),m=n(71);const d=c.e`
   from {
-    background-color: #ff8;
+    background-color: rgba(255, 255, 0, 0.5);
   }
   to {}
 `,p=c.c`
