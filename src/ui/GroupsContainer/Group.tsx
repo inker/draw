@@ -55,10 +55,9 @@ const Group = ({
         {range(maxTeams).map(i => (
           <GroupRow
             key={i}
-            index={i}
-            teams={nonAirborneTeams}
+            team={nonAirborneTeams[i]}
             possible={i === potNum && possible}
-            groupLetter={groupLetter}
+            cellId={`${groupLetter}${i}`}
           />
         ))}
       </tbody>

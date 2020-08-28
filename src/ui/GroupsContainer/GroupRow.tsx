@@ -13,35 +13,30 @@ import getTeamCountryName from './getTeamCountryName'
 type Team = Club | NationalTeam
 
 interface Props {
-  index: number,
-  teams: readonly Team[],
+  team?: Team,
   possible: boolean,
-  groupLetter: string,
+  cellId: string,
 }
 
 const GroupRow = ({
-  index,
-  teams,
+  team,
   possible,
-  groupLetter,
-}: Props) => {
-  const team = teams[index] as Club | NationalTeam | undefined
-  return (
-    <Row>
-      <GroupCellContainer
-        hasTeam={!!team}
-        possible={possible}
-      >
-        {team ? (
-          <CellWithFlag country={getTeamCountryName(team)}>
-            {(team as Club).shortName ?? team.name}
-          </CellWithFlag>
-        ) : (
-          <DummyCell data-cellid={`${groupLetter}${index}`} />
-        )}
-      </GroupCellContainer>
-    </Row>
-  )
-}
+  cellId,
+}: Props) => (
+  <Row>
+    <GroupCellContainer
+      hasTeam={!!team}
+      possible={possible}
+    >
+      {team ? (
+        <CellWithFlag country={getTeamCountryName(team)}>
+          {(team as Club).shortName ?? team.name}
+        </CellWithFlag>
+      ) : (
+        <DummyCell data-cellid={cellId} />
+      )}
+    </GroupCellContainer>
+  </Row>
+)
 
 export default memo(GroupRow)
