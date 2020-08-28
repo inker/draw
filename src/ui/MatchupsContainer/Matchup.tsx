@@ -7,7 +7,7 @@ import Row from 'ui/table/Row'
 import CellContainer from 'ui/table/CellContainer'
 import Cell from 'ui/table/Cell'
 
-import Content from './Content'
+import MatchupCell from './MatchupCell'
 
 const leftCellContainerStyles = css`
   border-right: 1px solid rgba(0, 0, 0, 0);
@@ -40,14 +40,14 @@ const Matchup = ({
 
   return (
     <Row>
-      <Content
+      <MatchupCell
         team={ru}
         containerStyles={leftCellContainerStyles}
       />
       <CellContainer>
         <VersusCell />
       </CellContainer>
-      <Content
+      <MatchupCell
         team={gw}
         containerStyles={rightCellContainerStyles}
       />

@@ -15,13 +15,14 @@ import DummyCell from 'ui/table/DummyCell'
 import MovingDiv from 'ui/MovingDiv'
 
 import MatchupCellContainer from './MatchupCellContainer'
+import getTeamCountryName from './getTeamCountryName'
 
 interface Props {
   team: Team,
   containerStyles?: FlattenInterpolation<any>,
 }
 
-const Content = ({
+const MatchupCell = ({
   team,
   containerStyles,
 }: Props) => {
@@ -34,17 +35,19 @@ const Content = ({
   }, [team])
 
   return (
-    <MatchupCellContainer
-      hasTeam={!!displayedTeam}
-      styles={containerStyles}
-    >
-      {displayedTeam ? (
-        <CellWithFlag country={displayedTeam ? displayedTeam.country : undefined}>
-          {displayedTeam && (displayedTeam.shortName ?? displayedTeam.name)}
-        </CellWithFlag>
-      ) : (
-        <DummyCell ref={to} />
-      )}
+    <>
+      <MatchupCellContainer
+        hasTeam={!!displayedTeam}
+        styles={containerStyles}
+      >
+        {displayedTeam ? (
+          <CellWithFlag country={getTeamCountryName(displayedTeam)}>
+            {displayedTeam.shortName ?? displayedTeam.name}
+          </CellWithFlag>
+        ) : (
+          <DummyCell ref={to} />
+        )}
+      </MatchupCellContainer>
       {team && team !== prevTeam && (
         <MovingDiv
           from={`[data-cellid='${team.id}']`}
@@ -54,8 +57,8 @@ const Content = ({
           onAnimationEnd={fill}
         />
       )}
-    </MatchupCellContainer>
+    </>
   )
 }
 
-export default memo(Content)
+export default memo(MatchupCell)

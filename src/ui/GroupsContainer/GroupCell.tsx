@@ -10,7 +10,6 @@ import NationalTeam from 'model/team/NationalTeam'
 
 import usePrevious from 'utils/hooks/usePrevious'
 
-import Row from 'ui/table/Row'
 import CellWithFlag from 'ui/table/CellWithFlag'
 import DummyCell from 'ui/table/DummyCell'
 import MovingDiv from 'ui/MovingDiv'
@@ -25,7 +24,7 @@ interface Props {
   possible: boolean,
 }
 
-const GroupRow = ({
+const GroupCell = ({
   team,
   possible,
 }: Props) => {
@@ -38,7 +37,7 @@ const GroupRow = ({
   }, [team])
 
   return (
-    <Row>
+    <>
       <GroupCellContainer
         hasTeam={!!displayedTeam}
         possible={possible}
@@ -60,8 +59,8 @@ const GroupRow = ({
           onAnimationEnd={fill}
         />
       )}
-    </Row>
+    </>
   )
 }
 
-export default memo(GroupRow)
+export default memo(GroupCell)

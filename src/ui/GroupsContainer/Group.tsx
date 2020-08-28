@@ -10,7 +10,7 @@ import Header from 'ui/table/Header'
 import Row from 'ui/table/Row'
 import CellContainer from 'ui/table/CellContainer'
 
-import GroupRow from './GroupRow'
+import GroupCell from './GroupCell'
 
 type Team = Club | NationalTeam
 
@@ -45,11 +45,13 @@ const Group = ({
     </thead>
     <tbody>
       {range(maxTeams).map(i => (
-        <GroupRow
-          key={i}
-          team={teams[i]}
-          possible={i === potNum && possible}
-        />
+        <Row>
+          <GroupCell
+            key={i}
+            team={teams[i]}
+            possible={i === potNum && possible}
+          />
+        </Row>
       ))}
     </tbody>
   </Table>
