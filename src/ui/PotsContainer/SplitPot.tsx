@@ -69,9 +69,8 @@ const SplitPot = ({
               } = team as GsTeam
 
               return (
-                <SplitCellContainer>
+                <SplitCellContainer key={team.id}>
                   <Cell
-                    key={team.id}
                     data-cellid={team.id}
                     title={pairing && `paired with ${pairing.shortName ?? pairing.name}`}
                     selected={!!selectedTeams && selectedTeams.includes(team)}

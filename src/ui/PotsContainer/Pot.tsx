@@ -52,10 +52,9 @@ const Pot = ({
         } = team as GsTeam
 
         return (
-          <Row>
+          <Row key={team.id}>
             <CellContainer>
               <PotCell
-                key={team.id}
                 data-cellid={team.id}
                 title={pairing && `paired with ${pairing.shortName ?? pairing.name}`}
                 selected={!!selectedTeams?.includes(team)}

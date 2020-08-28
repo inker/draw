@@ -45,9 +45,8 @@ const Group = ({
     </thead>
     <tbody>
       {range(maxTeams).map(i => (
-        <Row>
+        <Row key={i}>
           <GroupCell
-            key={i}
             team={teams[i]}
             possible={i === potNum && possible}
           />
