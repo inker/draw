@@ -19,7 +19,6 @@ const Appear = keyframes`
 
 const Possible = css`
   position: relative; /* enables glow */
-  background-color: rgba(255, 255, 255, 0.9);
   animation: ${BorderGlow} 1s ease;
   box-shadow: 0 0 5px #6af;
 `
