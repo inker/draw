@@ -1,9 +1,6 @@
 import React, { memo } from 'react'
 import { FlattenInterpolation } from 'styled-components'
-import {
-  difference,
-  range,
-} from 'lodash'
+import { range } from 'lodash'
 
 import Club from 'model/team/Club'
 import NationalTeam from 'model/team/NationalTeam'
@@ -23,7 +20,6 @@ interface Props {
   teams: readonly Team[],
   potNum: number,
   possible: boolean,
-  airborneTeams: readonly Team[],
   headerStyles?: FlattenInterpolation<any>,
 }
 
@@ -33,36 +29,30 @@ const Group = ({
   teams,
   potNum,
   possible,
-  airborneTeams,
   headerStyles,
-}: Props) => {
-  const nonAirborneTeams = difference(teams, airborneTeams)
-
-  return (
-    <Table>
-      <thead>
-        <Row>
-          <CellContainer>
-            <Header styles={headerStyles}>
-              Group
-              {' '}
-              {groupLetter}
-            </Header>
-          </CellContainer>
-        </Row>
-      </thead>
-      <tbody>
-        {range(maxTeams).map(i => (
-          <GroupRow
-            key={i}
-            team={nonAirborneTeams[i]}
-            possible={i === potNum && possible}
-            cellId={`${groupLetter}${i}`}
-          />
-        ))}
-      </tbody>
-    </Table>
-  )
-}
+}: Props) => (
+  <Table>
+    <thead>
+      <Row>
+        <CellContainer>
+          <Header styles={headerStyles}>
+            Group
+            {' '}
+            {groupLetter}
+          </Header>
+        </CellContainer>
+      </Row>
+    </thead>
+    <tbody>
+      {range(maxTeams).map(i => (
+        <GroupRow
+          key={i}
+          team={teams[i]}
+          possible={i === potNum && possible}
+        />
+      ))}
+    </tbody>
+  </Table>
+)
 
 export default memo(Group)

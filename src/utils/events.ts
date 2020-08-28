@@ -10,3 +10,6 @@ export const once = <K extends keyof HTMLElementEventMap>(
 
 export const transitionEnd = (el: Element) =>
   once(el, 'transitionend')
+
+export const transitionCancel = (el: Element) =>
+  once(el, 'transitioncancel')

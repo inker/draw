@@ -20,13 +20,9 @@ import usePopup from 'store/usePopup'
 import useDrawId from 'store/useDrawId'
 import useXRay from 'store/useXRay'
 
-import useCollection from 'utils/hooks/useCollection'
 import useTimer from 'utils/hooks/useTimer'
 import useWorkerWrapper from 'utils/hooks/useWorkerWrapper'
 
-import getGroupLetter from 'utils/getGroupLetter'
-
-import MovingDiv from 'ui/MovingDiv'
 import PotsContainer from 'ui/PotsContainer'
 // import AirborneContainer from 'ui/AirborneContainer'
 import GroupsContainer from 'ui/GroupsContainer'
@@ -65,6 +61,7 @@ interface State {
   selectedTeam: Team | null,
   pickedGroup: number | null,
   hungPot: readonly Team[],
+  groups: readonly (readonly Team[])[],
 }
 
 function getState(pots: readonly (readonly Team[])[]): State {
@@ -75,6 +72,7 @@ function getState(pots: readonly (readonly Team[])[]): State {
     selectedTeam: null,
     pickedGroup: null,
     hungPot: currentPot,
+    groups: pots[0].map(() => [] as Team[]),
   }
 }
 
@@ -87,16 +85,13 @@ const WCGS = ({
     () => initialPots.map(pot => shuffle(pot)) as readonly Team[][],
     [initialPots, drawId],
   )
-  const groups = useMemo(
-    () => initialPots[0].map(() => [] as Team[]) as readonly Team[][],
-    [initialPots, drawId],
-  )
 
   const [{
     currentPotNum,
     selectedTeam,
     pickedGroup,
     hungPot,
+    groups,
   }, setState] = useState(() => getState(pots))
 
   useEffect(() => {
@@ -106,7 +101,6 @@ const WCGS = ({
   const [, setPopup] = usePopup()
   const [isXRay] = useXRay()
   const workerSendAndReceive = useWorkerWrapper<WorkerRequest, WorkerResponse>(EsWorker)
-  const [airborneTeams, airborneTeamsActions] = useCollection<Team>()
   const [isTimedOut, timeoutActions] = useTimer<Team>(3000)
 
   const groupsContanerRef = useRef<HTMLElement>(null)
@@ -140,16 +134,20 @@ const WCGS = ({
       return
     }
 
-    groups[newPickedGroup].push(selectedTeam)
+    const newGroups = groups.slice()
+    newGroups[newPickedGroup] = [
+      ...newGroups[newPickedGroup],
+      selectedTeam,
+    ]
     const newCurrentPotNum = pots[currentPotNum].length > 0 ? currentPotNum : currentPotNum + 1
 
-    airborneTeamsActions.add(selectedTeam)
     timeoutActions.reset()
     setState({
       selectedTeam: null,
       pickedGroup: newPickedGroup,
       hungPot: pots[newCurrentPotNum],
       currentPotNum: newCurrentPotNum,
+      groups: newGroups,
     })
   }
 
@@ -168,8 +166,9 @@ const WCGS = ({
       hungPot: currentPot.slice(),
       selectedTeam: currentPot.splice(i, 1)[0],
       pickedGroup: null,
+      groups,
     })
-  }, [pots, currentPotNum])
+  }, [pots, groups, currentPotNum])
 
   useEffect(() => {
     if (selectedTeam) {
@@ -200,7 +199,6 @@ const WCGS = ({
           currentPotNum={currentPotNum}
           groups={groups}
           possibleGroups={null}
-          airborneTeams={airborneTeams}
           getGroupHeaderStyles={getGroupHeaderStyles}
         />
       </TablesContainer>
@@ -217,7 +215,6 @@ const WCGS = ({
           long
           calculating={isTimedOut}
           completed={completed}
-          isAirborneAnimation={airborneTeams.length > 0}
           selectedTeam={selectedTeam}
           pickedGroup={pickedGroup}
           possibleGroups={null}
@@ -226,21 +223,6 @@ const WCGS = ({
           reset={setNewDrawId}
         />
       </BowlsContainer>
-      {airborneTeams.map((team: Team) => {
-        const groupNum = groups.findIndex(g => g.includes(team))
-        const groupLetter = getGroupLetter(groupNum)
-        const pos = groups[groupNum].indexOf(team)
-        return (
-          <MovingDiv
-            key={team.id}
-            from={`[data-cellid='${team.id}']`}
-            to={`[data-cellid='${groupLetter}${pos}']`}
-            duration={350}
-            data={team}
-            onAnimationEnd={airborneTeamsActions.remove}
-          />
-        )
-      })}
     </Root>
   )
 }

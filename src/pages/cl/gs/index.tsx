@@ -19,13 +19,9 @@ import usePopup from 'store/usePopup'
 import useDrawId from 'store/useDrawId'
 import useXRay from 'store/useXRay'
 
-import useCollection from 'utils/hooks/useCollection'
 import useTimer from 'utils/hooks/useTimer'
 import useWorkerWrapper from 'utils/hooks/useWorkerWrapper'
 
-import getGroupLetter from 'utils/getGroupLetter'
-
-import MovingDiv from 'ui/MovingDiv'
 import PotsContainer from 'ui/PotsContainer'
 // import AirborneContainer from 'ui/AirborneContainer'
 import GroupsContainer from 'ui/GroupsContainer'
@@ -71,6 +67,7 @@ interface State {
   hungPot: readonly Team[],
   possibleGroups: readonly number[] | null,
   possibleGroupsShuffled: readonly number[] | null,
+  groups: readonly (readonly Team[])[],
 }
 
 function getState(pots: readonly (readonly Team[])[]): State {
@@ -83,6 +80,7 @@ function getState(pots: readonly (readonly Team[])[]): State {
     hungPot: currentPot,
     possibleGroups: null,
     possibleGroupsShuffled: null,
+    groups: pots[0].map(() => [] as Team[]),
   }
 }
 
@@ -91,12 +89,9 @@ const CLGS = ({
   pots: initialPots,
 }: Props) => {
   const [drawId, setNewDrawId] = useDrawId()
+
   const pots = useMemo(
     () => initialPots.map(pot => shuffle(pot)) as readonly Team[][],
-    [initialPots, drawId],
-  )
-  const groups = useMemo(
-    () => initialPots[0].map(() => [] as Team[]) as readonly Team[][],
     [initialPots, drawId],
   )
 
@@ -107,6 +102,7 @@ const CLGS = ({
     hungPot,
     possibleGroups,
     possibleGroupsShuffled,
+    groups,
   }, setState] = useState(() => getState(pots))
 
   useEffect(() => {
@@ -116,7 +112,6 @@ const CLGS = ({
   const [, setPopup] = usePopup()
   const [isXRay] = useXRay()
   const workerSendAndReceive = useWorkerWrapper<WorkerRequest, WorkerResponse>(EsWorker)
-  const [airborneTeams, airborneTeamsActions] = useCollection<Team>()
   const [isTimedOut, timeoutActions] = useTimer<Team>(3000)
 
   const groupsContanerRef = useRef<HTMLElement>(null)
@@ -160,6 +155,7 @@ const CLGS = ({
       possibleGroups: newPossibleGroups,
       possibleGroupsShuffled: shuffle(newPossibleGroups),
       pickedGroup: null,
+      groups,
     })
   }, [pots, groups, currentPotNum, getPickedGroup])
 
@@ -171,10 +167,13 @@ const CLGS = ({
       return
     }
 
-    groups[newPickedGroup].push(selectedTeam)
+    const newGroups = groups.slice()
+    newGroups[newPickedGroup] = [
+      ...newGroups[newPickedGroup],
+      selectedTeam,
+    ]
     const newCurrentPotNum = pots[currentPotNum].length > 0 ? currentPotNum : currentPotNum + 1
 
-    airborneTeamsActions.add(selectedTeam)
     setState({
       selectedTeam: null,
       pickedGroup: newPickedGroup,
@@ -182,6 +181,7 @@ const CLGS = ({
       possibleGroups: null,
       possibleGroupsShuffled: null,
       currentPotNum: newCurrentPotNum,
+      groups: newGroups,
     })
   }, [pots, groups, selectedTeam, currentPotNum])
 
@@ -202,7 +202,6 @@ const CLGS = ({
           currentPotNum={currentPotNum}
           groups={groups}
           possibleGroups={possibleGroups}
-          airborneTeams={airborneTeams}
           getGroupHeaderStyles={getGroupHeaderStyles}
         />
       </TablesContainer>
@@ -218,7 +217,6 @@ const CLGS = ({
           long={false}
           calculating={isTimedOut}
           completed={completed}
-          isAirborneAnimation={airborneTeams.length > 0}
           selectedTeam={selectedTeam}
           pickedGroup={pickedGroup}
           possibleGroups={possibleGroups}
@@ -233,21 +231,6 @@ const CLGS = ({
           onPick={onGroupBallPick}
         />
       </BowlsContainer>
-      {airborneTeams.map((team: Team) => {
-        const groupNum = groups.findIndex(g => g.includes(team))
-        const groupLetter = getGroupLetter(groupNum)
-        const pos = groups[groupNum].indexOf(team)
-        return (
-          <MovingDiv
-            key={team.id}
-            from={`[data-cellid='${team.id}']`}
-            to={`[data-cellid='${groupLetter}${pos}']`}
-            duration={350}
-            data={team}
-            onAnimationEnd={airborneTeamsActions.remove}
-          />
-        )
-      })}
     </Root>
   )
 }

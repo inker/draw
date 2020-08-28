@@ -1,11 +1,21 @@
-import { memo } from 'react'
+import {
+  memo,
+  MutableRefObject,
+} from 'react'
 
 import useOnce from 'utils/hooks/useOnce'
 import animateContentTransfer from 'utils/animateContentTransfer'
 
+type El = MutableRefObject<HTMLElement | null> | string
+
+const getElement = (i: El) =>
+  typeof i === 'string'
+    ? document.querySelector(i)
+    : i.current
+
 interface Props {
-  from: string,
-  to: string,
+  from: El,
+  to: El,
   duration: number,
   data?: any,
   onAnimationEnd?: (data: any) => void,
@@ -19,8 +29,8 @@ const MovingDiv = ({
   onAnimationEnd,
 }: Props) => {
   useOnce(() => {
-    const fromCell = document.querySelector(from)
-    const toCell = document.querySelector(to)
+    const fromCell = getElement(from)
+    const toCell = getElement(to)
     if (fromCell instanceof HTMLElement && toCell instanceof HTMLElement) {
       animateContentTransfer(fromCell, toCell, duration).then(() => {
         if (onAnimationEnd) {

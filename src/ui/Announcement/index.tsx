@@ -56,7 +56,6 @@ interface Props {
   long: boolean,
   calculating?: boolean,
   completed: boolean,
-  isAirborneAnimation: boolean,
   selectedTeam: Team | null,
   pickedGroup: number | null,
   possibleGroups: readonly number[] | null,
@@ -69,7 +68,6 @@ const Announcement = ({
   long,
   calculating,
   completed,
-  isAirborneAnimation,
   selectedTeam,
   pickedGroup,
   possibleGroups,
@@ -99,12 +97,10 @@ const Announcement = ({
       <Root>
         <Completed>
           <div>Draw completed!</div>
-          {!isAirborneAnimation && (
-            <Download
-              completed={completed}
-              groupsElement={groupsElement}
-            />
-          )}
+          <Download
+            completed={completed}
+            groupsElement={groupsElement}
+          />
           <ButtonLink onClick={reset}>Restart</ButtonLink>
         </Completed>
       </Root>

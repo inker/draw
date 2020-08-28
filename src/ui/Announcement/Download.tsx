@@ -5,6 +5,8 @@ import React, {
   memo,
 } from 'react'
 
+import delay from 'delay.js'
+
 import ButtonLink from 'ui/ButtonLink'
 import NoTransitions from 'ui/NoTransitions'
 
@@ -52,6 +54,7 @@ const Download = ({
         if (!groupsElement) {
           throw new Error('groups element is null')
         }
+        await delay(0) // TODO: remove this hack
         const mod = await takeScreenshotPromise
         await mod.default(groupsElement, downloadClicked)
       } catch (err) {

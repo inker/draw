@@ -18,13 +18,11 @@ const RootTable = styled(Table)`
 
 interface Props {
   matchups: readonly [Team, Team][],
-  airborneTeams: readonly Team[],
 }
 
 const MatchupContainer = forwardRef((
   {
     matchups,
-    airborneTeams,
   }: Props,
   ref: any,
 ) => (
@@ -35,7 +33,6 @@ const MatchupContainer = forwardRef((
           key={i}
           index={i}
           teams={matchup}
-          airborneTeams={airborneTeams}
         />
       ))}
     </tbody>

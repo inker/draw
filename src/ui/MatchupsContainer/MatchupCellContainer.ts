@@ -1,4 +1,8 @@
-import styled, { css, keyframes } from 'styled-components'
+import styled, {
+  css,
+  keyframes,
+  FlattenInterpolation,
+} from 'styled-components'
 
 import CellContainer from 'ui/table/CellContainer'
 
@@ -15,11 +19,13 @@ const Picked = css`
 
 interface Props {
   hasTeam: boolean,
+  styles?: FlattenInterpolation<any>,
 }
 
 const GroupCellContainer = styled(CellContainer)<Props>`
   width: 150px;
-  ${props => props.hasTeam && Picked}
+  ${props => props.hasTeam && Picked};
+  ${props => props.styles};
 `
 
 export default GroupCellContainer

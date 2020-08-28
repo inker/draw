@@ -4,30 +4,26 @@ import React, {
   useCallback,
   memo,
 } from 'react'
+import { FlattenInterpolation } from 'styled-components'
 
-import Club from 'model/team/Club'
-import NationalTeam from 'model/team/NationalTeam'
+import Team from 'model/team/Club'
 
 import usePrevious from 'utils/hooks/usePrevious'
 
-import Row from 'ui/table/Row'
 import CellWithFlag from 'ui/table/CellWithFlag'
 import DummyCell from 'ui/table/DummyCell'
 import MovingDiv from 'ui/MovingDiv'
 
-import GroupCellContainer from './GroupCellContainer'
-import getTeamCountryName from './getTeamCountryName'
-
-type Team = Club | NationalTeam
+import MatchupCellContainer from './MatchupCellContainer'
 
 interface Props {
-  team?: Team,
-  possible: boolean,
+  team: Team,
+  containerStyles?: FlattenInterpolation<any>,
 }
 
-const GroupRow = ({
+const Content = ({
   team,
-  possible,
+  containerStyles,
 }: Props) => {
   const prevTeam = usePrevious(team)
   const [displayedTeam, setDisplayedTeam] = useState(team)
@@ -38,19 +34,17 @@ const GroupRow = ({
   }, [team])
 
   return (
-    <Row>
-      <GroupCellContainer
-        hasTeam={!!displayedTeam}
-        possible={possible}
-      >
-        {displayedTeam ? (
-          <CellWithFlag country={getTeamCountryName(displayedTeam)}>
-            {(displayedTeam as Club).shortName ?? displayedTeam.name}
-          </CellWithFlag>
-        ) : (
-          <DummyCell ref={to} />
-        )}
-      </GroupCellContainer>
+    <MatchupCellContainer
+      hasTeam={!!displayedTeam}
+      styles={containerStyles}
+    >
+      {displayedTeam ? (
+        <CellWithFlag country={displayedTeam ? displayedTeam.country : undefined}>
+          {displayedTeam && (displayedTeam.shortName ?? displayedTeam.name)}
+        </CellWithFlag>
+      ) : (
+        <DummyCell ref={to} />
+      )}
       {team && team !== prevTeam && (
         <MovingDiv
           from={`[data-cellid='${team.id}']`}
@@ -60,8 +54,8 @@ const GroupRow = ({
           onAnimationEnd={fill}
         />
       )}
-    </Row>
+    </MatchupCellContainer>
   )
 }
 
-export default memo(GroupRow)
+export default memo(Content)

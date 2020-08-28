@@ -19,9 +19,6 @@ import getPredicate from 'engine/predicates/uefa/ko'
 import useDrawId from 'store/useDrawId'
 import useXRay from 'store/useXRay'
 
-import useCollection from 'utils/hooks/useCollection'
-
-import MovingDiv from 'ui/MovingDiv'
 import PotsContainer from 'ui/PotsContainer'
 // import AirborneContainer from 'ui/AirborneContainer'
 import MatchupsContainer from 'ui/MatchupsContainer'
@@ -42,6 +39,7 @@ interface State {
   currentMatchupNum: number,
   currentPotNum: number,
   possiblePairings: readonly number[] | null,
+  matchups: readonly [Team, Team][],
 }
 
 function getState(): State {
@@ -51,6 +49,7 @@ function getState(): State {
     currentMatchupNum,
     currentPotNum,
     possiblePairings: null,
+    matchups: range(8).map(() => [] as any),
   }
 }
 
@@ -59,25 +58,22 @@ const CLKO = ({
   pots: initialPots,
 }: Props) => {
   const [drawId, setNewDrawId] = useDrawId()
+
   const pots = useMemo(
     () => initialPots.map(pot => shuffle(pot)) as readonly Team[][],
     [initialPots, drawId],
   )
-  const matchups = useMemo(
-    () => range(8).map(() => [] as any) as readonly [Team, Team][],
-    [initialPots, drawId],
-  )
+
   const predicate = useMemo(() => getPredicate(season), [season])
 
   const [{
     currentMatchupNum,
     currentPotNum,
     possiblePairings,
+    matchups,
   }, setState] = useState(getState)
 
   const [isXRay] = useXRay()
-
-  const [airborneTeams, airborneTeamsActions] = useCollection<Team>()
 
   const groupsContanerRef = useRef<HTMLElement>(null)
 
@@ -86,10 +82,15 @@ const CLKO = ({
     const index = possiblePairings ? possiblePairings[i] : i
     const selectedTeam = currentPot.splice(index, 1)[0]
 
-    matchups[currentMatchupNum].push(selectedTeam)
+    const newMatchups = matchups.slice()
+    // @ts-ignore
+    newMatchups[currentMatchupNum] = [
+      ...newMatchups[currentMatchupNum],
+      selectedTeam,
+    ]
 
     const newPossiblePairings = currentPotNum === 1
-      ? getPossiblePairings(pots, matchups, predicate)
+      ? getPossiblePairings(pots, newMatchups, predicate)
       : null
 
     const newCurrentMatchNum = currentMatchupNum - currentPotNum + 1
@@ -98,9 +99,9 @@ const CLKO = ({
       currentPotNum: 1 - currentPotNum,
       currentMatchupNum: newCurrentMatchNum,
       possiblePairings: newPossiblePairings,
+      matchups: newMatchups,
     })
-    airborneTeamsActions.add(selectedTeam)
-  }, [predicate, pots, matchups, currentPotNum, currentMatchupNum, possiblePairings, airborneTeams])
+  }, [predicate, pots, matchups, currentPotNum, currentMatchupNum, possiblePairings])
 
   const autoPickIfOneBall = () => {
     const isOnlyChoice = possiblePairings?.length === 1
@@ -134,7 +135,6 @@ const CLKO = ({
         <MatchupsContainer
           ref={groupsContanerRef}
           matchups={matchups}
-          airborneTeams={airborneTeams}
         />
       </TablesContainer>
       <BowlsContainer>
@@ -156,7 +156,6 @@ const CLKO = ({
           <Announcement
             long={false}
             completed={completed}
-            isAirborneAnimation={airborneTeams.length > 0}
             selectedTeam={null}
             pickedGroup={null}
             possibleGroups={null}
@@ -176,20 +175,6 @@ const CLKO = ({
           />
         )}
       </BowlsContainer>
-      {airborneTeams.map((team: Team) => {
-        const matchupNum = matchups.findIndex(m => m.includes(team))
-        const pos = matchups[matchupNum].indexOf(team)
-        return (
-          <MovingDiv
-            key={team.id}
-            from={`[data-cellid='${team.id}']`}
-            to={`[data-cellid='${matchupNum}${pos === 1 ? 'gw' : 'ru'}']`}
-            duration={350}
-            data={team}
-            onAnimationEnd={airborneTeamsActions.remove}
-          />
-        )
-      })}
     </Root>
   )
 }

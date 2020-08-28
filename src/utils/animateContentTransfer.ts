@@ -2,7 +2,10 @@ import delay from 'delay.js'
 
 import { isFirefox } from 'utils/browser'
 import styled from 'utils/makeStyleClass'
-import { transitionEnd } from 'utils/events'
+import {
+  transitionEnd,
+  transitionCancel,
+} from 'utils/events'
 
 const airborneDivClass = styled`
   position: fixed;
@@ -53,7 +56,10 @@ export default async (sourceCell: HTMLElement, targetCell: HTMLElement, duration
   fakeCell.style.transition = `transform ${duration}ms ease-in-out`
   moveTo(fakeCell, targetCell)
 
-  await transitionEnd(fakeCell)
+  await Promise.race([
+    transitionCancel(fakeCell),
+    transitionEnd(fakeCell),
+  ])
   if (isFirefox) {
     await delay(0)
   }

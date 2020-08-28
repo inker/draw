@@ -27,7 +27,6 @@ interface Props {
   currentPotNum: number,
   groups: readonly (readonly Team[])[],
   possibleGroups: readonly number[] | null,
-  airborneTeams: readonly Team[],
   getGroupHeaderStyles?: (index: number) => FlattenInterpolation<any>,
 }
 
@@ -37,7 +36,6 @@ const GroupsContainer = forwardRef((
     currentPotNum,
     groups,
     possibleGroups,
-    airborneTeams,
     getGroupHeaderStyles,
   }: Props,
   ref: any,
@@ -55,7 +53,6 @@ const GroupsContainer = forwardRef((
           teams={group}
           potNum={currentPotNum}
           possible={!!possibleGroups?.includes(i)}
-          airborneTeams={airborneTeams}
           headerStyles={headerStyles}
         />
       )
