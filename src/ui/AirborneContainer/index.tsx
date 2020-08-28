@@ -1,4 +1,7 @@
-import React, { PureComponent } from 'react'
+import React, {
+  useMemo,
+  memo,
+} from 'react'
 import styled from 'styled-components'
 // import { memoize } from 'lodash'
 
@@ -37,29 +40,31 @@ interface Props {
 
 // const getCells = memoize(foo)
 
-class AirborneContainer extends PureComponent<Props> {
-  render() {
-    const { teams, duration } = this.props
-    return (
-      <Root>
-        {teams.map(({ team }) => {
-          // eslint-disable-next-line no-lone-blocks
-          { /* const cells = getCells({ team, groupNum, position }) */ }
-          return (
-            <FakeCell
-              key={team.id}
-              country={team.country}
-              style={{
-                transition: `transform ${duration}ms ease-in-out`,
-              }}
-            >
-              {team.name}
-            </FakeCell>
-          )
-        })}
-      </Root>
-    )
-  }
+const AirborneContainer = ({
+  teams,
+  duration,
+}: Props) => {
+  const fakeCellStyle = useMemo(() => ({
+    transition: `transform ${duration}ms ease-in-out`,
+  }), [duration])
+
+  return (
+    <Root>
+      {teams.map(({ team }) => {
+        // eslint-disable-next-line no-lone-blocks
+        { /* const cells = getCells({ team, groupNum, position }) */ }
+        return (
+          <FakeCell
+            key={team.id}
+            country={team.country}
+            style={fakeCellStyle}
+          >
+            {team.name}
+          </FakeCell>
+        )
+      })}
+    </Root>
+  )
 }
 
-export default AirborneContainer
+export default memo(AirborneContainer)
