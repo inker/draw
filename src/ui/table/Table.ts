@@ -3,6 +3,7 @@ import styled from 'styled-components'
 // min-width, so it can have text overflow
 
 const Table = styled.table`
+  table-layout: fixed;
   border-left: ${props => props.theme.border};
   border-right: ${props => props.theme.border};
   border-spacing: 0;
