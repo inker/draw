@@ -19,6 +19,8 @@ import getPredicate from 'engine/predicates/uefa/ko'
 import useDrawId from 'store/useDrawId'
 import useXRay from 'store/useXRay'
 
+import useMatchMedia from 'utils/hooks/useMatchMedia'
+
 import PotsContainer from 'ui/PotsContainer'
 // import AirborneContainer from 'ui/AirborneContainer'
 import MatchupsContainer from 'ui/MatchupsContainer'
@@ -75,6 +77,7 @@ const ELKO = ({
     setState(getState(initialPots))
   }, [initialPots, drawId])
 
+  const isTallScreen = useMatchMedia('(min-height: 750px)')
   const [isXRay] = useXRay()
 
   const groupsContanerRef = useRef<HTMLElement>(null)
@@ -137,7 +140,7 @@ const ELKO = ({
           initialPots={initialPots}
           pots={pots}
           currentPotNum={currentPotNum}
-          split
+          split={!isTallScreen}
         />
         <MatchupsContainer
           ref={groupsContanerRef}
