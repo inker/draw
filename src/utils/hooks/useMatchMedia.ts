@@ -1,16 +1,24 @@
-import { useMemo, useState } from 'react'
-
-import useOnce from './useOnce'
+import {
+  useState,
+  useEffect,
+  useMemo,
+} from 'react'
 
 export default (media: string) => {
   const matchResult = useMemo(() => window.matchMedia(media), [media])
   const [isMatch, setIsMatch] = useState(matchResult.matches)
 
-  useOnce(() => {
-    matchResult.addEventListener('change', e => {
+  useEffect(() => {
+    const listener = (e: MediaQueryListEvent) => {
       setIsMatch(e.matches)
-    })
-  })
+    }
+
+    matchResult.addEventListener('change', listener)
+
+    return () => {
+      matchResult.removeEventListener('change', listener)
+    }
+  }, [matchResult])
 
   return isMatch
 }
