@@ -31,7 +31,6 @@ const MatchupContainer = forwardRef((
       {matchups?.map((matchup, i) => (
         <Matchup
           key={i}
-          index={i}
           teams={matchup}
         />
       ))}

@@ -28,12 +28,10 @@ const VersusCell = styled(Cell)`
 `
 
 interface Props {
-  index: number,
   teams: [Team, Team] | null,
 }
 
 const Matchup = ({
-  index,
   teams,
 }: Props) => {
   const [ru, gw] = teams ?? []!
