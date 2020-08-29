@@ -1,0 +1,32 @@
+/*! For license information please see wc-gs.536e9e7f3a02e621646f.js.LICENSE.txt */
+(window.webpackJsonp=window.webpackJsonp||[]).push([[5,9],{100:function(e,t,a){"use strict";a.r(t),t.default=function(){return new Worker(a.p+"worker.a585cdb0fc6eef68244c.worker.js")}},79:function(e,t,a){"use strict";var n=a(0);Object.create;Object.create;function r(e,t){if(!t.has(e))throw new TypeError("attempted to get private field on non-instance");return t.get(e)}function s(e,t,a){if(!t.has(e))throw new TypeError("attempted to set private field on non-instance");return t.set(e,a),a}var o=class{constructor(){this.callbacks=new Map}add(e,t){this.callbacks.set(e,t)}addAndGetId(e){const t=Math.random().toString(36).slice(2);return this.add(t,e),t}resolve(e,t){this.getCallbackAndDelete(e)(null,t)}reject(e,t){this.getCallbackAndDelete(e)(t)}getCallbackAndDelete(e){const t=this.callbacks.get(e);if(!t)throw new Error("no resolver with id = "+e);return this.callbacks.delete(e),t}};const c=(e,t)=>(a,n)=>{a?t(a):e(n)};var l,u,i,d=class{constructor(){this.manager=new o}getPromise(e){return new Promise(async(t,a)=>{const n=c(t,a);this.manager.add(e,n)})}getPromiseWithId(e){return new Promise(async(t,a)=>{const n=c(t,a),r=this.manager.addAndGetId(n);e&&e(r)})}resolve(e,t){this.manager.resolve(e,t)}reject(e,t){this.manager.reject(e,t)}},m=a(87),p=a.n(m);l=new WeakMap,u=new WeakMap,i=new WeakMap;var b=class{constructor(e,t){l.set(this,void 0),u.set(this,new d),i.set(this,void 0),s(this,i,t),s(this,l,e),r(this,l).onmessage=e=>{const{messageId:t,data:a}=e.data;r(this,u).resolve(t,a)}}sendAndReceive(e){const t=r(this,u).getPromiseWithId(t=>{r(this,l).postMessage({messageId:t,data:e})});return void 0===r(this,i)?t:p()(t,r(this,i))}terminate(){r(this,l).terminate()}};t.a=e=>{const t=Object(n.useMemo)(()=>new b(new e,12e4),[]);return Object(n.useEffect)(()=>()=>{t.terminate()},[]),Object(n.useCallback)(t.sendAndReceive.bind(t),[t])}},80:function(e,t,a){"use strict";var n=a(0),r=a.n(n),s=a(1),o=a(68),c=a(61),l=a(66),u=a(92),i=a(63),d=a(60),m=a(72),p=a(67),b=a(73),h=a(81);const f=s.e`
+  from {
+    background-color: white;
+    box-shadow: 0 0 20px #08f;
+  }
+  to {}
+`,g=s.e`
+  from {
+    background-color: rgba(255, 255, 0, 0.5);
+  }
+  to {}
+`,w=s.c`
+  position: relative; /* enables glow */
+  animation: ${f} 1s ease;
+  box-shadow: 0 0 5px #6af;
+`,E=s.c`
+  animation: ${g} 5s normal forwards;
+`;var k=Object(s.d)(d.a)`
+  ${e=>e.possible&&w}
+  ${e=>e.hasTeam&&E}
+`,O=a(62),j=e=>{var t;return null!==(t=e.country)&&void 0!==t?t:e.name in O?e.name:void 0};var v=Object(n.memo)(({team:e,possible:t})=>{var a;const s=Object(m.a)(e),[o,c]=Object(n.useState)(e),l=Object(n.useRef)(null),u=Object(n.useCallback)(()=>{c(e)},[e]);return r.a.createElement(r.a.Fragment,null,r.a.createElement(k,{hasTeam:!!o,possible:t},o?r.a.createElement(p.a,{country:j(o)},null!==(a=o.shortName)&&void 0!==a?a:o.name):r.a.createElement(b.a,{ref:l})),e&&e!==s&&r.a.createElement(h.a,{from:`[data-cellid='${e.id}']`,to:l,duration:350,data:e,onAnimationEnd:u}))});var y=Object(n.memo)(({maxTeams:e,groupLetter:t,teams:a,potNum:n,possible:s,headerStyles:o})=>r.a.createElement(l.a,null,r.a.createElement("thead",null,r.a.createElement(i.a,null,r.a.createElement(d.a,null,r.a.createElement(u.a,{styles:o},"Group"," ",t)))),r.a.createElement("tbody",null,c(e).map(e=>r.a.createElement(i.a,{key:e},r.a.createElement(v,{team:a[e],possible:e===n&&s}))))));const T=s.d.div`
+  display: flex;
+  flex-flow: row wrap;
+
+  & > * {
+    flex: 1;
+    flex-basis: 22%;
+  }
+`,P=Object(n.forwardRef)(({maxTeams:e,currentPotNum:t,groups:a,possibleGroups:n,getGroupHeaderStyles:s},c)=>r.a.createElement(T,{ref:c},null==a?void 0:a.map((a,c)=>{const l=Object(o.a)(c),u=null==s?void 0:s(c);return r.a.createElement(y,{key:l,maxTeams:e,groupLetter:l,teams:a,potNum:t,possible:!!(null==n?void 0:n.includes(c)),headerStyles:u})})));t.a=Object(n.memo)(P)},82:function(e,t,a){"use strict";var n=a(0),r=a(65),s=a.n(r);const o={key:null,isTimedOut:!1},c="TIMEOUT_VALUE_SET",l="TIMEOUT_RESET";function u(e,t){switch(t.type){case c:return{key:t.payload,isTimedOut:!!t.payload&&t.payload===e.key};case l:return o;default:throw new Error("Unknown action: "+t)}}t.a=e=>{const[t,a]=Object(n.useReducer)(u,o),r=async t=>{a({type:c,payload:t}),await s()(e),a({type:c,payload:t})},i=()=>{a({type:l})},d=Object(n.useMemo)(()=>({set:r,reset:i}),[]);return[t.isTimedOut,d]}},99:function(e,t,a){"use strict";a.r(t);var n=a(0),r=a.n(n),s=a(1),o=a(25),c=a(71),l=a(2),u=a(64),i=a(69),d=a(82),m=a(79),p=a(78),b=a(80),h=a(74),f=a(75),g=a(83),w=a(77),E=a(76),k=a(100);const O=o(s.c`
+  background-color: #c0e0c0;
+`);function j(e){const t=e.map(e=>c(e));return{currentPotNum:0,selectedTeam:null,pickedGroup:null,hungPot:t[0],pots:t,groups:e[0].map(()=>[])}}t.default=Object(n.memo)(({season:e,pots:t})=>{const[a,s]=Object(u.a)(),[{currentPotNum:o,selectedTeam:c,pickedGroup:v,hungPot:y,pots:T,groups:P},G]=Object(n.useState)(()=>j(t));Object(n.useEffect)(()=>{G(j(t))},[t,a]);const[,x]=Object(l.a)(),[N]=Object(i.a)(),M=Object(m.a)(k.default),[S,A]=Object(d.a)(3e3),I=Object(n.useRef)(null),C=Object(n.useCallback)(e=>{if(c)return;const t=T[o],a=t[e];if(!a)return;const n=T.slice();n[o]=n[o].filter((t,a)=>a!==e),G({currentPotNum:o,hungPot:t.slice(),selectedTeam:a,pickedGroup:null,pots:n,groups:P})},[T,P,o,c]);Object(n.useEffect)(()=>{c&&(async()=>{if(!c)throw new Error("no selected team");let t;A.set(c);try{t=(await M({season:e,pots:T,groups:P,selectedTeam:c})).pickedGroup}catch(e){return console.error(e),void x({error:"Could not determine the group"})}A.reset();const a=P.slice();a[t]=[...a[t],c];const n=T[o].length>0?o:o+1;G({selectedTeam:null,pickedGroup:t,hungPot:T[n],currentPotNum:n,pots:T,groups:a})})()},[c]),Object(n.useEffect)(()=>{const e=T[o].findIndex(e=>e.host);C(e)},[a]);const R=o>=T.length;return r.a.createElement(E.a,null,r.a.createElement(h.a,null,r.a.createElement(p.a,{selectedTeams:c&&[c],initialPots:t,pots:T,currentPotNum:o}),r.a.createElement(b.a,{ref:I,maxTeams:T.length,currentPotNum:o,groups:P,possibleGroups:null,getGroupHeaderStyles:O})),r.a.createElement(f.a,null,r.a.createElement(g.a,{forceNoSelect:!!c,display:!R,displayTeams:N,selectedTeam:c,pot:y,onPick:C}),r.a.createElement(w.a,{long:!0,calculating:S,completed:R,selectedTeam:c,pickedGroup:v,possibleGroups:null,isDisplayPossibleGroupsText:!!c,numGroups:P.length,groupsElement:I.current,reset:s})))})}},0,[80]]);
