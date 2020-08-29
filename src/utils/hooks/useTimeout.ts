@@ -1,15 +1,19 @@
-import { useState } from 'react'
-
-import useOnce from './useOnce'
+import {
+  useState,
+  useEffect,
+} from 'react'
 
 export default (delay: number) => {
   const [isTimedOut, setIsTimedOut] = useState(false)
 
-  useOnce(() => {
-    setTimeout(() => {
+  useEffect(() => {
+    const handle = setTimeout(() => {
       setIsTimedOut(true)
     }, delay)
-  })
+    return () => {
+      clearTimeout(handle)
+    }
+  }, [])
 
   return isTimedOut
 }
