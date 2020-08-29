@@ -166,7 +166,7 @@ const CLKO = ({
             pickedGroup={null}
             possibleGroups={null}
             numGroups={0}
-            groupsElement={groupsContanerRef.current}
+            groupsElement={groupsContanerRef}
             reset={setNewDrawId}
           />
         )}

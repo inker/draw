@@ -1,12 +1,12 @@
 import {
   memo,
-  MutableRefObject,
+  RefObject,
 } from 'react'
 
 import useOnce from 'utils/hooks/useOnce'
 import animateContentTransfer from 'utils/animateContentTransfer'
 
-type El = MutableRefObject<HTMLElement | null> | string
+type El = RefObject<HTMLElement | null> | string
 
 const getElement = (i: El) =>
   typeof i === 'string'

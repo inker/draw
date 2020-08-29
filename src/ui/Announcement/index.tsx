@@ -2,6 +2,7 @@ import React, {
   useEffect,
   useRef,
   memo,
+  RefObject,
 } from 'react'
 
 import styled from 'styled-components'
@@ -62,7 +63,7 @@ interface Props {
   possibleGroups: readonly number[] | null,
   isDisplayPossibleGroupsText?: boolean,
   numGroups: number,
-  groupsElement: HTMLElement | null,
+  groupsElement: RefObject<HTMLElement | null>,
   reset: any,
 }
 

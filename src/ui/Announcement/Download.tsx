@@ -3,6 +3,7 @@ import React, {
   useEffect,
   useCallback,
   memo,
+  RefObject,
 } from 'react'
 
 import delay from 'delay.js'
@@ -16,7 +17,7 @@ const takeScreenshotPromise = (
 
 interface Props {
   completed: boolean,
-  groupsElement: HTMLElement | null,
+  groupsElement: RefObject<HTMLElement | null>,
 }
 
 interface State {
@@ -51,12 +52,13 @@ const Download = ({
         return
       }
       try {
-        if (!groupsElement) {
+        const el = groupsElement.current
+        if (!el) {
           throw new Error('groups element is null')
         }
         await delay(0) // TODO: remove this hack
         const mod = await takeScreenshotPromise
-        await mod.default(groupsElement, downloadClicked)
+        await mod.default(el, downloadClicked)
       } catch (err) {
         console.error(err)
       }

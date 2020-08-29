@@ -216,7 +216,7 @@ const ELGS = ({
           possibleGroups={null}
           isDisplayPossibleGroupsText={!!selectedTeam}
           numGroups={groups.length}
-          groupsElement={groupsContanerRef.current}
+          groupsElement={groupsContanerRef}
           reset={setNewDrawId}
         />
       </BowlsContainer>

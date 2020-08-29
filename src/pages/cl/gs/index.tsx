@@ -247,7 +247,7 @@ const CLGS = ({
           possibleGroups={possibleGroups}
           isDisplayPossibleGroupsText={!!selectedTeam}
           numGroups={groups.length}
-          groupsElement={groupsContanerRef.current}
+          groupsElement={groupsContanerRef}
           reset={setNewDrawId}
         />
         <GroupBowl
