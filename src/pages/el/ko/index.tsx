@@ -39,16 +39,18 @@ interface State {
   currentMatchupNum: number,
   currentPotNum: number,
   possiblePairings: readonly number[] | null,
+  pots: readonly Team[][],
   matchups: readonly [Team, Team][],
 }
 
-function getState(): State {
+function getState(initialPots: readonly (readonly Team[])[]): State {
   const currentPotNum = 1
   const currentMatchupNum = 0
   return {
     currentMatchupNum,
     currentPotNum,
     possiblePairings: null,
+    pots: initialPots.map(pot => shuffle(pot)),
     matchups: range(16).map(() => [] as any),
   }
 }
@@ -59,19 +61,19 @@ const ELKO = ({
 }: Props) => {
   const [drawId, setNewDrawId] = useDrawId()
 
-  const pots = useMemo(
-    () => initialPots.map(pot => shuffle(pot)) as readonly Team[][],
-    [initialPots, drawId],
-  )
-
   const predicate = useMemo(() => getPredicate(season), [season])
 
   const [{
     currentMatchupNum,
     currentPotNum,
     possiblePairings,
+    pots,
     matchups,
-  }, setState] = useState(getState)
+  }, setState] = useState(() => getState(initialPots))
+
+  useEffect(() => {
+    setState(getState(initialPots))
+  }, [initialPots, drawId])
 
   const [isXRay] = useXRay()
 
@@ -80,7 +82,10 @@ const ELKO = ({
   const onBallPick = useCallback((i: number) => {
     const currentPot = pots[currentPotNum]
     const index = possiblePairings ? possiblePairings[i] : i
-    const selectedTeam = currentPot.splice(index, 1)[0]
+    const selectedTeam = currentPot[index]
+
+    const newPots = pots.slice()
+    newPots[currentPotNum] = newPots[currentPotNum].filter((_, idx) => idx !== index)
 
     const newMatchups = matchups.slice()
     // @ts-ignore
@@ -90,7 +95,7 @@ const ELKO = ({
     ]
 
     const newPossiblePairings = currentPotNum === 1
-      ? getPossiblePairings(pots, newMatchups, predicate)
+      ? getPossiblePairings(newPots, newMatchups, predicate)
       : null
 
     const newCurrentMatchNum = currentMatchupNum - currentPotNum + 1
@@ -99,6 +104,7 @@ const ELKO = ({
       currentPotNum: 1 - currentPotNum,
       currentMatchupNum: newCurrentMatchNum,
       possiblePairings: newPossiblePairings,
+      pots: newPots,
       matchups: newMatchups,
     })
   }, [predicate, pots, matchups, currentPotNum, currentMatchupNum, possiblePairings])

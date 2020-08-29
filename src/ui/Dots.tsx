@@ -11,21 +11,23 @@ const InvisibleSpan = styled.span`
 `
 
 interface Props {
-  num: number,
+  initialNum: number,
+  maxNum: number,
   interval: number,
 }
 
 const Dots = ({
-  num,
+  initialNum,
+  maxNum,
   interval,
 }: Props) => {
-  const [numVisible, setNumVisible] = useState(num)
+  const [numVisible, setNumVisible] = useState(initialNum)
 
   useEffect(() => {
     let timer: number
     const cb = () => {
       timer = setTimeout(() => {
-        setNumVisible(state => (state + 1) % (num + 1))
+        setNumVisible(state => (state + 1) % (maxNum + 1))
         cb()
       }, interval)
     }
@@ -41,7 +43,7 @@ const Dots = ({
         {'.'.repeat(numVisible)}
       </span>
       <InvisibleSpan>
-        {'.'.repeat(num - numVisible)}
+        {'.'.repeat(maxNum - numVisible)}
       </InvisibleSpan>
     </>
   )

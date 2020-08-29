@@ -9,6 +9,7 @@ import styled from 'styled-components'
 import Club from 'model/team/Club'
 import NationalTeam from 'model/team/NationalTeam'
 import ButtonLink from 'ui/ButtonLink'
+import Dots from 'ui/Dots'
 import getGroupLetter from 'utils/getGroupLetter'
 
 import PossibleGroups from './PossibleGroups'
@@ -59,6 +60,7 @@ interface Props {
   selectedTeam: Team | null,
   pickedGroup: number | null,
   possibleGroups: readonly number[] | null,
+  isDisplayPossibleGroupsText?: boolean,
   numGroups: number,
   groupsElement: HTMLElement | null,
   reset: any,
@@ -71,6 +73,7 @@ const Announcement = ({
   selectedTeam,
   pickedGroup,
   possibleGroups,
+  isDisplayPossibleGroupsText,
   numGroups,
   groupsElement,
   reset,
@@ -83,14 +86,6 @@ const Announcement = ({
   }, [completed, selectedTeam])
 
   const selected = (lastSelected.current ?? selectedTeam)!
-
-  if (calculating) {
-    return (
-      <Root>
-        <LongCalculation />
-      </Root>
-    )
-  }
 
   if (completed) {
     return (
@@ -134,17 +129,30 @@ const Announcement = ({
   if (selected) {
     return (
       <Root>
-        {possibleGroups ? (
+        {isDisplayPossibleGroupsText ? (
           <div>
             Possible groups for
             {' '}
             <SelectedTeamWithColon>
               <Bold>{selected.name}</Bold>:
             </SelectedTeamWithColon>
-            <PossibleGroups
-              numGroups={numGroups}
-              possibleGroups={possibleGroups}
-            />
+            {possibleGroups ? (
+              <PossibleGroups
+                numGroups={numGroups}
+                possibleGroups={possibleGroups}
+              />
+            ) : (
+              <div>
+                <Dots
+                  initialNum={0}
+                  maxNum={10}
+                  interval={2000}
+                />
+              </div>
+            )}
+            {calculating && (
+              <LongCalculation />
+            )}
           </div>
         ) : lastAnnouncement.current}
       </Root>

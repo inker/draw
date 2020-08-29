@@ -29,7 +29,8 @@ const Popup = () => {
       <WrappedPopup>
         wait
         <Dots
-          num={3}
+          initialNum={3}
+          maxNum={3}
           interval={1000}
         />
       </WrappedPopup>

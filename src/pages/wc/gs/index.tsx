@@ -1,7 +1,6 @@
 import React, {
   useState,
   useCallback,
-  useMemo,
   useEffect,
   useRef,
   memo,
@@ -61,18 +60,21 @@ interface State {
   selectedTeam: Team | null,
   pickedGroup: number | null,
   hungPot: readonly Team[],
+  pots: readonly (readonly Team[])[],
   groups: readonly (readonly Team[])[],
 }
 
-function getState(pots: readonly (readonly Team[])[]): State {
+function getState(initialPots: readonly (readonly Team[])[]): State {
   const currentPotNum = 0
+  const pots = initialPots.map(pot => shuffle(pot))
   const currentPot = pots[currentPotNum]
   return {
     currentPotNum,
     selectedTeam: null,
     pickedGroup: null,
     hungPot: currentPot,
-    groups: pots[0].map(() => [] as Team[]),
+    pots,
+    groups: initialPots[0].map(() => [] as Team[]),
   }
 }
 
@@ -81,22 +83,19 @@ const WCGS = ({
   pots: initialPots,
 }: Props) => {
   const [drawId, setNewDrawId] = useDrawId()
-  const pots = useMemo(
-    () => initialPots.map(pot => shuffle(pot)) as readonly Team[][],
-    [initialPots, drawId],
-  )
 
   const [{
     currentPotNum,
     selectedTeam,
     pickedGroup,
     hungPot,
+    pots,
     groups,
-  }, setState] = useState(() => getState(pots))
+  }, setState] = useState(() => getState(initialPots))
 
   useEffect(() => {
-    setState(getState(pots))
-  }, [pots])
+    setState(getState(initialPots))
+  }, [initialPots, drawId])
 
   const [, setPopup] = usePopup()
   const [isXRay] = useXRay()
@@ -104,17 +103,6 @@ const WCGS = ({
   const [isTimedOut, timeoutActions] = useTimer<Team>(3000)
 
   const groupsContanerRef = useRef<HTMLElement>(null)
-
-  const getPickedGroup = useCallback(async (newSelectedTeam: Team) => {
-    const response = await workerSendAndReceive({
-      season,
-      pots,
-      groups,
-      selectedTeam: newSelectedTeam,
-    })
-
-    return response.pickedGroup
-  }, [pots, groups, season, workerSendAndReceive])
 
   const onTeamSelected = async () => {
     if (!selectedTeam) {
@@ -125,7 +113,13 @@ const WCGS = ({
 
     let newPickedGroup: number | undefined
     try {
-      newPickedGroup = await getPickedGroup(selectedTeam)
+      const response = await workerSendAndReceive({
+        season,
+        pots,
+        groups,
+        selectedTeam,
+      })
+      newPickedGroup = response.pickedGroup
     } catch (err) {
       console.error(err)
       setPopup({
@@ -134,6 +128,8 @@ const WCGS = ({
       return
     }
 
+    timeoutActions.reset()
+
     const newGroups = groups.slice()
     newGroups[newPickedGroup] = [
       ...newGroups[newPickedGroup],
@@ -141,12 +137,12 @@ const WCGS = ({
     ]
     const newCurrentPotNum = pots[currentPotNum].length > 0 ? currentPotNum : currentPotNum + 1
 
-    timeoutActions.reset()
     setState({
       selectedTeam: null,
       pickedGroup: newPickedGroup,
       hungPot: pots[newCurrentPotNum],
       currentPotNum: newCurrentPotNum,
+      pots,
       groups: newGroups,
     })
   }
@@ -157,18 +153,23 @@ const WCGS = ({
     }
 
     const currentPot = pots[currentPotNum]
-    if (!currentPot[i]) {
+    const newSelectedTeam = currentPot[i]
+    if (!newSelectedTeam) {
       return
     }
+
+    const newPots = pots.slice()
+    newPots[currentPotNum] = newPots[currentPotNum].filter((_, idx) => idx !== i)
 
     setState({
       currentPotNum,
       hungPot: currentPot.slice(),
-      selectedTeam: currentPot.splice(i, 1)[0],
+      selectedTeam: newSelectedTeam,
       pickedGroup: null,
+      pots: newPots,
       groups,
     })
-  }, [pots, groups, currentPotNum])
+  }, [pots, groups, currentPotNum, selectedTeam])
 
   useEffect(() => {
     if (selectedTeam) {
@@ -218,6 +219,7 @@ const WCGS = ({
           selectedTeam={selectedTeam}
           pickedGroup={pickedGroup}
           possibleGroups={null}
+          isDisplayPossibleGroupsText={!!selectedTeam}
           numGroups={groups.length}
           groupsElement={groupsContanerRef.current}
           reset={setNewDrawId}

@@ -1,8 +1,7 @@
 import React, {
   useState,
-  useEffect,
   useCallback,
-  useMemo,
+  useEffect,
   useRef,
   memo,
 } from 'react'
@@ -52,7 +51,7 @@ interface WorkerRequest {
 }
 
 interface WorkerResponse {
-  possibleGroups: readonly number[],
+  possibleGroups: number[],
 }
 
 interface Props {
@@ -67,11 +66,13 @@ interface State {
   hungPot: readonly Team[],
   possibleGroups: readonly number[] | null,
   possibleGroupsShuffled: readonly number[] | null,
+  pots: readonly (readonly Team[])[],
   groups: readonly (readonly Team[])[],
 }
 
-function getState(pots: readonly (readonly Team[])[]): State {
+function getState(initialPots: readonly (readonly Team[])[]): State {
   const currentPotNum = 0
+  const pots = initialPots.map(pot => shuffle(pot))
   const currentPot = pots[currentPotNum]
   return {
     currentPotNum,
@@ -80,7 +81,8 @@ function getState(pots: readonly (readonly Team[])[]): State {
     hungPot: currentPot,
     possibleGroups: null,
     possibleGroupsShuffled: null,
-    groups: pots[0].map(() => [] as Team[]),
+    pots,
+    groups: initialPots[0].map(() => [] as Team[]),
   }
 }
 
@@ -90,11 +92,6 @@ const CLGS = ({
 }: Props) => {
   const [drawId, setNewDrawId] = useDrawId()
 
-  const pots = useMemo(
-    () => initialPots.map(pot => shuffle(pot)) as readonly Team[][],
-    [initialPots, drawId],
-  )
-
   const [{
     currentPotNum,
     selectedTeam,
@@ -102,12 +99,13 @@ const CLGS = ({
     hungPot,
     possibleGroups,
     possibleGroupsShuffled,
+    pots,
     groups,
-  }, setState] = useState(() => getState(pots))
+  }, setState] = useState(() => getState(initialPots))
 
   useEffect(() => {
-    setState(getState(pots))
-  }, [pots])
+    setState(getState(initialPots))
+  }, [initialPots, drawId])
 
   const [, setPopup] = usePopup()
   const [isXRay] = useXRay()
@@ -121,43 +119,69 @@ const CLGS = ({
     [groups.length],
   )
 
-  const getPickedGroup = useCallback(async (newSelectedTeam: Team) => {
-    const response = await workerSendAndReceive({
-      season,
+  const onTeamSelected = async () => {
+    if (!selectedTeam) {
+      throw new Error('no selected team')
+    }
+
+    timeoutActions.set(selectedTeam)
+
+    let newPossibleGroups: number[] | undefined
+    try {
+      const response = await workerSendAndReceive({
+        season,
+        pots,
+        groups,
+        selectedTeam,
+      })
+      newPossibleGroups = response.possibleGroups
+    } catch (err) {
+      console.error(err)
+      setPopup({
+        error: 'Could not determine the group',
+      })
+      return
+    }
+
+    timeoutActions.reset()
+
+    setState({
+      selectedTeam,
+      pickedGroup: null,
+      hungPot,
+      currentPotNum,
+      possibleGroups: newPossibleGroups,
+      possibleGroupsShuffled: shuffle(newPossibleGroups),
       pots,
       groups,
-      selectedTeam: newSelectedTeam,
     })
+  }
 
-    return response.possibleGroups
-  }, [pots, groups, season, workerSendAndReceive])
-
-  const onTeamBallPick = useCallback(async (i: number) => {
+  const onTeamBallPick = useCallback((i: number) => {
     if (selectedTeam) {
       return
     }
 
     const currentPot = pots[currentPotNum]
-    if (!currentPot[i]) {
+    const newSelectedTeam = currentPot[i]
+    if (!newSelectedTeam) {
       return
     }
 
-    const newSelectedTeam = currentPot.splice(i, 1)[0]
-
-    timeoutActions.set(newSelectedTeam)
-    const newPossibleGroups = await getPickedGroup(newSelectedTeam)
-    timeoutActions.reset()
+    const newPots = pots.slice()
+    newPots[currentPotNum] = newPots[currentPotNum].filter((_, idx) => idx !== i)
 
     setState({
       currentPotNum,
       hungPot: currentPot.slice(),
       selectedTeam: newSelectedTeam,
-      possibleGroups: newPossibleGroups,
-      possibleGroupsShuffled: shuffle(newPossibleGroups),
+      possibleGroups,
+      possibleGroupsShuffled,
       pickedGroup: null,
+      pots: newPots,
       groups,
     })
-  }, [pots, groups, currentPotNum, getPickedGroup])
+  }, [pots, groups, currentPotNum, selectedTeam, possibleGroups, possibleGroupsShuffled])
 
   const onGroupBallPick = useCallback((newPickedGroup: number) => {
     if (!selectedTeam) {
@@ -172,6 +196,7 @@ const CLGS = ({
       ...newGroups[newPickedGroup],
       selectedTeam,
     ]
+
     const newCurrentPotNum = pots[currentPotNum].length > 0 ? currentPotNum : currentPotNum + 1
 
     setState({
@@ -181,9 +206,16 @@ const CLGS = ({
       possibleGroups: null,
       possibleGroupsShuffled: null,
       currentPotNum: newCurrentPotNum,
+      pots,
       groups: newGroups,
     })
-  }, [pots, groups, selectedTeam, currentPotNum])
+  }, [pots, groups, selectedTeam, currentPotNum, hungPot])
+
+  useEffect(() => {
+    if (selectedTeam) {
+      onTeamSelected()
+    }
+  }, [selectedTeam])
 
   const completed = currentPotNum >= pots.length
 
@@ -220,6 +252,7 @@ const CLGS = ({
           selectedTeam={selectedTeam}
           pickedGroup={pickedGroup}
           possibleGroups={possibleGroups}
+          isDisplayPossibleGroupsText={!!selectedTeam}
           numGroups={groups.length}
           groupsElement={groupsContanerRef.current}
           reset={setNewDrawId}
