@@ -18,7 +18,6 @@ import usePopup from 'store/usePopup'
 import useDrawId from 'store/useDrawId'
 import useXRay from 'store/useXRay'
 
-import useTimer from 'utils/hooks/useTimer'
 import useWorkerWrapper from 'utils/hooks/useWorkerWrapper'
 
 import PotsContainer from 'ui/PotsContainer'
@@ -103,7 +102,6 @@ const ELGS = ({
   const [, setPopup] = usePopup()
   const [isXRay] = useXRay()
   const workerSendAndReceive = useWorkerWrapper<WorkerRequest, WorkerResponse>(EsWorker)
-  const [isTimedOut, timeoutActions] = useTimer<Team>(3000)
 
   const groupsContanerRef = useRef<HTMLElement>(null)
 
@@ -116,8 +114,6 @@ const ELGS = ({
     if (!selectedTeam) {
       throw new Error('no selected team')
     }
-
-    timeoutActions.set(selectedTeam)
 
     let newPickedGroup: number | undefined
     try {
@@ -135,8 +131,6 @@ const ELGS = ({
       })
       return
     }
-
-    timeoutActions.reset()
 
     const newGroups = groups.slice()
     newGroups[newPickedGroup] = [
@@ -216,7 +210,6 @@ const ELGS = ({
         />
         <Announcement
           long
-          calculating={isTimedOut}
           completed={completed}
           selectedTeam={selectedTeam}
           pickedGroup={pickedGroup}

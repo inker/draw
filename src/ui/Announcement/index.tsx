@@ -10,6 +10,7 @@ import Club from 'model/team/Club'
 import NationalTeam from 'model/team/NationalTeam'
 import ButtonLink from 'ui/ButtonLink'
 import Dots from 'ui/Dots'
+import Deferred from 'ui/Deferred'
 import getGroupLetter from 'utils/getGroupLetter'
 
 import PossibleGroups from './PossibleGroups'
@@ -55,7 +56,6 @@ const Completed = styled.div`
 
 interface Props {
   long: boolean,
-  calculating?: boolean,
   completed: boolean,
   selectedTeam: Team | null,
   pickedGroup: number | null,
@@ -68,7 +68,6 @@ interface Props {
 
 const Announcement = ({
   long,
-  calculating,
   completed,
   selectedTeam,
   pickedGroup,
@@ -148,10 +147,10 @@ const Announcement = ({
                   maxNum={10}
                   interval={2000}
                 />
+                <Deferred delay={3000}>
+                  <LongCalculation />
+                </Deferred>
               </div>
-            )}
-            {calculating && (
-              <LongCalculation />
             )}
           </div>
         ) : lastAnnouncement.current}
