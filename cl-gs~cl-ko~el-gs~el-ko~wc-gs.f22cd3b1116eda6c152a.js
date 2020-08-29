@@ -71,6 +71,7 @@
 `;t.a=r},63:function(e,t,n){"use strict";const r=n(1).d.tr`
   border: ${e=>e.theme.border};
 `;t.a=r},65:function(e,t,n){"use strict";const r=n(1).d.table`
+  table-layout: fixed;
   border-left: ${e=>e.theme.border};
   border-right: ${e=>e.theme.border};
   border-spacing: 0;
