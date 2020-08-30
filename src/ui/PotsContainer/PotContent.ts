@@ -1,6 +1,6 @@
 import styled, { css } from 'styled-components'
 
-import CellWithFlag from '../table/CellWithFlag'
+import ContentWithFlag from '../table/ContentWithFlag'
 
 const Selected = css`
   color: blue;
@@ -16,9 +16,9 @@ interface Props {
   picked: boolean,
 }
 
-const PotCell = styled(CellWithFlag)<Props>`
+const PotContent = styled(ContentWithFlag)<Props>`
   ${props => props.selected && Selected}
   ${props => props.picked && Picked}
 `
 
-export default PotCell
+export default PotContent

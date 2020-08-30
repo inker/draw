@@ -9,7 +9,7 @@ import CellContainer from 'ui/table/CellContainer'
 
 import Root from './PotRoot'
 import Header from './PotHeader'
-import PotCell from './PotCell'
+import PotContent from './PotContent'
 
 interface Props {
   isCurrent: boolean,
@@ -54,7 +54,7 @@ const Pot = ({
         return (
           <Row key={team.id}>
             <CellContainer>
-              <PotCell
+              <PotContent
                 data-cellid={team.id}
                 title={pairing && `paired with ${pairing.shortName ?? pairing.name}`}
                 selected={!!selectedTeams?.includes(team)}
@@ -62,7 +62,7 @@ const Pot = ({
                 country={country ?? name}
               >
                 {shortName ?? name}
-              </PotCell>
+              </PotContent>
             </CellContainer>
           </Row>
         )

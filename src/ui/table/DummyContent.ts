@@ -1,8 +1,8 @@
 import styled from 'styled-components'
 
-import Cell from 'ui/table/Cell'
+import Content from 'ui/table/Content'
 
-const DummyCell = styled(Cell)`
+const DummyContent = styled(Content)`
   visibility: hidden;
   pointer-events: none;
 
@@ -11,4 +11,4 @@ const DummyCell = styled(Cell)`
   }
 `
 
-export default DummyCell
+export default DummyContent

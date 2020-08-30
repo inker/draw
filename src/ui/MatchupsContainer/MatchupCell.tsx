@@ -10,8 +10,8 @@ import Team from 'model/team/Club'
 
 import usePrevious from 'utils/hooks/usePrevious'
 
-import CellWithFlag from 'ui/table/CellWithFlag'
-import DummyCell from 'ui/table/DummyCell'
+import ContentWithFlag from 'ui/table/ContentWithFlag'
+import DummyContent from 'ui/table/DummyContent'
 import MovingDiv from 'ui/MovingDiv'
 
 import MatchupCellContainer from './MatchupCellContainer'
@@ -41,11 +41,11 @@ const MatchupCell = ({
         styles={containerStyles}
       >
         {displayedTeam ? (
-          <CellWithFlag country={getTeamCountryName(displayedTeam)}>
+          <ContentWithFlag country={getTeamCountryName(displayedTeam)}>
             {displayedTeam.shortName ?? displayedTeam.name}
-          </CellWithFlag>
+          </ContentWithFlag>
         ) : (
-          <DummyCell ref={to} />
+          <DummyContent ref={to} />
         )}
       </MatchupCellContainer>
       {team && team !== prevTeam && (

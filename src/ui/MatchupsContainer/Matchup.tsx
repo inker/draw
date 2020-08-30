@@ -5,7 +5,7 @@ import Team from 'model/team/Club'
 
 import Row from 'ui/table/Row'
 import CellContainer from 'ui/table/CellContainer'
-import Cell from 'ui/table/Cell'
+import Content from 'ui/table/Content'
 
 import MatchupCell from './MatchupCell'
 
@@ -17,7 +17,7 @@ const rightCellContainerStyles = css`
   border-left: 1px solid rgba(0, 0, 0, 0);
 `
 
-const VersusCell = styled(Cell)`
+const VersusCell = styled(Content)`
   justify-content: center;
   width: 26px;
   color: #444;

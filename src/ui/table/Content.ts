@@ -1,8 +1,8 @@
 import styled from 'styled-components'
 
-import BaseCell from './BaseCell'
+import BaseContent from './BaseContent'
 
-const Cell = styled(BaseCell)`
+const Content = styled(BaseContent)`
   margin: 0 3px;
   text-align: left;
 
@@ -15,4 +15,4 @@ const Cell = styled(BaseCell)`
   }
 `
 
-export default Cell
+export default Content

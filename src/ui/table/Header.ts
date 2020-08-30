@@ -1,12 +1,12 @@
 import styled, { FlattenInterpolation } from 'styled-components'
 
-import BaseCell from './BaseCell'
+import BaseContent from './BaseContent'
 
 interface Props {
   styles?: FlattenInterpolation<any>,
 }
 
-const Header = styled(BaseCell)<Props>`
+const Header = styled(BaseContent)<Props>`
   justify-content: center;
   height: 100%;
   width: 100%;

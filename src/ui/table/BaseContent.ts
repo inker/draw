@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 
-const BaseCell = styled.span`
+const BaseContent = styled.span`
   display: flex;
   align-items: center;
 
@@ -15,4 +15,4 @@ const BaseCell = styled.span`
   }
 `
 
-export default BaseCell
+export default BaseContent

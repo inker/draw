@@ -10,7 +10,7 @@ import CellContainer from 'ui/table/CellContainer'
 
 import Root from './PotRoot'
 import Header from './PotHeader'
-import PotCell from './PotCell'
+import PotContent from './PotContent'
 
 const SplitCellContainer = styled(CellContainer)`
   width: 50%;
@@ -20,7 +20,7 @@ const SplitCellContainer = styled(CellContainer)`
   }
 `
 
-const Cell = styled(PotCell)`
+const Content = styled(PotContent)`
   margin-right: 0;
 `
 
@@ -70,7 +70,7 @@ const SplitPot = ({
 
               return (
                 <SplitCellContainer key={team.id}>
-                  <Cell
+                  <Content
                     data-cellid={team.id}
                     title={pairing && `paired with ${pairing.shortName ?? pairing.name}`}
                     selected={!!selectedTeams && selectedTeams.includes(team)}
@@ -78,7 +78,7 @@ const SplitPot = ({
                     country={country ?? name}
                   >
                     {shortName ?? name}
-                  </Cell>
+                  </Content>
                 </SplitCellContainer>
               )
             })}

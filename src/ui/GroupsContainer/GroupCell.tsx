@@ -10,8 +10,8 @@ import NationalTeam from 'model/team/NationalTeam'
 
 import usePrevious from 'utils/hooks/usePrevious'
 
-import CellWithFlag from 'ui/table/CellWithFlag'
-import DummyCell from 'ui/table/DummyCell'
+import ContentWithFlag from 'ui/table/ContentWithFlag'
+import DummyContent from 'ui/table/DummyContent'
 import MovingDiv from 'ui/MovingDiv'
 
 import GroupCellContainer from './GroupCellContainer'
@@ -43,11 +43,11 @@ const GroupCell = ({
         possible={possible}
       >
         {displayedTeam ? (
-          <CellWithFlag country={getTeamCountryName(displayedTeam)}>
+          <ContentWithFlag country={getTeamCountryName(displayedTeam)}>
             {(displayedTeam as Club).shortName ?? displayedTeam.name}
-          </CellWithFlag>
+          </ContentWithFlag>
         ) : (
-          <DummyCell ref={to} />
+          <DummyContent ref={to} />
         )}
       </GroupCellContainer>
       {team && team !== prevTeam && (
