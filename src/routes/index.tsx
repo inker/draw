@@ -93,13 +93,18 @@ const Routes = () => {
     setIsFastDraw(true)
   }, [])
 
+  const disableFastDrawAndRestart = useCallback(() => {
+    setIsFastDraw(false)
+    refreshDrawId()
+  }, [enableFastDraw])
+
   return (
     <Router>
       <>
         <HeadMetadata />
         <Visibility visible={!popup.initial}>
           <Navbar
-            restartDraw={refreshDrawId}
+            restartDraw={disableFastDrawAndRestart}
             season={season}
             tournament={tournament!}
             stage={stage!}
