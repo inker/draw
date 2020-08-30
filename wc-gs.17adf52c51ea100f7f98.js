@@ -1,4 +1,4 @@
-/*! For license information please see wc-gs.386666ac661b63a94f4d.js.LICENSE.txt */
+/*! For license information please see wc-gs.17adf52c51ea100f7f98.js.LICENSE.txt */
 (window.webpackJsonp=window.webpackJsonp||[]).push([[5,9],{81:function(e,t,a){"use strict";var n=a(0);Object.create;Object.create;function s(e,t){if(!t.has(e))throw new TypeError("attempted to get private field on non-instance");return t.get(e)}function r(e,t,a){if(!t.has(e))throw new TypeError("attempted to set private field on non-instance");return t.set(e,a),a}var o=class{constructor(){this.callbacks=new Map}add(e,t){this.callbacks.set(e,t)}addAndGetId(e){const t=Math.random().toString(36).slice(2);return this.add(t,e),t}resolve(e,t){this.getCallbackAndDelete(e)(null,t)}reject(e,t){this.getCallbackAndDelete(e)(t)}getCallbackAndDelete(e){const t=this.callbacks.get(e);if(!t)throw new Error("no resolver with id = "+e);return this.callbacks.delete(e),t}};const c=(e,t)=>(a,n)=>{a?t(a):e(n)};var l,u,i,m=class{constructor(){this.manager=new o}getPromise(e){return new Promise(async(t,a)=>{const n=c(t,a);this.manager.add(e,n)})}getPromiseWithId(e){return new Promise(async(t,a)=>{const n=c(t,a),s=this.manager.addAndGetId(n);e&&e(s)})}resolve(e,t){this.manager.resolve(e,t)}reject(e,t){this.manager.reject(e,t)}},d=a(87),p=a.n(d);l=new WeakMap,u=new WeakMap,i=new WeakMap;var b=class{constructor(e,t){l.set(this,void 0),u.set(this,new m),i.set(this,void 0),r(this,i,t),r(this,l,e),s(this,l).onmessage=e=>{const{messageId:t,data:a}=e.data;s(this,u).resolve(t,a)}}sendAndReceive(e){const t=s(this,u).getPromiseWithId(t=>{s(this,l).postMessage({messageId:t,data:e})});return void 0===s(this,i)?t:p()(t,s(this,i))}terminate(){s(this,l).terminate()}};t.a=e=>{const t=Object(n.useMemo)(()=>new b(new e,12e4),[]);return Object(n.useEffect)(()=>()=>{t.terminate()},[]),Object(n.useCallback)(t.sendAndReceive.bind(t),[t])}},82:function(e,t,a){"use strict";var n=a(0),s=a.n(n),r=a(1),o=a(68),c=a(61),l=a(66),u=a(92),i=a(63),m=a(60),d=a(74),p=a(67),b=a(75),h=a(83);const f=r.e`
   from {
     background-color: white;
@@ -15,7 +15,7 @@
   animation: ${f} 1s ease;
   box-shadow: 0 0 5px #6af;
 `,E=r.c`
-  animation: ${g} 5s ease-out normal forwards;
+  animation: ${g} 3s ease-out normal forwards;
 `;var j=Object(r.d)(m.a)`
   ${e=>e.possible&&w}
   ${e=>e.hasTeam&&E}

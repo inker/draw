@@ -1,4 +1,4 @@
-/*! For license information please see cl-gs.eb3ca18afc81d880b173.js.LICENSE.txt */
+/*! For license information please see cl-gs.27e1fb8c44f457849926.js.LICENSE.txt */
 (window.webpackJsonp=window.webpackJsonp||[]).push([[1,6],{100:function(e,t,a){"use strict";a.r(t);var s=a(0),r=a.n(s),o=a(1),n=a(72),l=a(434),c=a(73),u=a(2),i=a(64),p=a(65),d=a(69),m=a(81),b=a(80),f=a(82),h=a(76),g=a(77),v=a(84),w=a(68),j=a(130);var k=Object(o.d)(j.a)`
   &:hover {
     ${e=>!e.noHover&&"background: radial-gradient(#ccf, #ccf)"};
@@ -31,7 +31,7 @@
   animation: ${h} 1s ease;
   box-shadow: 0 0 5px #6af;
 `,w=o.c`
-  animation: ${g} 5s ease-out normal forwards;
+  animation: ${g} 3s ease-out normal forwards;
 `;var j=Object(o.d)(p.a)`
   ${e=>e.possible&&v}
   ${e=>e.hasTeam&&w}

@@ -8,7 +8,7 @@
   }
   to {}
 `,f=c.c`
-  animation: ${b} 5s ease-out normal forwards;
+  animation: ${b} 3s ease-out normal forwards;
 `;var E=Object(c.d)(s.a)`
   width: 150px;
   ${e=>e.hasTeam&&f};
