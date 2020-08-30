@@ -8,9 +8,9 @@ import NationalTeam from 'model/team/NationalTeam'
 import Table from 'ui/table/Table'
 import Header from 'ui/table/Header'
 import Row from 'ui/table/Row'
-import CellContainer from 'ui/table/CellContainer'
+import Cell from 'ui/table/Cell'
 
-import GroupCell from './GroupCell'
+import GroupCellDeferred from './GroupCellDeferred'
 
 type Team = Club | NationalTeam
 
@@ -34,19 +34,19 @@ const Group = ({
   <Table>
     <thead>
       <Row>
-        <CellContainer>
+        <Cell>
           <Header styles={headerStyles}>
             Group
             {' '}
             {groupLetter}
           </Header>
-        </CellContainer>
+        </Cell>
       </Row>
     </thead>
     <tbody>
       {range(maxTeams).map(i => (
         <Row key={i}>
-          <GroupCell
+          <GroupCellDeferred
             team={teams[i]}
             possible={i === potNum && possible}
           />

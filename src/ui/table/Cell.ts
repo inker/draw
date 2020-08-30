@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 
-const CellContainer = styled.td`
+const Cell = styled.td`
   height: 20px;
   padding: 0;
   background-color: white;
@@ -10,4 +10,4 @@ const CellContainer = styled.td`
   }
 `
 
-export default CellContainer
+export default Cell

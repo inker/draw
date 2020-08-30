@@ -1,6 +1,6 @@
 import styled, { css, keyframes } from 'styled-components'
 
-import CellContainer from 'ui/table/CellContainer'
+import Cell from 'ui/table/Cell'
 
 const BorderGlow = keyframes`
   from {
@@ -32,9 +32,9 @@ interface Props {
   hasTeam: boolean,
 }
 
-const GroupCellContainer = styled(CellContainer)<Props>`
+const GroupCellBase = styled(Cell)<Props>`
   ${props => props.possible && Possible}
   ${props => props.hasTeam && Picked}
 `
 
-export default GroupCellContainer
+export default GroupCellBase

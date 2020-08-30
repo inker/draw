@@ -4,9 +4,9 @@ import React, {
   useCallback,
   memo,
 } from 'react'
+import { FlattenInterpolation } from 'styled-components'
 
-import Club from 'model/team/Club'
-import NationalTeam from 'model/team/NationalTeam'
+import Team from 'model/team/Club'
 
 import usePrevious from 'utils/hooks/usePrevious'
 
@@ -14,19 +14,17 @@ import ContentWithFlag from 'ui/table/ContentWithFlag'
 import DummyContent from 'ui/table/DummyContent'
 import MovingDiv from 'ui/MovingDiv'
 
-import GroupCellContainer from './GroupCellContainer'
+import MatchupCellBase from './MatchupCellBase'
 import getTeamCountryName from './getTeamCountryName'
 
-type Team = Club | NationalTeam
-
 interface Props {
-  team?: Team,
-  possible: boolean,
+  team: Team,
+  containerStyles?: FlattenInterpolation<any>,
 }
 
-const GroupCell = ({
+const MatchupCellDeferred = ({
   team,
-  possible,
+  containerStyles,
 }: Props) => {
   const prevTeam = usePrevious(team)
   const [displayedTeam, setDisplayedTeam] = useState(team)
@@ -38,18 +36,18 @@ const GroupCell = ({
 
   return (
     <>
-      <GroupCellContainer
+      <MatchupCellBase
         hasTeam={!!displayedTeam}
-        possible={possible}
+        styles={containerStyles}
       >
         {displayedTeam ? (
           <ContentWithFlag country={getTeamCountryName(displayedTeam)}>
-            {(displayedTeam as Club).shortName ?? displayedTeam.name}
+            {displayedTeam.shortName ?? displayedTeam.name}
           </ContentWithFlag>
         ) : (
           <DummyContent ref={to} />
         )}
-      </GroupCellContainer>
+      </MatchupCellBase>
       {team && team !== prevTeam && (
         <MovingDiv
           from={`[data-cellid='${team.id}']`}
@@ -63,4 +61,4 @@ const GroupCell = ({
   )
 }
 
-export default memo(GroupCell)
+export default memo(MatchupCellDeferred)

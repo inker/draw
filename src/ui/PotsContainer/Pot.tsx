@@ -5,7 +5,7 @@ import Team from 'model/team'
 import GsTeam from 'model/team/GsTeam'
 
 import Row from 'ui/table/Row'
-import CellContainer from 'ui/table/CellContainer'
+import Cell from 'ui/table/Cell'
 
 import Root from './PotRoot'
 import Header from './PotHeader'
@@ -31,7 +31,7 @@ const Pot = ({
   <Root highlighted={isCurrent}>
     <thead>
       <Row>
-        <CellContainer>
+        <Cell>
           <Header
             highlighted={isCurrent}
             depleted={!teams || pickedTeams.length === teams.length}
@@ -39,7 +39,7 @@ const Pot = ({
           >
             Pot {potNum + 1}
           </Header>
-        </CellContainer>
+        </Cell>
       </Row>
     </thead>
     <tbody>
@@ -53,7 +53,7 @@ const Pot = ({
 
         return (
           <Row key={team.id}>
-            <CellContainer>
+            <Cell>
               <PotContent
                 data-cellid={team.id}
                 title={pairing && `paired with ${pairing.shortName ?? pairing.name}`}
@@ -63,7 +63,7 @@ const Pot = ({
               >
                 {shortName ?? name}
               </PotContent>
-            </CellContainer>
+            </Cell>
           </Row>
         )
       })}

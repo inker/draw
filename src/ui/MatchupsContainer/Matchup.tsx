@@ -4,10 +4,10 @@ import styled, { css } from 'styled-components'
 import Team from 'model/team/Club'
 
 import Row from 'ui/table/Row'
-import CellContainer from 'ui/table/CellContainer'
+import Cell from 'ui/table/Cell'
 import Content from 'ui/table/Content'
 
-import MatchupCell from './MatchupCell'
+import MatchupCellDeferred from './MatchupCellDeferred'
 
 const leftCellContainerStyles = css`
   border-right: 1px solid rgba(0, 0, 0, 0);
@@ -38,14 +38,14 @@ const Matchup = ({
 
   return (
     <Row>
-      <MatchupCell
+      <MatchupCellDeferred
         team={ru}
         containerStyles={leftCellContainerStyles}
       />
-      <CellContainer>
+      <Cell>
         <VersusCell />
-      </CellContainer>
-      <MatchupCell
+      </Cell>
+      <MatchupCellDeferred
         team={gw}
         containerStyles={rightCellContainerStyles}
       />

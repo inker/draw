@@ -6,13 +6,13 @@ import Team from 'model/team'
 import GsTeam from 'model/team/GsTeam'
 
 import Row from 'ui/table/Row'
-import CellContainer from 'ui/table/CellContainer'
+import Cell from 'ui/table/Cell'
 
 import Root from './PotRoot'
 import Header from './PotHeader'
 import PotContent from './PotContent'
 
-const SplitCellContainer = styled(CellContainer)`
+const SplitCellContainer = styled(Cell)`
   width: 50%;
 
   & + & {
@@ -44,7 +44,7 @@ const SplitPot = ({
   <Root highlighted={isCurrent}>
     <thead>
       <Row>
-        <CellContainer colSpan={2}>
+        <Cell colSpan={2}>
           <Header
             highlighted={isCurrent}
             depleted={!teams || pickedTeams.length === teams.length}
@@ -52,7 +52,7 @@ const SplitPot = ({
           >
             Pot {potNum + 1}
           </Header>
-        </CellContainer>
+        </Cell>
       </Row>
     </thead>
     <tbody>
