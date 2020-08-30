@@ -31,10 +31,9 @@ const airborneDiv = document.createElement('div')
 airborneDiv.classList.add(airborneDivClass)
 document.body.insertBefore(airborneDiv, document.getElementById('app'))
 
-function moveTo(cell: HTMLElement, posCell: HTMLElement) {
+function getPosTransform(cell: HTMLElement, posCell: HTMLElement) {
   const { left, top } = posCell.getBoundingClientRect()
-  // eslint-disable-next-line no-param-reassign
-  cell.style.transform = `translate3d(${left}px, ${top}px, 0px)`
+  return `translate3d(${left}px, ${top}px, 0px)`
 }
 
 function makeFakeCell(sourceCell: HTMLElement) {
@@ -45,7 +44,7 @@ function makeFakeCell(sourceCell: HTMLElement) {
   style.width = width
   style.fontFamily = fontFamily
   fakeCell.textContent = sourceCell.textContent
-  moveTo(fakeCell, sourceCell)
+  fakeCell.style.transform = getPosTransform(fakeCell, sourceCell)
   return fakeCell
 }
 
@@ -54,7 +53,7 @@ export default async (sourceCell: HTMLElement, targetCell: HTMLElement, duration
   airborneDiv.appendChild(fakeCell)
 
   fakeCell.style.transition = `transform ${duration}ms ease-in-out`
-  moveTo(fakeCell, targetCell)
+  fakeCell.style.transform = getPosTransform(fakeCell, targetCell)
 
   await Promise.race([
     transitionCancel(fakeCell),
