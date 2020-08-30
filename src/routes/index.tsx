@@ -96,7 +96,7 @@ const Routes = () => {
   const disableFastDrawAndRestart = useCallback(() => {
     setIsFastDraw(false)
     refreshDrawId()
-  }, [enableFastDraw])
+  }, [])
 
   return (
     <Router>
