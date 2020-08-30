@@ -131,11 +131,11 @@
   }
 `;t.a=r},76:function(e,t,n){"use strict";var r=n(0),o=n.n(r),a=n(1);var i=a.d.a`
   color: blue;
-  text-decoration: underline;
+  text-decoration: none;
   cursor: pointer;
 
   &:hover {
-    color: orange;
+    text-decoration: underline;
   }
 `;const c=i.withComponent("button");var l=Object(a.d)(c)`
   padding: initial;
@@ -159,7 +159,6 @@
   ${e=>e.possible?a.c`
     color: ${e.color};
   `:a.c`
-    color: #000;
     border-color: rgba(0,0,0,0);
     filter: opacity(0.25);
   `}
