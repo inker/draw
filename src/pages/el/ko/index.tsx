@@ -9,6 +9,7 @@ import React, {
 
 import {
   range,
+  random,
   shuffle,
 } from 'lodash'
 
@@ -17,6 +18,7 @@ import getPossiblePairings from 'engine/predicates/uefa/getPossiblePairings'
 import getPredicate from 'engine/predicates/uefa/ko'
 
 import useDrawId from 'store/useDrawId'
+import useFastDraw from 'store/useFastDraw'
 import useXRay from 'store/useXRay'
 
 import useMatchMedia from 'utils/hooks/useMatchMedia'
@@ -62,6 +64,7 @@ const ELKO = ({
   pots: initialPots,
 }: Props) => {
   const [drawId, setNewDrawId] = useDrawId()
+  const [isFastDraw, setIsFastDraw] = useFastDraw()
 
   const predicate = useMemo(() => getPredicate(season), [season])
 
@@ -113,6 +116,9 @@ const ELKO = ({
   }, [predicate, pots, matchups, currentPotNum, currentMatchupNum, possiblePairings])
 
   const autoPickIfOneBall = () => {
+    if (isFastDraw) {
+      return
+    }
     const isOnlyChoice = possiblePairings?.length === 1
       || currentPotNum === 1 && pots[1].length === 1
     if (isOnlyChoice) {
@@ -130,6 +136,24 @@ const ELKO = ({
   )
 
   const completed = currentMatchupNum >= initialPots[0].length
+
+  useEffect(() => {
+    if (isFastDraw) {
+      const teams = teamBowlPot ?? pots[1]
+      const numTeams = teams.length
+      if (numTeams > 0) {
+        const index = random(numTeams - 1)
+        onBallPick(index)
+      }
+    }
+  }, [isFastDraw, currentPotNum])
+
+  useEffect(() => {
+    if (completed && isFastDraw) {
+      setIsFastDraw(false)
+    }
+  }, [completed, isFastDraw])
+
   const selectedTeams = possiblePairings ? possiblePairings.map(i => pots[0][i]) : []
 
   return (

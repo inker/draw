@@ -1,6 +1,7 @@
 import React, {
   useState,
   useEffect,
+  useCallback,
   memo,
 } from 'react'
 
@@ -14,6 +15,7 @@ import {
 import usePopup from 'store/usePopup'
 import useDrawId from 'store/useDrawId'
 import useXRay from 'store/useXRay'
+import useFastDraw from 'store/useFastDraw'
 
 import Visibility from 'ui/Visibility'
 
@@ -79,12 +81,17 @@ const Routes = () => {
   const [drawId, refreshDrawId] = useDrawId()
   const [popup] = usePopup()
   const [isXRay, setIsXRay] = useXRay()
+  const [isFastDraw, setIsFastDraw] = useFastDraw()
 
   const {
     tournament,
     stage,
     season,
   } = useSeasonTournamentStage()
+
+  const enableFastDraw = useCallback(() => {
+    setIsFastDraw(true)
+  }, [])
 
   return (
     <Router>
@@ -97,6 +104,8 @@ const Routes = () => {
             tournament={tournament!}
             stage={stage!}
             isXRay={isXRay}
+            isFastDraw={isFastDraw}
+            enableFastDraw={enableFastDraw}
             onSetIsXRay={setIsXRay}
             onSeasonChange={onSeasonChange}
           />

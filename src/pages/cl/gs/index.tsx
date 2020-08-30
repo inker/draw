@@ -9,6 +9,8 @@ import React, {
 import { css } from 'styled-components'
 
 import {
+  random,
+  sample,
   shuffle,
 } from 'lodash'
 
@@ -16,6 +18,7 @@ import Team from 'model/team/GsTeam'
 
 import usePopup from 'store/usePopup'
 import useDrawId from 'store/useDrawId'
+import useFastDraw from 'store/useFastDraw'
 import useXRay from 'store/useXRay'
 
 import useWorkerWrapper from 'utils/hooks/useWorkerWrapper'
@@ -90,6 +93,7 @@ const CLGS = ({
   pots: initialPots,
 }: Props) => {
   const [drawId, setNewDrawId] = useDrawId()
+  const [isFastDraw, setIsFastDraw] = useFastDraw()
 
   const [{
     currentPotNum,
@@ -208,6 +212,28 @@ const CLGS = ({
 
   const completed = currentPotNum >= pots.length
 
+  useEffect(() => {
+    // TODO: make hungPot nullable
+    const hungPotSize = hungPot?.length
+    if (isFastDraw && hungPotSize) {
+      const index = random(hungPotSize - 1)
+      onTeamBallPick(index)
+    }
+  }, [isFastDraw, hungPot])
+
+  useEffect(() => {
+    if (isFastDraw && possibleGroupsShuffled?.length) {
+      const index = sample(possibleGroupsShuffled)!
+      onGroupBallPick(index)
+    }
+  }, [isFastDraw, possibleGroupsShuffled])
+
+  useEffect(() => {
+    if (completed && isFastDraw) {
+      setIsFastDraw(false)
+    }
+  }, [completed, isFastDraw])
+
   const numGroups = groups.length
 
   const getGroupHeaderStyles = useCallback(
@@ -229,18 +255,20 @@ const CLGS = ({
           maxTeams={pots.length}
           currentPotNum={currentPotNum}
           groups={groups}
-          possibleGroups={possibleGroups}
+          possibleGroups={isFastDraw ? null : possibleGroups}
           getGroupHeaderStyles={getGroupHeaderStyles}
         />
       </TablesContainer>
       <BowlsContainer>
-        <TeamBowl
-          display={!completed}
-          displayTeams={isXRay}
-          selectedTeam={selectedTeam}
-          pot={hungPot}
-          onPick={onTeamBallPick}
-        />
+        {!isFastDraw && (
+          <TeamBowl
+            display={!completed}
+            displayTeams={isXRay}
+            selectedTeam={selectedTeam}
+            pot={hungPot}
+            onPick={onTeamBallPick}
+          />
+        )}
         <Announcement
           long={false}
           completed={completed}
@@ -252,12 +280,14 @@ const CLGS = ({
           groupsElement={groupsContanerRef}
           reset={setNewDrawId}
         />
-        <GroupBowl
-          display={!completed}
-          displayGroups={isXRay}
-          possibleGroups={possibleGroupsShuffled}
-          onPick={onGroupBallPick}
-        />
+        {!isFastDraw && (
+          <GroupBowl
+            display={!completed}
+            displayGroups={isXRay}
+            possibleGroups={possibleGroupsShuffled}
+            onPick={onGroupBallPick}
+          />
+        )}
       </BowlsContainer>
     </Root>
   )

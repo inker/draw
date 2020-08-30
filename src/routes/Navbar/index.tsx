@@ -40,7 +40,9 @@ interface Props {
   tournament: Tournament,
   stage: Stage,
   isXRay: boolean,
+  isFastDraw: boolean,
   onSetIsXRay: (value: boolean) => void,
+  enableFastDraw: () => void,
   restartDraw: () => void,
   onSeasonChange: (tournament: Tournament, stage: Stage, season: number) => void,
 }
@@ -50,13 +52,21 @@ const Navbar = ({
   tournament,
   stage,
   restartDraw,
+  enableFastDraw,
   isXRay,
+  isFastDraw,
   onSetIsXRay,
   onSeasonChange,
 }: Props) => (
   <Root>
     <Button onClick={restartDraw}>
       Restart
+    </Button>
+    <Button
+      disabled={isFastDraw}
+      onClick={enableFastDraw}
+    >
+      Fast draw
     </Button>
     <SelectSeason
       tournament={tournament}

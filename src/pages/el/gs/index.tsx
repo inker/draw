@@ -9,6 +9,7 @@ import React, {
 import { css } from 'styled-components'
 
 import {
+  random,
   shuffle,
 } from 'lodash'
 
@@ -16,6 +17,7 @@ import Team from 'model/team/GsTeam'
 
 import usePopup from 'store/usePopup'
 import useDrawId from 'store/useDrawId'
+import useFastDraw from 'store/useFastDraw'
 import useXRay from 'store/useXRay'
 
 import useWorkerWrapper from 'utils/hooks/useWorkerWrapper'
@@ -85,6 +87,7 @@ const ELGS = ({
   pots: initialPots,
 }: Props) => {
   const [drawId, setNewDrawId] = useDrawId()
+  const [isFastDraw, setIsFastDraw] = useFastDraw()
 
   const [{
     currentPotNum,
@@ -176,6 +179,21 @@ const ELGS = ({
 
   const completed = currentPotNum >= pots.length
 
+  useEffect(() => {
+    // TODO: make hungPot nullable
+    const hungPotSize = hungPot?.length
+    if (isFastDraw && hungPotSize) {
+      const index = random(hungPotSize - 1)
+      onTeamBallPick(index)
+    }
+  }, [isFastDraw, hungPot])
+
+  useEffect(() => {
+    if (completed && isFastDraw) {
+      setIsFastDraw(false)
+    }
+  }, [completed, isFastDraw])
+
   const numGroups = groups.length
 
   const getGroupHeaderStyles = useCallback(
@@ -202,14 +220,16 @@ const ELGS = ({
         />
       </TablesContainer>
       <BowlsContainer>
-        <TeamBowl
-          forceNoSelect={!!selectedTeam}
-          display={!completed}
-          displayTeams={isXRay}
-          selectedTeam={selectedTeam}
-          pot={hungPot}
-          onPick={onTeamBallPick}
-        />
+        {!isFastDraw && (
+          <TeamBowl
+            forceNoSelect={!!selectedTeam}
+            display={!completed}
+            displayTeams={isXRay}
+            selectedTeam={selectedTeam}
+            pot={hungPot}
+            onPick={onTeamBallPick}
+          />
+        )}
         <Announcement
           long
           completed={completed}
