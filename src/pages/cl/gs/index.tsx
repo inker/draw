@@ -162,7 +162,7 @@ const CLGS = ({
 
     setState({
       currentPotNum,
-      hungPot: currentPot.slice(),
+      hungPot,
       selectedTeam: newSelectedTeam,
       possibleGroups,
       possibleGroupsShuffled,
@@ -170,7 +170,7 @@ const CLGS = ({
       pots: newPots,
       groups,
     })
-  }, [pots, groups, currentPotNum, selectedTeam, possibleGroups, possibleGroupsShuffled])
+  }, [pots, groups, currentPotNum, hungPot, selectedTeam, possibleGroups, possibleGroupsShuffled])
 
   const onGroupBallPick = useCallback((newPickedGroup: number) => {
     if (!selectedTeam) {

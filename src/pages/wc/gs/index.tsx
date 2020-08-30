@@ -157,13 +157,13 @@ const WCGS = ({
 
     setState({
       currentPotNum,
-      hungPot: currentPot.slice(),
+      hungPot,
       selectedTeam: newSelectedTeam,
       pickedGroup: null,
       pots: newPots,
       groups,
     })
-  }, [pots, groups, currentPotNum, selectedTeam])
+  }, [pots, groups, currentPotNum, hungPot, selectedTeam])
 
   useEffect(() => {
     if (selectedTeam) {
