@@ -105,11 +105,6 @@ const ELGS = ({
 
   const groupsContanerRef = useRef<HTMLElement>(null)
 
-  const getGroupHeaderStyles = useCallback(
-    (i: number) => i < (groups.length >> 1) ? redGroup : blueGroup,
-    [groups.length],
-  )
-
   const onTeamSelected = async () => {
     if (!selectedTeam) {
       throw new Error('no selected team')
@@ -181,6 +176,13 @@ const ELGS = ({
 
   const completed = currentPotNum >= pots.length
 
+  const numGroups = groups.length
+
+  const getGroupHeaderStyles = useCallback(
+    (i: number) => i < (numGroups >> 1) ? redGroup : blueGroup,
+    [numGroups],
+  )
+
   return (
     <Root>
       <TablesContainer>
@@ -215,7 +217,7 @@ const ELGS = ({
           pickedGroup={pickedGroup}
           possibleGroups={null}
           isDisplayPossibleGroupsText={!!selectedTeam}
-          numGroups={groups.length}
+          numGroups={numGroups}
           groupsElement={groupsContanerRef}
           reset={setNewDrawId}
         />

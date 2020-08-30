@@ -179,6 +179,8 @@ const WCGS = ({
 
   const completed = currentPotNum >= pots.length
 
+  const numGroups = groups.length
+
   return (
     <Root>
       <TablesContainer>
@@ -213,7 +215,7 @@ const WCGS = ({
           pickedGroup={pickedGroup}
           possibleGroups={null}
           isDisplayPossibleGroupsText={!!selectedTeam}
-          numGroups={groups.length}
+          numGroups={numGroups}
           groupsElement={groupsContanerRef}
           reset={setNewDrawId}
         />
