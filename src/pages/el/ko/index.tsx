@@ -172,19 +172,33 @@ const ELKO = ({
         />
       </TablesContainer>
       <BowlsContainer>
-        {!completed && (
-          <Separator>Runners-up</Separator>
-        )}
-        <TeamBowl
-          forceNoSelect={currentPotNum === 0}
-          display={!completed}
-          displayTeams={isXRay}
-          selectedTeam={null}
-          pot={pots[1]}
-          onPick={onBallPick}
-        />
-        {!completed && (
-          <Separator>Group Winners</Separator>
+        {!isFastDraw && (
+          <>
+            {!completed && (
+              <Separator>Runners-up</Separator>
+            )}
+            <TeamBowl
+              forceNoSelect={currentPotNum === 0}
+              display={!completed}
+              displayTeams={isXRay}
+              selectedTeam={null}
+              pot={pots[1]}
+              onPick={onBallPick}
+            />
+            {!completed && (
+              <Separator>Group Winners</Separator>
+            )}
+            {teamBowlPot && (
+              <TeamBowl
+                forceNoSelect={currentPotNum === 1}
+                display={!completed}
+                displayTeams={isXRay}
+                selectedTeam={null}
+                pot={teamBowlPot}
+                onPick={onBallPick}
+              />
+            )}
+          </>
         )}
         {completed && (
           <Announcement
@@ -196,16 +210,6 @@ const ELKO = ({
             numGroups={0}
             groupsElement={groupsContanerRef}
             reset={setNewDrawId}
-          />
-        )}
-        {teamBowlPot && (
-          <TeamBowl
-            forceNoSelect={currentPotNum === 1}
-            display={!completed}
-            displayTeams={isXRay}
-            selectedTeam={null}
-            pot={teamBowlPot}
-            onPick={onBallPick}
           />
         )}
       </BowlsContainer>
