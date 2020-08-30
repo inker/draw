@@ -2,11 +2,11 @@ import styled from 'styled-components'
 
 const StyledLink = styled.a`
   color: blue;
-  text-decoration: underline;
+  text-decoration: none;
   cursor: pointer;
 
   &:hover {
-    color: orange;
+    text-decoration: underline;
   }
 `
 
