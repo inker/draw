@@ -24,7 +24,7 @@ const Possible = css`
 `
 
 const Picked = css`
-  animation: ${Appear} 5s normal forwards;
+  animation: ${Appear} 5s ease-out normal forwards;
 `
 
 interface Props {
