@@ -1,5 +1,5 @@
 import React, { memo } from 'react'
-import styled, { css } from 'styled-components'
+import styled from 'styled-components'
 
 import Team from 'model/team/Club'
 
@@ -9,17 +9,9 @@ import Content from 'ui/table/Content'
 
 import MatchupCellDeferred from './MatchupCellDeferred'
 
-const leftCellContainerStyles = css`
-  border-right: 1px solid rgba(0, 0, 0, 0);
-`
-
-const rightCellContainerStyles = css`
-  border-left: 1px solid rgba(0, 0, 0, 0);
-`
-
 const VersusCell = styled(Content)`
   justify-content: center;
-  width: 26px;
+  width: 23px;
   color: #444;
 
   &::before {
@@ -38,17 +30,11 @@ const Matchup = ({
 
   return (
     <Row>
-      <MatchupCellDeferred
-        team={ru}
-        containerStyles={leftCellContainerStyles}
-      />
+      <MatchupCellDeferred team={ru} />
       <Cell>
         <VersusCell />
       </Cell>
-      <MatchupCellDeferred
-        team={gw}
-        containerStyles={rightCellContainerStyles}
-      />
+      <MatchupCellDeferred team={gw} />
     </Row>
   )
 }

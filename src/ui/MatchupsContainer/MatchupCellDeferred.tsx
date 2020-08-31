@@ -4,7 +4,6 @@ import React, {
   useCallback,
   memo,
 } from 'react'
-import { FlattenInterpolation } from 'styled-components'
 
 import Team from 'model/team/Club'
 
@@ -19,12 +18,10 @@ import getTeamCountryName from './getTeamCountryName'
 
 interface Props {
   team: Team,
-  containerStyles?: FlattenInterpolation<any>,
 }
 
 const MatchupCellDeferred = ({
   team,
-  containerStyles,
 }: Props) => {
   const prevTeam = usePrevious(team)
   const [displayedTeam, setDisplayedTeam] = useState(team)
@@ -36,10 +33,7 @@ const MatchupCellDeferred = ({
 
   return (
     <>
-      <MatchupCellBase
-        hasTeam={!!displayedTeam}
-        styles={containerStyles}
-      >
+      <MatchupCellBase hasTeam={!!displayedTeam}>
         {displayedTeam ? (
           <ContentWithFlag country={getTeamCountryName(displayedTeam)}>
             {displayedTeam.shortName ?? displayedTeam.name}
