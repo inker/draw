@@ -4,6 +4,7 @@ import React, {
   Suspense,
 } from 'react'
 import styled, { ThemeProvider } from 'styled-components'
+import { HashRouter } from 'react-router-dom'
 
 import usePopup from 'store/usePopup'
 
@@ -40,7 +41,9 @@ const App = () => {
       <Root>
         <Popup />
         <Suspense fallback={false}>
-          <Routes />
+          <HashRouter>
+            <Routes />
+          </HashRouter>
         </Suspense>
         <Suspense fallback={false}>
           <Version />

@@ -1,15 +1,16 @@
 import React, {
-  useState,
   useEffect,
   useCallback,
+  useMemo,
   memo,
 } from 'react'
 
 import {
-  HashRouter as Router,
   Route,
-  Redirect,
-  Switch,
+  Navigate,
+  Routes,
+  useNavigate,
+  useLocation,
 } from 'react-router-dom'
 
 import usePopup from 'store/usePopup'
@@ -28,7 +29,6 @@ import HeadMetadata from './HeadMetadata'
 import Navbar from './Navbar'
 import Pages from './Pages'
 
-import history from './history'
 import currentSeasonByTournament from './currentSeasonByTournament'
 
 type Path = [
@@ -43,51 +43,46 @@ const {
   defaultStage,
 } = config
 
-function onSeasonChange(tournament: Tournament, stage: Stage, season?: number) {
-  history.push(`/${tournament}/${stage}${season ? `/${season}` : ''}`)
-}
+function useSeasonTournamentStage() {
+  const loc = useLocation()
+  const [, tournament, stage, seasonString] = loc.pathname.split('/') as Path
 
-function getCurrentSeason(location?: typeof history.location) {
-  if (!location) {
-    return currentSeasonByTournament(defaultTournament, defaultStage)
-  }
-  const [, tournament, stage, seasonString] = location.pathname.split('/') as Path
-  return +(seasonString ?? currentSeasonByTournament(tournament, stage))
-}
+  const season = loc
+    ? +(seasonString ?? currentSeasonByTournament(tournament, stage))
+    : currentSeasonByTournament(defaultTournament, defaultStage)
 
-function parseHistoryLocation(historyLocation: typeof history.location) {
-  const season = getCurrentSeason(historyLocation)
-  const [, tournament, stage] = historyLocation.pathname.split('/') as Path
-  return {
+  const o = useMemo(() => ({
     season,
     tournament,
     stage,
-  }
+  }), [season, tournament, stage])
+
+  return o
 }
 
-function useSeasonTournamentStage() {
-  const [historyLocation, setHistoryLocation] = useState(history.location)
-
-  useEffect(() => {
-    setHistoryLocation(historyLocation)
-    const unlisten = history.listen(s => setHistoryLocation(s.location))
-    return unlisten
-  }, [])
-
-  return parseHistoryLocation(historyLocation)
-}
-
-const Routes = () => {
+const Routing = () => {
   const [drawId, refreshDrawId] = useDrawId()
   const [popup] = usePopup()
   const [isXRay, setIsXRay] = useXRay()
   const [isFastDraw, setIsFastDraw] = useFastDraw()
 
+  const o = useSeasonTournamentStage()
+
+  useEffect(() => {
+    setIsFastDraw(false)
+  }, [o])
+
   const {
     tournament,
     stage,
     season,
-  } = useSeasonTournamentStage()
+  } = o
+
+  const navigate = useNavigate()
+
+  const onSeasonChange = useCallback((tm: Tournament, sg: Stage, sn?: number) => {
+    navigate(`/${tm}/${sg}${sn ? `/${sn}` : ''}`)
+  }, [])
 
   const enableFastDraw = useCallback(() => {
     setIsFastDraw(true)
@@ -99,60 +94,54 @@ const Routes = () => {
   }, [])
 
   return (
-    <Router>
-      <>
-        <HeadMetadata />
-        <Visibility visible={!popup.initial}>
-          <Navbar
-            restartDraw={disableFastDrawAndRestart}
-            season={season}
-            tournament={tournament!}
-            stage={stage!}
-            isXRay={isXRay}
-            isFastDraw={isFastDraw}
-            enableFastDraw={enableFastDraw}
-            onSetIsXRay={setIsXRay}
-            onSeasonChange={onSeasonChange}
-          />
-        </Visibility>
-        <Switch>
-          {/* TODO */}
-          <Redirect
-            from="/wc/ko"
-            to={`/wc/${defaultStage}`}
-          />
-          <Route path="/:tournament/:stage/:season?">
-            {tournament && stage ? (
-              <Pages
-                drawId={drawId}
-                tournament={tournament}
-                stage={stage}
-                season={season}
-                onRefreshDrawId={refreshDrawId}
-                onSeasonChange={onSeasonChange}
-              />
-            ) : null}
-          </Route>
-          <Redirect
-            from="/wc"
-            to={`/wc/${defaultStage}`}
-          />
-          <Redirect
-            from="/el"
-            to={`/el/${defaultStage}`}
-          />
-          <Redirect
-            from="/cl"
-            to={`/cl/${defaultStage}`}
-          />
-          <Redirect
-            from="/"
-            to={`/${defaultTournament}`}
-          />
-        </Switch>
-      </>
-    </Router>
+    <>
+      <HeadMetadata />
+      <Visibility visible={!popup.initial}>
+        <Navbar
+          restartDraw={disableFastDrawAndRestart}
+          season={season}
+          tournament={tournament!}
+          stage={stage!}
+          isXRay={isXRay}
+          isFastDraw={isFastDraw}
+          enableFastDraw={enableFastDraw}
+          onSetIsXRay={setIsXRay}
+          onSeasonChange={onSeasonChange}
+        />
+      </Visibility>
+      {tournament && stage ? (
+        <Pages
+          drawId={drawId}
+          tournament={tournament}
+          stage={stage}
+          season={season}
+          onRefreshDrawId={refreshDrawId}
+          onSeasonChange={onSeasonChange}
+        />
+      ) : null}
+      <Routes>
+        {/* TODO */}
+        <Route path="wc/ko/:season">
+          <Navigate to={`/wc/${defaultStage}`} />
+        </Route>
+        <Route path="wc/ko">
+          <Navigate to={`/wc/${defaultStage}`} />
+        </Route>
+        <Route path="wc">
+          <Navigate to={`/wc/${defaultStage}`} />
+        </Route>
+        <Route path="el">
+          <Navigate to={`/el/${defaultStage}`} />
+        </Route>
+        <Route path="cl">
+          <Navigate to={`/cl/${defaultStage}`} />
+        </Route>
+        <Navigate
+          to={`/${defaultTournament}`}
+        />
+      </Routes>
+    </>
   )
 }
 
-export default memo(Routes)
+export default memo(Routing)

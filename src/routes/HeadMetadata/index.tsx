@@ -1,5 +1,5 @@
 import React, { memo } from 'react'
-import { useRouteMatch } from 'react-router-dom'
+import { useMatch } from 'react-router-dom'
 import { Helmet } from 'react-helmet'
 
 import type Tournament from 'model/Tournament'
@@ -7,17 +7,14 @@ import type Tournament from 'model/Tournament'
 import data from './data'
 
 const routeProps = {
-  path: '/:tournament',
+  path: '/:tournament/*',
   sensitive: true,
 }
 
-interface Match {
-  tournament: Tournament,
-}
-
 const HeadMetaData = () => {
-  const match = useRouteMatch<Match>(routeProps)
-  const o = match && data(match.params.tournament) || null
+  const match = useMatch(routeProps)
+  const tournament = match?.params?.tournament
+  const o = tournament && data(tournament as Tournament) || null
   return o && (
     <Helmet>
       <title>

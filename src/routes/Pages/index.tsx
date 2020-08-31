@@ -61,7 +61,7 @@ const Pages = ({
   onRefreshDrawId,
   onSeasonChange,
 }: Props) => {
-  const params = useParams<Match>() as Match
+  const params = useParams()
   const [, setPopup] = usePopup()
 
   const [{
@@ -114,7 +114,7 @@ const Pages = ({
       const {
         tournament: newTournament,
         stage: newStage,
-      } = params
+      } = params as unknown as Match
 
       const newSeason = pots && season !== currentSeasonByTournament(newTournament, newStage)
         ? season
