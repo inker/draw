@@ -10,7 +10,7 @@ import {
   Navigate,
   Routes,
   useNavigate,
-  useLocation,
+  useMatch,
 } from 'react-router-dom'
 
 import usePopup from 'store/usePopup'
@@ -31,12 +31,10 @@ import Pages from './Pages'
 
 import currentSeasonByTournament from './currentSeasonByTournament'
 
-type Path = [
-  any,
-  Tournament | null,
-  Stage | null,
-  number | null,
-]
+interface Path {
+  tournament?: Tournament,
+  stage?: Stage,
+}
 
 const {
   defaultTournament,
@@ -44,11 +42,15 @@ const {
 } = config
 
 function useSeasonTournamentStage() {
-  const loc = useLocation()
-  const [, tournament, stage, seasonString] = loc.pathname.split('/') as Path
+  const match = useMatch(':tournament/:stage/*')
+  const params = match?.params ?? {}
+  const {
+    tournament,
+    stage,
+  } = params as unknown as Path
 
-  const season = loc
-    ? +(seasonString ?? currentSeasonByTournament(tournament, stage))
+  const season = params
+    ? +(params['*'] || currentSeasonByTournament(tournament || null, stage || null))
     : currentSeasonByTournament(defaultTournament, defaultStage)
 
   const o = useMemo(() => ({
