@@ -18,8 +18,9 @@ const Root = styled.div`
   justify-content: flex-end;
   align-items: center;
   padding-right: 10px;
-  padding-bottom: 10px;
-  font-size: 16px;
+  margin-bottom: 10px;
+  height: 24px;
+  font-size: 14px;
 
   & > * {
     display: flex;
