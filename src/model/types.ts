@@ -1,11 +1,16 @@
-import countries from 'data/countries.json'
-import clubs from 'data/clubs.json'
+import countries from 'data/countries'
 
-export type Country = keyof typeof countries
+type Entry<T> = {
+  [P in keyof T]: [P, T[P]];
+}[keyof T];
 
-export type UefaCountry = keyof typeof clubs
+type Countries = typeof countries
 
-export type Confederation = 'UEFA' | 'AFC' | 'CAF' | 'CONMEBOL' | 'CONCACAF' | 'OFC'
+export type Country = keyof Countries
+
+export type UefaCountry = Extract<Entry<Countries>, [Country, { confederation: 'UEFA' }]>[0]
+
+export type Confederation = Countries[Country]['confederation']
 
 export interface WorkerData<T> {
   messageId: any,

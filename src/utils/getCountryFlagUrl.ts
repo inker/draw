@@ -1,6 +1,6 @@
 import { memoize } from 'lodash'
 
-import countries from 'data/countries.json'
+import countries from 'data/countries'
 
 import { Country } from 'model/types'
 

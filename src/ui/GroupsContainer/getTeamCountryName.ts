@@ -1,4 +1,4 @@
-import countries from 'data/countries.json'
+import countries from 'data/countries'
 
 import Team from 'model/team'
 import Club from 'model/team/Club'
