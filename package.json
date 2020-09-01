@@ -16,7 +16,7 @@
   "bugs": {
     "url": "https://github.com/inker/draw/issues"
   },
-  "license": "MIT",
+  "license": "GPLv3",
   "author": "Anton",
   "main": "index.html",
   "repository": {

@@ -6,6 +6,8 @@ import Stage from 'model/Stage'
 
 import Checkbox from 'ui/Checkbox'
 import Button from 'ui/Button'
+import StyledLink from 'ui/StyledLink'
+
 import { isHandheld } from 'utils/browser'
 
 import SelectSeason from './SelectSeason'
@@ -20,10 +22,20 @@ const Root = styled.div`
   font-size: 16px;
 
   & > * {
-    margin-left: 5px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
 
     &:not(:last-child) {
-      margin-right: 5px;
+      margin-right: 15px;
+    }
+
+    & > * {
+      margin-left: 5px;
+
+      &:not(:last-child) {
+        margin-right: 5px;
+      }
     }
   }
 
@@ -59,30 +71,45 @@ const Navbar = ({
   onSeasonChange,
 }: Props) => (
   <Root>
-    <Button onClick={restartDraw}>
-      Restart
-    </Button>
-    <Button
-      disabled={isFastDraw}
-      onClick={enableFastDraw}
-    >
-      Fast draw
-    </Button>
-    <SelectSeason
-      tournament={tournament}
-      stage={stage}
-      season={season}
-      onChange={onSeasonChange}
-    />
-    <Checkbox
-      checked={isXRay}
-      onChange={onSetIsXRay}
-    >
-      X-ray
-    </Checkbox>
-    {!isHandheld && (
-      <GitHubButtons />
-    )}
+    <div>
+      <Button onClick={restartDraw}>
+        Restart
+      </Button>
+      <Button
+        disabled={isFastDraw}
+        onClick={enableFastDraw}
+      >
+        Fast draw
+      </Button>
+      <SelectSeason
+        tournament={tournament}
+        stage={stage}
+        season={season}
+        onChange={onSeasonChange}
+      />
+      <Checkbox
+        checked={isXRay}
+        onChange={onSetIsXRay}
+      >
+        X-ray
+      </Checkbox>
+    </div>
+    <div>
+      {!isHandheld && (
+        <GitHubButtons />
+      )}
+      <small>
+        Crafted with ♡ by
+        {' '}
+        <StyledLink
+          href="https://github.com/inker"
+          target="_blank"
+          rel="noopener"
+        >
+          inker
+        </StyledLink>
+      </small>
+    </div>
   </Root>
 )
 
