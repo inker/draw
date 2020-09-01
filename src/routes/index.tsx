@@ -124,22 +124,38 @@ const Routing = () => {
       <Routes>
         {/* TODO */}
         <Route path="wc/ko/:season">
-          <Navigate to={`/wc/${defaultStage}`} />
+          <Navigate
+            to={`/wc/${defaultStage}`}
+            replace
+          />
         </Route>
         <Route path="wc/ko">
-          <Navigate to={`/wc/${defaultStage}`} />
+          <Navigate
+            to={`/wc/${defaultStage}`}
+            replace
+          />
         </Route>
         <Route path="wc">
-          <Navigate to={`/wc/${defaultStage}`} />
+          <Navigate
+            to={`/wc/${defaultStage}`}
+            replace
+          />
         </Route>
         <Route path="el">
-          <Navigate to={`/el/${defaultStage}`} />
+          <Navigate
+            to={`/el/${defaultStage}`}
+            replace
+          />
         </Route>
         <Route path="cl">
-          <Navigate to={`/cl/${defaultStage}`} />
+          <Navigate
+            to={`/cl/${defaultStage}`}
+            replace
+          />
         </Route>
         <Navigate
           to={`/${defaultTournament}`}
+          replace
         />
       </Routes>
     </>
