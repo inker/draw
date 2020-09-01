@@ -13,7 +13,7 @@
   width: 150px;
   ${e=>e.hasTeam&&f};
   ${e=>e.styles};
-`,h=n(68),j=e=>{var t;return null!==(t=e.country)&&void 0!==t?t:e.name in h?e.name:void 0};var O=Object(a.memo)(({team:e})=>{var t;const n=Object(i.a)(e),[r,o]=Object(a.useState)(e),s=Object(a.useRef)(null),l=Object(a.useCallback)(()=>{o(e)},[e]);return c.a.createElement(c.a.Fragment,null,c.a.createElement(E,{hasTeam:!!r},r?c.a.createElement(m.a,{country:j(r)},null!==(t=r.shortName)&&void 0!==t?t:r.name):c.a.createElement(p.a,{ref:s})),e&&e!==n&&c.a.createElement(d.a,{from:`[data-cellid='${e.id}']`,to:s,duration:350,data:e,onAnimationEnd:l}))});const g=Object(r.d)(u.a)`
+`,h=n(68),j=e=>{var t;return null!==(t=e.country)&&void 0!==t?t:e.name in h.a?e.name:void 0};var O=Object(a.memo)(({team:e})=>{var t;const n=Object(i.a)(e),[r,o]=Object(a.useState)(e),s=Object(a.useRef)(null),l=Object(a.useCallback)(()=>{o(e)},[e]);return c.a.createElement(c.a.Fragment,null,c.a.createElement(E,{hasTeam:!!r},r?c.a.createElement(m.a,{country:j(r)},null!==(t=r.shortName)&&void 0!==t?t:r.name):c.a.createElement(p.a,{ref:s})),e&&e!==n&&c.a.createElement(d.a,{from:`[data-cellid='${e.id}']`,to:s,duration:350,data:e,onAnimationEnd:l}))});const g=Object(r.d)(u.a)`
   justify-content: center;
   width: 23px;
   color: #444;

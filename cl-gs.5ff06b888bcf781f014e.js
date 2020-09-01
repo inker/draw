@@ -1,4 +1,4 @@
-/*! For license information please see cl-gs.aff86b51a2058fb01403.js.LICENSE.txt */
+/*! For license information please see cl-gs.5ff06b888bcf781f014e.js.LICENSE.txt */
 (window.webpackJsonp=window.webpackJsonp||[]).push([[1,6],{104:function(e,t,a){"use strict";a.r(t);var s=a(0),r=a.n(s),o=a(2),n=a(78),l=a(433),c=a(79),u=a(4),i=a(70),p=a(71),d=a(75),m=a(87),b=a(86),f=a(88),h=a(82),g=a(83),v=a(90),w=a(74),j=a(134);var k=Object(o.d)(j.a)`
   &:hover {
     ${e=>!e.noHover&&"background: radial-gradient(#ccf, #ccf)"};
@@ -35,7 +35,7 @@
 `;var j=Object(o.d)(p.a)`
   ${e=>e.possible&&v}
   ${e=>e.hasTeam&&w}
-`,k=a(68),E=e=>{var t;return null!==(t=e.country)&&void 0!==t?t:e.name in k?e.name:void 0};var O=Object(s.memo)(({team:e,possible:t})=>{var a;const o=Object(d.a)(e),[n,l]=Object(s.useState)(e),c=Object(s.useRef)(null),u=Object(s.useCallback)(()=>{l(e)},[e]);return r.a.createElement(r.a.Fragment,null,r.a.createElement(j,{hasTeam:!!n,possible:t},n?r.a.createElement(m.a,{country:E(n)},null!==(a=n.shortName)&&void 0!==a?a:n.name):r.a.createElement(b.a,{ref:c})),e&&e!==o&&r.a.createElement(f.a,{from:`[data-cellid='${e.id}']`,to:c,duration:350,data:e,onAnimationEnd:u}))});var G=Object(s.memo)(({maxTeams:e,groupLetter:t,teams:a,potNum:s,possible:o,headerStyles:n})=>r.a.createElement(c.a,null,r.a.createElement("thead",null,r.a.createElement(i.a,null,r.a.createElement(p.a,null,r.a.createElement(u.a,{styles:n},"Group"," ",t)))),r.a.createElement("tbody",null,l(e).map(e=>r.a.createElement(i.a,{key:e},r.a.createElement(O,{team:a[e],possible:e===s&&o}))))));const y=o.d.div`
+`,k=a(68),E=e=>{var t;return null!==(t=e.country)&&void 0!==t?t:e.name in k.a?e.name:void 0};var O=Object(s.memo)(({team:e,possible:t})=>{var a;const o=Object(d.a)(e),[n,l]=Object(s.useState)(e),c=Object(s.useRef)(null),u=Object(s.useCallback)(()=>{l(e)},[e]);return r.a.createElement(r.a.Fragment,null,r.a.createElement(j,{hasTeam:!!n,possible:t},n?r.a.createElement(m.a,{country:E(n)},null!==(a=n.shortName)&&void 0!==a?a:n.name):r.a.createElement(b.a,{ref:c})),e&&e!==o&&r.a.createElement(f.a,{from:`[data-cellid='${e.id}']`,to:c,duration:350,data:e,onAnimationEnd:u}))});var G=Object(s.memo)(({maxTeams:e,groupLetter:t,teams:a,potNum:s,possible:o,headerStyles:n})=>r.a.createElement(c.a,null,r.a.createElement("thead",null,r.a.createElement(i.a,null,r.a.createElement(p.a,null,r.a.createElement(u.a,{styles:n},"Group"," ",t)))),r.a.createElement("tbody",null,l(e).map(e=>r.a.createElement(i.a,{key:e},r.a.createElement(O,{team:a[e],possible:e===s&&o}))))));const y=o.d.div`
   display: flex;
   flex-flow: row wrap;
 

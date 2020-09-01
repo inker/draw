@@ -1,4 +1,4 @@
-/*! For license information please see el-gs.5dd286e7e2bbafa74009.js.LICENSE.txt */
+/*! For license information please see el-gs.f5b0c1e44780520dd75a.js.LICENSE.txt */
 (window.webpackJsonp=window.webpackJsonp||[]).push([[3,7],{100:function(e,t,a){"use strict";a.r(t);var n=a(0),s=a.n(n),r=a(2),o=a(78),c=a(79),l=a(4),u=a(70),i=a(71),m=a(75),d=a(87),p=a(86),b=a(88),h=a(82),f=a(83),g=a(90),w=a(85),j=a(84),v=a(101);const E=r.c`
   background-color: #ffc0c0;
 `,k=r.c`
@@ -23,7 +23,7 @@
 `;var v=Object(r.d)(m.a)`
   ${e=>e.possible&&w}
   ${e=>e.hasTeam&&j}
-`,E=a(68),k=e=>{var t;return null!==(t=e.country)&&void 0!==t?t:e.name in E?e.name:void 0};var O=Object(n.memo)(({team:e,possible:t})=>{var a;const r=Object(d.a)(e),[o,c]=Object(n.useState)(e),l=Object(n.useRef)(null),u=Object(n.useCallback)(()=>{c(e)},[e]);return s.a.createElement(s.a.Fragment,null,s.a.createElement(v,{hasTeam:!!o,possible:t},o?s.a.createElement(p.a,{country:k(o)},null!==(a=o.shortName)&&void 0!==a?a:o.name):s.a.createElement(b.a,{ref:l})),e&&e!==r&&s.a.createElement(h.a,{from:`[data-cellid='${e.id}']`,to:l,duration:350,data:e,onAnimationEnd:u}))});var y=Object(n.memo)(({maxTeams:e,groupLetter:t,teams:a,potNum:n,possible:r,headerStyles:o})=>s.a.createElement(l.a,null,s.a.createElement("thead",null,s.a.createElement(i.a,null,s.a.createElement(m.a,null,s.a.createElement(u.a,{styles:o},"Group"," ",t)))),s.a.createElement("tbody",null,c(e).map(e=>s.a.createElement(i.a,{key:e},s.a.createElement(O,{team:a[e],possible:e===n&&r}))))));const P=r.d.div`
+`,E=a(68),k=e=>{var t;return null!==(t=e.country)&&void 0!==t?t:e.name in E.a?e.name:void 0};var O=Object(n.memo)(({team:e,possible:t})=>{var a;const r=Object(d.a)(e),[o,c]=Object(n.useState)(e),l=Object(n.useRef)(null),u=Object(n.useCallback)(()=>{c(e)},[e]);return s.a.createElement(s.a.Fragment,null,s.a.createElement(v,{hasTeam:!!o,possible:t},o?s.a.createElement(p.a,{country:k(o)},null!==(a=o.shortName)&&void 0!==a?a:o.name):s.a.createElement(b.a,{ref:l})),e&&e!==r&&s.a.createElement(h.a,{from:`[data-cellid='${e.id}']`,to:l,duration:350,data:e,onAnimationEnd:u}))});var y=Object(n.memo)(({maxTeams:e,groupLetter:t,teams:a,potNum:n,possible:r,headerStyles:o})=>s.a.createElement(l.a,null,s.a.createElement("thead",null,s.a.createElement(i.a,null,s.a.createElement(m.a,null,s.a.createElement(u.a,{styles:o},"Group"," ",t)))),s.a.createElement("tbody",null,c(e).map(e=>s.a.createElement(i.a,{key:e},s.a.createElement(O,{team:a[e],possible:e===n&&r}))))));const P=r.d.div`
   display: flex;
   flex-flow: row wrap;
 
