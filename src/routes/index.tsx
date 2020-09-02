@@ -72,6 +72,7 @@ const Routing = () => {
 
   useEffect(() => {
     setIsFastDraw(false)
+    refreshDrawId()
   }, [o])
 
   const {
@@ -117,7 +118,6 @@ const Routing = () => {
           tournament={tournament}
           stage={stage}
           season={season}
-          onRefreshDrawId={refreshDrawId}
           onSeasonChange={onSeasonChange}
         />
       ) : null}

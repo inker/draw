@@ -41,7 +41,6 @@ interface Props {
   stage: Stage,
   season: number,
   drawId: string,
-  onRefreshDrawId: () => void,
   onSeasonChange: (tournament: Tournament, stage: Stage, season?: number) => void,
 }
 
@@ -58,7 +57,6 @@ const Pages = ({
   tournament,
   stage,
   season,
-  onRefreshDrawId,
   onSeasonChange,
 }: Props) => {
   const params = useParams()
@@ -88,8 +86,6 @@ const Pages = ({
           rejectOnTimeout: false,
         })
       }
-
-      onRefreshDrawId()
 
       setState({
         Page: newPage,
