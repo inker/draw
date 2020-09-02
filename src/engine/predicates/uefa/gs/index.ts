@@ -27,19 +27,22 @@ function hasTeam(team: Team) {
     group.some(isEqualToTeam)
 }
 
-export default (season: number, groupSize: number): Predicate<Team> => {
+function getIsMaxTwoColdTeams(season: number, groupSize: number) {
   const gamesPerMatchday = groupSize >> 1
   const nonHomeTeamsPerMatchday = groupSize - gamesPerMatchday
-
-  const isCountryIncompatibleWith = incompatibleCountries(season)
 
   const isCold = coldCountries(season)
 
   const isColdNumber = (team: Team) =>
     isCold(team) ? 1 : 0
 
-  const isMaxTwoColdTeams = (group: Team[]) =>
+  return (group: Team[]) =>
     sumBy(group, isColdNumber) <= nonHomeTeamsPerMatchday
+}
+
+export default (season: number, groupSize: number): Predicate<Team> => {
+  const isCountryIncompatibleWith = incompatibleCountries(season)
+  const isMaxTwoColdTeams = getIsMaxTwoColdTeams(season, groupSize)
 
   return (picked, groups, groupIndex) => {
     const group = groups[groupIndex]
