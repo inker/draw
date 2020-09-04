@@ -6,13 +6,25 @@ import React, {
   DetailedHTMLProps,
   InputHTMLAttributes,
 } from 'react'
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 
 const Root = styled.label`
   display: flex;
   align-items: center;
   margin-left: 3px;
   margin-right: 3px;
+  cursor: pointer;
+`
+
+const Box = styled.input.attrs({
+  type: 'checkbox',
+})`
+  cursor: pointer;
+
+  ${props => props.theme.isDarkMode && css`
+    border: ${props.theme.border};
+    background-color: #246;
+  `}
 `
 
 const ChildrenWrapper = styled.div`
@@ -22,12 +34,14 @@ const ChildrenWrapper = styled.div`
 
 type InputProps = DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>
 
-interface Props extends Omit<InputProps, 'onChange'> {
+interface Props extends Omit<InputProps, 'value' | 'onChange'> {
+  value: boolean,
   onChange: (value: boolean) => void,
 }
 
 const SelectWithHiddenLabel: FC<Props> = ({
   children,
+  value,
   onChange,
   ...props
 }: Props) => {
@@ -37,10 +51,10 @@ const SelectWithHiddenLabel: FC<Props> = ({
 
   return (
     <Root>
-      <input
-        type="checkbox"
+      <Box
+        checked={value}
         onChange={rawOnChange}
-        {...props}
+        {...props as any}
       />
       <ChildrenWrapper>
         {children}

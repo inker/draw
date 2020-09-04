@@ -89,7 +89,7 @@ const Navbar = ({
         onChange={onSeasonChange}
       />
       <Checkbox
-        checked={isXRay}
+        value={isXRay}
         onChange={onSetIsXRay}
       >
         X-ray
