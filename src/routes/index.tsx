@@ -62,7 +62,7 @@ function useSeasonTournamentStage() {
 }
 
 const Routing = () => {
-  const [drawId, refreshDrawId] = useDrawId()
+  const [, refreshDrawId] = useDrawId()
   const [popup] = usePopup()
   const [, setIsFastDraw] = useFastDraw()
 
@@ -98,7 +98,6 @@ const Routing = () => {
       </Visibility>
       {tournament && stage ? (
         <Pages
-          drawId={drawId}
           tournament={tournament}
           stage={stage}
           season={season}

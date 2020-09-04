@@ -1,5 +1,6 @@
 import React, {
   useState,
+  useEffect,
   useRef,
   useContext,
   useCallback,
@@ -37,9 +38,20 @@ const GroupCellDeferred = ({
   const themeContext = useContext(ThemeContext)
   const to = useRef<HTMLElement | null>(null)
 
+  useEffect(() => {
+    console.log('changed to', team)
+    if (!team) {
+      setDisplayedTeam(undefined)
+    }
+  }, [team])
+
   const setIsPickedAnimationFalse = useCallback(() => setIsPickedAnimation(false), [])
 
   const fill = useCallback(() => {
+    console.log('filling', team)
+    if (!team) {
+      return
+    }
     setDisplayedTeam(team)
     setIsPickedAnimation(true)
   }, [team])
