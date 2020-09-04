@@ -18,6 +18,10 @@ const HiddenLabel = styled.label`
   display: none;
 `
 
+const Select = styled.select`
+  cursor: pointer;
+`
+
 type SelectProps = DetailedHTMLProps<SelectHTMLAttributes<HTMLSelectElement>, HTMLSelectElement>
 
 interface Props extends SelectProps {
@@ -36,13 +40,13 @@ const SelectWithHiddenLabel: FC<Props> = ({
       <HiddenLabel htmlFor={id}>
         {label}
       </HiddenLabel>
-      <select
+      <Select
         id={id}
         title={label}
-        {...props}
+        {...props as any}
       >
         {children}
-      </select>
+      </Select>
     </Root>
   )
 }
