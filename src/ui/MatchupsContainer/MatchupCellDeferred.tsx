@@ -47,7 +47,7 @@ const MatchupCellDeferred = ({
           from={`[data-cellid='${team.id}']`}
           to={to}
           duration={350}
-          data={team}
+          team={team}
           onAnimationEnd={fill}
         />
       )}
