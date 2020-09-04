@@ -6,7 +6,7 @@ import React, {
   DetailedHTMLProps,
   InputHTMLAttributes,
 } from 'react'
-import styled, { css } from 'styled-components'
+import styled from 'styled-components'
 
 const Root = styled.label`
   display: flex;
@@ -20,11 +20,6 @@ const Box = styled.input.attrs({
   type: 'checkbox',
 })`
   cursor: pointer;
-
-  ${props => props.theme.isDarkMode && css`
-    border: ${props.theme.border};
-    background-color: #246;
-  `}
 `
 
 const ChildrenWrapper = styled.div`
