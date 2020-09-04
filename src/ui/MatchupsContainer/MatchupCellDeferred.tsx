@@ -8,13 +8,13 @@ import React, {
 import Team from 'model/team/Club'
 
 import usePrevious from 'utils/hooks/usePrevious'
+import getTeamCountryName from 'utils/getTeamCountryName'
 
 import ContentWithFlag from 'ui/table/ContentWithFlag'
 import DummyContent from 'ui/table/DummyContent'
 import MovingDiv from 'ui/MovingDiv'
 
 import MatchupCellBase from './MatchupCellBase'
-import getTeamCountryName from './getTeamCountryName'
 
 interface Props {
   team: Team,

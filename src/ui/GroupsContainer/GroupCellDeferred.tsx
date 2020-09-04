@@ -9,13 +9,13 @@ import Club from 'model/team/Club'
 import NationalTeam from 'model/team/NationalTeam'
 
 import usePrevious from 'utils/hooks/usePrevious'
+import getTeamCountryName from 'utils/getTeamCountryName'
 
 import ContentWithFlag from 'ui/table/ContentWithFlag'
 import DummyContent from 'ui/table/DummyContent'
 import MovingDiv from 'ui/MovingDiv'
 
 import GroupCellBase from './GroupCellBase'
-import getTeamCountryName from './getTeamCountryName'
 
 type Team = Club | NationalTeam
 
