@@ -35,7 +35,7 @@ const getElement = (i: El) =>
     : i.current
 
 const getTransition = (duration: number) =>
-  `transform ${duration}ms ease-in-out`
+  `transform ${duration}ms ease-in-out, color ${duration / 2}ms ease-out`
 
 function getPosTransform(posCell: HTMLElement) {
   const { left, top } = posCell.getBoundingClientRect()
@@ -71,6 +71,7 @@ const MovingContent = ({
   const style = useMemo(() => ({
     transform: posCell instanceof HTMLElement ? getPosTransform(posCell) : '',
     transition: posCell === toCell ? getTransition(duration) : '',
+    color: posCell === toCell ? '' : 'blue',
   }), [posCell, toCell, duration])
 
   const onTransitionEnd = useCallback((e: TransitionEvent<HTMLSpanElement>) => {
