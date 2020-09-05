@@ -1,14 +1,17 @@
 import React, {
   useState,
   useRef,
+  useContext,
   useCallback,
   memo,
 } from 'react'
+import { ThemeContext } from 'styled-components'
 
 import Club from 'model/team/Club'
 import NationalTeam from 'model/team/NationalTeam'
 
 import usePrevious from 'utils/hooks/usePrevious'
+import useDidUpdate from 'utils/hooks/useDidUpdate'
 import getTeamCountryName from 'utils/getTeamCountryName'
 
 import ContentWithFlag from 'ui/table/ContentWithFlag'
@@ -30,17 +33,27 @@ const GroupCellDeferred = ({
 }: Props) => {
   const prevTeam = usePrevious(team)
   const [displayedTeam, setDisplayedTeam] = useState(team)
+  const [isPickedAnimation, setIsPickedAnimation] = useState(false)
+  const themeContext = useContext(ThemeContext)
   const to = useRef<HTMLElement | null>(null)
+
+  const setIsPickedAnimationFalse = useCallback(() => setIsPickedAnimation(false), [])
 
   const fill = useCallback(() => {
     setDisplayedTeam(team)
+    setIsPickedAnimation(true)
   }, [team])
+
+  useDidUpdate(() => {
+    setIsPickedAnimationFalse()
+  }, [themeContext])
 
   return (
     <>
       <GroupCellBase
-        picked={!!displayedTeam}
+        picked={isPickedAnimation && !!displayedTeam}
         possible={possible}
+        onAnimationEnd={setIsPickedAnimationFalse}
       >
         {displayedTeam ? (
           <ContentWithFlag country={getTeamCountryName(displayedTeam)}>
