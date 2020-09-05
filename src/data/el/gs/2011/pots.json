@@ -87,7 +87,7 @@
       "coefficient": 37.01
     },
     {
-      "name": "H. Tel-Aviv",
+      "name": "H Tel-Aviv",
       "country": "Israel",
       "bertName": "Hapoel Tel-Aviv",
       "coefficient": 36.4
@@ -155,7 +155,7 @@
       "coefficient": 22.14
     },
     {
-      "name": "M. Haifa",
+      "name": "M Haifa",
       "country": "Israel",
       "bertName": "Maccabi Haifa",
       "coefficient": 21.4
@@ -229,7 +229,7 @@
       "coefficient": 10.276
     },
     {
-      "name": "Wisła Kraków",
+      "name": "Wisła",
       "country": "Poland",
       "bertName": "Wisla Kraków",
       "coefficient": 10.183
@@ -253,7 +253,7 @@
       "coefficient": 8.64
     },
     {
-      "name": "M. Tel-Aviv",
+      "name": "M Tel-Aviv",
       "country": "Israel",
       "bertName": "Maccabi Tel-Aviv",
       "coefficient": 5.9

@@ -135,7 +135,7 @@
       "coefficient": 35.48
     },
     {
-      "name": "H. Tel-Aviv",
+      "name": "H Tel-Aviv",
       "country": "Israel",
       "bertName": "Hapoel Tel-Aviv",
       "coefficient": 31.4
@@ -197,7 +197,7 @@
       "coefficient": 16.48
     },
     {
-      "name": "Borussia Mönchengladb",
+      "name": "Mönchengladbach",
       "country": "Germany",
       "bertName": "Borussia Mönchengladb",
       "coefficient": 15.037
@@ -271,7 +271,7 @@
       "coefficient": 5.099
     },
     {
-      "name": "H. Kiryat Shmona",
+      "name": "H Kiryat Shmona",
       "country": "Israel",
       "bertName": "Hapoel Kiryat Shmona",
       "coefficient": 4.4
