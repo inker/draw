@@ -21,7 +21,7 @@ import useDrawId from 'store/useDrawId'
 import useFastDraw from 'store/useFastDraw'
 import useXRay from 'store/useXRay'
 
-import useMatchMedia from 'utils/hooks/useMatchMedia'
+import useMedia from 'utils/hooks/useMedia'
 
 import PotsContainer from 'ui/PotsContainer'
 // import AirborneContainer from 'ui/AirborneContainer'
@@ -80,7 +80,7 @@ const ELKO = ({
     setState(getState(initialPots))
   }, [initialPots, drawId])
 
-  const isTallScreen = useMatchMedia('(min-height: 750px)')
+  const isTallScreen = useMedia('(min-height: 750px)')
   const [isXRay] = useXRay()
 
   const groupsContanerRef = useRef<HTMLElement>(null)

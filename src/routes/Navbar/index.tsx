@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import Tournament from 'model/Tournament'
 import Stage from 'model/Stage'
 
-import useMatchMedia from 'utils/hooks/useMatchMedia'
+import useMedia from 'utils/hooks/useMedia'
 
 import Checkbox from 'ui/Checkbox'
 import Button from 'ui/Button'
@@ -71,8 +71,8 @@ const Navbar = ({
   onSetIsXRay,
   onSeasonChange,
 }: Props) => {
-  const isWidth800 = useMatchMedia('(min-width: 800px)')
-  const isWidth650 = useMatchMedia('(min-width: 650px)')
+  const isWidth800 = useMedia('(min-width: 800px)')
+  const isWidth650 = useMedia('(min-width: 650px)')
 
   return (
     <Root>
