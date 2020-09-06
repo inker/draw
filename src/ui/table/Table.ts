@@ -13,6 +13,7 @@ const Table = styled.table`
   min-width: 0;
 
   @media (max-width: 999px) {
+    width: auto;
     margin: 0 3px 6px 3px;
   }
 `
