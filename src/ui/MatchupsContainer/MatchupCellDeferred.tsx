@@ -12,7 +12,7 @@ import getTeamCountryName from 'utils/getTeamCountryName'
 
 import ContentWithFlag from 'ui/table/ContentWithFlag'
 import DummyContent from 'ui/table/DummyContent'
-import MovingDiv from 'ui/MovingDiv'
+import MovingContent from 'ui/MovingContent'
 
 import MatchupCellBase from './MatchupCellBase'
 
@@ -43,7 +43,7 @@ const MatchupCellDeferred = ({
         )}
       </MatchupCellBase>
       {team && team !== prevTeam && (
-        <MovingDiv
+        <MovingContent
           from={`[data-cellid='${team.id}']`}
           to={to}
           duration={350}

@@ -50,7 +50,7 @@ interface Props {
   onAnimationEnd?: () => void,
 }
 
-const MovingDiv = ({
+const MovingContent = ({
   from,
   to,
   duration,
@@ -92,4 +92,4 @@ const MovingDiv = ({
   )
 }
 
-export default memo(MovingDiv)
+export default memo(MovingContent)
