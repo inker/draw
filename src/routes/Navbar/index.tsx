@@ -4,11 +4,11 @@ import styled from 'styled-components'
 import Tournament from 'model/Tournament'
 import Stage from 'model/Stage'
 
+import useMatchMedia from 'utils/hooks/useMatchMedia'
+
 import Checkbox from 'ui/Checkbox'
 import Button from 'ui/Button'
 import StyledLink from 'ui/StyledLink'
-
-import { isHandheld } from 'utils/browser'
 
 import SelectSeason from './SelectSeason'
 import GitHubButtons from './GitHubButtons'
@@ -70,48 +70,53 @@ const Navbar = ({
   isFastDraw,
   onSetIsXRay,
   onSeasonChange,
-}: Props) => (
-  <Root>
-    <div>
-      <Button onClick={restartDraw}>
-        Restart
-      </Button>
-      <Button
-        disabled={isFastDraw}
-        onClick={enableFastDraw}
-      >
-        Fast draw
-      </Button>
-      <SelectSeason
-        tournament={tournament}
-        stage={stage}
-        season={season}
-        onChange={onSeasonChange}
-      />
-      <Checkbox
-        value={isXRay}
-        onChange={onSetIsXRay}
-      >
-        X-ray
-      </Checkbox>
-    </div>
-    <div>
-      {!isHandheld && (
-        <GitHubButtons />
-      )}
-      <small>
-        Crafted with ♡ by
-        {' '}
-        <StyledLink
-          href="https://github.com/inker"
-          target="_blank"
-          rel="noopener"
+}: Props) => {
+  const isWidth800 = useMatchMedia('(min-width: 800px)')
+  const isWidth650 = useMatchMedia('(min-width: 650px)')
+
+  return (
+    <Root>
+      <div>
+        <Button onClick={restartDraw}>
+          Restart
+        </Button>
+        <Button
+          disabled={isFastDraw}
+          onClick={enableFastDraw}
         >
-          inker
-        </StyledLink>
-      </small>
-    </div>
-  </Root>
-)
+          Fast draw
+        </Button>
+        <SelectSeason
+          tournament={tournament}
+          stage={stage}
+          season={season}
+          onChange={onSeasonChange}
+        />
+        <Checkbox
+          value={isXRay}
+          onChange={onSetIsXRay}
+        >
+          X-ray
+        </Checkbox>
+      </div>
+      <div>
+        {isWidth800 && (
+          <GitHubButtons />
+        )}
+        <small>
+          {isWidth650 ? 'Crafted with ♡ by' : '©'}
+          {' '}
+          <StyledLink
+            href="https://github.com/inker"
+            target="_blank"
+            rel="noopener"
+          >
+            inker
+          </StyledLink>
+        </small>
+      </div>
+    </Root>
+  )
+}
 
 export default memo(Navbar)
