@@ -13,10 +13,12 @@ export default (media: string) => {
       setIsMatch(e.matches)
     }
 
-    matchResult.addEventListener('change', listener)
+    // TODO: restore `addEventListener`
+    matchResult.onchange = listener
 
     return () => {
-      matchResult.removeEventListener('change', listener)
+      // TODO: restore `removeEventListener`
+      matchResult.onchange = null
     }
   }, [matchResult])
 
