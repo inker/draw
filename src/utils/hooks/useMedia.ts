@@ -12,6 +12,9 @@ export default (media: string) => {
   if (isSafari) {
     matchResult.addEventListener = (e, listener) =>
       matchResult.addListener(listener)
+
+    matchResult.removeEventListener = (e, listener) =>
+      matchResult.removeListener(listener)
   }
 
   const [isMatch, setIsMatch] = useState(matchResult.matches)
