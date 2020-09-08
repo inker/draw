@@ -4,8 +4,16 @@ import {
   useMemo,
 } from 'react'
 
+import { isSafari } from 'utils/browser'
+
 export default (media: string) => {
   const matchResult = useMemo(() => window.matchMedia(media), [media])
+
+  if (isSafari) {
+    matchResult.addEventListener = (e, listener) =>
+      matchResult.addListener(listener)
+  }
+
   const [isMatch, setIsMatch] = useState(matchResult.matches)
 
   useEffect(() => {

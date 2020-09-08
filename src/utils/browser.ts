@@ -6,3 +6,5 @@ const platformType = parser.getPlatformType()
 export const isHandheld = platformType === 'mobile' || platformType === 'tablet'
 
 export const isFirefox = parser.getBrowserName() === 'Firefox'
+
+export const isSafari = parser.getBrowserName() === 'Safari'
