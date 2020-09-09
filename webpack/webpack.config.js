@@ -51,7 +51,7 @@ module.exports = (env) => {
       //   'react-dom': path.join(rootDir, 'node_modules/react-dom/dist/react-dom.min.js'),
       // },
     },
-    devtool: isDev ? 'source-map' : undefined,
+    devtool: isDev ? 'eval-source-map' : undefined,
     optimization: optimization(isDev),
     module: {
       rules: rules(isDev),
