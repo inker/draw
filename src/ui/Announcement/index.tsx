@@ -148,7 +148,7 @@ const Announcement = ({
                   maxNum={10}
                   interval={2000}
                 />
-                <Deferred delay={3000}>
+                <Deferred delay={5000}>
                   <LongCalculation />
                 </Deferred>
               </div>
