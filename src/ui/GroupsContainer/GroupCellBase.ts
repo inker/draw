@@ -29,12 +29,12 @@ const Picked = css`
 
 interface Props {
   possible: boolean,
-  hasTeam: boolean,
+  picked: boolean,
 }
 
 const GroupCellBase = styled(Cell)<Props>`
   ${props => props.possible && Possible}
-  ${props => props.hasTeam && Picked}
+  ${props => props.picked && Picked}
 `
 
 export default GroupCellBase

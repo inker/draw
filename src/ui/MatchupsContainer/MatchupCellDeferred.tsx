@@ -33,7 +33,7 @@ const MatchupCellDeferred = ({
 
   return (
     <>
-      <MatchupCellBase hasTeam={!!displayedTeam}>
+      <MatchupCellBase picked={!!displayedTeam}>
         {displayedTeam ? (
           <ContentWithFlag country={getTeamCountryName(displayedTeam)}>
             {displayedTeam.shortName ?? displayedTeam.name}

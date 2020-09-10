@@ -18,13 +18,13 @@ const Picked = css`
 `
 
 interface Props {
-  hasTeam: boolean,
+  picked: boolean,
   styles?: FlattenInterpolation<any>,
 }
 
 const MatchupCellBase = styled(Cell)<Props>`
   width: 150px;
-  ${props => props.hasTeam && Picked};
+  ${props => props.picked && Picked};
   ${props => props.styles};
 `
 

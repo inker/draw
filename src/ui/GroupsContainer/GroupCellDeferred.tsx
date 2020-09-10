@@ -39,7 +39,7 @@ const GroupCellDeferred = ({
   return (
     <>
       <GroupCellBase
-        hasTeam={!!displayedTeam}
+        picked={!!displayedTeam}
         possible={possible}
       >
         {displayedTeam ? (
