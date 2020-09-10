@@ -1,6 +1,6 @@
 import { useCallback } from 'react'
 
-import makeReducerHook from 'utils/makeReducerHook'
+import makeStoreHook from 'utils/makeStoreHook'
 import usePartial from 'utils/hooks/usePartial'
 
 interface PopupState {
@@ -15,7 +15,7 @@ const initialState: PopupState = {
   error: null,
 }
 
-const useStore = makeReducerHook(initialState)
+const useStore = makeStoreHook(initialState)
 
 export default () => {
   const [popupState, set] = useStore()

@@ -1,3 +1,3 @@
-import makeReducerHook from 'utils/makeReducerHook'
+import makeStoreHook from 'utils/makeStoreHook'
 
-export default makeReducerHook(false)
+export default makeStoreHook(false)

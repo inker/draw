@@ -1,3 +1,3 @@
-import makeReducerHookPersist from 'utils/makeReducerHookPersist'
+import makeStoreHookPersist from 'utils/makeStoreHookPersist'
 
-export default makeReducerHookPersist('store:xray', false)
+export default makeStoreHookPersist('store:xray', false)

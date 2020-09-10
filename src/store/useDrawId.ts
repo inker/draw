@@ -1,9 +1,9 @@
 import { useCallback } from 'react'
 import { uniqueId } from 'lodash'
 
-import makeReducerHook from 'utils/makeReducerHook'
+import makeStoreHook from 'utils/makeStoreHook'
 
-const useStore = makeReducerHook(uniqueId('draw-'))
+const useStore = makeStoreHook(uniqueId('draw-'))
 
 export default () => {
   const [state, setState] = useStore()

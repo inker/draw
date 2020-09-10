@@ -1,7 +1,7 @@
 import { useCallback } from 'react'
 import { stubTrue } from 'lodash'
 
-import makeReducerHook from 'utils/makeReducerHook'
+import makeStoreHook from 'utils/makeStoreHook'
 
 interface Options<ParsedType> {
   parse: (storedValue: string) => ParsedType,
@@ -23,7 +23,7 @@ export default <S>(key: string, initialState: S, options?: Options<S>) => {
     ...options,
   }
 
-  const use = makeReducerHook(() => {
+  const use = makeStoreHook(() => {
     try {
       const item = window.localStorage.getItem(key)
       if (item) {
