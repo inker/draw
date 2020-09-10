@@ -1,4 +1,4 @@
-/*! For license information please see cl-gs.8f92cef1e841930df971.js.LICENSE.txt */
+/*! For license information please see cl-gs.db5f5cef0cc892423d17.js.LICENSE.txt */
 (window.webpackJsonp=window.webpackJsonp||[]).push([[1,6],{105:function(e,t,a){"use strict";a.r(t);var s=a(0),r=a.n(s),o=a(2),n=a(78),l=a(435),c=a(79),u=a(4),i=a(70),p=a(71),d=a(75),m=a(87),b=a(86),f=a(88),h=a(82),g=a(83),v=a(90),w=a(73),j=a(136);var k=Object(o.d)(j.a)`
   &:hover {
     ${e=>!e.noHover&&"background: radial-gradient(#ccf, #ccf)"};
@@ -34,8 +34,8 @@
   animation: ${v} 3s ease-out normal forwards;
 `;var k=Object(o.d)(p.a)`
   ${e=>e.possible&&w}
-  ${e=>e.hasTeam&&j}
-`;var E=Object(s.memo)(({team:e,possible:t})=>{var a;const o=Object(d.a)(e),[n,l]=Object(s.useState)(e),c=Object(s.useRef)(null),u=Object(s.useCallback)(()=>{l(e)},[e]);return r.a.createElement(r.a.Fragment,null,r.a.createElement(k,{hasTeam:!!n,possible:t},n?r.a.createElement(b.a,{country:Object(m.a)(n)},null!==(a=n.shortName)&&void 0!==a?a:n.name):r.a.createElement(f.a,{ref:c})),e&&e!==o&&r.a.createElement(h.a,{from:`[data-cellid='${e.id}']`,to:c,duration:350,team:e,onAnimationEnd:u}))});var O=Object(s.memo)(({maxTeams:e,groupLetter:t,teams:a,potNum:s,possible:o,headerStyles:n})=>r.a.createElement(c.a,null,r.a.createElement("thead",null,r.a.createElement(i.a,null,r.a.createElement(p.a,null,r.a.createElement(u.a,{styles:n},"Group"," ",t)))),r.a.createElement("tbody",null,l(e).map(e=>r.a.createElement(i.a,{key:e},r.a.createElement(E,{team:a[e],possible:e===s&&o}))))));const G=o.d.div`
+  ${e=>e.picked&&j}
+`;var E=Object(s.memo)(({team:e,possible:t})=>{var a;const o=Object(d.a)(e),[n,l]=Object(s.useState)(e),c=Object(s.useRef)(null),u=Object(s.useCallback)(()=>{l(e)},[e]);return r.a.createElement(r.a.Fragment,null,r.a.createElement(k,{picked:!!n,possible:t},n?r.a.createElement(b.a,{country:Object(m.a)(n)},null!==(a=n.shortName)&&void 0!==a?a:n.name):r.a.createElement(f.a,{ref:c})),e&&e!==o&&r.a.createElement(h.a,{from:`[data-cellid='${e.id}']`,to:c,duration:350,team:e,onAnimationEnd:u}))});var O=Object(s.memo)(({maxTeams:e,groupLetter:t,teams:a,potNum:s,possible:o,headerStyles:n})=>r.a.createElement(c.a,null,r.a.createElement("thead",null,r.a.createElement(i.a,null,r.a.createElement(p.a,null,r.a.createElement(u.a,{styles:n},"Group"," ",t)))),r.a.createElement("tbody",null,l(e).map(e=>r.a.createElement(i.a,{key:e},r.a.createElement(E,{team:a[e],possible:e===s&&o}))))));const G=o.d.div`
   display: flex;
   flex-flow: row wrap;
 
