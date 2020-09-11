@@ -73,7 +73,7 @@ const SplitPot = ({
                   <Content
                     data-cellid={team.id}
                     title={pairing && `paired with ${pairing.shortName ?? pairing.name}`}
-                    selected={!!selectedTeams && selectedTeams.includes(team)}
+                    selected={!!selectedTeams?.includes(team)}
                     picked={pickedTeams.includes(team)}
                     country={country ?? name}
                   >
