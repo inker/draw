@@ -5,8 +5,7 @@ import { difference } from 'lodash'
 import Team from 'model/team'
 
 import Root from './Root'
-import BasePot from './Pot'
-import SplitPot from './SplitPot'
+import Pot from './Pot'
 
 const headerStyles = css`
   background-color: rgba(0, 0, 0, 0.75);
@@ -30,7 +29,6 @@ const PotsContainer = ({
 }: Props) => (
   <Root limitWidth={!split}>
     {initialPots.map((pot, i) => {
-      const Pot = split ? SplitPot : BasePot
       const isCurrent = i === currentPotNum
       const pickedTeams = difference(initialPots[i], pots[i], selectedTeams ?? [])
 
@@ -42,6 +40,7 @@ const PotsContainer = ({
           teams={pot}
           pickedTeams={pickedTeams}
           selectedTeams={selectedTeams}
+          isSplit={split}
           headerStyles={headerStyles}
         />
       )
