@@ -3,15 +3,13 @@ import { FlattenInterpolation } from 'styled-components'
 import { range } from 'lodash'
 
 import Team from 'model/team'
-import GsTeam from 'model/team/GsTeam'
 
 import Row from 'ui/table/Row'
 import Cell from 'ui/table/Cell'
 
 import Root from './PotRoot'
 import Header from './PotHeader'
-import PotCell from './PotCell'
-import PotContent from './PotContent'
+import PotRow from './PotRow'
 
 interface Props {
   isCurrent: boolean,
@@ -55,31 +53,14 @@ const Pot = ({
           const rowTeams = isSplit
             ? [teams[i * 2], teams[i * 2 + 1]]
             : [teams[i]]
-          return (
-            <Row key={rowTeams.map(team => team.id).join(':')}>
-              {rowTeams.map(team => {
-                const {
-                  name,
-                  country,
-                  shortName,
-                  pairing,
-                } = team as GsTeam
 
-                return (
-                  <PotCell key={team.id}>
-                    <PotContent
-                      data-cellid={team.id}
-                      title={pairing && `paired with ${pairing.shortName ?? pairing.name}`}
-                      selected={!!selectedTeams?.includes(team)}
-                      picked={pickedTeams.includes(team)}
-                      country={country ?? name}
-                    >
-                      {shortName ?? name}
-                    </PotContent>
-                  </PotCell>
-                )
-              })}
-            </Row>
+          return (
+            <PotRow
+              key={rowTeams.map(team => team.id).join(':')}
+              teams={rowTeams}
+              selectedTeams={selectedTeams}
+              pickedTeams={pickedTeams}
+            />
           )
         })}
       </tbody>
