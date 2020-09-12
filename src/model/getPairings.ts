@@ -4,7 +4,6 @@ import type Tournament from 'model/Tournament'
 
 export default async (season: number, tournament: Tournament): Promise<[string, string][]> => {
   try {
-    // eslint-disable-next-line max-len
     const pairings = await import(/* webpackChunkName: "[request]" */ `data/${tournament}/gs/${season}/pairings.txt`)
     return (pairings.default as string)
       .trim()
