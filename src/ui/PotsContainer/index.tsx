@@ -40,7 +40,7 @@ const PotsContainer = ({
           teams={pot}
           pickedTeams={pickedTeams}
           selectedTeams={selectedTeams}
-          isSplit={split}
+          numCols={split ? 2 : 1}
           headerStyles={headerStyles}
         />
       )

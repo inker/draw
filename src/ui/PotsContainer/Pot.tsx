@@ -17,7 +17,7 @@ interface Props {
   teams: readonly Team[],
   pickedTeams: readonly Team[],
   selectedTeams: readonly Team[] | null,
-  isSplit?: boolean,
+  numCols: number,
   headerStyles?: FlattenInterpolation<any>,
 }
 
@@ -27,17 +27,16 @@ const Pot = ({
   teams,
   pickedTeams,
   selectedTeams,
-  isSplit,
+  numCols,
   headerStyles,
 }: Props) => {
-  const colsPerRow = isSplit ? 2 : 1
-  const numRows = teams.length / colsPerRow
+  const numRows = teams.length / numCols
 
   return (
     <Root highlighted={isCurrent}>
       <thead>
         <Row>
-          <Cell colSpan={colsPerRow}>
+          <Cell colSpan={numCols}>
             <Header
               highlighted={isCurrent}
               depleted={!teams || pickedTeams.length === teams.length}
@@ -50,9 +49,8 @@ const Pot = ({
       </thead>
       <tbody>
         {range(numRows).map(i => {
-          const rowTeams = isSplit
-            ? [teams[i * 2], teams[i * 2 + 1]]
-            : [teams[i]]
+          const offset = i * numCols
+          const rowTeams = range(numCols).map(c => teams[offset + c])
 
           return (
             <PotRow
