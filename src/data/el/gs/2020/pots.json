@@ -25,6 +25,12 @@
       "coefficient": 77
     },
     {
+      "name": "Benfica",
+      "country": "Portugal",
+      "bertName": "Benfica",
+      "coefficient": 70
+    },
+    {
       "name": "Leverkusen",
       "country": "Germany",
       "bertName": "Bayer Leverkusen",
@@ -65,15 +71,15 @@
       "country": "Denmark",
       "bertName": "FC København",
       "coefficient": 42
-    },
+    }
+  ],
+  [
     {
       "name": "Braga",
       "country": "Portugal",
       "bertName": "Sporting Braga",
       "coefficient": 41
-    }
-  ],
-  [
+    },
     {
       "name": "Gent",
       "country": "Belgium",
@@ -91,12 +97,6 @@
       "country": "Germany",
       "bertName": "VfL Wolfsburg",
       "coefficient": 36
-    },
-    {
-      "name": "Krasnodar",
-      "country": "Russia",
-      "bertName": "FK Krasnodar",
-      "coefficient": 35.5
     },
     {
       "name": "Celtic",

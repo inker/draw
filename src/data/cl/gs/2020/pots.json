@@ -93,19 +93,13 @@
       "coefficient": 83
     },
     {
-      "name": "Benfica",
-      "country": "Portugal",
-      "bertName": "Benfica",
-      "coefficient": 70
-    }
-  ],
-  [
-    {
       "name": "Ajax",
       "country": "Netherlands",
       "bertName": "Ajax",
       "coefficient": 69.5
-    },
+    }
+  ],
+  [
     {
       "name": "Dynamo",
       "country": "Ukraine",
@@ -141,6 +135,12 @@
       "country": "Italy",
       "bertName": "Lazio",
       "coefficient": 41
+    },
+    {
+      "name": "Krasnodar",
+      "country": "Russia",
+      "bertName": "FK Krasnodar",
+      "coefficient": 35.5
     },
     {
       "name": "Atalanta",
