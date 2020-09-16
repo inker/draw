@@ -15,7 +15,6 @@ import {
 
 import usePopup from 'store/usePopup'
 import useDrawId from 'store/useDrawId'
-import useXRay from 'store/useXRay'
 import useFastDraw from 'store/useFastDraw'
 
 import Visibility from 'ui/Visibility'
@@ -65,8 +64,7 @@ function useSeasonTournamentStage() {
 const Routing = () => {
   const [drawId, refreshDrawId] = useDrawId()
   const [popup] = usePopup()
-  const [isXRay, setIsXRay] = useXRay()
-  const [isFastDraw, setIsFastDraw] = useFastDraw()
+  const [, setIsFastDraw] = useFastDraw()
 
   const o = useSeasonTournamentStage()
 
@@ -87,28 +85,14 @@ const Routing = () => {
     navigate(`/${tm}/${sg}${sn ? `/${sn}` : ''}`)
   }, [])
 
-  const enableFastDraw = useCallback(() => {
-    setIsFastDraw(true)
-  }, [])
-
-  const disableFastDrawAndRestart = useCallback(() => {
-    setIsFastDraw(false)
-    refreshDrawId()
-  }, [])
-
   return (
     <>
       <HeadMetadata />
       <Visibility visible={!popup.initial}>
         <Navbar
-          restartDraw={disableFastDrawAndRestart}
           season={season}
           tournament={tournament!}
           stage={stage!}
-          isXRay={isXRay}
-          isFastDraw={isFastDraw}
-          enableFastDraw={enableFastDraw}
-          onSetIsXRay={setIsXRay}
           onSeasonChange={onSeasonChange}
         />
       </Visibility>

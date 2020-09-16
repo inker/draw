@@ -1,10 +1,16 @@
-import React, { memo } from 'react'
+import React, {
+  useCallback,
+  memo,
+} from 'react'
 import styled from 'styled-components'
 
 import Tournament from 'model/Tournament'
 import Stage from 'model/Stage'
 
 import useMedia from 'utils/hooks/useMedia'
+import useDrawId from 'store/useDrawId'
+import useXRay from 'store/useXRay'
+import useFastDraw from 'store/useFastDraw'
 
 import Checkbox from 'ui/Checkbox'
 import Button from 'ui/Button'
@@ -52,11 +58,6 @@ interface Props {
   season: number,
   tournament: Tournament,
   stage: Stage,
-  isXRay: boolean,
-  isFastDraw: boolean,
-  onSetIsXRay: (value: boolean) => void,
-  enableFastDraw: () => void,
-  restartDraw: () => void,
   onSeasonChange: (tournament: Tournament, stage: Stage, season: number) => void,
 }
 
@@ -64,20 +65,28 @@ const Navbar = ({
   season,
   tournament,
   stage,
-  restartDraw,
-  enableFastDraw,
-  isXRay,
-  isFastDraw,
-  onSetIsXRay,
   onSeasonChange,
 }: Props) => {
+  const [isXRay, setIsXRay] = useXRay()
+  const [, refreshDrawId] = useDrawId()
+  const [isFastDraw, setIsFastDraw] = useFastDraw()
+
   const isWidth800 = useMedia('(min-width: 800px)')
   const isWidth650 = useMedia('(min-width: 650px)')
+
+  const disableFastDrawAndRestart = useCallback(() => {
+    setIsFastDraw(false)
+    refreshDrawId()
+  }, [])
+
+  const enableFastDraw = useCallback(() => {
+    setIsFastDraw(true)
+  }, [])
 
   return (
     <Root>
       <div>
-        <Button onClick={restartDraw}>
+        <Button onClick={disableFastDrawAndRestart}>
           Restart
         </Button>
         <Button
@@ -94,7 +103,7 @@ const Navbar = ({
         />
         <Checkbox
           value={isXRay}
-          onChange={onSetIsXRay}
+          onChange={setIsXRay}
         >
           X-ray
         </Checkbox>
