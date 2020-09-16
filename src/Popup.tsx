@@ -18,9 +18,6 @@ const Popup = () => {
   ), [popup.initial])
 
   const { error, waiting } = popup
-  if (!navigator.onLine) {
-    return <WrappedPopup>you&apos;re offline</WrappedPopup>
-  }
   if (error) {
     return <WrappedPopup>{error}</WrappedPopup>
   }
