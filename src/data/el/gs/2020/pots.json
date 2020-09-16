@@ -111,6 +111,12 @@
       "coefficient": 34
     },
     {
+      "name": "Dinamo Zagreb",
+      "country": "Croatia",
+      "bertName": "Dinamo Zagreb",
+      "coefficient": 33.5
+    },
+    {
       "name": "Sparta",
       "country": "Czechia",
       "bertName": "Sparta Praha",
@@ -139,15 +145,15 @@
       "country": "Switzerland",
       "bertName": "Young Boys",
       "coefficient": 25.5
-    },
+    }
+  ],
+  [
     {
       "name": "BATE",
       "country": "Belarus",
       "bertName": "BATE Borisov",
       "coefficient": 24
-    }
-  ],
-  [
+    },
     {
       "name": "Galatasaray",
       "country": "Turkey",
@@ -213,26 +219,20 @@
       "country": "Netherlands",
       "bertName": "Feyenoord",
       "coefficient": 17
-    },
+    }
+  ],
+  [
     {
       "name": "Legia",
       "country": "Poland",
       "bertName": "Legia Warsaw",
       "coefficient": 17
-    }
-  ],
-  [
+    },
     {
       "name": "M Tel-Aviv",
       "country": "Israel",
       "bertName": "Maccabi Tel-Aviv",
       "coefficient": 16.5
-    },
-    {
-      "name": "Molde",
-      "country": "Norway",
-      "bertName": "Molde FK",
-      "coefficient": 15
     },
     {
       "name": "Hoffenheim",
@@ -245,18 +245,6 @@
       "country": "Denmark",
       "bertName": "FC Midtjylland",
       "coefficient": 14.5
-    },
-    {
-      "name": "Sheriff",
-      "country": "Moldova",
-      "bertName": "Sheriff Tiraspol",
-      "coefficient": 12.75
-    },
-    {
-      "name": "CFR Cluj",
-      "country": "Romania",
-      "bertName": "CFR Cluj",
-      "coefficient": 12.5
     },
     {
       "name": "Zorya",
@@ -277,6 +265,12 @@
       "coefficient": 11.849
     },
     {
+      "name": "Ferencváros",
+      "country": "Hungary",
+      "bertName": "Ferencváros",
+      "coefficient": 9
+    },
+    {
       "name": "Antwerp",
       "country": "Belgium",
       "bertName": "Royal Antwerp",
@@ -293,6 +287,12 @@
       "country": "Austria",
       "bertName": "Wolfsberger AC",
       "coefficient": 6.585
+    },
+    {
+      "name": "Omonia",
+      "country": "Cyprus",
+      "bertName": "Omonia Nicosia",
+      "coefficient": 5.35
     }
   ]
 ]
