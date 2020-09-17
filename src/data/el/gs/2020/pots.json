@@ -123,12 +123,6 @@
       "coefficient": 30.5
     },
     {
-      "name": "Astana",
-      "country": "Kazakhstan",
-      "bertName": "FK Astana",
-      "coefficient": 29
-    },
-    {
       "name": "APOEL",
       "country": "Cyprus",
       "bertName": "APOEL Nicosia",
@@ -145,21 +139,15 @@
       "country": "Switzerland",
       "bertName": "Young Boys",
       "coefficient": 25.5
-    }
-  ],
-  [
-    {
-      "name": "BATE",
-      "country": "Belarus",
-      "bertName": "BATE Borisov",
-      "coefficient": 24
     },
     {
       "name": "Galatasaray",
       "country": "Turkey",
       "bertName": "Galatasaray",
       "coefficient": 23.5
-    },
+    }
+  ],
+  [
     {
       "name": "Crvena zvezda",
       "country": "Serbia",
@@ -203,6 +191,12 @@
       "coefficient": 21
     },
     {
+      "name": "Standard",
+      "country": "Belgium",
+      "bertName": "Standard Liège",
+      "coefficient": 20.5
+    },
+    {
       "name": "Real Sociedad",
       "country": "Spain",
       "bertName": "Real Sociedad",
@@ -219,15 +213,15 @@
       "country": "Netherlands",
       "bertName": "Feyenoord",
       "coefficient": 17
-    }
-  ],
-  [
+    },
     {
       "name": "Legia",
       "country": "Poland",
       "bertName": "Legia Warsaw",
       "coefficient": 17
-    },
+    }
+  ],
+  [
     {
       "name": "M Tel-Aviv",
       "country": "Israel",
@@ -245,6 +239,12 @@
       "country": "Denmark",
       "bertName": "FC Midtjylland",
       "coefficient": 14.5
+    },
+    {
+      "name": "Sheriff",
+      "country": "Moldova",
+      "bertName": "Sheriff Tiraspol",
+      "coefficient": 12.75
     },
     {
       "name": "Zorya",
