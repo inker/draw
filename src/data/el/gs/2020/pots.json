@@ -215,19 +215,13 @@
       "coefficient": 17
     },
     {
-      "name": "Legia",
-      "country": "Poland",
-      "bertName": "Legia Warsaw",
-      "coefficient": 17
-    }
-  ],
-  [
-    {
       "name": "M Tel-Aviv",
       "country": "Israel",
       "bertName": "Maccabi Tel-Aviv",
       "coefficient": 16.5
-    },
+    }
+  ],
+  [
     {
       "name": "Hoffenheim",
       "country": "Germany",
@@ -245,6 +239,12 @@
       "country": "Moldova",
       "bertName": "Sheriff Tiraspol",
       "coefficient": 12.75
+    },
+    {
+      "name": "Cluj",
+      "country": "Romania",
+      "bertName": "CFR Cluj",
+      "coefficient": 12.5
     },
     {
       "name": "Zorya",
