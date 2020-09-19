@@ -85,7 +85,7 @@ const Announcement = ({
     lastSelected.current = completed ? null : selectedTeam
   }, [completed, selectedTeam])
 
-  const selected = (lastSelected.current ?? selectedTeam)!
+  const selected = lastSelected.current ?? selectedTeam
 
   if (completed) {
     return (
