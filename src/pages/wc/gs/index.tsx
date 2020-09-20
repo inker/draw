@@ -101,7 +101,7 @@ const WCGS = ({
 
   const [, setPopup] = usePopup()
   const [isXRay] = useXRay()
-  const workerSendAndReceive = useWorkerWrapper<WorkerRequest, WorkerResponse>(EsWorker)
+  const workerSendAndReceive = useWorkerWrapper<WorkerRequest, WorkerResponse>(EsWorker, 120000)
 
   const groupsContanerRef = useRef<HTMLElement>(null)
 

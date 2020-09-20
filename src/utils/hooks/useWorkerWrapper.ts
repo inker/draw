@@ -4,22 +4,27 @@ import {
   useEffect,
 } from 'react'
 
-import WorkerWrapper from 'utils/WorkerWrapper'
+import WorkerRequestResponse from 'utils/WorkerRequestResponse'
 
-const TIMEOUT = 120000
+interface ConstructibleWorker extends Worker {
+  new(): this,
+}
 
-export default <Request, Response>(WorkerClass) => {
-  const ww = useMemo(() => new WorkerWrapper<Request, Response>(new WorkerClass(), TIMEOUT), [])
+export default <Request, Response>(WorkerClass: ConstructibleWorker, timeout?: number) => {
+  const workerReqResp = useMemo(
+    () => new WorkerRequestResponse<Request, Response>(new WorkerClass(), timeout),
+    [WorkerClass, timeout],
+  )
 
   // eslint-disable-next-line arrow-body-style
   useEffect(() => {
     return () => {
-      ww.terminate()
+      workerReqResp.terminate()
     }
-  }, [])
+  }, [workerReqResp])
 
   return useCallback(
-    ww.sendAndReceive.bind(ww),
-    [ww],
+    workerReqResp.sendAndReceive.bind(workerReqResp),
+    [workerReqResp],
   )
 }
