@@ -23,6 +23,7 @@ import useXRay from 'store/useXRay'
 
 import useWorkerReqResp from 'utils/hooks/useWorkerReqResp'
 
+import PageRoot from 'ui/PageRoot'
 import PotsContainer from 'ui/PotsContainer'
 // import AirborneContainer from 'ui/AirborneContainer'
 import GroupsContainer from 'ui/GroupsContainer'
@@ -30,8 +31,6 @@ import TablesContainer from 'ui/TablesContainer'
 import BowlsContainer from 'ui/BowlsContainer'
 import TeamBowl from 'ui/bowls/TeamBowl'
 import Announcement from 'ui/Announcement'
-
-import Root from 'pages/Root'
 
 // @ts-ignore
 import EsWorker from './worker'
@@ -200,7 +199,7 @@ const WCGS = ({
   const numGroups = groups.length
 
   return (
-    <Root>
+    <PageRoot>
       <TablesContainer>
         <PotsContainer
           selectedTeams={selectedTeam && [selectedTeam]}
@@ -240,7 +239,7 @@ const WCGS = ({
           reset={setNewDrawId}
         />
       </BowlsContainer>
-    </Root>
+    </PageRoot>
   )
 }
 

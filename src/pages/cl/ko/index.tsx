@@ -22,6 +22,7 @@ import useXRay from 'store/useXRay'
 
 import useWorkerReqResp from 'utils/hooks/useWorkerReqResp'
 
+import PageRoot from 'ui/PageRoot'
 import PotsContainer from 'ui/PotsContainer'
 // import AirborneContainer from 'ui/AirborneContainer'
 import MatchupsContainer from 'ui/MatchupsContainer'
@@ -30,8 +31,6 @@ import BowlsContainer from 'ui/BowlsContainer'
 import TeamBowl from 'ui/bowls/TeamBowl'
 import Separator from 'ui/Separator'
 import Announcement from 'ui/Announcement'
-
-import Root from 'pages/Root'
 
 // @ts-ignore
 import EsWorker from './worker'
@@ -184,7 +183,7 @@ const CLKO = ({
   const selectedTeams = possiblePairings ? possiblePairings.map(i => pots[0][i]) : []
 
   return (
-    <Root>
+    <PageRoot>
       <TablesContainer>
         <PotsContainer
           selectedTeams={selectedTeams}
@@ -239,7 +238,7 @@ const CLKO = ({
           />
         )}
       </BowlsContainer>
-    </Root>
+    </PageRoot>
   )
 }
 
