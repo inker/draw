@@ -7,7 +7,6 @@ import React, {
 import { useParams } from 'react-router-dom'
 
 import delay from 'delay.js'
-import timelimit from 'timelimit'
 
 import Team from 'model/team'
 import Tournament from 'model/Tournament'
@@ -82,9 +81,10 @@ const Pages = ({
       const newPots = await potsPromise
 
       if (!isFirefox) {
-        await timelimit(prefetchFlags(newPots), 5000, {
-          rejectOnTimeout: false,
-        })
+        await Promise.race([
+          prefetchFlags(newPots),
+          delay(5000),
+        ])
       }
 
       setState({
