@@ -10,10 +10,6 @@ const getTeamFlag = (team: TeamWithCountryAndName) =>
   getCountryFlagUrl((team as Club).country ?? team.name)
 
 export default (pots: readonly (readonly TeamWithCountryAndName[])[]) => {
-  const promises: Promise<void>[] = []
-  for (const pot of pots) {
-    const urls = pot.map(getTeamFlag)
-    promises.push(...urls.map(prefetchImage))
-  }
+  const promises = pots.flatMap(pot => pot.map(getTeamFlag).map(prefetchImage))
   return Promise.all(promises)
 }
