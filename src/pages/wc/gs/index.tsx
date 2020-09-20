@@ -21,7 +21,7 @@ import useDrawId from 'store/useDrawId'
 import useFastDraw from 'store/useFastDraw'
 import useXRay from 'store/useXRay'
 
-import useWorkerWrapper from 'utils/hooks/useWorkerWrapper'
+import useWorkerReqResp from 'utils/hooks/useWorkerReqResp'
 
 import PotsContainer from 'ui/PotsContainer'
 // import AirborneContainer from 'ui/AirborneContainer'
@@ -101,7 +101,7 @@ const WCGS = ({
 
   const [, setPopup] = usePopup()
   const [isXRay] = useXRay()
-  const workerSendAndReceive = useWorkerWrapper<WorkerRequest, WorkerResponse>(EsWorker, 120000)
+  const workerSendAndReceive = useWorkerReqResp<WorkerRequest, WorkerResponse>(EsWorker, 120000)
 
   const groupsContanerRef = useRef<HTMLElement>(null)
 
