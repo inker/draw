@@ -14,12 +14,13 @@ import {
 } from 'lodash'
 
 import Team from 'model/team/KnockoutTeam'
-import getPossiblePairings from 'engine/predicates/uefa/getPossiblePairings'
-import getPredicate from 'engine/predicates/uefa/ko'
 
+import usePopup from 'store/usePopup'
 import useDrawId from 'store/useDrawId'
 import useFastDraw from 'store/useFastDraw'
 import useXRay from 'store/useXRay'
+
+import useWorkerReqResp from 'utils/hooks/useWorkerReqResp'
 
 import PotsContainer from 'ui/PotsContainer'
 // import AirborneContainer from 'ui/AirborneContainer'
@@ -31,6 +32,19 @@ import Separator from 'ui/Separator'
 import Announcement from 'ui/Announcement'
 
 import Root from 'pages/Root'
+
+// @ts-ignore
+import EsWorker from './worker'
+
+interface WorkerRequest {
+  season: number,
+  pots: readonly (readonly Team[])[],
+  matchups: readonly [Team, Team][],
+}
+
+interface WorkerResponse {
+  possiblePairings: number[],
+}
 
 interface Props {
   season: number,
@@ -64,8 +78,6 @@ const CLKO = ({
   const [drawId, setNewDrawId] = useDrawId()
   const [isFastDraw, setIsFastDraw] = useFastDraw()
 
-  const predicate = useMemo(() => getPredicate(season), [season])
-
   const [{
     currentMatchupNum,
     currentPotNum,
@@ -78,11 +90,29 @@ const CLKO = ({
     setState(getState(initialPots))
   }, [initialPots, drawId])
 
+  const [, setPopup] = usePopup()
   const [isXRay] = useXRay()
+  const workerSendAndReceive = useWorkerReqResp<WorkerRequest, WorkerResponse>(EsWorker, 120000)
 
   const groupsContanerRef = useRef<HTMLElement>(null)
 
-  const onBallPick = useCallback((i: number) => {
+  const getPossiblePairings = useCallback(async (newPots, newMatchups) => {
+    try {
+      const response = await workerSendAndReceive({
+        season,
+        pots: newPots,
+        matchups: newMatchups,
+      })
+      return response.possiblePairings
+    } catch (err) {
+      setPopup({
+        error: 'Could not determine possible pairings',
+      })
+      throw err
+    }
+  }, [season, workerSendAndReceive])
+
+  const onBallPick = useCallback(async (i: number) => {
     const currentPot = pots[currentPotNum]
     const index = possiblePairings ? possiblePairings[i] : i
     const selectedTeam = currentPot[index]
@@ -98,7 +128,7 @@ const CLKO = ({
     ]
 
     const newPossiblePairings = currentPotNum === 1
-      ? getPossiblePairings(newPots, newMatchups, predicate)
+      ? await getPossiblePairings(newPots, newMatchups)
       : null
 
     const newCurrentMatchNum = currentMatchupNum - currentPotNum + 1
@@ -110,7 +140,7 @@ const CLKO = ({
       pots: newPots,
       matchups: newMatchups,
     })
-  }, [predicate, pots, matchups, currentPotNum, currentMatchupNum, possiblePairings])
+  }, [pots, matchups, currentPotNum, currentMatchupNum, possiblePairings])
 
   const autoPickIfOneBall = () => {
     if (isFastDraw) {
