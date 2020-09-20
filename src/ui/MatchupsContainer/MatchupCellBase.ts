@@ -17,6 +17,7 @@ const Picked = css`
   animation: ${Appear} 3s ease-out normal forwards;
 `
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 interface Props {
   picked: boolean,
   styles?: FlattenInterpolation<any>,

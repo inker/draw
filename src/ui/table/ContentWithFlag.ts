@@ -18,6 +18,7 @@ const ContentWithoutFlag = styled(Content)`
   }
 `
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 interface Props {
   country?: Country,
 }

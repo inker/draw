@@ -30,6 +30,7 @@ const MatchupContainer = forwardRef((
     <tbody>
       {matchups?.map((matchup, i) => (
         <Matchup
+          // eslint-disable-next-line react/no-array-index-key
           key={i}
           teams={matchup}
         />

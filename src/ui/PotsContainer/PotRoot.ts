@@ -2,6 +2,7 @@ import styled from 'styled-components'
 
 import Table from 'ui/table/Table'
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 interface Props {
   highlighted?: boolean,
 }

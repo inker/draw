@@ -2,6 +2,7 @@ import styled, { css } from 'styled-components'
 
 import BowlBall from '../BowlBall'
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 interface Props {
   notSelected?: boolean,
 }

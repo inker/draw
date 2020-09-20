@@ -8,7 +8,6 @@ import parseGS from 'model/parsePotsData/gs'
 import parseKo from 'model/parsePotsData/ko'
 
 async function getPotsFromBert(tournament: Tournament, stage: Stage, season: number) {
-  // eslint-disable-next-line max-len
   const potsPromise = import(/* webpackChunkName: "[request]" */ `data/${tournament}/${stage}/${season}/pots.json`)
   const pairings = await getPairings(season, tournament)
   const data = (await potsPromise).default

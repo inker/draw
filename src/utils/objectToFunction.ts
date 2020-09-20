@@ -3,5 +3,6 @@
  * i.e. converts it to a function, so one can use
  * round braces instead of square brackets
  */
+// eslint-disable-next-line @typescript-eslint/ban-types
 export default <T extends {}>(o: T) =>
   <K extends keyof T>(key: K) => o[key]

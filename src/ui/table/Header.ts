@@ -2,6 +2,7 @@ import styled, { FlattenInterpolation } from 'styled-components'
 
 import BaseContent from './BaseContent'
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 interface Props {
   styles?: FlattenInterpolation<any>,
 }

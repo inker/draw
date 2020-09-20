@@ -11,6 +11,7 @@ const Picked = css`
   opacity: 0.4;
 `
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 interface Props {
   selected: boolean,
   picked: boolean,

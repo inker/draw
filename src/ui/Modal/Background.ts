@@ -9,6 +9,7 @@ const BackgroundAnimation = keyframes`
   to {}
 `
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 interface BackgroundProps {
   animate: boolean,
 }

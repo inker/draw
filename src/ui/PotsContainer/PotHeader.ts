@@ -11,6 +11,7 @@ const Highlighted = css`
   color: #f70;
 `
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 interface Props {
   depleted: boolean,
   highlighted: boolean,

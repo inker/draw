@@ -22,7 +22,7 @@ export interface WorkerData<T> {
   },
 }
 
-// eslint-disable-next-line max-len
+// eslint-disable-next-line max-len, @typescript-eslint/no-unused-vars
 type Grow<T, A extends T[]> = ((x: T, ...xs: A) => void) extends ((...a: infer X) => void) ? X : never
 
 type GrowToSize<T, A extends T[], N extends number> = {

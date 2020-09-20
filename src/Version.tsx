@@ -1,11 +1,10 @@
-/* eslint-disable eslint-comments/no-use */
 import React, { memo } from 'react'
 import { Helmet } from 'react-helmet'
 
 // @ts-ignore
-const version = __VERSION__ // eslint-disable-line no-undef
+const version = __VERSION__
 // @ts-ignore
-const modificationDate = __MODIFICATION_DATE__ // eslint-disable-line no-undef
+const modificationDate = __MODIFICATION_DATE__
 
 // eslint-disable-next-line no-console
 console.log('modified at:', modificationDate)
