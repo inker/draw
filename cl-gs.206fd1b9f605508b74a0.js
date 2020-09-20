@@ -42,4 +42,4 @@
     flex: 1;
     flex-basis: 22%;
   }
-`,y=Object(r.forwardRef)(({maxTeams:e,currentPotNum:t,groups:o,possibleGroups:r,getGroupHeaderStyles:s},n)=>a.a.createElement(w,{ref:n},null==o?void 0:o.map((o,n)=>{const c=Object(l.a)(n),u=null==s?void 0:s(n);return a.a.createElement(v,{key:c,maxTeams:e,groupLetter:c,teams:o,potNum:t,possible:!!(null==r?void 0:r.includes(n)),headerStyles:u})})));t.a=Object(r.memo)(y)},97:function(e,t,o){"use strict";o.r(t),t.default=function(){return new Worker(o.p+"worker.0827247af48c8c399b28.worker.js")}}},0,[82]]);
+`,y=Object(r.forwardRef)(({maxTeams:e,currentPotNum:t,groups:o,possibleGroups:r,getGroupHeaderStyles:s},n)=>a.a.createElement(w,{ref:n},null==o?void 0:o.map((o,n)=>{const c=Object(l.a)(n),u=null==s?void 0:s(n);return a.a.createElement(v,{key:c,maxTeams:e,groupLetter:c,teams:o,potNum:t,possible:!!(null==r?void 0:r.includes(n)),headerStyles:u})})));t.a=Object(r.memo)(y)},97:function(e,t,o){"use strict";o.r(t),t.default=function(){return new Worker(o.p+"worker.72c664cedd1082fb79b5.worker.js")}}},0,[82]]);
