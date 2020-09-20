@@ -19,7 +19,17 @@ const HiddenLabel = styled.label`
 `
 
 const Select = styled.select`
+  border-radius: 3px;
+  border: ${props => props.theme.border};
   cursor: pointer;
+
+  &:disabled {
+    cursor: not-allowed;
+  }
+
+  &:hover {
+    border-color: black;
+  }
 `
 
 type SelectProps = DetailedHTMLProps<SelectHTMLAttributes<HTMLSelectElement>, HTMLSelectElement>
