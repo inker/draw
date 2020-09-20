@@ -3,6 +3,8 @@ import { firstPossibleGroup } from '@draws/engine'
 import { orderBy } from 'lodash'
 
 import getPredicate from 'engine/predicates/wc'
+import Team from 'model/team/NationalTeam'
+import type { GsWorkerData } from 'model/WorkerData'
 
 type GetPredicateParams = Parameters<typeof getPredicate>
 
@@ -20,7 +22,7 @@ const eqFunc = (newArgs: GetPredicateParams, oldArgs: GetPredicateParams) =>
 const getPredicateMemoized = memoizeOne(getPredicate, eqFunc)
 
 // eslint-disable-next-line no-restricted-globals
-addEventListener('message', e => {
+addEventListener('message', (e: MessageEvent<GsWorkerData<Team>>) => {
   const {
     messageId,
     data: {

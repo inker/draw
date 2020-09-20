@@ -12,25 +12,6 @@ export type UefaCountry = Extract<Entry<Countries>, [Country, { confederation: '
 
 export type Confederation = Countries[Country]['confederation']
 
-export interface WorkerData<T> {
-  messageId: any,
-  data: {
-    season: number,
-    pots: readonly (readonly T[])[],
-    groups: readonly (readonly T[])[],
-    selectedTeam: T,
-  },
-}
-
-export interface KoWorkerData<T> {
-  messageId: any,
-  data: {
-    season: number,
-    pots: readonly (readonly T[])[],
-    matchups: readonly [T, T][],
-  },
-}
-
 // eslint-disable-next-line max-len, @typescript-eslint/no-unused-vars
 type Grow<T, A extends T[]> = ((x: T, ...xs: A) => void) extends ((...a: infer X) => void) ? X : never
 

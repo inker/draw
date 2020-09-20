@@ -3,7 +3,7 @@ import { allPossibleGroups } from '@draws/engine'
 
 import getPredicate from 'engine/predicates/uefa/gs'
 import Team from 'model/team/GsTeam'
-import type { WorkerData } from 'model/types'
+import type { GsWorkerData } from 'model/WorkerData'
 
 type GetPredicateParams = Parameters<typeof getPredicate>
 
@@ -19,7 +19,7 @@ const eqFunc = (newArgs: GetPredicateParams, oldArgs: GetPredicateParams) =>
 const getPredicateMemoized = memoizeOne(getPredicate, eqFunc)
 
 // eslint-disable-next-line no-restricted-globals
-addEventListener('message', e => {
+addEventListener('message', (e: MessageEvent<GsWorkerData<Team>>) => {
   const {
     messageId,
     data: {
@@ -28,7 +28,7 @@ addEventListener('message', e => {
       groups,
       selectedTeam,
     },
-  } = e.data as WorkerData<Team>
+  } = e.data
 
   const predicate = getPredicateMemoized(season, pots.length)
   const possibleGroups = allPossibleGroups(pots, groups, selectedTeam, predicate)
