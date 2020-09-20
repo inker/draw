@@ -1,0 +1,26 @@
+{
+  "presets": [
+    "@babel/preset-react",
+    [
+      "@babel/preset-env",
+      {
+        "loose": true,
+        "modules": false,
+        "targets": {
+          "browsers": [
+            "> 5%"
+          ]
+        }
+      }
+    ]
+  ],
+  "plugins": [
+    ["@babel/plugin-transform-runtime", {
+      "helpers": true,
+      "regenerator": true
+    }],
+    "@babel/plugin-syntax-dynamic-import",
+    // "babel-plugin-styled-components",
+    "lodash"
+  ]
+}

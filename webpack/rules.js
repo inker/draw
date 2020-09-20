@@ -1,22 +1,7 @@
-const { createLodashTransformer } = require('typescript-plugin-lodash')
-const createStyledComponentsTransformer = require('typescript-plugin-styled-components').default
 const { compact } = require('lodash')
 
-const lodashTransformer = createLodashTransformer()
-const styledComponentsTransformer = createStyledComponentsTransformer()
-
 const tsOptions = (isDev) => isDev ? {
-  getCustomTransformers: () => ({
-    before: [
-      styledComponentsTransformer,
-    ],
-  }),
 } : {
-  getCustomTransformers: () => ({
-    before: [
-      lodashTransformer,
-    ],
-  }),
   ignoreDiagnostics: [],
 }
 
@@ -32,10 +17,24 @@ module.exports = (isDev) => compact([
   },
   {
     test: /\.tsx?$/,
-    use: {
-      loader: 'ts-loader',
-      options: tsOptions(isDev),
-    },
+    use: [
+      {
+        loader: 'ts-loader',
+        options: tsOptions(isDev),
+      },
+      {
+        loader: 'babel-loader',
+      },
+    ],
+    exclude: /node_modules/,
+  },
+  {
+    test: /\.js$/,
+    use: [
+      {
+        loader: 'babel-loader',
+      },
+    ],
     exclude: /node_modules/,
   },
   {
@@ -43,6 +42,9 @@ module.exports = (isDev) => compact([
     use: [
       'style-loader',
       'css-loader',
+    ],
+    include: [
+      /node_modules/,
     ],
   },
   {
