@@ -45,7 +45,7 @@
     {
       "name": "Porto",
       "country": "Portugal",
-      "bertName": "FC Porto  4",
+      "bertName": "FC Porto",
       "group": 7
     }
   ],
@@ -65,13 +65,13 @@
     {
       "name": "Leverkusen",
       "country": "Germany",
-      "bertName": "Bayer Leverkusen  4",
+      "bertName": "Bayer Leverkusen",
       "group": 2
     },
     {
       "name": "Arsenal",
       "country": "England",
-      "bertName": "Arsenal  4",
+      "bertName": "Arsenal",
       "group": 3
     },
     {

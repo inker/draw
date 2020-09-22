@@ -3,7 +3,7 @@
     {
       "name": "PAOK",
       "country": "Greece",
-      "bertName": "PAOK Thessaloniki  3",
+      "bertName": "PAOK Thessaloniki",
       "group": 0
     },
     {
@@ -15,49 +15,49 @@
     {
       "name": "PSV",
       "country": "Netherlands",
-      "bertName": "PSV Eindhoven  4",
+      "bertName": "PSV Eindhoven",
       "group": 2
     },
     {
       "name": "Sporting CP",
       "country": "Portugal",
-      "bertName": "Sporting CP Lisbon  4",
+      "bertName": "Sporting CP Lisbon",
       "group": 3
     },
     {
       "name": "Beşiktaş",
       "country": "Turkey",
-      "bertName": "Besiktas  4",
+      "bertName": "Besiktas",
       "group": 4
     },
     {
       "name": "Athletic",
       "country": "Spain",
-      "bertName": "Athletic Bilbao  4",
+      "bertName": "Athletic Bilbao",
       "group": 5
     },
     {
       "name": "Metalist",
       "country": "Ukraine",
-      "bertName": "Metalist Kharkiv  4",
+      "bertName": "Metalist Kharkiv",
       "group": 6
     },
     {
       "name": "Club Brugge",
       "country": "Belgium",
-      "bertName": "Club Brugge  3",
+      "bertName": "Club Brugge",
       "group": 7
     },
     {
       "name": "Atlético",
       "country": "Spain",
-      "bertName": "Atlético Madrid  3",
+      "bertName": "Atlético Madrid",
       "group": 8
     },
     {
       "name": "Schalke",
       "country": "Germany",
-      "bertName": "Schalke 04  4",
+      "bertName": "Schalke 04",
       "group": 9
     },
     {
@@ -69,7 +69,7 @@
     {
       "name": "Anderlecht",
       "country": "Belgium",
-      "bertName": "Anderlecht  4",
+      "bertName": "Anderlecht",
       "group": 11
     },
     {
@@ -107,25 +107,25 @@
     {
       "name": "Hannover",
       "country": "Germany",
-      "bertName": "Hannover 96  4",
+      "bertName": "Hannover 96",
       "group": 1
     },
     {
       "name": "Legia",
       "country": "Poland",
-      "bertName": "Legia Warsaw  3",
+      "bertName": "Legia Warsaw",
       "group": 2
     },
     {
-      "name": "Lazio Roma  4",
+      "name": "Lazio",
       "country": "Italy",
-      "bertName": "Lazio Roma  4",
+      "bertName": "Lazio Roma",
       "group": 3
     },
     {
       "name": "Stoke",
       "country": "England",
-      "bertName": "Stoke City  3",
+      "bertName": "Stoke City",
       "group": 4
     },
     {
@@ -137,13 +137,13 @@
     {
       "name": "AZ",
       "country": "Netherlands",
-      "bertName": "AZ Alkmaar  3",
+      "bertName": "AZ Alkmaar",
       "group": 6
     },
     {
       "name": "Braga",
       "country": "Portugal",
-      "bertName": "Sporting Braga  4",
+      "bertName": "Sporting Braga",
       "group": 7
     },
     {
@@ -155,7 +155,7 @@
     {
       "name": "Steaua",
       "country": "Romania",
-      "bertName": "Steaua Bucuresti  4",
+      "bertName": "Steaua Bucuresti",
       "group": 9
     },
     {
@@ -167,7 +167,7 @@
     {
       "name": "Lokomotiv",
       "country": "Russia",
-      "bertName": "Lokomotiv Moscow  4",
+      "bertName": "Lokomotiv Moscow",
       "group": 11
     },
     {

@@ -3,7 +3,7 @@
     {
       "name": "Liverpool",
       "country": "England",
-      "bertName": "Liverpool  3",
+      "bertName": "Liverpool",
       "group": 0
     },
     {
@@ -19,76 +19,82 @@
       "group": 2
     },
     {
-      "name": "Newcastle",
-      "country": "England",
-      "bertName": "Newcastle United  4",
+      "name": "Bordeaux",
+      "country": "France",
+      "bertName": "Girondins Bordeaux",
       "group": 3
     },
     {
-      "name": "Stuttgart",
-      "country": "Germany",
-      "bertName": "VfB Stuttgart  4",
+      "name": "Steaua",
+      "country": "Romania",
+      "bertName": "Steaua Bucuresti",
       "group": 4
+    },
+    {
+      "name": "Dnipro",
+      "country": "Ukraine",
+      "bertName": "Dnipro Dnipropetrovsk",
+      "group": 5
     },
     {
       "name": "Genk",
       "country": "Belgium",
-      "bertName": "Racing Genk  3",
-      "group": 5
+      "bertName": "Racing Genk",
+      "group": 6
     },
     {
       "name": "Rubin",
       "country": "Russia",
       "bertName": "Rubin Kazan",
-      "group": 6
+      "group": 7
     },
     {
       "name": "Lyon",
       "country": "France",
       "bertName": "Olympique Lyon",
-      "group": 7
+      "group": 8
     },
     {
-      "name": "Lazio Roma  4",
+      "name": "Lazio",
       "country": "Italy",
-      "bertName": "Lazio Roma  4",
-      "group": 8
+      "bertName": "Lazio Roma",
+      "group": 9
     },
     {
       "name": "Metalist",
       "country": "Ukraine",
-      "bertName": "Metalist Kharkiv  4",
-      "group": 9
+      "bertName": "Metalist Kharkiv",
+      "group": 10
     },
     {
       "name": "Hannover",
       "country": "Germany",
-      "bertName": "Hannover 96  3",
-      "group": 10
+      "bertName": "Hannover 96",
+      "group": 11
     },
     {
       "name": "Chelsea",
       "country": "England",
       "bertName": "Chelsea",
-      "group": 11
+      "group": 24
     },
     {
       "name": "CFR Cluj",
       "country": "Romania",
       "bertName": "CFR Cluj",
-      "group": 24
+      "group": 26
     },
     {
       "name": "Olympiacos",
       "country": "Greece",
       "bertName": "Olympiakos Piraeus",
-      "group": 26
+      "group": 28
     },
     {
       "name": "Benfica",
       "country": "Portugal",
       "bertName": "Benfica",
-      "group": 28
+      "group": 30
     }
   ],
   [
@@ -105,82 +111,88 @@
       "group": 1
     },
     {
-      "name": "Bordeaux",
-      "country": "France",
-      "bertName": "Girondins Bordeaux  4",
+      "name": "Borussia Mönchengladb",
+      "country": "Germany",
+      "bertName": "Borussia Mönchengladb",
       "group": 2
     },
     {
-      "name": "Steaua",
-      "country": "Romania",
-      "bertName": "Steaua Bucuresti  3",
+      "name": "Newcastle",
+      "country": "England",
+      "bertName": "Newcastle United",
       "group": 3
+    },
+    {
+      "name": "Stuttgart",
+      "country": "Germany",
+      "bertName": "VfB Stuttgart",
+      "group": 4
     },
     {
       "name": "Napoli",
       "country": "Italy",
-      "bertName": "Dnipro Dnipropetrovsk  4 Ukr            Napoli",
-      "group": 4
+      "bertName": "Napoli",
+      "group": 5
     },
     {
       "name": "Basel",
       "country": "Switzerland",
       "bertName": "FC Basel",
-      "group": 5
+      "group": 6
     },
     {
       "name": "Internazionale",
       "country": "Italy",
-      "bertName": "Internazionale  3",
-      "group": 6
+      "bertName": "Internazionale",
+      "group": 7
     },
     {
       "name": "Sparta",
       "country": "Czechia",
-      "bertName": "Sparta Praha  3",
-      "group": 7
+      "bertName": "Sparta Praha",
+      "group": 8
     },
     {
       "name": "Tottenham",
       "country": "England",
       "bertName": "Tottenham Hotspur",
-      "group": 8
+      "group": 9
     },
     {
       "name": "Leverkusen",
       "country": "Germany",
       "bertName": "Bayer Leverkusen",
-      "group": 9
+      "group": 10
     },
     {
       "name": "Levante",
       "country": "Spain",
-      "bertName": "Levante UD  4",
-      "group": 10
+      "bertName": "Levante UD",
+      "group": 11
     },
     {
       "name": "Zenit",
       "country": "Russia",
       "bertName": "Zenit St. Petersburg",
-      "group": 11
+      "group": 25
     },
     {
       "name": "BATE",
       "country": "Belarus",
       "bertName": "BATE Borisov",
-      "group": 25
+      "group": 27
     },
     {
       "name": "Dynamo",
       "country": "Ukraine",
       "bertName": "Dinamo Kiev",
-      "group": 27
+      "group": 29
     },
     {
       "name": "Ajax",
       "country": "Netherlands",
       "bertName": "Ajax",
-      "group": 29
+      "group": 31
     }
   ]
 ]

@@ -9,13 +9,13 @@
     {
       "name": "Valencia",
       "country": "Spain",
-      "bertName": "Valencia  4",
+      "bertName": "Valencia",
       "group": 1
     },
     {
       "name": "H Tel-Aviv",
       "country": "Israel",
-      "bertName": "Hapoel Tel-Aviv  3",
+      "bertName": "Hapoel Tel-Aviv",
       "group": 2
     },
     {
@@ -27,7 +27,7 @@
     {
       "name": "Roma",
       "country": "Italy",
-      "bertName": "AS Roma  3",
+      "bertName": "AS Roma",
       "group": 4
     },
     {
@@ -45,13 +45,13 @@
     {
       "name": "Fenerbahçe",
       "country": "Turkey",
-      "bertName": "Fenerbahçe  3",
+      "bertName": "Fenerbahçe",
       "group": 7
     },
     {
       "name": "Benfica",
       "country": "Portugal",
-      "bertName": "Benfica  4",
+      "bertName": "Benfica",
       "group": 8
     },
     {
@@ -63,13 +63,13 @@
     {
       "name": "PSV",
       "country": "Netherlands",
-      "bertName": "PSV Eindhoven  3",
+      "bertName": "PSV Eindhoven",
       "group": 10
     },
     {
       "name": "Bremen",
       "country": "Germany",
-      "bertName": "Werder Bremen  4",
+      "bertName": "Werder Bremen",
       "group": 11
     },
     {
@@ -101,31 +101,31 @@
     {
       "name": "Ajax",
       "country": "Netherlands",
-      "bertName": "Ajax  4",
+      "bertName": "Ajax",
       "group": 0
     },
     {
       "name": "Lille",
       "country": "France",
-      "bertName": "Lille OSC  3",
+      "bertName": "Lille OSC",
       "group": 1
     },
     {
       "name": "Hamburg",
       "country": "Germany",
-      "bertName": "Hamburger SV  3",
+      "bertName": "Hamburger SV",
       "group": 2
     },
     {
       "name": "Hertha",
       "country": "Germany",
-      "bertName": "Hertha BSC  4",
+      "bertName": "Hertha BSC",
       "group": 3
     },
     {
       "name": "Fulham",
       "country": "England",
-      "bertName": "Fulham FC  3",
+      "bertName": "Fulham FC",
       "group": 4
     },
     {
@@ -137,7 +137,7 @@
     {
       "name": "Villarreal",
       "country": "Spain",
-      "bertName": "Villarreal  4",
+      "bertName": "Villarreal",
       "group": 6
     },
     {
@@ -149,13 +149,13 @@
     {
       "name": "Everton",
       "country": "England",
-      "bertName": "Everton  4",
+      "bertName": "Everton",
       "group": 8
     },
     {
       "name": "Club Brugge",
       "country": "Belgium",
-      "bertName": "Club Brugge  3",
+      "bertName": "Club Brugge",
       "group": 9
     },
     {
@@ -167,7 +167,7 @@
     {
       "name": "Athletic",
       "country": "Spain",
-      "bertName": "Athletic Bilbao  3",
+      "bertName": "Athletic Bilbao",
       "group": 11
     },
     {

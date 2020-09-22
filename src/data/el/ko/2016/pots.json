@@ -15,7 +15,7 @@
     {
       "name": "St-Étienne",
       "country": "France",
-      "bertName": "AS Saint-Étienne  3",
+      "bertName": "AS Saint-Étienne",
       "group": 2
     },
     {
@@ -119,7 +119,7 @@
     {
       "name": "AZ",
       "country": "Netherlands",
-      "bertName": "AZ Alkmaar  3",
+      "bertName": "AZ Alkmaar",
       "group": 3
     },
     {
@@ -143,13 +143,13 @@
     {
       "name": "Gent",
       "country": "Belgium",
-      "bertName": "AA Gent  3",
+      "bertName": "AA Gent",
       "group": 7
     },
     {
       "name": "Krasnodar",
       "country": "Russia",
-      "bertName": "FK Krasnodar  3",
+      "bertName": "FK Krasnodar",
       "group": 8
     },
     {

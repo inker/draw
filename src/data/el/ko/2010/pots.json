@@ -1,27 +1,27 @@
 [
   [
     {
-      "name": "Manchester City  4",
+      "name": "Man City",
       "country": "England",
-      "bertName": "Manchester City  4",
+      "bertName": "Manchester City",
       "group": 0
     },
     {
       "name": "Leverkusen",
       "country": "Germany",
-      "bertName": "Bayer Leverkusen  4",
+      "bertName": "Bayer Leverkusen",
       "group": 1
     },
     {
       "name": "Sporting CP",
       "country": "Portugal",
-      "bertName": "Sporting CP Lisbon  3",
+      "bertName": "Sporting CP Lisbon",
       "group": 2
     },
     {
       "name": "Villarreal",
       "country": "Spain",
-      "bertName": "Villarreal  4",
+      "bertName": "Villarreal",
       "group": 3
     },
     {
@@ -33,7 +33,7 @@
     {
       "name": "CSKA",
       "country": "Russia",
-      "bertName": "CSKA Moscow  4",
+      "bertName": "CSKA Moscow",
       "group": 5
     },
     {
@@ -45,31 +45,31 @@
     {
       "name": "Stuttgart",
       "country": "Germany",
-      "bertName": "VfB Stuttgart  3",
+      "bertName": "VfB Stuttgart",
       "group": 7
     },
     {
       "name": "PSV",
       "country": "Netherlands",
-      "bertName": "PSV Eindhoven  4",
+      "bertName": "PSV Eindhoven",
       "group": 8
     },
     {
       "name": "Paris",
       "country": "France",
-      "bertName": "Paris Saint-Germain  4",
+      "bertName": "Paris Saint-Germain",
       "group": 9
     },
     {
       "name": "Liverpool",
       "country": "England",
-      "bertName": "Liverpool  3",
+      "bertName": "Liverpool",
       "group": 10
     },
     {
       "name": "Porto",
       "country": "Portugal",
-      "bertName": "FC Porto  4",
+      "bertName": "FC Porto",
       "group": 11
     },
     {
@@ -107,13 +107,13 @@
     {
       "name": "Aris",
       "country": "Greece",
-      "bertName": "Aris Thessaloniki  3",
+      "bertName": "Aris Thessaloniki",
       "group": 1
     },
     {
       "name": "Lille",
       "country": "France",
-      "bertName": "Lille OSC  4",
+      "bertName": "Lille OSC",
       "group": 2
     },
     {
@@ -149,7 +149,7 @@
     {
       "name": "Metalist",
       "country": "Ukraine",
-      "bertName": "Metalist Kharkiv  4",
+      "bertName": "Metalist Kharkiv",
       "group": 8
     },
     {
@@ -161,7 +161,7 @@
     {
       "name": "Napoli",
       "country": "Italy",
-      "bertName": "Napoli  4",
+      "bertName": "Napoli",
       "group": 10
     },
     {

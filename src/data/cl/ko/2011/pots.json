@@ -3,7 +3,7 @@
     {
       "name": "Bayern",
       "country": "Germany",
-      "bertName": "Bayern München  4",
+      "bertName": "Bayern München",
       "group": 0
     },
     {
@@ -15,7 +15,7 @@
     {
       "name": "Benfica",
       "country": "Portugal",
-      "bertName": "Benfica  3",
+      "bertName": "Benfica",
       "group": 2
     },
     {
@@ -33,7 +33,7 @@
     {
       "name": "Arsenal",
       "country": "England",
-      "bertName": "Arsenal  4",
+      "bertName": "Arsenal",
       "group": 5
     },
     {
@@ -71,7 +71,7 @@
     {
       "name": "Lyon",
       "country": "France",
-      "bertName": "Olympique Lyon  4",
+      "bertName": "Olympique Lyon",
       "group": 3
     },
     {

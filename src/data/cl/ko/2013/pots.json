@@ -53,25 +53,25 @@
     {
       "name": "Arsenal",
       "country": "England",
-      "bertName": "Arsenal  4",
+      "bertName": "Arsenal",
       "group": 0
     },
     {
       "name": "Milan",
       "country": "Italy",
-      "bertName": "AC Milan  4",
+      "bertName": "AC Milan",
       "group": 1
     },
     {
       "name": "Schalke",
       "country": "Germany",
-      "bertName": "Schalke 04  4",
+      "bertName": "Schalke 04",
       "group": 2
     },
     {
       "name": "Zenit",
       "country": "Russia",
-      "bertName": "Zenit St. Petersburg  3",
+      "bertName": "Zenit St. Petersburg",
       "group": 3
     },
     {
