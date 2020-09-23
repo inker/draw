@@ -7,15 +7,15 @@
       "group": 0
     },
     {
-      "name": "Lyon",
-      "country": "France",
-      "bertName": "Olympique Lyon",
+      "name": "Ludogorets",
+      "country": "Bulgaria",
+      "bertName": "Ludogorets Razgrad",
       "group": 1
     },
     {
-      "name": "Tottenham",
-      "country": "England",
-      "bertName": "Tottenham Hotspur",
+      "name": "Salzburg",
+      "country": "Austria",
+      "bertName": "FC Salzburg",
       "group": 2
     },
     {
@@ -25,33 +25,33 @@
       "group": 3
     },
     {
-      "name": "Sevilla",
-      "country": "Spain",
-      "bertName": "Sevilla",
-      "group": 4
-    },
-    {
       "name": "Fiorentina",
       "country": "Italy",
       "bertName": "Fiorentina",
+      "group": 4
+    },
+    {
+      "name": "Frankfurt",
+      "country": "Germany",
+      "bertName": "Eintracht Frankfurt",
       "group": 5
-    },
-    {
-      "name": "AZ",
-      "country": "Netherlands",
-      "bertName": "AZ Alkmaar",
-      "group": 6
-    },
-    {
-      "name": "Salzburg",
-      "country": "Austria",
-      "bertName": "FC Salzburg",
-      "group": 7
     },
     {
       "name": "Genk",
       "country": "Belgium",
       "bertName": "Racing Genk",
+      "group": 6
+    },
+    {
+      "name": "Sevilla",
+      "country": "Spain",
+      "bertName": "Sevilla",
+      "group": 7
+    },
+    {
+      "name": "Lyon",
+      "country": "France",
+      "bertName": "Olympique Lyon",
       "group": 8
     },
     {
@@ -61,15 +61,15 @@
       "group": 9
     },
     {
-      "name": "Frankfurt",
-      "country": "Germany",
-      "bertName": "Eintracht Frankfurt",
+      "name": "Tottenham",
+      "country": "England",
+      "bertName": "Tottenham Hotspur",
       "group": 10
     },
     {
-      "name": "Ludogorets",
-      "country": "Bulgaria",
-      "bertName": "Ludogorets Razgrad",
+      "name": "AZ",
+      "country": "Netherlands",
+      "bertName": "AZ Alkmaar",
       "group": 11
     },
     {
@@ -99,75 +99,75 @@
   ],
   [
     {
-      "name": "Dynamo",
-      "country": "Ukraine",
-      "bertName": "Dinamo Kiev",
-      "group": 0
-    },
-    {
-      "name": "Lazio",
-      "country": "Italy",
-      "bertName": "Lazio Roma",
-      "group": 1
-    },
-    {
-      "name": "PAOK",
-      "country": "Greece",
-      "bertName": "PAOK Thessaloniki",
-      "group": 2
-    },
-    {
-      "name": "Dnipro",
-      "country": "Ukraine",
-      "bertName": "Dnipro Dnipropetrovsk",
-      "group": 3
-    },
-    {
-      "name": "Anji",
-      "country": "Russia",
-      "bertName": "Anzhi Makhachkala",
-      "group": 4
-    },
-    {
-      "name": "Betis",
-      "country": "Spain",
-      "bertName": "Real Betis",
-      "group": 5
-    },
-    {
       "name": "Swansea",
       "country": "England",
       "bertName": "Swansea City",
-      "group": 6
+      "group": 0
     },
     {
       "name": "Chornomorets",
       "country": "Ukraine",
       "bertName": "Chernomorets Odesa",
-      "group": 7
-    },
-    {
-      "name": "Maribor",
-      "country": "Slovenia",
-      "bertName": "NK Maribor",
-      "group": 8
-    },
-    {
-      "name": "M Tel-Aviv",
-      "country": "Israel",
-      "bertName": "Maccabi Tel-Aviv",
-      "group": 9
-    },
-    {
-      "name": "Liberec",
-      "country": "Czechia",
-      "bertName": "Slovan Liberec",
-      "group": 10
+      "group": 1
     },
     {
       "name": "Esbjerg",
       "country": "Denmark",
       "bertName": "Esbjerg fB",
+      "group": 2
+    },
+    {
+      "name": "Maribor",
+      "country": "Slovenia",
+      "bertName": "NK Maribor",
+      "group": 3
+    },
+    {
+      "name": "Dnipro",
+      "country": "Ukraine",
+      "bertName": "Dnipro Dnipropetrovsk",
+      "group": 4
+    },
+    {
+      "name": "M Tel-Aviv",
+      "country": "Israel",
+      "bertName": "Maccabi Tel-Aviv",
+      "group": 5
+    },
+    {
+      "name": "Dynamo",
+      "country": "Ukraine",
+      "bertName": "Dinamo Kiev",
+      "group": 6
+    },
+    {
+      "name": "Liberec",
+      "country": "Czechia",
+      "bertName": "Slovan Liberec",
+      "group": 7
+    },
+    {
+      "name": "Betis",
+      "country": "Spain",
+      "bertName": "Real Betis",
+      "group": 8
+    },
+    {
+      "name": "Lazio",
+      "country": "Italy",
+      "bertName": "Lazio Roma",
+      "group": 9
+    },
+    {
+      "name": "Anji",
+      "country": "Russia",
+      "bertName": "Anzhi Makhachkala",
+      "group": 10
+    },
+    {
+      "name": "PAOK",
+      "country": "Greece",
+      "bertName": "PAOK Thessaloniki",
       "group": 11
     },
     {
