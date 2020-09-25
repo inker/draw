@@ -1,0 +1,1 @@
+(window.webpackJsonp=window.webpackJsonp||[]).push([[31],{469:function(n,a,o){"use strict";o.r(a),a.default="Real Madrid\nBarcelona\n\nAtlético\nValencia\n\nBayern\nDortmund\n\nMan City\nTottenham\n\nJuventus\nInternazionale\n\nParis\nLyon\n\nLokomotiv\nCSKA\n\nPorto\nBenfica\n\nMan United\nLiverpool\n\nNapoli\nRoma\n\nSchalke\nHoffenheim\n\nAjax\nPSV\n"}}]);
