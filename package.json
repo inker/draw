@@ -52,7 +52,6 @@
     "react-helmet": "^6.1.0",
     "react-router-dom": "^6.0.0-beta.0",
     "styled-components": "^5.2.0",
-    "timelimit": "^1.0.1",
     "tslib": "^2.0.1",
     "unfocus": "^1.0.1"
   },

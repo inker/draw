@@ -1,13 +1,10 @@
 import AsyncManager from 'async-manager-promise'
-import timelimit from 'timelimit'
 
 class WorkerWrapper<Request, Response> {
   readonly #worker: Worker
   readonly #asyncManager = new AsyncManager<Response, string>()
-  readonly #timeout?: number
 
-  constructor(worker: Worker, timeout?: number) {
-    this.#timeout = timeout
+  constructor(worker: Worker) {
     this.#worker = worker
     this.#worker.onmessage = (e) => {
       const {
@@ -20,16 +17,12 @@ class WorkerWrapper<Request, Response> {
   }
 
   sendAndReceive(msg: Request) {
-    const promise = this.#asyncManager.getPromiseWithId(id => {
+    return this.#asyncManager.getPromiseWithId(id => {
       this.#worker.postMessage({
         messageId: id,
         data: msg,
       })
     })
-
-    return this.#timeout === undefined
-      ? promise
-      : timelimit(promise, this.#timeout)
   }
 
   terminate() {

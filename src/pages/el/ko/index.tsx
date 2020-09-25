@@ -93,7 +93,7 @@ const ELKO = ({
   const isTallScreen = useMedia('(min-height: 750px)')
   const [, setPopup] = usePopup()
   const [isXRay] = useXRay()
-  const workerSendAndReceive = useWorkerReqResp<WorkerRequest, WorkerResponse>(EsWorker, 120000)
+  const workerSendAndReceive = useWorkerReqResp<WorkerRequest, WorkerResponse>(EsWorker)
 
   const groupsContanerRef = useRef<HTMLElement>(null)
 

@@ -10,10 +10,10 @@ interface ConstructibleWorker extends Worker {
   new(): this,
 }
 
-export default <Request, Response>(WorkerClass: ConstructibleWorker, timeout?: number) => {
+export default <Request, Response>(WorkerClass: ConstructibleWorker) => {
   const workerReqResp = useMemo(
-    () => new WorkerRequestResponse<Request, Response>(new WorkerClass(), timeout),
-    [WorkerClass, timeout],
+    () => new WorkerRequestResponse<Request, Response>(new WorkerClass()),
+    [WorkerClass],
   )
 
   // eslint-disable-next-line arrow-body-style
