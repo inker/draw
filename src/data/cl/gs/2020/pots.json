@@ -187,16 +187,16 @@
       "coefficient": 21.5
     },
     {
-      "name": "Molde",
-      "country": "Norway",
-      "bertName": "Molde FK",
-      "coefficient": 15
-    },
-    {
       "name": "Rennes",
       "country": "France",
       "bertName": "Stade Rennais",
       "coefficient": 14
+    },
+    {
+      "name": "Ferencváros",
+      "country": "Hungary",
+      "bertName": "Ferencváros",
+      "coefficient": 9
     }
   ]
 ]

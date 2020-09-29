@@ -49,6 +49,12 @@
       "coefficient": 56
     },
     {
+      "name": "Beşiktaş",
+      "country": "Turkey",
+      "bertName": "Besiktas",
+      "coefficient": 54
+    },
+    {
       "name": "Sporting CP",
       "country": "Portugal",
       "bertName": "Sporting CP Lisbon",
@@ -65,15 +71,15 @@
       "country": "Denmark",
       "bertName": "FC København",
       "coefficient": 42
-    },
+    }
+  ],
+  [
     {
       "name": "Braga",
       "country": "Portugal",
       "bertName": "Sporting Braga",
       "coefficient": 41
-    }
-  ],
-  [
+    },
     {
       "name": "Gent",
       "country": "Belgium",
@@ -139,19 +145,25 @@
       "country": "Turkey",
       "bertName": "Galatasaray",
       "coefficient": 23.5
-    },
+    }
+  ],
+  [
     {
       "name": "Crvena zvezda",
       "country": "Serbia",
       "bertName": "Red Star Belgrade",
       "coefficient": 22.75
-    }
-  ],
-  [
+    },
     {
       "name": "Malmö",
       "country": "Sweden",
       "bertName": "Malmö FF",
+      "coefficient": 22
+    },
+    {
+      "name": "Partizan",
+      "country": "Serbia",
+      "bertName": "Partizan Belgrade",
       "coefficient": 22
     },
     {
@@ -191,12 +203,6 @@
       "coefficient": 20.456
     },
     {
-      "name": "Milan",
-      "country": "Italy",
-      "bertName": "AC Milan",
-      "coefficient": 19
-    },
-    {
       "name": "AZ",
       "country": "Netherlands",
       "bertName": "AZ Alkmaar",
@@ -213,20 +219,32 @@
       "country": "Israel",
       "bertName": "Maccabi Tel-Aviv",
       "coefficient": 16.5
+    }
+  ],
+  [
+    {
+      "name": "Molde",
+      "country": "Norway",
+      "bertName": "Molde FK",
+      "coefficient": 15
     },
     {
       "name": "Hoffenheim",
       "country": "Germany",
       "bertName": "1899 Hoffenheim",
       "coefficient": 14.956
-    }
-  ],
-  [
+    },
     {
       "name": "Midtjylland",
       "country": "Denmark",
       "bertName": "FC Midtjylland",
       "coefficient": 14.5
+    },
+    {
+      "name": "Sheriff",
+      "country": "Moldova",
+      "bertName": "Sheriff Tiraspol",
+      "coefficient": 12.75
     },
     {
       "name": "CFR Cluj",
@@ -253,27 +271,9 @@
       "coefficient": 11.849
     },
     {
-      "name": "Ferencváros",
-      "country": "Hungary",
-      "bertName": "Ferencváros",
-      "coefficient": 9
-    },
-    {
-      "name": "Dundalk",
-      "country": "Ireland",
-      "bertName": "Dundalk",
-      "coefficient": 8.5
-    },
-    {
       "name": "Antwerp",
       "country": "Belgium",
       "bertName": "Royal Antwerp",
-      "coefficient": 7.58
-    },
-    {
-      "name": "Charleroi",
-      "country": "Belgium",
-      "bertName": "Charleroi",
       "coefficient": 7.58
     },
     {
