@@ -49,12 +49,6 @@
       "coefficient": 56
     },
     {
-      "name": "Beşiktaş",
-      "country": "Turkey",
-      "bertName": "Besiktas",
-      "coefficient": 54
-    },
-    {
       "name": "Sporting CP",
       "country": "Portugal",
       "bertName": "Sporting CP Lisbon",
@@ -71,15 +65,15 @@
       "country": "Denmark",
       "bertName": "FC København",
       "coefficient": 42
-    }
-  ],
-  [
+    },
     {
       "name": "Braga",
       "country": "Portugal",
       "bertName": "Sporting Braga",
       "coefficient": 41
-    },
+    }
+  ],
+  [
     {
       "name": "Gent",
       "country": "Belgium",
@@ -129,6 +123,12 @@
       "coefficient": 27.5
     },
     {
+      "name": "Slavia",
+      "country": "Czechia",
+      "bertName": "Slavia Praha",
+      "coefficient": 27.5
+    },
+    {
       "name": "Ludogorets",
       "country": "Bulgaria",
       "bertName": "Ludogorets Razgrad",
@@ -158,12 +158,6 @@
       "name": "Malmö",
       "country": "Sweden",
       "bertName": "Malmö FF",
-      "coefficient": 22
-    },
-    {
-      "name": "Partizan",
-      "country": "Serbia",
-      "bertName": "Partizan Belgrade",
       "coefficient": 22
     },
     {
@@ -203,6 +197,12 @@
       "coefficient": 20.456
     },
     {
+      "name": "Milan",
+      "country": "Italy",
+      "bertName": "AC Milan",
+      "coefficient": 19
+    },
+    {
       "name": "AZ",
       "country": "Netherlands",
       "bertName": "AZ Alkmaar",
@@ -235,18 +235,6 @@
       "coefficient": 14.956
     },
     {
-      "name": "Midtjylland",
-      "country": "Denmark",
-      "bertName": "FC Midtjylland",
-      "coefficient": 14.5
-    },
-    {
-      "name": "Sheriff",
-      "country": "Moldova",
-      "bertName": "Sheriff Tiraspol",
-      "coefficient": 12.75
-    },
-    {
       "name": "CFR Cluj",
       "country": "Romania",
       "bertName": "CFR Cluj",
@@ -271,9 +259,21 @@
       "coefficient": 11.849
     },
     {
+      "name": "Dundalk",
+      "country": "Ireland",
+      "bertName": "Dundalk",
+      "coefficient": 8.5
+    },
+    {
       "name": "Antwerp",
       "country": "Belgium",
       "bertName": "Royal Antwerp",
+      "coefficient": 7.58
+    },
+    {
+      "name": "Charleroi",
+      "country": "Belgium",
+      "bertName": "Charleroi",
       "coefficient": 7.58
     },
     {

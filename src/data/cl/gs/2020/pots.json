@@ -169,12 +169,6 @@
       "coefficient": 28.5
     },
     {
-      "name": "Slavia",
-      "country": "Czechia",
-      "bertName": "Slavia Praha",
-      "coefficient": 27.5
-    },
-    {
       "name": "Mönchengladbach",
       "country": "Germany",
       "bertName": "Borussia Mönchengladbach",
@@ -185,6 +179,12 @@
       "country": "Turkey",
       "bertName": "Istanbul Basaksehir",
       "coefficient": 21.5
+    },
+    {
+      "name": "Midtjylland",
+      "country": "Denmark",
+      "bertName": "FC Midtjylland",
+      "coefficient": 14.5
     },
     {
       "name": "Rennes",
