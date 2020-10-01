@@ -37,22 +37,10 @@
       "coefficient": 61
     },
     {
-      "name": "Basel",
-      "country": "Switzerland",
-      "bertName": "FC Basel",
-      "coefficient": 58.5
-    },
-    {
       "name": "Villarreal",
       "country": "Spain",
       "bertName": "Villarreal",
       "coefficient": 56
-    },
-    {
-      "name": "Sporting CP",
-      "country": "Portugal",
-      "bertName": "Sporting CP Lisbon",
-      "coefficient": 50
     },
     {
       "name": "CSKA",
@@ -61,19 +49,11 @@
       "coefficient": 44
     },
     {
-      "name": "København",
-      "country": "Denmark",
-      "bertName": "FC København",
-      "coefficient": 42
-    },
-    {
       "name": "Braga",
       "country": "Portugal",
       "bertName": "Sporting Braga",
       "coefficient": 41
-    }
-  ],
-  [
+    },
     {
       "name": "Gent",
       "country": "Belgium",
@@ -87,23 +67,13 @@
       "coefficient": 37
     },
     {
-      "name": "Wolfsburg",
-      "country": "Germany",
-      "bertName": "VfL Wolfsburg",
-      "coefficient": 36
-    },
-    {
       "name": "Celtic",
       "country": "Scotland",
       "bertName": "Celtic",
       "coefficient": 34
-    },
-    {
-      "name": "Plzeň",
-      "country": "Czechia",
-      "bertName": "Viktoria Plzen",
-      "coefficient": 34
-    },
+    }
+  ],
+  [
     {
       "name": "Dinamo Zagreb",
       "country": "Croatia",
@@ -115,12 +85,6 @@
       "country": "Czechia",
       "bertName": "Sparta Praha",
       "coefficient": 30.5
-    },
-    {
-      "name": "APOEL",
-      "country": "Cyprus",
-      "bertName": "APOEL Nicosia",
-      "coefficient": 27.5
     },
     {
       "name": "Slavia",
@@ -141,24 +105,10 @@
       "coefficient": 25.5
     },
     {
-      "name": "Galatasaray",
-      "country": "Turkey",
-      "bertName": "Galatasaray",
-      "coefficient": 23.5
-    }
-  ],
-  [
-    {
       "name": "Crvena zvezda",
       "country": "Serbia",
       "bertName": "Red Star Belgrade",
       "coefficient": 22.75
-    },
-    {
-      "name": "Malmö",
-      "country": "Sweden",
-      "bertName": "Malmö FF",
-      "coefficient": 22
     },
     {
       "name": "Rapid Wien",
@@ -195,6 +145,14 @@
       "country": "Spain",
       "bertName": "Real Sociedad",
       "coefficient": 20.456
+    }
+  ],
+  [
+    {
+      "name": "Granada",
+      "country": "Spain",
+      "bertName": "Granada CF",
+      "coefficient": 20.456
     },
     {
       "name": "Milan",
@@ -215,13 +173,23 @@
       "coefficient": 17
     },
     {
+      "name": "AEK",
+      "country": "Greece",
+      "bertName": "AEK Athens",
+      "coefficient": 16.5
+    },
+    {
       "name": "M Tel-Aviv",
       "country": "Israel",
       "bertName": "Maccabi Tel-Aviv",
       "coefficient": 16.5
-    }
-  ],
-  [
+    },
+    {
+      "name": "Rangers",
+      "country": "Scotland",
+      "bertName": "Glasgow Rangers",
+      "coefficient": 16.25
+    },
     {
       "name": "Molde",
       "country": "Norway",
@@ -235,11 +203,25 @@
       "coefficient": 14.956
     },
     {
+      "name": "LASK",
+      "country": "Austria",
+      "bertName": "LASK",
+      "coefficient": 14
+    },
+    {
+      "name": "H Beer-Sheva",
+      "country": "Israel",
+      "bertName": "Hapoel Beer-Sheva",
+      "coefficient": 14
+    },
+    {
       "name": "CFR Cluj",
       "country": "Romania",
       "bertName": "CFR Cluj",
       "coefficient": 12.5
-    },
+    }
+  ],
+  [
     {
       "name": "Zorya",
       "country": "Ukraine",
@@ -259,10 +241,22 @@
       "coefficient": 11.849
     },
     {
+      "name": "Rijeka",
+      "country": "Croatia",
+      "bertName": "NK Rijeka",
+      "coefficient": 11
+    },
+    {
       "name": "Dundalk",
       "country": "Ireland",
       "bertName": "Dundalk",
       "coefficient": 8.5
+    },
+    {
+      "name": "Liberec",
+      "country": "Czechia",
+      "bertName": "Slovan Liberec",
+      "coefficient": 8
     },
     {
       "name": "Antwerp",
@@ -271,10 +265,10 @@
       "coefficient": 7.58
     },
     {
-      "name": "Charleroi",
-      "country": "Belgium",
-      "bertName": "Charleroi",
-      "coefficient": 7.58
+      "name": "Lech",
+      "country": "Poland",
+      "bertName": "Lech Poznan",
+      "coefficient": 7
     },
     {
       "name": "Sivasspor",
@@ -293,6 +287,12 @@
       "country": "Cyprus",
       "bertName": "Omonia Nicosia",
       "coefficient": 5.35
+    },
+    {
+      "name": "CSKA Sofia",
+      "country": "Bulgaria",
+      "bertName": "CSKA Sofia",
+      "coefficient": 4
     }
   ]
 ]
