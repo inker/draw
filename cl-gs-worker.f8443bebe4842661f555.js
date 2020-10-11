@@ -1,0 +1,1 @@
+(self.webpackChunkdraw=self.webpackChunkdraw||[]).push([[2794],{91945:(r,e,a)=>{"use strict";function d(){return new Worker(a.p+"worker.8aad3d57d611c405c967.worker.js")}a.r(e),a.d(e,{default:()=>d})}}]);
