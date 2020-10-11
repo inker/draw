@@ -15,8 +15,6 @@ const lastCommitHash = getLastCommitHash()
 module.exports = (isDev) => compact([
   new CleanWebpackPlugin(),
 
-  // new OccurrenceOrderPlugin(),
-
   new webpack.DefinePlugin({
     'process.env': {
       NODE_ENV: JSON.stringify(isDev ? 'development' : 'production'),
@@ -26,8 +24,6 @@ module.exports = (isDev) => compact([
   }),
 
   isDev && new webpack.HotModuleReplacementPlugin(),
-
-  // new (isDev ? NamedModulesPlugin : HashedModuleIdsPlugin)(),
 
   new HtmlWebpackPlugin({
     filename: 'index.html',
