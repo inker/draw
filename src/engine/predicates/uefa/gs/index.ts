@@ -36,7 +36,7 @@ function getIsMaxTwoColdTeams(season: number, groupSize: number) {
   const isColdNumber = (team: Team) =>
     isCold(team) ? 1 : 0
 
-  return (group: Team[]) =>
+  return (group: readonly Team[]) =>
     sumBy(group, isColdNumber) <= nonHomeTeamsPerMatchday
 }
 
