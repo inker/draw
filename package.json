@@ -28,7 +28,7 @@
     "lint:css": "stylelint './src/**/*.{ts,tsx}'",
     "lint": "run-p -c \"lint:css -- {1}\" \"lint:js -- {1}\" --",
     "build": "webpack --colors --config webpack/webpack.config.js",
-    "start": "webpack-dev-server --colors --watch --env.dev --config webpack/webpack.config.js",
+    "start": "webpack serve --watch --env dev --config webpack/webpack.config.js",
     "test": "echo \"No test\""
   },
   "dependencies": {
@@ -90,7 +90,7 @@
     "typescript-plugin-styled-components": "^1.4.4",
     "webpack": "^5.10.1",
     "webpack-bundle-analyzer": "^4.2.0",
-    "webpack-cli": "^3.3.12",
+    "webpack-cli": "^4.2.0",
     "webpack-dev-server": "^3.11.0",
     "worker-loader": "^3.0.6"
   }
