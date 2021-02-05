@@ -21,7 +21,7 @@ jobs:
       - name: Install dependencies
         run: npm ci
       - name: Build
-        run: npm run build -- --env.out=$GH_PAGES_DIR
+        run: npm run build -- --env out=$GH_PAGES_DIR
       - name: Deploy
         uses: JamesIves/github-pages-deploy-action@releases/v3
         with:
