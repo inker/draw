@@ -1,4 +1,4 @@
-import React, {
+import {
   useContext,
   memo,
 } from 'react'

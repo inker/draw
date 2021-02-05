@@ -12,7 +12,7 @@
     "alwaysStrict": true,
     "strictBindCallApply": true,
     "experimentalDecorators": true,
-    "jsx": "react",
+    "jsx": "react-jsx",
     "strictNullChecks": true,
     "noImplicitThis": true,
     "noUnusedLocals": true,

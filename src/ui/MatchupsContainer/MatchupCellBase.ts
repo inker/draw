@@ -24,7 +24,6 @@ const Picked = css`
   animation: ${props => props.theme.isDarkMode ? AppearDark : AppearLight} 3s ease-out normal forwards;
 `
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 interface Props {
   picked: boolean,
   styles?: FlattenInterpolation<any>,
@@ -32,8 +31,8 @@ interface Props {
 
 const MatchupCellBase = styled(Cell)<Props>`
   width: 150px;
-  ${props => props.picked && Picked};
-  ${props => props.styles};
+  ${props => props.picked && Picked}
+  ${props => props.styles}
 `
 
 export default MatchupCellBase

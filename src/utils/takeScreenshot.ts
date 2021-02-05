@@ -1,10 +1,11 @@
 import domToImage from 'dom-to-image'
 import { saveAs } from 'file-saver'
-import { format } from 'date-fns/fp'
+import { format } from 'date-fns'
 
 type ImageFormat = 'png' | 'svg'
 
-const formatDate = format('yyyyMMddHHmmssSSS')
+const formatDate = (date: Date) =>
+  format(date, 'yyyyMMddHHmmssSSS')
 
 function elToPng(el: HTMLElement, imageFormat: ImageFormat) {
   const scale = imageFormat === 'svg'

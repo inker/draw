@@ -1,4 +1,4 @@
-import React, {
+import {
   useState,
   useEffect,
   memo,
@@ -24,7 +24,7 @@ const Dots = ({
   const [numVisible, setNumVisible] = useState(initialNum)
 
   useEffect(() => {
-    let timer: number
+    let timer: ReturnType<typeof setTimeout>
     const cb = () => {
       timer = setTimeout(() => {
         setNumVisible(state => (state + 1) % (maxNum + 1))

@@ -56,6 +56,7 @@ module.exports = {
     }],
 
     'react/prop-types': 0,
+    'react/react-in-jsx-scope': 0,
     'react/require-default-props': 0,
     'react/jsx-one-expression-per-line': 0,
     'react/jsx-props-no-spreading': 0,
@@ -81,6 +82,7 @@ module.exports = {
       }
     }],
     '@typescript-eslint/no-explicit-any': 0,
+    '@typescript-eslint/no-extra-parens': 0,
     '@typescript-eslint/no-non-null-assertion': 0,
     '@typescript-eslint/no-unused-vars': [2, {
       vars: 'all',

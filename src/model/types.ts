@@ -12,7 +12,7 @@ export type UefaCountry = Extract<Entry<Countries>, [Country, { confederation: '
 
 export type Confederation = Countries[Country]['confederation']
 
-// eslint-disable-next-line max-len, @typescript-eslint/no-unused-vars
+// eslint-disable-next-line max-len
 type Grow<T, A extends T[]> = ((x: T, ...xs: A) => void) extends ((...a: infer X) => void) ? X : never
 
 type GrowToSize<T, A extends T[], N extends number> = {

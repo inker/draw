@@ -1,6 +1,5 @@
 import styled, { css } from 'styled-components'
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 interface Props {
   limitWidth: boolean,
 }
@@ -16,7 +15,7 @@ const Root = styled.div<Props>`
     flex-basis: 22%;
     ${props => props.limitWidth && css`
       max-width: 160px;
-    `};
+    `}
 
     @media (max-width: 999px) {
       max-width: initial;

@@ -6,6 +6,7 @@ export default class GsTeam extends Club {
   readonly coefficient: number
   pairing?: GsTeam
 
+  // eslint-disable-next-line max-params
   constructor(
     name: string,
     country: UefaCountry,

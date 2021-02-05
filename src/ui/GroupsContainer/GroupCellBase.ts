@@ -44,7 +44,6 @@ const Picked = css`
   animation: ${props => props.theme.isDarkMode ? AppearDark : AppearLight} 3s ease-out normal forwards;
 `
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 interface Props {
   possible: boolean,
   picked: boolean,

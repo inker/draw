@@ -2,7 +2,6 @@ import { createGlobalStyle } from 'styled-components'
 
 import type { ThemeInterface } from './themes'
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 interface Props {
   theme: ThemeInterface,
 }

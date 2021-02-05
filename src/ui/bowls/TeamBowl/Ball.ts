@@ -2,7 +2,6 @@ import styled, { css } from 'styled-components'
 
 import BowlBall from '../BowlBall'
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 interface Props {
   notSelected?: boolean,
 }
@@ -20,7 +19,7 @@ const TeamBall = styled(BowlBall)<Props>`
   &:hover {
     ${props => !props.noHover && css`
       background: radial-gradient(#ccf, #ccf);
-    `};
+    `}
   }
 `
 
