@@ -31,7 +31,7 @@ module.exports = (env) => {
     },
     output: {
       path: distDir,
-      filename: isDev ? '[name].js' : '[name].[chunkhash].js',
+      filename: isDev ? '[name].js' : '[name].[contenthash].js',
       sourceMapFilename: '[file].map',
       globalObject: isDev ? 'this' : undefined, // TODO
     },
