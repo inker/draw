@@ -6,7 +6,7 @@ module.exports = (isDev) => ({
     new TerserPlugin(),
   ],
 
-  runtimeChunk: true,
+  runtimeChunk: 'single',
   splitChunks: {
     chunks: 'all',
     cacheGroups: {
