@@ -89,7 +89,6 @@
     "webpack": "^5.46.0",
     "webpack-bundle-analyzer": "^4.4.2",
     "webpack-cli": "^4.7.2",
-    "webpack-dev-server": "^3.11.2",
-    "worker-loader": "^3.0.8"
+    "webpack-dev-server": "^3.11.2"
   }
 }

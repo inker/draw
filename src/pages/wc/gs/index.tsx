@@ -32,8 +32,8 @@ import BowlsContainer from 'ui/BowlsContainer'
 import TeamBowl from 'ui/bowls/TeamBowl'
 import Announcement from 'ui/Announcement'
 
-// @ts-ignore
-import EsWorker from './worker'
+const getEsWorker = () =>
+  new Worker(new URL('./worker', import.meta.url))
 
 const getGroupHeaderStyles = constant(css`
   background-color: ${props => props.theme.isDarkMode ? '#363' : '#c0e0c0'};
@@ -100,7 +100,7 @@ const WCGS = ({
 
   const [, setPopup] = usePopup()
   const [isXRay] = useXRay()
-  const workerSendAndReceive = useWorkerReqResp<WorkerRequest, WorkerResponse>(EsWorker)
+  const workerSendAndReceive = useWorkerReqResp<WorkerRequest, WorkerResponse>(getEsWorker)
 
   const groupsContanerRef = useRef<HTMLElement>(null)
 

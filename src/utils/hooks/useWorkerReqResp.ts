@@ -6,14 +6,10 @@ import {
 
 import WorkerRequestResponse from 'utils/WorkerRequestResponse'
 
-interface ConstructibleWorker extends Worker {
-  new(): this,
-}
-
-export default <Request, Response>(WorkerClass: ConstructibleWorker) => {
+export default <Request, Response>(getWorker: () => Worker) => {
   const workerReqResp = useMemo(
-    () => new WorkerRequestResponse<Request, Response>(new WorkerClass()),
-    [WorkerClass],
+    () => new WorkerRequestResponse<Request, Response>(getWorker()),
+    [getWorker],
   )
 
   // eslint-disable-next-line arrow-body-style

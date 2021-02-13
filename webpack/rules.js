@@ -23,16 +23,6 @@ const tsOptions = (isDev) => isDev ? {
 
 module.exports = (isDev) => compact([
   {
-    test: /worker\.[jt]s/,
-    use: {
-      loader: 'worker-loader',
-      options: {
-        // TODO: Multiple assets emit different content to the same filename
-        filename: 'workers/[name].[contenthash].js',
-      },
-    },
-  },
-  {
     test: /\.tsx?$/,
     use: {
       loader: 'ts-loader',

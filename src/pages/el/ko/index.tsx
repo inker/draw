@@ -33,8 +33,8 @@ import TeamBowl from 'ui/bowls/TeamBowl'
 import Separator from 'ui/Separator'
 import Announcement from 'ui/Announcement'
 
-// @ts-ignore
-import EsWorker from './worker'
+const getEsWorker = () =>
+  new Worker(new URL('./worker', import.meta.url))
 
 interface WorkerRequest {
   season: number,
@@ -93,7 +93,7 @@ const ELKO = ({
   const isTallScreen = useMedia('(min-height: 750px)')
   const [, setPopup] = usePopup()
   const [isXRay] = useXRay()
-  const workerSendAndReceive = useWorkerReqResp<WorkerRequest, WorkerResponse>(EsWorker)
+  const workerSendAndReceive = useWorkerReqResp<WorkerRequest, WorkerResponse>(getEsWorker)
 
   const groupsContanerRef = useRef<HTMLElement>(null)
 
