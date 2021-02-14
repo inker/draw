@@ -5,6 +5,7 @@ import {
 } from 'react'
 import styled, { ThemeProvider } from 'styled-components'
 import { HashRouter } from 'react-router-dom'
+import { constant } from 'lodash'
 
 import usePopup from 'store/usePopup'
 import useIsDarkMode from 'utils/hooks/useIsDarkMode'
@@ -13,11 +14,8 @@ import * as themes from './themes'
 import Body from './Body'
 import Popup from './Popup'
 
-const routesPromise = import(/* webpackPreload: true, webpackChunkName: "routes" */ './routes')
-const versionPromise = import(/* webpackPreload: true, webpackChunkName: "version" */ './Version')
-
-const Routes = lazy(() => routesPromise)
-const Version = lazy(() => versionPromise)
+const Routes = lazy(constant(import(/* webpackPreload: true, webpackChunkName: "routes" */ './routes')))
+const Version = lazy(constant(import(/* webpackPreload: true, webpackChunkName: "version" */ './Version')))
 
 const Root = styled.div`
   & * {
