@@ -13,7 +13,7 @@ const getCountryFlagUrl = (country: Country) => {
   const req = country === 'Belarus'
     ? requireAltFlag
     : requireFlag
-  return req(`./${countries[country].flag}.svg`).default as string
+  return req(`./${countries[country].flag}.svg`) as string
 }
 
 export default memoize(getCountryFlagUrl)

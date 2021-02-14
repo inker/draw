@@ -47,16 +47,13 @@ module.exports = (isDev) => compact([
   },
   {
     test: /\.(png|jpe?g|gif|svg)$/,
-    use: {
-      loader: 'file-loader',
-      options: {
-        name: '[name].[hash:7].[ext]',
-        outputPath: 'images',
-      },
+    type: 'asset/resource',
+    generator: {
+      filename: 'images/[name].[contenthash:7][ext]',
     },
   },
   {
     test: /\.txt$/,
-    use: 'raw-loader',
+    type: 'asset/source',
   },
 ])
