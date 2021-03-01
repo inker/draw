@@ -26,15 +26,15 @@ interface Props {
 const Matchup = ({
   teams,
 }: Props) => {
-  const [ru, gw] = teams ?? []!
+  const [ru, gw] = teams ?? []
 
   return (
     <Row>
-      <MatchupCellDeferred team={ru} />
+      <MatchupCellDeferred team={ru!} />
       <Cell>
         <VersusCell />
       </Cell>
-      <MatchupCellDeferred team={gw} />
+      <MatchupCellDeferred team={gw!} />
     </Row>
   )
 }
