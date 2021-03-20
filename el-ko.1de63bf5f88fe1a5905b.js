@@ -30,4 +30,4 @@
   margin-top: 10px;
   margin-bottom: 5px;
   user-select: none;
-`},35416:(e,s,t)=>{"use strict";function o(){return new Worker(t.p+"worker.bfa963f04d429f354082.worker.js")}t.r(s),t.d(s,{default:()=>o})}}]);
+`},35416:(e,s,t)=>{"use strict";function o(){return new Worker(t.p+"worker.73778dc1fca4e2093786.worker.js")}t.r(s),t.d(s,{default:()=>o})}}]);
