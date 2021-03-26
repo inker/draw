@@ -26,7 +26,7 @@ module.exports = (isDev) => compact([
     use: {
       loader: 'worker-loader',
       options: {
-        filename: '[name].[contenthash].worker.js',
+        filename: 'workers/[name].[contenthash].js',
       },
     },
   },
@@ -49,11 +49,14 @@ module.exports = (isDev) => compact([
     test: /\.(png|jpe?g|gif|svg)$/,
     type: 'asset/resource',
     generator: {
-      filename: 'images/[name].[contenthash:7][ext]',
+      filename: 'images/[name].[contenthash][ext]',
     },
   },
   {
     test: /\.txt$/,
     type: 'asset/source',
+    generator: {
+      filename: 'data/[name].[contenthash][ext]',
+    },
   },
 ])
