@@ -41,4 +41,4 @@
     flex: 1;
     flex-basis: 22%;
   }
-`,N=(0,r.forwardRef)((({maxTeams:e,currentPotNum:o,groups:s,possibleGroups:r,getGroupHeaderStyles:n},l)=>(0,t.jsx)(y,Object.assign({ref:l},{children:null==s?void 0:s.map(((s,l)=>{const a=(0,i.Z)(l),u=null==n?void 0:n(l);return(0,t.jsx)(T,{maxTeams:e,groupLetter:a,teams:s,potNum:o,possible:!!(null==r?void 0:r.includes(l)),headerStyles:u},a)}))}),void 0))),E=(0,r.memo)(N)},69170:(e,o,s)=>{"use strict";function t(){return new Worker(s.p+"worker.925345f6f3636af7c623.worker.js")}s.r(o),s.d(o,{default:()=>t})}}]);
+`,N=(0,r.forwardRef)((({maxTeams:e,currentPotNum:o,groups:s,possibleGroups:r,getGroupHeaderStyles:n},l)=>(0,t.jsx)(y,Object.assign({ref:l},{children:null==s?void 0:s.map(((s,l)=>{const a=(0,i.Z)(l),u=null==n?void 0:n(l);return(0,t.jsx)(T,{maxTeams:e,groupLetter:a,teams:s,potNum:o,possible:!!(null==r?void 0:r.includes(l)),headerStyles:u},a)}))}),void 0))),E=(0,r.memo)(N)},69170:(e,o,s)=>{"use strict";function t(){return new Worker(s.p+"workers/worker.925345f6f3636af7c623.js")}s.r(o),s.d(o,{default:()=>t})}}]);
