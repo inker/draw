@@ -30,6 +30,7 @@ module.exports = (env) => {
       app: './src/index.tsx',
     },
     output: {
+      clean: true,
       path: distDir,
       filename: isDev ? '[name].js' : '[name].[contenthash].js',
       sourceMapFilename: '[file].map',
