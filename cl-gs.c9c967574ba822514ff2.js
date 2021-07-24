@@ -14,7 +14,7 @@
   background-color: ${e=>e.theme.isDarkMode?"#933":"#ffc0c0"};
 `,T=l.iv`
   background-color: ${e=>e.theme.isDarkMode?"#039":"#c0e0ff"};
-`;function S(e){const o=e.map((e=>u(e)));return{currentPotNum:0,selectedTeam:null,pickedGroup:null,hungPot:o[0],possibleGroups:null,possibleGroupsShuffled:null,pots:o,groups:e[0].map((()=>[]))}}const C=(0,t.memo)((({season:e,pots:o})=>{const[s,l]=(0,c.Z)(),[k,j]=(0,d.Z)(),[{currentPotNum:Z,selectedTeam:G,pickedGroup:C,hungPot:E,possibleGroups:$,possibleGroupsShuffled:D,pots:F,groups:M},O]=(0,t.useState)((()=>S(o)));(0,t.useEffect)((()=>{O(S(o))}),[o,s]);const[,H]=(0,a.Z)(),[R]=(0,p.Z)(),A=(0,m.Z)(y.default),L=(0,t.useRef)(null),I=(0,t.useCallback)((e=>{if(G)return;const o=F[Z][e];if(!o)return;const s=F.slice();s[Z]=s[Z].filter(((o,s)=>s!==e)),O({currentPotNum:Z,hungPot:E,selectedTeam:o,possibleGroups:$,possibleGroupsShuffled:D,pickedGroup:null,pots:s,groups:M})}),[F,M,Z,E,G,$,D]),V=(0,t.useCallback)((e=>{if(!G)return void H({error:"No selected team..."});const o=M.slice();o[e]=[...o[e],G];const s=F[Z].length>0?Z:Z+1;O({selectedTeam:null,pickedGroup:e,hungPot:F[s],possibleGroups:null,possibleGroupsShuffled:null,currentPotNum:s,pots:F,groups:o})}),[F,M,G,Z,E]);(0,t.useEffect)((()=>{G&&(async()=>{if(!G)throw new Error("no selected team");let o;try{o=(await A({season:e,pots:F,groups:M,selectedTeam:G})).possibleGroups}catch(e){return console.error(e),void H({error:"Could not determine the group"})}O({selectedTeam:G,pickedGroup:null,hungPot:E,currentPotNum:Z,possibleGroups:o,possibleGroupsShuffled:u(o),pots:F,groups:M})})()}),[G]);const W=Z>=F.length;(0,t.useEffect)((()=>{const e=null==E?void 0:E.length;if(k&&e){const o=i(e-1);I(o)}}),[k,E]),(0,t.useEffect)((()=>{if(k&&(null==D?void 0:D.length)){const e=n(D);V(e)}}),[k,D]),(0,t.useEffect)((()=>{W&&k&&j(!1)}),[W,k]);const q=M.length,z=(0,t.useCallback)((e=>e<q>>1?N:T),[q]);return(0,r.jsxs)(f.Z,{children:[(0,r.jsxs)(g.Z,{children:[(0,r.jsx)(b.Z,{selectedTeams:G&&[G],initialPots:o,pots:F,currentPotNum:Z},void 0),(0,r.jsx)(h.Z,{ref:L,maxTeams:F.length,currentPotNum:Z,groups:M,possibleGroups:k?null:$,getGroupHeaderStyles:z},void 0)]},void 0),(0,r.jsxs)(v.Z,{children:[!k&&(0,r.jsx)(x.Z,{display:!W,displayTeams:R,selectedTeam:G,pot:E,onPick:I},void 0),(0,r.jsx)(P.Z,{long:!1,completed:W,selectedTeam:G,pickedGroup:C,possibleGroups:$,isDisplayPossibleGroupsText:!!G,numGroups:q,groupsElement:L,reset:l},void 0),!k&&(0,r.jsx)(w,{display:!W,displayGroups:R,possibleGroups:D,onPick:V},void 0)]},void 0)]},void 0)}))},55602:(e,o,s)=>{"use strict";s.d(o,{Z:()=>S});var r=s(85893),t=s(67294),l=s(29163),i=s(80737),n=s(96026),u=s(42048),a=s(13963),c=s(68398),d=s(24729),p=s(72935),m=s(86893),f=s(64982),b=s(930),h=s(93749),g=s(19992);const v=l.F4`
+`;function S(e){const o=e.map((e=>u(e)));return{currentPotNum:0,selectedTeam:null,pickedGroup:null,hungPot:o[0],possibleGroups:null,possibleGroupsShuffled:null,pots:o,groups:e[0].map((()=>[]))}}const C=(0,t.memo)((({season:e,pots:o})=>{const[s,l]=(0,c.Z)(),[k,j]=(0,d.Z)(),[{currentPotNum:Z,selectedTeam:G,pickedGroup:C,hungPot:$,possibleGroups:E,possibleGroupsShuffled:D,pots:M,groups:F},O]=(0,t.useState)((()=>S(o)));(0,t.useEffect)((()=>{O(S(o))}),[o,s]);const[,H]=(0,a.Z)(),[R]=(0,p.Z)(),A=(0,m.Z)(y.default),L=(0,t.useRef)(null),I=(0,t.useCallback)((e=>{if(G)return;const o=M[Z][e];if(!o)return;const s=M.slice();s[Z]=s[Z].filter(((o,s)=>s!==e)),O({currentPotNum:Z,hungPot:$,selectedTeam:o,possibleGroups:E,possibleGroupsShuffled:D,pickedGroup:null,pots:s,groups:F})}),[M,F,Z,$,G,E,D]),V=(0,t.useCallback)((e=>{if(!G)return void H({error:"No selected team..."});const o=F.slice();o[e]=[...o[e],G];const s=M[Z].length>0?Z:Z+1;O({selectedTeam:null,pickedGroup:e,hungPot:M[s],possibleGroups:null,possibleGroupsShuffled:null,currentPotNum:s,pots:M,groups:o})}),[M,F,G,Z,$]);(0,t.useEffect)((()=>{G&&(async()=>{if(!G)throw new Error("no selected team");let o;try{o=(await A({season:e,pots:M,groups:F,selectedTeam:G})).possibleGroups}catch(e){return console.error(e),void H({error:"Could not determine the group"})}O({selectedTeam:G,pickedGroup:null,hungPot:$,currentPotNum:Z,possibleGroups:o,possibleGroupsShuffled:u(o),pots:M,groups:F})})()}),[G]);const W=Z>=M.length;(0,t.useEffect)((()=>{const e=null==$?void 0:$.length;if(k&&e){const o=i(e-1);I(o)}}),[k,$]),(0,t.useEffect)((()=>{if(k&&(null==D?void 0:D.length)){const e=n(D);V(e)}}),[k,D]),(0,t.useEffect)((()=>{W&&k&&j(!1)}),[W,k]);const q=F.length,z=(0,t.useCallback)((e=>e<q>>1?N:T),[q]);return(0,r.jsxs)(f.Z,{children:[(0,r.jsxs)(g.Z,{children:[(0,r.jsx)(b.Z,{selectedTeams:G&&[G],initialPots:o,pots:M,currentPotNum:Z},void 0),(0,r.jsx)(h.Z,{ref:L,maxTeams:M.length,currentPotNum:Z,groups:F,possibleGroups:k?null:E,getGroupHeaderStyles:z},void 0)]},void 0),(0,r.jsxs)(v.Z,{children:[!k&&(0,r.jsx)(x.Z,{display:!W,displayTeams:R,selectedTeam:G,pot:$,onPick:I},void 0),(0,r.jsx)(P.Z,{long:!1,completed:W,selectedTeam:G,pickedGroup:C,possibleGroups:E,isDisplayPossibleGroupsText:!!G,numGroups:q,groupsElement:L,reset:l},void 0),!k&&(0,r.jsx)(w,{display:!W,displayGroups:R,possibleGroups:D,onPick:V},void 0)]},void 0)]},void 0)}))},55602:(e,o,s)=>{"use strict";s.d(o,{Z:()=>S});var r=s(85893),t=s(67294),l=s(29163),i=s(80737),n=s(96026),u=s(42048),a=s(13963),c=s(68398),d=s(24729),p=s(72935),m=s(86893),f=s(64982),b=s(930),h=s(93749),g=s(19992);const v=l.F4`
   from {
     box-shadow: 0 0 20px #08f;
   }
@@ -36,12 +36,25 @@
   to {}
 `,Z=l.iv`
   position: relative; /* enables glow */
-  animation: ${e=>e.theme.isDarkMode?x:v} 1s ease;
   ${e=>e.theme.isDarkMode?l.iv`
     background-color: rgba(255, 255, 255, 0.3);
   `:l.iv`
     box-shadow: 0 0 5px #6af;
   `}
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    animation: ${e=>e.theme.isDarkMode?x:v} 1s ease;
+    ${e=>e.theme.isDarkMode?l.iv`
+      background-color: rgba(255, 255, 255, 0.3);
+    `:l.iv`
+      box-shadow: 0 0 5px #6af;
+    `}
+  }
 `,G=l.iv`
   animation: ${e=>e.theme.isDarkMode?j:k} 3s ease-out normal forwards;
 `,w=(0,l.ZP)(d.Z)`
