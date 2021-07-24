@@ -1,12 +1,17 @@
 const TerserPlugin = require('terser-webpack-plugin')
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin')
 
 module.exports = (isDev) => ({
   minimize: true,
+
   minimizer: isDev ? undefined : [
     new TerserPlugin(),
+
+    new CssMinimizerPlugin(),
   ],
 
   runtimeChunk: 'single',
+
   splitChunks: {
     chunks: 'all',
     cacheGroups: {
@@ -24,10 +29,18 @@ module.exports = (isDev) => ({
         enforce: true,
         reuseExistingChunk: true,
       },
-      moment: {
-        test: /[/\\]moment(-timezone)?[/\\]/,
+      lodash: {
+        test: /[/\\]lodash[/\\]/,
         chunks: 'initial',
-        name: 'moment',
+        name: 'lodash',
+        priority: -5000,
+        enforce: true,
+        reuseExistingChunk: true,
+      },
+      normalize: {
+        test: /[/\\]normalize.css[/\\]/,
+        chunks: 'initial',
+        name: 'normalize',
         enforce: true,
         reuseExistingChunk: true,
       },
