@@ -4,7 +4,7 @@ import type Tournament from 'model/Tournament'
 
 export default async (season: number, tournament: Tournament): Promise<[string, string][]> => {
   try {
-    const pairings = await import(/* webpackChunkName: "[request]" */ `data/${tournament}/gs/${season}/pairings.txt`)
+    const pairings = await import(/* webpackChunkName: "pairings/[request]" */ `data/${tournament}/gs/${season}/pairings.txt`)
     return (pairings.default as string)
       .trim()
       .split('\n\n')
