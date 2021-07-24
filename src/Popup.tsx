@@ -10,17 +10,27 @@ import Dots from 'ui/Dots'
 const Popup = () => {
   const [popup] = usePopup()
 
+  const {
+    initial,
+    error,
+    waiting,
+  } = popup
+
   const WrappedPopup = useCallback((props) => (
     <Notification
       {...props}
-      noAnimation={popup.initial}
+      noAnimation={initial}
     />
-  ), [popup.initial])
+  ), [initial])
 
-  const { error, waiting } = popup
   if (error) {
-    return <WrappedPopup>{error}</WrappedPopup>
+    return (
+      <WrappedPopup>
+        {error}
+      </WrappedPopup>
+    )
   }
+
   if (waiting) {
     return (
       <WrappedPopup>
