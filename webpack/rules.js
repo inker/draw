@@ -1,3 +1,4 @@
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const { createLodashTransformer } = require('typescript-plugin-lodash')
 const createStyledComponentsTransformer = require('typescript-plugin-styled-components').default
 const { compact } = require('lodash')
@@ -41,7 +42,7 @@ module.exports = (isDev) => compact([
   {
     test: /\.css$/,
     use: [
-      'style-loader',
+      isDev ? 'style-loader' : MiniCssExtractPlugin.loader,
       'css-loader',
     ],
   },

@@ -1,6 +1,7 @@
 const webpack = require('webpack')
 
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer')
 
 const { compact } = require('lodash')
@@ -21,6 +22,10 @@ module.exports = (isDev) => compact([
   }),
 
   isDev && new webpack.HotModuleReplacementPlugin(),
+
+  !isDev && new MiniCssExtractPlugin({
+    filename: '[name].[contenthash].css',
+  }),
 
   new HtmlWebpackPlugin({
     filename: 'index.html',
