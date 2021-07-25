@@ -27,6 +27,7 @@ module.exports = (isDev) => compact([
     use: {
       loader: 'worker-loader',
       options: {
+        // TODO: Multiple assets emit different content to the same filename
         filename: 'workers/[name].[contenthash].js',
       },
     },
@@ -50,14 +51,14 @@ module.exports = (isDev) => compact([
     test: /\.(png|jpe?g|gif|svg)$/,
     type: 'asset/resource',
     generator: {
-      filename: 'images/[name].[contenthash][ext]',
+      filename: `images/[name]${isDev ? '' : '.[contenthash]'}[ext]`,
     },
   },
   {
     test: /\.txt$/,
     type: 'asset/source',
     generator: {
-      filename: 'data/[name].[contenthash][ext]',
+      filename: `data/[name]${isDev ? '' : '.[contenthash]'}[ext]`,
     },
   },
 ])
