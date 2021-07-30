@@ -46,7 +46,7 @@ function useSeasonTournamentStage() {
   const {
     tournament,
     stage,
-  } = params as unknown as Path
+  } = params as Path
 
   const season = params
     ? +(params['*'] || currentSeasonByTournament(tournament || null, stage || null))
