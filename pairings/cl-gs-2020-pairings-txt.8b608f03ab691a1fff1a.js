@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkdraw=self.webpackChunkdraw||[]).push([[7941],{14653:n=>{n.exports="Real Madrid\nBarcelona\n\nSevilla\nAtlético\n\nLiverpool\nMan United\n\nMan City\nChelsea\n\nBayern\nDortmund\n\nLeipzig\nMönchengladbach\n\nJuventus\nInternazionale\n\nLazio\nAtalanta\n\nParis\nMarseille\n"}}]);
