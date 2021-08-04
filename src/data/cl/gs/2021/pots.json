@@ -69,15 +69,15 @@
       "coefficient": 120
     },
     {
-      "name": "Paris",
-      "country": "France",
-      "bertName": "Paris Saint-Germain",
-      "coefficient": 113
-    },
-    {
       "name": "Man United",
       "country": "England",
       "bertName": "Manchester United",
+      "coefficient": 113
+    },
+    {
+      "name": "Paris",
+      "country": "France",
+      "bertName": "Paris Saint-Germain",
       "coefficient": 113
     },
     {
