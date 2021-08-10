@@ -169,28 +169,28 @@
       "coefficient": 44.5
     },
     {
-      "name": "Slavia",
-      "country": "Czechia",
-      "bertName": "Slavia Praha",
-      "coefficient": 43.5
-    },
-    {
-      "name": "Olympiacos",
-      "country": "Greece",
-      "bertName": "Olympiakos Piraeus",
-      "coefficient": 43
-    },
-    {
       "name": "Club Brugge",
       "country": "Belgium",
       "bertName": "Club Brugge",
       "coefficient": 35.5
     },
     {
+      "name": "Young Boys",
+      "country": "Switzerland",
+      "bertName": "Young Boys",
+      "coefficient": 35
+    },
+    {
       "name": "Milan",
       "country": "Italy",
       "bertName": "AC Milan",
       "coefficient": 31
+    },
+    {
+      "name": "Ludogorets",
+      "country": "Bulgaria",
+      "bertName": "Ludogorets Razgrad",
+      "coefficient": 28
     },
     {
       "name": "Wolfsburg",
