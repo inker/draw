@@ -10,7 +10,7 @@ export default {
         ko: 2020,
       },
       el: {
-        gs: 2020,
+        gs: 2021,
         ko: 2020,
       },
     },
