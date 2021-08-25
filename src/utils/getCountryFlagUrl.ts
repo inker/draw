@@ -11,6 +11,7 @@ const requireAltFlag = require.context('assets/altFlags/', false, /\.svg$/)
 
 const flags = {
   Belarus: requireAltFlag('./bcb.svg'),
+  Moldova: requireAltFlag('./mda.svg'),
 } as const
 
 const getCountryFlagUrl = (country: Country) =>
