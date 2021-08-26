@@ -33,8 +33,11 @@ import TeamBowl from 'ui/bowls/TeamBowl'
 import GroupBowl from 'ui/bowls/GroupBowl'
 import Announcement from 'ui/Announcement'
 
-const getEsWorker = () =>
-  new Worker(new URL('./worker', import.meta.url))
+const getAllPossibleGroupsWorker = () =>
+  new Worker(new URL('./allPossibleGroupsWorker', import.meta.url))
+
+const getFirstPossibleGroupWorker = () =>
+  new Worker(new URL('./firstPossibleGroupWorker', import.meta.url))
 
 const redGroup = css`
   background-color: ${props => props.theme.isDarkMode ? '#933' : '#ffc0c0'};
@@ -51,7 +54,11 @@ interface WorkerRequest {
   selectedTeam: Team,
 }
 
-interface WorkerResponse {
+interface FirstPossibleGroupWorkerResponse {
+  pickedGroup: number,
+}
+
+interface AllPossibleGroupsWorkerResponse {
   possibleGroups: number[],
 }
 
@@ -113,7 +120,10 @@ const CLGS = ({
 
   const [, setPopup] = usePopup()
   const [isXRay] = useXRay()
-  const workerSendAndReceive = useWorkerReqResp<WorkerRequest, WorkerResponse>(getEsWorker)
+  // eslint-disable-next-line max-len
+  const getFirstPossibleGroupResponse = useWorkerReqResp<WorkerRequest, FirstPossibleGroupWorkerResponse>(getFirstPossibleGroupWorker)
+  // eslint-disable-next-line max-len
+  const getAllPossibleGroupsResponse = useWorkerReqResp<WorkerRequest, AllPossibleGroupsWorkerResponse>(getAllPossibleGroupsWorker)
 
   const groupsContanerRef = useRef<HTMLElement>(null)
 
@@ -127,13 +137,23 @@ const CLGS = ({
 
     let newPossibleGroups: number[] | undefined
     try {
-      const response = await workerSendAndReceive({
-        season,
-        pots,
-        groups,
-        selectedTeam,
-      })
-      newPossibleGroups = response.possibleGroups
+      if (isDrawShort) {
+        const response = await getFirstPossibleGroupResponse({
+          season,
+          pots,
+          groups,
+          selectedTeam,
+        })
+        newPossibleGroups = [response.pickedGroup]
+      } else {
+        const response = await getAllPossibleGroupsResponse({
+          season,
+          pots,
+          groups,
+          selectedTeam,
+        })
+        newPossibleGroups = response.possibleGroups
+      }
     } catch (err) {
       console.error(err)
       setPopup({
