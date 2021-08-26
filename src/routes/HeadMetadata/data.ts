@@ -13,6 +13,12 @@ const data = {
     themeColor: '#f68e00',
     description: 'Europa League draw simulator',
   },
+  ecl: {
+    title: 'ECL draw simulator',
+    favicon: '//img.uefa.com/imgml/uefacom/uecl/favicon.ico',
+    themeColor: '#1cbc28',
+    description: 'Europa Conference League draw simulator',
+  },
   wc: {
     title: 'FIFA World Cup draw simulator',
     favicon: '//img.fifa.com/image/upload/t_fe-auto/assets/img/icons/favicon.ico',

@@ -1,6 +1,7 @@
 const validTournaments = [
   'cl',
   'el',
+  'ecl',
   'wc',
 ] as const
 
