@@ -13,6 +13,10 @@ export default {
         gs: 2021,
         ko: 2020,
       },
+      ecl: {
+        gs: 2021,
+        ko: 2020,
+      },
     },
   },
 } as const

@@ -19,6 +19,7 @@ import seasonAsString from './seasonAsString'
 const minSeasons = {
   cl: 2000,
   el: 2009,
+  ecl: 2021,
   wc: 2018,
 }
 
@@ -61,6 +62,7 @@ const SelectSeason = ({
       >
         <option value="cl">Champions League</option>
         <option value="el">Europa League</option>
+        <option value="ecl">Europa Conference League</option>
         <option value="wc">World Cup</option>
       </Select>
       <Select

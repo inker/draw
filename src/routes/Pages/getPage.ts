@@ -11,7 +11,7 @@ export default async (tournament: Tournament, stage: Stage, season: number) => {
   }
 
   // TODO
-  const tournamentDir = tournament === 'el' && season >= 2021
+  const tournamentDir = (tournament === 'el' || tournament === 'ecl') && season >= 2021
     ? 'cl'
     : tournament
 
