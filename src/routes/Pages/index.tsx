@@ -126,6 +126,8 @@ const Pages = ({
     fetchData()
   }, [season, stage, tournament])
 
+  const isUefaClubTournament = tournament === 'cl' || tournament === 'el' || tournament === 'ecl'
+
   return pots && Page && (
     <Page
       key={drawId}
@@ -133,6 +135,7 @@ const Pages = ({
       stage={params.stage}
       season={season}
       pots={pots}
+      isFirstPotShortDraw={isUefaClubTournament && season >= 2021}
     />
   )
 }

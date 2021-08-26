@@ -58,6 +58,7 @@ interface WorkerResponse {
 interface Props {
   season: number,
   pots: readonly (readonly Team[])[],
+  isFirstPotShortDraw?: boolean,
 }
 
 interface State {
@@ -90,6 +91,7 @@ function getState(initialPots: readonly (readonly Team[])[]): State {
 const CLGS = ({
   season,
   pots: initialPots,
+  isFirstPotShortDraw,
 }: Props) => {
   const [drawId, setNewDrawId] = useDrawId()
   const [isFastDraw, setIsFastDraw] = useFastDraw()
@@ -114,6 +116,9 @@ const CLGS = ({
   const workerSendAndReceive = useWorkerReqResp<WorkerRequest, WorkerResponse>(getEsWorker)
 
   const groupsContanerRef = useRef<HTMLElement>(null)
+
+  const isDrawShort = isFirstPotShortDraw && currentPotNum === 0
+  const isNoGroupBallPick = isFastDraw || isDrawShort
 
   const onTeamSelected = async () => {
     if (!selectedTeam) {
@@ -221,11 +226,14 @@ const CLGS = ({
   }, [isFastDraw, hungPot])
 
   useEffect(() => {
-    if (isFastDraw && possibleGroupsShuffled?.length) {
-      const index = sample(possibleGroupsShuffled)!
+    if (isNoGroupBallPick && possibleGroupsShuffled?.length) {
+      const index = isDrawShort
+        ? Math.min(...possibleGroupsShuffled)
+        : sample(possibleGroupsShuffled)!
+
       onGroupBallPick(index)
     }
-  }, [isFastDraw, possibleGroupsShuffled])
+  }, [isNoGroupBallPick, possibleGroupsShuffled])
 
   useEffect(() => {
     if (completed && isFastDraw) {
@@ -254,7 +262,7 @@ const CLGS = ({
           maxTeams={pots.length}
           currentPotNum={currentPotNum}
           groups={groups}
-          possibleGroups={isFastDraw ? null : possibleGroups}
+          possibleGroups={isNoGroupBallPick ? null : possibleGroups}
           getGroupHeaderStyles={getGroupHeaderStyles}
         />
       </TablesContainer>
@@ -273,13 +281,13 @@ const CLGS = ({
           completed={completed}
           selectedTeam={selectedTeam}
           pickedGroup={pickedGroup}
-          possibleGroups={possibleGroups}
+          possibleGroups={isFastDraw ? null : possibleGroups}
           isDisplayPossibleGroupsText={!!selectedTeam}
           numGroups={numGroups}
           groupsElement={groupsContanerRef}
           reset={setNewDrawId}
         />
-        {!isFastDraw && (
+        {!isNoGroupBallPick && (
           <GroupBowl
             display={!completed}
             displayGroups={isXRay}
