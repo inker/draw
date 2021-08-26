@@ -31,12 +31,6 @@
       "coefficient": 44
     },
     {
-      "name": "Slavia",
-      "country": "Czechia",
-      "bertName": "Slavia Praha",
-      "coefficient": 43.5
-    },
-    {
       "name": "Olympiacos",
       "country": "Greece",
       "bertName": "Olympiakos Piraeus",
@@ -47,15 +41,15 @@
       "country": "France",
       "bertName": "AS Monaco",
       "coefficient": 36
-    }
-  ],
-  [
+    },
     {
       "name": "Braga",
       "country": "Portugal",
       "bertName": "Sporting Braga",
       "coefficient": 35
-    },
+    }
+  ],
+  [
     {
       "name": "Celtic",
       "country": "Scotland",
@@ -97,25 +91,25 @@
       "country": "Belgium",
       "bertName": "Racing Genk",
       "coefficient": 30
-    }
-  ],
-  [
+    },
     {
       "name": "PSV",
       "country": "Netherlands",
       "bertName": "PSV Eindhoven",
       "coefficient": 29
+    }
+  ],
+  [
+    {
+      "name": "Marseille",
+      "country": "France",
+      "bertName": "Olympique Marseille",
+      "coefficient": 28
     },
     {
       "name": "Ludogorets",
       "country": "Bulgaria",
       "bertName": "Ludogorets Razgrad",
-      "coefficient": 28
-    },
-    {
-      "name": "Marseille",
-      "country": "France",
-      "bertName": "Olympique Marseille",
       "coefficient": 28
     },
     {
@@ -147,15 +141,15 @@
       "country": "Russia",
       "bertName": "Spartak Moscow",
       "coefficient": 18.5
-    }
-  ],
-  [
+    },
     {
       "name": "Sparta",
       "country": "Czechia",
       "bertName": "Sparta Praha",
       "coefficient": 17.5
-    },
+    }
+  ],
+  [
     {
       "name": "Rapid Wien",
       "country": "Austria",
@@ -167,6 +161,12 @@
       "country": "Turkey",
       "bertName": "Galatasaray",
       "coefficient": 17
+    },
+    {
+      "name": "Legia",
+      "country": "Poland",
+      "bertName": "Legia Warsaw",
+      "coefficient": 16.5
     },
     {
       "name": "Midtjylland",
