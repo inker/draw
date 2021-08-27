@@ -22,7 +22,7 @@ const Roundel = styled.div<Props>`
   ${props => props.possible ? css`
     color: ${props.color};
   ` : css`
-    border-color: rgba(0,0,0,0);
+    border-color: rgba(0, 0, 0, 0);
     filter: opacity(0.25);
   `}
 `
