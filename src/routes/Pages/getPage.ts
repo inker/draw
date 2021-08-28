@@ -1,7 +1,7 @@
 import Tournament, { isValidTournament } from 'model/Tournament'
 import Stage, { isValidStage } from 'model/Stage'
 
-export default async (tournament: Tournament, stage: Stage, season: number) => {
+export default async (tournament: Tournament, stage: Stage) => {
   if (!isValidTournament(tournament)) {
     throw new Error(`Invalid tournament: ${tournament}`)
   }
@@ -10,12 +10,7 @@ export default async (tournament: Tournament, stage: Stage, season: number) => {
     throw new Error(`Invalid stage: ${stage}`)
   }
 
-  // TODO
-  const tournamentDir = (tournament === 'el' || tournament === 'ecl') && season >= 2021
-    ? 'cl'
-    : tournament
-
-  return import(/* webpackChunkName: "[request]" */ `pages/${tournamentDir}/${stage}`)
+  return import(/* webpackChunkName: "[request]" */ `pages/${tournament}/${stage}`)
     .then(mod => mod?.default)
     .catch(console.error)
 }

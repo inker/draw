@@ -76,7 +76,7 @@ const Pages = ({
         ? getWcPots(2018) // TODO
         : getPotsFromBert(tournament, stage, season)
 
-      const newPage = await getPage(tournament, stage, season)
+      const newPage = await getPage(tournament, stage)
 
       const newPots = await potsPromise
 
