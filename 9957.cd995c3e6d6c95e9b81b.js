@@ -2,7 +2,7 @@
   padding: initial;
   border: initial;
   background-color: initial;
-`;var c=r(32531);const l=(0,o.memo)((({children:e,delay:t})=>(e=>{const[t,r]=(0,o.useState)(!1);return(0,o.useEffect)((()=>{const t=setTimeout((()=>{r(!0)}),e);return()=>{clearTimeout(t)}}),[]),t})(t)?(0,n.jsx)(n.Fragment,{children:e},void 0):null));var u=r(788),p=r(96026);const m=i.ZP.div`
+`;var c=r(32531);const l=(0,o.memo)((({children:e,delay:t})=>{const r=(e=>{const[t,r]=(0,o.useState)(!1);return(0,o.useEffect)((()=>{const t=setTimeout((()=>{r(!0)}),e);return()=>{clearTimeout(t)}}),[]),t})(t);return r?(0,n.jsx)(n.Fragment,{children:e},void 0):null}));var u=r(788),p=r(96026);const m=i.ZP.div`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -37,7 +37,7 @@
     transition-property: none !important;
     animation: none !important;
   }
-`,y=r.e(2154).then(r.bind(r,48815)),j=()=>({downloadClicked:null,transitionsEnabled:!0}),Z=(0,o.memo)((({completed:e,groupsElement:t})=>{const[{downloadClicked:r,transitionsEnabled:i},s]=(0,o.useState)(j),a=(0,o.useCallback)((e=>{s({downloadClicked:e,transitionsEnabled:!1})}),[s]);(0,o.useEffect)((()=>{(async()=>{if(r){try{const e=t.current;if(!e)throw new Error("groups element is null");await b()(0);const n=await y;await n.default(e,r)}catch(e){console.error(e)}a(null)}})()}),[r]),(0,o.useEffect)((()=>{e||s({downloadClicked:null,transitionsEnabled:!0})}),[e]);const c=(0,o.useCallback)((()=>a("png")),[a]),l=(0,o.useCallback)((()=>a("svg")),[a]);return e&&t?(0,n.jsxs)("div",{children:[!i&&(0,n.jsx)(w,{},void 0),"Download as ",(0,n.jsx)(d,Object.assign({onClick:c},{children:"PNG"}),void 0),", ",(0,n.jsx)(d,Object.assign({onClick:l},{children:"SVG"}),void 0)]},void 0):null})),k=i.ZP.div`
+`,y=r.e(2154).then(r.bind(r,66925)),j=()=>({downloadClicked:null,transitionsEnabled:!0}),Z=(0,o.memo)((({completed:e,groupsElement:t})=>{const[{downloadClicked:r,transitionsEnabled:i},s]=(0,o.useState)(j),a=(0,o.useCallback)((e=>{s({downloadClicked:e,transitionsEnabled:!1})}),[s]);(0,o.useEffect)((()=>{(async()=>{if(r){try{const e=t.current;if(!e)throw new Error("groups element is null");await b()(0);const n=await y;await n.default(e,r)}catch(e){console.error(e)}a(null)}})()}),[r]),(0,o.useEffect)((()=>{e||s({downloadClicked:null,transitionsEnabled:!0})}),[e]);const c=(0,o.useCallback)((()=>a("png")),[a]),l=(0,o.useCallback)((()=>a("svg")),[a]);return e&&t?(0,n.jsxs)("div",{children:[!i&&(0,n.jsx)(w,{},void 0),"Download as ",(0,n.jsx)(d,Object.assign({onClick:c},{children:"PNG"}),void 0),", ",(0,n.jsx)(d,Object.assign({onClick:l},{children:"SVG"}),void 0)]},void 0):null})),k=i.ZP.div`
   width: 100%;
   font-size: 1.25em;
   line-height: 150%;
