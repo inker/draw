@@ -59,9 +59,14 @@ module.exports = (env) => {
     },
     plugins: plugins(isDev),
     devServer: {
-      contentBase: distDir,
+      static: {
+        directory: distDir,
+      },
       port: 9080,
       compress: !isDev,
+      devMiddleware: {
+        stats: 'errors-warnings',
+      },
       historyApiFallback: {
         rewrites: [
           {
@@ -70,6 +75,7 @@ module.exports = (env) => {
           },
         ],
       },
+      hot: isDev,
       open: true,
     },
   }

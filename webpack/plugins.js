@@ -21,8 +21,6 @@ module.exports = (isDev) => compact([
     __VERSION__: JSON.stringify(lastCommitHash),
   }),
 
-  isDev && new webpack.HotModuleReplacementPlugin(),
-
   !isDev && new MiniCssExtractPlugin({
     filename: '[name].[contenthash].css',
   }),
