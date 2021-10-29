@@ -56,7 +56,7 @@
     "unfocus": "^1.0.1"
   },
   "devDependencies": {
-    "@inker/eslint-config-typescript": "^10.1.0",
+    "@inker/eslint-config-typescript": "^10.2.0",
     "@types/dom-to-image": "^2.6.3",
     "@types/file-saver": "^2.0.3",
     "@types/lodash": "^4.14.176",
