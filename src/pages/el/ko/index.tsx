@@ -59,15 +59,16 @@ interface State {
   matchups: readonly [Team, Team][],
 }
 
-function getState(initialPots: readonly (readonly Team[])[]): State {
+function getState(initialPots: readonly (readonly Team[])[], season: number): State {
   const currentPotNum = 1
   const currentMatchupNum = 0
+  const numMatchups = season < 2021 ? 16 : 8
   return {
     currentMatchupNum,
     currentPotNum,
     possiblePairings: null,
     pots: initialPots.map(pot => shuffle(pot)),
-    matchups: range(16).map(() => [] as any),
+    matchups: range(numMatchups).map(() => [] as any),
   }
 }
 
@@ -84,11 +85,11 @@ const ELKO = ({
     possiblePairings,
     pots,
     matchups,
-  }, setState] = useState(() => getState(initialPots))
+  }, setState] = useState(() => getState(initialPots, season))
 
   useEffect(() => {
-    setState(getState(initialPots))
-  }, [initialPots, drawId])
+    setState(getState(initialPots, season))
+  }, [initialPots, season, drawId])
 
   const isTallScreen = useMedia('(min-height: 750px)')
   const [, setPopup] = usePopup()
@@ -192,7 +193,7 @@ const ELKO = ({
           initialPots={initialPots}
           pots={pots}
           currentPotNum={currentPotNum}
-          split={!isTallScreen}
+          split={!isTallScreen && season < 2021}
         />
         <MatchupsContainer
           ref={groupsContanerRef}
