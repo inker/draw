@@ -6,7 +6,7 @@ import { Country } from 'model/types'
 
 declare const require: any
 
-const requireFlag = require.context('flag-icon-css/flags/4x3/', false, /\.svg$/)
+const requireFlag = require.context('flag-icons/flags/4x3/', false, /\.svg$/)
 const requireAltFlag = require.context('assets/altFlags/', false, /\.svg$/)
 
 const flags = {
