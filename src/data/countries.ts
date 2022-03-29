@@ -353,6 +353,10 @@ export default {
     flag: 'gh',
     confederation: 'CAF',
   },
+  Cameroon: {
+    flag: 'cm',
+    confederation: 'CAF',
+  },
 
   Iran: {
     flag: 'ir',
