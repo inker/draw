@@ -14,8 +14,16 @@ const flags = {
   Moldova: requireAltFlag('./mda.svg'),
 } as const
 
-const getCountryFlagUrl = (country: Country) =>
-  flags[country] as string
-    ?? requireFlag(`./${countries[country].flag}.svg`) as string
+function getCountryFlagUrl(country: Country) {
+  const exceptionalFlag = flags[country] as string
+  if (exceptionalFlag) {
+    return exceptionalFlag
+  }
+
+  const flag = countries[country]?.flag
+  return flag
+    ? requireFlag(`./${flag}.svg`) as string
+    : undefined
+}
 
 export default memoize(getCountryFlagUrl)

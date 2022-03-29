@@ -9,6 +9,7 @@ import { useParams } from 'react-router-dom'
 import delay from 'delay.js'
 
 import Team from 'model/team'
+import UnknownNationalTeam from 'model/team/UnknownNationalTeam'
 import Tournament from 'model/Tournament'
 import Stage from 'model/Stage'
 
@@ -73,7 +74,7 @@ const Pages = ({
 
     try {
       const potsPromise = tournament === 'wc'
-        ? getWcPots(2018) // TODO
+        ? getWcPots(season)
         : getPotsFromBert(tournament, stage, season)
 
       const newPage = await getPage(tournament, stage)
@@ -81,8 +82,11 @@ const Pages = ({
       const newPots = await potsPromise
 
       if (!isFirefox) {
+        // eslint-disable-next-line max-len
+        const teamsWithFlags = [newPots.flat().filter(team => !(team instanceof UnknownNationalTeam))]
         await Promise.race([
-          prefetchFlags(newPots),
+          // @ts-expect-error
+          prefetchFlags(teamsWithFlags),
           delay(5000),
         ])
       }

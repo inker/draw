@@ -295,6 +295,14 @@ export default {
     flag: 'co',
     confederation: 'CONMEBOL',
   },
+  Chile: {
+    flag: 'cl',
+    confederation: 'CONMEBOL',
+  },
+  Ecuador: {
+    flag: 'ec',
+    confederation: 'CONMEBOL',
+  },
 
   Mexico: {
     flag: 'mx',
@@ -306,6 +314,14 @@ export default {
   },
   Panama: {
     flag: 'pa',
+    confederation: 'CONCACAF',
+  },
+  Canada: {
+    flag: 'ca',
+    confederation: 'CONCACAF',
+  },
+  'United States': {
+    flag: 'us',
     confederation: 'CONCACAF',
   },
 
@@ -329,6 +345,10 @@ export default {
     flag: 'ma',
     confederation: 'CAF',
   },
+  Algeria: {
+    flag: 'dz',
+    confederation: 'CAF',
+  },
 
   Iran: {
     flag: 'ir',
@@ -348,6 +368,10 @@ export default {
   },
   'Saudi Arabia': {
     flag: 'sa',
+    confederation: 'AFC',
+  },
+  Qatar: {
+    flag: 'qa',
     confederation: 'AFC',
   },
 

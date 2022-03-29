@@ -80,7 +80,7 @@ const SelectSeason = ({
         onChange={onSeasonChange}
         value={season}
       >
-        {range(currentSeasonByTournament(tournament, stage), minSeason - 1).map(i => (
+        {range(currentSeasonByTournament(tournament, stage), minSeason - 1, tournament === 'wc' ? -4 : -1).map(i => (
           <option
             key={i}
             value={i}

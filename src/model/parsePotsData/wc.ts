@@ -2,11 +2,17 @@ import { chunk } from 'lodash'
 
 import countries from 'data/countries'
 
-import Team from 'model/team/NationalTeam'
+import NationalTeam from 'model/team/NationalTeam'
+import UnknownNationalTeam from 'model/team/UnknownNationalTeam'
 
 const countryNameToTeam = (host: boolean) =>
-  (c: string) =>
-    new Team(c, 0, countries[c].confederation, host)
+  (c: string) => {
+    const ctr = countries[c]
+    return ctr
+      ? new NationalTeam(c, 0, ctr.confederation, host)
+      // @ts-expect-error
+      : new UnknownNationalTeam(c, 0, c.split('/'))
+  }
 
 const makeHost = countryNameToTeam(true)
 const makeNonHost = countryNameToTeam(false)
