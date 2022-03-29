@@ -349,6 +349,10 @@ export default {
     flag: 'dz',
     confederation: 'CAF',
   },
+  Ghana: {
+    flag: 'gh',
+    confederation: 'CAF',
+  },
 
   Iran: {
     flag: 'ir',
