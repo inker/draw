@@ -7,13 +7,13 @@ Argentina
 England
 Spain
 Portugal
+Mexico
 Netherlands
 Denmark
-Mexico
 Germany
-United States
-Switzerland
 Uruguay
+Switzerland
+United States
 Croatia
 Senegal
 Iran
@@ -23,11 +23,11 @@ Serbia
 Poland
 South Korea
 Tunisia
-Canada
 Cameroon
+Canada
 Ecuador
 Saudi Arabia
 Ghana
 UEFA
-CONCACAF/OFC
 AFC/CONMEBOL
+CONCACAF/OFC
