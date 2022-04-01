@@ -177,7 +177,8 @@ const WCGS = ({
     // pick host ball
     const i = pots[currentPotNum].findIndex(team => team.host)
     onTeamBallPick(i)
-  }, [drawId])
+    // TODO: should be drawId
+  }, [pots])
 
   const completed = currentPotNum >= pots.length
 
