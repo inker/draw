@@ -17,7 +17,7 @@ import currentSeasonByTournament from '../currentSeasonByTournament'
 import seasonAsString from './seasonAsString'
 
 const minSeasons = {
-  cl: 2002,
+  cl: 2003,
   el: 2009,
   ecl: 2021,
   wc: 2018,
