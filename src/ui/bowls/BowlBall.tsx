@@ -32,7 +32,7 @@ const Root = styled(Ball)<RootProps>`
   `}
 
   @media (max-width: 999px) {
-    font-size: ${props => props.selected ? 8 : 0}px;
+    font-size: ${props => props.forceVisible && 8}px;
   }
 `
 
