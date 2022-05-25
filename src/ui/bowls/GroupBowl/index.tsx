@@ -25,12 +25,12 @@ interface Props {
   onPick: (groupNum: number) => void,
 }
 
-const GroupBowl = ({
+function GroupBowl({
   display,
   displayGroups,
   possibleGroups,
   onPick,
-}: Props) => {
+}: Props) {
   const onBallPick = useCallback((ev: React.MouseEvent<HTMLDivElement>) => {
     const ball = ev.target as HTMLDivElement
     const pickedGroup = +ball.dataset.group!

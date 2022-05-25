@@ -23,37 +23,39 @@ interface Props {
   headerStyles?: FlattenInterpolation<any>,
 }
 
-const Group = ({
+function Group({
   maxTeams,
   groupLetter,
   teams,
   potNum,
   possible,
   headerStyles,
-}: Props) => (
-  <Table>
-    <thead>
-      <Row>
-        <Cell>
-          <Header styles={headerStyles}>
-            Group
-            {' '}
-            {groupLetter}
-          </Header>
-        </Cell>
-      </Row>
-    </thead>
-    <tbody>
-      {range(maxTeams).map(i => (
-        <Row key={i}>
-          <GroupCellDeferred
-            team={teams[i]}
-            possible={i === potNum && possible}
-          />
+}: Props) {
+  return (
+    <Table>
+      <thead>
+        <Row>
+          <Cell>
+            <Header styles={headerStyles}>
+              Group
+              {' '}
+              {groupLetter}
+            </Header>
+          </Cell>
         </Row>
-      ))}
-    </tbody>
-  </Table>
-)
+      </thead>
+      <tbody>
+        {range(maxTeams).map(i => (
+          <Row key={i}>
+            <GroupCellDeferred
+              team={teams[i]}
+              possible={i === potNum && possible}
+            />
+          </Row>
+        ))}
+      </tbody>
+    </Table>
+  )
+}
 
 export default memo(Group)

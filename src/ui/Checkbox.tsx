@@ -1,7 +1,6 @@
 import {
   useCallback,
   memo,
-  FC,
   ChangeEvent,
   DetailedHTMLProps,
   InputHTMLAttributes,
@@ -39,12 +38,12 @@ interface Props extends Omit<InputProps, 'value' | 'onChange'> {
   onChange: (value: boolean) => void,
 }
 
-const SelectWithHiddenLabel: FC<Props> = ({
+function SelectWithHiddenLabel({
   children,
   value,
   onChange,
   ...props
-}: Props) => {
+}: Props) {
   const rawOnChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     onChange(e.target.checked)
   }, [onChange])

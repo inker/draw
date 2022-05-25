@@ -10,7 +10,7 @@ import parseKo from 'model/parsePotsData/ko'
 async function getPotsFromBert(tournament: Tournament, stage: Stage, season: number) {
   const potsPromise = import(/* webpackChunkName: "pots/[request]" */ `data/${tournament}/${stage}/${season}/pots.json`)
   const pairings = await getPairings(season, tournament)
-  const data = (await potsPromise).default
+  const data = await potsPromise.then(mod => mod.default)
 
   return stage === 'ko'
     ? parseKo(data)

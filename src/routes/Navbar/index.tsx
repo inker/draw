@@ -64,12 +64,12 @@ interface Props {
   onSeasonChange: (tournament: Tournament, stage: Stage, season: number) => void,
 }
 
-const Navbar = ({
+function Navbar({
   season,
   tournament,
   stage,
   onSeasonChange,
-}: Props) => {
+}: Props) {
   const [theme, setTheme] = useTheme()
   const [isXRay, setIsXRay] = useXRay()
   const [, refreshDrawId] = useDrawId()

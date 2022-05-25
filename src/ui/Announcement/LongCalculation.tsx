@@ -10,24 +10,26 @@ const Bug = styled.div`
   padding: 10px;
 `
 
-const LongCalculation = () => (
-  <Bug>
-    <div>
-      Calculation is taking too long.
-    </div>
-    <div>
-      And
-      {' '}
-      <StyledLink
-        href="https://github.com/inker/draw/issues/14"
-        target="_blank"
-        rel="noopener"
-      >
-        here&apos;s why
-      </StyledLink>
-      .
-    </div>
-  </Bug>
-)
+function LongCalculation() {
+  return (
+    <Bug>
+      <div>
+        Calculation is taking too long.
+      </div>
+      <div>
+        And
+        {' '}
+        <StyledLink
+          href="https://github.com/inker/draw/issues/14"
+          target="_blank"
+          rel="noopener"
+        >
+          here&apos;s why
+        </StyledLink>
+        .
+      </div>
+    </Bug>
+  )
+}
 
 export default memo(LongCalculation)

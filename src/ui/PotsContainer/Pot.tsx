@@ -21,7 +21,7 @@ interface Props {
   headerStyles?: FlattenInterpolation<any>,
 }
 
-const Pot = ({
+function Pot({
   isCurrent,
   potNum,
   teams,
@@ -29,7 +29,7 @@ const Pot = ({
   selectedTeams,
   numCols,
   headerStyles,
-}: Props) => {
+}: Props) {
   const numRows = teams.length / numCols
 
   return (

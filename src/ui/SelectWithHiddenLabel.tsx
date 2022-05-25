@@ -1,6 +1,5 @@
 import {
   memo,
-  FC,
   DetailedHTMLProps,
   SelectHTMLAttributes,
 } from 'react'
@@ -30,9 +29,11 @@ const Select = styled.select`
   }
 
   &:hover {
-    ${props => props.theme.isDarkMode ? css`
+    ${props => props.theme.isDarkMode
+    ? css`
       background-color: #468;
-    ` : css`
+    `
+    : css`
       border-color: black;
     `}
   }
@@ -44,11 +45,11 @@ interface Props extends SelectProps {
   label: string,
 }
 
-const SelectWithHiddenLabel: FC<Props> = ({
+function SelectWithHiddenLabel({
   label,
   children,
   ...props
-}) => {
+}: Props) {
   const [id] = useRandom('select-')
 
   return (

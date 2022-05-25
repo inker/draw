@@ -1,2 +1,2 @@
 export default (groupNum: number) =>
-  String.fromCharCode(65 + groupNum)
+  String.fromCodePoint(65 + groupNum)

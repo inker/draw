@@ -30,14 +30,14 @@ interface Props {
   onPick: (i: number, teams: readonly Team[]) => void,
 }
 
-const TeamBowl = ({
+function TeamBowl({
   forceNoSelect,
   display,
   displayTeams,
   pot,
   selectedTeam,
   onPick,
-}: Props) => {
+}: Props) {
   const onBallPick = useCallback((ev: React.MouseEvent<HTMLDivElement>) => {
     const ball = ev.target as HTMLDivElement
     const i = pot.findIndex(team => team.id === ball.dataset.teamid)

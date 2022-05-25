@@ -1,6 +1,6 @@
 import {
   memo,
-  FC,
+  type ReactNode,
 } from 'react'
 
 import styled from 'styled-components'
@@ -18,18 +18,21 @@ const Text = styled.div`
 `
 
 interface Props {
+  children: ReactNode,
   noAnimation: boolean,
 }
 
-const Notification: FC<Props> = ({
+function Notification({
   noAnimation,
   children,
-}) => (
-  <Modal noAnimation={noAnimation}>
-    <Text>
-      {children}
-    </Text>
-  </Modal>
-)
+}: Props) {
+  return (
+    <Modal noAnimation={noAnimation}>
+      <Text>
+        {children}
+      </Text>
+    </Modal>
+  )
+}
 
 export default memo(Notification)

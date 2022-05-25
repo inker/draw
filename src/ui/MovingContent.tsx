@@ -50,13 +50,13 @@ interface Props {
   onAnimationEnd?: () => void,
 }
 
-const MovingContent = ({
+function MovingContent({
   from,
   to,
   duration,
   team,
   onAnimationEnd,
-}: Props) => {
+}: Props) {
   const fromCell = useMemo(() => getElement(from), [from])
   const toCell = useMemo(() => getElement(to), [to])
 

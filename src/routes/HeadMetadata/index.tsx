@@ -11,7 +11,7 @@ const routeProps = {
   sensitive: true,
 }
 
-const HeadMetaData = () => {
+function HeadMetaData() {
   const match = useMatch(routeProps)
   const tournament = match?.params?.tournament
   const o = tournament && data(tournament as Tournament) || null

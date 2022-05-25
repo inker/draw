@@ -70,10 +70,10 @@ function getState(initialPots: readonly (readonly Team[])[]): State {
   }
 }
 
-const CLKO = ({
+function CLKO({
   season,
   pots: initialPots,
-}: Props) => {
+}: Props) {
   const [drawId, setNewDrawId] = useDrawId()
   const [isFastDraw, setIsFastDraw] = useFastDraw()
 

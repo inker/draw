@@ -9,17 +9,19 @@ const modificationDate = __MODIFICATION_DATE__
 // eslint-disable-next-line no-console
 console.log('modified at:', modificationDate)
 
-const Version = () => (
-  <Helmet>
-    <meta
-      name="version"
-      content={version}
-    />
-    <meta
-      name="modification-date"
-      content={modificationDate}
-    />
-  </Helmet>
-)
+function Version() {
+  return (
+    <Helmet>
+      <meta
+        name="version"
+        content={version}
+      />
+      <meta
+        name="modification-date"
+        content={modificationDate}
+      />
+    </Helmet>
+  )
+}
 
 export default memo(Version)

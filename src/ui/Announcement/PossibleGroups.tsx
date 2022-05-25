@@ -17,10 +17,10 @@ interface Props {
   possibleGroups: readonly number[],
 }
 
-const PossibleGroups = ({
+function PossibleGroups({
   numGroups,
   possibleGroups,
-}: Props) => {
+}: Props) {
   const halfNum = numGroups >> 1
 
   return (

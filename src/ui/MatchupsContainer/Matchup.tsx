@@ -23,9 +23,9 @@ interface Props {
   teams: [Team, Team] | null,
 }
 
-const Matchup = ({
+function Matchup({
   teams,
-}: Props) => {
+}: Props) {
   const [ru, gw] = teams ?? []
 
   return (

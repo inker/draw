@@ -19,12 +19,14 @@ const Roundel = styled.div<Props>`
 
   font-size: 18px;
 
-  ${props => props.possible ? css`
-    color: ${props.color};
-  ` : css`
-    border-color: rgba(0, 0, 0, 0);
-    filter: opacity(0.25);
-  `}
+  ${props => props.possible
+    ? css`
+      color: ${props.color};
+    `
+    : css`
+      border-color: rgba(0, 0, 0, 0);
+      filter: opacity(0.25);
+    `}
 `
 
 export default Roundel

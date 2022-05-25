@@ -30,12 +30,12 @@ interface Props {
   onChange: (tournament: Tournament, stage: Stage, season?: number) => void,
 }
 
-const SelectSeason = ({
+function SelectSeason({
   tournament,
   stage,
   season,
   onChange,
-}: Props) => {
+}: Props) {
   const onSeasonChange = useCallback((e: React.ChangeEvent<HTMLSelectElement>) => {
     const newSeason = +e.target.value
     onChange(tournament, stage, newSeason)

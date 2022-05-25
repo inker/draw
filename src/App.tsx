@@ -23,7 +23,7 @@ const Root = styled.div`
   }
 `
 
-const App = () => {
+function App() {
   const [popup, setPopup] = usePopup()
   const isDarkMode = useIsDarkMode()
 

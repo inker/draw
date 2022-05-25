@@ -30,7 +30,6 @@ const constraints: PartialItem[] = [
   },
 ]
 
-// eslint-disable-next-line @typescript-eslint/ban-types
 type OptionalPropertyOf<T extends object> = Exclude<{
   [K in keyof T]: T extends Record<K, T[K]>
     ? never

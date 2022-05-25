@@ -52,16 +52,14 @@ function useSeasonTournamentStage() {
     ? +(params['*'] || currentSeasonByTournament(tournament || null, stage || null))
     : currentSeasonByTournament(defaultTournament, defaultStage)
 
-  const o = useMemo(() => ({
+  return useMemo(() => ({
     season,
     tournament,
     stage,
   }), [season, tournament, stage])
-
-  return o
 }
 
-const Routing = () => {
+function Routing() {
   const [drawId, refreshDrawId] = useDrawId()
   const [popup] = usePopup()
   const [, setIsFastDraw] = useFastDraw()
@@ -96,50 +94,72 @@ const Routing = () => {
           onSeasonChange={onSeasonChange}
         />
       </Visibility>
-      {tournament && stage ? (
-        <Pages
-          drawId={drawId}
-          tournament={tournament}
-          stage={stage}
-          season={season}
-          onSeasonChange={onSeasonChange}
-        />
-      ) : null}
+      {tournament && stage
+        ? (
+          <Pages
+            drawId={drawId}
+            tournament={tournament}
+            stage={stage}
+            season={season}
+            onSeasonChange={onSeasonChange}
+          />
+        )
+        : null}
       <Routes>
         {/* TODO */}
-        <Route path="wc/ko/:season">
-          <Navigate
-            to={`/wc/${defaultStage}`}
-            replace
-          />
-        </Route>
-        <Route path="wc/ko">
-          <Navigate
-            to={`/wc/${defaultStage}`}
-            replace
-          />
-        </Route>
-        <Route path="wc">
-          <Navigate
-            to={`/wc/${defaultStage}`}
-            replace
-          />
-        </Route>
-        <Route path="el">
-          <Navigate
-            to={`/el/${defaultStage}`}
-            replace
-          />
-        </Route>
-        <Route path="cl">
-          <Navigate
-            to={`/cl/${defaultStage}`}
-            replace
-          />
-        </Route>
-        <Navigate
-          to={`/${defaultTournament}`}
-          replace
+        <Route
+          path="wc/ko/:season"
+          element={(
+            <Navigate
+              to={`/wc/${defaultStage}`}
+              replace
+            />
+          )}
+        />
+        <Route
+          path="wc/ko"
+          element={(
+            <Navigate
+              to={`/wc/${defaultStage}`}
+              replace
+            />
+          )}
+        />
+        <Route
+          path="wc"
+          element={(
+            <Navigate
+              to={`/wc/${defaultStage}`}
+              replace
+            />
+          )}
+        />
+        <Route
+          path="el"
+          element={(
+            <Navigate
+              to={`/el/${defaultStage}`}
+              replace
+            />
+          )}
+        />
+        <Route
+          path="cl"
+          element={(
+            <Navigate
+              to={`/cl/${defaultStage}`}
+              replace
+            />
+          )}
+        />
+        <Route
+          path="/"
+          element={(
+            <Navigate
+              to={`/${defaultTournament}`}
+              replace
+            />
+          )}
         />
       </Routes>
     </>

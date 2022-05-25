@@ -13,9 +13,11 @@ const Button = styled.button`
   }
 
   &:hover {
-    ${props => props.theme.isDarkMode ? css`
+    ${props => props.theme.isDarkMode
+    ? css`
       background-color: #468;
-    ` : css`
+    `
+    : css`
       border-color: black;
     `}
   }

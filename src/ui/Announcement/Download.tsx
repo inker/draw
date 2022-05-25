@@ -30,10 +30,10 @@ const getInitialState = (): State => ({
   transitionsEnabled: true,
 })
 
-const Download = ({
+function Download({
   completed,
   groupsElement,
-}: Props) => {
+}: Props) {
   const [{
     downloadClicked,
     transitionsEnabled,
@@ -78,17 +78,19 @@ const Download = ({
   const onDownloadPngClick = useCallback(() => setDownloadClicked('png'), [setDownloadClicked])
   const onDownloadSvgClick = useCallback(() => setDownloadClicked('svg'), [setDownloadClicked])
 
-  return completed && !!groupsElement ? (
-    <div>
-      {!transitionsEnabled && (
+  return completed && !!groupsElement
+    ? (
+      <div>
+        {!transitionsEnabled && (
         <NoTransitions />
-      )}
-      {'Download as '}
-      <ButtonLink onClick={onDownloadPngClick}>PNG</ButtonLink>
-      {', '}
-      <ButtonLink onClick={onDownloadSvgClick}>SVG</ButtonLink>
-    </div>
-  ) : null
+        )}
+        {'Download as '}
+        <ButtonLink onClick={onDownloadPngClick}>PNG</ButtonLink>
+        {', '}
+        <ButtonLink onClick={onDownloadSvgClick}>SVG</ButtonLink>
+      </div>
+    )
+    : null
 }
 
 export default memo(Download)

@@ -72,10 +72,10 @@ function getState(initialPots: readonly (readonly Team[])[], season: number): St
   }
 }
 
-const ELKO = ({
+function ELKO({
   season,
   pots: initialPots,
-}: Props) => {
+}: Props) {
   const [drawId, setNewDrawId] = useDrawId()
   const [isFastDraw, setIsFastDraw] = useFastDraw()
 

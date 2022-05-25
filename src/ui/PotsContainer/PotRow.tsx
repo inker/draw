@@ -14,35 +14,37 @@ interface Props {
   selectedTeams: readonly Team[] | null,
 }
 
-const PotRow = ({
+function PotRow({
   teams,
   pickedTeams,
   selectedTeams,
-}: Props) => (
-  <Row>
-    {teams.map(team => {
-      const {
-        name,
-        country,
-        shortName,
-        pairing,
-      } = team as GsTeam
+}: Props) {
+  return (
+    <Row>
+      {teams.map(team => {
+        const {
+          name,
+          country,
+          shortName,
+          pairing,
+        } = team as GsTeam
 
-      return (
-        <PotCell key={team.id}>
-          <PotContent
-            data-cellid={team.id}
-            title={pairing && `paired with ${pairing.shortName ?? pairing.name}`}
-            selected={!!selectedTeams?.includes(team)}
-            picked={pickedTeams.includes(team)}
-            country={country ?? name}
-          >
-            {shortName ?? name}
-          </PotContent>
-        </PotCell>
-      )
-    })}
-  </Row>
-)
+        return (
+          <PotCell key={team.id}>
+            <PotContent
+              data-cellid={team.id}
+              title={pairing && `paired with ${pairing.shortName ?? pairing.name}`}
+              selected={!!selectedTeams?.includes(team)}
+              picked={pickedTeams.includes(team)}
+              country={country ?? name}
+            >
+              {shortName ?? name}
+            </PotContent>
+          </PotCell>
+        )
+      })}
+    </Row>
+  )
+}
 
 export default memo(PotRow)

@@ -27,10 +27,10 @@ interface Props {
   possible: boolean,
 }
 
-const GroupCellDeferred = ({
+function GroupCellDeferred({
   team,
   possible,
-}: Props) => {
+}: Props) {
   const prevTeam = usePrevious(team)
   const [displayedTeam, setDisplayedTeam] = useState(team)
   const [isPickedAnimation, setIsPickedAnimation] = useState(false)
@@ -55,13 +55,15 @@ const GroupCellDeferred = ({
         possible={possible}
         onAnimationEnd={setIsPickedAnimationFalse}
       >
-        {displayedTeam ? (
-          <ContentWithFlag country={getTeamCountryName(displayedTeam)}>
-            {(displayedTeam as Club).shortName ?? displayedTeam.name}
-          </ContentWithFlag>
-        ) : (
-          <DummyContent ref={to} />
-        )}
+        {displayedTeam
+          ? (
+            <ContentWithFlag country={getTeamCountryName(displayedTeam)}>
+              {(displayedTeam as Club).shortName ?? displayedTeam.name}
+            </ContentWithFlag>
+          )
+          : (
+            <DummyContent ref={to} />
+          )}
       </GroupCellBase>
       {team && team !== prevTeam && (
         <MovingContent

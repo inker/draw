@@ -81,10 +81,10 @@ function getState(initialPots: readonly (readonly Team[])[]): State {
   }
 }
 
-const ELGS = ({
+function ELGS({
   season,
   pots: initialPots,
-}: Props) => {
+}: Props) {
   const [drawId, setNewDrawId] = useDrawId()
   const [isFastDraw, setIsFastDraw] = useFastDraw()
 

@@ -23,9 +23,9 @@ interface Props {
   team: Team,
 }
 
-const MatchupCellDeferred = ({
+function MatchupCellDeferred({
   team,
-}: Props) => {
+}: Props) {
   const prevTeam = usePrevious(team)
   const [displayedTeam, setDisplayedTeam] = useState(team)
   const [isPickedAnimation, setIsPickedAnimation] = useState(false)
@@ -49,13 +49,15 @@ const MatchupCellDeferred = ({
         picked={isPickedAnimation && !!displayedTeam}
         onAnimationEnd={setIsPickedAnimationFalse}
       >
-        {displayedTeam ? (
-          <ContentWithFlag country={getTeamCountryName(displayedTeam)}>
-            {displayedTeam.shortName ?? displayedTeam.name}
-          </ContentWithFlag>
-        ) : (
-          <DummyContent ref={to} />
-        )}
+        {displayedTeam
+          ? (
+            <ContentWithFlag country={getTeamCountryName(displayedTeam)}>
+              {displayedTeam.shortName ?? displayedTeam.name}
+            </ContentWithFlag>
+          )
+          : (
+            <DummyContent ref={to} />
+          )}
       </MatchupCellBase>
       {team && team !== prevTeam && (
         <MovingContent

@@ -78,10 +78,10 @@ function getState(initialPots: readonly (readonly Team[])[]): State {
   }
 }
 
-const WCGS = ({
+function WCGS({
   season,
   pots: initialPots,
-}: Props) => {
+}: Props) {
   const [drawId, setNewDrawId] = useDrawId()
   const [isFastDraw, setIsFastDraw] = useFastDraw()
 

@@ -95,11 +95,11 @@ function getState(initialPots: readonly (readonly Team[])[]): State {
   }
 }
 
-const CLGS = ({
+function CLGS({
   season,
   pots: initialPots,
   isFirstPotShortDraw,
-}: Props) => {
+}: Props) {
   const [drawId, setNewDrawId] = useDrawId()
   const [isFastDraw, setIsFastDraw] = useFastDraw()
 

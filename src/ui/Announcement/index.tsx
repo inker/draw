@@ -67,7 +67,7 @@ interface Props {
   reset: any,
 }
 
-const Announcement = ({
+function Announcement({
   long,
   completed,
   selectedTeam,
@@ -77,7 +77,7 @@ const Announcement = ({
   numGroups,
   groupsElement,
   reset,
-}: Props) => {
+}: Props) {
   const lastAnnouncement = useRef<React.ReactElement | null>(null)
   const lastSelected = useRef<Team | null>(null)
 
@@ -106,15 +106,17 @@ const Announcement = ({
     lastAnnouncement.current = (
       <Root>
         <div>
-          {long && selected ? (
-            <span>
-              <Bold>{(selected as Club).shortName ?? selected.name}</Bold> goes to group
-            </span>
-          ) : (
-            <span>
-              Group
-            </span>
-          )}
+          {long && selected
+            ? (
+              <span>
+                <Bold>{(selected as Club).shortName ?? selected.name}</Bold> goes to group
+              </span>
+            )
+            : (
+              <span>
+                Group
+              </span>
+            )}
           &nbsp;
           <Bold>
             {getGroupLetter(pickedGroup)}
@@ -129,32 +131,36 @@ const Announcement = ({
   if (selected) {
     return (
       <Root>
-        {isDisplayPossibleGroupsText ? (
-          <div>
-            Possible groups for
-            {' '}
-            <SelectedTeamWithColon>
-              <Bold>{selected.name}</Bold>:
-            </SelectedTeamWithColon>
-            {possibleGroups ? (
-              <PossibleGroups
-                numGroups={numGroups}
-                possibleGroups={possibleGroups}
-              />
-            ) : (
-              <div>
-                <Dots
-                  initialNum={0}
-                  maxNum={10}
-                  interval={2000}
-                />
-                <Deferred delay={10000}>
-                  <LongCalculation />
-                </Deferred>
-              </div>
-            )}
-          </div>
-        ) : lastAnnouncement.current}
+        {isDisplayPossibleGroupsText
+          ? (
+            <div>
+              Possible groups for
+              {' '}
+              <SelectedTeamWithColon>
+                <Bold>{selected.name}</Bold>:
+              </SelectedTeamWithColon>
+              {possibleGroups
+                ? (
+                  <PossibleGroups
+                    numGroups={numGroups}
+                    possibleGroups={possibleGroups}
+                  />
+                )
+                : (
+                  <div>
+                    <Dots
+                      initialNum={0}
+                      maxNum={10}
+                      interval={2000}
+                    />
+                    <Deferred delay={10000}>
+                      <LongCalculation />
+                    </Deferred>
+                  </div>
+                )}
+            </div>
+          )
+          : lastAnnouncement.current}
       </Root>
     )
   }

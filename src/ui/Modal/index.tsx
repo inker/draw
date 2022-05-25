@@ -1,25 +1,28 @@
 import {
   memo,
-  FC,
+  type ReactNode,
 } from 'react'
 
 import Background from './Background'
 import Body from './Body'
 
 interface Props {
+  children: ReactNode,
   noAnimation: boolean,
 }
 
-const Modal: FC<Props> = ({
+function Modal({
   noAnimation,
   children,
-}) => (
-  <div>
-    <Background animate={!noAnimation} />
-    <Body>
-      {children}
-    </Body>
-  </div>
-)
+}: Props) {
+  return (
+    <div>
+      <Background animate={!noAnimation} />
+      <Body>
+        {children}
+      </Body>
+    </div>
+  )
+}
 
 export default memo(Modal) as typeof Modal

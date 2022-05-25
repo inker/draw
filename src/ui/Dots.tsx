@@ -16,11 +16,11 @@ interface Props {
   interval: number,
 }
 
-const Dots = ({
+function Dots({
   initialNum,
   maxNum,
   interval,
-}: Props) => {
+}: Props) {
   const [numVisible, setNumVisible] = useState(initialNum)
 
   useEffect(() => {

@@ -12,10 +12,10 @@ interface Props {
   onChange: (value: Theme) => void,
 }
 
-const SelectTheme = ({
+function SelectTheme({
   value,
   onChange,
-}: Props) => {
+}: Props) {
   const wrappedOnChange = useCallback((e: React.ChangeEvent<HTMLSelectElement>) => {
     const newValue = e.target.value
     onChange(newValue as Theme)

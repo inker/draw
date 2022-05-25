@@ -1,5 +1,5 @@
 import {
-  FC,
+  type ReactNode,
   memo,
 } from 'react'
 
@@ -22,15 +22,21 @@ const airborneDiv = document.createElement('div')
 airborneDiv.classList.add(airborneDivClass)
 document.body.insertBefore(airborneDiv, document.getElementById('app'))
 
-const FixedOverlay: FC<unknown> = ({
+interface Props {
+  children: ReactNode,
+}
+
+function FixedOverlay({
   children,
-}) => (
-  <Portal
-    tagName="div"
-    modalRoot={airborneDiv}
-  >
-    {children}
-  </Portal>
-)
+}: Props) {
+  return (
+    <Portal
+      tagName="div"
+      modalRoot={airborneDiv}
+    >
+      {children}
+    </Portal>
+  )
+}
 
 export default memo(FixedOverlay)

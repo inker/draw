@@ -18,14 +18,16 @@ interface RootProps {
 }
 
 const Root = styled(Ball)<RootProps>`
-  ${props => props.selected ? css`
-    font-size: 0.8em;
-    font-weight: bold;
-    color: white;
-  ` : css`
-    font-size: 0;
-    background: radial-gradient(#004, #002, #002);
-  `}
+  ${props => props.selected
+    ? css`
+      font-size: 0.8em;
+      font-weight: bold;
+      color: white;
+    `
+    : css`
+      font-size: 0;
+      background: radial-gradient(#004, #002, #002);
+    `}
 
   ${props => props.forceVisible && css`
     font-size: 0.8em;
@@ -40,10 +42,10 @@ type InputProps = DetailedHTMLProps<HTMLAttributes<HTMLElement>, HTMLElement>
 
 type Props = RootProps & InputProps
 
-const BowlBall = ({
+function BowlBall({
   noHover,
   ...props
-}: Props) => {
+}: Props) {
   const ballRef = useRef<HTMLDivElement | null>(null)
 
   const cb = useCallback((e: KeyboardEvent) => {

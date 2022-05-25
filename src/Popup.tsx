@@ -7,7 +7,7 @@ import usePopup from 'store/usePopup'
 import Notification from 'ui/Notification'
 import Dots from 'ui/Dots'
 
-const Popup = () => {
+function Popup() {
   const [popup] = usePopup()
 
   const {

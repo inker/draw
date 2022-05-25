@@ -1,4 +1,7 @@
-import styled, { css, keyframes } from 'styled-components'
+import styled, {
+  css,
+  keyframes,
+} from 'styled-components'
 
 import Cell from 'ui/table/Cell'
 
@@ -32,11 +35,13 @@ const AppearDark = keyframes`
 
 const Possible = css`
   position: relative; /* enables glow */
-  ${props => props.theme.isDarkMode ? css`
-    background-color: rgba(255, 255, 255, 0.3);
-  ` : css`
-    box-shadow: 0 0 5px #6af;
-  `}
+  ${props => props.theme.isDarkMode
+    ? css`
+      background-color: rgba(255, 255, 255, 0.3);
+    `
+    : css`
+      box-shadow: 0 0 5px #6af;
+    `}
 
   &::before {
     content: '';
@@ -45,9 +50,11 @@ const Possible = css`
     width: 100%;
     height: 100%;
     animation: ${props => props.theme.isDarkMode ? PossibleDark : PossibleLight} 1s ease;
-    ${props => props.theme.isDarkMode ? css`
+    ${props => props.theme.isDarkMode
+    ? css`
       background-color: rgba(255, 255, 255, 0.3);
-    ` : css`
+    `
+    : css`
       box-shadow: 0 0 5px #6af;
     `}
   }

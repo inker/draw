@@ -52,13 +52,13 @@ interface State {
   season: number, // for error handling (so that we know the previous season)
 }
 
-const Pages = ({
+function Pages({
   drawId,
   tournament,
   stage,
   season,
   onSeasonChange,
-}: Props) => {
+}: Props) {
   const params = useParams()
   const [, setPopup] = usePopup()
 
