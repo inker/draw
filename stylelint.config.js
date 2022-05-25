@@ -23,7 +23,6 @@ module.exports = {
     'block-closing-brace-newline-before': 'always',
     'block-opening-brace-newline-after': 'always',
     'declaration-block-no-duplicate-properties': true,
-    'selector-class-pattern': /^[a-z][\da-z]*((_{1,2}|-{1,2})[\da-z]+)*$/,
     'value-keyword-case': [
       'lower',
       {
