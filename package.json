@@ -79,7 +79,6 @@
     "style-loader": "^3.3.1",
     "stylelint": "^14.8.5",
     "stylelint-config-standard-scss": "^3.0.0",
-    "stylelint-config-standard-vue": "^1.0.0",
     "stylelint-config-styled-components": "^0.1.1",
     "stylelint-order": "^5.0.0",
     "stylelint-processor-styled-components": "^1.10.0",
