@@ -16,7 +16,7 @@ const Root = styled.div`
   display: flex;
   flex-flow: row wrap;
 
-  & > * {
+  > * {
     flex: 1;
     flex-basis: 22%;
   }

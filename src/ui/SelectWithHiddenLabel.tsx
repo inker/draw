@@ -9,8 +9,8 @@ import useRandom from 'utils/hooks/useRandom'
 
 const Root = styled.div`
   display: inline;
-  margin-left: 3px;
   margin-right: 3px;
+  margin-left: 3px;
 `
 
 const HiddenLabel = styled.label`

@@ -3,7 +3,6 @@ import styled from 'styled-components'
 const BaseContent = styled.span`
   display: flex;
   align-items: center;
-
   text-align: center;
   text-decoration: none;
   font-family: Tahoma, Arial, sans-serif;

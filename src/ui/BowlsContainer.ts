@@ -3,9 +3,9 @@ import styled from 'styled-components'
 const BowlsContainer = styled.div`
   display: flex;
   flex-direction: column;
-  text-align: center;
+  margin: 0 5px 10px;
   min-width: 35%;
-  margin: 0 5px 10px 5px;
+  text-align: center;
 
   @media (max-width: 999px) {
     align-items: center;

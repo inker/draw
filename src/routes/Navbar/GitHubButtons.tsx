@@ -11,7 +11,7 @@ const Root = styled.div`
   align-items: center;
   width: 170px;
 
-  & > * {
+  > * {
     margin-left: 5px;
   }
 `

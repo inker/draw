@@ -10,8 +10,8 @@ import styled, { css } from 'styled-components'
 const Root = styled.label`
   display: flex;
   align-items: center;
-  margin-left: 3px;
   margin-right: 3px;
+  margin-left: 3px;
   cursor: pointer;
 `
 
@@ -19,7 +19,6 @@ const Box = styled.input.attrs({
   type: 'checkbox',
 })`
   cursor: pointer;
-
   ${props => props.theme.isDarkMode && css`
     border: ${props.theme.border};
     background-color: #246;

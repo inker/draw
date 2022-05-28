@@ -8,7 +8,7 @@ import Root from './Root'
 import Pot from './Pot'
 
 const headerStyles = css`
-  background-color: rgba(0, 0, 0, 0.75);
+  background-color: rgb(0 0 0 / 0.75);
   color: #fff;
 `
 

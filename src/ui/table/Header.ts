@@ -8,8 +8,8 @@ interface Props {
 
 const Header = styled(BaseContent)<Props>`
   justify-content: center;
-  height: 100%;
   width: 100%;
+  height: 100%;
   font-weight: 600;
   ${props => props.styles}
 `

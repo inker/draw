@@ -21,14 +21,12 @@ import Download from './Download'
 type Team = Club | NationalTeam
 
 const Root = styled.div`
+  vertical-align: middle;
+  margin-top: 30px;
+  margin-bottom: 30px;
   width: 100%;
   font-size: 1.25em;
   line-height: 150%;
-  vertical-align: middle;
-
-  margin-top: 30px;
-  margin-bottom: 30px;
-
   user-select: none;
 
   @media (max-width: 999px) {
@@ -50,7 +48,7 @@ const Completed = styled.div`
   flex-direction: column;
   align-items: center;
 
-  & > * + * {
+  > * + * {
     margin-top: 12px;
   }
 `

@@ -4,10 +4,10 @@ import styled from 'styled-components'
 import StyledLink from 'ui/StyledLink'
 
 const Bug = styled.div`
+  padding: 10px;
   border-width: 2px;
   border-style: dashed;
-  border-color: rgba(255, 0, 0, 0.5);
-  padding: 10px;
+  border-color: rgb(255 0 0 / 0.5);
 `
 
 function LongCalculation() {

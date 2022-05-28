@@ -7,13 +7,13 @@ interface Props {
 }
 
 const TeamBall = styled(BowlBall)<Props>`
-  background: ${props =>
+  background:
+    ${props =>
     props.selected
       ? '#004'
       : props.notSelected
         ? '#ddd'
         : 'radial-gradient(#fff, #004)'};
-
   cursor: ${props => props.noHover ? 'not-allowed' : 'pointer'};
 
   &:hover {

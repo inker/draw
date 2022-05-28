@@ -18,17 +18,19 @@ module.exports = {
     'alpha-value-notation': null,
     'string-quotes': null, // TODO: remove
     'declaration-block-no-redundant-longhand-properties': null, // TODO: remove
+    'keyframes-name-pattern': null,
     'scss/at-rule-no-unknown': true,
     'scss/selector-no-redundant-nesting-selector': true,
     'block-closing-brace-newline-before': 'always',
     'block-opening-brace-newline-after': 'always',
     'declaration-block-no-duplicate-properties': true,
-    'value-keyword-case': [
-      'lower',
-      {
-        camelCaseSvgKeywords: true,
-      },
-    ],
+    // 'value-keyword-case': [
+    //   'lower',
+    //   {
+    //     camelCaseSvgKeywords: true,
+    //   },
+    // ],
+    'value-keyword-case': null, // TODO: remove
     'property-no-vendor-prefix': [
       true,
       {

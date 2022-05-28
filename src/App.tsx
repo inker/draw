@@ -18,7 +18,7 @@ const Routes = lazy(constant(import(/* webpackPreload: true, webpackChunkName: "
 const Version = lazy(constant(import(/* webpackPreload: true, webpackChunkName: "version" */ './Version')))
 
 const Root = styled.div`
-  & * {
+  * {
     box-sizing: border-box;
   }
 `

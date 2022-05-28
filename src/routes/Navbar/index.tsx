@@ -26,12 +26,12 @@ const Root = styled.div`
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  padding-right: 10px;
   margin-bottom: 10px;
   height: 24px;
+  padding-right: 10px;
   font-size: 14px;
 
-  & > * {
+  > * {
     display: flex;
     justify-content: flex-end;
     align-items: center;
@@ -40,7 +40,7 @@ const Root = styled.div`
       margin-right: 15px;
     }
 
-    & > * {
+    > * {
       margin-left: 5px;
 
       &:not(:last-child) {

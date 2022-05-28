@@ -21,8 +21,8 @@ const ContentWithFlagFixed = styled(ContentWithFlag)`
   position: fixed;
   top: 0;
   left: 0;
-  margin: 0;
   z-index: 1000;
+  margin: 0;
   user-select: none;
   pointer-events: none;
 `

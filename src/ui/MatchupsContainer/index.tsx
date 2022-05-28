@@ -11,8 +11,8 @@ import Table from 'ui/table/Table'
 import Matchup from './Matchup'
 
 const RootTable = styled(Table)`
-  width: auto;
   align-self: center;
+  width: auto;
   max-width: initial;
 `
 

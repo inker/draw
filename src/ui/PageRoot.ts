@@ -6,8 +6,8 @@ const Root = styled.div`
   width: 1000px;
 
   @media (max-width: 999px) {
-    width: 100%;
     flex-direction: column;
+    width: 100%;
   }
 `
 

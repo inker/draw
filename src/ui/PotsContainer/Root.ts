@@ -10,7 +10,7 @@ const Root = styled.div<Props>`
   flex-wrap: nowrap;
   justify-content: center;
 
-  & > * {
+  > * {
     flex: 1;
     flex-basis: 22%;
     ${props => props.limitWidth && css`
