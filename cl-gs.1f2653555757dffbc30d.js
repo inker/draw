@@ -18,26 +18,22 @@
   from {
     box-shadow: 0 0 20px #08f;
   }
-  to {}
 `,k=n.F4`
   from {
-    background-color: rgba(255, 255, 255, 0.5);
+    background-color: rgb(255 255 255 / 0.5);
   }
-  to {}
 `,Z=n.F4`
   from {
-    background-color: rgba(255, 255, 0, 0.5);
+    background-color: rgb(255 255 0 / 0.5);
   }
-  to {}
 `,G=n.F4`
   from {
-    background-color: rgba(192, 224, 255, 0.5);
+    background-color: rgb(192 224 255 / 0.5);
   }
-  to {}
 `,w=n.iv`
   position: relative; /* enables glow */
   ${e=>e.theme.isDarkMode?n.iv`
-      background-color: rgba(255, 255, 255, 0.3);
+      background-color: rgb(255 255 255 / 0.3);
     `:n.iv`
       box-shadow: 0 0 5px #6af;
     `}
@@ -50,7 +46,7 @@
     height: 100%;
     animation: ${e=>e.theme.isDarkMode?k:x} 1s ease;
     ${e=>e.theme.isDarkMode?n.iv`
-      background-color: rgba(255, 255, 255, 0.3);
+      background-color: rgb(255 255 255 / 0.3);
     `:n.iv`
       box-shadow: 0 0 5px #6af;
     `}
@@ -64,7 +60,7 @@
   display: flex;
   flex-flow: row wrap;
 
-  & > * {
+  > * {
     flex: 1;
     flex-basis: 22%;
   }
