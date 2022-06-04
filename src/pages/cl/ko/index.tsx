@@ -120,7 +120,7 @@ function CLKO({
     newPots[currentPotNum] = newPots[currentPotNum].filter((_, idx) => idx !== index)
 
     const newMatchups = matchups.slice()
-    // @ts-ignore
+    // @ts-expect-error
     newMatchups[currentMatchupNum] = [
       ...newMatchups[currentMatchupNum],
       selectedTeam,

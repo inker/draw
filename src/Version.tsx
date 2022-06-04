@@ -1,9 +1,9 @@
 import { memo } from 'react'
 import { Helmet } from 'react-helmet'
 
-// @ts-ignore
+// @ts-expect-error
 const version = __VERSION__
-// @ts-ignore
+// @ts-expect-error
 const modificationDate = __MODIFICATION_DATE__
 
 // eslint-disable-next-line no-console
