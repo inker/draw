@@ -41,11 +41,11 @@ function App() {
       <Root>
         <Popup />
         <HashRouter>
-          <Suspense fallback={false}>
+          <Suspense>
             <Routes />
           </Suspense>
         </HashRouter>
-        <Suspense fallback={false}>
+        <Suspense>
           <Version />
         </Suspense>
       </Root>
