@@ -40,11 +40,11 @@ function App() {
       <Body />
       <Root>
         <Popup />
-        <Suspense fallback={false}>
-          <HashRouter>
+        <HashRouter>
+          <Suspense fallback={false}>
             <Routes />
-          </HashRouter>
-        </Suspense>
+          </Suspense>
+        </HashRouter>
         <Suspense fallback={false}>
           <Version />
         </Suspense>
