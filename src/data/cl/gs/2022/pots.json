@@ -175,12 +175,6 @@
       "coefficient": 44
     },
     {
-      "name": "Olympiacos",
-      "country": "Greece",
-      "bertName": "Olympiakos Piraeus",
-      "coefficient": 41
-    },
-    {
       "name": "København",
       "country": "Denmark",
       "bertName": "FC København",
@@ -197,6 +191,12 @@
       "country": "Scotland",
       "bertName": "Celtic",
       "coefficient": 33
+    },
+    {
+      "name": "Plzeň",
+      "country": "Czechia",
+      "bertName": "Viktoria Plzen",
+      "coefficient": 31
     }
   ]
 ]
