@@ -3,7 +3,9 @@ import {
   useRef,
 } from 'react'
 
-export default (effect: () => void, deps?: any[]) => {
+type UseEffectParameters = Parameters<typeof useEffect>
+
+export default (effect: () => void, deps?: UseEffectParameters[1]) => {
   const didMountRef = useRef(false)
   useEffect(() => {
     if (didMountRef.current) {
