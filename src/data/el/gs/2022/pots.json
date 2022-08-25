@@ -69,12 +69,6 @@
       "coefficient": 33
     },
     {
-      "name": "Gent",
-      "country": "Belgium",
-      "bertName": "AA Gent",
-      "coefficient": 27.5
-    },
-    {
       "name": "Monaco",
       "country": "France",
       "bertName": "AS Monaco",
@@ -97,15 +91,15 @@
       "country": "Sweden",
       "bertName": "Malmö FF",
       "coefficient": 23.5
-    }
-  ],
-  [
+    },
     {
       "name": "Ludogorets",
       "country": "Bulgaria",
       "bertName": "Ludogorets Razgrad",
       "coefficient": 23
-    },
+    }
+  ],
+  [
     {
       "name": "Sheriff",
       "country": "Moldova",
@@ -147,15 +141,15 @@
       "country": "Germany",
       "bertName": "SC Freiburg",
       "coefficient": 15.042
-    }
-  ],
-  [
+    },
     {
       "name": "Fenerbahçe",
       "country": "Turkey",
       "bertName": "Fenerbahçe",
       "coefficient": 14.5
-    },
+    }
+  ],
+  [
     {
       "name": "Nantes",
       "country": "France",
@@ -181,10 +175,16 @@
       "coefficient": 7.5
     },
     {
-      "name": "Hearts",
-      "country": "Scotland",
-      "bertName": "Hearts FC",
-      "coefficient": 7.38
+      "name": "Omonia",
+      "country": "Cyprus",
+      "bertName": "Omonia Nicosia",
+      "coefficient": 7
+    },
+    {
+      "name": "Zürich",
+      "country": "Switzerland",
+      "bertName": "FC Zürich",
+      "coefficient": 7
     },
     {
       "name": "Union SG",

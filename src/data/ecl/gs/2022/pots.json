@@ -1,0 +1,202 @@
+[
+  [
+    {
+      "name": "Villarreal",
+      "country": "Spain",
+      "bertName": "Villarreal",
+      "coefficient": 78
+    },
+    {
+      "name": "Basel",
+      "country": "Switzerland",
+      "bertName": "FC Basel",
+      "coefficient": 55
+    },
+    {
+      "name": "Slavia",
+      "country": "Czechia",
+      "bertName": "Slavia Praha",
+      "coefficient": 52
+    },
+    {
+      "name": "AZ",
+      "country": "Netherlands",
+      "bertName": "AZ Alkmaar",
+      "coefficient": 28.5
+    },
+    {
+      "name": "Gent",
+      "country": "Belgium",
+      "bertName": "AA Gent &4",
+      "coefficient": 27.5
+    },
+    {
+      "name": "Başakşehir",
+      "country": "Turkey",
+      "bertName": "Istanbul Basaksehir",
+      "coefficient": 25
+    },
+    {
+      "name": "Partizan",
+      "country": "Serbia",
+      "bertName": "Partizan Belgrade &3",
+      "coefficient": 24.5
+    },
+    {
+      "name": "West Ham",
+      "country": "England",
+      "bertName": "West Ham United",
+      "coefficient": 21.328
+    }
+  ],
+  [
+    {
+      "name": "CFR Cluj",
+      "country": "Romania",
+      "bertName": "CFR Cluj",
+      "coefficient": 19.5
+    },
+    {
+      "name": "Molde",
+      "country": "Norway",
+      "bertName": "Molde FK",
+      "coefficient": 19
+    },
+    {
+      "name": "FCSB",
+      "country": "Romania",
+      "bertName": "FCSB",
+      "coefficient": 17.5
+    },
+    {
+      "name": "Fiorentina",
+      "country": "Italy",
+      "bertName": "Fiorentina",
+      "coefficient": 15.38
+    },
+    {
+      "name": "Köln",
+      "country": "Germany",
+      "bertName": "1.FC Köln",
+      "coefficient": 15.042
+    },
+    {
+      "name": "H Beer-Sheva",
+      "country": "Israel",
+      "bertName": "Hapoel Beer-Sheva",
+      "coefficient": 14
+    },
+    {
+      "name": "Apollon",
+      "country": "Cyprus",
+      "bertName": "Apollon Limassol &4",
+      "coefficient": 14
+    },
+    {
+      "name": "Slovan",
+      "country": "Slovakia",
+      "bertName": "Slovan Bratislava &3",
+      "coefficient": 13
+    }
+  ],
+  [
+    {
+      "name": "Nice",
+      "country": "France",
+      "bertName": "OGC Nice",
+      "coefficient": 12.016
+    },
+    {
+      "name": "Anderlecht",
+      "country": "Belgium",
+      "bertName": "Anderlecht",
+      "coefficient": 11.5
+    },
+    {
+      "name": "Žalgiris",
+      "country": "Lithuania",
+      "bertName": "Zalgiris Vilnius &4",
+      "coefficient": 8
+    },
+    {
+      "name": "Austria Wien",
+      "country": "Austria",
+      "bertName": "Austria Wien",
+      "coefficient": 7.77
+    },
+    {
+      "name": "Hearts",
+      "country": "Scotland",
+      "bertName": "Hearts FC &4",
+      "coefficient": 7.38
+    },
+    {
+      "name": "Shamrock Rovers",
+      "country": "Ireland",
+      "bertName": "Shamrock Rovers &4",
+      "coefficient": 7
+    },
+    {
+      "name": "Sivasspor",
+      "country": "Turkey",
+      "bertName": "Sivasspor &4",
+      "coefficient": 6.5
+    },
+    {
+      "name": "Vaduz",
+      "country": "Liechtenstein",
+      "bertName": "FC Vaduz",
+      "coefficient": 6.5
+    }
+  ],
+  [
+    {
+      "name": "Dnipro",
+      "country": "Ukraine",
+      "bertName": "SC Dnipro-1 &4",
+      "coefficient": 6.36
+    },
+    {
+      "name": "Lech",
+      "country": "Poland",
+      "bertName": "Lech Poznan",
+      "coefficient": 6
+    },
+    {
+      "name": "Slovácko",
+      "country": "Czechia",
+      "bertName": "1.FC Slovácko &3",
+      "coefficient": 5.56
+    },
+    {
+      "name": "Silkeborg",
+      "country": "Denmark",
+      "bertName": "Silkeborg IF &4",
+      "coefficient": 5.435
+    },
+    {
+      "name": "Djurgården",
+      "country": "Sweden",
+      "bertName": "Djurgårdens IF",
+      "coefficient": 4.575
+    },
+    {
+      "name": "Pyunik",
+      "country": "Armenia",
+      "bertName": "Pyunik Yerevan &4",
+      "coefficient": 4.25
+    },
+    {
+      "name": "RFS",
+      "country": "Latvia",
+      "bertName": "RFS Riga",
+      "coefficient": 4
+    },
+    {
+      "name": "Ballkani",
+      "country": "Kosovo",
+      "bertName": "FC Ballkani",
+      "coefficient": 1.633
+    }
+  ]
+]

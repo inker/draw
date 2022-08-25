@@ -14,7 +14,7 @@ export default {
         ko: 2021,
       },
       ecl: {
-        gs: 2021,
+        gs: 2022,
         ko: 2020,
       },
     },
