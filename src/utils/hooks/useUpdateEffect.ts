@@ -1,11 +1,11 @@
 import {
-  EffectCallback,
-  DependencyList,
   useEffect,
   useRef,
 } from 'react'
 
-export default (effect: EffectCallback, deps?: DependencyList) => {
+type UseEffectParameters = Parameters<typeof useEffect>
+
+export default (effect: UseEffectParameters[0], deps?: UseEffectParameters[1]) => {
   const isInitialMount = useRef(true)
   useEffect(() => {
     if (isInitialMount.current) {

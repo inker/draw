@@ -163,22 +163,10 @@
       "coefficient": 49.5
     },
     {
-      "name": "Crvena zvezda",
-      "country": "Serbia",
-      "bertName": "Red Star Belgrade",
-      "coefficient": 46
-    },
-    {
       "name": "Marseille",
       "country": "France",
       "bertName": "Olympique Marseille",
       "coefficient": 44
-    },
-    {
-      "name": "Olympiacos",
-      "country": "Greece",
-      "bertName": "Olympiakos Piraeus",
-      "coefficient": 41
     },
     {
       "name": "København",
@@ -197,6 +185,18 @@
       "country": "Scotland",
       "bertName": "Celtic",
       "coefficient": 33
+    },
+    {
+      "name": "Plzeň",
+      "country": "Czechia",
+      "bertName": "Viktoria Plzen",
+      "coefficient": 31
+    },
+    {
+      "name": "M Haifa",
+      "country": "Israel",
+      "bertName": "Maccabi Haifa",
+      "coefficient": 7
     }
   ]
 ]

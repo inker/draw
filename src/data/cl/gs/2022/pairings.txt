@@ -1,29 +1,32 @@
 Real Madrid
 Barcelona
 
-Atlético
-Sevilla
+Frankfurt
+Leipzig
 
 Man City
 Liverpool
 
-Chelsea
-Tottenham
+Milan
+Napoli
 
 Bayern
 Dortmund
-
-Frankfurt
-Leipzig
-
-Juventus
-Internazionale
-
-Milan
-Napoli
 
 Paris
 Marseille
 
 Porto
 Benfica
+
+Chelsea
+Tottenham
+
+Juventus
+Internazionale
+
+Atlético
+Sevilla
+
+Rangers
+Celtic
