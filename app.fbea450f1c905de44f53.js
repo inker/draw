@@ -35,7 +35,7 @@
   @media (max-width: 999px) {
     font-size: 8vw;
   }
-`;const Z=(0,o.memo)((function({noAnimation:e,children:t}){return(0,r.jsx)(g,{noAnimation:e,children:(0,r.jsx)(k,{children:t})})}));var b=n(32531);const y=(0,o.memo)((function(){const[e]=(0,l.Z)(),{initial:t,error:n,waiting:i}=e,s=(0,o.useCallback)((e=>(0,r.jsx)(Z,{...e,noAnimation:t})),[t]);return n?(0,r.jsx)(s,{children:n}):i?(0,r.jsxs)(s,{children:["wait",(0,r.jsx)(b.Z,{initialNum:3,maxNum:3,interval:1e3})]}):null})),S=(0,o.lazy)(c(Promise.all([n.e(7823),n.e(4593),n.e(7770)]).then(n.bind(n,70343)))),z=(0,o.lazy)(c(Promise.all([n.e(4593),n.e(5872)]).then(n.bind(n,18590)))),C=s.ZP.div`
+`;const Z=(0,o.memo)((function({noAnimation:e,children:t}){return(0,r.jsx)(g,{noAnimation:e,children:(0,r.jsx)(k,{children:t})})}));var b=n(32531);const y=(0,o.memo)((function(){const[e]=(0,l.Z)(),{initial:t,error:n,waiting:i}=e,s=(0,o.useCallback)((e=>(0,r.jsx)(Z,{...e,noAnimation:t})),[t]);return n?(0,r.jsx)(s,{children:n}):i?(0,r.jsxs)(s,{children:["wait",(0,r.jsx)(b.Z,{initialNum:3,maxNum:3,interval:1e3})]}):null})),S=(0,o.lazy)(c(Promise.all([n.e(7823),n.e(4593),n.e(7770)]).then(n.bind(n,41826)))),z=(0,o.lazy)(c(Promise.all([n.e(4593),n.e(5872)]).then(n.bind(n,18590)))),C=s.ZP.div`
   * {
     box-sizing: border-box;
   }
