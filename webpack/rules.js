@@ -1,21 +1,25 @@
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
-const { createLodashTransformer } = require('typescript-plugin-lodash')
-const createStyledComponentsTransformer = require('typescript-plugin-styled-components').default
+const tsImportPluginFactory = require('ts-import-plugin')
+// const createStyledComponentsTransformer = require('typescript-plugin-styled-components').default
 const { compact } = require('lodash')
 
-const lodashTransformer = createLodashTransformer()
-const styledComponentsTransformer = createStyledComponentsTransformer()
+const tsImportTransformer = tsImportPluginFactory({
+  libraryName: 'lodash',
+  libraryDirectory: '',
+  camel2DashComponentName: false,
+})
+// const styledComponentsTransformer = createStyledComponentsTransformer()
 
 const tsOptions = (isDev) => isDev ? {
   getCustomTransformers: () => ({
     before: [
-      styledComponentsTransformer,
+      // styledComponentsTransformer,
     ],
   }),
 } : {
   getCustomTransformers: () => ({
     before: [
-      lodashTransformer,
+      tsImportTransformer,
     ],
   }),
   ignoreDiagnostics: [],
