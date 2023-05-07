@@ -6,9 +6,6 @@ const version = __VERSION__
 // @ts-expect-error
 const modificationDate = __MODIFICATION_DATE__
 
-// eslint-disable-next-line no-console
-console.log('modified at:', modificationDate)
-
 function Version() {
   return (
     <Helmet>
