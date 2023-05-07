@@ -45,14 +45,14 @@ module.exports = (isDev) => compact([
     test: /\.(png|jpe?g|gif|svg)$/,
     type: 'asset/resource',
     generator: {
-      filename: `images/[name]${isDev ? '' : '.[contenthash]'}[ext]`,
+      filename: `images/[name]${isDev ? '' : '.[contenthash:8]'}[ext]`,
     },
   },
   {
     test: /\.txt$/,
     type: 'asset/source',
     generator: {
-      filename: `data/[name]${isDev ? '' : '.[contenthash]'}[ext]`,
+      filename: `data/[name]${isDev ? '' : '.[contenthash:8]'}[ext]`,
     },
   },
 ])

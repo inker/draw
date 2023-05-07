@@ -32,7 +32,7 @@ module.exports = (env) => {
     output: {
       clean: true,
       path: distDir,
-      filename: `[name]${isDev ? '' : '.[contenthash]'}.js`,
+      filename: `[name]${isDev ? '' : '.[contenthash:8]'}.js`,
       sourceMapFilename: '[file].map',
       globalObject: isDev ? 'this' : undefined, // TODO
     },
