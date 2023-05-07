@@ -3,6 +3,7 @@
     "target": "ES2021",
     "module": "ESNext",
     "moduleResolution": "Node",
+    "skipLibCheck": true,
     "allowSyntheticDefaultImports": true,
     "baseUrl": "./src",
     // "sourceMap": true, // not needed when assembled with webpack
