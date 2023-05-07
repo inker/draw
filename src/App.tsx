@@ -15,7 +15,6 @@ import Body from './Body'
 import Popup from './Popup'
 
 const Routes = lazy(constant(import(/* webpackPreload: true, webpackChunkName: "routes" */ './routes')))
-const Version = lazy(constant(import(/* webpackPreload: true, webpackChunkName: "version" */ './Version')))
 
 const Root = styled.div`
   * {
@@ -45,9 +44,6 @@ function App() {
             <Routes />
           </Suspense>
         </HashRouter>
-        <Suspense>
-          <Version />
-        </Suspense>
       </Root>
     </ThemeProvider>
   )

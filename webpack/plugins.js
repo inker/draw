@@ -17,8 +17,6 @@ module.exports = (isDev) => compact([
     'process.env': {
       NODE_ENV: JSON.stringify(isDev ? 'development' : 'production'),
     },
-    __MODIFICATION_DATE__: JSON.stringify(currentDate),
-    __VERSION__: JSON.stringify(lastCommitHash),
   }),
 
   !isDev && new MiniCssExtractPlugin({
@@ -39,6 +37,10 @@ module.exports = (isDev) => compact([
       minifyJS: true,
       minifyCSS: true,
       minifyURLs: true,
+    },
+    meta: {
+      version: lastCommitHash,
+      'modification-date': currentDate,
     },
   }),
 
