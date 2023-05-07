@@ -16,7 +16,7 @@ module.exports = (isDev) => ({
 
   splitChunks: {
     chunks: 'all',
-    // name: (module, chunks) => chunks.map(item => item.name).join('~'),
+    name: (module, chunks) => chunks.map(item => item.name).join('~'),
     cacheGroups: {
       defaultVendors: {
         test: /node_modules/,
