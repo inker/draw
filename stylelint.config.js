@@ -1,27 +1,19 @@
 module.exports = {
-  processors: [
-    'stylelint-processor-styled-components',
-  ],
   extends: [
-    'stylelint-config-standard-scss',
+    'stylelint-config-standard',
     'stylelint-config-styled-components',
   ],
+  customSyntax: 'postcss-styled-syntax',
   plugins: [
     'stylelint-order',
-    'stylelint-scss',
   ],
   rules: {
     'comment-empty-line-before': null,
-    'selector-list-comma-newline-after': null,
     'no-descending-specificity': null,
     'alpha-value-notation': null,
     'string-quotes': null, // TODO: remove
+    'media-feature-range-notation': null,
     'declaration-block-no-redundant-longhand-properties': null, // TODO: remove
-    'keyframes-name-pattern': null,
-    'scss/at-rule-no-unknown': true,
-    'scss/selector-no-redundant-nesting-selector': true,
-    'block-closing-brace-newline-before': 'always',
-    'block-opening-brace-newline-after': 'always',
     'declaration-block-no-duplicate-properties': true,
     // 'value-keyword-case': [
     //   'lower',
@@ -29,7 +21,20 @@ module.exports = {
     //     camelCaseSvgKeywords: true,
     //   },
     // ],
-    'value-keyword-case': null, // TODO: remove
+    'selector-pseudo-class-no-unknown': [
+      true,
+      {
+        ignorePseudoClasses: [
+          'global',
+        ],
+      },
+    ],
+    'value-keyword-case': [
+      'lower',
+      {
+        camelCaseSvgKeywords: true,
+      },
+    ],
     'property-no-vendor-prefix': [
       true,
       {
@@ -43,12 +48,6 @@ module.exports = {
     ],
     'at-rule-no-vendor-prefix': [
       true,
-    ],
-    indentation: [
-      2,
-      {
-        baseIndentLevel: 0,
-      },
     ],
     'order/properties-order': [
       [
