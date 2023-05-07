@@ -1,4 +1,5 @@
 import {
+  memo,
   useEffect,
   lazy,
   Suspense,
@@ -49,4 +50,4 @@ function App() {
   )
 }
 
-export default App
+export default memo(App)
