@@ -6,32 +6,36 @@ on:
       - '**'
 
 jobs:
-  eslint:
+  checkout:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+
+  install-dependencies:
+    runs-on: ubuntu-latest
+    steps:
       - uses: actions/setup-node@v3
         with:
           node-version: 18
       - run: npm ci
+
+  eslint:
+    runs-on: ubuntu-latest
+    needs: install-dependencies
+    steps:
+      - uses: actions/checkout@v3
       - run: npm run lint
 
   stylelint:
     runs-on: ubuntu-latest
+    needs: install-dependencies
     steps:
       - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
-        with:
-          node-version: 18
-      - run: npm ci
       - run: npm run lint
 
   test:
     runs-on: ubuntu-latest
+    needs: install-dependencies
     steps:
       - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
-        with:
-          node-version: 18
-      - run: npm ci
       - run: npm test
