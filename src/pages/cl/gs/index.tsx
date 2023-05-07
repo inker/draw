@@ -14,7 +14,7 @@ import {
   shuffle,
 } from 'lodash'
 
-import Team from 'model/team/GsTeam'
+import type Team from 'model/team/GsTeam'
 
 import usePopup from 'store/usePopup'
 import useDrawId from 'store/useDrawId'

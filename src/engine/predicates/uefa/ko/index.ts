@@ -1,6 +1,6 @@
 import type { Predicate } from '@draws/engine'
 
-import Team from 'model/team/KnockoutTeam'
+import type Team from 'model/team/KnockoutTeam'
 
 import incompatibleCountries from '../utils/incompatibleCountries'
 

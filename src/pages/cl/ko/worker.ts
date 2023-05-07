@@ -2,7 +2,7 @@ import memoizeOne from 'memoize-one'
 
 import getPossiblePairings from 'engine/predicates/uefa/getPossiblePairings'
 import getPredicate from 'engine/predicates/uefa/ko'
-import Team from 'model/team/KnockoutTeam'
+import type Team from 'model/team/KnockoutTeam'
 import type { KoWorkerData } from 'model/WorkerData'
 
 type GetPredicateParams = Parameters<typeof getPredicate>

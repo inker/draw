@@ -1,7 +1,7 @@
 import { memo } from 'react'
 import styled from 'styled-components'
 
-import Team from 'model/team/Club'
+import type Team from 'model/team/Club'
 
 import Row from 'ui/table/Row'
 import Cell from 'ui/table/Cell'

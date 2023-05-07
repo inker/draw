@@ -1,4 +1,4 @@
-import { Confederation } from 'model/types'
+import { type Confederation } from 'model/types'
 
 import Team from '.'
 

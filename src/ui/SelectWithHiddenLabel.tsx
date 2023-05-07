@@ -1,8 +1,8 @@
 import {
   memo,
   useId,
-  DetailedHTMLProps,
-  SelectHTMLAttributes,
+  type DetailedHTMLProps,
+  type SelectHTMLAttributes,
 } from 'react'
 import styled, { css } from 'styled-components'
 

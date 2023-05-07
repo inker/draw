@@ -1,4 +1,4 @@
-import styled, { FlattenInterpolation } from 'styled-components'
+import styled, { type FlattenInterpolation } from 'styled-components'
 
 import BaseContent from './BaseContent'
 

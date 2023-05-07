@@ -1,6 +1,6 @@
 import { stubFalse } from 'lodash'
 
-import Team from 'model/team/Club'
+import type Team from 'model/team/Club'
 
 import makeGetOppositeCountry from './makeGetOppositeCountry'
 

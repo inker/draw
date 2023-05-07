@@ -1,8 +1,8 @@
 import { stubTrue } from 'lodash'
 
-import Tournament from 'model/Tournament'
-import Stage from 'model/Stage'
-import { Country } from 'model/types'
+import type Tournament from 'model/Tournament'
+import type Stage from 'model/Stage'
+import { type Country } from 'model/types'
 
 import isInsideInterval from 'utils/isInsideInterval'
 

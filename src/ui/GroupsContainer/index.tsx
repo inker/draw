@@ -2,10 +2,10 @@ import {
   memo,
   forwardRef,
 } from 'react'
-import styled, { FlattenInterpolation } from 'styled-components'
+import styled, { type FlattenInterpolation } from 'styled-components'
 
-import Club from 'model/team/Club'
-import NationalTeam from 'model/team/NationalTeam'
+import type Club from 'model/team/Club'
+import type NationalTeam from 'model/team/NationalTeam'
 import getGroupLetter from 'utils/getGroupLetter'
 
 import Group from './Group'

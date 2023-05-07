@@ -1,7 +1,7 @@
 import { memo } from 'react'
 
-import Team from 'model/team'
-import GsTeam from 'model/team/GsTeam'
+import type Team from 'model/team'
+import type GsTeam from 'model/team/GsTeam'
 
 import Row from 'ui/table/Row'
 

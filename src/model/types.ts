@@ -1,4 +1,4 @@
-import countries from 'data/countries'
+import type countries from 'data/countries'
 
 type Entry<T> = {
   [P in keyof T]: [P, T[P]];

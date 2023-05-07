@@ -1,5 +1,5 @@
-import Team from 'model/team/Club'
-import { UefaCountry } from 'model/types'
+import type Team from 'model/team/Club'
+import { type UefaCountry } from 'model/types'
 
 const coldCountries: UefaCountry[] = [
   'Kazakhstan',

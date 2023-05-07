@@ -4,7 +4,7 @@ import {
 } from 'react'
 import styled from 'styled-components'
 
-import Team from 'model/team/Club'
+import type Team from 'model/team/Club'
 
 import Table from 'ui/table/Table'
 

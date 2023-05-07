@@ -4,13 +4,13 @@ import {
   useMemo,
   useCallback,
   memo,
-  RefObject,
-  TransitionEvent,
+  type RefObject,
+  type TransitionEvent,
 } from 'react'
 import styled from 'styled-components'
 
-import Team from 'model/team'
-import Club from 'model/team/Club'
+import type Team from 'model/team'
+import type Club from 'model/team/Club'
 
 import getTeamCountryName from 'utils/getTeamCountryName'
 

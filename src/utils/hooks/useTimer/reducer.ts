@@ -24,17 +24,20 @@ type Action<T> = {
 
 function reducer<T>(state: State<T>, action: Action<T>) {
   switch (action.type) {
-    case types.set:
+    case types.set: {
       return {
         key: action.payload,
         isTimedOut: !!action.payload && action.payload === state.key,
       }
+    }
 
-    case types.reset:
+    case types.reset: {
       return initialState
+    }
 
-    default:
+    default: {
       throw new Error(`Unknown action: ${action}`)
+    }
   }
 }
 

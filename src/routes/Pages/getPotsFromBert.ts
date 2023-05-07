@@ -1,7 +1,7 @@
 import { memoize } from 'lodash'
 
-import Tournament from 'model/Tournament'
-import Stage from 'model/Stage'
+import type Tournament from 'model/Tournament'
+import type Stage from 'model/Stage'
 
 import getPairings from 'model/getPairings'
 import parseGS from 'model/parsePotsData/gs'

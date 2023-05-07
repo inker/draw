@@ -3,7 +3,7 @@ import {
   useEffect,
   useCallback,
   memo,
-  RefObject,
+  type RefObject,
 } from 'react'
 
 import delay from 'delay.js'

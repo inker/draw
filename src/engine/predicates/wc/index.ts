@@ -1,4 +1,4 @@
-import { Predicate } from '@draws/engine'
+import { type Predicate } from '@draws/engine'
 import {
   identity,
   countBy,
@@ -6,9 +6,9 @@ import {
   mapValues,
 } from 'lodash'
 
-import { Confederation } from 'model/types'
-import NationalTeam from 'model/team/NationalTeam'
-import UnknownNationalTeam from 'model/team/UnknownNationalTeam'
+import { type Confederation } from 'model/types'
+import type NationalTeam from 'model/team/NationalTeam'
+import type UnknownNationalTeam from 'model/team/UnknownNationalTeam'
 import getSmallestArrayLength from 'utils/getSmallestArrayLength'
 
 import getNumGroupsByYear from './getNumGroupsByYear'

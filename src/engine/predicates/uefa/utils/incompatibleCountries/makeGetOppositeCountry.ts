@@ -1,4 +1,4 @@
-import { Country } from 'model/types'
+import { type Country } from 'model/types'
 
 import constraints from './constraints'
 

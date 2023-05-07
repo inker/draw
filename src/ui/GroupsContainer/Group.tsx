@@ -1,9 +1,9 @@
 import { memo } from 'react'
-import { FlattenInterpolation } from 'styled-components'
+import { type FlattenInterpolation } from 'styled-components'
 import { range } from 'lodash'
 
-import Club from 'model/team/Club'
-import NationalTeam from 'model/team/NationalTeam'
+import type Club from 'model/team/Club'
+import type NationalTeam from 'model/team/NationalTeam'
 
 import Table from 'ui/table/Table'
 import Header from 'ui/table/Header'

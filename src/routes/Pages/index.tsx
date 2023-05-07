@@ -8,10 +8,10 @@ import { useParams } from 'react-router-dom'
 
 import delay from 'delay.js'
 
-import Team from 'model/team'
+import type Team from 'model/team'
 import UnknownNationalTeam from 'model/team/UnknownNationalTeam'
-import Tournament from 'model/Tournament'
-import Stage from 'model/Stage'
+import type Tournament from 'model/Tournament'
+import type Stage from 'model/Stage'
 
 import usePopup from 'store/usePopup'
 

@@ -13,7 +13,7 @@ import {
   shuffle,
 } from 'lodash'
 
-import Team from 'model/team/KnockoutTeam'
+import type Team from 'model/team/KnockoutTeam'
 
 import usePopup from 'store/usePopup'
 import useDrawId from 'store/useDrawId'

@@ -7,8 +7,8 @@ import {
 } from 'react'
 import { ThemeContext } from 'styled-components'
 
-import Club from 'model/team/Club'
-import NationalTeam from 'model/team/NationalTeam'
+import type Club from 'model/team/Club'
+import type NationalTeam from 'model/team/NationalTeam'
 
 import usePrevious from 'utils/hooks/usePrevious'
 import useDidUpdate from 'utils/hooks/useDidUpdate'

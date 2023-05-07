@@ -2,7 +2,7 @@ import memoizeOne from 'memoize-one'
 import { allPossibleGroups } from '@draws/engine'
 
 import getPredicate from 'engine/predicates/uefa/gs'
-import Team from 'model/team/GsTeam'
+import type Team from 'model/team/GsTeam'
 import type { GsWorkerData } from 'model/WorkerData'
 
 type GetPredicateParams = Parameters<typeof getPredicate>

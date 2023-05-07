@@ -1,7 +1,7 @@
 import styled, {
   css,
   keyframes,
-  FlattenInterpolation,
+  type FlattenInterpolation,
 } from 'styled-components'
 
 import Cell from 'ui/table/Cell'

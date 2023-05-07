@@ -1,6 +1,6 @@
 import styled, { css } from 'styled-components'
 
-import { Country } from 'model/types'
+import { type Country } from 'model/types'
 import getCountryFlagUrl from 'utils/getCountryFlagUrl'
 
 import Content from './Content'

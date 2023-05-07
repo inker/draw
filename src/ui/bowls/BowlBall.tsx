@@ -2,8 +2,8 @@ import {
   useRef,
   useCallback,
   memo,
-  DetailedHTMLProps,
-  HTMLAttributes,
+  type DetailedHTMLProps,
+  type HTMLAttributes,
 } from 'react'
 import styled, { css } from 'styled-components'
 

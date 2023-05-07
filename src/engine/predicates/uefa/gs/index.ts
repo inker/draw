@@ -1,7 +1,7 @@
 import type { Predicate } from '@draws/engine'
 import { sumBy } from 'lodash'
 
-import Team from 'model/team/GsTeam'
+import type Team from 'model/team/GsTeam'
 import getSmallestArrayLength from 'utils/getSmallestArrayLength'
 import getHalfArrayOfIndex from 'utils/getHalfArrayOfIndex'
 

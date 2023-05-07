@@ -3,7 +3,7 @@ import { firstPossibleGroup } from '@draws/engine'
 import { orderBy } from 'lodash'
 
 import getPredicate from 'engine/predicates/wc'
-import Team from 'model/team/NationalTeam'
+import type Team from 'model/team/NationalTeam'
 import type { GsWorkerData } from 'model/WorkerData'
 
 type GetPredicateParams = Parameters<typeof getPredicate>

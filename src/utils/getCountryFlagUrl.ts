@@ -2,7 +2,7 @@ import { memoize } from 'lodash'
 
 import countries from 'data/countries'
 
-import { Country } from 'model/types'
+import { type Country } from 'model/types'
 
 declare const require: any
 

@@ -19,8 +19,8 @@ import useFastDraw from 'store/useFastDraw'
 
 import Visibility from 'ui/Visibility'
 
-import Tournament from 'model/Tournament'
-import Stage from 'model/Stage'
+import type Tournament from 'model/Tournament'
+import type Stage from 'model/Stage'
 
 import config from '../config'
 

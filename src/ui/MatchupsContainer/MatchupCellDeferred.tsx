@@ -7,7 +7,7 @@ import {
 } from 'react'
 import { ThemeContext } from 'styled-components'
 
-import Team from 'model/team/Club'
+import type Team from 'model/team/Club'
 
 import usePrevious from 'utils/hooks/usePrevious'
 import useDidUpdate from 'utils/hooks/useDidUpdate'

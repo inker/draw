@@ -1,8 +1,8 @@
 import { memo } from 'react'
-import { FlattenInterpolation } from 'styled-components'
+import { type FlattenInterpolation } from 'styled-components'
 import { range } from 'lodash'
 
-import Team from 'model/team'
+import type Team from 'model/team'
 
 import Row from 'ui/table/Row'
 import Cell from 'ui/table/Cell'
