@@ -1,4 +1,4 @@
-import type { Predicate } from '@draws/engine'
+import { type Predicate } from '@draws/engine'
 import { sumBy } from 'lodash'
 
 import type Team from 'model/team/GsTeam'

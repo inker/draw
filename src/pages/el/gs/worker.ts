@@ -3,7 +3,7 @@ import { firstPossibleGroup } from '@draws/engine'
 
 import getPredicate from 'engine/predicates/uefa/gs'
 import type Team from 'model/team/GsTeam'
-import type { GsWorkerData } from 'model/WorkerData'
+import { type GsWorkerData } from 'model/WorkerData'
 
 type GetPredicateParams = Parameters<typeof getPredicate>
 

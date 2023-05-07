@@ -4,7 +4,7 @@ import { orderBy } from 'lodash'
 
 import getPredicate from 'engine/predicates/wc'
 import type Team from 'model/team/NationalTeam'
-import type { GsWorkerData } from 'model/WorkerData'
+import { type GsWorkerData } from 'model/WorkerData'
 
 type GetPredicateParams = Parameters<typeof getPredicate>
 

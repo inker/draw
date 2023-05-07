@@ -1,4 +1,4 @@
-import type { Predicate } from '@draws/engine'
+import { type Predicate } from '@draws/engine'
 
 type OneOrTwo<T> = [T] | [T, T]
 
