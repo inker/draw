@@ -23,9 +23,9 @@ jobs:
       - name: Build
         run: npm run build -- --env out=$GH_PAGES_DIR
       - name: Deploy
-        uses: JamesIves/github-pages-deploy-action@releases/v3
+        uses: JamesIves/github-pages-deploy-action@releases/v4
         with:
-          ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          BRANCH: gh-pages # The branch the action should deploy to.
-          FOLDER: ${{ env.GH_PAGES_DIR }} # The folder the action should deploy.
-          CLEAN: true
+          token: ${{ secrets.GITHUB_TOKEN }}
+          branch: gh-pages # The branch the action should deploy to.
+          folder: ${{ env.GH_PAGES_DIR }} # The folder the action should deploy.
+          clean: true
