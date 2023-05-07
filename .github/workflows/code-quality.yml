@@ -20,6 +20,7 @@ jobs:
     needs: install-dependencies
     steps:
       - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
       - run: npm run lint
 
   stylelint:
@@ -27,6 +28,7 @@ jobs:
     needs: install-dependencies
     steps:
       - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
       - run: npm run lint
 
   test:
@@ -34,4 +36,5 @@ jobs:
     needs: install-dependencies
     steps:
       - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
       - run: npm test
