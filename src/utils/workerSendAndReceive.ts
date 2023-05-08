@@ -1,29 +1,31 @@
 import getRandomId from 'utils/getRandomId'
 
-export default <Request, Response>(worker: Worker) => (message: Request) =>
-  new Promise<Response>((resolve, reject) => {
-    interface ReceivedMessage {
-      messageId: string,
-      data: Response,
+export default <Request, Response>(worker: Worker) => {
+  interface ReceivedMessage {
+    messageId: string,
+    data: Response,
+  }
+
+  type Callback = (response: Response) => void
+  const callbacks = new Map<string, Callback>()
+
+  worker.addEventListener('message', (e: MessageEvent<ReceivedMessage>) => {
+    const id = e.data.messageId
+    const cb = callbacks.get(e.data.messageId)
+    if (!cb) {
+      return
     }
 
+    callbacks.delete(id)
+    cb(e.data.data)
+  })
+
+  return (message: Request) => new Promise<Response>(resolve => {
     const id = getRandomId()
-
-    const handler = (event: MessageEvent<ReceivedMessage>) => {
-      if (event.data.messageId !== id) {
-        return
-      }
-
-      worker.removeEventListener('message', handler)
-      resolve(event.data.data)
-    }
-
-    worker.addEventListener('message', handler)
-
-    worker.addEventListener('error', reject)
-
+    callbacks.set(id, resolve)
     worker.postMessage({
       messageId: id,
       data: message,
     })
   })
+}
