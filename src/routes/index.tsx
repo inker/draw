@@ -42,11 +42,11 @@ const {
 
 function useSeasonTournamentStage() {
   const match = useMatch(':tournament/:stage/*')
-  const params = match?.params ?? {}
+  const params = match?.params
   const {
     tournament,
     stage,
-  } = params as Path
+  } = (params ?? {}) as Path
 
   const season = params
     ? +(params['*'] || currentSeasonByTournament(tournament || null, stage || null))

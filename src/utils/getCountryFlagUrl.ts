@@ -15,7 +15,7 @@ const flags = {
 } as const
 
 function getCountryFlagUrl(country: Country) {
-  const exceptionalFlag = flags[country] as string
+  const exceptionalFlag = flags[country as keyof typeof flags]
   if (exceptionalFlag) {
     return exceptionalFlag
   }

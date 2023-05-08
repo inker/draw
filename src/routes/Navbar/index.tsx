@@ -61,7 +61,7 @@ interface Props {
   season: number,
   tournament: Tournament,
   stage: Stage,
-  onSeasonChange: (tournament: Tournament, stage: Stage, season: number) => void,
+  onSeasonChange: (tournament: Tournament, stage: Stage, season?: number) => void,
 }
 
 function Navbar({

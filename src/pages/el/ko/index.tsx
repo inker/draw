@@ -98,21 +98,27 @@ function ELKO({
 
   const groupsContanerRef = useRef<HTMLElement>(null)
 
-  const getPossiblePairings = useCallback(async (newPots, newMatchups) => {
-    try {
-      const response = await workerSendAndReceive({
-        season,
-        pots: newPots,
-        matchups: newMatchups,
-      })
-      return response.possiblePairings
-    } catch (err) {
-      setPopup({
-        error: 'Could not determine possible pairings',
-      })
-      throw err
-    }
-  }, [season, workerSendAndReceive])
+  const getPossiblePairings = useCallback(
+    async (
+      newPots: readonly (readonly Team[])[],
+      newMatchups: readonly [Team, Team][],
+    ) => {
+      try {
+        const response = await workerSendAndReceive({
+          season,
+          pots: newPots,
+          matchups: newMatchups,
+        })
+        return response.possiblePairings
+      } catch (err) {
+        setPopup({
+          error: 'Could not determine possible pairings',
+        })
+        throw err
+      }
+    },
+    [season, workerSendAndReceive],
+  )
 
   const onBallPick = useCallback(async (i: number) => {
     const currentPot = pots[currentPotNum]

@@ -7,7 +7,7 @@ import UnknownNationalTeam from 'model/team/UnknownNationalTeam'
 
 const countryNameToTeam = (host: boolean) =>
   (c: string) => {
-    const ctr = countries[c]
+    const ctr = countries[c as keyof typeof countries]
     return ctr
       ? new NationalTeam(c, 0, ctr.confederation, host)
       // @ts-expect-error
