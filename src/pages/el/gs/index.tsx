@@ -20,7 +20,7 @@ import useDrawId from 'store/useDrawId'
 import useFastDraw from 'store/useFastDraw'
 import useXRay from 'store/useXRay'
 
-import useWorkerReqResp from 'utils/hooks/useWorkerReqResp'
+import useWorkerSendAndReceive from 'utils/hooks/useWorkerSendAndReceive'
 
 import PageRoot from 'ui/PageRoot'
 import PotsContainer from 'ui/PotsContainer'
@@ -103,7 +103,9 @@ function ELGS({
 
   const [, setPopup] = usePopup()
   const [isXRay] = useXRay()
-  const workerSendAndReceive = useWorkerReqResp<WorkerRequest, WorkerResponse>(getEsWorker)
+
+  // eslint-disable-next-line max-len
+  const getFirstPossibleGroupResponse = useWorkerSendAndReceive<WorkerRequest, WorkerResponse>(getEsWorker)
 
   const groupsContanerRef = useRef<HTMLElement>(null)
 
@@ -114,7 +116,7 @@ function ELGS({
 
     let newPickedGroup: number | undefined
     try {
-      const response = await workerSendAndReceive({
+      const response = await getFirstPossibleGroupResponse({
         season,
         pots,
         groups,

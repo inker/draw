@@ -21,7 +21,7 @@ import useDrawId from 'store/useDrawId'
 import useFastDraw from 'store/useFastDraw'
 import useXRay from 'store/useXRay'
 
-import useWorkerReqResp from 'utils/hooks/useWorkerReqResp'
+import useWorkerSendAndReceive from 'utils/hooks/useWorkerSendAndReceive'
 
 import PageRoot from 'ui/PageRoot'
 import PotsContainer from 'ui/PotsContainer'
@@ -120,10 +120,11 @@ function CLGS({
 
   const [, setPopup] = usePopup()
   const [isXRay] = useXRay()
+
   // eslint-disable-next-line max-len
-  const getFirstPossibleGroupResponse = useWorkerReqResp<WorkerRequest, FirstPossibleGroupWorkerResponse>(getFirstPossibleGroupWorker)
+  const getFirstPossibleGroupResponse = useWorkerSendAndReceive<WorkerRequest, FirstPossibleGroupWorkerResponse>(getFirstPossibleGroupWorker)
   // eslint-disable-next-line max-len
-  const getAllPossibleGroupsResponse = useWorkerReqResp<WorkerRequest, AllPossibleGroupsWorkerResponse>(getAllPossibleGroupsWorker)
+  const getAllPossibleGroupsResponse = useWorkerSendAndReceive<WorkerRequest, AllPossibleGroupsWorkerResponse>(getAllPossibleGroupsWorker)
 
   const groupsContanerRef = useRef<HTMLElement>(null)
 

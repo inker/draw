@@ -21,7 +21,7 @@ import useFastDraw from 'store/useFastDraw'
 import useXRay from 'store/useXRay'
 
 import useMedia from 'utils/hooks/useMedia'
-import useWorkerReqResp from 'utils/hooks/useWorkerReqResp'
+import useWorkerSendAndReceive from 'utils/hooks/useWorkerSendAndReceive'
 
 import PageRoot from 'ui/PageRoot'
 import PotsContainer from 'ui/PotsContainer'
@@ -94,7 +94,9 @@ function ELKO({
   const isTallScreen = useMedia('(min-height: 750px)')
   const [, setPopup] = usePopup()
   const [isXRay] = useXRay()
-  const workerSendAndReceive = useWorkerReqResp<WorkerRequest, WorkerResponse>(getEsWorker)
+
+  // eslint-disable-next-line max-len
+  const getPossiblePairingsResponse = useWorkerSendAndReceive<WorkerRequest, WorkerResponse>(getEsWorker)
 
   const groupsContanerRef = useRef<HTMLElement>(null)
 
@@ -104,7 +106,7 @@ function ELKO({
       newMatchups: readonly [Team, Team][],
     ) => {
       try {
-        const response = await workerSendAndReceive({
+        const response = await getPossiblePairingsResponse({
           season,
           pots: newPots,
           matchups: newMatchups,
@@ -117,7 +119,7 @@ function ELKO({
         throw err
       }
     },
-    [season, workerSendAndReceive],
+    [season, getPossiblePairingsResponse],
   )
 
   const onBallPick = useCallback(async (i: number) => {

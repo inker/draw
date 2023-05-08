@@ -20,7 +20,7 @@ import useDrawId from 'store/useDrawId'
 import useFastDraw from 'store/useFastDraw'
 import useXRay from 'store/useXRay'
 
-import useWorkerReqResp from 'utils/hooks/useWorkerReqResp'
+import useWorkerSendAndReceive from 'utils/hooks/useWorkerSendAndReceive'
 
 import PageRoot from 'ui/PageRoot'
 import PotsContainer from 'ui/PotsContainer'
@@ -91,7 +91,9 @@ function CLKO({
 
   const [, setPopup] = usePopup()
   const [isXRay] = useXRay()
-  const workerSendAndReceive = useWorkerReqResp<WorkerRequest, WorkerResponse>(getEsWorker)
+
+  // eslint-disable-next-line max-len
+  const getPossiblePairingsResponse = useWorkerSendAndReceive<WorkerRequest, WorkerResponse>(getEsWorker)
 
   const groupsContanerRef = useRef<HTMLElement>(null)
 
@@ -101,7 +103,7 @@ function CLKO({
       newMatchups: readonly [Team, Team][],
     ) => {
       try {
-        const response = await workerSendAndReceive({
+        const response = await getPossiblePairingsResponse({
           season,
           pots: newPots,
           matchups: newMatchups,
@@ -114,7 +116,7 @@ function CLKO({
         throw err
       }
     },
-    [season, workerSendAndReceive],
+    [season, getPossiblePairingsResponse],
   )
 
   const onBallPick = useCallback(async (i: number) => {
