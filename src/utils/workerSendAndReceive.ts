@@ -20,8 +20,6 @@ export default <Request, Response>(worker: Worker, message: Request) =>
 
     worker.addEventListener('message', handler)
 
-    worker.addEventListener('messageerror', reject)
-
     worker.addEventListener('error', reject)
 
     worker.postMessage({
