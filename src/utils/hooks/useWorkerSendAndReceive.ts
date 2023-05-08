@@ -7,7 +7,7 @@ export default <Request, Response>(getWorker: () => Worker) => {
   const managedWorker = useWorker(getWorker)
 
   return useCallback(
-    (message: Request) => workerSendAndReceive<Request, Response>(managedWorker, message),
+    workerSendAndReceive<Request, Response>(managedWorker),
     [managedWorker],
   )
 }

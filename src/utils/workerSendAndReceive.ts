@@ -1,6 +1,6 @@
 import getRandomId from 'utils/getRandomId'
 
-export default <Request, Response>(worker: Worker, message: Request) =>
+export default <Request, Response>(worker: Worker) => (message: Request) =>
   new Promise<Response>((resolve, reject) => {
     interface ReceivedMessage {
       messageId: string,
