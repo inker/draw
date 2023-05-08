@@ -1,12 +1,13 @@
 name: Deploy GitHub pages
 
+env:
+  NODE_VERSION: 18
+  GH_PAGES_DIR: gh-pages-dist
+
 on:
   push:
     branches:
       - master
-
-env:
-  GH_PAGES_DIR: gh-pages-dist
 
 jobs:
   deploy:
@@ -17,7 +18,7 @@ jobs:
         #   persist-credentials: false
       - uses: actions/setup-node@v3
         with:
-          node-version: 18
+          node-version: ${{ env.NODE_VERSION }}
       - name: Install dependencies
         run: npm ci
       - name: Build
