@@ -1,3 +1,5 @@
+import getRandomId from 'utils/getRandomId'
+
 export default <Request, Response>(worker: Worker, message: Request) =>
   new Promise<Response>((resolve, reject) => {
     interface ReceivedMessage {
@@ -5,7 +7,7 @@ export default <Request, Response>(worker: Worker, message: Request) =>
       data: Response,
     }
 
-    const id = Math.random().toString(36).slice(2)
+    const id = getRandomId()
 
     const handler = (event: MessageEvent<ReceivedMessage>) => {
       if (event.data.messageId !== id) {
