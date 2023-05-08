@@ -28,7 +28,7 @@
   border-width: 2px;
   border-style: dashed;
   border-color: rgb(255 0 0 / 0.5);
-`;const v=(0,o.memo)((function(){return(0,i.jsxs)(g,{children:[(0,i.jsx)("div",{children:"Calculation is taking too long."}),(0,i.jsxs)("div",{children:["And"," ",(0,i.jsx)(s.Z,{href:"https://github.com/inker/draw/issues/14",target:"_blank",rel:"noopener",children:"here's why"}),"."]})]})}));var w=n(26962),b=n.n(w);const Z=r.vJ`
+`;const w=(0,o.memo)((function(){return(0,i.jsxs)(g,{children:[(0,i.jsx)("div",{children:"Calculation is taking too long."}),(0,i.jsxs)("div",{children:["And"," ",(0,i.jsx)(s.Z,{href:"https://github.com/inker/draw/issues/14",target:"_blank",rel:"noopener",children:"here's why"}),"."]})]})}));var v=n(26962),b=n.n(v);const Z=r.vJ`
   body * {
     transition-property: none !important;
     animation: none !important;
@@ -58,7 +58,7 @@
   > * + * {
     margin-top: 12px;
   }
-`;const T=(0,o.memo)((function({long:e,completed:t,selectedTeam:n,pickedGroup:r,possibleGroups:s,isDisplayPossibleGroupsText:d,numGroups:u,groupsElement:p,reset:x}){const h=(0,o.useRef)(null),g=(0,o.useRef)(null);(0,o.useEffect)((()=>{g.current=t?null:n}),[t,n]);const w=g.current??n;return t?(0,i.jsx)(P,{children:(0,i.jsxs)(E,{children:[(0,i.jsx)("div",{children:"Draw completed!"}),(0,i.jsx)(k,{completed:t,groupsElement:p}),(0,i.jsx)(a,{onClick:x,children:"Restart"})]})}):null!==r?(h.current=(0,i.jsx)(P,{children:(0,i.jsxs)("div",{children:[e&&w?(0,i.jsxs)("span",{children:[(0,i.jsx)(C,{children:w.shortName??w.name})," goes to group"]}):(0,i.jsx)("span",{children:"Group"})," ",(0,i.jsx)(C,{children:(0,m.Z)(r)}),"!"]})}),h.current):w?(0,i.jsx)(P,{children:d?(0,i.jsxs)("div",{children:["Possible groups for"," ",(0,i.jsxs)($,{children:[(0,i.jsx)(C,{children:w.name}),":"]}),s?(0,i.jsx)(f,{numGroups:u,possibleGroups:s}):(0,i.jsxs)("div",{children:[(0,i.jsx)(l.Z,{initialNum:0,maxNum:10,interval:2e3}),(0,i.jsx)(c,{delay:1e4,children:(0,i.jsx)(v,{})})]})]}):h.current}):(0,i.jsx)(P,{children:"Pick a ball"})}))},90604:(e,t,n)=>{n.d(t,{Z:()=>i});const i=n(12788).ZP.div`
+`;const T=(0,o.memo)((function({long:e,completed:t,selectedTeam:n,pickedGroup:r,possibleGroups:s,isDisplayPossibleGroupsText:d,numGroups:u,groupsElement:p,reset:x}){const h=(0,o.useRef)(null),g=(0,o.useRef)(null);(0,o.useEffect)((()=>{g.current=t?null:n}),[t,n]);const v=g.current??n;return t?(0,i.jsx)(P,{children:(0,i.jsxs)(E,{children:[(0,i.jsx)("div",{children:"Draw completed!"}),(0,i.jsx)(k,{completed:t,groupsElement:p}),(0,i.jsx)(a,{onClick:x,children:"Restart"})]})}):null!==r?(h.current=(0,i.jsx)(P,{children:(0,i.jsxs)("div",{children:[e&&v?(0,i.jsxs)("span",{children:[(0,i.jsx)(C,{children:v.shortName??v.name})," goes to group"]}):(0,i.jsx)("span",{children:"Group"})," ",(0,i.jsx)(C,{children:(0,m.Z)(r)}),"!"]})}),h.current):v?(0,i.jsx)(P,{children:d?(0,i.jsxs)("div",{children:["Possible groups for"," ",(0,i.jsxs)($,{children:[(0,i.jsx)(C,{children:v.name}),":"]}),s?(0,i.jsx)(f,{numGroups:u,possibleGroups:s}):(0,i.jsxs)("div",{children:[(0,i.jsx)(l.Z,{initialNum:0,maxNum:10,interval:2e3}),(0,i.jsx)(c,{delay:1e4,children:(0,i.jsx)(w,{})})]})]}):h.current}):(0,i.jsx)(P,{children:"Pick a ball"})}))},90604:(e,t,n)=>{n.d(t,{Z:()=>i});const i=n(12788).ZP.div`
   display: flex;
   flex-direction: column;
   margin: 0 5px 10px;
@@ -78,7 +78,7 @@
   height: 100%;
   z-index: 1000;
   pointer-events: none;
-`,h=document.createElement("div");h.classList.add(x),document.body.insertBefore(h,document.getElementById("app"));const f=(0,o.memo)((function({children:e}){return(0,i.jsx)(p,{tagName:"div",modalRoot:h,children:e})}));var g=n(39548);const v=(0,r.ZP)(g.Z)`
+`,h=document.createElement("div");h.classList.add(x),document.body.insertBefore(h,document.getElementById("app"));const f=(0,o.memo)((function({children:e}){return(0,i.jsx)(p,{tagName:"div",modalRoot:h,children:e})}));var g=n(39548);const w=(0,r.ZP)(g.Z)`
   position: fixed;
   top: 0;
   left: 0;
@@ -86,7 +86,7 @@
   margin: 0;
   user-select: none;
   pointer-events: none;
-`,w=e=>"string"==typeof e?document.querySelector(e):e.current,b=e=>`transform ${e}ms ease-in-out`;function Z(e){const{left:t,top:n}=e.getBoundingClientRect();return`translate3d(${t}px, ${n}px, 0px)`}const y=(0,o.memo)((function({from:e,to:t,duration:n,team:r,onAnimationEnd:d}){const a=(0,o.useMemo)((()=>w(e)),[e]),l=(0,o.useMemo)((()=>w(t)),[t]),[c,m]=(0,o.useState)(a);(0,o.useLayoutEffect)((()=>{c===a&&m(l)}),[c]);const u=(0,o.useMemo)((()=>({transform:c instanceof HTMLElement?Z(c):"",transition:c===l?b(n):""})),[c,l,n]),p=(0,o.useCallback)((e=>{"transform"===e.propertyName&&d?.()}),[d]);return c&&(0,i.jsx)(f,{children:(0,i.jsx)(v,{country:(0,s.Z)(r),style:u,onTransitionEnd:p,children:r.shortName??r.name})})}))},85973:(e,t,n)=>{n.d(t,{Z:()=>i});const i=n(12788).ZP.div`
+`,v=e=>"string"==typeof e?document.querySelector(e):e.current,b=e=>`transform ${e}ms ease-in-out`;function Z(e){const{left:t,top:n}=e.getBoundingClientRect();return`translate3d(${t}px, ${n}px, 0px)`}const y=(0,o.memo)((function({from:e,to:t,duration:n,team:r,onAnimationEnd:d}){const a=(0,o.useMemo)((()=>v(e)),[e]),l=(0,o.useMemo)((()=>v(t)),[t]),[c,m]=(0,o.useState)(a);(0,o.useLayoutEffect)((()=>{c===a&&m(l)}),[c]);const u=(0,o.useMemo)((()=>({transform:c instanceof HTMLElement?Z(c):"",transition:c===l?b(n):""})),[c,l,n]),p=(0,o.useCallback)((e=>{"transform"===e.propertyName&&d?.()}),[d]);return c&&(0,i.jsx)(f,{children:(0,i.jsx)(w,{country:(0,s.Z)(r),style:u,onTransitionEnd:p,children:r.shortName??r.name})})}))},85973:(e,t,n)=>{n.d(t,{Z:()=>i});const i=n(12788).ZP.div`
   display: flex;
   margin: auto;
   width: 1000px;
@@ -120,10 +120,10 @@
   opacity: 0.4;
 `,g=r.iv`
   color: #f70;
-`,v=(0,r.ZP)(h.Z)`
+`,w=(0,r.ZP)(h.Z)`
   ${e=>e.depleted&&f}
   ${e=>e.highlighted&&g}
-`,w=(0,r.ZP)(u.Z)`
+`,v=(0,r.ZP)(u.Z)`
   & + & {
     border-left: ${e=>e.theme.border};
   }
@@ -135,7 +135,7 @@
 `,j=(0,r.ZP)(b.Z)`
   ${e=>e.selected&&Z}
   ${e=>e.picked&&y}
-`;const k=(0,o.memo)((function({teams:e,pickedTeams:t,selectedTeams:n}){return(0,i.jsx)(m.Z,{children:e.map((e=>{const{name:o,country:r,shortName:s,pairing:d}=e;return(0,i.jsx)(w,{children:(0,i.jsx)(j,{"data-cellid":e.id,title:d&&`paired with ${d.shortName??d.name}`,selected:!!n?.includes(e),picked:t.includes(e),country:r??o,children:s??o})},e.id)}))})}));const P=(0,o.memo)((function({isCurrent:e,potNum:t,teams:n,pickedTeams:o,selectedTeams:r,numCols:s,headerStyles:d}){const a=n.length/s;return(0,i.jsxs)(x,{highlighted:e,children:[(0,i.jsx)("thead",{children:(0,i.jsx)(m.Z,{children:(0,i.jsx)(u.Z,{colSpan:s,children:(0,i.jsxs)(v,{highlighted:e,depleted:!n||o.length===n.length,styles:d,children:["Pot ",t+1]})})})}),(0,i.jsx)("tbody",{children:c()(a).map((e=>{const t=e*s,d=c()(s).map((e=>n[t+e]));return(0,i.jsx)(k,{teams:d,selectedTeams:r,pickedTeams:o},d.map((e=>e.id)).join(":"))}))})]})})),$=r.iv`
+`;const k=(0,o.memo)((function({teams:e,pickedTeams:t,selectedTeams:n}){return(0,i.jsx)(m.Z,{children:e.map((e=>{const{name:o,country:r,shortName:s,pairing:d}=e;return(0,i.jsx)(v,{children:(0,i.jsx)(j,{"data-cellid":e.id,title:d&&`paired with ${d.shortName??d.name}`,selected:!!n?.includes(e),picked:t.includes(e),country:r??o,children:s??o})},e.id)}))})}));const P=(0,o.memo)((function({isCurrent:e,potNum:t,teams:n,pickedTeams:o,selectedTeams:r,numCols:s,headerStyles:d}){const a=n.length/s;return(0,i.jsxs)(x,{highlighted:e,children:[(0,i.jsx)("thead",{children:(0,i.jsx)(m.Z,{children:(0,i.jsx)(u.Z,{colSpan:s,children:(0,i.jsxs)(w,{highlighted:e,depleted:!n||o.length===n.length,styles:d,children:["Pot ",t+1]})})})}),(0,i.jsx)("tbody",{children:c()(a).map((e=>{const t=e*s,d=c()(s).map((e=>n[t+e]));return(0,i.jsx)(k,{teams:d,selectedTeams:r,pickedTeams:o},d.map((e=>e.id)).join(":"))}))})]})})),$=r.iv`
   background-color: rgb(0 0 0 / 0.75);
   color: #fff;
 `;const C=(0,o.memo)((function({initialPots:e,pots:t,selectedTeams:n,currentPotNum:o,split:r}){return(0,i.jsx)(a,{limitWidth:!r,children:e.map(((s,a)=>{const l=a===o,c=d()(e[a],t[a],n??[]);return(0,i.jsx)(P,{potNum:a,isCurrent:l,teams:s,pickedTeams:c,selectedTeams:n,numCols:r?2:1,headerStyles:$},s[0].id)}))})}))},36756:(e,t,n)=>{n.d(t,{Z:()=>i});const i=n(12788).ZP.div`
@@ -282,4 +282,4 @@
     margin: 0 3px 6px;
     width: max-content;
   }
-`},788:(e,t,n)=>{n.d(t,{Z:()=>i});const i=e=>String.fromCodePoint(65+e)},68020:(e,t,n)=>{n.d(t,{Z:()=>i});const i=(e="")=>`${e}${Math.random().toString(36).slice(2)}`},58020:(e,t,n)=>{n.d(t,{Z:()=>o});var i=n(72574);const o=e=>e.country??(e.name in i.Z?e.name:void 0)},41771:(e,t,n)=>{n.d(t,{Z:()=>o});var i=n(67294);const o=(e,t)=>{const n=(0,i.useRef)(!1);(0,i.useEffect)((()=>{n.current?e():n.current=!0}),t)}},84048:(e,t,n)=>{n.d(t,{Z:()=>o});var i=n(67294);const o=e=>{const t=(0,i.useRef)();return(0,i.useEffect)((()=>{t.current=e})),t.current}},17187:(e,t,n)=>{n.d(t,{Z:()=>r});var i=n(67294);var o=n(68020);const r=e=>{const t=(e=>{const t=(0,i.useMemo)((()=>e()),[e]);return(0,i.useEffect)((()=>()=>{t.terminate()}),[t]),t})(e);return(0,i.useCallback)((e=>((e,t)=>new Promise(((n,i)=>{const r=(0,o.Z)(),s=t=>{t.data.messageId===r&&(e.removeEventListener("message",s),n(t.data.data))};e.addEventListener("message",s),e.addEventListener("error",i),e.postMessage({messageId:r,data:t})})))(t,e)),[t])}}}]);
+`},788:(e,t,n)=>{n.d(t,{Z:()=>i});const i=e=>String.fromCodePoint(65+e)},68020:(e,t,n)=>{n.d(t,{Z:()=>i});const i=(e="")=>`${e}${Math.random().toString(36).slice(2)}`},58020:(e,t,n)=>{n.d(t,{Z:()=>o});var i=n(72574);const o=e=>e.country??(e.name in i.Z?e.name:void 0)},41771:(e,t,n)=>{n.d(t,{Z:()=>o});var i=n(67294);const o=(e,t)=>{const n=(0,i.useRef)(!1);(0,i.useEffect)((()=>{n.current?e():n.current=!0}),t)}},84048:(e,t,n)=>{n.d(t,{Z:()=>o});var i=n(67294);const o=e=>{const t=(0,i.useRef)();return(0,i.useEffect)((()=>{t.current=e})),t.current}},17187:(e,t,n)=>{n.d(t,{Z:()=>r});var i=n(67294);var o=n(68020);const r=e=>{const t=(e=>{const t=(0,i.useMemo)((()=>e()),[e]);return(0,i.useEffect)((()=>()=>{t.terminate()}),[t]),t})(e);return(0,i.useCallback)((e=>{const t=new Map;return e.addEventListener("message",(e=>{const n=e.data.messageId,i=t.get(e.data.messageId);i&&(t.delete(n),i(e.data.data))})),n=>new Promise((i=>{const r=(0,o.Z)();t.set(r,i),e.postMessage({messageId:r,data:n})}))})(t),[t])}}}]);
