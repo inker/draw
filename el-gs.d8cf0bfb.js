@@ -1,4 +1,4 @@
-"use strict";(self.webpackChunkdraw=self.webpackChunkdraw||[]).push([[3602],{47710:(e,o,s)=>{s.r(o),s.d(o,{default:()=>v});var t=s(85893),r=s(67294),n=s(12788),l=s(83608),c=s.n(l),a=s(69983),u=s.n(a),i=s(61790),d=s(57111),p=s(43432),m=s(58231),f=s(12470),h=s(85973),g=s(62367),x=s(3962),b=s(36756),k=s(90604),Z=s(55020),j=s(3447);const w=()=>new Worker(new URL(s.p+s.u(70),s.b)),P=n.iv`
+"use strict";(self.webpackChunkdraw=self.webpackChunkdraw||[]).push([[3602],{47710:(e,o,s)=>{s.r(o),s.d(o,{default:()=>v});var t=s(85893),r=s(67294),n=s(12788),l=s(83608),c=s.n(l),a=s(69983),u=s.n(a),i=s(61790),d=s(57111),p=s(43432),m=s(58231),f=s(17187),h=s(85973),g=s(62367),x=s(3962),b=s(36756),k=s(90604),Z=s(55020),j=s(3447);const w=()=>new Worker(new URL(s.p+s.u(70),s.b)),P=n.iv`
   background-color: ${e=>e.theme.isDarkMode?"#933":"#ffc0c0"};
 `,G=n.iv`
   background-color: ${e=>e.theme.isDarkMode?"#039":"#c0e0ff"};
