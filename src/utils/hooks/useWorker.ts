@@ -4,7 +4,7 @@ import {
 } from 'react'
 
 interface BaseWorker {
-  terminate: () => void,
+  readonly terminate: () => void,
 }
 
 export default <T extends BaseWorker>(getWorker: () => T) => {

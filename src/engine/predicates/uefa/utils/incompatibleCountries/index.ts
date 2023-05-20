@@ -5,7 +5,7 @@ import { type UefaCountry } from 'model/types'
 import makeGetConflictingCountries from './makeGetConflictingCountries'
 
 interface WithCountry {
-  country: UefaCountry,
+  readonly country: UefaCountry,
 }
 
 export default (season: number) => {
