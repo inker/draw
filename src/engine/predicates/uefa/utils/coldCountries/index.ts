@@ -1,4 +1,3 @@
-import type Team from 'model/team/Club'
 import { type UefaCountry } from 'model/types'
 
 const coldCountries: UefaCountry[] = [
@@ -17,8 +16,12 @@ const coldCountries: UefaCountry[] = [
 
 const coldCountriesSet = new Set(coldCountries)
 
+interface WithCountry {
+  country: UefaCountry,
+}
+
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export default (season: number) =>
   // eslint-disable-next-line unicorn/consistent-function-scoping
-  (team: Team) =>
+  (team: WithCountry) =>
     coldCountriesSet.has(team.country)
