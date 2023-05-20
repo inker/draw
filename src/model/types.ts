@@ -21,3 +21,7 @@ type GrowToSize<T, A extends T[], N extends number> = {
 }[A['length'] extends N ? 0 : 1]
 
 export type FixedArray<T, N extends number> = GrowToSize<T, [], N>
+
+export type OptionalPropertyOf<T> = {
+  [K in keyof T]-?: undefined extends T[K] ? K : never
+}[keyof T]

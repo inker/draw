@@ -2,7 +2,10 @@ import { stubTrue } from 'lodash'
 
 import type Tournament from 'model/Tournament'
 import type Stage from 'model/Stage'
-import { type Country } from 'model/types'
+import {
+  type Country,
+  type OptionalPropertyOf,
+} from 'model/types'
 
 import isInsideInterval from 'utils/isInsideInterval'
 
@@ -29,12 +32,6 @@ const constraints: PartialItem[] = [
     countries: ['Spain', 'Gibraltar'],
   },
 ]
-
-type OptionalPropertyOf<T extends object> = Exclude<{
-  [K in keyof T]: T extends Record<K, T[K]>
-    ? never
-    : K
-}[keyof T], undefined>
 
 type ItemOptionalProperty = OptionalPropertyOf<PartialItem>
 
