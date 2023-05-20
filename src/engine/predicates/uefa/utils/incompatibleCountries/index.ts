@@ -2,19 +2,19 @@ import { stubFalse } from 'lodash'
 
 import { type UefaCountry } from 'model/types'
 
-import makeGetOppositeCountry from './makeGetOppositeCountry'
+import makeGetConflictingCountries from './makeGetConflictingCountries'
 
 interface WithCountry {
   country: UefaCountry,
 }
 
 export default (season: number) => {
-  const getOpposingCountry = makeGetOppositeCountry(season)
+  const getConflictingCountries = makeGetConflictingCountries(season)
   return (teamPicked: WithCountry) => {
-    const otherCountries = getOpposingCountry(teamPicked.country)
-    return otherCountries === undefined
+    const conflictingCountries = getConflictingCountries(teamPicked.country)
+    return conflictingCountries === undefined
       ? stubFalse
       : (otherTeam: WithCountry) =>
-        otherCountries.has(otherTeam.country)
+        conflictingCountries.has(otherTeam.country)
   }
 }
