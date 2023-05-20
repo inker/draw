@@ -11,10 +11,10 @@ interface WithCountry {
 export default (season: number) => {
   const getOpposingCountry = makeGetOppositeCountry(season)
   return (teamPicked: WithCountry) => {
-    const otherCountry = getOpposingCountry(teamPicked.country)
-    return otherCountry === undefined
+    const otherCountries = getOpposingCountry(teamPicked.country)
+    return otherCountries === undefined
       ? stubFalse
       : (otherTeam: WithCountry) =>
-        otherTeam.country === otherCountry
+        otherCountries.has(otherTeam.country)
   }
 }
