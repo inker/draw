@@ -1,17 +1,17 @@
 import { type UefaCountry } from 'model/types'
 
 const coldCountries: UefaCountry[] = [
-  'Kazakhstan',
-  'Russia',
   'Belarus',
-  'Lithuania',
-  'Latvia',
   'Estonia',
-  'Norway',
-  'Finland',
-  'Sweden',
-  'Iceland',
   'Faroe Islands',
+  'Finland',
+  'Iceland',
+  'Kazakhstan',
+  'Latvia',
+  'Lithuania',
+  'Norway',
+  'Russia',
+  'Sweden',
 ]
 
 const coldCountriesSet = new Set(coldCountries)
