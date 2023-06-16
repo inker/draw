@@ -91,6 +91,7 @@ module.exports = {
     '@typescript-eslint/no-explicit-any': 0,
     '@typescript-eslint/no-extra-parens': 0,
     '@typescript-eslint/no-non-null-assertion': 0,
+    '@typescript-eslint/no-unsafe-argument': 0,
     '@typescript-eslint/no-unused-vars': [2, {
       vars: 'all',
       args: 'after-used',
