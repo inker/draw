@@ -29,7 +29,7 @@ export default <S>(key: string, initialState: S, options?: Options<S>) => {
       if (item) {
         const parsed = o.parse(item)
         if (o.validate(parsed)) {
-          return parsed as S
+          return parsed
         }
       }
     } catch (err) {

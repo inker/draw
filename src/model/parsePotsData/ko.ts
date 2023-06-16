@@ -11,5 +11,5 @@ const objectToKoTeam = (o: any) =>
 const arrayToPot = (arr: readonly any[]) =>
   arr.map(objectToKoTeam)
 
-export default async (data: readonly (readonly any[])[]) =>
+export default (data: readonly (readonly any[])[]) =>
   data.map(arrayToPot)

@@ -51,7 +51,7 @@ const Portal = ({
 
   return ReactDOM.createPortal(
     children,
-    elRef.current!, // this.props.modalRoot is possible
+    elRef.current, // this.props.modalRoot is possible
   )
 }
 
