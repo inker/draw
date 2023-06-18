@@ -7,7 +7,9 @@ module.exports = (isDev) => ({
   minimizer: isDev
     ? undefined
     : [
-      new TerserPlugin(),
+      new TerserPlugin({
+        minify: TerserPlugin.swcMinify,
+      }),
 
       new CssMinimizerPlugin(),
     ],
@@ -26,7 +28,7 @@ module.exports = (isDev) => ({
         enforce: true,
       },
       lodash: {
-        test: /[/\\]lodash[/\\]/,
+        test: /[/\\]lodash(-es)?[/\\]/,
         chunks: 'initial',
         name: 'vendors-lodash',
         priority: -5000,

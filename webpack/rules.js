@@ -1,36 +1,17 @@
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
-const tsImportPluginFactory = require('ts-import-plugin')
 // const createStyledComponentsTransformer = require('typescript-plugin-styled-components').default
 const { compact } = require('lodash')
 
-const tsImportTransformer = tsImportPluginFactory({
-  libraryName: 'lodash',
-  libraryDirectory: '',
-  camel2DashComponentName: false,
-})
 // const styledComponentsTransformer = createStyledComponentsTransformer()
-
-const tsOptions = (isDev) => isDev ? {
-  getCustomTransformers: () => ({
-    before: [
-      // styledComponentsTransformer,
-    ],
-  }),
-} : {
-  getCustomTransformers: () => ({
-    before: [
-      tsImportTransformer,
-    ],
-  }),
-  ignoreDiagnostics: [],
-}
 
 module.exports = (isDev) => compact([
   {
     test: /\.tsx?$/,
     use: {
-      loader: 'ts-loader',
-      options: tsOptions(isDev),
+      loader: 'esbuild-loader',
+      options: {
+        target: 'es2021',
+      },
     },
     exclude: /node_modules/,
   },
