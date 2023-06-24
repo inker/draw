@@ -8,7 +8,7 @@
   cursor: pointer;
 `,A=i.ZP.input.attrs({type:"checkbox"})`
   cursor: pointer;
-  ${e=>e.theme.isDarkMode&&i.iv`
+  ${e=>e.theme.isDarkMode&&(0,i.iv)`
     border: ${e.theme.border};
     background-color: #246;
   `}
@@ -28,9 +28,9 @@
   }
 
   &:hover {
-    ${e=>e.theme.isDarkMode?i.iv`
+    ${e=>e.theme.isDarkMode?(0,i.iv)`
       background-color: #468;
-    `:i.iv`
+    `:(0,i.iv)`
       border-color: black;
     `}
   }
@@ -52,9 +52,9 @@
   }
 
   &:hover {
-    ${e=>e.theme.isDarkMode?i.iv`
+    ${e=>e.theme.isDarkMode?(0,i.iv)`
       background-color: #468;
-    `:i.iv`
+    `:(0,i.iv)`
       border-color: black;
     `}
   }

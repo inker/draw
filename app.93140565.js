@@ -1,4 +1,4 @@
-"use strict";(self.webpackChunkdraw=self.webpackChunkdraw||[]).push([[2143],{90733:(e,t,r)=>{var a=r(85893),i=r(76487),n=r(20745),l=r(67294),s=r(12788),o=r(79655),c=r(62002),d=r(40339),u=r(65600),m=r(12185);let h=()=>(0,m.Z)("(prefers-color-scheme: dark)"),f=()=>{let[e]=(0,u.Z)(),t=h();return"dark"===e||"auto"===e&&t},x={isDarkMode:!1,border:"#aaa solid 1px"},v={isDarkMode:!0,border:"#222 solid 1px"},p=s.vJ`
+"use strict";(self.webpackChunkdraw=self.webpackChunkdraw||[]).push([[2143],{90733:(e,t,r)=>{var a=r(85893),i=r(76487),n=r(20745),l=r(67294),s=r(12788),o=r(79655),c=r(62002),d=r(40339),u=r(65600),m=r(12185);let h=()=>(0,m.Z)("(prefers-color-scheme: dark)"),f=()=>{let[e]=(0,u.Z)(),t=h();return"dark"===e||"auto"===e&&t},x={isDarkMode:!1,border:"#aaa solid 1px"},v={isDarkMode:!0,border:"#222 solid 1px"},p=(0,s.vJ)`
   body {
     font-family: Tahoma, Arial, sans-serif;
     color: ${e=>e.theme.isDarkMode?"white":""};
@@ -13,14 +13,14 @@
   z-index: ${1e8};
   width: 100%;
   height: 100%;
-`,w=s.F4`
+`,w=(0,s.F4)`
   from {
     opacity: 0;
   }
 `,g=(0,s.ZP)(Z)`
   background-color: ${e=>e.theme.isDarkMode?"#222":"white"};
   opacity: 0.75;
-  ${e=>e.animate&&s.iv`
+  ${e=>e.animate&&(0,s.iv)`
     animation: ${w} 0.25s ease-out;
   `}
 `,j=(0,s.ZP)(Z)`
