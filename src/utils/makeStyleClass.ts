@@ -4,10 +4,10 @@ import getRandomId from 'utils/getRandomId'
 
 let styleElement: HTMLStyleElement
 
-const template = (strings: TemplateStringsArray, ...keys: any[]) =>
+const template = (strings: TemplateStringsArray, ...keys: readonly any[]) =>
   strings.reduce((prev, cur, i) => `${prev}${cur}${isNil(keys[i]) ? '' : keys[i]}`, '')
 
-export default (strings: TemplateStringsArray, ...keys: any[]) => {
+export default (strings: TemplateStringsArray, ...keys: readonly any[]) => {
   if (!styleElement) {
     styleElement = document.createElement('style')
     document.head.appendChild(styleElement)
