@@ -10,7 +10,7 @@
   @media (max-width: 999px) {
     justify-content: center;
   }
-`;function v({display:e,displayGroups:r,possibleGroups:l,onPick:t}){let i=(0,o.useCallback)(e=>{let r=e.target,l=+r.dataset.group;if(Number.isNaN(l))throw TypeError(`Incorrect group ball: ${r.dataset.group}`);t(l)},[t]);return(0,s.jsx)(G,{children:e&&l?.map(e=>s.jsx(w,{"data-group":e,forceVisible:r,onClick:i,children:k.Z(e)},e))})}let y=(0,o.memo)(v);var C=l(86590);let P=()=>new Worker(new URL(l.p+l.u(7685),l.b)),$=()=>new Worker(new URL(l.p+l.u(3407),l.b)),E=(0,t.iv)`
+`;function v({display:e,displayGroups:r,possibleGroups:l,onPick:t}){let i=(0,o.useCallback)(e=>{let r=e.target,l=+r.dataset.group;if(Number.isNaN(l))throw TypeError(`Incorrect group ball: ${r.dataset.group}`);t(l)},[t]);return(0,s.jsx)(G,{children:e&&l?.map(e=>s.jsx(w,{"data-group":e,forceVisible:r,onClick:i,children:k.Z(e)},e))})}let y=(0,o.memo)(v);var C=l(12365);let P=()=>new Worker(new URL(l.p+l.u(7685),l.b)),$=()=>new Worker(new URL(l.p+l.u(3407),l.b)),E=(0,t.iv)`
   background-color: ${e=>e.theme.isDarkMode?"#933":"#ffc0c0"};
 `,N=(0,t.iv)`
   background-color: ${e=>e.theme.isDarkMode?"#039":"#c0e0ff"};
