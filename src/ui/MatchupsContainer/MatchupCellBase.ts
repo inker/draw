@@ -1,7 +1,7 @@
 import styled, {
   css,
   keyframes,
-  type FlattenInterpolation,
+  type RuleSet,
 } from 'styled-components'
 
 import Cell from 'ui/table/Cell'
@@ -24,7 +24,7 @@ const Picked = css`
 
 interface Props {
   picked: boolean,
-  styles?: FlattenInterpolation<any>,
+  styles?: RuleSet<any>,
 }
 
 const MatchupCellBase = styled(Cell)<Props>`

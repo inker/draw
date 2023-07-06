@@ -1,5 +1,5 @@
 import { memo } from 'react'
-import { type FlattenInterpolation } from 'styled-components'
+import { type RuleSet } from 'styled-components'
 import { range } from 'lodash'
 
 import type Club from 'model/team/Club'
@@ -20,7 +20,7 @@ interface Props {
   teams: readonly Team[],
   potNum: number,
   possible: boolean,
-  headerStyles?: FlattenInterpolation<any>,
+  headerStyles?: RuleSet<any>,
 }
 
 function Group({
