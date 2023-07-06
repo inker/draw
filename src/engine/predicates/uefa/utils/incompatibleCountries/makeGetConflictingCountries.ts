@@ -2,7 +2,7 @@ import { type Country } from 'model/types'
 
 import constraints from './constraints'
 
-function mergePairs<T, U>(pairs: readonly [T, U][]) {
+function mergePairs<T, U>(pairs: readonly (readonly [T, U])[]) {
   const map = new Map<T, Set<U>>()
   for (const [k, v] of pairs) {
     if (!map.has(k)) {

@@ -18,4 +18,4 @@ function Deferred({
   return isTimedOut ? children : null
 }
 
-export default memo(Deferred) as typeof Deferred
+export default memo(Deferred)

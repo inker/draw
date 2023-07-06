@@ -8,16 +8,17 @@ import parseGS from 'model/parsePotsData/gs'
 import parseKo from 'model/parsePotsData/ko'
 
 async function getPotsFromBert(tournament: Tournament, stage: Stage, season: number) {
-  const potsPromise = import(/* webpackChunkName: "pots/[request]" */ `data/${tournament}/${stage}/${season}/pots.json`)
-  const pairings = await getPairings(season, tournament)
-  const data = await potsPromise.then(mod => mod.default)
+  const [data, pairings] = await Promise.all([
+    import(
+      /* webpackChunkName: "pots/[request]" */
+      `data/${tournament}/${stage}/${season}/pots.json`
+    ).then(mod => mod.default),
+    getPairings(season, tournament),
+  ])
 
   return stage === 'ko'
     ? parseKo(data)
     : parseGS(data, pairings)
 }
 
-const resolver = (...args: Parameters<typeof getPotsFromBert>) =>
-  args.join(':')
-
-export default memoize(getPotsFromBert, resolver)
+export default memoize(getPotsFromBert, (...args) => args.join(':'))

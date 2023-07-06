@@ -25,4 +25,4 @@ function Modal({
   )
 }
 
-export default memo(Modal) as typeof Modal
+export default memo(Modal)
