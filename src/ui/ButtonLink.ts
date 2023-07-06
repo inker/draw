@@ -1,10 +1,9 @@
 import styled from 'styled-components'
 
-import StyledLink from './StyledLink'
+import { linkCss } from './StyledLink'
 
-const WithButton = StyledLink.withComponent('button')
-
-const ButtonLink = styled(WithButton)`
+const ButtonLink = styled.button`
+  ${linkCss}
   padding: initial;
   border: initial;
   background-color: initial;

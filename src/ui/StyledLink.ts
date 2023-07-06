@@ -1,6 +1,6 @@
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 
-const StyledLink = styled.a`
+export const linkCss = css`
   color: ${props => props.theme.isDarkMode ? '#f70' : 'blue'};
   text-decoration: none;
   cursor: pointer;
@@ -8,6 +8,10 @@ const StyledLink = styled.a`
   &:hover {
     text-decoration: underline;
   }
+`
+
+const StyledLink = styled.a`
+  ${linkCss}
 `
 
 export default StyledLink
