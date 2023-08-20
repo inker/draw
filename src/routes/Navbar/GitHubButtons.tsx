@@ -18,7 +18,7 @@ const Root = styled.div`
 
 function GitHubButtons() {
   const themeContext = useContext(ThemeContext)
-  const { isDarkMode } = themeContext
+  const { isDarkMode } = themeContext ?? {}
 
   return (
     <Root>
