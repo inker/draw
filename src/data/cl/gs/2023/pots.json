@@ -95,11 +95,6 @@
       "coefficient": 1
     },
     {
-      "name": "Dinamo Zagreb",
-      "country": "Croatia",
-      "coefficient": 1
-    },
-    {
       "name": "Rangers",
       "country": "Scotland",
       "coefficient": 1
@@ -123,14 +118,14 @@
       "name": "Crvena zvezda",
       "country": "Serbia",
       "coefficient": 1
-    }
-  ],
-  [
+    },
     {
       "name": "København",
       "country": "Denmark",
       "coefficient": 1
-    },
+    }
+  ],
+  [
     {
       "name": "Young Boys",
       "country": "Switzerland",
@@ -159,6 +154,11 @@
     {
       "name": "Union Berlin",
       "country": "Germany",
+      "coefficient": 1
+    },
+    {
+      "name": "Antwerp",
+      "country": "Belgium",
       "coefficient": 1
     },
     {
