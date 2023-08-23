@@ -31,7 +31,7 @@ function PossibleGroups({
           <Roundel
             key={letter}
             color={i < halfNum ? 'red' : 'blue'}
-            possible={possibleGroups.includes(i)}
+            $possible={possibleGroups.includes(i)}
           >
             {letter}
           </Roundel>

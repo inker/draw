@@ -36,7 +36,7 @@ function Group({
       <thead>
         <Row>
           <Cell>
-            <Header styles={headerStyles}>
+            <Header $styles={headerStyles}>
               Group
               {' '}
               {groupLetter}

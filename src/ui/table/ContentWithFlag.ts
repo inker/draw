@@ -18,11 +18,11 @@ const ContentWithoutFlag = styled(Content)`
 `
 
 interface Props {
-  country?: Country,
+  $country?: Country,
 }
 
 const ContentWithFlag = styled(ContentWithoutFlag)<Props>`
-  ${({ country }) => country && css`
+  ${({ $country: country }) => country && css`
     background-image: url('${getCountryFlagUrl(country)}');
   `}
 `

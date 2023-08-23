@@ -86,7 +86,7 @@ function Routing() {
   return (
     <>
       <HeadMetadata />
-      <Visibility visible={!popup.initial}>
+      <Visibility $visible={!popup.initial}>
         <Navbar
           season={season}
           tournament={tournament!}

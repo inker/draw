@@ -4,7 +4,7 @@ import BowlBall from '../BowlBall'
 
 const GroupBall = styled(BowlBall)`
   &:hover {
-    ${props => !props.noHover && 'background: radial-gradient(#ccf, #ccf)'}
+    ${props => !props.$noHover && 'background: radial-gradient(#ccf, #ccf)'}
   }
 `
 

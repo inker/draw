@@ -46,12 +46,12 @@ function MatchupCellDeferred({
   return (
     <>
       <MatchupCellBase
-        picked={isPickedAnimation && !!displayedTeam}
+        $picked={isPickedAnimation && !!displayedTeam}
         onAnimationEnd={setIsPickedAnimationFalse}
       >
         {displayedTeam
           ? (
-            <ContentWithFlag country={getTeamCountryName(displayedTeam)}>
+            <ContentWithFlag $country={getTeamCountryName(displayedTeam)}>
               {displayedTeam.shortName ?? displayedTeam.name}
             </ContentWithFlag>
           )

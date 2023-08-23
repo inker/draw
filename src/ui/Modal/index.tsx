@@ -17,7 +17,7 @@ function Modal({
 }: Props) {
   return (
     <div>
-      <Background animate={!noAnimation} />
+      <Background $animate={!noAnimation} />
       <Body>
         {children}
       </Body>

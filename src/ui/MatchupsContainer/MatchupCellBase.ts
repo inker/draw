@@ -23,14 +23,14 @@ const Picked = css`
 `
 
 interface Props {
-  picked: boolean,
-  styles?: RuleSet<any>,
+  $picked: boolean,
+  $styles?: RuleSet<any>,
 }
 
 const MatchupCellBase = styled(Cell)<Props>`
   width: 150px;
-  ${props => props.picked && Picked}
-  ${props => props.styles}
+  ${props => props.$picked && Picked}
+  ${props => props.$styles}
 `
 
 export default MatchupCellBase

@@ -12,13 +12,13 @@ const Picked = css`
 `
 
 interface Props {
-  selected: boolean,
-  picked: boolean,
+  $selected: boolean,
+  $picked: boolean,
 }
 
 const PotContent = styled(ContentWithFlag)<Props>`
-  ${props => props.selected && Selected}
-  ${props => props.picked && Picked}
+  ${props => props.$selected && Selected}
+  ${props => props.$picked && Picked}
 `
 
 export default PotContent

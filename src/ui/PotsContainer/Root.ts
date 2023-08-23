@@ -1,7 +1,7 @@
 import styled, { css } from 'styled-components'
 
 interface Props {
-  limitWidth: boolean,
+  $limitWidth: boolean,
 }
 
 const Root = styled.div<Props>`
@@ -13,7 +13,7 @@ const Root = styled.div<Props>`
   > * {
     flex: 1;
     flex-basis: 22%;
-    ${props => props.limitWidth && css`
+    ${props => props.$limitWidth && css`
       max-width: 160px;
     `}
 

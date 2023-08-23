@@ -34,9 +34,9 @@ function PotRow({
             <PotContent
               data-cellid={team.id}
               title={pairing && `paired with ${pairing.shortName ?? pairing.name}`}
-              selected={!!selectedTeams?.includes(team)}
-              picked={pickedTeams.includes(team)}
-              country={country ?? name}
+              $selected={!!selectedTeams?.includes(team)}
+              $picked={pickedTeams.includes(team)}
+              $country={country ?? name}
             >
               {shortName ?? name}
             </PotContent>

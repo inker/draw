@@ -51,13 +51,13 @@ function GroupCellDeferred({
   return (
     <>
       <GroupCellBase
-        picked={isPickedAnimation && !!displayedTeam}
-        possible={possible}
+        $picked={isPickedAnimation && !!displayedTeam}
+        $possible={possible}
         onAnimationEnd={setIsPickedAnimationFalse}
       >
         {displayedTeam
           ? (
-            <ContentWithFlag country={getTeamCountryName(displayedTeam)}>
+            <ContentWithFlag $country={getTeamCountryName(displayedTeam)}>
               {(displayedTeam as Club).shortName ?? displayedTeam.name}
             </ContentWithFlag>
           )

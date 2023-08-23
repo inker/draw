@@ -12,13 +12,13 @@ const BackgroundAnimation = keyframes`
 `
 
 interface BackgroundProps {
-  animate: boolean,
+  $animate: boolean,
 }
 
 const Background = styled(Overlay)<BackgroundProps>`
   background-color: ${props => props.theme.isDarkMode ? '#222' : 'white'};
   opacity: 0.75;
-  ${props => props.animate && css`
+  ${props => props.$animate && css`
     animation: ${BackgroundAnimation} 0.25s ease-out;
   `}
 `

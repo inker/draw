@@ -33,14 +33,14 @@ function Pot({
   const numRows = teams.length / numCols
 
   return (
-    <Root highlighted={isCurrent}>
+    <Root $highlighted={isCurrent}>
       <thead>
         <Row>
           <Cell colSpan={numCols}>
             <Header
-              highlighted={isCurrent}
-              depleted={!teams || pickedTeams.length === teams.length}
-              styles={headerStyles}
+              $highlighted={isCurrent}
+              $depleted={!teams || pickedTeams.length === teams.length}
+              $styles={headerStyles}
             >
               Pot {potNum + 1}
             </Header>

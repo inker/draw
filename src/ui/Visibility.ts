@@ -1,11 +1,11 @@
 import styled from 'styled-components'
 
 interface Props {
-  visible: boolean,
+  $visible: boolean,
 }
 
 const Visibility = styled.div<Props>`
-  visibility: ${props => props.visible ? '' : 'hidden'};
+  visibility: ${props => props.$visible ? '' : 'hidden'};
 `
 
 export default Visibility

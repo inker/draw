@@ -82,7 +82,7 @@ function MovingContent({
   return posCell && (
     <FixedOverlay>
       <ContentWithFlagFixed
-        country={getTeamCountryName(team)}
+        $country={getTeamCountryName(team)}
         style={style}
         onTransitionEnd={onTransitionEnd}
       >

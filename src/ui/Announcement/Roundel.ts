@@ -1,7 +1,7 @@
 import styled, { css } from 'styled-components'
 
 interface Props {
-  possible: boolean,
+  $possible: boolean,
 }
 
 const Roundel = styled.div<Props>`
@@ -15,7 +15,7 @@ const Roundel = styled.div<Props>`
   border-style: solid;
   border-radius: 100%;
   font-size: 18px;
-  ${props => props.possible
+  ${props => props.$possible
     ? css`
       color: ${props.color};
     `
