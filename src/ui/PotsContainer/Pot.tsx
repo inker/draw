@@ -1,6 +1,5 @@
 import { memo } from 'react'
 import { type RuleSet } from 'styled-components'
-import { range } from 'lodash'
 
 import type Team from 'model/team'
 
@@ -48,9 +47,10 @@ function Pot({
         </Row>
       </thead>
       <tbody>
-        {range(numRows).map(i => {
+        {Array.from({ length: numRows }, (_, i) => {
           const offset = i * numCols
-          const rowTeams = range(numCols).map(c => teams[offset + c])
+          // eslint-disable-next-line @typescript-eslint/no-shadow, no-shadow
+          const rowTeams = Array.from({ length: numCols }, (_, c) => teams[offset + c])
 
           return (
             <PotRow

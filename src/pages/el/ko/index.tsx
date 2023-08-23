@@ -8,7 +8,6 @@ import {
 } from 'react'
 
 import {
-  range,
   random,
   shuffle,
 } from 'lodash'
@@ -68,7 +67,7 @@ function getState(initialPots: readonly (readonly Team[])[], season: number): St
     currentPotNum,
     possiblePairings: null,
     pots: initialPots.map(pot => shuffle(pot)),
-    matchups: range(numMatchups).map(() => [] as any),
+    matchups: Array.from({ length: numMatchups }, () => [] as any),
   }
 }
 

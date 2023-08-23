@@ -1,6 +1,5 @@
 import { memo } from 'react'
 import styled from 'styled-components'
-import { range } from 'lodash'
 
 import getGroupLetter from 'utils/getGroupLetter'
 
@@ -25,7 +24,7 @@ function PossibleGroups({
 
   return (
     <Root>
-      {range(numGroups).map(i => {
+      {Array.from({ length: numGroups }, (_, i) => {
         const letter = getGroupLetter(i)
         return (
           <Roundel

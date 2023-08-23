@@ -1,6 +1,5 @@
 import { memo } from 'react'
 import { type RuleSet } from 'styled-components'
-import { range } from 'lodash'
 
 import type Club from 'model/team/Club'
 import type NationalTeam from 'model/team/NationalTeam'
@@ -45,7 +44,7 @@ function Group({
         </Row>
       </thead>
       <tbody>
-        {range(maxTeams).map(i => (
+        {Array.from({ length: maxTeams }, (_, i) => (
           <Row key={i}>
             <GroupCellDeferred
               team={teams[i]}
