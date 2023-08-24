@@ -46,7 +46,7 @@ function GroupBowl({
         <Ball
           key={groupNum}
           data-group={groupNum}
-          $forceVisible={displayGroups}
+          forceVisible={displayGroups}
           onClick={onBallPick}
         >
           {getGroupLetter(groupNum)}

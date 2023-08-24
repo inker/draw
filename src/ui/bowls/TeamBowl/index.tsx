@@ -52,10 +52,10 @@ function TeamBowl({
         <Ball
           key={team.id}
           data-teamid={team.id}
-          $selected={team === selectedTeam}
+          selected={team === selectedTeam}
           $notSelected={forceNoSelect || !!selectedTeam && team !== selectedTeam}
-          $forceVisible={displayTeams}
-          $noHover={!!noSelect}
+          forceVisible={displayTeams}
+          noHover={!!noSelect}
           onClick={noSelect ? undefined : onBallPick}
         >
           {(team as Club).shortName ?? team.name}

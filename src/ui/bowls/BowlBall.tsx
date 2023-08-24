@@ -11,14 +11,16 @@ import useGlobalEvent from 'utils/hooks/useGlobalEvent'
 
 import Ball from 'ui/Ball'
 
+// TODO: Fix transient props
+
 interface RootProps {
-  $noHover?: boolean,
-  $selected?: boolean,
-  $forceVisible?: boolean,
+  noHover?: boolean,
+  selected?: boolean,
+  forceVisible?: boolean,
 }
 
 const Root = styled(Ball)<RootProps>`
-  ${props => props.$selected
+  ${props => props.selected
     ? css`
       font-size: 0.8em;
       font-weight: bold;
@@ -29,12 +31,12 @@ const Root = styled(Ball)<RootProps>`
       background: radial-gradient(#004, #002, #002);
     `}
 
-  ${props => props.$forceVisible && css`
+  ${props => props.forceVisible && css`
     font-size: 0.8em;
   `}
 
   @media (max-width: 999px) {
-    font-size: ${props => props.$selected ? 8 : 0}px;
+    font-size: ${props => props.selected ? 8 : 0}px;
   }
 `
 
@@ -43,7 +45,7 @@ type InputProps = DetailedHTMLProps<HTMLAttributes<HTMLElement>, HTMLElement>
 type Props = RootProps & InputProps
 
 function BowlBall({
-  $noHover: noHover,
+  noHover,
   ...props
 }: Props) {
   const ballRef = useRef<HTMLDivElement | null>(null)
@@ -60,7 +62,7 @@ function BowlBall({
   return (
     <Root
       {...props}
-      $noHover={noHover}
+      noHover={noHover}
       ref={ballRef}
       tabIndex={noHover ? undefined : 0}
     />
