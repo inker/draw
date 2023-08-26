@@ -25,3 +25,6 @@ export type FixedArray<T, N extends number> = GrowToSize<T, [], N>
 export type OptionalPropertyOf<T> = {
   [K in keyof T]-?: undefined extends T[K] ? K : never
 }[keyof T]
+
+export type Reverse<Tuple> = Tuple extends readonly [infer Head, ...infer Rest]
+  ? readonly [...Reverse<Rest>, Head] : readonly [];

@@ -10,11 +10,11 @@ import {
 import isInsideInterval from 'utils/isInsideInterval'
 
 interface PartialItem {
-  countries: [Country, Country],
+  countries: readonly [Country, Country],
   predicate?: (season: number, tournament?: Tournament, stage?: Stage) => boolean,
 }
 
-const constraints: PartialItem[] = [
+const constraints = [
   {
     countries: ['Russia', 'Ukraine'],
     predicate: isInsideInterval(2014, Number.MAX_SAFE_INTEGER),
@@ -31,7 +31,7 @@ const constraints: PartialItem[] = [
   {
     countries: ['Spain', 'Gibraltar'],
   },
-]
+] as const satisfies readonly PartialItem[]
 
 type ItemOptionalProperty = OptionalPropertyOf<PartialItem>
 
