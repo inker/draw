@@ -25,7 +25,6 @@ import useWorkerSendAndReceive from 'utils/hooks/useWorkerSendAndReceive'
 
 import PageRoot from 'ui/PageRoot'
 import PotsContainer from 'ui/PotsContainer'
-// import AirborneContainer from 'ui/AirborneContainer'
 import GroupsContainer from 'ui/GroupsContainer'
 import TablesContainer from 'ui/TablesContainer'
 import BowlsContainer from 'ui/BowlsContainer'
