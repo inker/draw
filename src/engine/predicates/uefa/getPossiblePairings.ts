@@ -1,4 +1,4 @@
-import { type Predicate } from '@draws/engine'
+import { type Predicate } from 'engine/backtracking/gs'
 
 type OneOrTwo<T> = [T] | [T, T]
 

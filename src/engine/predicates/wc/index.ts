@@ -1,4 +1,3 @@
-import { type Predicate } from '@draws/engine'
 import {
   identity,
   countBy,
@@ -9,6 +8,7 @@ import {
 import { type Confederation } from 'model/types'
 import type NationalTeam from 'model/team/NationalTeam'
 import type UnknownNationalTeam from 'model/team/UnknownNationalTeam'
+import { type Predicate } from 'engine/backtracking/gs'
 import getSmallestArrayLength from 'utils/getSmallestArrayLength'
 
 import getNumGroupsByYear from './getNumGroupsByYear'

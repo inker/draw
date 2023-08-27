@@ -1,6 +1,6 @@
 import memoizeOne from 'memoize-one'
-import { firstPossibleGroup } from '@draws/engine'
 
+import { firstPossibleGroup } from 'engine/backtracking/gs'
 import getPredicate from 'engine/predicates/uefa/gs'
 import type Team from 'model/team/GsTeam'
 import { type GsWorkerData } from 'model/WorkerData'

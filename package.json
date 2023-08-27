@@ -33,7 +33,6 @@
     "test": "echo \"No test\""
   },
   "dependencies": {
-    "@draws/engine": "^1.0.0",
     "bowser": "^2.11.0",
     "date-fns": "^2.28.0",
     "delay.js": "^2.0.1",
