@@ -61,6 +61,82 @@ module.exports = {
     'object-property-newline': [2, {
       allowAllPropertiesOnSameLine: false,
     }],
+    // Only for ordering members
+    "sort-imports": [
+      2,
+      {
+        ignoreDeclarationSort: true,
+      },
+    ],
+
+    "inker/enforce-import-name": [
+      2,
+      {
+        paths: [
+          {
+            name: "date-fns",
+            importNames: [
+              {
+                imported: "format",
+                local: "formatDate",
+              },
+              {
+                imported: "isValid",
+                local: "isDateValid",
+              },
+            ],
+          },
+          {
+            name: "lodash",
+            importNames: [
+              {
+                imported: "namespace",
+                local: "_",
+              },
+              {
+                imported: "default",
+                local: "_",
+              },
+            ],
+          },
+          {
+            name: "react",
+            importNames: [
+              {
+                imported: "default",
+                local: "React",
+              },
+            ],
+          },
+          {
+            name: "uuid",
+            importNames: [
+              {
+                imported: "v4",
+                local: "uuidv4",
+              },
+            ],
+          },
+          {
+            pattern: "{,**,./,../,../../}/styles.module.{scss,css}",
+            importNames: [
+              {
+                imported: "default",
+                local: "styles",
+              },
+            ],
+          },
+        ],
+      },
+    ],
+    "inker/no-true-as-default": 2,
+    "inker/react-hooks-order": [
+      2,
+      {
+        order: ["useDispatch", "useSelector", "useAbility", "useNavigate"],
+      },
+    ],
+    "inker/react-ref-name": 2,
 
     'react/prop-types': 0,
     'react/react-in-jsx-scope': 0,

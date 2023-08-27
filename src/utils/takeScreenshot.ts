@@ -1,11 +1,11 @@
 import domToImage from 'dom-to-image'
 import { saveAs } from 'file-saver'
-import { format } from 'date-fns'
+import { format as formatDate } from 'date-fns'
 
 type ImageFormat = 'png' | 'svg'
 
-const formatDate = (date: Date) =>
-  format(date, 'yyyyMMddHHmmssSSS')
+const formatDateAllDigits = (date: Date) =>
+  formatDate(date, 'yyyyMMddHHmmssSSS')
 
 function elToPng(el: HTMLElement, imageFormat: ImageFormat) {
   const scale = imageFormat === 'svg'
@@ -35,7 +35,7 @@ function elToPng(el: HTMLElement, imageFormat: ImageFormat) {
 
 export default async (el: HTMLElement, imageFormat: ImageFormat) => {
   const now = new Date()
-  const fileName = `draw-${formatDate(now)}.${imageFormat}`
+  const fileName = `draw-${formatDateAllDigits(now)}.${imageFormat}`
   const dataUrl = await elToPng(el, imageFormat)
   saveAs(dataUrl, fileName)
 }

@@ -1,9 +1,9 @@
 import {
-  useState,
+  memo,
   useCallback,
   useEffect,
   useRef,
-  memo,
+  useState,
 } from 'react'
 
 import { css } from 'styled-components'

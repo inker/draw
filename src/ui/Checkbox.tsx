@@ -1,9 +1,9 @@
 import {
-  useCallback,
-  memo,
   type ChangeEvent,
   type DetailedHTMLProps,
   type InputHTMLAttributes,
+  memo,
+  useCallback,
 } from 'react'
 import styled, { css } from 'styled-components'
 

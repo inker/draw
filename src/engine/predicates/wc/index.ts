@@ -1,8 +1,8 @@
 import {
-  identity,
   countBy,
-  sumBy,
+  identity,
   mapValues,
+  sumBy,
 } from 'lodash'
 
 import { type Confederation } from 'model/types'

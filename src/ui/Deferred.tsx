@@ -1,6 +1,6 @@
 import {
-  memo,
   type ReactElement,
+  memo,
 } from 'react'
 
 import useTimeoutControlled from 'utils/hooks/useTimeoutControlled'

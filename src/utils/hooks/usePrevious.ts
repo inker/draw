@@ -1,6 +1,6 @@
 import {
-  useRef,
   useEffect,
+  useRef,
 } from 'react'
 
 export default <T>(value: T) => {

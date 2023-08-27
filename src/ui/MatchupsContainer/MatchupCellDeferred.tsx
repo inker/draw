@@ -1,9 +1,9 @@
 import {
-  useState,
-  useRef,
-  useContext,
-  useCallback,
   memo,
+  useCallback,
+  useContext,
+  useRef,
+  useState,
 } from 'react'
 import { ThemeContext } from 'styled-components'
 
@@ -30,7 +30,7 @@ function MatchupCellDeferred({
   const [displayedTeam, setDisplayedTeam] = useState(team)
   const [isPickedAnimation, setIsPickedAnimation] = useState(false)
   const themeContext = useContext(ThemeContext)
-  const to = useRef<HTMLElement | null>(null)
+  const destinationRef = useRef<HTMLElement | null>(null)
 
   const setIsPickedAnimationFalse = useCallback(() => setIsPickedAnimation(false), [])
 
@@ -56,13 +56,13 @@ function MatchupCellDeferred({
             </ContentWithFlag>
           )
           : (
-            <DummyContent ref={to} />
+            <DummyContent ref={destinationRef} />
           )}
       </MatchupCellBase>
       {team && team !== prevTeam && (
         <MovingContent
           from={`[data-cellid='${team.id}']`}
-          to={to}
+          to={destinationRef}
           duration={350}
           team={team}
           onAnimationEnd={fill}

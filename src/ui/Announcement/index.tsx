@@ -1,8 +1,8 @@
 import {
+  type RefObject,
+  memo,
   useEffect,
   useRef,
-  memo,
-  type RefObject,
 } from 'react'
 
 import styled from 'styled-components'
@@ -76,14 +76,14 @@ function Announcement({
   groupsElement,
   reset,
 }: Props) {
-  const lastAnnouncement = useRef<React.ReactElement | null>(null)
-  const lastSelected = useRef<Team | null>(null)
+  const lastAnnouncementRef = useRef<React.ReactElement | null>(null)
+  const lastSelectedRef = useRef<Team | null>(null)
 
   useEffect(() => {
-    lastSelected.current = completed ? null : selectedTeam
+    lastSelectedRef.current = completed ? null : selectedTeam
   }, [completed, selectedTeam])
 
-  const selected = lastSelected.current ?? selectedTeam
+  const selected = lastSelectedRef.current ?? selectedTeam
 
   if (completed) {
     return (
@@ -101,7 +101,7 @@ function Announcement({
   }
 
   if (pickedGroup !== null) {
-    lastAnnouncement.current = (
+    lastAnnouncementRef.current = (
       <Root>
         <div>
           {long && selected
@@ -123,7 +123,7 @@ function Announcement({
         </div>
       </Root>
     )
-    return lastAnnouncement.current
+    return lastAnnouncementRef.current
   }
 
   if (selected) {
@@ -158,7 +158,7 @@ function Announcement({
                 )}
             </div>
           )
-          : lastAnnouncement.current}
+          : lastAnnouncementRef.current}
       </Root>
     )
   }

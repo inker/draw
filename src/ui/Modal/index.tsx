@@ -1,6 +1,6 @@
 import {
-  memo,
   type ReactNode,
+  memo,
 } from 'react'
 
 import Background from './Background'

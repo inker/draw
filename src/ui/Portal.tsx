@@ -1,9 +1,9 @@
 import {
-  useRef,
+  type ReactNode,
+  memo,
   useEffect,
   useMemo,
-  memo,
-  type ReactNode,
+  useRef,
 } from 'react'
 
 import ReactDOM from 'react-dom'

@@ -1,6 +1,6 @@
 import {
-  memo,
   type ReactNode,
+  memo,
 } from 'react'
 
 import styled from 'styled-components'

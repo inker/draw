@@ -1,8 +1,8 @@
 import {
+  Suspense,
+  lazy,
   memo,
   useEffect,
-  lazy,
-  Suspense,
 } from 'react'
 import styled, { ThemeProvider } from 'styled-components'
 import { HashRouter } from 'react-router-dom'

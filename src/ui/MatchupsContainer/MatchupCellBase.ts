@@ -1,7 +1,7 @@
 import styled, {
+  type RuleSet,
   css,
   keyframes,
-  type RuleSet,
 } from 'styled-components'
 
 import Cell from 'ui/table/Cell'

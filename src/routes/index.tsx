@@ -1,16 +1,16 @@
 import {
-  useEffect,
-  useCallback,
-  useMemo,
   memo,
+  useCallback,
+  useEffect,
+  useMemo,
 } from 'react'
 
 import {
-  Route,
   Navigate,
+  Route,
   Routes,
-  useNavigate,
   useMatch,
+  useNavigate,
 } from 'react-router-dom'
 
 import usePopup from 'store/usePopup'
@@ -60,6 +60,8 @@ function useSeasonTournamentStage() {
 }
 
 function Routing() {
+  const navigate = useNavigate()
+
   const [drawId, refreshDrawId] = useDrawId()
   const [popup] = usePopup()
   const [, setIsFastDraw] = useFastDraw()
@@ -76,8 +78,6 @@ function Routing() {
     stage,
     season,
   } = o
-
-  const navigate = useNavigate()
 
   const onSeasonChange = useCallback((tm: Tournament, sg: Stage, sn?: number) => {
     navigate(`/${tm}/${sg}${sn ? `/${sn}` : ''}`)

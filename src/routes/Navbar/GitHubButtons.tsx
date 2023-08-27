@@ -1,6 +1,6 @@
 import {
-  useContext,
   memo,
+  useContext,
 } from 'react'
 import styled, { ThemeContext } from 'styled-components'
 import GitHubButton from 'react-github-btn'

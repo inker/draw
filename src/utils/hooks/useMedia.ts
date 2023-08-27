@@ -1,7 +1,7 @@
 import {
-  useState,
   useEffect,
   useMemo,
+  useState,
 } from 'react'
 
 export default (media: string) => {
