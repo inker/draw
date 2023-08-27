@@ -1,6 +1,6 @@
 import memoizeOne from 'memoize-one'
 
-import getPossiblePairings from 'engine/predicates/uefa/getPossiblePairings'
+import { getPossiblePairings } from 'engine/backtracking/ko'
 import getPredicate from 'engine/predicates/uefa/ko'
 import type Team from 'model/team/KnockoutTeam'
 import { type KoWorkerData } from 'model/WorkerData'
