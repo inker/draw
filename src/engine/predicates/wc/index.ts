@@ -13,9 +13,7 @@ import getSmallestArrayLength from 'utils/getSmallestArrayLength'
 
 import getNumGroupsByYear from './getNumGroupsByYear'
 
-type BerthsByConf = {
-  [key in Confederation]: number
-}
+type BerthsByConf = Record<Confederation, number>
 
 type Team = NationalTeam | UnknownNationalTeam
 
