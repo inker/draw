@@ -13,6 +13,10 @@ import {
 } from 'lodash'
 
 import type Team from 'model/team/KnockoutTeam'
+import {
+  type KoWorkerData,
+  type KoWorkerResponseData,
+} from 'model/WorkerData'
 
 import usePopup from 'store/usePopup'
 import useDrawId from 'store/useDrawId'
@@ -32,16 +36,6 @@ import Announcement from 'ui/Announcement'
 
 const getEsWorker = () =>
   new Worker(new URL('./worker', import.meta.url))
-
-interface WorkerRequest {
-  season: number,
-  pots: readonly (readonly Team[])[],
-  matchups: readonly [Team, Team][],
-}
-
-interface WorkerResponse {
-  possiblePairings: number[],
-}
 
 interface Props {
   season: number,
@@ -92,7 +86,7 @@ function CLKO({
   const [isXRay] = useXRay()
 
   // eslint-disable-next-line max-len
-  const getPossiblePairingsResponse = useWorkerSendAndReceive<WorkerRequest, WorkerResponse>(getEsWorker)
+  const getPossiblePairingsResponse = useWorkerSendAndReceive<KoWorkerData<Team>, KoWorkerResponseData>(getEsWorker)
 
   const groupsContanerRef = useRef<HTMLElement>(null)
 

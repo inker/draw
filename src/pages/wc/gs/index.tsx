@@ -15,6 +15,10 @@ import {
 } from 'lodash'
 
 import type Team from 'model/team/NationalTeam'
+import {
+  type GsWorkerData,
+  type GsWorkerFirstPossibleResponseData,
+} from 'model/WorkerData'
 
 import usePopup from 'store/usePopup'
 import useDrawId from 'store/useDrawId'
@@ -37,17 +41,6 @@ const getEsWorker = () =>
 const getGroupHeaderStyles = constant(css`
   background-color: ${props => props.theme.isDarkMode ? '#363' : '#c0e0c0'};
 `)
-
-interface WorkerRequest {
-  season: number,
-  pots: readonly (readonly Team[])[],
-  groups: readonly (readonly Team[])[],
-  selectedTeam: Team,
-}
-
-interface WorkerResponse {
-  pickedGroup: number,
-}
 
 interface Props {
   season: number,
@@ -101,7 +94,7 @@ function WCGS({
   const [isXRay] = useXRay()
 
   // eslint-disable-next-line max-len
-  const getFirstPossibleGroupResponse = useWorkerSendAndReceive<WorkerRequest, WorkerResponse>(getEsWorker)
+  const getFirstPossibleGroupResponse = useWorkerSendAndReceive<GsWorkerData<Team>, GsWorkerFirstPossibleResponseData>(getEsWorker)
 
   const groupsContanerRef = useRef<HTMLElement>(null)
 

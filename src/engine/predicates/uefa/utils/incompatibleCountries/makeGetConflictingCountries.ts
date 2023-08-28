@@ -1,4 +1,4 @@
-import { type Reverse } from 'model/types'
+import { type UefaCountry } from 'model/types'
 
 import constraints from './constraints'
 
@@ -16,8 +16,8 @@ function mergePairs<T, U>(pairs: readonly (readonly [T, U])[]) {
 export default (season: number) => {
   const matchingConstraints = constraints.filter(item => item.predicate(season))
   const originalPairs = matchingConstraints.map(item => item.countries)
-  // eslint-disable-next-line max-len
-  const invertedPairs = originalPairs.map(pair => pair.toReversed() as unknown as Reverse<typeof pair>)
+
+  const invertedPairs = originalPairs.map(pair => pair.toReversed() as [UefaCountry, UefaCountry])
   const map = mergePairs([
     ...originalPairs,
     ...invertedPairs,

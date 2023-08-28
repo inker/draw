@@ -3,7 +3,10 @@ import memoizeOne from 'memoize-one'
 import { allPossibleGroups } from 'engine/backtracking/gs'
 import getPredicate from 'engine/predicates/uefa/gs'
 import type Team from 'model/team/GsTeam'
-import { type GsWorkerData } from 'model/WorkerData'
+import {
+  type GsWorkerData,
+  type WorkerMessage,
+} from 'model/WorkerData'
 
 type GetPredicateParams = Parameters<typeof getPredicate>
 
@@ -19,7 +22,7 @@ const eqFunc = (newArgs: GetPredicateParams, oldArgs: GetPredicateParams) =>
 const getPredicateMemoized = memoizeOne(getPredicate, eqFunc)
 
 // eslint-disable-next-line no-restricted-globals
-addEventListener('message', (e: MessageEvent<GsWorkerData<Team>>) => {
+addEventListener('message', (e: MessageEvent<WorkerMessage<GsWorkerData<Team>>>) => {
   const {
     messageId,
     data: {

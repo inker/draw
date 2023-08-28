@@ -3,7 +3,10 @@ import memoizeOne from 'memoize-one'
 import { getPossiblePairings } from 'engine/backtracking/ko'
 import getPredicate from 'engine/predicates/uefa/ko'
 import type Team from 'model/team/KnockoutTeam'
-import { type KoWorkerData } from 'model/WorkerData'
+import {
+  type KoWorkerData,
+  type WorkerMessage,
+} from 'model/WorkerData'
 
 type GetPredicateParams = Parameters<typeof getPredicate>
 
@@ -18,7 +21,7 @@ const eqFunc = (newArgs: GetPredicateParams, oldArgs: GetPredicateParams) =>
 const getPredicateMemoized = memoizeOne(getPredicate, eqFunc)
 
 // eslint-disable-next-line no-restricted-globals
-addEventListener('message', (e: MessageEvent<KoWorkerData<Team>>) => {
+addEventListener('message', (e: MessageEvent<WorkerMessage<KoWorkerData<Team>>>) => {
   const {
     messageId,
     data: {

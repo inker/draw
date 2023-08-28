@@ -1,6 +1,6 @@
 import { type Predicate } from 'engine/backtracking/gs'
 
-type OneOrTwo<T> = [T] | [T, T]
+type OneOrTwo<T> = readonly [T] | readonly [T, T]
 
 function anyGroupWinners<T>(
   item: T,

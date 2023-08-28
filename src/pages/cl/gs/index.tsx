@@ -15,6 +15,11 @@ import {
 } from 'lodash'
 
 import type Team from 'model/team/GsTeam'
+import {
+  type GsWorkerData,
+  type GsWorkerFirstPossibleResponseData,
+  type GsWorkerPossibleGroupsResponseData,
+} from 'model/WorkerData'
 
 import usePopup from 'store/usePopup'
 import useDrawId from 'store/useDrawId'
@@ -45,21 +50,6 @@ const redGroup = css`
 const blueGroup = css`
   background-color: ${props => props.theme.isDarkMode ? '#039' : '#c0e0ff'};
 `
-
-interface WorkerRequest {
-  season: number,
-  pots: readonly (readonly Team[])[],
-  groups: readonly (readonly Team[])[],
-  selectedTeam: Team,
-}
-
-interface FirstPossibleGroupWorkerResponse {
-  pickedGroup: number,
-}
-
-interface AllPossibleGroupsWorkerResponse {
-  possibleGroups: number[],
-}
 
 interface Props {
   season: number,
@@ -121,9 +111,9 @@ function CLGS({
   const [isXRay] = useXRay()
 
   // eslint-disable-next-line max-len
-  const getFirstPossibleGroupResponse = useWorkerSendAndReceive<WorkerRequest, FirstPossibleGroupWorkerResponse>(getFirstPossibleGroupWorker)
+  const getFirstPossibleGroupResponse = useWorkerSendAndReceive<GsWorkerData<Team>, GsWorkerFirstPossibleResponseData>(getFirstPossibleGroupWorker)
   // eslint-disable-next-line max-len
-  const getAllPossibleGroupsResponse = useWorkerSendAndReceive<WorkerRequest, AllPossibleGroupsWorkerResponse>(getAllPossibleGroupsWorker)
+  const getAllPossibleGroupsResponse = useWorkerSendAndReceive<GsWorkerData<Team>, GsWorkerPossibleGroupsResponseData>(getAllPossibleGroupsWorker)
 
   const groupsContanerRef = useRef<HTMLElement>(null)
 
