@@ -95,11 +95,6 @@
       "coefficient": 1
     },
     {
-      "name": "Rangers",
-      "country": "Scotland",
-      "coefficient": 1
-    },
-    {
       "name": "Milan",
       "country": "Italy",
       "coefficient": 1
@@ -107,6 +102,11 @@
     {
       "name": "Braga",
       "country": "Portugal",
+      "coefficient": 1
+    },
+    {
+      "name": "PSV",
+      "country": "Netherlands",
       "coefficient": 1
     },
     {
