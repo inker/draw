@@ -36,17 +36,12 @@
       "coefficient": 55.5
     },
     {
-      "name": "Dinamo Zagreb",
-      "country": "Croatia",
-      "coefficient": 55
-    }
-  ],
-  [
-    {
       "name": "Rangers",
       "country": "Scotland",
       "coefficient": 54
-    },
+    }
+  ],
+  [
     {
       "name": "Sporting CP",
       "country": "Portugal",
@@ -81,19 +76,14 @@
       "name": "Marseille",
       "country": "France",
       "coefficient": 33
-    }
-  ],
-  [
+    },
     {
       "name": "Qarabağ",
       "country": "Azerbaijan",
       "coefficient": 25
-    },
-    {
-      "name": "Slovan",
-      "country": "Slovakia",
-      "coefficient": 24.5
-    },
+    }
+  ],
+  [
     {
       "name": "Molde",
       "country": "Norway",
@@ -120,17 +110,22 @@
       "coefficient": 16.496
     },
     {
+      "name": "Sparta",
+      "country": "Czechia",
+      "coefficient": 14
+    },
+    {
       "name": "M Haifa",
       "country": "Israel",
       "coefficient": 13
-    }
-  ],
-  [
+    },
     {
       "name": "Sturm",
       "country": "Austria",
       "coefficient": 12.5
-    },
+    }
+  ],
+  [
     {
       "name": "Toulouse",
       "country": "France",
@@ -140,11 +135,6 @@
       "name": "AEK",
       "country": "Greece",
       "coefficient": 11
-    },
-    {
-      "name": "Aberdeen",
-      "country": "Scotland",
-      "coefficient": 8
     },
     {
       "name": "TSC",
@@ -165,6 +155,16 @@
       "name": "Raków",
       "country": "Poland",
       "coefficient": 5
+    },
+    {
+      "name": "Aris Limassol",
+      "country": "Cyprus",
+      "coefficient": 4.895
+    },
+    {
+      "name": "Häcken",
+      "country": "Sweden",
+      "coefficient": 4.750
     }
   ]
 ]
