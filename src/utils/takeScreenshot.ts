@@ -7,7 +7,7 @@ type ImageFormat = 'png' | 'svg'
 const formatDateAllDigits = (date: Date) =>
   formatDate(date, 'yyyyMMddHHmmssSSS')
 
-function elToPng(el: HTMLElement, imageFormat: ImageFormat) {
+function elementToImage(el: HTMLElement, imageFormat: ImageFormat) {
   const scale = imageFormat === 'svg'
     ? 1
     : window.devicePixelRatio
@@ -36,6 +36,6 @@ function elToPng(el: HTMLElement, imageFormat: ImageFormat) {
 export default async (el: HTMLElement, imageFormat: ImageFormat) => {
   const now = new Date()
   const fileName = `draw-${formatDateAllDigits(now)}.${imageFormat}`
-  const dataUrl = await elToPng(el, imageFormat)
+  const dataUrl = await elementToImage(el, imageFormat)
   saveAs(dataUrl, fileName)
 }
