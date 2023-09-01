@@ -1,0 +1,10 @@
+{
+  "src/**/*.{js,jsx,ts,tsx,json}": [
+    "eslint --max-warnings=0 --fix",
+    "git add"
+  ],
+  "src/**/*.{css,postcss,scss}": [
+    "stylelint --fix",
+    "git add"
+  ]
+}
