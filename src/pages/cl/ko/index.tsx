@@ -23,7 +23,6 @@ import useDrawId from 'store/useDrawId'
 import useFastDraw from 'store/useFastDraw'
 import useXRay from 'store/useXRay'
 
-import usePartial from 'utils/hooks/usePartial'
 import useWorkerSendAndReceive from 'utils/hooks/useWorkerSendAndReceive'
 
 import PageRoot from 'ui/PageRoot'
@@ -77,9 +76,7 @@ function CLKO({
     possiblePairings,
     pots,
     matchups,
-  }, setFullState] = useState(() => getState(initialPots))
-
-  const setState = usePartial(setFullState)
+  }, setState] = useState(() => getState(initialPots))
 
   useEffect(() => {
     setState(getState(initialPots))
@@ -136,13 +133,14 @@ function CLKO({
 
     const newCurrentMatchNum = currentMatchupNum - currentPotNum + 1
 
-    setState({
+    setState(state => ({
+      ...state,
       currentPotNum: 1 - currentPotNum,
       currentMatchupNum: newCurrentMatchNum,
       possiblePairings: newPossiblePairings,
       pots: newPots,
       matchups: newMatchups,
-    })
+    }))
   }, [pots, matchups, currentPotNum, currentMatchupNum, possiblePairings])
 
   const autoPickIfOneBall = () => {

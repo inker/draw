@@ -26,7 +26,6 @@ import useDrawId from 'store/useDrawId'
 import useFastDraw from 'store/useFastDraw'
 import useXRay from 'store/useXRay'
 
-import usePartial from 'utils/hooks/usePartial'
 import useWorkerSendAndReceive from 'utils/hooks/useWorkerSendAndReceive'
 
 import PageRoot from 'ui/PageRoot'
@@ -102,9 +101,7 @@ function CLGS({
     possibleGroupsShuffled,
     pots,
     groups,
-  }, setFullState] = useState(() => getState(initialPots))
-
-  const setState = usePartial(setFullState)
+  }, setState] = useState(() => getState(initialPots))
 
   useEffect(() => {
     setState(getState(initialPots))
@@ -128,7 +125,7 @@ function CLGS({
       throw new Error('no selected team')
     }
 
-    let newPossibleGroups: number[] | undefined
+    let newPossibleGroups: number[]
     try {
       if (isDrawShort) {
         const response = await getFirstPossibleGroupResponse({
@@ -155,11 +152,12 @@ function CLGS({
       return
     }
 
-    setState({
+    setState(state => ({
+      ...state,
       pickedGroup: null,
       possibleGroups: newPossibleGroups,
       possibleGroupsShuffled: shuffle(newPossibleGroups),
-    })
+    }))
   }
 
   const onTeamBallPick = useCallback((i: number) => {
@@ -176,11 +174,12 @@ function CLGS({
     const newPots = pots.slice()
     newPots[currentPotNum] = newPots[currentPotNum].filter((_, idx) => idx !== i)
 
-    setState({
+    setState(state => ({
+      ...state,
       selectedTeam: newSelectedTeam,
       pickedGroup: null,
       pots: newPots,
-    })
+    }))
   }, [pots, currentPotNum, selectedTeam])
 
   const onGroupBallPick = useCallback((newPickedGroup: number) => {
@@ -199,7 +198,8 @@ function CLGS({
 
     const newCurrentPotNum = pots[currentPotNum].length > 0 ? currentPotNum : currentPotNum + 1
 
-    setState({
+    setState(state => ({
+      ...state,
       selectedTeam: null,
       pickedGroup: newPickedGroup,
       hungPot: pots[newCurrentPotNum],
@@ -207,7 +207,7 @@ function CLGS({
       possibleGroupsShuffled: null,
       currentPotNum: newCurrentPotNum,
       groups: newGroups,
-    })
+    }))
   }, [pots, groups, selectedTeam, currentPotNum, hungPot])
 
   useEffect(() => {

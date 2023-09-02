@@ -23,7 +23,6 @@ import useDrawId from 'store/useDrawId'
 import useFastDraw from 'store/useFastDraw'
 import useXRay from 'store/useXRay'
 
-import usePartial from 'utils/hooks/usePartial'
 import useMedia from 'utils/hooks/useMedia'
 import useWorkerSendAndReceive from 'utils/hooks/useWorkerSendAndReceive'
 
@@ -78,9 +77,7 @@ function ELKO({
     possiblePairings,
     pots,
     matchups,
-  }, setFullState] = useState(() => getState(initialPots, season))
-
-  const setState = usePartial(setFullState)
+  }, setState] = useState(() => getState(initialPots, season))
 
   useEffect(() => {
     setState(getState(initialPots, season))
@@ -138,13 +135,14 @@ function ELKO({
 
     const newCurrentMatchNum = currentMatchupNum - currentPotNum + 1
 
-    setState({
+    setState(state => ({
+      ...state,
       currentPotNum: 1 - currentPotNum,
       currentMatchupNum: newCurrentMatchNum,
       possiblePairings: newPossiblePairings,
       pots: newPots,
       matchups: newMatchups,
-    })
+    }))
   }, [pots, matchups, currentPotNum, currentMatchupNum, possiblePairings])
 
   const autoPickIfOneBall = () => {

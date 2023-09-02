@@ -25,7 +25,6 @@ import useDrawId from 'store/useDrawId'
 import useFastDraw from 'store/useFastDraw'
 import useXRay from 'store/useXRay'
 
-import usePartial from 'utils/hooks/usePartial'
 import useWorkerSendAndReceive from 'utils/hooks/useWorkerSendAndReceive'
 
 import PageRoot from 'ui/PageRoot'
@@ -85,9 +84,7 @@ function WCGS({
     hungPot,
     pots,
     groups,
-  }, setFullState] = useState(() => getState(initialPots))
-
-  const setState = usePartial(setFullState)
+  }, setState] = useState(() => getState(initialPots))
 
   useEffect(() => {
     setState(getState(initialPots))
@@ -106,7 +103,7 @@ function WCGS({
       throw new Error('no selected team')
     }
 
-    let newPickedGroup: number | undefined
+    let newPickedGroup: number
     try {
       const response = await getFirstPossibleGroupResponse({
         season,
@@ -130,13 +127,14 @@ function WCGS({
     ]
     const newCurrentPotNum = pots[currentPotNum].length > 0 ? currentPotNum : currentPotNum + 1
 
-    setState({
+    setState(state => ({
+      ...state,
       selectedTeam: null,
       pickedGroup: newPickedGroup,
       hungPot: pots[newCurrentPotNum],
       currentPotNum: newCurrentPotNum,
       groups: newGroups,
-    })
+    }))
   }
 
   const onTeamBallPick = useCallback((i: number) => {
@@ -153,11 +151,12 @@ function WCGS({
     const newPots = pots.slice()
     newPots[currentPotNum] = newPots[currentPotNum].filter((_, idx) => idx !== i)
 
-    setState({
+    setState(state => ({
+      ...state,
       selectedTeam: newSelectedTeam,
       pickedGroup: null,
       pots: newPots,
-    })
+    }))
   }, [pots, currentPotNum, selectedTeam])
 
   useEffect(() => {

@@ -24,7 +24,6 @@ import useDrawId from 'store/useDrawId'
 import useFastDraw from 'store/useFastDraw'
 import useXRay from 'store/useXRay'
 
-import usePartial from 'utils/hooks/usePartial'
 import useWorkerSendAndReceive from 'utils/hooks/useWorkerSendAndReceive'
 
 import PageRoot from 'ui/PageRoot'
@@ -88,9 +87,7 @@ function ELGS({
     hungPot,
     pots,
     groups,
-  }, setFullState] = useState(() => getState(initialPots))
-
-  const setState = usePartial(setFullState)
+  }, setState] = useState(() => getState(initialPots))
 
   useEffect(() => {
     setState(getState(initialPots))
@@ -109,7 +106,7 @@ function ELGS({
       throw new Error('no selected team')
     }
 
-    let newPickedGroup: number | undefined
+    let newPickedGroup: number
     try {
       const response = await getFirstPossibleGroupResponse({
         season,
@@ -133,13 +130,14 @@ function ELGS({
     ]
     const newCurrentPotNum = pots[currentPotNum].length > 0 ? currentPotNum : currentPotNum + 1
 
-    setState({
+    setState(state => ({
+      ...state,
       selectedTeam: null,
       pickedGroup: newPickedGroup,
       hungPot: pots[newCurrentPotNum],
       currentPotNum: newCurrentPotNum,
       groups: newGroups,
-    })
+    }))
   }
 
   const onTeamBallPick = useCallback((i: number) => {
@@ -156,11 +154,12 @@ function ELGS({
     const newPots = pots.slice()
     newPots[currentPotNum] = newPots[currentPotNum].filter((_, idx) => idx !== i)
 
-    setState({
+    setState(state => ({
+      ...state,
       selectedTeam: newSelectedTeam,
       pickedGroup: null,
       pots: newPots,
-    })
+    }))
   }, [pots, currentPotNum, selectedTeam])
 
   useEffect(() => {

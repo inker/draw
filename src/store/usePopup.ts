@@ -1,7 +1,6 @@
 import { useCallback } from 'react'
 
 import makeStoreHook from 'utils/makeStoreHook'
-import usePartial from 'utils/hooks/usePartial'
 
 interface PopupState {
   initial: boolean,
@@ -19,6 +18,11 @@ const useStore = makeStoreHook(initialState)
 
 export default () => {
   const [popupState, set] = useStore()
-  const setPartialPopupState = useCallback(usePartial(set), [set])
+  const setPartialPopupState = useCallback((partialState: Partial<PopupState>) => {
+    set(state => ({
+      ...state,
+      ...partialState,
+    }))
+  }, [set])
   return [popupState, setPartialPopupState] as const
 }
