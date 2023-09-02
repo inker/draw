@@ -24,6 +24,7 @@ import useDrawId from 'store/useDrawId'
 import useFastDraw from 'store/useFastDraw'
 import useXRay from 'store/useXRay'
 
+import usePartial from 'utils/hooks/usePartial'
 import useWorkerSendAndReceive from 'utils/hooks/useWorkerSendAndReceive'
 
 import PageRoot from 'ui/PageRoot'
@@ -87,7 +88,9 @@ function ELGS({
     hungPot,
     pots,
     groups,
-  }, setState] = useState(() => getState(initialPots))
+  }, setFullState] = useState(() => getState(initialPots))
+
+  const setState = usePartial(setFullState)
 
   useEffect(() => {
     setState(getState(initialPots))
@@ -135,7 +138,6 @@ function ELGS({
       pickedGroup: newPickedGroup,
       hungPot: pots[newCurrentPotNum],
       currentPotNum: newCurrentPotNum,
-      pots,
       groups: newGroups,
     })
   }
@@ -155,14 +157,11 @@ function ELGS({
     newPots[currentPotNum] = newPots[currentPotNum].filter((_, idx) => idx !== i)
 
     setState({
-      currentPotNum,
-      hungPot,
       selectedTeam: newSelectedTeam,
       pickedGroup: null,
       pots: newPots,
-      groups,
     })
-  }, [pots, groups, currentPotNum, hungPot, selectedTeam])
+  }, [pots, currentPotNum, selectedTeam])
 
   useEffect(() => {
     if (selectedTeam) {

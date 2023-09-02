@@ -23,6 +23,7 @@ import useDrawId from 'store/useDrawId'
 import useFastDraw from 'store/useFastDraw'
 import useXRay from 'store/useXRay'
 
+import usePartial from 'utils/hooks/usePartial'
 import useMedia from 'utils/hooks/useMedia'
 import useWorkerSendAndReceive from 'utils/hooks/useWorkerSendAndReceive'
 
@@ -77,7 +78,9 @@ function ELKO({
     possiblePairings,
     pots,
     matchups,
-  }, setState] = useState(() => getState(initialPots, season))
+  }, setFullState] = useState(() => getState(initialPots, season))
+
+  const setState = usePartial(setFullState)
 
   useEffect(() => {
     setState(getState(initialPots, season))

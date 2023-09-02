@@ -23,6 +23,7 @@ import useDrawId from 'store/useDrawId'
 import useFastDraw from 'store/useFastDraw'
 import useXRay from 'store/useXRay'
 
+import usePartial from 'utils/hooks/usePartial'
 import useWorkerSendAndReceive from 'utils/hooks/useWorkerSendAndReceive'
 
 import PageRoot from 'ui/PageRoot'
@@ -76,7 +77,9 @@ function CLKO({
     possiblePairings,
     pots,
     matchups,
-  }, setState] = useState(() => getState(initialPots))
+  }, setFullState] = useState(() => getState(initialPots))
+
+  const setState = usePartial(setFullState)
 
   useEffect(() => {
     setState(getState(initialPots))
