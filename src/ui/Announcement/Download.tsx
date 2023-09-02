@@ -11,8 +11,8 @@ import delay from 'delay.js'
 import ButtonLink from 'ui/ButtonLink'
 import NoTransitions from 'ui/NoTransitions'
 
-const takeScreenshotPromise = (
-  import(/* webpackChunkName: "screenshot", webpackPrefetch: true */ 'utils/takeScreenshot')
+const saveScreenshotPromise = (
+  import(/* webpackChunkName: "screenshot", webpackPrefetch: true */ 'utils/saveScreenshot')
 )
 
 interface Props {
@@ -57,7 +57,7 @@ function Download({
           throw new Error('groups element is null')
         }
         await delay(0) // TODO: remove this hack
-        const mod = await takeScreenshotPromise
+        const mod = await saveScreenshotPromise
         await mod.default(el, downloadClicked)
       } catch (err) {
         console.error(err)
