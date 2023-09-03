@@ -38,7 +38,7 @@ function TeamBowl({
   selectedTeam,
   onPick,
 }: Props) {
-  const onBallPick = useCallback((ev: React.MouseEvent<HTMLDivElement>) => {
+  const handleBallPick = useCallback((ev: React.MouseEvent<HTMLDivElement>) => {
     const ball = ev.target as HTMLDivElement
     const i = pot.findIndex(team => team.id === ball.dataset.teamid)
     onPick(i, pot)
@@ -56,7 +56,7 @@ function TeamBowl({
           $notSelected={forceNoSelect || !!selectedTeam && team !== selectedTeam}
           forceVisible={displayTeams}
           noHover={!!noSelect}
-          onClick={noSelect ? undefined : onBallPick}
+          onClick={noSelect ? undefined : handleBallPick}
         >
           {(team as Club).shortName ?? team.name}
         </Ball>

@@ -120,7 +120,7 @@ function CLGS({
   const isDrawShort = isFirstPotShortDraw && currentPotNum === 0
   const isNoGroupBallPick = isFastDraw || isDrawShort
 
-  const onTeamSelected = async () => {
+  const handleTeamSelected = async () => {
     if (!selectedTeam) {
       throw new Error('no selected team')
     }
@@ -160,7 +160,7 @@ function CLGS({
     }))
   }
 
-  const onTeamBallPick = useCallback((i: number) => {
+  const handleTeamBallPick = useCallback((i: number) => {
     if (selectedTeam) {
       return
     }
@@ -182,7 +182,7 @@ function CLGS({
     }))
   }, [pots, currentPotNum, selectedTeam])
 
-  const onGroupBallPick = useCallback((newPickedGroup: number) => {
+  const handleGroupBallPick = useCallback((newPickedGroup: number) => {
     if (!selectedTeam) {
       setPopup({
         error: 'No selected team...',
@@ -212,7 +212,7 @@ function CLGS({
 
   useEffect(() => {
     if (selectedTeam) {
-      onTeamSelected()
+      handleTeamSelected()
     }
   }, [selectedTeam])
 
@@ -223,7 +223,7 @@ function CLGS({
     const hungPotSize = hungPot?.length
     if (isFastDraw && hungPotSize) {
       const index = random(hungPotSize - 1)
-      onTeamBallPick(index)
+      handleTeamBallPick(index)
     }
   }, [isFastDraw, hungPot])
 
@@ -233,7 +233,7 @@ function CLGS({
         ? Math.min(...possibleGroupsShuffled)
         : sample(possibleGroupsShuffled)!
 
-      onGroupBallPick(index)
+      handleGroupBallPick(index)
     }
   }, [isNoGroupBallPick, possibleGroupsShuffled])
 
@@ -275,7 +275,7 @@ function CLGS({
             displayTeams={isXRay}
             selectedTeam={selectedTeam}
             pot={hungPot}
-            onPick={onTeamBallPick}
+            onPick={handleTeamBallPick}
           />
         )}
         <Announcement
@@ -294,7 +294,7 @@ function CLGS({
             display={!completed}
             displayGroups={isXRay}
             possibleGroups={possibleGroupsShuffled}
-            onPick={onGroupBallPick}
+            onPick={handleGroupBallPick}
           />
         )}
       </BowlsContainer>

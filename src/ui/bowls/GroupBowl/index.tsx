@@ -31,7 +31,7 @@ function GroupBowl({
   possibleGroups,
   onPick,
 }: Props) {
-  const onBallPick = useCallback((ev: React.MouseEvent<HTMLDivElement>) => {
+  const handleBallPick = useCallback((ev: React.MouseEvent<HTMLDivElement>) => {
     const ball = ev.target as HTMLDivElement
     const pickedGroup = +ball.dataset.group!
     if (Number.isNaN(pickedGroup)) {
@@ -47,7 +47,7 @@ function GroupBowl({
           key={groupNum}
           data-group={groupNum}
           forceVisible={displayGroups}
-          onClick={onBallPick}
+          onClick={handleBallPick}
         >
           {getGroupLetter(groupNum)}
         </Ball>

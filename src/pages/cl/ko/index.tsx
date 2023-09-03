@@ -112,7 +112,7 @@ function CLKO({
     [season, getPossiblePairingsResponse],
   )
 
-  const onBallPick = useCallback(async (i: number) => {
+  const handleBallPick = useCallback(async (i: number) => {
     const currentPot = pots[currentPotNum]
     const index = possiblePairings ? possiblePairings[i] : i
     const selectedTeam = currentPot[index]
@@ -150,7 +150,7 @@ function CLKO({
     const isOnlyChoice = possiblePairings?.length === 1
       || currentPotNum === 1 && pots[1].length === 1
     if (isOnlyChoice) {
-      onBallPick(0)
+      handleBallPick(0)
     }
   }
 
@@ -171,7 +171,7 @@ function CLKO({
       const numTeams = teams.length
       if (numTeams > 0) {
         const index = random(numTeams - 1)
-        onBallPick(index)
+        handleBallPick(index)
       }
     }
   }, [isFastDraw, currentPotNum])
@@ -210,7 +210,7 @@ function CLKO({
               displayTeams={isXRay}
               selectedTeam={null}
               pot={pots[1]}
-              onPick={onBallPick}
+              onPick={handleBallPick}
             />
             {!completed && (
               <Separator>Group Winners</Separator>
@@ -222,7 +222,7 @@ function CLKO({
                 displayTeams={isXRay}
                 selectedTeam={null}
                 pot={teamBowlPot}
-                onPick={onBallPick}
+                onPick={handleBallPick}
               />
             )}
           </>

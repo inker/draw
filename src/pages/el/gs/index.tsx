@@ -101,7 +101,7 @@ function ELGS({
 
   const groupsContanerRef = useRef<HTMLElement>(null)
 
-  const onTeamSelected = async () => {
+  const handleTeamSelected = async () => {
     if (!selectedTeam) {
       throw new Error('no selected team')
     }
@@ -140,7 +140,7 @@ function ELGS({
     }))
   }
 
-  const onTeamBallPick = useCallback((i: number) => {
+  const handleTeamBallPick = useCallback((i: number) => {
     if (selectedTeam) {
       return
     }
@@ -164,7 +164,7 @@ function ELGS({
 
   useEffect(() => {
     if (selectedTeam) {
-      onTeamSelected()
+      handleTeamSelected()
     }
   }, [selectedTeam])
 
@@ -175,7 +175,7 @@ function ELGS({
     const hungPotSize = hungPot?.length
     if (isFastDraw && hungPotSize) {
       const index = random(hungPotSize - 1)
-      onTeamBallPick(index)
+      handleTeamBallPick(index)
     }
   }, [isFastDraw, hungPot])
 
@@ -218,7 +218,7 @@ function ELGS({
             displayTeams={isXRay}
             selectedTeam={selectedTeam}
             pot={hungPot}
-            onPick={onTeamBallPick}
+            onPick={handleTeamBallPick}
           />
         )}
         <Announcement

@@ -98,7 +98,7 @@ function WCGS({
 
   const groupsContanerRef = useRef<HTMLElement>(null)
 
-  const onTeamSelected = async () => {
+  const handleTeamSelected = async () => {
     if (!selectedTeam) {
       throw new Error('no selected team')
     }
@@ -137,7 +137,7 @@ function WCGS({
     }))
   }
 
-  const onTeamBallPick = useCallback((i: number) => {
+  const handleTeamBallPick = useCallback((i: number) => {
     if (selectedTeam) {
       return
     }
@@ -161,14 +161,14 @@ function WCGS({
 
   useEffect(() => {
     if (selectedTeam) {
-      onTeamSelected()
+      handleTeamSelected()
     }
   }, [selectedTeam])
 
   useEffect(() => {
     // pick host ball
     const i = pots[currentPotNum].findIndex(team => team.host)
-    onTeamBallPick(i)
+    handleTeamBallPick(i)
     // TODO: should be drawId
   }, [pots])
 
@@ -179,7 +179,7 @@ function WCGS({
     const hungPotSize = hungPot?.length
     if (isFastDraw && hungPotSize) {
       const index = random(hungPotSize - 1)
-      onTeamBallPick(index)
+      handleTeamBallPick(index)
     }
   }, [isFastDraw, hungPot])
 
@@ -217,7 +217,7 @@ function WCGS({
             displayTeams={isXRay}
             selectedTeam={selectedTeam}
             pot={hungPot}
-            onPick={onTeamBallPick}
+            onPick={handleTeamBallPick}
           />
         )}
         <Announcement
