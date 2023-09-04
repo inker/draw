@@ -69,7 +69,7 @@ function ELKO({
   pots: initialPots,
 }: Props) {
   const [drawId, setNewDrawId] = useDrawId()
-  const [isFastDraw, setIsFastDraw] = useFastDraw()
+  const [isFastDraw] = useFastDraw()
 
   const [{
     currentMatchupNum,
@@ -177,12 +177,6 @@ function ELKO({
       }
     }
   }, [isFastDraw, currentPotNum])
-
-  useEffect(() => {
-    if (completed && isFastDraw) {
-      setIsFastDraw(false)
-    }
-  }, [completed, isFastDraw])
 
   const selectedTeams = possiblePairings ? possiblePairings.map(i => pots[0][i]) : []
 

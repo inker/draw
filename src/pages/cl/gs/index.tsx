@@ -90,7 +90,7 @@ function CLGS({
   isFirstPotShortDraw,
 }: Props) {
   const [drawId, setNewDrawId] = useDrawId()
-  const [isFastDraw, setIsFastDraw] = useFastDraw()
+  const [isFastDraw] = useFastDraw()
 
   const [{
     currentPotNum,
@@ -236,12 +236,6 @@ function CLGS({
       handleGroupBallPick(index)
     }
   }, [isNoGroupBallPick, possibleGroupsShuffled])
-
-  useEffect(() => {
-    if (completed && isFastDraw) {
-      setIsFastDraw(false)
-    }
-  }, [completed, isFastDraw])
 
   const numGroups = groups.length
 

@@ -78,7 +78,7 @@ function ELGS({
   pots: initialPots,
 }: Props) {
   const [drawId, setNewDrawId] = useDrawId()
-  const [isFastDraw, setIsFastDraw] = useFastDraw()
+  const [isFastDraw] = useFastDraw()
 
   const [{
     currentPotNum,
@@ -178,12 +178,6 @@ function ELGS({
       handleTeamBallPick(index)
     }
   }, [isFastDraw, hungPot])
-
-  useEffect(() => {
-    if (completed && isFastDraw) {
-      setIsFastDraw(false)
-    }
-  }, [completed, isFastDraw])
 
   const numGroups = groups.length
 
