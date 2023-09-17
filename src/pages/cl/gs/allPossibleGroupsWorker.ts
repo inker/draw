@@ -7,7 +7,7 @@ import {
   type GsWorkerData,
   type GsWorkerPossibleGroupsResponseData,
 } from 'model/WorkerData'
-import exposeWorker from 'utils/worker/expose'
+import exposeWorker, { type ExposedFuncType } from 'utils/worker/expose'
 
 type GetPredicateParams = Parameters<typeof getPredicate>
 
@@ -22,7 +22,7 @@ const eqFunc = (newArgs: GetPredicateParams, oldArgs: GetPredicateParams) =>
 
 const getPredicateMemoized = memoizeOne(getPredicate, eqFunc)
 
-exposeWorker((data: GsWorkerData<Team>): GsWorkerPossibleGroupsResponseData => {
+const func = (data: GsWorkerData<Team>): GsWorkerPossibleGroupsResponseData => {
   const {
     season,
     pots,
@@ -36,4 +36,8 @@ exposeWorker((data: GsWorkerData<Team>): GsWorkerPossibleGroupsResponseData => {
   return {
     possibleGroups,
   }
-})
+}
+
+export type Func = ExposedFuncType<typeof func>
+
+exposeWorker(func)

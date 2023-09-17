@@ -13,10 +13,6 @@ import {
 } from 'lodash'
 
 import type Team from 'model/team/KnockoutTeam'
-import {
-  type KoWorkerData,
-  type KoWorkerResponseData,
-} from 'model/WorkerData'
 
 import usePopup from 'store/usePopup'
 import useDrawId from 'store/useDrawId'
@@ -34,6 +30,8 @@ import BowlsContainer from 'ui/BowlsContainer'
 import TeamBowl from 'ui/bowls/TeamBowl'
 import Separator from 'ui/Separator'
 import Announcement from 'ui/Announcement'
+
+import { type Func } from './worker'
 
 const createWorker = () =>
   new Worker(new URL('./worker', import.meta.url))
@@ -87,8 +85,7 @@ function ELKO({
   const [, setPopup] = usePopup()
   const [isXRay] = useXRay()
 
-  // eslint-disable-next-line max-len
-  const getPossiblePairingsResponse = useWorkerSendAndReceive<KoWorkerData<Team>, KoWorkerResponseData>(createWorker)
+  const getPossiblePairingsResponse = useWorkerSendAndReceive(createWorker) as Func
 
   const groupsContanerRef = useRef<HTMLElement>(null)
 

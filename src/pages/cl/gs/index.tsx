@@ -15,11 +15,6 @@ import {
 } from 'lodash'
 
 import type Team from 'model/team/GsTeam'
-import {
-  type GsWorkerData,
-  type GsWorkerFirstPossibleResponseData,
-  type GsWorkerPossibleGroupsResponseData,
-} from 'model/WorkerData'
 
 import usePopup from 'store/usePopup'
 import useDrawId from 'store/useDrawId'
@@ -36,6 +31,9 @@ import BowlsContainer from 'ui/BowlsContainer'
 import TeamBowl from 'ui/bowls/TeamBowl'
 import GroupBowl from 'ui/bowls/GroupBowl'
 import Announcement from 'ui/Announcement'
+
+import { type Func as FirstPossibleGroupFunc } from './firstPossibleGroupWorker'
+import { type Func as AllPossibleGroupsFunc } from './allPossibleGroupsWorker'
 
 const createAllPossibleGroupsWorker = () =>
   new Worker(new URL('./allPossibleGroupsWorker', import.meta.url))
@@ -111,9 +109,9 @@ function CLGS({
   const [isXRay] = useXRay()
 
   // eslint-disable-next-line max-len
-  const getFirstPossibleGroupResponse = useWorkerSendAndReceive<GsWorkerData<Team>, GsWorkerFirstPossibleResponseData>(createFirstPossibleGroupWorker)
+  const getFirstPossibleGroupResponse = useWorkerSendAndReceive(createFirstPossibleGroupWorker) as FirstPossibleGroupFunc
   // eslint-disable-next-line max-len
-  const getAllPossibleGroupsResponse = useWorkerSendAndReceive<GsWorkerData<Team>, GsWorkerPossibleGroupsResponseData>(createAllPossibleGroupsWorker)
+  const getAllPossibleGroupsResponse = useWorkerSendAndReceive(createAllPossibleGroupsWorker) as AllPossibleGroupsFunc
 
   const groupsContanerRef = useRef<HTMLElement>(null)
 

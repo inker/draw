@@ -7,7 +7,7 @@ import {
   type KoWorkerData,
   type KoWorkerResponseData,
 } from 'model/WorkerData'
-import exposeWorker from 'utils/worker/expose'
+import exposeWorker, { type ExposedFuncType } from 'utils/worker/expose'
 
 type GetPredicateParams = Parameters<typeof getPredicate>
 
@@ -21,7 +21,7 @@ const eqFunc = (newArgs: GetPredicateParams, oldArgs: GetPredicateParams) =>
 
 const getPredicateMemoized = memoizeOne(getPredicate, eqFunc)
 
-exposeWorker((data: KoWorkerData<Team>): KoWorkerResponseData => {
+const func = (data: KoWorkerData<Team>): KoWorkerResponseData => {
   const {
     season,
     pots,
@@ -34,4 +34,8 @@ exposeWorker((data: KoWorkerData<Team>): KoWorkerResponseData => {
   return {
     possiblePairings,
   }
-})
+}
+
+export type Func = ExposedFuncType<typeof func>
+
+exposeWorker(func)

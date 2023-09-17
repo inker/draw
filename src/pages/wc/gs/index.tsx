@@ -15,10 +15,6 @@ import {
 } from 'lodash'
 
 import type Team from 'model/team/NationalTeam'
-import {
-  type GsWorkerData,
-  type GsWorkerFirstPossibleResponseData,
-} from 'model/WorkerData'
 
 import usePopup from 'store/usePopup'
 import useDrawId from 'store/useDrawId'
@@ -34,6 +30,8 @@ import TablesContainer from 'ui/TablesContainer'
 import BowlsContainer from 'ui/BowlsContainer'
 import TeamBowl from 'ui/bowls/TeamBowl'
 import Announcement from 'ui/Announcement'
+
+import { type Func } from './worker'
 
 const createWorker = () =>
   new Worker(new URL('./worker', import.meta.url))
@@ -93,8 +91,7 @@ function WCGS({
   const [, setPopup] = usePopup()
   const [isXRay] = useXRay()
 
-  // eslint-disable-next-line max-len
-  const getFirstPossibleGroupResponse = useWorkerSendAndReceive<GsWorkerData<Team>, GsWorkerFirstPossibleResponseData>(createWorker)
+  const getFirstPossibleGroupResponse = useWorkerSendAndReceive(createWorker) as Func
 
   const groupsContanerRef = useRef<HTMLElement>(null)
 

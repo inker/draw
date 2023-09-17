@@ -14,3 +14,6 @@ export default <F extends (arg: any) => any>(func: F) => {
     })
   })
 }
+
+export type ExposedFuncType<F extends (...args: readonly any[]) => any> =
+  (...args: Parameters<F>) => Promise<ReturnType<F>>
