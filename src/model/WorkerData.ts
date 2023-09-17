@@ -1,3 +1,5 @@
+import { type FixedArray } from './types'
+
 export interface WorkerMessage<T> {
   messageId: any,
   data: T,
@@ -12,6 +14,6 @@ export interface GsWorkerData<T> {
 
 export interface KoWorkerData<T> {
   season: number,
-  pots: readonly (readonly T[])[],
+  pots: FixedArray<readonly T[], 2>,
   matchups: readonly (readonly [T, T])[],
 }
