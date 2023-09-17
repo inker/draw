@@ -37,10 +37,10 @@ import TeamBowl from 'ui/bowls/TeamBowl'
 import GroupBowl from 'ui/bowls/GroupBowl'
 import Announcement from 'ui/Announcement'
 
-const getAllPossibleGroupsWorker = () =>
+const createAllPossibleGroupsWorker = () =>
   new Worker(new URL('./allPossibleGroupsWorker', import.meta.url))
 
-const getFirstPossibleGroupWorker = () =>
+const createFirstPossibleGroupWorker = () =>
   new Worker(new URL('./firstPossibleGroupWorker', import.meta.url))
 
 const redGroup = css`
@@ -111,9 +111,9 @@ function CLGS({
   const [isXRay] = useXRay()
 
   // eslint-disable-next-line max-len
-  const getFirstPossibleGroupResponse = useWorkerSendAndReceive<GsWorkerData<Team>, GsWorkerFirstPossibleResponseData>(getFirstPossibleGroupWorker)
+  const getFirstPossibleGroupResponse = useWorkerSendAndReceive<GsWorkerData<Team>, GsWorkerFirstPossibleResponseData>(createFirstPossibleGroupWorker)
   // eslint-disable-next-line max-len
-  const getAllPossibleGroupsResponse = useWorkerSendAndReceive<GsWorkerData<Team>, GsWorkerPossibleGroupsResponseData>(getAllPossibleGroupsWorker)
+  const getAllPossibleGroupsResponse = useWorkerSendAndReceive<GsWorkerData<Team>, GsWorkerPossibleGroupsResponseData>(createAllPossibleGroupsWorker)
 
   const groupsContanerRef = useRef<HTMLElement>(null)
 

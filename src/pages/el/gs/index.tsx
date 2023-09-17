@@ -34,7 +34,7 @@ import BowlsContainer from 'ui/BowlsContainer'
 import TeamBowl from 'ui/bowls/TeamBowl'
 import Announcement from 'ui/Announcement'
 
-const getEsWorker = () =>
+const createWorker = () =>
   new Worker(new URL('./worker', import.meta.url))
 
 const redGroup = css`
@@ -97,7 +97,7 @@ function ELGS({
   const [isXRay] = useXRay()
 
   // eslint-disable-next-line max-len
-  const getFirstPossibleGroupResponse = useWorkerSendAndReceive<GsWorkerData<Team>, GsWorkerFirstPossibleResponseData>(getEsWorker)
+  const getFirstPossibleGroupResponse = useWorkerSendAndReceive<GsWorkerData<Team>, GsWorkerFirstPossibleResponseData>(createWorker)
 
   const groupsContanerRef = useRef<HTMLElement>(null)
 

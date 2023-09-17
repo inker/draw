@@ -35,7 +35,7 @@ import TeamBowl from 'ui/bowls/TeamBowl'
 import Separator from 'ui/Separator'
 import Announcement from 'ui/Announcement'
 
-const getEsWorker = () =>
+const createWorker = () =>
   new Worker(new URL('./worker', import.meta.url))
 
 interface Props {
@@ -88,7 +88,7 @@ function ELKO({
   const [isXRay] = useXRay()
 
   // eslint-disable-next-line max-len
-  const getPossiblePairingsResponse = useWorkerSendAndReceive<KoWorkerData<Team>, KoWorkerResponseData>(getEsWorker)
+  const getPossiblePairingsResponse = useWorkerSendAndReceive<KoWorkerData<Team>, KoWorkerResponseData>(createWorker)
 
   const groupsContanerRef = useRef<HTMLElement>(null)
 
