@@ -1,4 +1,4 @@
-"use strict";(self.webpackChunkdraw=self.webpackChunkdraw||[]).push([[3602],{71158:(e,r,o)=>{o.r(r),o.d(r,{default:()=>v});var s=o(85893),t=o(67294),l=o(70394),n=o(21225),i=o(80676),a=o(21487),u=o(27603),c=o(56285),d=o(43761),p=o(43510),m=o(72723),f=o(11726),h=o(80528),x=o(85704),b=o(18753),Z=o(40410),g=o(12365);let k=()=>new Worker(new URL(o.p+o.u(3091),o.b)),j=(0,l.iv)`
+"use strict";(self.webpackChunkdraw=self.webpackChunkdraw||[]).push([[3602],{71158:(e,r,o)=>{o.r(r),o.d(r,{default:()=>v});var s=o(85893),t=o(67294),l=o(70394),n=o(21225),i=o(80676),a=o(21487),u=o(27603),c=o(56285),d=o(43761),p=o(88853),m=o(72723),f=o(11726),h=o(80528),x=o(85704),b=o(18753),Z=o(40410),g=o(12365);let k=()=>new Worker(new URL(o.p+o.u(3091),o.b)),j=(0,l.iv)`
   background-color: ${e=>e.theme.isDarkMode?"#933":"#ffc0c0"};
 `,w=(0,l.iv)`
   background-color: ${e=>e.theme.isDarkMode?"#039":"#c0e0ff"};
