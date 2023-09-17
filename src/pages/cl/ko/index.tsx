@@ -12,6 +12,7 @@ import {
   shuffle,
 } from 'lodash'
 
+import { type FixedArray } from 'model/types'
 import type Team from 'model/team/KnockoutTeam'
 
 import usePopup from 'store/usePopup'
@@ -37,18 +38,18 @@ const createWorker = () =>
 
 interface Props {
   season: number,
-  pots: readonly (readonly Team[])[],
+  pots: FixedArray<readonly Team[], 2>,
 }
 
 interface State {
   currentMatchupNum: number,
   currentPotNum: number,
   possiblePairings: readonly number[] | null,
-  pots: readonly Team[][],
+  pots: FixedArray<readonly Team[], 2>,
   matchups: readonly [Team, Team][],
 }
 
-function getState(initialPots: readonly (readonly Team[])[]): State {
+function getState(initialPots: FixedArray<readonly Team[], 2>): State {
   const currentPotNum = 1
   const currentMatchupNum = 0
   const numMatchups = 8
@@ -56,7 +57,7 @@ function getState(initialPots: readonly (readonly Team[])[]): State {
     currentMatchupNum,
     currentPotNum,
     possiblePairings: null,
-    pots: initialPots.map(pot => shuffle(pot)),
+    pots: initialPots.map(pot => shuffle(pot) as readonly Team[]) as typeof initialPots,
     matchups: Array.from({ length: numMatchups }, () => [] as any),
   }
 }
@@ -89,7 +90,7 @@ function CLKO({
 
   const getPossiblePairings = useCallback(
     async (
-      newPots: readonly (readonly Team[])[],
+      newPots: FixedArray<readonly Team[], 2>,
       newMatchups: readonly [Team, Team][],
     ) => {
       try {
@@ -113,7 +114,7 @@ function CLKO({
     const index = possiblePairings ? possiblePairings[i] : i
     const selectedTeam = currentPot[index]
 
-    const newPots = pots.slice()
+    const newPots = pots.slice() as typeof pots
     newPots[currentPotNum] = newPots[currentPotNum].filter((_, idx) => idx !== index)
 
     const newMatchups = matchups.slice()
