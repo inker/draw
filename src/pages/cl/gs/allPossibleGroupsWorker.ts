@@ -6,7 +6,7 @@ import type Team from 'model/team/GsTeam'
 import {
   type GsWorkerData,
 } from 'model/WorkerData'
-import exposeWorker from 'utils/exposeWorker'
+import exposeWorker from 'utils/worker/expose'
 
 type GetPredicateParams = Parameters<typeof getPredicate>
 
