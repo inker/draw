@@ -5,8 +5,8 @@ import getPredicate from 'engine/predicates/uefa/gs'
 import type Team from 'model/team/GsTeam'
 import {
   type GsWorkerData,
-  type WorkerMessage,
 } from 'model/WorkerData'
+import exposeWorker from 'utils/exposeWorker'
 
 type GetPredicateParams = Parameters<typeof getPredicate>
 
@@ -21,25 +21,18 @@ const eqFunc = (newArgs: GetPredicateParams, oldArgs: GetPredicateParams) =>
 
 const getPredicateMemoized = memoizeOne(getPredicate, eqFunc)
 
-// eslint-disable-next-line no-restricted-globals
-addEventListener('message', (e: MessageEvent<WorkerMessage<GsWorkerData<Team>>>) => {
+exposeWorker((data: GsWorkerData<Team>) => {
   const {
-    messageId,
-    data: {
-      season,
-      pots,
-      groups,
-      selectedTeam,
-    },
-  } = e.data
+    season,
+    pots,
+    groups,
+    selectedTeam,
+  } = data
 
   const predicate = getPredicateMemoized(season, pots.length)
   const possibleGroups = allPossibleGroups(pots, groups, selectedTeam, predicate)
 
-  postMessage({
-    messageId,
-    data: {
-      possibleGroups,
-    },
-  })
+  return {
+    possibleGroups,
+  }
 })

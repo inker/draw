@@ -6,8 +6,8 @@ import getPredicate from 'engine/predicates/wc'
 import type Team from 'model/team/NationalTeam'
 import {
   type GsWorkerData,
-  type WorkerMessage,
 } from 'model/WorkerData'
+import exposeWorker from 'utils/exposeWorker'
 
 type GetPredicateParams = Parameters<typeof getPredicate>
 
@@ -24,17 +24,13 @@ const eqFunc = (newArgs: GetPredicateParams, oldArgs: GetPredicateParams) =>
 
 const getPredicateMemoized = memoizeOne(getPredicate, eqFunc)
 
-// eslint-disable-next-line no-restricted-globals
-addEventListener('message', (e: MessageEvent<WorkerMessage<GsWorkerData<Team>>>) => {
+exposeWorker((data: GsWorkerData<Team>) => {
   const {
-    messageId,
-    data: {
-      season,
-      pots,
-      groups,
-      selectedTeam,
-    },
-  } = e.data
+    season,
+    pots,
+    groups,
+    selectedTeam,
+  } = data
 
   const teams = [
     selectedTeam,
@@ -44,10 +40,7 @@ addEventListener('message', (e: MessageEvent<WorkerMessage<GsWorkerData<Team>>>)
   const predicate = getPredicateMemoized(season, teams)
   const pickedGroup = firstPossibleGroup(pots, groups, selectedTeam, predicate)
 
-  postMessage({
-    messageId,
-    data: {
-      pickedGroup,
-    },
-  })
+  return {
+    pickedGroup,
+  }
 })

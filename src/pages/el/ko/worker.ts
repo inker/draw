@@ -5,8 +5,8 @@ import getPredicate from 'engine/predicates/uefa/ko'
 import type Team from 'model/team/KnockoutTeam'
 import {
   type KoWorkerData,
-  type WorkerMessage,
 } from 'model/WorkerData'
+import exposeWorker from 'utils/exposeWorker'
 
 type GetPredicateParams = Parameters<typeof getPredicate>
 
@@ -20,24 +20,17 @@ const eqFunc = (newArgs: GetPredicateParams, oldArgs: GetPredicateParams) =>
 
 const getPredicateMemoized = memoizeOne(getPredicate, eqFunc)
 
-// eslint-disable-next-line no-restricted-globals
-addEventListener('message', (e: MessageEvent<WorkerMessage<KoWorkerData<Team>>>) => {
+exposeWorker((data: KoWorkerData<Team>) => {
   const {
-    messageId,
-    data: {
-      season,
-      pots,
-      matchups,
-    },
-  } = e.data
+    season,
+    pots,
+    matchups,
+  } = data
 
   const predicate = getPredicateMemoized(season)
   const possiblePairings = getPossiblePairings(pots, matchups, predicate)
 
-  postMessage({
-    messageId,
-    data: {
-      possiblePairings,
-    },
-  })
+  return {
+    possiblePairings,
+  }
 })
