@@ -5,7 +5,6 @@ import getPredicate from 'engine/predicates/uefa/gs'
 import type Team from 'model/team/GsTeam'
 import {
   type GsWorkerData,
-  type GsWorkerPossibleGroupsResponseData,
 } from 'model/WorkerData'
 import exposeWorker, { type ExposedFuncType } from 'utils/worker/expose'
 
@@ -22,7 +21,7 @@ const eqFunc = (newArgs: GetPredicateParams, oldArgs: GetPredicateParams) =>
 
 const getPredicateMemoized = memoizeOne(getPredicate, eqFunc)
 
-const func = (data: GsWorkerData<Team>): GsWorkerPossibleGroupsResponseData => {
+const func = (data: GsWorkerData<Team>) => {
   const {
     season,
     pots,

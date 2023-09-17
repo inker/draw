@@ -5,7 +5,6 @@ import getPredicate from 'engine/predicates/uefa/ko'
 import type Team from 'model/team/KnockoutTeam'
 import {
   type KoWorkerData,
-  type KoWorkerResponseData,
 } from 'model/WorkerData'
 import exposeWorker, { type ExposedFuncType } from 'utils/worker/expose'
 
@@ -21,7 +20,7 @@ const eqFunc = (newArgs: GetPredicateParams, oldArgs: GetPredicateParams) =>
 
 const getPredicateMemoized = memoizeOne(getPredicate, eqFunc)
 
-const func = (data: KoWorkerData<Team>): KoWorkerResponseData => {
+const func = (data: KoWorkerData<Team>) => {
   const {
     season,
     pots,
