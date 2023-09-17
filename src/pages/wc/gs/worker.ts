@@ -38,7 +38,12 @@ const func = (data: GsWorkerData<Team>) => {
     ...groups.flat(),
   ]
   const predicate = getPredicateMemoized(season, teams)
-  return firstPossibleGroup(pots, groups, selectedTeam, predicate)
+  return firstPossibleGroup({
+    pots,
+    groups,
+    picked: selectedTeam,
+    predicate,
+  })
 }
 
 export type Func = ExposedFuncType<typeof func>

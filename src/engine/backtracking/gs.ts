@@ -35,24 +35,31 @@ function anyGroupPossible<T>(
   return newGroups.some((_, i) => anyGroupPossible(newSource, newGroups, newPicked, i, predicate))
 }
 
-export const allPossibleGroups = <T>(
+interface Input<T> {
   pots: ReadonlyDoubleArray<T>,
   groups: ReadonlyDoubleArray<T>,
   picked: T,
   predicate: Predicate<T>,
-) => {
+}
+
+export const allPossibleGroups = <T>({
+  pots,
+  groups,
+  picked,
+  predicate,
+}: Input<T>) => {
   const source = pots.flat()
   return groups
     .map((_, i) => i)
     .filter(i => anyGroupPossible(source, groups, picked, i, predicate))
 }
 
-export const firstPossibleGroup = <T>(
-  pots: ReadonlyDoubleArray<T>,
-  groups: ReadonlyDoubleArray<T>,
-  picked: T,
-  predicate: Predicate<T>,
-) => {
+export const firstPossibleGroup = <T>({
+  pots,
+  groups,
+  picked,
+  predicate,
+}: Input<T>) => {
   const source = pots.flat()
   return groups.findIndex((_, i) => anyGroupPossible(source, groups, picked, i, predicate))
 }

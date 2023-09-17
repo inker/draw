@@ -1,4 +1,5 @@
 import { type Predicate } from 'engine/backtracking/gs'
+import { type FixedArray } from 'model/types'
 
 type OneOrTwo<T> = readonly [T] | readonly [T, T]
 
@@ -38,12 +39,18 @@ function anyRunnersUp<T>(
     .some(item => anyGroupWinners(item, [groupWinners, newRunnersUp], newMatchups, predicate))
 }
 
-// eslint-disable-next-line import/prefer-default-export
-export const getPossiblePairings = <T>(
-  [groupWinners, runnersUp]: readonly (readonly T[])[],
+interface Input<T> {
+  pots: FixedArray<readonly T[], 2>,
   matchups: readonly OneOrTwo<T>[],
   predicate: Predicate<T>,
-): number[] =>
+}
+
+// eslint-disable-next-line import/prefer-default-export
+export const getPossiblePairings = <T>({
+  pots: [groupWinners, runnersUp],
+  matchups,
+  predicate,
+}: Input<T>): number[] =>
     groupWinners
       .map((item, i) => i)
       .filter(i => anyGroupWinners(groupWinners[i], [groupWinners, runnersUp], matchups, predicate))

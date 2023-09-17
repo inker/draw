@@ -28,7 +28,11 @@ const func = (data: KoWorkerData<Team>) => {
   } = data
 
   const predicate = getPredicateMemoized(season)
-  return getPossiblePairings(pots, matchups, predicate)
+  return getPossiblePairings({
+    pots,
+    matchups,
+    predicate,
+  })
 }
 
 export type Func = ExposedFuncType<typeof func>
