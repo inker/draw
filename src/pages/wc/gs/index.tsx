@@ -102,13 +102,13 @@ function WCGS({
 
     let newPickedGroup: number
     try {
-      const response = await getFirstPossibleGroupResponse({
+      const firstPossibleGroup = await getFirstPossibleGroupResponse({
         season,
         pots,
         groups,
         selectedTeam,
       })
-      newPickedGroup = response.pickedGroup
+      newPickedGroup = firstPossibleGroup
     } catch (err) {
       console.error(err)
       setPopup({

@@ -126,21 +126,21 @@ function CLGS({
     let newPossibleGroups: number[]
     try {
       if (isDrawShort) {
-        const response = await getFirstPossibleGroupResponse({
+        const firstPossibleGroup = await getFirstPossibleGroupResponse({
           season,
           pots,
           groups,
           selectedTeam,
         })
-        newPossibleGroups = [response.pickedGroup]
+        newPossibleGroups = [firstPossibleGroup]
       } else {
-        const response = await getAllPossibleGroupsResponse({
+        const allPossibleGroups = await getAllPossibleGroupsResponse({
           season,
           pots,
           groups,
           selectedTeam,
         })
-        newPossibleGroups = response.possibleGroups
+        newPossibleGroups = allPossibleGroups
       }
     } catch (err) {
       console.error(err)

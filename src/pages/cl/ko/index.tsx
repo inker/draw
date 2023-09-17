@@ -93,12 +93,11 @@ function CLKO({
       newMatchups: readonly [Team, Team][],
     ) => {
       try {
-        const response = await getPossiblePairingsResponse({
+        return await getPossiblePairingsResponse({
           season,
           pots: newPots,
           matchups: newMatchups,
         })
-        return response.possiblePairings
       } catch (err) {
         setPopup({
           error: 'Could not determine possible pairings',
