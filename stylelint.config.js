@@ -57,6 +57,7 @@ module.exports = {
           groupName: 'Position',
           properties: [
             'position',
+            'inset',
             'top',
             'right',
             'bottom',
