@@ -2,7 +2,7 @@ import getRandomId from 'utils/getRandomId'
 
 export default <Request, Response>(worker: Worker) => {
   interface ReceivedMessage {
-    messageId: string,
+    correlationId: string,
     data: Response,
   }
 
@@ -10,8 +10,8 @@ export default <Request, Response>(worker: Worker) => {
   const callbacks = new Map<string, Callback>()
 
   worker.addEventListener('message', (e: MessageEvent<ReceivedMessage>) => {
-    const id = e.data.messageId
-    const cb = callbacks.get(e.data.messageId)
+    const id = e.data.correlationId
+    const cb = callbacks.get(e.data.correlationId)
     if (!cb) {
       return
     }
@@ -24,7 +24,7 @@ export default <Request, Response>(worker: Worker) => {
     const id = getRandomId()
     callbacks.set(id, resolve)
     worker.postMessage({
-      messageId: id,
+      correlationId: id,
       data: message,
     })
   })

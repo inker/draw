@@ -1,7 +1,7 @@
 import { type FixedArray } from './types'
 
 export interface WorkerMessage<T> {
-  messageId: any,
+  correlationId: any,
   data: T,
 }
 

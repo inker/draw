@@ -2,14 +2,14 @@ export default <F extends (arg: any) => any>(func: F) => {
   // eslint-disable-next-line no-restricted-globals
   addEventListener('message', (e: MessageEvent) => {
     const {
-      messageId,
+      correlationId,
       data,
     } = e.data
 
     const result = func(data)
 
     postMessage({
-      messageId,
+      correlationId,
       data: result,
     })
   })
