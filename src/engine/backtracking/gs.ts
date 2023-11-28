@@ -11,10 +11,10 @@ function anyGroupPossible<T>(
   source: readonly T[],
   groups: ReadonlyDoubleArray<T>,
   picked: T,
-  groupNum: number,
+  groupIndex: number,
   predicate: Predicate<T>,
 ): boolean {
-  if (!predicate(picked, groups, groupNum)) {
+  if (!predicate(picked, groups, groupIndex)) {
     return false
   }
 
@@ -24,9 +24,9 @@ function anyGroupPossible<T>(
   }
 
   // Otherwise, continue
-  // The predicate returned true, so group `groupNum` is good
+  // The predicate returned true, so group `groupIndex` is good
   // Put the picked item into it
-  const newGroups = groups.with(groupNum, [picked, ...groups[groupNum]])
+  const newGroups = groups.with(groupIndex, [picked, ...groups[groupIndex]])
 
   // Next, pick the head item from the current pot
   const [newPicked, ...newSource] = source
