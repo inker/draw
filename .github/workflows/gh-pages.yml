@@ -1,7 +1,7 @@
 name: Deploy GitHub pages
 
 env:
-  NODE_VERSION: 18
+  NODE_VERSION: 20
   GH_PAGES_DIR: gh-pages-dist
 
 on:
