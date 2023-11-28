@@ -26,7 +26,7 @@ function anyGroupPossible<T>(
   // Otherwise, continue
   // The predicate returned true, so group `groupNum` is good
   // Put the picked item into it
-  const newGroups = groups.map((group, i) => i === groupNum ? [picked, ...group] : group)
+  const newGroups = groups.with(groupNum, [picked, ...groups[groupNum]])
 
   // Next, pick the head item from the current pot
   const [newPicked, ...newSource] = source
