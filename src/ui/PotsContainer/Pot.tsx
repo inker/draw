@@ -37,6 +37,7 @@ function Pot({
         <Row>
           <Cell colSpan={numCols}>
             <Header
+              // @ts-expect-error Fix types
               $highlighted={isCurrent}
               $depleted={!teams || pickedTeams.length === teams.length}
               $styles={headerStyles}
