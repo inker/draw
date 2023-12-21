@@ -10,13 +10,7 @@ on:
       - master
 
 jobs:
-  deploy:
-    permissions:
-      pages: write
-      id-token: write
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+  build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -35,5 +29,17 @@ jobs:
         uses: actions/upload-pages-artifact@v3
         with:
           path: ${{ env.GH_PAGES_DIR }}
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+      actions: read
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
       - name: Deploy to GitHub Pages
         uses: actions/deploy-pages@v4
