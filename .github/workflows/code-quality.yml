@@ -17,7 +17,7 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: ${{ env.NODE_VERSION }}
-      - run: npm ci
+      - run: npm ci --no-audit --no-progress
       - run: npm run lint:js
 
   stylelint:
@@ -28,7 +28,7 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: ${{ env.NODE_VERSION }}
-      - run: npm ci
+      - run: npm ci --no-audit --no-progress
       - run: npm run lint:css
   
   type-checking:
@@ -39,7 +39,7 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: ${{ env.NODE_VERSION }}
-      - run: npm ci
+      - run: npm ci --no-audit --no-progress
       - run: npm run check-types
 
   test:
@@ -50,5 +50,5 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: ${{ env.NODE_VERSION }}
-      - run: npm ci
+      - run: npm ci --no-audit --no-progress
       - run: npm test
