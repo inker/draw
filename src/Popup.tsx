@@ -1,39 +1,30 @@
-import {
-  type ReactNode,
-  memo,
-  useCallback,
-} from 'react'
+import { type ReactNode, memo, useCallback } from 'react'
 
 import usePopup from 'store/usePopup'
 import Notification from 'ui/Notification'
 import Dots from 'ui/Dots'
 
 interface WrappedPopupProps {
-  children: ReactNode,
+  children: ReactNode
 }
 
 function Popup() {
   const [popup] = usePopup()
 
-  const {
-    initial,
-    error,
-    waiting,
-  } = popup
+  const { initial, error, waiting } = popup
 
-  const WrappedPopup = useCallback((props: WrappedPopupProps) => (
-    <Notification
-      {...props}
-      noAnimation={initial}
-    />
-  ), [initial])
+  const WrappedPopup = useCallback(
+    (props: WrappedPopupProps) => (
+      <Notification
+        {...props}
+        noAnimation={initial}
+      />
+    ),
+    [initial],
+  )
 
   if (error) {
-    return (
-      <WrappedPopup>
-        {error}
-      </WrappedPopup>
-    )
+    return <WrappedPopup>{error}</WrappedPopup>
   }
 
   if (waiting) {

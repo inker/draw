@@ -17,7 +17,7 @@ const coldCountries: UefaCountry[] = [
 const coldCountriesSet = new Set(coldCountries)
 
 interface WithCountry {
-  readonly country: UefaCountry,
+  readonly country: UefaCountry
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars

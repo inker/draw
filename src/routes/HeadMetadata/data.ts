@@ -21,7 +21,8 @@ const data = {
   },
   wc: {
     title: 'FIFA World Cup draw simulator',
-    favicon: '//img.fifa.com/image/upload/t_fe-auto/assets/img/icons/favicon.ico',
+    favicon:
+      '//img.fifa.com/image/upload/t_fe-auto/assets/img/icons/favicon.ico',
     themeColor: '#326295',
     description: 'FIFA World Cup draw simulator',
   },

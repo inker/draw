@@ -19,10 +19,12 @@ const Box = styled.input.attrs({
   type: 'checkbox',
 })`
   cursor: pointer;
-  ${props => props.theme.isDarkMode && css`
-    border: ${props.theme.border};
-    background-color: #246;
-  `}
+  ${props =>
+    props.theme.isDarkMode &&
+    css`
+      border: ${props.theme.border};
+      background-color: #246;
+    `}
 `
 
 const ChildrenWrapper = styled.div`
@@ -30,33 +32,32 @@ const ChildrenWrapper = styled.div`
   user-select: none;
 `
 
-type InputProps = DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>
+type InputProps = DetailedHTMLProps<
+  InputHTMLAttributes<HTMLInputElement>,
+  HTMLInputElement
+>
 
 interface Props extends Omit<InputProps, 'value' | 'onChange'> {
-  value: boolean,
-  onChange: (value: boolean) => void,
+  value: boolean
+  onChange: (value: boolean) => void
 }
 
-function SelectWithHiddenLabel({
-  children,
-  value,
-  onChange,
-  ...props
-}: Props) {
-  const rawOnChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
-    onChange(e.target.checked)
-  }, [onChange])
+function SelectWithHiddenLabel({ children, value, onChange, ...props }: Props) {
+  const rawOnChange = useCallback(
+    (e: ChangeEvent<HTMLInputElement>) => {
+      onChange(e.target.checked)
+    },
+    [onChange],
+  )
 
   return (
     <Root>
       <Box
         checked={value}
         onChange={rawOnChange}
-        {...props as any}
+        {...(props as any)}
       />
-      <ChildrenWrapper>
-        {children}
-      </ChildrenWrapper>
+      <ChildrenWrapper>{children}</ChildrenWrapper>
     </Root>
   )
 }

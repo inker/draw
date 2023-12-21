@@ -8,23 +8,18 @@ import getHalfArrayOfIndex from 'utils/getHalfArrayOfIndex'
 import incompatibleCountries from '../utils/incompatibleCountries'
 import coldCountries from '../utils/coldCountries'
 
-const isFrom = (country: string) =>
-  (team: Team) =>
-    team.country === country
+const isFrom = (country: string) => (team: Team) => team.country === country
 
-const isFromCountryOf = (team: Team) =>
-  isFrom(team.country)
+const isFromCountryOf = (team: Team) => isFrom(team.country)
 
 function isTeamEqualTo(team: Team) {
   const { id } = team
-  return (otherTeam: Team) =>
-    otherTeam.id === id
+  return (otherTeam: Team) => otherTeam.id === id
 }
 
 function hasTeam(team: Team) {
   const isEqualToTeam = isTeamEqualTo(team)
-  return (group: readonly Team[]) =>
-    group.some(isEqualToTeam)
+  return (group: readonly Team[]) => group.some(isEqualToTeam)
 }
 
 function getIsMaxTwoColdTeams(season: number, groupSize: number) {
@@ -33,8 +28,7 @@ function getIsMaxTwoColdTeams(season: number, groupSize: number) {
 
   const isCold = coldCountries(season)
 
-  const isColdNumber = (team: Team) =>
-    isCold(team) ? 1 : 0
+  const isColdNumber = (team: Team) => (isCold(team) ? 1 : 0)
 
   return (group: readonly Team[]) =>
     sumBy(group, isColdNumber) <= nonHomeTeamsPerMatchday
@@ -48,11 +42,13 @@ export default (season: number, groupSize: number): Predicate<Team> => {
     const group = groups[groupIndex]
     const currentPotIndex = getSmallestArrayLength(groups)
 
-    const isImpossible = group.length > currentPotIndex
-      || group.some(isFromCountryOf(picked))
-      || group.some(isCountryIncompatibleWith(picked))
-      || !isMaxTwoColdTeams([...group, picked])
-      || picked.pairing && getHalfArrayOfIndex(groups, groupIndex).some(hasTeam(picked.pairing))
+    const isImpossible =
+      group.length > currentPotIndex ||
+      group.some(isFromCountryOf(picked)) ||
+      group.some(isCountryIncompatibleWith(picked)) ||
+      !isMaxTwoColdTeams([...group, picked]) ||
+      (picked.pairing &&
+        getHalfArrayOfIndex(groups, groupIndex).some(hasTeam(picked.pairing)))
 
     return !isImpossible
   }

@@ -1,10 +1,4 @@
-import {
-  memo,
-  useCallback,
-  useContext,
-  useRef,
-  useState,
-} from 'react'
+import { memo, useCallback, useContext, useRef, useState } from 'react'
 import { ThemeContext } from 'styled-components'
 
 import type Team from 'model/team/Club'
@@ -20,19 +14,20 @@ import MovingContent from 'ui/MovingContent'
 import MatchupCellBase from './MatchupCellBase'
 
 interface Props {
-  team: Team,
+  team: Team
 }
 
-function MatchupCellDeferred({
-  team,
-}: Props) {
+function MatchupCellDeferred({ team }: Props) {
   const prevTeam = usePrevious(team)
   const [displayedTeam, setDisplayedTeam] = useState(team)
   const [isPickedAnimation, setIsPickedAnimation] = useState(false)
   const themeContext = useContext(ThemeContext)
   const destinationRef = useRef<HTMLElement | null>(null)
 
-  const setIsPickedAnimationFalse = useCallback(() => setIsPickedAnimation(false), [])
+  const setIsPickedAnimationFalse = useCallback(
+    () => setIsPickedAnimation(false),
+    [],
+  )
 
   const fill = useCallback(() => {
     setDisplayedTeam(team)
@@ -49,15 +44,13 @@ function MatchupCellDeferred({
         $picked={isPickedAnimation && !!displayedTeam}
         onAnimationEnd={setIsPickedAnimationFalse}
       >
-        {displayedTeam
-          ? (
-            <ContentWithFlag $country={getTeamCountryName(displayedTeam)}>
-              {displayedTeam.shortName ?? displayedTeam.name}
-            </ContentWithFlag>
-          )
-          : (
-            <DummyContent ref={destinationRef} />
-          )}
+        {displayedTeam ? (
+          <ContentWithFlag $country={getTeamCountryName(displayedTeam)}>
+            {displayedTeam.shortName ?? displayedTeam.name}
+          </ContentWithFlag>
+        ) : (
+          <DummyContent ref={destinationRef} />
+        )}
       </MatchupCellBase>
       {team && team !== prevTeam && (
         <MovingContent

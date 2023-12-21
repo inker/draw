@@ -1,11 +1,7 @@
 module.exports = {
-  extends: [
-    'stylelint-config-standard',
-  ],
+  extends: ['stylelint-config-standard'],
   customSyntax: 'postcss-styled-syntax',
-  plugins: [
-    'stylelint-order',
-  ],
+  plugins: ['stylelint-order'],
   rules: {
     'comment-empty-line-before': null,
     'no-descending-specificity': null,
@@ -22,9 +18,7 @@ module.exports = {
     'selector-pseudo-class-no-unknown': [
       true,
       {
-        ignorePseudoClasses: [
-          'global',
-        ],
+        ignorePseudoClasses: ['global'],
       },
     ],
     'value-keyword-case': [
@@ -36,17 +30,11 @@ module.exports = {
     'property-no-vendor-prefix': [
       true,
       {
-        ignoreProperties: [
-          'appearance',
-        ],
+        ignoreProperties: ['appearance'],
       },
     ],
-    'value-no-vendor-prefix': [
-      true,
-    ],
-    'at-rule-no-vendor-prefix': [
-      true,
-    ],
+    'value-no-vendor-prefix': [true],
+    'at-rule-no-vendor-prefix': [true],
     'order/properties-order': [
       [
         'all',
@@ -113,10 +101,7 @@ module.exports = {
         'order',
         {
           groupName: 'Float',
-          properties: [
-            'float',
-            'clear',
-          ],
+          properties: ['float', 'clear'],
         },
         {
           groupName: 'Clipping',

@@ -1,10 +1,4 @@
-import {
-  memo,
-  useCallback,
-  useContext,
-  useRef,
-  useState,
-} from 'react'
+import { memo, useCallback, useContext, useRef, useState } from 'react'
 import { ThemeContext } from 'styled-components'
 
 import type Club from 'model/team/Club'
@@ -23,21 +17,21 @@ import GroupCellBase from './GroupCellBase'
 type Team = Club | NationalTeam
 
 interface Props {
-  team?: Team,
-  possible: boolean,
+  team?: Team
+  possible: boolean
 }
 
-function GroupCellDeferred({
-  team,
-  possible,
-}: Props) {
+function GroupCellDeferred({ team, possible }: Props) {
   const prevTeam = usePrevious(team)
   const [displayedTeam, setDisplayedTeam] = useState(team)
   const [isPickedAnimation, setIsPickedAnimation] = useState(false)
   const themeContext = useContext(ThemeContext)
   const destinationRef = useRef<HTMLElement | null>(null)
 
-  const setIsPickedAnimationFalse = useCallback(() => setIsPickedAnimation(false), [])
+  const setIsPickedAnimationFalse = useCallback(
+    () => setIsPickedAnimation(false),
+    [],
+  )
 
   const fill = useCallback(() => {
     setDisplayedTeam(team)
@@ -55,15 +49,13 @@ function GroupCellDeferred({
         $possible={possible}
         onAnimationEnd={setIsPickedAnimationFalse}
       >
-        {displayedTeam
-          ? (
-            <ContentWithFlag $country={getTeamCountryName(displayedTeam)}>
-              {(displayedTeam as Club).shortName ?? displayedTeam.name}
-            </ContentWithFlag>
-          )
-          : (
-            <DummyContent ref={destinationRef} />
-          )}
+        {displayedTeam ? (
+          <ContentWithFlag $country={getTeamCountryName(displayedTeam)}>
+            {(displayedTeam as Club).shortName ?? displayedTeam.name}
+          </ContentWithFlag>
+        ) : (
+          <DummyContent ref={destinationRef} />
+        )}
       </GroupCellBase>
       {team && team !== prevTeam && (
         <MovingContent

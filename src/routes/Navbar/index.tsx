@@ -1,7 +1,4 @@
-import {
-  memo,
-  useCallback,
-} from 'react'
+import { memo, useCallback } from 'react'
 import styled from 'styled-components'
 
 import type Tournament from 'model/Tournament'
@@ -52,24 +49,24 @@ const Root = styled.div`
   @media (max-width: 999px) {
     justify-content: center;
     margin-top: 5px;
-    font-family: 'Roboto Condensed', RobotoCondensed, RobotoCondensed-Regular, Roboto, sans-serif;
+    font-family: 'Roboto Condensed', RobotoCondensed, RobotoCondensed-Regular,
+      Roboto, sans-serif;
     font-size: 10px;
   }
 `
 
 interface Props {
-  season: number,
-  tournament: Tournament,
-  stage: Stage,
-  onSeasonChange: (tournament: Tournament, stage: Stage, season?: number) => void,
+  season: number
+  tournament: Tournament
+  stage: Stage
+  onSeasonChange: (
+    tournament: Tournament,
+    stage: Stage,
+    season?: number,
+  ) => void
 }
 
-function Navbar({
-  season,
-  tournament,
-  stage,
-  onSeasonChange,
-}: Props) {
+function Navbar({ season, tournament, stage, onSeasonChange }: Props) {
   const [theme, setTheme] = useTheme()
   const [isXRay, setIsXRay] = useXRay()
   const [, refreshDrawId] = useDrawId()
@@ -90,9 +87,7 @@ function Navbar({
   return (
     <Root>
       <div>
-        <Button onClick={disableFastDrawAndRestart}>
-          Restart
-        </Button>
+        <Button onClick={disableFastDrawAndRestart}>Restart</Button>
         <Button
           disabled={isFastDraw}
           onClick={enableFastDraw}
@@ -117,12 +112,9 @@ function Navbar({
         />
       </div>
       <div>
-        {isWidth900 && (
-          <GitHubButtons />
-        )}
+        {isWidth900 && <GitHubButtons />}
         <small>
-          {isWidth700 ? 'Crafted with ♡ by' : '©'}
-          {' '}
+          {isWidth700 ? 'Crafted with ♡ by' : '©'}{' '}
           <StyledLink
             href="https://github.com/inker"
             target="_blank"

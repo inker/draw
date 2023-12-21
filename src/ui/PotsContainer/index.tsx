@@ -13,11 +13,11 @@ const headerStyles = css`
 `
 
 interface Props {
-  initialPots: readonly (readonly Team[])[],
-  pots: readonly (readonly Team[])[],
-  selectedTeams: readonly Team[] | null,
-  currentPotNum: number,
-  split?: boolean,
+  initialPots: readonly (readonly Team[])[]
+  pots: readonly (readonly Team[])[]
+  selectedTeams: readonly Team[] | null
+  currentPotNum: number
+  split?: boolean
 }
 
 function PotsContainer({
@@ -31,7 +31,11 @@ function PotsContainer({
     <Root $limitWidth={!split}>
       {initialPots.map((pot, i) => {
         const isCurrent = i === currentPotNum
-        const pickedTeams = difference(initialPots[i], pots[i], selectedTeams ?? [])
+        const pickedTeams = difference(
+          initialPots[i],
+          pots[i],
+          selectedTeams ?? [],
+        )
 
         return (
           <Pot

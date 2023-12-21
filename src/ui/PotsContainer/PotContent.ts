@@ -3,7 +3,7 @@ import styled, { css } from 'styled-components'
 import ContentWithFlag from '../table/ContentWithFlag'
 
 const Selected = css`
-  color: ${props => props.theme.isDarkMode ? 'yellow' : 'blue'};
+  color: ${props => (props.theme.isDarkMode ? 'yellow' : 'blue')};
 `
 
 const Picked = css`
@@ -12,8 +12,8 @@ const Picked = css`
 `
 
 interface Props {
-  $selected: boolean,
-  $picked: boolean,
+  $selected: boolean
+  $picked: boolean
 }
 
 const PotContent = styled(ContentWithFlag)<Props>`

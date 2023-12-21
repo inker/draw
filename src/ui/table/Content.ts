@@ -8,12 +8,15 @@ const Content = styled(BaseContent)`
   text-align: left;
   text-overflow: ellipsis;
   white-space: nowrap;
-  ${props => props.theme.isDarkMode && css`
-    text-shadow: 0.5px 0.5px 1px #222;
-  `}
+  ${props =>
+    props.theme.isDarkMode &&
+    css`
+      text-shadow: 0.5px 0.5px 1px #222;
+    `}
 
   @media (max-width: 999px) {
-    font-family: 'Roboto Condensed', RobotoCondensed, RobotoCondensed-Regular, sans-serif;
+    font-family: 'Roboto Condensed', RobotoCondensed, RobotoCondensed-Regular,
+      sans-serif;
   }
 `
 

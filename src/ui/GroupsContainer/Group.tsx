@@ -14,12 +14,12 @@ import GroupCellDeferred from './GroupCellDeferred'
 type Team = Club | NationalTeam
 
 interface Props {
-  maxTeams: number,
-  groupLetter: string,
-  teams: readonly Team[],
-  potNum: number,
-  possible: boolean,
-  headerStyles?: RuleSet<any>,
+  maxTeams: number
+  groupLetter: string
+  teams: readonly Team[]
+  potNum: number
+  possible: boolean
+  headerStyles?: RuleSet<any>
 }
 
 function Group({
@@ -35,11 +35,7 @@ function Group({
       <thead>
         <Row>
           <Cell>
-            <Header $styles={headerStyles}>
-              Group
-              {' '}
-              {groupLetter}
-            </Header>
+            <Header $styles={headerStyles}>Group {groupLetter}</Header>
           </Cell>
         </Row>
       </thead>

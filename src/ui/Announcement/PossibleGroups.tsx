@@ -12,14 +12,11 @@ const Root = styled.div`
 `
 
 interface Props {
-  numGroups: number,
-  possibleGroups: readonly number[],
+  numGroups: number
+  possibleGroups: readonly number[]
 }
 
-function PossibleGroups({
-  numGroups,
-  possibleGroups,
-}: Props) {
+function PossibleGroups({ numGroups, possibleGroups }: Props) {
   const halfNum = numGroups >> 1
 
   return (

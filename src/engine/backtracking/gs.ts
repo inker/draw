@@ -32,14 +32,16 @@ function anyGroupPossible<T>(
   const [newPicked, ...newSource] = source
 
   // Determine if the picked item can be put into any group
-  return newGroups.some((_, i) => anyGroupPossible(newSource, newGroups, newPicked, i, predicate))
+  return newGroups.some((_, i) =>
+    anyGroupPossible(newSource, newGroups, newPicked, i, predicate),
+  )
 }
 
 interface Input<T> {
-  pots: ReadonlyDoubleArray<T>,
-  groups: ReadonlyDoubleArray<T>,
-  picked: T,
-  predicate: Predicate<T>,
+  pots: ReadonlyDoubleArray<T>
+  groups: ReadonlyDoubleArray<T>
+  picked: T
+  predicate: Predicate<T>
 }
 
 export const allPossibleGroups = <T>({
@@ -61,5 +63,7 @@ export const firstPossibleGroup = <T>({
   predicate,
 }: Input<T>) => {
   const source = pots.flat()
-  return groups.findIndex((_, i) => anyGroupPossible(source, groups, picked, i, predicate))
+  return groups.findIndex((_, i) =>
+    anyGroupPossible(source, groups, picked, i, predicate),
+  )
 }

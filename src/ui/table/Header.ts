@@ -3,7 +3,7 @@ import styled, { type RuleSet } from 'styled-components'
 import BaseContent from './BaseContent'
 
 interface Props {
-  $styles?: RuleSet<any>,
+  $styles?: RuleSet<any>
 }
 
 const Header = styled(BaseContent)<Props>`

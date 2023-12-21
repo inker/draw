@@ -1,9 +1,4 @@
-import {
-  memo,
-  useCallback,
-  useEffect,
-  useMemo,
-} from 'react'
+import { memo, useCallback, useEffect, useMemo } from 'react'
 
 import {
   Navigate,
@@ -31,32 +26,32 @@ import Pages from './Pages'
 import currentSeasonByTournament from './currentSeasonByTournament'
 
 interface Path {
-  tournament?: Tournament,
-  stage?: Stage,
+  tournament?: Tournament
+  stage?: Stage
 }
 
-const {
-  defaultTournament,
-  defaultStage,
-} = config
+const { defaultTournament, defaultStage } = config
 
 function useSeasonTournamentStage() {
   const match = useMatch(':tournament/:stage/*')
   const params = match?.params
-  const {
-    tournament,
-    stage,
-  } = (params ?? {}) as Path
+  const { tournament, stage } = (params ?? {}) as Path
 
   const season = params
-    ? +(params['*'] || currentSeasonByTournament(tournament || null, stage || null))
+    ? +(
+        params['*'] ||
+        currentSeasonByTournament(tournament || null, stage || null)
+      )
     : currentSeasonByTournament(defaultTournament, defaultStage)
 
-  return useMemo(() => ({
-    season,
-    tournament,
-    stage,
-  }), [season, tournament, stage])
+  return useMemo(
+    () => ({
+      season,
+      tournament,
+      stage,
+    }),
+    [season, tournament, stage],
+  )
 }
 
 function Routing() {
@@ -73,15 +68,14 @@ function Routing() {
     refreshDrawId()
   }, [o])
 
-  const {
-    tournament,
-    stage,
-    season,
-  } = o
+  const { tournament, stage, season } = o
 
-  const onSeasonChange = useCallback((tm: Tournament, sg: Stage, sn?: number) => {
-    navigate(`/${tm}/${sg}${sn ? `/${sn}` : ''}`)
-  }, [])
+  const onSeasonChange = useCallback(
+    (tm: Tournament, sg: Stage, sn?: number) => {
+      navigate(`/${tm}/${sg}${sn ? `/${sn}` : ''}`)
+    },
+    [],
+  )
 
   return (
     <>
@@ -94,72 +88,70 @@ function Routing() {
           onSeasonChange={onSeasonChange}
         />
       </Visibility>
-      {tournament && stage
-        ? (
-          <Pages
-            drawId={drawId}
-            tournament={tournament}
-            stage={stage}
-            season={season}
-            onSeasonChange={onSeasonChange}
-          />
-        )
-        : null}
+      {tournament && stage ? (
+        <Pages
+          drawId={drawId}
+          tournament={tournament}
+          stage={stage}
+          season={season}
+          onSeasonChange={onSeasonChange}
+        />
+      ) : null}
       <Routes>
         {/* TODO */}
         <Route
           path="wc/ko/:season"
-          element={(
+          element={
             <Navigate
               to={`/wc/${defaultStage}`}
               replace
             />
-          )}
+          }
         />
         <Route
           path="wc/ko"
-          element={(
+          element={
             <Navigate
               to={`/wc/${defaultStage}`}
               replace
             />
-          )}
+          }
         />
         <Route
           path="wc"
-          element={(
+          element={
             <Navigate
               to={`/wc/${defaultStage}`}
               replace
             />
-          )}
+          }
         />
         <Route
           path="el"
-          element={(
+          element={
             <Navigate
               to={`/el/${defaultStage}`}
               replace
             />
-          )}
+          }
         />
         <Route
           path="cl"
-          element={(
+          element={
             <Navigate
               to={`/cl/${defaultStage}`}
               replace
             />
-          )}
+          }
         />
         <Route
           path="/"
-          element={(
+          element={
             <Navigate
               to={`/${defaultTournament}`}
               replace
             />
-          )}
+          }
         />
       </Routes>
     </>

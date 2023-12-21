@@ -12,8 +12,8 @@ const Highlighted = css`
 `
 
 interface Props {
-  $depleted: boolean,
-  $highlighted: boolean,
+  $depleted: boolean
+  $highlighted: boolean
 }
 
 const PotHeader = styled(Header)<Props>`

@@ -5,7 +5,7 @@ import { type UefaCountry } from 'model/types'
 import makeGetConflictingCountries from './makeGetConflictingCountries'
 
 interface WithCountry {
-  readonly country: UefaCountry,
+  readonly country: UefaCountry
 }
 
 export default (season: number) => {
@@ -14,7 +14,6 @@ export default (season: number) => {
     const conflictingCountries = getConflictingCountries(teamPicked.country)
     return conflictingCountries === undefined
       ? stubFalse
-      : (otherTeam: WithCountry) =>
-        conflictingCountries.has(otherTeam.country)
+      : (otherTeam: WithCountry) => conflictingCountries.has(otherTeam.country)
   }
 }

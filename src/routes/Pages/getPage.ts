@@ -13,11 +13,11 @@ export default async (tournament: Tournament, stage: Stage) => {
   }
 
   // TODO
-  const tournamentDir = tournament === 'ecl'
-    ? 'el'
-    : tournament
+  const tournamentDir = tournament === 'ecl' ? 'el' : tournament
 
-  return import(/* webpackChunkName: "[request]" */ `pages/${tournamentDir}/${stage}`)
+  return import(
+    /* webpackChunkName: "[request]" */ `pages/${tournamentDir}/${stage}`
+  )
     .then(mod => mod?.default)
     .catch(console.error)
 }

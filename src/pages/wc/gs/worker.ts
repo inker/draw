@@ -4,9 +4,7 @@ import { orderBy } from 'lodash'
 import { firstPossibleGroup } from 'engine/backtracking/gs'
 import getPredicate from 'engine/predicates/wc'
 import type Team from 'model/team/NationalTeam'
-import {
-  type GsWorkerData,
-} from 'model/WorkerData'
+import { type GsWorkerData } from 'model/WorkerData'
 import exposeWorker, { type ExposedFuncType } from 'utils/worker/expose'
 
 type GetPredicateParams = Parameters<typeof getPredicate>
@@ -25,18 +23,9 @@ const eqFunc = (newArgs: GetPredicateParams, oldArgs: GetPredicateParams) =>
 const getPredicateMemoized = memoizeOne(getPredicate, eqFunc)
 
 const func = (data: GsWorkerData<Team>) => {
-  const {
-    season,
-    pots,
-    groups,
-    selectedTeam,
-  } = data
+  const { season, pots, groups, selectedTeam } = data
 
-  const teams = [
-    selectedTeam,
-    ...pots.flat(),
-    ...groups.flat(),
-  ]
+  const teams = [selectedTeam, ...pots.flat(), ...groups.flat()]
   const predicate = getPredicateMemoized(season, teams)
   return firstPossibleGroup({
     pots,

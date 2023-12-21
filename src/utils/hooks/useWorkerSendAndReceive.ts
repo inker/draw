@@ -6,8 +6,5 @@ import workerSendAndReceive from 'utils/worker/sendAndReceive'
 export default <Request, Response>(getWorker: () => Worker) => {
   const worker = useWorker(getWorker)
 
-  return useCallback(
-    workerSendAndReceive<Request, Response>(worker),
-    [worker],
-  )
+  return useCallback(workerSendAndReceive<Request, Response>(worker), [worker])
 }

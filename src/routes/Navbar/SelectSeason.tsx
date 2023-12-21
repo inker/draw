@@ -1,11 +1,6 @@
-import {
-  memo,
-  useCallback,
-} from 'react'
+import { memo, useCallback } from 'react'
 
-import {
-  range,
-} from 'lodash'
+import { range } from 'lodash'
 
 import type Tournament from 'model/Tournament'
 import type Stage from 'model/Stage'
@@ -24,32 +19,44 @@ const minSeasons = {
 }
 
 interface Props {
-  tournament: Tournament,
-  stage: Stage,
-  season: number,
-  onChange: (tournament: Tournament, stage: Stage, season?: number) => void,
+  tournament: Tournament
+  stage: Stage
+  season: number
+  onChange: (tournament: Tournament, stage: Stage, season?: number) => void
 }
 
-function SelectSeason({
-  tournament,
-  stage,
-  season,
-  onChange,
-}: Props) {
-  const onSeasonChange = useCallback((e: React.ChangeEvent<HTMLSelectElement>) => {
-    const newSeason = +e.target.value
-    onChange(tournament, stage, newSeason)
-  }, [tournament, stage, onChange])
+function SelectSeason({ tournament, stage, season, onChange }: Props) {
+  const onSeasonChange = useCallback(
+    (e: React.ChangeEvent<HTMLSelectElement>) => {
+      const newSeason = +e.target.value
+      onChange(tournament, stage, newSeason)
+    },
+    [tournament, stage, onChange],
+  )
 
-  const onTournamentChange = useCallback((e: React.ChangeEvent<HTMLSelectElement>) => {
-    const newTournament = e.target.value as Tournament
-    onChange(newTournament, stage, currentSeasonByTournament(newTournament, stage))
-  }, [stage, onChange])
+  const onTournamentChange = useCallback(
+    (e: React.ChangeEvent<HTMLSelectElement>) => {
+      const newTournament = e.target.value as Tournament
+      onChange(
+        newTournament,
+        stage,
+        currentSeasonByTournament(newTournament, stage),
+      )
+    },
+    [stage, onChange],
+  )
 
-  const onStageChange = useCallback((e: React.ChangeEvent<HTMLSelectElement>) => {
-    const newStage = e.target.value as Stage
-    onChange(tournament, newStage, currentSeasonByTournament(tournament, newStage))
-  }, [tournament, onChange])
+  const onStageChange = useCallback(
+    (e: React.ChangeEvent<HTMLSelectElement>) => {
+      const newStage = e.target.value as Stage
+      onChange(
+        tournament,
+        newStage,
+        currentSeasonByTournament(tournament, newStage),
+      )
+    },
+    [tournament, onChange],
+  )
 
   const minSeason = minSeasons[tournament]
 
@@ -71,16 +78,18 @@ function SelectSeason({
         value={stage}
       >
         <option value="gs">Group Stage</option>
-        {tournament !== 'wc' && (
-          <option value="ko">Knockout Stage</option>
-        )}
+        {tournament !== 'wc' && <option value="ko">Knockout Stage</option>}
       </Select>
       <Select
         label="season"
         onChange={onSeasonChange}
         value={season}
       >
-        {range(currentSeasonByTournament(tournament, stage), minSeason - 1, tournament === 'wc' ? -4 : -1).map(i => (
+        {range(
+          currentSeasonByTournament(tournament, stage),
+          minSeason - 1,
+          tournament === 'wc' ? -4 : -1,
+        ).map(i => (
           <option
             key={i}
             value={i}

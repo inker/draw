@@ -1,17 +1,9 @@
-import {
-  useCallback,
-  useEffect,
-  useState,
-} from 'react'
+import { useCallback, useEffect, useState } from 'react'
 
-import {
-  pull,
-} from 'lodash'
+import { pull } from 'lodash'
 
 export default <S>(initialState: S | (() => S)) => {
-  let state = initialState instanceof Function
-    ? initialState()
-    : initialState
+  let state = initialState instanceof Function ? initialState() : initialState
   const listeners: React.Dispatch<React.SetStateAction<S>>[] = []
 
   return () => {
@@ -24,14 +16,15 @@ export default <S>(initialState: S | (() => S)) => {
       }
     }, [])
 
-    const setStateNew = useCallback((newValue: React.SetStateAction<S>) => {
-      state = newValue instanceof Function
-        ? newValue(state)
-        : newValue
-      for (const listener of listeners) {
-        listener(state)
-      }
-    }, [state, listeners])
+    const setStateNew = useCallback(
+      (newValue: React.SetStateAction<S>) => {
+        state = newValue instanceof Function ? newValue(state) : newValue
+        for (const listener of listeners) {
+          listener(state)
+        }
+      },
+      [state, listeners],
+    )
 
     return [state, setStateNew] as const
   }

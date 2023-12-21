@@ -30,9 +30,7 @@ const ContentWithFlagFixed = styled(ContentWithFlag)`
 type El = RefObject<HTMLElement | null> | string
 
 const getElement = (i: El) =>
-  typeof i === 'string'
-    ? document.querySelector(i)
-    : i.current
+  typeof i === 'string' ? document.querySelector(i) : i.current
 
 const getTransition = (duration: number) =>
   `transform ${duration}ms ease-in-out`
@@ -43,20 +41,14 @@ function getPosTransform(posCell: HTMLElement) {
 }
 
 interface Props {
-  from: El,
-  to: El,
-  duration: number,
-  team: Team,
-  onAnimationEnd?: () => void,
+  from: El
+  to: El
+  duration: number
+  team: Team
+  onAnimationEnd?: () => void
 }
 
-function MovingContent({
-  from,
-  to,
-  duration,
-  team,
-  onAnimationEnd,
-}: Props) {
+function MovingContent({ from, to, duration, team, onAnimationEnd }: Props) {
   const fromCell = useMemo(() => getElement(from), [from])
   const toCell = useMemo(() => getElement(to), [to])
 
@@ -68,27 +60,35 @@ function MovingContent({
     }
   }, [posCell])
 
-  const style = useMemo(() => ({
-    transform: posCell instanceof HTMLElement ? getPosTransform(posCell) : '',
-    transition: posCell === toCell ? getTransition(duration) : '',
-  }), [posCell, toCell, duration])
+  const style = useMemo(
+    () => ({
+      transform: posCell instanceof HTMLElement ? getPosTransform(posCell) : '',
+      transition: posCell === toCell ? getTransition(duration) : '',
+    }),
+    [posCell, toCell, duration],
+  )
 
-  const onTransitionEnd = useCallback((e: TransitionEvent<HTMLSpanElement>) => {
-    if (e.propertyName === 'transform') {
-      onAnimationEnd?.()
-    }
-  }, [onAnimationEnd])
+  const onTransitionEnd = useCallback(
+    (e: TransitionEvent<HTMLSpanElement>) => {
+      if (e.propertyName === 'transform') {
+        onAnimationEnd?.()
+      }
+    },
+    [onAnimationEnd],
+  )
 
-  return posCell && (
-    <FixedOverlay>
-      <ContentWithFlagFixed
-        $country={getTeamCountryName(team)}
-        style={style}
-        onTransitionEnd={onTransitionEnd}
-      >
-        {(team as Club).shortName ?? team.name}
-      </ContentWithFlagFixed>
-    </FixedOverlay>
+  return (
+    posCell && (
+      <FixedOverlay>
+        <ContentWithFlagFixed
+          $country={getTeamCountryName(team)}
+          style={style}
+          onTransitionEnd={onTransitionEnd}
+        >
+          {(team as Club).shortName ?? team.name}
+        </ContentWithFlagFixed>
+      </FixedOverlay>
+    )
   )
 }
 

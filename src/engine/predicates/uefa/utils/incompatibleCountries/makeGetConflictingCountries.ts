@@ -17,10 +17,9 @@ export default (season: number) => {
   const matchingConstraints = constraints.filter(item => item.predicate(season))
   const originalPairs = matchingConstraints.map(item => item.countries)
 
-  const invertedPairs = originalPairs.map(pair => pair.toReversed() as [UefaCountry, UefaCountry])
-  const map = mergePairs([
-    ...originalPairs,
-    ...invertedPairs,
-  ])
+  const invertedPairs = originalPairs.map(
+    pair => pair.toReversed() as [UefaCountry, UefaCountry],
+  )
+  const map = mergePairs([...originalPairs, ...invertedPairs])
   return map.get.bind(map)
 }

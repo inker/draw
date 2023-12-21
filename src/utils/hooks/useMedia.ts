@@ -1,8 +1,4 @@
-import {
-  useEffect,
-  useMemo,
-  useState,
-} from 'react'
+import { useEffect, useMemo, useState } from 'react'
 
 export default (media: string) => {
   const matchResult = useMemo(() => window.matchMedia(media), [media])

@@ -1,7 +1,4 @@
-import styled, {
-  css,
-  keyframes,
-} from 'styled-components'
+import styled, { css, keyframes } from 'styled-components'
 
 import Overlay from '../Overlay'
 
@@ -12,15 +9,17 @@ const BackgroundAnimation = keyframes`
 `
 
 interface BackgroundProps {
-  $animate: boolean,
+  $animate: boolean
 }
 
 const Background = styled(Overlay)<BackgroundProps>`
-  background-color: ${props => props.theme.isDarkMode ? '#222' : 'white'};
+  background-color: ${props => (props.theme.isDarkMode ? '#222' : 'white')};
   opacity: 0.75;
-  ${props => props.$animate && css`
-    animation: ${BackgroundAnimation} 0.25s ease-out;
-  `}
+  ${props =>
+    props.$animate &&
+    css`
+      animation: ${BackgroundAnimation} 0.25s ease-out;
+    `}
 `
 
 export default Background

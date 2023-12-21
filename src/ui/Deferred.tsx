@@ -1,19 +1,13 @@
-import {
-  type ReactElement,
-  memo,
-} from 'react'
+import { type ReactElement, memo } from 'react'
 
 import useTimeoutControlled from 'utils/hooks/useTimeoutControlled'
 
 interface Props {
-  delay: number,
-  children: ReactElement,
+  delay: number
+  children: ReactElement
 }
 
-function Deferred({
-  children,
-  delay,
-}: Props) {
+function Deferred({ children, delay }: Props) {
   const isTimedOut = useTimeoutControlled(delay)
   return isTimedOut ? children : null
 }

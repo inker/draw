@@ -21,9 +21,7 @@ function getCountryFlagUrl(country: Country) {
   }
 
   const flag = countries[country]?.flag
-  return flag
-    ? requireFlag(`./${flag}.svg`) as string
-    : undefined
+  return flag ? (requireFlag(`./${flag}.svg`) as string) : undefined
 }
 
 export default memoize(getCountryFlagUrl)

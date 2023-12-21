@@ -1,18 +1,8 @@
-import {
-  memo,
-  useCallback,
-  useEffect,
-  useRef,
-  useState,
-} from 'react'
+import { memo, useCallback, useEffect, useRef, useState } from 'react'
 
 import { css } from 'styled-components'
 
-import {
-  constant,
-  random,
-  shuffle,
-} from 'lodash'
+import { constant, random, shuffle } from 'lodash'
 
 import type Team from 'model/team/NationalTeam'
 
@@ -33,25 +23,24 @@ import Announcement from 'ui/Announcement'
 
 import { type Func } from './worker'
 
-const createWorker = () =>
-  new Worker(new URL('./worker', import.meta.url))
+const createWorker = () => new Worker(new URL('./worker', import.meta.url))
 
 const getGroupHeaderStyles = constant(css`
-  background-color: ${props => props.theme.isDarkMode ? '#363' : '#c0e0c0'};
+  background-color: ${props => (props.theme.isDarkMode ? '#363' : '#c0e0c0')};
 `)
 
 interface Props {
-  season: number,
-  pots: readonly (readonly Team[])[],
+  season: number
+  pots: readonly (readonly Team[])[]
 }
 
 interface State {
-  currentPotNum: number,
-  selectedTeam: Team | null,
-  pickedGroup: number | null,
-  hungPot: readonly Team[],
-  pots: readonly (readonly Team[])[],
-  groups: readonly (readonly Team[])[],
+  currentPotNum: number
+  selectedTeam: Team | null
+  pickedGroup: number | null
+  hungPot: readonly Team[]
+  pots: readonly (readonly Team[])[]
+  groups: readonly (readonly Team[])[]
 }
 
 function getState(initialPots: readonly (readonly Team[])[]): State {
@@ -68,21 +57,14 @@ function getState(initialPots: readonly (readonly Team[])[]): State {
   }
 }
 
-function WCGS({
-  season,
-  pots: initialPots,
-}: Props) {
+function WCGS({ season, pots: initialPots }: Props) {
   const [drawId, setNewDrawId] = useDrawId()
   const [isFastDraw] = useFastDraw()
 
-  const [{
-    currentPotNum,
-    selectedTeam,
-    pickedGroup,
-    hungPot,
-    pots,
-    groups,
-  }, setState] = useState(() => getState(initialPots))
+  const [
+    { currentPotNum, selectedTeam, pickedGroup, hungPot, pots, groups },
+    setState,
+  ] = useState(() => getState(initialPots))
 
   useEffect(() => {
     setState(getState(initialPots))
@@ -91,7 +73,9 @@ function WCGS({
   const [, setPopup] = usePopup()
   const [isXRay] = useXRay()
 
-  const getFirstPossibleGroupResponse = useWorkerSendAndReceive(createWorker) as Func
+  const getFirstPossibleGroupResponse = useWorkerSendAndReceive(
+    createWorker,
+  ) as Func
 
   const groupsContanerRef = useRef<HTMLElement>(null)
 
@@ -118,11 +102,9 @@ function WCGS({
     }
 
     const newGroups = groups.slice()
-    newGroups[newPickedGroup] = [
-      ...newGroups[newPickedGroup],
-      selectedTeam,
-    ]
-    const newCurrentPotNum = pots[currentPotNum].length > 0 ? currentPotNum : currentPotNum + 1
+    newGroups[newPickedGroup] = [...newGroups[newPickedGroup], selectedTeam]
+    const newCurrentPotNum =
+      pots[currentPotNum].length > 0 ? currentPotNum : currentPotNum + 1
 
     setState(state => ({
       ...state,
@@ -134,27 +116,32 @@ function WCGS({
     }))
   }
 
-  const handleTeamBallPick = useCallback((i: number) => {
-    if (selectedTeam) {
-      return
-    }
+  const handleTeamBallPick = useCallback(
+    (i: number) => {
+      if (selectedTeam) {
+        return
+      }
 
-    const currentPot = pots[currentPotNum]
-    const newSelectedTeam = currentPot[i]
-    if (!newSelectedTeam) {
-      return
-    }
+      const currentPot = pots[currentPotNum]
+      const newSelectedTeam = currentPot[i]
+      if (!newSelectedTeam) {
+        return
+      }
 
-    const newPots = pots.slice()
-    newPots[currentPotNum] = newPots[currentPotNum].filter((_, idx) => idx !== i)
+      const newPots = pots.slice()
+      newPots[currentPotNum] = newPots[currentPotNum].filter(
+        (_, idx) => idx !== i,
+      )
 
-    setState(state => ({
-      ...state,
-      selectedTeam: newSelectedTeam,
-      pickedGroup: null,
-      pots: newPots,
-    }))
-  }, [pots, currentPotNum, selectedTeam])
+      setState(state => ({
+        ...state,
+        selectedTeam: newSelectedTeam,
+        pickedGroup: null,
+        pots: newPots,
+      }))
+    },
+    [pots, currentPotNum, selectedTeam],
+  )
 
   useEffect(() => {
     if (selectedTeam) {

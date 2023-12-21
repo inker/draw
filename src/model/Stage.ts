@@ -1,9 +1,6 @@
-const validStages = [
-  'gs',
-  'ko',
-] as const
+const validStages = ['gs', 'ko'] as const
 
-type Stage = typeof validStages[number]
+type Stage = (typeof validStages)[number]
 
 export const isValidStage = (value: string): value is Stage =>
   validStages.includes(value as Stage)

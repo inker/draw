@@ -1,10 +1,12 @@
 {
   "src/**/*.{js,jsx,ts,tsx,json}": [
     "eslint --max-warnings=0 --fix",
+    "prettier --cache --write",
     "git add"
   ],
   "src/**/*.{css,postcss,scss}": [
     "stylelint --fix",
+    "prettier --cache --write",
     "git add"
   ]
 }

@@ -11,13 +11,13 @@ import Header from './PotHeader'
 import PotRow from './PotRow'
 
 interface Props {
-  isCurrent: boolean,
-  potNum: number,
-  teams: readonly Team[],
-  pickedTeams: readonly Team[],
-  selectedTeams: readonly Team[] | null,
-  numCols: number,
-  headerStyles?: RuleSet<any>,
+  isCurrent: boolean
+  potNum: number
+  teams: readonly Team[]
+  pickedTeams: readonly Team[]
+  selectedTeams: readonly Team[] | null
+  numCols: number
+  headerStyles?: RuleSet<any>
 }
 
 function Pot({
@@ -50,8 +50,11 @@ function Pot({
       <tbody>
         {Array.from({ length: numRows }, (_, i) => {
           const offset = i * numCols
-          // eslint-disable-next-line @typescript-eslint/no-shadow, no-shadow
-          const rowTeams = Array.from({ length: numCols }, (_, c) => teams[offset + c])
+          const rowTeams = Array.from(
+            { length: numCols },
+            // eslint-disable-next-line @typescript-eslint/no-shadow, no-shadow
+            (_, c) => teams[offset + c],
+          )
 
           return (
             <PotRow

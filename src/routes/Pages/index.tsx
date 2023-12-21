@@ -1,8 +1,4 @@
-import {
-  memo,
-  useEffect,
-  useState,
-} from 'react'
+import { memo, useEffect, useState } from 'react'
 
 import { useParams } from 'react-router-dom'
 
@@ -31,41 +27,36 @@ const initialState = {
 }
 
 interface Match {
-  tournament: Tournament,
-  stage: Stage,
-  season: string,
+  tournament: Tournament
+  stage: Stage
+  season: string
 }
 
 interface Props {
-  tournament: Tournament,
-  stage: Stage,
-  season: number,
-  drawId: string,
-  onSeasonChange: (tournament: Tournament, stage: Stage, season?: number) => void,
+  tournament: Tournament
+  stage: Stage
+  season: number
+  drawId: string
+  onSeasonChange: (
+    tournament: Tournament,
+    stage: Stage,
+    season?: number,
+  ) => void
 }
 
 interface State {
-  Page: React.ComponentType<any> | null,
-  pots: readonly (readonly Team[])[] | null,
+  Page: React.ComponentType<any> | null
+  pots: readonly (readonly Team[])[] | null
   // tournament: Tournament,
   // stage: Stage,
-  season: number, // for error handling (so that we know the previous season)
+  season: number // for error handling (so that we know the previous season)
 }
 
-function Pages({
-  drawId,
-  tournament,
-  stage,
-  season,
-  onSeasonChange,
-}: Props) {
+function Pages({ drawId, tournament, stage, season, onSeasonChange }: Props) {
   const params = useParams()
   const [, setPopup] = usePopup()
 
-  const [{
-    Page,
-    pots,
-  }, setState] = useState<State>(initialState)
+  const [{ Page, pots }, setState] = useState<State>(initialState)
 
   const fetchData = async () => {
     setPopup({
@@ -73,17 +64,19 @@ function Pages({
     })
 
     try {
-      const potsPromise = tournament === 'wc'
-        ? getWcPots(season)
-        : getPotsFromBert(tournament, stage, season)
+      const potsPromise =
+        tournament === 'wc'
+          ? getWcPots(season)
+          : getPotsFromBert(tournament, stage, season)
 
       const newPage = await getPage(tournament, stage)
 
       const newPots = await potsPromise
 
       if (!isFirefox) {
-        // eslint-disable-next-line max-len
-        const teamsWithFlags = [newPots.flat().filter(team => !(team instanceof UnknownNationalTeam))]
+        const teamsWithFlags = [
+          newPots.flat().filter(team => !(team instanceof UnknownNationalTeam)),
+        ]
         await Promise.race([
           // @ts-expect-error
           prefetchFlags(teamsWithFlags),
@@ -111,14 +104,13 @@ function Pages({
       })
 
       await delay(1000)
-      const {
-        tournament: newTournament,
-        stage: newStage,
-      } = params as unknown as Match
+      const { tournament: newTournament, stage: newStage } =
+        params as unknown as Match
 
-      const newSeason = pots && season !== currentSeasonByTournament(newTournament, newStage)
-        ? season
-        : undefined
+      const newSeason =
+        pots && season !== currentSeasonByTournament(newTournament, newStage)
+          ? season
+          : undefined
       onSeasonChange(newTournament, newStage, newSeason)
       setPopup({
         error: null,
@@ -130,17 +122,21 @@ function Pages({
     fetchData()
   }, [season, stage, tournament])
 
-  const isUefaClubTournament = tournament === 'cl' || tournament === 'el' || tournament === 'ecl'
+  const isUefaClubTournament =
+    tournament === 'cl' || tournament === 'el' || tournament === 'ecl'
 
-  return pots && Page && (
-    <Page
-      key={drawId}
-      tournament={params.tournament}
-      stage={params.stage}
-      season={season}
-      pots={pots}
-      isFirstPotShortDraw={isUefaClubTournament && season >= 2021}
-    />
+  return (
+    pots &&
+    Page && (
+      <Page
+        key={drawId}
+        tournament={params.tournament}
+        stage={params.stage}
+        season={season}
+        pots={pots}
+        isFirstPotShortDraw={isUefaClubTournament && season >= 2021}
+      />
+    )
   )
 }
 

@@ -1,7 +1,4 @@
-import {
-  useEffect,
-  useRef,
-} from 'react'
+import { useEffect, useRef } from 'react'
 
 type UseEffectParameters = Parameters<typeof useEffect>
 

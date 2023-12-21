@@ -1,17 +1,11 @@
-import {
-  useEffect,
-  useMemo,
-} from 'react'
+import { useEffect, useMemo } from 'react'
 
 interface BaseWorker {
-  readonly terminate: () => void,
+  readonly terminate: () => void
 }
 
 export default <T extends BaseWorker>(getWorker: () => T) => {
-  const worker = useMemo(
-    () => getWorker(),
-    [getWorker],
-  )
+  const worker = useMemo(() => getWorker(), [getWorker])
 
   // eslint-disable-next-line arrow-body-style
   useEffect(() => {

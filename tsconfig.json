@@ -17,14 +17,7 @@
     "resolveJsonModule": true,
     "noEmitHelpers": true,
     "importHelpers": true,
-    "lib": [
-      "ESNext",
-      "DOM",
-      "DOM.Iterable",
-      "WebWorker"
-    ]
+    "lib": ["ESNext", "DOM", "DOM.Iterable", "WebWorker"]
   },
-  "exclude": [
-    "node_modules"
-  ]
+  "exclude": ["node_modules"]
 }

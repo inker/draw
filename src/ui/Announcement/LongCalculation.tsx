@@ -13,12 +13,9 @@ const Bug = styled.div`
 function LongCalculation() {
   return (
     <Bug>
+      <div>Calculation is taking too long.</div>
       <div>
-        Calculation is taking too long.
-      </div>
-      <div>
-        And
-        {' '}
+        And{' '}
         <StyledLink
           href="https://github.com/inker/draw/issues/14"
           target="_blank"

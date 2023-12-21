@@ -12,7 +12,7 @@ import MatchupCellDeferred from './MatchupCellDeferred'
 const VersusCell = styled(Content)`
   justify-content: center;
   width: 23px;
-  color: ${props => props.theme.isDarkMode ? '#ccc' : '#333'};
+  color: ${props => (props.theme.isDarkMode ? '#ccc' : '#333')};
 
   &::before {
     content: 'v';
@@ -20,12 +20,10 @@ const VersusCell = styled(Content)`
 `
 
 interface Props {
-  teams: [Team, Team] | null,
+  teams: [Team, Team] | null
 }
 
-function Matchup({
-  teams,
-}: Props) {
+function Matchup({ teams }: Props) {
   const [ru, gw] = teams ?? []
 
   return (

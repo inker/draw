@@ -1,8 +1,4 @@
-import {
-  memo,
-  useEffect,
-  useState,
-} from 'react'
+import { memo, useEffect, useState } from 'react'
 
 import styled from 'styled-components'
 
@@ -11,16 +7,12 @@ const InvisibleSpan = styled.span`
 `
 
 interface Props {
-  initialNum: number,
-  maxNum: number,
-  interval: number,
+  initialNum: number
+  maxNum: number
+  interval: number
 }
 
-function Dots({
-  initialNum,
-  maxNum,
-  interval,
-}: Props) {
+function Dots({ initialNum, maxNum, interval }: Props) {
   const [numVisible, setNumVisible] = useState(initialNum)
 
   useEffect(() => {
@@ -39,12 +31,8 @@ function Dots({
 
   return (
     <>
-      <span>
-        {'.'.repeat(numVisible)}
-      </span>
-      <InvisibleSpan>
-        {'.'.repeat(maxNum - numVisible)}
-      </InvisibleSpan>
+      <span>{'.'.repeat(numVisible)}</span>
+      <InvisibleSpan>{'.'.repeat(maxNum - numVisible)}</InvisibleSpan>
     </>
   )
 }

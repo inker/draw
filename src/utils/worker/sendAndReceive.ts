@@ -2,8 +2,8 @@ import getRandomId from 'utils/getRandomId'
 
 export default <Request, Response>(worker: Worker) => {
   interface ReceivedMessage {
-    correlationId: string,
-    data: Response,
+    correlationId: string
+    data: Response
   }
 
   type Callback = (response: Response) => void
@@ -20,12 +20,13 @@ export default <Request, Response>(worker: Worker) => {
     cb(e.data.data)
   })
 
-  return (message: Request) => new Promise<Response>(resolve => {
-    const id = getRandomId()
-    callbacks.set(id, resolve)
-    worker.postMessage({
-      correlationId: id,
-      data: message,
+  return (message: Request) =>
+    new Promise<Response>(resolve => {
+      const id = getRandomId()
+      callbacks.set(id, resolve)
+      worker.postMessage({
+        correlationId: id,
+        data: message,
+      })
     })
-  })
 }

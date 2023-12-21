@@ -1,7 +1,4 @@
-import {
-  memo,
-  useCallback,
-} from 'react'
+import { memo, useCallback } from 'react'
 import styled from 'styled-components'
 
 import getGroupLetter from 'utils/getGroupLetter'
@@ -19,39 +16,38 @@ const Root = styled.div`
 `
 
 interface Props {
-  display: boolean,
-  displayGroups: boolean,
-  possibleGroups: readonly number[] | null,
-  onPick: (groupNum: number) => void,
+  display: boolean
+  displayGroups: boolean
+  possibleGroups: readonly number[] | null
+  onPick: (groupNum: number) => void
 }
 
-function GroupBowl({
-  display,
-  displayGroups,
-  possibleGroups,
-  onPick,
-}: Props) {
-  const handleBallPick = useCallback((ev: React.MouseEvent<HTMLDivElement>) => {
-    const ball = ev.target as HTMLDivElement
-    const pickedGroup = +ball.dataset.group!
-    if (Number.isNaN(pickedGroup)) {
-      throw new TypeError(`Incorrect group ball: ${ball.dataset.group}`)
-    }
-    onPick(pickedGroup)
-  }, [onPick])
+function GroupBowl({ display, displayGroups, possibleGroups, onPick }: Props) {
+  const handleBallPick = useCallback(
+    (ev: React.MouseEvent<HTMLDivElement>) => {
+      const ball = ev.target as HTMLDivElement
+      const pickedGroup = +ball.dataset.group!
+      if (Number.isNaN(pickedGroup)) {
+        throw new TypeError(`Incorrect group ball: ${ball.dataset.group}`)
+      }
+      onPick(pickedGroup)
+    },
+    [onPick],
+  )
 
   return (
     <Root>
-      {display && possibleGroups?.map(groupNum => (
-        <Ball
-          key={groupNum}
-          data-group={groupNum}
-          forceVisible={displayGroups}
-          onClick={handleBallPick}
-        >
-          {getGroupLetter(groupNum)}
-        </Ball>
-      ))}
+      {display &&
+        possibleGroups?.map(groupNum => (
+          <Ball
+            key={groupNum}
+            data-group={groupNum}
+            forceVisible={displayGroups}
+            onClick={handleBallPick}
+          >
+            {getGroupLetter(groupNum)}
+          </Ball>
+        ))}
     </Root>
   )
 }

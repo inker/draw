@@ -19,8 +19,8 @@ const HiddenLabel = styled.label`
 const Select = styled.select`
   border-radius: 3px;
   border: ${props => props.theme.border};
-  background-color: ${props => props.theme.isDarkMode ? '#246' : 'white'};
-  color: ${props => props.theme.isDarkMode ? 'white' : ''};
+  background-color: ${props => (props.theme.isDarkMode ? '#246' : 'white')};
+  color: ${props => (props.theme.isDarkMode ? 'white' : '')};
   cursor: pointer;
 
   &:disabled {
@@ -28,38 +28,36 @@ const Select = styled.select`
   }
 
   &:hover {
-    ${props => props.theme.isDarkMode
-    ? css`
-      background-color: #468;
-    `
-    : css`
-      border-color: black;
-    `}
+    ${props =>
+      props.theme.isDarkMode
+        ? css`
+            background-color: #468;
+          `
+        : css`
+            border-color: black;
+          `}
   }
 `
 
-type SelectProps = DetailedHTMLProps<SelectHTMLAttributes<HTMLSelectElement>, HTMLSelectElement>
+type SelectProps = DetailedHTMLProps<
+  SelectHTMLAttributes<HTMLSelectElement>,
+  HTMLSelectElement
+>
 
 interface Props extends SelectProps {
-  label: string,
+  label: string
 }
 
-function SelectWithHiddenLabel({
-  label,
-  children,
-  ...props
-}: Props) {
+function SelectWithHiddenLabel({ label, children, ...props }: Props) {
   const id = useId()
 
   return (
     <Root>
-      <HiddenLabel htmlFor={id}>
-        {label}
-      </HiddenLabel>
+      <HiddenLabel htmlFor={id}>{label}</HiddenLabel>
       <Select
         id={id}
         title={label}
-        {...props as any}
+        {...(props as any)}
       >
         {children}
       </Select>

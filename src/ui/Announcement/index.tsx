@@ -1,9 +1,4 @@
-import {
-  type RefObject,
-  memo,
-  useEffect,
-  useRef,
-} from 'react'
+import { type RefObject, memo, useEffect, useRef } from 'react'
 
 import styled from 'styled-components'
 
@@ -54,15 +49,15 @@ const Completed = styled.div`
 `
 
 interface Props {
-  long: boolean,
-  completed: boolean,
-  selectedTeam: Team | null,
-  pickedGroup: number | null,
-  possibleGroups: readonly number[] | null,
-  isDisplayPossibleGroupsText?: boolean,
-  numGroups: number,
-  groupsElement: RefObject<HTMLElement | null>,
-  reset: any,
+  long: boolean
+  completed: boolean
+  selectedTeam: Team | null
+  pickedGroup: number | null
+  possibleGroups: readonly number[] | null
+  isDisplayPossibleGroupsText?: boolean
+  numGroups: number
+  groupsElement: RefObject<HTMLElement | null>
+  reset: any
 }
 
 function Announcement({
@@ -104,22 +99,16 @@ function Announcement({
     lastAnnouncementRef.current = (
       <Root>
         <div>
-          {long && selected
-            ? (
-              <span>
-                <Bold>{(selected as Club).shortName ?? selected.name}</Bold> goes to group
-              </span>
-            )
-            : (
-              <span>
-                Group
-              </span>
-            )}
+          {long && selected ? (
+            <span>
+              <Bold>{(selected as Club).shortName ?? selected.name}</Bold> goes
+              to group
+            </span>
+          ) : (
+            <span>Group</span>
+          )}
           &nbsp;
-          <Bold>
-            {getGroupLetter(pickedGroup)}
-          </Bold>
-          !
+          <Bold>{getGroupLetter(pickedGroup)}</Bold>!
         </div>
       </Root>
     )
@@ -129,45 +118,38 @@ function Announcement({
   if (selected) {
     return (
       <Root>
-        {isDisplayPossibleGroupsText
-          ? (
-            <div>
-              Possible groups for
-              {' '}
-              <SelectedTeamWithColon>
-                <Bold>{selected.name}</Bold>:
-              </SelectedTeamWithColon>
-              {possibleGroups
-                ? (
-                  <PossibleGroups
-                    numGroups={numGroups}
-                    possibleGroups={possibleGroups}
-                  />
-                )
-                : (
-                  <div>
-                    <Dots
-                      initialNum={0}
-                      maxNum={10}
-                      interval={2000}
-                    />
-                    <Deferred delay={10000}>
-                      <LongCalculation />
-                    </Deferred>
-                  </div>
-                )}
-            </div>
-          )
-          : lastAnnouncementRef.current}
+        {isDisplayPossibleGroupsText ? (
+          <div>
+            Possible groups for{' '}
+            <SelectedTeamWithColon>
+              <Bold>{selected.name}</Bold>:
+            </SelectedTeamWithColon>
+            {possibleGroups ? (
+              <PossibleGroups
+                numGroups={numGroups}
+                possibleGroups={possibleGroups}
+              />
+            ) : (
+              <div>
+                <Dots
+                  initialNum={0}
+                  maxNum={10}
+                  interval={2000}
+                />
+                <Deferred delay={10000}>
+                  <LongCalculation />
+                </Deferred>
+              </div>
+            )}
+          </div>
+        ) : (
+          lastAnnouncementRef.current
+        )}
       </Root>
     )
   }
 
-  return (
-    <Root>
-      Pick a ball
-    </Root>
-  )
+  return <Root>Pick a ball</Root>
 }
 
 export default memo(Announcement)

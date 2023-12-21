@@ -34,7 +34,7 @@ jobs:
           cache-dependency-path: package-lock.json
       - run: npm ci --no-audit --no-progress
       - run: npm run lint:css
-  
+
   type-checking:
     name: Type checking
     runs-on: ubuntu-latest

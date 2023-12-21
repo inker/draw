@@ -1,28 +1,22 @@
-import {
-  type RefObject,
-  memo,
-  useCallback,
-  useEffect,
-  useState,
-} from 'react'
+import { type RefObject, memo, useCallback, useEffect, useState } from 'react'
 
 import delay from 'delay.js'
 
 import ButtonLink from 'ui/ButtonLink'
 import NoTransitions from 'ui/NoTransitions'
 
-const saveScreenshotPromise = (
-  import(/* webpackChunkName: "screenshot", webpackPrefetch: true */ 'utils/saveScreenshot')
+const saveScreenshotPromise = import(
+  /* webpackChunkName: "screenshot", webpackPrefetch: true */ 'utils/saveScreenshot'
 )
 
 interface Props {
-  completed: boolean,
-  groupsElement: RefObject<HTMLElement | null>,
+  completed: boolean
+  groupsElement: RefObject<HTMLElement | null>
 }
 
 interface State {
-  downloadClicked: null | 'png' | 'svg',
-  transitionsEnabled: boolean,
+  downloadClicked: null | 'png' | 'svg'
+  transitionsEnabled: boolean
 }
 
 const getInitialState = (): State => ({
@@ -30,24 +24,22 @@ const getInitialState = (): State => ({
   transitionsEnabled: true,
 })
 
-function Download({
-  completed,
-  groupsElement,
-}: Props) {
-  const [{
-    downloadClicked,
-    transitionsEnabled,
-  }, setState] = useState(getInitialState)
+function Download({ completed, groupsElement }: Props) {
+  const [{ downloadClicked, transitionsEnabled }, setState] =
+    useState(getInitialState)
 
-  const setDownloadClicked = useCallback((format: State['downloadClicked']) => {
-    setState({
-      downloadClicked: format,
-      transitionsEnabled: false,
-    })
-  }, [setState])
+  const setDownloadClicked = useCallback(
+    (format: State['downloadClicked']) => {
+      setState({
+        downloadClicked: format,
+        transitionsEnabled: false,
+      })
+    },
+    [setState],
+  )
 
   useEffect(() => {
-    (async () => {
+    ;(async () => {
       if (!downloadClicked) {
         return
       }
@@ -75,22 +67,24 @@ function Download({
     }
   }, [completed])
 
-  const onDownloadPngClick = useCallback(() => setDownloadClicked('png'), [setDownloadClicked])
-  const onDownloadSvgClick = useCallback(() => setDownloadClicked('svg'), [setDownloadClicked])
+  const onDownloadPngClick = useCallback(
+    () => setDownloadClicked('png'),
+    [setDownloadClicked],
+  )
+  const onDownloadSvgClick = useCallback(
+    () => setDownloadClicked('svg'),
+    [setDownloadClicked],
+  )
 
-  return completed && !!groupsElement
-    ? (
-      <div>
-        {!transitionsEnabled && (
-        <NoTransitions />
-        )}
-        {'Download as '}
-        <ButtonLink onClick={onDownloadPngClick}>PNG</ButtonLink>
-        {', '}
-        <ButtonLink onClick={onDownloadSvgClick}>SVG</ButtonLink>
-      </div>
-    )
-    : null
+  return completed && !!groupsElement ? (
+    <div>
+      {!transitionsEnabled && <NoTransitions />}
+      {'Download as '}
+      <ButtonLink onClick={onDownloadPngClick}>PNG</ButtonLink>
+      {', '}
+      <ButtonLink onClick={onDownloadSvgClick}>SVG</ButtonLink>
+    </div>
+  ) : null
 }
 
 export default memo(Download)

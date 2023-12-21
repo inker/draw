@@ -1,18 +1,18 @@
 const TerserPlugin = require('terser-webpack-plugin')
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin')
 
-module.exports = (isDev) => ({
+module.exports = isDev => ({
   minimize: true,
 
   minimizer: isDev
     ? undefined
     : [
-      new TerserPlugin({
-        minify: TerserPlugin.swcMinify,
-      }),
+        new TerserPlugin({
+          minify: TerserPlugin.swcMinify,
+        }),
 
-      new CssMinimizerPlugin(),
-    ],
+        new CssMinimizerPlugin(),
+      ],
 
   runtimeChunk: 'single',
 

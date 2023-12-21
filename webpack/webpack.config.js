@@ -11,7 +11,7 @@ const defaultEnv = {
   out: 'dist',
 }
 
-module.exports = (env) => {
+module.exports = env => {
   console.log('passed env:', env)
   const envOptions = {
     ...defaultEnv,
@@ -37,23 +37,15 @@ module.exports = (env) => {
       globalObject: isDev ? 'this' : undefined, // TODO
     },
     resolve: {
-      extensions: [
-        '.ts',
-        '.tsx',
-        '.js',
-        '.jsx',
-      ],
-      modules: [
-        path.resolve(rootDir, 'src'),
-        'node_modules',
-      ],
+      extensions: ['.ts', '.tsx', '.js', '.jsx'],
+      modules: [path.resolve(rootDir, 'src'), 'node_modules'],
       alias: isDev
         ? undefined
         : {
-          lodash: path.join(rootDir, 'node_modules/lodash-es'),
-          // 'react': path.join(rootDir, 'node_modules/react/dist/react.min.js'),
-          // 'react-dom': path.join(rootDir, 'node_modules/react-dom/dist/react-dom.min.js'),
-        },
+            lodash: path.join(rootDir, 'node_modules/lodash-es'),
+            // 'react': path.join(rootDir, 'node_modules/react/dist/react.min.js'),
+            // 'react-dom': path.join(rootDir, 'node_modules/react-dom/dist/react-dom.min.js'),
+          },
     },
     devtool: isDev ? 'eval-source-map' : undefined,
     optimization: optimization(isDev),

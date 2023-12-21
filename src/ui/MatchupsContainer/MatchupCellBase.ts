@@ -1,8 +1,4 @@
-import styled, {
-  type RuleSet,
-  css,
-  keyframes,
-} from 'styled-components'
+import styled, { type RuleSet, css, keyframes } from 'styled-components'
 
 import Cell from 'ui/table/Cell'
 
@@ -19,12 +15,13 @@ const AppearDark = keyframes`
 `
 
 const Picked = css`
-  animation: ${props => props.theme.isDarkMode ? AppearDark : AppearLight} 3s ease-out normal forwards;
+  animation: ${props => (props.theme.isDarkMode ? AppearDark : AppearLight)} 3s
+    ease-out normal forwards;
 `
 
 interface Props {
-  $picked: boolean,
-  $styles?: RuleSet<any>,
+  $picked: boolean
+  $styles?: RuleSet<any>
 }
 
 const MatchupCellBase = styled(Cell)<Props>`

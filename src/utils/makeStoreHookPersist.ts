@@ -4,9 +4,9 @@ import { stubTrue } from 'lodash'
 import makeStoreHook from 'utils/makeStoreHook'
 
 interface Options<ParsedType> {
-  parse: (storedValue: string) => ParsedType,
-  serialize: (value: any) => string,
-  validate?: (parsedValue: ParsedType) => boolean,
+  parse: (storedValue: string) => ParsedType
+  serialize: (value: any) => string
+  validate?: (parsedValue: ParsedType) => boolean
 }
 
 type RequiredOptions<ParsedType> = Required<Options<ParsedType>>
@@ -48,21 +48,23 @@ export default <S>(key: string, initialState: S, options?: Options<S>) => {
     const [storedValue, setStoredValue] = use()
     // Return a wrapped version of useState's setter function that ...
     // ... persists the new value to localStorage.
-    const setValue = useCallback((value: React.SetStateAction<S>) => {
-      try {
-        // Allow value to be a function so we have same API as useState
-        const valueToStore = value instanceof Function
-          ? value(storedValue)
-          : value
-        // Save state
-        setStoredValue(valueToStore)
-        // Save to local storage
-        window.localStorage.setItem(key, o.serialize(valueToStore))
-      } catch (err) {
-        // A more advanced implementation would handle the error case
-        console.error(err)
-      }
-    }, [setStoredValue])
+    const setValue = useCallback(
+      (value: React.SetStateAction<S>) => {
+        try {
+          // Allow value to be a function so we have same API as useState
+          const valueToStore =
+            value instanceof Function ? value(storedValue) : value
+          // Save state
+          setStoredValue(valueToStore)
+          // Save to local storage
+          window.localStorage.setItem(key, o.serialize(valueToStore))
+        } catch (err) {
+          // A more advanced implementation would handle the error case
+          console.error(err)
+        }
+      },
+      [setStoredValue],
+    )
 
     const reset = useCallback(() => {
       setStoredValue(initialState)

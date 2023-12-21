@@ -1,10 +1,4 @@
-import {
-  type ReactNode,
-  memo,
-  useEffect,
-  useMemo,
-  useRef,
-} from 'react'
+import { type ReactNode, memo, useEffect, useMemo, useRef } from 'react'
 
 import ReactDOM from 'react-dom'
 import htmlTags from 'html-tags'
@@ -12,23 +6,20 @@ import htmlTags from 'html-tags'
 const HTML_NAMESPACE = 'http://www.w3.org/1999/xhtml'
 const SVG_NAMESPACE = 'http://www.w3.org/2000/svg'
 
-type TagName = (keyof HTMLElementTagNameMap | keyof SVGElementTagNameMap)
+type TagName = keyof HTMLElementTagNameMap | keyof SVGElementTagNameMap
 
 interface Props {
-  children: ReactNode,
-  tagName: TagName,
-  modalRoot: Element,
+  children: ReactNode
+  tagName: TagName
+  modalRoot: Element
 }
 
-const Portal = ({
-  tagName,
-  modalRoot,
-  children,
-}: Props) => {
+const Portal = ({ tagName, modalRoot, children }: Props) => {
   const el = useMemo(() => {
-    const ns = htmlTags.includes(tagName as (typeof htmlTags)[0]) && tagName !== 'svg'
-      ? HTML_NAMESPACE
-      : SVG_NAMESPACE
+    const ns =
+      htmlTags.includes(tagName as (typeof htmlTags)[0]) && tagName !== 'svg'
+        ? HTML_NAMESPACE
+        : SVG_NAMESPACE
     return document.createElementNS(ns, tagName) as HTMLElement
   }, [tagName, modalRoot])
 

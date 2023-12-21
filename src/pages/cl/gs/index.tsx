@@ -1,18 +1,8 @@
-import {
-  memo,
-  useCallback,
-  useEffect,
-  useRef,
-  useState,
-} from 'react'
+import { memo, useCallback, useEffect, useRef, useState } from 'react'
 
 import { css } from 'styled-components'
 
-import {
-  random,
-  sample,
-  shuffle,
-} from 'lodash'
+import { random, sample, shuffle } from 'lodash'
 
 import type Team from 'model/team/GsTeam'
 
@@ -42,28 +32,28 @@ const createFirstPossibleGroupWorker = () =>
   new Worker(new URL('./firstPossibleGroupWorker', import.meta.url))
 
 const redGroup = css`
-  background-color: ${props => props.theme.isDarkMode ? '#933' : '#ffc0c0'};
+  background-color: ${props => (props.theme.isDarkMode ? '#933' : '#ffc0c0')};
 `
 
 const blueGroup = css`
-  background-color: ${props => props.theme.isDarkMode ? '#039' : '#c0e0ff'};
+  background-color: ${props => (props.theme.isDarkMode ? '#039' : '#c0e0ff')};
 `
 
 interface Props {
-  season: number,
-  pots: readonly (readonly Team[])[],
-  isFirstPotShortDraw?: boolean,
+  season: number
+  pots: readonly (readonly Team[])[]
+  isFirstPotShortDraw?: boolean
 }
 
 interface State {
-  currentPotNum: number,
-  selectedTeam: Team | null,
-  pickedGroup: number | null,
-  hungPot: readonly Team[],
-  possibleGroups: readonly number[] | null,
-  possibleGroupsShuffled: readonly number[] | null,
-  pots: readonly (readonly Team[])[],
-  groups: readonly (readonly Team[])[],
+  currentPotNum: number
+  selectedTeam: Team | null
+  pickedGroup: number | null
+  hungPot: readonly Team[]
+  possibleGroups: readonly number[] | null
+  possibleGroupsShuffled: readonly number[] | null
+  pots: readonly (readonly Team[])[]
+  groups: readonly (readonly Team[])[]
 }
 
 function getState(initialPots: readonly (readonly Team[])[]): State {
@@ -82,24 +72,23 @@ function getState(initialPots: readonly (readonly Team[])[]): State {
   }
 }
 
-function CLGS({
-  season,
-  pots: initialPots,
-  isFirstPotShortDraw,
-}: Props) {
+function CLGS({ season, pots: initialPots, isFirstPotShortDraw }: Props) {
   const [drawId, setNewDrawId] = useDrawId()
   const [isFastDraw] = useFastDraw()
 
-  const [{
-    currentPotNum,
-    selectedTeam,
-    pickedGroup,
-    hungPot,
-    possibleGroups,
-    possibleGroupsShuffled,
-    pots,
-    groups,
-  }, setState] = useState(() => getState(initialPots))
+  const [
+    {
+      currentPotNum,
+      selectedTeam,
+      pickedGroup,
+      hungPot,
+      possibleGroups,
+      possibleGroupsShuffled,
+      pots,
+      groups,
+    },
+    setState,
+  ] = useState(() => getState(initialPots))
 
   useEffect(() => {
     setState(getState(initialPots))
@@ -108,10 +97,12 @@ function CLGS({
   const [, setPopup] = usePopup()
   const [isXRay] = useXRay()
 
-  // eslint-disable-next-line max-len
-  const getFirstPossibleGroupResponse = useWorkerSendAndReceive(createFirstPossibleGroupWorker) as FirstPossibleGroupFunc
-  // eslint-disable-next-line max-len
-  const getAllPossibleGroupsResponse = useWorkerSendAndReceive(createAllPossibleGroupsWorker) as AllPossibleGroupsFunc
+  const getFirstPossibleGroupResponse = useWorkerSendAndReceive(
+    createFirstPossibleGroupWorker,
+  ) as FirstPossibleGroupFunc
+  const getAllPossibleGroupsResponse = useWorkerSendAndReceive(
+    createAllPossibleGroupsWorker,
+  ) as AllPossibleGroupsFunc
 
   const groupsContanerRef = useRef<HTMLElement>(null)
 
@@ -158,55 +149,61 @@ function CLGS({
     }))
   }
 
-  const handleTeamBallPick = useCallback((i: number) => {
-    if (selectedTeam) {
-      return
-    }
+  const handleTeamBallPick = useCallback(
+    (i: number) => {
+      if (selectedTeam) {
+        return
+      }
 
-    const currentPot = pots[currentPotNum]
-    const newSelectedTeam = currentPot[i]
-    if (!newSelectedTeam) {
-      return
-    }
+      const currentPot = pots[currentPotNum]
+      const newSelectedTeam = currentPot[i]
+      if (!newSelectedTeam) {
+        return
+      }
 
-    const newPots = pots.slice()
-    newPots[currentPotNum] = newPots[currentPotNum].filter((_, idx) => idx !== i)
+      const newPots = pots.slice()
+      newPots[currentPotNum] = newPots[currentPotNum].filter(
+        (_, idx) => idx !== i,
+      )
 
-    setState(state => ({
-      ...state,
-      selectedTeam: newSelectedTeam,
-      pickedGroup: null,
-      pots: newPots,
-    }))
-  }, [pots, currentPotNum, selectedTeam])
+      setState(state => ({
+        ...state,
+        selectedTeam: newSelectedTeam,
+        pickedGroup: null,
+        pots: newPots,
+      }))
+    },
+    [pots, currentPotNum, selectedTeam],
+  )
 
-  const handleGroupBallPick = useCallback((newPickedGroup: number) => {
-    if (!selectedTeam) {
-      setPopup({
-        error: 'No selected team...',
-      })
-      return
-    }
+  const handleGroupBallPick = useCallback(
+    (newPickedGroup: number) => {
+      if (!selectedTeam) {
+        setPopup({
+          error: 'No selected team...',
+        })
+        return
+      }
 
-    const newGroups = groups.slice()
-    newGroups[newPickedGroup] = [
-      ...newGroups[newPickedGroup],
-      selectedTeam,
-    ]
+      const newGroups = groups.slice()
+      newGroups[newPickedGroup] = [...newGroups[newPickedGroup], selectedTeam]
 
-    const newCurrentPotNum = pots[currentPotNum].length > 0 ? currentPotNum : currentPotNum + 1
+      const newCurrentPotNum =
+        pots[currentPotNum].length > 0 ? currentPotNum : currentPotNum + 1
 
-    setState(state => ({
-      ...state,
-      selectedTeam: null,
-      pickedGroup: newPickedGroup,
-      hungPot: pots[newCurrentPotNum],
-      possibleGroups: null,
-      possibleGroupsShuffled: null,
-      currentPotNum: newCurrentPotNum,
-      groups: newGroups,
-    }))
-  }, [pots, groups, selectedTeam, currentPotNum, hungPot])
+      setState(state => ({
+        ...state,
+        selectedTeam: null,
+        pickedGroup: newPickedGroup,
+        hungPot: pots[newCurrentPotNum],
+        possibleGroups: null,
+        possibleGroupsShuffled: null,
+        currentPotNum: newCurrentPotNum,
+        groups: newGroups,
+      }))
+    },
+    [pots, groups, selectedTeam, currentPotNum, hungPot],
+  )
 
   useEffect(() => {
     if (selectedTeam) {
@@ -238,7 +235,7 @@ function CLGS({
   const numGroups = groups.length
 
   const getGroupHeaderStyles = useCallback(
-    (i: number) => i < (numGroups >> 1) ? redGroup : blueGroup,
+    (i: number) => (i < numGroups >> 1 ? redGroup : blueGroup),
     [numGroups],
   )
 

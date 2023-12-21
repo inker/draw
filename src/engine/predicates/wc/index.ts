@@ -1,9 +1,4 @@
-import {
-  countBy,
-  identity,
-  mapValues,
-  sumBy,
-} from 'lodash'
+import { countBy, identity, mapValues, sumBy } from 'lodash'
 
 import { type Confederation } from 'model/types'
 import type NationalTeam from 'model/team/NationalTeam'
@@ -20,9 +15,15 @@ type Team = NationalTeam | UnknownNationalTeam
 export default (year: number, teams: readonly Team[]): Predicate<Team> => {
   const numGroups = getNumGroupsByYear(year)
   const groupSize = teams.length / numGroups
-  // eslint-disable-next-line max-len
-  const confederations = teams.flatMap(team => (team as NationalTeam).confederation ?? (team as UnknownNationalTeam).confederations)
-  const berthsByConfederation = countBy(confederations, identity) as BerthsByConf
+  const confederations = teams.flatMap(
+    team =>
+      (team as NationalTeam).confederation ??
+      (team as UnknownNationalTeam).confederations,
+  )
+  const berthsByConfederation = countBy(
+    confederations,
+    identity,
+  ) as BerthsByConf
   const confMinMax = mapValues(berthsByConfederation, v => {
     const teamsPerGroup = v / numGroups
     return [Math.floor(teamsPerGroup), Math.ceil(teamsPerGroup)] as const

@@ -2,16 +2,17 @@ import { stubTrue } from 'lodash'
 
 import type Tournament from 'model/Tournament'
 import type Stage from 'model/Stage'
-import {
-  type Country,
-  type OptionalPropertyOf,
-} from 'model/types'
+import { type Country, type OptionalPropertyOf } from 'model/types'
 
 import isInsideInterval from 'utils/isInsideInterval'
 
 interface PartialItem {
-  countries: readonly [Country, Country],
-  predicate?: (season: number, tournament?: Tournament, stage?: Stage) => boolean,
+  countries: readonly [Country, Country]
+  predicate?: (
+    season: number,
+    tournament?: Tournament,
+    stage?: Stage,
+  ) => boolean
 }
 
 const constraints = [

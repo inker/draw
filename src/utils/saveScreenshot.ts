@@ -8,16 +8,12 @@ const formatDateAllDigits = (date: Date) =>
   formatDate(date, 'yyyyMMddHHmmssSSS')
 
 function elementToImage(el: HTMLElement, imageFormat: ImageFormat) {
-  const scale = imageFormat === 'svg'
-    ? 1
-    : window.devicePixelRatio
+  const scale = imageFormat === 'svg' ? 1 : window.devicePixelRatio
 
   const width = el.offsetWidth * scale
   const height = el.offsetHeight * scale
 
-  const toImage = imageFormat === 'svg'
-    ? domToImage.toSvg
-    : domToImage.toPng
+  const toImage = imageFormat === 'svg' ? domToImage.toSvg : domToImage.toPng
 
   return toImage(el, {
     quality: 1,

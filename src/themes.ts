@@ -8,4 +8,4 @@ export const dark = {
   border: '#222 solid 1px',
 }
 
-export type ThemeInterface = (typeof dark) & (typeof light)
+export type ThemeInterface = typeof dark & typeof light
