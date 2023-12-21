@@ -1,7 +1,7 @@
 export default {
   bertHost: 'https://kassiesa.net/uefa',
   defaultTournament: 'cl',
-  defaultStage: 'ko',
+  defaultStage: 'gs',
   currentSeason: {
     wc: 2022,
     uefa: {
