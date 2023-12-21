@@ -1,7 +1,6 @@
 module.exports = {
   extends: [
     'stylelint-config-standard',
-    'stylelint-config-styled-components',
   ],
   customSyntax: 'postcss-styled-syntax',
   plugins: [
@@ -11,7 +10,6 @@ module.exports = {
     'comment-empty-line-before': null,
     'no-descending-specificity': null,
     'alpha-value-notation': null,
-    'string-quotes': null, // TODO: remove
     'media-feature-range-notation': null,
     'declaration-block-no-redundant-longhand-properties': null, // TODO: remove
     'declaration-block-no-duplicate-properties': true,
