@@ -11,6 +11,12 @@ on:
 
 jobs:
   deploy:
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -25,10 +31,9 @@ jobs:
         run: npm ci --no-audit --no-progress
       - name: Build
         run: npm run build -- --env out=$GH_PAGES_DIR
-      - name: Deploy
-        uses: JamesIves/github-pages-deploy-action@releases/v4
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          branch: gh-pages # The branch the action should deploy to.
-          folder: ${{ env.GH_PAGES_DIR }} # The folder the action should deploy.
-          clean: true
+          path: ${{ env.GH_PAGES_DIR }}
+      - name: Deploy to GitHub Pages
+        uses: actions/deploy-pages@v4
