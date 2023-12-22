@@ -4,9 +4,6 @@ import { format as formatDate } from 'date-fns'
 
 type ImageFormat = 'png' | 'svg'
 
-const formatDateAllDigits = (date: Date) =>
-  formatDate(date, 'yyyyMMddHHmmssSSS')
-
 function elementToImage(el: HTMLElement, imageFormat: ImageFormat) {
   const scale = imageFormat === 'svg' ? 1 : window.devicePixelRatio
 
@@ -31,7 +28,10 @@ function elementToImage(el: HTMLElement, imageFormat: ImageFormat) {
 
 export default async (el: HTMLElement, imageFormat: ImageFormat) => {
   const now = new Date()
-  const fileName = `draw-${formatDateAllDigits(now)}.${imageFormat}`
+  const fileName = `draw-${formatDate(
+    now,
+    'yyyy-MM-dd-HH-mm-ss-SSS',
+  )}.${imageFormat}`
   const dataUrl = await elementToImage(el, imageFormat)
   saveAs(dataUrl, fileName)
 }
