@@ -1,9 +1,9 @@
-import styled, { type RuleSet } from 'styled-components'
+import styled, { type Interpolation } from 'styled-components'
 
 import BaseContent from './BaseContent'
 
 interface Props {
-  $styles?: RuleSet<any>
+  $styles?: Interpolation<any>
 }
 
 const Header = styled(BaseContent)<Props>`

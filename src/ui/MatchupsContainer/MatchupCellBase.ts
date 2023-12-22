@@ -1,4 +1,4 @@
-import styled, { type RuleSet, css, keyframes } from 'styled-components'
+import styled, { type Interpolation, css, keyframes } from 'styled-components'
 
 import Cell from 'ui/table/Cell'
 
@@ -21,7 +21,7 @@ const Picked = css`
 
 interface Props {
   $picked: boolean
-  $styles?: RuleSet<any>
+  $styles?: Interpolation<any>
 }
 
 const MatchupCellBase = styled(Cell)<Props>`

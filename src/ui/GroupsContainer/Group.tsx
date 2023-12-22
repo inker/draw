@@ -1,5 +1,5 @@
 import { memo } from 'react'
-import { type RuleSet } from 'styled-components'
+import { type Interpolation } from 'styled-components'
 
 import type Club from 'model/team/Club'
 import type NationalTeam from 'model/team/NationalTeam'
@@ -19,7 +19,7 @@ interface Props {
   teams: readonly Team[]
   potNum: number
   possible: boolean
-  headerStyles?: RuleSet<any>
+  headerStyles?: Interpolation<any>
 }
 
 function Group({

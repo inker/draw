@@ -1,5 +1,5 @@
 import { forwardRef, memo } from 'react'
-import styled, { type RuleSet } from 'styled-components'
+import styled, { type Interpolation } from 'styled-components'
 
 import type Club from 'model/team/Club'
 import type NationalTeam from 'model/team/NationalTeam'
@@ -24,7 +24,7 @@ interface Props {
   currentPotNum: number
   groups: readonly (readonly Team[])[]
   possibleGroups: readonly number[] | null
-  getGroupHeaderStyles?: (index: number) => RuleSet<any>
+  getGroupHeaderStyles?: (index: number) => Interpolation<any>
 }
 
 const GroupsContainer = forwardRef(

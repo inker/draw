@@ -1,5 +1,5 @@
 import { memo } from 'react'
-import { type RuleSet } from 'styled-components'
+import { type Interpolation } from 'styled-components'
 
 import type Team from 'model/team'
 
@@ -17,7 +17,7 @@ interface Props {
   pickedTeams: readonly Team[]
   selectedTeams: readonly Team[] | null
   numCols: number
-  headerStyles?: RuleSet<any>
+  headerStyles?: Interpolation<any>
 }
 
 function Pot({
@@ -37,7 +37,6 @@ function Pot({
         <Row>
           <Cell colSpan={numCols}>
             <Header
-              // @ts-expect-error Fix types
               $highlighted={isCurrent}
               $depleted={!teams || pickedTeams.length === teams.length}
               $styles={headerStyles}

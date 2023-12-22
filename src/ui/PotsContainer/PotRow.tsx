@@ -27,7 +27,6 @@ function PotRow({ teams, pickedTeams, selectedTeams }: Props) {
               title={
                 pairing && `paired with ${pairing.shortName ?? pairing.name}`
               }
-              // @ts-expect-error Fix types
               $selected={!!selectedTeams?.includes(team)}
               $picked={pickedTeams.includes(team)}
               $country={country ?? name}
