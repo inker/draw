@@ -44,16 +44,12 @@ module.exports = {
 
   rules: {
     // TODO: remove (formatting)
-    '@typescript-eslint/member-delimiter-style': 0,
-    '@typescript-eslint/no-extra-semi': 0,
     indent: 0,
     'function-paren-newline': 0,
-    'inker/single-import-per-line': 0,
-    'multiline-ternary': 0,
+    'no-extra-semi': 0,
     'object-curly-newline': 0,
     'operator-linebreak': 0,
     'react/jsx-wrap-multilines': 0,
-    'unicorn/template-indent': 0,
 
     'object-property-newline': [
       2,

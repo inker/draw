@@ -34,9 +34,9 @@ const Portal = ({ tagName, modalRoot, children }: Props) => {
     // DOM node, or uses 'autoFocus' in a descendant, add
     // state to Modal and only render the children when Modal
     // is inserted in the DOM tree.
-    modalRoot.appendChild(el)
+    modalRoot.append(el)
     return () => {
-      modalRoot.removeChild(el)
+      el.remove()
     }
   }, [])
 

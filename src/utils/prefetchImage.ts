@@ -8,7 +8,7 @@ function prefetchImage(url: string) {
   return new Promise<void>(resolve => {
     link.onload = resolve as any
     link.href = url
-    document.head.appendChild(link)
+    document.head.append(link)
   })
 }
 

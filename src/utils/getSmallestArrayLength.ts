@@ -1,2 +1,4 @@
+import { minBy } from 'lodash'
+
 export default (arrays: readonly (readonly any[])[]) =>
-  arrays.reduce((a, i) => Math.min(i.length, a), Number.MAX_SAFE_INTEGER)
+  minBy(arrays, i => i.length)?.length ?? Number.MAX_SAFE_INTEGER
