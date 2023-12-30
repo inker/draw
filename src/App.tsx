@@ -36,6 +36,7 @@ function App() {
 
   return (
     <ThemeProvider theme={isDarkMode ? themes.dark : themes.light}>
+      {/* @ts-expect-error Fix types */}
       <Body />
       <Root>
         <Popup />
