@@ -134,6 +134,36 @@ module.exports = {
     ],
     'inker/react-ref-name': 2,
 
+    "import/order": [
+      2,
+      {
+        groups: [
+          "builtin",
+          "external",
+          "internal",
+          "parent",
+          "sibling",
+          "index",
+        ],
+        "newlines-between": "always-and-inside-groups",
+        pathGroups: [
+          {
+            pattern: "react",
+            group: "external",
+            position: "before",
+          },
+          {
+            pattern: "./*.module.{css,scss,postcss}",
+            group: "sibling",
+            position: "after",
+          },
+        ],
+        distinctGroup: false,
+        pathGroupsExcludedImportTypes: ["react"],
+        warnOnUnassignedImports: true,
+      },
+    ],
+
     'react/prop-types': 0,
     'react/react-in-jsx-scope': 0,
     'react/require-default-props': 0,

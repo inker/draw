@@ -1,7 +1,5 @@
 import { memo, useCallback, useEffect, useRef, useState } from 'react'
-
 import { css } from 'styled-components'
-
 import { random, shuffle } from 'lodash'
 
 import type Team from 'model/team/GsTeam'

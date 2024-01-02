@@ -1,5 +1,4 @@
 import { type RefObject, memo, useCallback, useEffect, useState } from 'react'
-
 import delay from 'delay.js'
 
 import ButtonLink from 'ui/ButtonLink'

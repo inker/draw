@@ -1,5 +1,4 @@
 import { useCallback, useEffect, useState } from 'react'
-
 import { pull } from 'lodash'
 
 export default <S>(initialState: S | (() => S)) => {

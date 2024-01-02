@@ -1,5 +1,4 @@
 import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react'
-
 import { random, shuffle } from 'lodash'
 
 import { type FixedArray } from 'model/types'

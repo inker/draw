@@ -1,5 +1,4 @@
 import { memo, useCallback, useEffect, useRef, useState } from 'react'
-
 import { css } from 'styled-components'
 
 import { random, sample, shuffle } from 'lodash'

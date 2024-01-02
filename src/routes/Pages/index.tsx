@@ -1,7 +1,5 @@
 import { memo, useEffect, useState } from 'react'
-
 import { useParams } from 'react-router-dom'
-
 import delay from 'delay.js'
 
 import type Team from 'model/team'

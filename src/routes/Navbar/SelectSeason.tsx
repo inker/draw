@@ -1,5 +1,4 @@
 import { memo, useCallback } from 'react'
-
 import { range } from 'lodash'
 
 import type Tournament from 'model/Tournament'

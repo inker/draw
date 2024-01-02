@@ -1,5 +1,4 @@
 import { type ReactNode, memo } from 'react'
-
 import styled from 'styled-components'
 
 import Modal from './Modal'

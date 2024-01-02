@@ -1,5 +1,4 @@
 import { type RefObject, memo, useEffect, useRef } from 'react'
-
 import styled from 'styled-components'
 
 import type Club from 'model/team/Club'
