@@ -1,11 +1,9 @@
-import { isNil } from 'lodash'
-
 import getRandomId from 'utils/getRandomId'
 
 let styleElement: HTMLStyleElement
 
 const template = (strings: TemplateStringsArray, ...keys: readonly any[]) =>
-  strings.map((s, i) => `${s}${isNil(keys[i]) ? '' : keys[i]}`).join('')
+  strings.map((s, i) => `${s}${keys[i] == null ? '' : keys[i]}`).join('')
 
 export default (strings: TemplateStringsArray, ...keys: readonly any[]) => {
   if (!styleElement) {
