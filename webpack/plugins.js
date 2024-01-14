@@ -3,6 +3,7 @@ const webpack = require('webpack')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin')
+const ESLintPlugin = require('eslint-webpack-plugin')
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer')
 
 const { compact } = require('lodash')
@@ -54,6 +55,13 @@ module.exports = isDev =>
     // ]),
 
     new ForkTsCheckerWebpackPlugin(),
+
+    isDev && new ESLintPlugin({
+      extensions: ['js', 'mjs', 'jsx', 'ts', 'tsx'],
+      emitWarning: true,
+      failOnError: false,
+      cache: true,
+    }),
 
     process.env.npm_config_report && new BundleAnalyzerPlugin(),
   ])
