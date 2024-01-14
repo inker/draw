@@ -12,7 +12,7 @@
     "strict": true,
     "experimentalDecorators": true,
     "jsx": "react-jsx",
-    "noUnusedLocals": true,
+    // "noUnusedLocals": true,
     "resolveJsonModule": true,
     "noEmitHelpers": true,
     "importHelpers": true,
