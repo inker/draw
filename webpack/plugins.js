@@ -23,7 +23,7 @@ module.exports = isDev =>
       },
     }),
 
-    new CleanTerminalPlugin(),
+    isDev && new CleanTerminalPlugin(),
 
     !isDev &&
       new MiniCssExtractPlugin({
@@ -57,7 +57,7 @@ module.exports = isDev =>
     //   }
     // ]),
 
-    new ForkTsCheckerWebpackPlugin(),
+    isDev && new ForkTsCheckerWebpackPlugin(),
 
     isDev && new ESLintPlugin({
       extensions: ['js', 'mjs', 'jsx', 'ts', 'tsx'],
