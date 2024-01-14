@@ -2,6 +2,7 @@ const webpack = require('webpack')
 
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin')
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer')
 
 const { compact } = require('lodash')
@@ -51,6 +52,8 @@ module.exports = isDev =>
     //     from: 'src/404.html',
     //   }
     // ]),
+
+    new ForkTsCheckerWebpackPlugin(),
 
     process.env.npm_config_report && new BundleAnalyzerPlugin(),
   ])
