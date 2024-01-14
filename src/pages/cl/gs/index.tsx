@@ -4,6 +4,7 @@ import { css } from 'styled-components'
 import { random, sample, shuffle } from 'lodash'
 
 import type Team from 'model/team/GsTeam'
+import { serializeGsWorkerData } from 'model/WorkerData'
 
 import usePopup from 'store/usePopup'
 import useDrawId from 'store/useDrawId'
@@ -116,20 +117,24 @@ function CLGS({ season, pots: initialPots, isFirstPotShortDraw }: Props) {
     let newPossibleGroups: number[]
     try {
       if (isDrawShort) {
-        const firstPossibleGroup = await getFirstPossibleGroupResponse({
-          season,
-          pots,
-          groups,
-          selectedTeam,
-        })
+        const firstPossibleGroup = await getFirstPossibleGroupResponse(
+          serializeGsWorkerData({
+            season,
+            pots,
+            groups,
+            selectedTeam,
+          }),
+        )
         newPossibleGroups = [firstPossibleGroup]
       } else {
-        const allPossibleGroups = await getAllPossibleGroupsResponse({
-          season,
-          pots,
-          groups,
-          selectedTeam,
-        })
+        const allPossibleGroups = await getAllPossibleGroupsResponse(
+          serializeGsWorkerData({
+            season,
+            pots,
+            groups,
+            selectedTeam,
+          }),
+        )
         newPossibleGroups = allPossibleGroups
       }
     } catch (err) {

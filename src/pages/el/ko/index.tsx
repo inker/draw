@@ -3,6 +3,7 @@ import { random, shuffle } from 'lodash'
 
 import { type FixedArray } from 'model/types'
 import type Team from 'model/team/KnockoutTeam'
+import { serializeKoWorkerData } from 'model/WorkerData'
 
 import usePopup from 'store/usePopup'
 import useDrawId from 'store/useDrawId'
@@ -85,11 +86,13 @@ function ELKO({ season, pots: initialPots }: Props) {
       newMatchups: readonly [Team, Team][],
     ) => {
       try {
-        return await getPossiblePairingsResponse({
-          season,
-          pots: newPots,
-          matchups: newMatchups,
-        })
+        return await getPossiblePairingsResponse(
+          serializeKoWorkerData({
+            season,
+            pots: newPots,
+            matchups: newMatchups,
+          }),
+        )
       } catch (err) {
         setPopup({
           error: 'Could not determine possible pairings',

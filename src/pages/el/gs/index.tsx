@@ -3,6 +3,7 @@ import { css } from 'styled-components'
 import { random, shuffle } from 'lodash'
 
 import type Team from 'model/team/GsTeam'
+import { serializeGsWorkerData } from 'model/WorkerData'
 
 import usePopup from 'store/usePopup'
 import useDrawId from 'store/useDrawId'
@@ -88,12 +89,14 @@ function ELGS({ season, pots: initialPots }: Props) {
 
     let newPickedGroup: number
     try {
-      const firstPossibleGroup = await getFirstPossibleGroupResponse({
-        season,
-        pots,
-        groups,
-        selectedTeam,
-      })
+      const firstPossibleGroup = await getFirstPossibleGroupResponse(
+        serializeGsWorkerData({
+          season,
+          pots,
+          groups,
+          selectedTeam,
+        }),
+      )
       newPickedGroup = firstPossibleGroup
     } catch (err) {
       console.error(err)
