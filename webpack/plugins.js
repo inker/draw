@@ -1,5 +1,6 @@
 const webpack = require('webpack')
 
+const CleanTerminalPlugin = require('clean-terminal-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin')
@@ -21,6 +22,8 @@ module.exports = isDev =>
         NODE_ENV: JSON.stringify(isDev ? 'development' : 'production'),
       },
     }),
+
+    new CleanTerminalPlugin(),
 
     !isDev &&
       new MiniCssExtractPlugin({
