@@ -37,7 +37,7 @@ interface State {
   possiblePairings: readonly number[] | null
   pots: FixedArray<readonly Team[], 2>
   potsToDisplay: readonly [readonly Team[] | null, readonly Team[]]
-  matchups: readonly [Team, Team][]
+  matchups: readonly (readonly [Team] | readonly [Team, Team])[]
 }
 
 function getState(
@@ -90,17 +90,15 @@ function ELKO({ season, pots: initialPots }: Props) {
 
   const groupsContanerRef = useRef<HTMLElement>(null)
 
-  // @ts-expect-error Expected
   const selectedTeam = matchups.find(m => m.length === 1)?.at(-1)
 
   const getPossiblePairings = useCallback(
     async (
       newPots: FixedArray<readonly Team[], 2>,
-      newMatchups: readonly (readonly [Team, Team])[],
+      newMatchups: readonly (readonly [Team] | readonly [Team, Team])[],
     ) => {
       const [newGwPot, newRuPot] = newPots
       const initialGwPot = initialPots[0]
-      // @ts-expect-error Expected
       // eslint-disable-next-line @typescript-eslint/no-non-null-asserted-optional-chain
       const pickedTeam = newMatchups.find(m => m.length === 1)?.at(-1)!
       const groups = initialGwPot.map(gw => {

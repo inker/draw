@@ -20,7 +20,7 @@ const VersusCell = styled(Content)`
 `
 
 interface Props {
-  teams: [Team, Team] | null
+  teams: readonly [Team, Team] | readonly [Team] | null
 }
 
 function Matchup({ teams }: Props) {

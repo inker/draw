@@ -14,7 +14,7 @@ const RootTable = styled(Table)`
 `
 
 interface Props {
-  matchups: readonly [Team, Team][]
+  matchups: readonly (readonly [Team] | readonly [Team, Team])[]
 }
 
 const MatchupContainer = forwardRef(({ matchups }: Props, ref: any) => (
