@@ -59,12 +59,13 @@ module.exports = isDev =>
 
     isDev && new ForkTsCheckerWebpackPlugin(),
 
-    isDev && new ESLintPlugin({
-      extensions: ['js', 'mjs', 'jsx', 'ts', 'tsx'],
-      emitWarning: true,
-      failOnError: false,
-      cache: true,
-    }),
+    isDev &&
+      new ESLintPlugin({
+        extensions: ['js', 'mjs', 'jsx', 'ts', 'tsx'],
+        emitWarning: true,
+        failOnError: false,
+        cache: true,
+      }),
 
     process.env.npm_config_report && new BundleAnalyzerPlugin(),
   ])
