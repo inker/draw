@@ -1,6 +1,7 @@
 import { forwardRef, memo } from 'react'
 import styled from 'styled-components'
 
+import { type SingleOrPair } from 'model/types'
 import type Team from 'model/team/Club'
 
 import Table from 'ui/table/Table'
@@ -14,7 +15,7 @@ const RootTable = styled(Table)`
 `
 
 interface Props {
-  matchups: readonly (readonly [Team] | readonly [Team, Team])[]
+  matchups: readonly SingleOrPair<Team>[]
 }
 
 const MatchupContainer = forwardRef(({ matchups }: Props, ref: any) => (

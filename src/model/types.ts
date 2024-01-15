@@ -15,6 +15,8 @@ export type UefaCountry = Extract<
 
 export type Confederation = Countries[Country]['confederation']
 
+export type SingleOrPair<T> = readonly [T] | readonly [T, T]
+
 type Grow<T, A extends T[]> = ((x: T, ...xs: A) => void) extends (
   ...a: infer X
 ) => void

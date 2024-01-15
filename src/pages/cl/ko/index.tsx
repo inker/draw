@@ -1,7 +1,7 @@
 import { memo, useCallback, useEffect, useRef, useState } from 'react'
 import { random, shuffle, without } from 'lodash'
 
-import { type FixedArray } from 'model/types'
+import { type FixedArray, type SingleOrPair } from 'model/types'
 import type Team from 'model/team/KnockoutTeam'
 import { serializeGsWorkerData } from 'model/WorkerData'
 
@@ -36,7 +36,7 @@ interface State {
   possiblePairings: readonly number[] | null
   pots: FixedArray<readonly Team[], 2>
   potsToDisplay: readonly [readonly Team[] | null, readonly Team[]]
-  matchups: readonly (readonly [Team] | readonly [Team, Team])[]
+  matchups: readonly SingleOrPair<Team>[]
 }
 
 function getState(initialPots: FixedArray<readonly Team[], 2>): State {
@@ -90,7 +90,7 @@ function CLKO({ season, pots: initialPots }: Props) {
   const getPossiblePairings = useCallback(
     async (
       newPots: FixedArray<readonly Team[], 2>,
-      newMatchups: readonly (readonly [Team] | readonly [Team, Team])[],
+      newMatchups: readonly SingleOrPair<Team>[],
     ) => {
       const [newGwPot, newRuPot] = newPots
       const initialGwPot = initialPots[0]
@@ -131,9 +131,9 @@ function CLKO({ season, pots: initialPots }: Props) {
       ) as typeof pots
 
       const newMatchups = matchups.with(currentMatchupNum, [
-        ...matchups[currentMatchupNum],
+        ...(matchups[currentMatchupNum] as [Team]),
         pickedTeam,
-      ] as unknown as [Team, Team]) as typeof matchups
+      ]) as typeof matchups
 
       const newPossiblePairings =
         currentPotNum === 1
