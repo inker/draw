@@ -1,4 +1,4 @@
-import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { memo, useCallback, useEffect, useRef, useState } from 'react'
 import { random, shuffle, without } from 'lodash'
 
 import { type FixedArray } from 'model/types'
@@ -36,6 +36,7 @@ interface State {
   currentPotNum: number
   possiblePairings: readonly number[] | null
   pots: FixedArray<readonly Team[], 2>
+  potsToDisplay: readonly [readonly Team[] | null, readonly Team[]]
   matchups: readonly [Team, Team][]
 }
 
@@ -46,13 +47,15 @@ function getState(
   const currentPotNum = 1
   const currentMatchupNum = 0
   const numMatchups = season < 2021 ? 16 : 8
+  const pots = initialPots.map(
+    pot => shuffle(pot) as readonly Team[],
+  ) as typeof initialPots
   return {
     currentMatchupNum,
     currentPotNum,
     possiblePairings: null,
-    pots: initialPots.map(
-      pot => shuffle(pot) as readonly Team[],
-    ) as typeof initialPots,
+    pots,
+    potsToDisplay: [null, pots[1]],
     matchups: Array.from({ length: numMatchups }, () => [] as any),
   }
 }
@@ -62,7 +65,14 @@ function ELKO({ season, pots: initialPots }: Props) {
   const [isFastDraw] = useFastDraw()
 
   const [
-    { currentMatchupNum, currentPotNum, possiblePairings, pots, matchups },
+    {
+      currentMatchupNum,
+      currentPotNum,
+      possiblePairings,
+      pots,
+      potsToDisplay,
+      matchups,
+    },
     setState,
   ] = useState(() => getState(initialPots, season))
 
@@ -80,23 +90,19 @@ function ELKO({ season, pots: initialPots }: Props) {
 
   const groupsContanerRef = useRef<HTMLElement>(null)
 
-  const potsToDisplay = useMemo(() => {
-    const gwPot = possiblePairings
-      ? pots[0].filter((team, i) => possiblePairings.includes(i))
-      : null
-    return [gwPot, pots[1]] as const
-  }, [possiblePairings, pots])
+  // @ts-expect-error Expected
+  const selectedTeam = matchups.find(m => m.length === 1)?.at(-1)
 
   const getPossiblePairings = useCallback(
     async (
       newPots: FixedArray<readonly Team[], 2>,
-      newMatchups: readonly [Team, Team][],
+      newMatchups: readonly (readonly [Team, Team])[],
     ) => {
       const [newGwPot, newRuPot] = newPots
       const initialGwPot = initialPots[0]
       // @ts-expect-error Expected
       // eslint-disable-next-line @typescript-eslint/no-non-null-asserted-optional-chain
-      const selectedTeam = newMatchups.find(m => m.length === 1)?.at(-1)!
+      const pickedTeam = newMatchups.find(m => m.length === 1)?.at(-1)!
       const groups = initialGwPot.map(gw => {
         const ru = newMatchups.find(pair => pair[1] === gw)?.[0]
         return ru ? [gw, ru] : [gw]
@@ -107,7 +113,7 @@ function ELKO({ season, pots: initialPots }: Props) {
             season,
             pots: [[], newRuPot],
             groups,
-            selectedTeam,
+            selectedTeam: pickedTeam,
           }),
         )
         return allPossibleGroups.map(i => newGwPot.indexOf(groups[i][0]))
@@ -124,24 +130,29 @@ function ELKO({ season, pots: initialPots }: Props) {
   const handleBallPick = useCallback(
     async (i: number) => {
       const currentPot = potsToDisplay[currentPotNum]!
-      const selectedTeam = currentPot[i]
+      const pickedTeam = currentPot[i]
 
       const newPots = pots.with(
         currentPotNum,
-        without(pots[currentPotNum], selectedTeam),
+        without(pots[currentPotNum], pickedTeam),
       ) as typeof pots
 
       const newMatchups = matchups.slice()
       // @ts-expect-error
       newMatchups[currentMatchupNum] = [
         ...newMatchups[currentMatchupNum],
-        selectedTeam,
+        pickedTeam,
       ]
 
       const newPossiblePairings =
         currentPotNum === 1
           ? await getPossiblePairings(newPots, newMatchups)
           : null
+
+      const gwPot = newPossiblePairings
+        ? newPots[0].filter((_, j) => newPossiblePairings.includes(j))
+        : null
+      const newPotsToDisplay = [gwPot, pots[1]] as const
 
       const newCurrentMatchNum = currentMatchupNum - currentPotNum + 1
 
@@ -151,6 +162,7 @@ function ELKO({ season, pots: initialPots }: Props) {
         currentMatchupNum: newCurrentMatchNum,
         possiblePairings: newPossiblePairings,
         pots: newPots,
+        potsToDisplay: newPotsToDisplay,
         matchups: newMatchups,
       }))
     },
@@ -209,7 +221,7 @@ function ELKO({ season, pots: initialPots }: Props) {
               forceNoSelect={currentPotNum === 0}
               display={!completed}
               displayTeams={isXRay}
-              selectedTeam={null}
+              selectedTeam={selectedTeam ?? null}
               pot={potsToDisplay[1]}
               onPick={handleBallPick}
             />
