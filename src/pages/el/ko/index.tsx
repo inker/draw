@@ -166,7 +166,14 @@ function ELKO({ season, pots: initialPots }: Props) {
         matchups: newMatchups,
       }))
     },
-    [pots, matchups, currentPotNum, currentMatchupNum, possiblePairings],
+    [
+      pots,
+      potsToDisplay,
+      matchups,
+      currentPotNum,
+      currentMatchupNum,
+      possiblePairings,
+    ],
   )
 
   const autoPickIfOneBall = () => {
