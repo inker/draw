@@ -62,6 +62,9 @@ module.exports = env => {
       devMiddleware: {
         stats: 'errors-warnings',
       },
+      client: {
+        overlay: false,
+      },
       historyApiFallback: {
         rewrites: [
           {
