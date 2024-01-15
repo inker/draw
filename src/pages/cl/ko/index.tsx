@@ -181,15 +181,11 @@ function CLKO({ season, pots: initialPots }: Props) {
     }
   }, [isFastDraw, currentPotNum])
 
-  const selectedTeams = possiblePairings
-    ? possiblePairings.map(i => pots[0][i])
-    : []
-
   return (
     <PageRoot>
       <TablesContainer>
         <PotsContainer
-          selectedTeams={selectedTeams}
+          selectedTeams={potsToDisplay[0]}
           initialPots={initialPots}
           pots={pots}
           currentPotNum={currentPotNum}
