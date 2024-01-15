@@ -75,6 +75,13 @@ function CLKO({ season, pots: initialPots }: Props) {
 
   const groupsContanerRef = useRef<HTMLElement>(null)
 
+  const potsToDisplay = useMemo(() => {
+    const gwPot = possiblePairings
+      ? pots[0].filter((team, i) => possiblePairings.includes(i))
+      : null
+    return [gwPot, pots[1]] as const
+  }, [possiblePairings, pots])
+
   const getPossiblePairings = useCallback(
     async (
       newPots: FixedArray<readonly Team[], 2>,
@@ -108,13 +115,6 @@ function CLKO({ season, pots: initialPots }: Props) {
     },
     [season, initialPots, getPossiblePairingsResponse],
   )
-
-  const potsToDisplay = useMemo(() => {
-    const gwPot = possiblePairings
-      ? pots[0].filter((team, i) => possiblePairings.includes(i))
-      : null
-    return [gwPot, pots[1]] as const
-  }, [possiblePairings, pots])
 
   const handleBallPick = useCallback(
     async (i: number) => {
