@@ -1,3 +1,20 @@
+import { type Alpha2Code } from 'i18n-iso-countries'
+
+import { type Confederation } from 'model/types'
+
+type Flag = Lowercase<Alpha2Code> | `gb-${string}`
+
+interface UefaObj {
+  confederation: 'UEFA'
+  bert: Lowercase<string>
+  flag: Flag
+}
+
+interface OtherConfObj {
+  confederation: Exclude<Confederation, 'UEFA'>
+  flag: Flag
+}
+
 export default {
   Albania: {
     confederation: 'UEFA',
@@ -387,4 +404,4 @@ export default {
     flag: 'nz',
     confederation: 'OFC',
   },
-} as const
+} as const satisfies Record<string, UefaObj | OtherConfObj>

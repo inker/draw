@@ -13,7 +13,13 @@ export type UefaCountry = Extract<
   [Country, { confederation: 'UEFA' }]
 >[0]
 
-export type Confederation = Countries[Country]['confederation']
+export type Confederation =
+  | 'UEFA'
+  | 'CONMEBOL'
+  | 'CONCACAF'
+  | 'CAF'
+  | 'AFC'
+  | 'OFC'
 
 export type SingleOrPair<T> = readonly [T] | readonly [T, T]
 
