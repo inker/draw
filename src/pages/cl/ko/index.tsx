@@ -1,5 +1,5 @@
 import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import { orderBy, random, shuffle } from 'lodash'
+import { random, shuffle, without } from 'lodash'
 
 import { type FixedArray } from 'model/types'
 import type Team from 'model/team/KnockoutTeam'
@@ -98,9 +98,7 @@ function CLKO({ season, pots: initialPots }: Props) {
             selectedTeam,
           }),
         )
-        return orderBy(
-          allPossibleGroups.map(i => newGwPot.indexOf(groups[i][0])),
-        )
+        return allPossibleGroups.map(i => newGwPot.indexOf(groups[i][0]))
       } catch (err) {
         setPopup({
           error: 'Could not determine possible pairings',
@@ -111,16 +109,22 @@ function CLKO({ season, pots: initialPots }: Props) {
     [season, initialPots, getPossiblePairingsResponse],
   )
 
+  const potsToDisplay = useMemo(() => {
+    const gwPot = possiblePairings
+      ? pots[0].filter((team, i) => possiblePairings.includes(i))
+      : null
+    return [gwPot, pots[1]] as const
+  }, [possiblePairings, pots])
+
   const handleBallPick = useCallback(
     async (i: number) => {
-      const currentPot = pots[currentPotNum]
-      const index = possiblePairings ? possiblePairings[i] : i
-      const selectedTeam = currentPot[index]
+      const currentPot = potsToDisplay[currentPotNum]!
+      const selectedTeam = currentPot[i]
 
-      const newPots = pots.slice() as typeof pots
-      newPots[currentPotNum] = newPots[currentPotNum].filter(
-        (_, idx) => idx !== index,
-      )
+      const newPots = pots.with(
+        currentPotNum,
+        without(pots[currentPotNum], selectedTeam),
+      ) as typeof pots
 
       const newMatchups = matchups.slice()
       // @ts-expect-error
@@ -164,18 +168,11 @@ function CLKO({ season, pots: initialPots }: Props) {
     setTimeout(autoPickIfOneBall, 250)
   }, [currentPotNum])
 
-  const teamBowlPot = useMemo(
-    () =>
-      possiblePairings &&
-      pots[0].filter((team, i) => possiblePairings.includes(i)),
-    [possiblePairings, pots],
-  )
-
   const completed = currentMatchupNum >= initialPots[0].length
 
   useEffect(() => {
     if (isFastDraw) {
-      const teams = teamBowlPot ?? pots[1]
+      const teams = potsToDisplay[currentPotNum]!
       const numTeams = teams.length
       if (numTeams > 0) {
         const index = random(numTeams - 1)
@@ -211,17 +208,17 @@ function CLKO({ season, pots: initialPots }: Props) {
               display={!completed}
               displayTeams={isXRay}
               selectedTeam={null}
-              pot={pots[1]}
+              pot={potsToDisplay[1]}
               onPick={handleBallPick}
             />
             {!completed && <Separator>Group Winners</Separator>}
-            {teamBowlPot && (
+            {potsToDisplay[0] && (
               <TeamBowl
                 forceNoSelect={currentPotNum === 1}
                 display={!completed}
                 displayTeams={isXRay}
                 selectedTeam={null}
-                pot={teamBowlPot}
+                pot={potsToDisplay[0]}
                 onPick={handleBallPick}
               />
             )}
