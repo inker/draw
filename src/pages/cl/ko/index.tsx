@@ -132,12 +132,10 @@ function CLKO({ season, pots: initialPots }: Props) {
         without(pots[currentPotNum], pickedTeam),
       ) as typeof pots
 
-      const newMatchups = matchups.slice()
-      // @ts-expect-error
-      newMatchups[currentMatchupNum] = [
-        ...newMatchups[currentMatchupNum],
+      const newMatchups = matchups.with(currentMatchupNum, [
+        ...matchups[currentMatchupNum],
         pickedTeam,
-      ]
+      ] as unknown as [Team, Team]) as typeof matchups
 
       const newPossiblePairings =
         currentPotNum === 1

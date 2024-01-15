@@ -165,9 +165,9 @@ function CLGS({ season, pots: initialPots, isFirstPotShortDraw }: Props) {
         return
       }
 
-      const newPots = pots.slice()
-      newPots[currentPotNum] = newPots[currentPotNum].filter(
-        (_, idx) => idx !== i,
+      const newPots = pots.with(
+        currentPotNum,
+        pots[currentPotNum].toSpliced(i, 1),
       )
 
       setState(state => ({
@@ -189,8 +189,10 @@ function CLGS({ season, pots: initialPots, isFirstPotShortDraw }: Props) {
         return
       }
 
-      const newGroups = groups.slice()
-      newGroups[newPickedGroup] = [...newGroups[newPickedGroup], selectedTeam]
+      const newGroups = groups.with(newPickedGroup, [
+        ...groups[newPickedGroup],
+        selectedTeam,
+      ])
 
       const newCurrentPotNum =
         pots[currentPotNum].length > 0 ? currentPotNum : currentPotNum + 1
