@@ -1,5 +1,3 @@
-import { type FixedArray } from './types'
-
 interface GsWorkerData<T> {
   season: number
   pots: readonly (readonly T[])[]
@@ -48,56 +46,5 @@ export const deserializeGsWorkerData = <T>(
     pots: potsSerialized.map(pot => pot.map(i => teams[i])),
     groups: groupsSerialized.map(group => group.map(i => teams[i])),
     selectedTeam: teams[selectedTeamIndex],
-  }
-}
-
-export interface KoWorkerData<T> {
-  season: number
-  pots: FixedArray<readonly T[], 2>
-  matchups: readonly (readonly [T, T])[]
-}
-
-export interface KoWorkerDataSerialized<T> {
-  season: number
-  teams: readonly T[]
-  pots: FixedArray<readonly number[], 2>
-  matchups: readonly (readonly [number, number])[]
-}
-
-export const serializeKoWorkerData = <T>(
-  data: KoWorkerData<T>,
-): KoWorkerDataSerialized<T> => {
-  const teams = [...data.pots.flat(), ...data.matchups.flat()]
-
-  const indexByTeam = new Map(teams.map((item, i) => [item, i] as const))
-
-  const getIndexByTeam = (item: T) => indexByTeam.get(item)!
-
-  return {
-    ...data,
-    teams,
-    pots: [data.pots[0].map(getIndexByTeam), data.pots[1].map(getIndexByTeam)],
-    matchups: data.matchups.map(
-      matchup =>
-        [getIndexByTeam(matchup[0]), getIndexByTeam(matchup[1])] as const,
-    ),
-  }
-}
-
-export const deserializeKoWorkerData = <T>(
-  data: KoWorkerDataSerialized<T>,
-): KoWorkerData<T> => {
-  const { teams, pots: potsSerialized, matchups: matchupsSerialized } = data
-
-  return {
-    ...data,
-    pots: [
-      potsSerialized[0].map(i => teams[i]),
-      potsSerialized[1].map(i => teams[i]),
-    ],
-    matchups: matchupsSerialized.map(matchup => [
-      teams[matchup[0]],
-      teams[matchup[1]],
-    ]),
   }
 }

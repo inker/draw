@@ -1,11 +1,11 @@
 import memoizeOne from 'memoize-one'
 
-import { getPossiblePairings } from 'engine/backtracking/ko'
+import { allPossibleGroups } from 'engine/backtracking/gs'
 import getPredicate from 'engine/predicates/uefa/ko'
 import type Team from 'model/team/KnockoutTeam'
 import {
-  type KoWorkerDataSerialized,
-  deserializeKoWorkerData,
+  type GsWorkerDataSerialized,
+  deserializeGsWorkerData,
 } from 'model/WorkerData'
 import exposeWorker, { type ExposedFuncType } from 'utils/worker/expose'
 
@@ -21,13 +21,14 @@ const eqFunc = (newArgs: GetPredicateParams, oldArgs: GetPredicateParams) =>
 
 const getPredicateMemoized = memoizeOne(getPredicate, eqFunc)
 
-const func = (data: KoWorkerDataSerialized<Team>) => {
-  const { season, pots, matchups } = deserializeKoWorkerData(data)
+const func = (data: GsWorkerDataSerialized<Team>) => {
+  const { season, pots, groups, selectedTeam } = deserializeGsWorkerData(data)
 
   const predicate = getPredicateMemoized(season)
-  return getPossiblePairings({
+  return allPossibleGroups({
     pots,
-    matchups,
+    groups,
+    picked: selectedTeam,
     predicate,
   })
 }

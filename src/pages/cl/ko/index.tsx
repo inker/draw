@@ -1,9 +1,9 @@
 import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import { random, shuffle } from 'lodash'
+import { orderBy, random, shuffle } from 'lodash'
 
 import { type FixedArray } from 'model/types'
 import type Team from 'model/team/KnockoutTeam'
-import { serializeKoWorkerData } from 'model/WorkerData'
+import { serializeGsWorkerData } from 'model/WorkerData'
 
 import usePopup from 'store/usePopup'
 import useDrawId from 'store/useDrawId'
@@ -80,13 +80,26 @@ function CLKO({ season, pots: initialPots }: Props) {
       newPots: FixedArray<readonly Team[], 2>,
       newMatchups: readonly [Team, Team][],
     ) => {
+      const [newGwPot, newRuPot] = newPots
+      const initialGwPot = initialPots[0]
+      // @ts-expect-error Expected
+      // eslint-disable-next-line @typescript-eslint/no-non-null-asserted-optional-chain
+      const selectedTeam = newMatchups.find(m => m.length === 1)?.at(-1)!
+      const groups = initialGwPot.map(gw => {
+        const ru = newMatchups.find(pair => pair[1] === gw)?.[0]
+        return ru ? [gw, ru] : [gw]
+      })
       try {
-        return await getPossiblePairingsResponse(
-          serializeKoWorkerData({
+        const allPossibleGroups = await getPossiblePairingsResponse(
+          serializeGsWorkerData({
             season,
-            pots: newPots,
-            matchups: newMatchups,
+            pots: [[], newRuPot],
+            groups,
+            selectedTeam,
           }),
+        )
+        return orderBy(
+          allPossibleGroups.map(i => newGwPot.indexOf(groups[i][0])),
         )
       } catch (err) {
         setPopup({
@@ -95,7 +108,7 @@ function CLKO({ season, pots: initialPots }: Props) {
         throw err
       }
     },
-    [season, getPossiblePairingsResponse],
+    [season, initialPots, getPossiblePairingsResponse],
   )
 
   const handleBallPick = useCallback(
@@ -155,7 +168,7 @@ function CLKO({ season, pots: initialPots }: Props) {
     () =>
       possiblePairings &&
       pots[0].filter((team, i) => possiblePairings.includes(i)),
-    [possiblePairings],
+    [possiblePairings, pots],
   )
 
   const completed = currentMatchupNum >= initialPots[0].length

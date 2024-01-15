@@ -1,18 +1,27 @@
 import type Team from 'model/team/KnockoutTeam'
 import { type Predicate } from 'engine/backtracking/gs'
+import getSmallestArrayLength from 'utils/getSmallestArrayLength'
 
 import incompatibleCountries from '../utils/incompatibleCountries'
+
+const isFrom = (country: string) => (team: Team) => team.country === country
+
+const isFromCountryOf = (team: Team) => isFrom(team.country)
 
 export default (season: number): Predicate<Team> => {
   const isCountryIncompatibleWith = incompatibleCountries(season)
 
-  const areCompatible = (a: Team, b: Team) =>
-    a.country !== b.country &&
-    a.group !== b.group &&
-    !isCountryIncompatibleWith(a)(b)
+  return (picked, groups, groupIndex) => {
+    const { group: pickedGroup } = picked
+    const group = groups[groupIndex]
+    const currentPotIndex = getSmallestArrayLength(groups)
 
-  const canFit = (pair: readonly Team[], picked: Team) =>
-    pair.length === 0 || (pair.length === 1 && areCompatible(picked, pair[0]))
+    const isImpossible =
+      group.length > currentPotIndex ||
+      group.some(team => team.group === pickedGroup) ||
+      group.some(isFromCountryOf(picked)) ||
+      group.some(isCountryIncompatibleWith(picked))
 
-  return (picked, groups, groupIndex) => canFit(groups[groupIndex], picked)
+    return !isImpossible
+  }
 }
