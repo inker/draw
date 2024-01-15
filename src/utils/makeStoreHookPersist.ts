@@ -63,7 +63,7 @@ export default <S>(key: string, initialState: S, options?: Options<S>) => {
           console.error(err)
         }
       },
-      [setStoredValue],
+      [setStoredValue, storedValue],
     )
 
     const reset = useCallback(() => {

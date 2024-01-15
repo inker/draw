@@ -24,7 +24,7 @@
     "url": "git+https://github.com/inker/draw.git"
   },
   "scripts": {
-    "prepare": "husky install",
+    "prepare": "patch-package && husky install",
     "pre-commit": "lint-staged --allow-empty",
     "lint:js": "eslint --ext .ts,.tsx --max-warnings=0 src",
     "lint:css": "stylelint './src/**/*.{ts,tsx}'",
@@ -87,6 +87,7 @@
     "lint-staged": "^15.1.0",
     "mini-css-extract-plugin": "^2.6.0",
     "npm-run-all": "^4.1.5",
+    "patch-package": "^8.0.0",
     "postcss-styled-syntax": "^0.6.1",
     "style-loader": "^3.3.1",
     "stylelint": "^16.0.2",

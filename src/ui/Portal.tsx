@@ -20,7 +20,7 @@ const Portal = ({ tagName, modalRoot, children }: Props) => {
         ? HTML_NAMESPACE
         : SVG_NAMESPACE
     return document.createElementNS(ns, tagName) as HTMLElement
-  }, [tagName, modalRoot])
+  }, [tagName])
 
   const elRef = useRef<Element>(el)
 
@@ -37,7 +37,7 @@ const Portal = ({ tagName, modalRoot, children }: Props) => {
     return () => {
       el.remove()
     }
-  }, [])
+  }, [el, modalRoot])
 
   return ReactDOM.createPortal(
     children,

@@ -25,7 +25,7 @@ export default () => {
         ...partialState,
       }))
     },
-    [set],
+    [],
   )
   return [popupState, setPartialPopupState] as const
 }

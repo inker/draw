@@ -208,7 +208,7 @@ function CLGS({ season, pots: initialPots, isFirstPotShortDraw }: Props) {
         groups: newGroups,
       }))
     },
-    [pots, groups, selectedTeam, currentPotNum, hungPot],
+    [selectedTeam, groups, pots, currentPotNum],
   )
 
   useEffect(() => {

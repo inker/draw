@@ -124,7 +124,7 @@ function ELKO({ season, pots: initialPots }: Props) {
         throw err
       }
     },
-    [season, initialPots, getPossiblePairingsResponse],
+    [initialPots, getPossiblePairingsResponse, season],
   )
 
   const handleBallPick = useCallback(
@@ -170,7 +170,7 @@ function ELKO({ season, pots: initialPots }: Props) {
       matchups,
       currentPotNum,
       currentMatchupNum,
-      possiblePairings,
+      getPossiblePairings,
     ],
   )
 

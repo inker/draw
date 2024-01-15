@@ -15,15 +15,12 @@ export default <S>(initialState: S | (() => S)) => {
       }
     }, [])
 
-    const setStateNew = useCallback(
-      (newValue: React.SetStateAction<S>) => {
-        state = newValue instanceof Function ? newValue(state) : newValue
-        for (const listener of listeners) {
-          listener(state)
-        }
-      },
-      [state, listeners],
-    )
+    const setStateNew = useCallback((newValue: React.SetStateAction<S>) => {
+      state = newValue instanceof Function ? newValue(state) : newValue
+      for (const listener of listeners) {
+        listener(state)
+      }
+    }, [])
 
     return [state, setStateNew] as const
   }

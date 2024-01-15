@@ -8,6 +8,7 @@ module.exports = {
 
   plugins: [
     // 'import',
+    'react-hooks',
     '@typescript-eslint',
   ],
 
@@ -173,6 +174,22 @@ module.exports = {
       2,
       {
         extensions: ['.jsx', '.tsx'],
+      },
+    ],
+
+    'react-hooks/rules-of-hooks': 2,
+    'react-hooks/exhaustive-deps': [
+      2,
+      {
+        disabledHooks: ['useEffect', 'useLayoutEffect'],
+        staticHooks: {
+          useDrawId: [false, true],
+          useFastDraw: [false, true],
+          usePopup: [false, true],
+          useStore: [false, true],
+          useTheme: [false, true],
+          useXRay: [false, true],
+        },
       },
     ],
 

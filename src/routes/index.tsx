@@ -73,7 +73,7 @@ function Routing() {
     (tm: Tournament, sg: Stage, sn?: number) => {
       navigate(`/${tm}/${sg}${sn ? `/${sn}` : ''}`)
     },
-    [],
+    [navigate],
   )
 
   return (

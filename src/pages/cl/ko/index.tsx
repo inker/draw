@@ -165,7 +165,7 @@ function CLKO({ season, pots: initialPots }: Props) {
       matchups,
       currentPotNum,
       currentMatchupNum,
-      possiblePairings,
+      getPossiblePairings,
     ],
   )
 
