@@ -10,7 +10,6 @@ const requireFlag = require.context('flag-icons/flags/4x3/', false, /\.svg$/)
 const requireAltFlag = require.context('assets/altFlags/', false, /\.svg$/)
 
 const flags = {
-  Belarus: requireAltFlag('./bcb.svg'),
   Moldova: requireAltFlag('./mda.svg'),
 } as const
 
