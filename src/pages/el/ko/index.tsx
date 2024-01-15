@@ -1,5 +1,5 @@
 import { memo, useCallback, useEffect, useRef, useState } from 'react'
-import { random, shuffle, without } from 'lodash'
+import { random, shuffle, stubArray, without } from 'lodash'
 
 import { type FixedArray, type SingleOrPair } from 'model/types'
 import type Team from 'model/team/KnockoutTeam'
@@ -56,7 +56,7 @@ function getState(
     possiblePairings: null,
     pots,
     potsToDisplay: [null, pots[1]],
-    matchups: Array.from({ length: numMatchups }, () => [] as any),
+    matchups: Array.from({ length: numMatchups }, stubArray),
   }
 }
 

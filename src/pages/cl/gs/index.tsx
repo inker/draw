@@ -1,7 +1,7 @@
 import { memo, useCallback, useEffect, useRef, useState } from 'react'
 import { css } from 'styled-components'
 
-import { random, sample, shuffle } from 'lodash'
+import { random, sample, shuffle, stubArray } from 'lodash'
 
 import type Team from 'model/team/GsTeam'
 import { serializeGsWorkerData } from 'model/WorkerData'
@@ -68,7 +68,7 @@ function getState(initialPots: readonly (readonly Team[])[]): State {
     possibleGroups: null,
     possibleGroupsShuffled: null,
     pots,
-    groups: initialPots[0].map(() => [] as Team[]),
+    groups: initialPots[0].map(stubArray),
   }
 }
 
