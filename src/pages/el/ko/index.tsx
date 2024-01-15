@@ -128,9 +128,9 @@ function ELKO({ season, pots: initialPots }: Props) {
   )
 
   const handleBallPick = useCallback(
-    async (i: number) => {
+    async (index: number) => {
       const currentPot = potsToDisplay[currentPotNum]!
-      const pickedTeam = currentPot[i]
+      const pickedTeam = currentPot[index]
 
       const newPots = pots.with(
         currentPotNum,
@@ -150,7 +150,7 @@ function ELKO({ season, pots: initialPots }: Props) {
           : null
 
       const gwPot = newPossiblePairings
-        ? newPots[0].filter((_, j) => newPossiblePairings.includes(j))
+        ? newPots[0].filter((_, i) => newPossiblePairings.includes(i))
         : null
       const newPotsToDisplay = [gwPot, pots[1]] as const
 
