@@ -17,6 +17,8 @@ export type Confederation = Countries[Country]['confederation']
 
 export type SingleOrPair<T> = readonly [T] | readonly [T, T]
 
+export type EmptyOrSingleOrPair<T> = readonly [] | SingleOrPair<T>
+
 type Grow<T, A extends T[]> = ((x: T, ...xs: A) => void) extends (
   ...a: infer X
 ) => void

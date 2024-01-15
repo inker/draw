@@ -1,7 +1,7 @@
 import { memo, useCallback, useEffect, useRef, useState } from 'react'
 import { random, shuffle, stubArray, without } from 'lodash'
 
-import { type FixedArray, type SingleOrPair } from 'model/types'
+import { type EmptyOrSingleOrPair, type FixedArray } from 'model/types'
 import type Team from 'model/team/KnockoutTeam'
 import { serializeGsWorkerData } from 'model/WorkerData'
 
@@ -36,7 +36,7 @@ interface State {
   possiblePairings: readonly number[] | null
   pots: FixedArray<readonly Team[], 2>
   potsToDisplay: readonly [readonly Team[] | null, readonly Team[]]
-  matchups: readonly SingleOrPair<Team>[]
+  matchups: readonly EmptyOrSingleOrPair<Team>[]
 }
 
 function getState(initialPots: FixedArray<readonly Team[], 2>): State {
@@ -52,7 +52,7 @@ function getState(initialPots: FixedArray<readonly Team[], 2>): State {
     possiblePairings: null,
     pots,
     potsToDisplay: [null, pots[1]],
-    matchups: Array.from({ length: numMatchups }, stubArray),
+    matchups: Array.from({ length: numMatchups }, stubArray as () => []),
   }
 }
 
@@ -90,7 +90,7 @@ function CLKO({ season, pots: initialPots }: Props) {
   const getPossiblePairings = useCallback(
     async (
       newPots: FixedArray<readonly Team[], 2>,
-      newMatchups: readonly SingleOrPair<Team>[],
+      newMatchups: readonly EmptyOrSingleOrPair<Team>[],
     ) => {
       const [newGwPot, newRuPot] = newPots
       const initialGwPot = initialPots[0]

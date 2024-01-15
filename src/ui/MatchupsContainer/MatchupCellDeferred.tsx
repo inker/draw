@@ -14,7 +14,7 @@ import MovingContent from 'ui/MovingContent'
 import MatchupCellBase from './MatchupCellBase'
 
 interface Props {
-  team: Team
+  team: Team | undefined
 }
 
 function MatchupCellDeferred({ team }: Props) {

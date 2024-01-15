@@ -1,7 +1,7 @@
 import { memo } from 'react'
 import styled from 'styled-components'
 
-import { type SingleOrPair } from 'model/types'
+import { type EmptyOrSingleOrPair } from 'model/types'
 import type Team from 'model/team/Club'
 
 import Row from 'ui/table/Row'
@@ -21,7 +21,7 @@ const VersusCell = styled(Content)`
 `
 
 interface Props {
-  teams: SingleOrPair<Team> | null
+  teams: EmptyOrSingleOrPair<Team> | null
 }
 
 function Matchup({ teams }: Props) {
@@ -29,11 +29,11 @@ function Matchup({ teams }: Props) {
 
   return (
     <Row>
-      <MatchupCellDeferred team={ru!} />
+      <MatchupCellDeferred team={ru} />
       <Cell>
         <VersusCell />
       </Cell>
-      <MatchupCellDeferred team={gw!} />
+      <MatchupCellDeferred team={gw} />
     </Row>
   )
 }
