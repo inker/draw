@@ -16,56 +16,57 @@ const lastCommitHash = getLastCommitHash()
  * @param {boolean} isDev
  * @returns {import('webpack').Configuration['plugins']}
  */
-module.exports = isDev => [
-  new webpack.DefinePlugin({
-    'process.env': {
-      NODE_ENV: JSON.stringify(isDev ? 'development' : 'production'),
-    },
-  }),
-
-  isDev && new CleanTerminalPlugin(),
-
-  !isDev &&
-    new MiniCssExtractPlugin({
-      filename: '[name].[contenthash:8].css',
+module.exports = isDev =>
+  [
+    new webpack.DefinePlugin({
+      'process.env': {
+        NODE_ENV: JSON.stringify(isDev ? 'development' : 'production'),
+      },
     }),
 
-  new HtmlWebpackPlugin({
-    filename: 'index.html',
-    template: 'src/template.html',
-    minify: {
-      removeComments: true,
-      collapseWhitespace: true,
-      removeRedundantAttributes: true,
-      useShortDoctype: true,
-      removeEmptyAttributes: true,
-      removeStyleLinkTypeAttributes: true,
-      keepClosingSlash: true,
-      minifyJS: true,
-      minifyCSS: true,
-      minifyURLs: true,
-    },
-    meta: {
-      version: lastCommitHash,
-      'modification-date': currentDate,
-    },
-  }),
+    isDev && new CleanTerminalPlugin(),
 
-  // new CopyWebpackPlugin([
-  //   {
-  //     from: 'src/404.html',
-  //   }
-  // ]),
+    !isDev &&
+      new MiniCssExtractPlugin({
+        filename: '[name].[contenthash:8].css',
+      }),
 
-  isDev && new ForkTsCheckerWebpackPlugin(),
-
-  isDev &&
-    new ESLintPlugin({
-      extensions: ['js', 'mjs', 'jsx', 'ts', 'tsx'],
-      emitWarning: true,
-      failOnError: false,
-      cache: true,
+    new HtmlWebpackPlugin({
+      filename: 'index.html',
+      template: 'src/template.html',
+      minify: {
+        removeComments: true,
+        collapseWhitespace: true,
+        removeRedundantAttributes: true,
+        useShortDoctype: true,
+        removeEmptyAttributes: true,
+        removeStyleLinkTypeAttributes: true,
+        keepClosingSlash: true,
+        minifyJS: true,
+        minifyCSS: true,
+        minifyURLs: true,
+      },
+      meta: {
+        version: lastCommitHash,
+        'modification-date': currentDate,
+      },
     }),
 
-  process.env.npm_config_report && new BundleAnalyzerPlugin(),
-].filter(Boolean)
+    // new CopyWebpackPlugin([
+    //   {
+    //     from: 'src/404.html',
+    //   }
+    // ]),
+
+    isDev && new ForkTsCheckerWebpackPlugin(),
+
+    isDev &&
+      new ESLintPlugin({
+        extensions: ['js', 'mjs', 'jsx', 'ts', 'tsx'],
+        emitWarning: true,
+        failOnError: false,
+        cache: true,
+      }),
+
+    process.env.npm_config_report && new BundleAnalyzerPlugin(),
+  ].filter(Boolean)
