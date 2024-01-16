@@ -1,4 +1,4 @@
-import getRandomId from 'utils/getRandomId'
+import getRandomId from '#utils/getRandomId'
 
 export default <Request, Response>(worker: Worker) => {
   interface ReceivedMessage {

@@ -1,6 +1,6 @@
 import { type Alpha2Code } from 'i18n-iso-countries'
 
-import { type Confederation } from 'model/types'
+import { type Confederation } from '#model/types'
 
 type Flag = Lowercase<Alpha2Code> | `gb-${string}`
 

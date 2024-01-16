@@ -1,10 +1,9 @@
 import { forwardRef, memo } from 'react'
 import styled from 'styled-components'
 
-import { type EmptyOrSingleOrPair } from 'model/types'
-import type Team from 'model/team/Club'
-
-import Table from 'ui/table/Table'
+import { type EmptyOrSingleOrPair } from '#model/types'
+import type Team from '#model/team/Club'
+import Table from '#ui/table/Table'
 
 import Matchup from './Matchup'
 

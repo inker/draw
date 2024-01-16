@@ -1,10 +1,9 @@
 import { memo, useCallback } from 'react'
 import { range } from 'lodash'
 
-import type Tournament from 'model/Tournament'
-import type Stage from 'model/Stage'
-
-import Select from 'ui/SelectWithHiddenLabel'
+import type Tournament from '#model/Tournament'
+import type Stage from '#model/Stage'
+import Select from '#ui/SelectWithHiddenLabel'
 
 import currentSeasonByTournament from '../currentSeasonByTournament'
 

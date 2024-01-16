@@ -1,7 +1,7 @@
 import { memo } from 'react'
 import styled from 'styled-components'
 
-import getGroupLetter from 'utils/getGroupLetter'
+import getGroupLetter from '#utils/getGroupLetter'
 
 import Roundel from './Roundel'
 

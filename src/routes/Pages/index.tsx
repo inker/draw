@@ -2,14 +2,12 @@ import { memo, useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import delay from 'delay.js'
 
-import type Team from 'model/team'
-import UnknownNationalTeam from 'model/team/UnknownNationalTeam'
-import type Tournament from 'model/Tournament'
-import type Stage from 'model/Stage'
-
-import usePopup from 'store/usePopup'
-
-import { isFirefox } from 'utils/browser'
+import type Team from '#model/team'
+import UnknownNationalTeam from '#model/team/UnknownNationalTeam'
+import type Tournament from '#model/Tournament'
+import type Stage from '#model/Stage'
+import { isFirefox } from '#utils/browser'
+import usePopup from '#store/usePopup'
 
 import currentSeasonByTournament from '../currentSeasonByTournament'
 

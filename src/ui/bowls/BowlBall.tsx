@@ -7,9 +7,8 @@ import {
 } from 'react'
 import styled, { css } from 'styled-components'
 
-import useGlobalEvent from 'utils/hooks/useGlobalEvent'
-
-import Ball from 'ui/Ball'
+import useGlobalEvent from '#utils/hooks/useGlobalEvent'
+import Ball from '#ui/Ball'
 
 // TODO: Fix transient props
 

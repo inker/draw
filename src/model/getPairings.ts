@@ -1,6 +1,5 @@
-import defaultPairings from 'data/pairings.json'
-
-import type Tournament from 'model/Tournament'
+import defaultPairings from '#data/pairings.json'
+import type Tournament from '#model/Tournament'
 
 export default async (season: number, tournament: Tournament) => {
   try {

@@ -1,5 +1,7 @@
 const path = require('path')
 
+const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin')
+
 const optimization = require('./optimization')
 const rules = require('./rules')
 const plugins = require('./plugins')
@@ -50,6 +52,7 @@ module.exports = env => {
             // 'react': path.join(rootDir, 'node_modules/react/dist/react.min.js'),
             // 'react-dom': path.join(rootDir, 'node_modules/react-dom/dist/react-dom.min.js'),
           },
+      plugins: [new TsconfigPathsPlugin({})],
     },
     devtool: isDev ? 'eval-source-map' : undefined,
     optimization: optimization(isDev),

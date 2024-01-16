@@ -23,11 +23,22 @@
     "type": "git",
     "url": "git+https://github.com/inker/draw.git"
   },
+  "imports": {
+    "#assets/*": "./src/assets/*",
+    "#data/*": "./src/data/*",
+    "#engine/*": "./src/engine/*",
+    "#model/*": "./src/model/*",
+    "#pages/*": "./src/pages/*",
+    "#routes/*": "./src/routes/*",
+    "#store/*": "./src/store/*",
+    "#ui/*": "./src/ui/*",
+    "#utils/*": "./src/utils/*"
+  },
   "scripts": {
     "prepare": "patch-package && husky install",
     "pre-commit": "lint-staged --allow-empty",
-    "lint:js": "eslint --ext .ts,.tsx --max-warnings=0 src",
-    "lint:css": "stylelint './src/**/*.{ts,tsx}'",
+    "lint:js": "eslint --ext .ts,.tsx,.js,.jsx --max-warnings=0 src",
+    "lint:css": "stylelint './src/**/*.{ts,tsx,js,jsx,css,scss,postcss}'",
     "lint": "run-p -c \"lint:css -- {1}\" \"lint:js -- {1}\" --",
     "prettier": "prettier --cache --check .",
     "check-types": "tsc --project tsconfig.json --noEmit",
@@ -95,6 +106,7 @@
     "stylelint-config-standard": "^36.0.0",
     "stylelint-order": "^6.0.3",
     "terser-webpack-plugin": "^5.3.1",
+    "tsconfig-paths-webpack-plugin": "^4.1.0",
     "typescript": "^5.0.4",
     "webpack": "^5.76.0",
     "webpack-bundle-analyzer": "^4.5.0",

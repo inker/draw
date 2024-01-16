@@ -1,13 +1,13 @@
 import memoizeOne from 'memoize-one'
 
-import { allPossibleGroups } from 'engine/backtracking/gs'
-import getPredicate from 'engine/predicates/uefa/ko'
-import type Team from 'model/team/KnockoutTeam'
+import { allPossibleGroups } from '#engine/backtracking/gs'
+import getPredicate from '#engine/predicates/uefa/ko'
+import type Team from '#model/team/KnockoutTeam'
 import {
   type GsWorkerDataSerialized,
   deserializeGsWorkerData,
-} from 'model/WorkerData'
-import exposeWorker, { type ExposedFuncType } from 'utils/worker/expose'
+} from '#model/WorkerData'
+import exposeWorker, { type ExposedFuncType } from '#utils/worker/expose'
 
 type GetPredicateParams = Parameters<typeof getPredicate>
 

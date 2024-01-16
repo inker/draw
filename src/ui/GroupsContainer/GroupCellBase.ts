@@ -1,6 +1,6 @@
 import styled, { css, keyframes } from 'styled-components'
 
-import Cell from 'ui/table/Cell'
+import Cell from '#ui/table/Cell'
 
 const PossibleLight = keyframes`
   from {

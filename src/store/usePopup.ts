@@ -1,6 +1,6 @@
 import { useCallback } from 'react'
 
-import makeStoreHook from 'utils/makeStoreHook'
+import makeStoreHook from '#utils/makeStoreHook'
 
 interface PopupState {
   initial: boolean

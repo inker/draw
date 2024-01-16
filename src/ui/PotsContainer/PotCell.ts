@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 
-import Cell from 'ui/table/Cell'
+import Cell from '#ui/table/Cell'
 
 const PotCell = styled(Cell)`
   & + & {

@@ -1,8 +1,7 @@
-import type Club from 'model/team/Club'
-import type NationalTeam from 'model/team/NationalTeam'
-
-import getCountryFlagUrl from 'utils/getCountryFlagUrl'
-import prefetchImage from 'utils/prefetchImage'
+import type Club from '#model/team/Club'
+import type NationalTeam from '#model/team/NationalTeam'
+import getCountryFlagUrl from '#utils/getCountryFlagUrl'
+import prefetchImage from '#utils/prefetchImage'
 
 type TeamWithCountryAndName = Club | NationalTeam
 

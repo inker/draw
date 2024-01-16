@@ -1,7 +1,7 @@
 import { type ReactNode, memo } from 'react'
 
-import makeStyleClass from 'utils/makeStyleClass'
-import Portal from 'ui/Portal'
+import makeStyleClass from '#utils/makeStyleClass'
+import Portal from '#ui/Portal'
 
 const airborneDivClass = makeStyleClass`
   position: fixed;

@@ -1,7 +1,7 @@
-import type Tournament from 'model/Tournament'
-import { isValidTournament } from 'model/Tournament'
-import type Stage from 'model/Stage'
-import { isValidStage } from 'model/Stage'
+import type Tournament from '#model/Tournament'
+import { isValidTournament } from '#model/Tournament'
+import type Stage from '#model/Stage'
+import { isValidStage } from '#model/Stage'
 
 export default async (tournament: Tournament, stage: Stage) => {
   if (!isValidTournament(tournament)) {

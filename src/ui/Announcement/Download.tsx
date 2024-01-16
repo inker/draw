@@ -1,11 +1,11 @@
 import { type RefObject, memo, useCallback, useEffect, useState } from 'react'
 import delay from 'delay.js'
 
-import ButtonLink from 'ui/ButtonLink'
-import NoTransitions from 'ui/NoTransitions'
+import ButtonLink from '#ui/ButtonLink'
+import NoTransitions from '#ui/NoTransitions'
 
 const saveScreenshotPromise = import(
-  /* webpackChunkName: "screenshot", webpackPrefetch: true */ 'utils/saveScreenshot'
+  /* webpackChunkName: "screenshot", webpackPrefetch: true */ '#utils/saveScreenshot'
 )
 
 interface Props {

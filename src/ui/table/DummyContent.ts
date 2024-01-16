@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 
-import Content from 'ui/table/Content'
+import Content from '#ui/table/Content'
 
 const DummyContent = styled(Content)`
   visibility: hidden;

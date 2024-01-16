@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 
-import Table from 'ui/table/Table'
+import Table from '#ui/table/Table'
 
 interface Props {
   $highlighted?: boolean

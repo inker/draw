@@ -1,29 +1,25 @@
 import { memo, useCallback, useEffect, useRef, useState } from 'react'
 import { css } from 'styled-components'
-
 import { random, sample, shuffle, stubArray } from 'lodash'
 
-import type Team from 'model/team/GsTeam'
-import { serializeGsWorkerData } from 'model/WorkerData'
+import PageRoot from '#ui/PageRoot'
+import PotsContainer from '#ui/PotsContainer'
+import GroupsContainer from '#ui/GroupsContainer'
+import TablesContainer from '#ui/TablesContainer'
+import BowlsContainer from '#ui/BowlsContainer'
+import TeamBowl from '#ui/bowls/TeamBowl'
+import GroupBowl from '#ui/bowls/GroupBowl'
+import Announcement from '#ui/Announcement'
+import { serializeGsWorkerData } from '#model/WorkerData'
+import type Team from '#model/team/GsTeam'
+import useXRay from '#store/useXRay'
+import useFastDraw from '#store/useFastDraw'
+import useDrawId from '#store/useDrawId'
+import usePopup from '#store/usePopup'
+import useWorkerSendAndReceive from '#utils/hooks/useWorkerSendAndReceive'
 
-import usePopup from 'store/usePopup'
-import useDrawId from 'store/useDrawId'
-import useFastDraw from 'store/useFastDraw'
-import useXRay from 'store/useXRay'
-
-import useWorkerSendAndReceive from 'utils/hooks/useWorkerSendAndReceive'
-
-import PageRoot from 'ui/PageRoot'
-import PotsContainer from 'ui/PotsContainer'
-import GroupsContainer from 'ui/GroupsContainer'
-import TablesContainer from 'ui/TablesContainer'
-import BowlsContainer from 'ui/BowlsContainer'
-import TeamBowl from 'ui/bowls/TeamBowl'
-import GroupBowl from 'ui/bowls/GroupBowl'
-import Announcement from 'ui/Announcement'
-
-import { type Func as FirstPossibleGroupFunc } from './firstPossibleGroupWorker'
 import { type Func as AllPossibleGroupsFunc } from './allPossibleGroupsWorker'
+import { type Func as FirstPossibleGroupFunc } from './firstPossibleGroupWorker'
 
 const createAllPossibleGroupsWorker = () =>
   new Worker(new URL('./allPossibleGroupsWorker', import.meta.url))

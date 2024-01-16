@@ -1,7 +1,7 @@
 import { useCallback } from 'react'
 import { stubTrue } from 'lodash'
 
-import makeStoreHook from 'utils/makeStoreHook'
+import makeStoreHook from '#utils/makeStoreHook'
 
 interface Options<ParsedType> {
   parse: (storedValue: string) => ParsedType

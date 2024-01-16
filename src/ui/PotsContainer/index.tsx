@@ -2,7 +2,7 @@ import { memo } from 'react'
 import { css } from 'styled-components'
 import { difference } from 'lodash'
 
-import type Team from 'model/team'
+import type Team from '#model/team'
 
 import Root from './Root'
 import Pot from './Pot'

@@ -5,7 +5,17 @@
     "moduleResolution": "Bundler",
     "skipLibCheck": true,
     "allowSyntheticDefaultImports": true,
-    "baseUrl": "./src",
+    "paths": {
+      "#assets/*": ["./src/assets/*"],
+      "#data/*": ["./src/data/*"],
+      "#engine/*": ["./src/engine/*"],
+      "#model/*": ["./src/model/*"],
+      "#pages/*": ["./src/pages/*"],
+      "#routes/*": ["./src/routes/*"],
+      "#store/*": ["./src/store/*"],
+      "#ui/*": ["./src/ui/*"],
+      "#utils/*": ["./src/utils/*"]
+    },
     // "sourceMap": true, // not needed when assembled with webpack
     // "watch": true, // not needed when assembled with webpack
     "pretty": true,

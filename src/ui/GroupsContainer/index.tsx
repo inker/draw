@@ -1,9 +1,9 @@
 import { forwardRef, memo } from 'react'
 import styled, { type Interpolation } from 'styled-components'
 
-import type Club from 'model/team/Club'
-import type NationalTeam from 'model/team/NationalTeam'
-import getGroupLetter from 'utils/getGroupLetter'
+import type Club from '#model/team/Club'
+import type NationalTeam from '#model/team/NationalTeam'
+import getGroupLetter from '#utils/getGroupLetter'
 
 import Group from './Group'
 

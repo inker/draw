@@ -1,6 +1,6 @@
 import { identity } from 'lodash'
 
-import makeStoreHookPersist from 'utils/makeStoreHookPersist'
+import makeStoreHookPersist from '#utils/makeStoreHookPersist'
 
 const possibleValues = ['light', 'dark', 'auto'] as const
 

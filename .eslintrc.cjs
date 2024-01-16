@@ -135,6 +135,19 @@ module.exports = {
     ],
     'inker/react-ref-name': 2,
 
+    'import/extensions': [
+      2,
+      'ignorePackages',
+      {
+        js: 'never',
+        mjs: 'never',
+        ts: 'never',
+        jsx: 'never',
+        tsx: 'never',
+        vue: 'never',
+      },
+    ],
+
     'import/order': [
       2,
       {
@@ -146,7 +159,7 @@ module.exports = {
           'sibling',
           'index',
         ],
-        'newlines-between': 'always-and-inside-groups',
+        'newlines-between': 'always',
         pathGroups: [
           {
             pattern: 'react',

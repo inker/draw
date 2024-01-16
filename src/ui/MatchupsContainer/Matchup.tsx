@@ -1,12 +1,11 @@
 import { memo } from 'react'
 import styled from 'styled-components'
 
-import { type EmptyOrSingleOrPair } from 'model/types'
-import type Team from 'model/team/Club'
-
-import Row from 'ui/table/Row'
-import Cell from 'ui/table/Cell'
-import Content from 'ui/table/Content'
+import { type EmptyOrSingleOrPair } from '#model/types'
+import type Team from '#model/team/Club'
+import Row from '#ui/table/Row'
+import Cell from '#ui/table/Cell'
+import Content from '#ui/table/Content'
 
 import MatchupCellDeferred from './MatchupCellDeferred'
 

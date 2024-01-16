@@ -1,5 +1,5 @@
-import GsTeam from 'model/team/GsTeam'
-import pairUpTeams from 'model/pairUpTeams'
+import GsTeam from '#model/team/GsTeam'
+import pairUpTeams from '#model/pairUpTeams'
 
 const objectToGsTeam = (o: any) =>
   new GsTeam(o.name, o.country, o.coeffient, o.name)

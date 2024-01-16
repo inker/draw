@@ -1,10 +1,10 @@
 import { countBy, identity, mapValues, sumBy } from 'lodash'
 
-import { type Confederation } from 'model/types'
-import type NationalTeam from 'model/team/NationalTeam'
-import type UnknownNationalTeam from 'model/team/UnknownNationalTeam'
-import { type Predicate } from 'engine/backtracking/gs'
-import getSmallestArrayLength from 'utils/getSmallestArrayLength'
+import { type Confederation } from '#model/types'
+import type NationalTeam from '#model/team/NationalTeam'
+import type UnknownNationalTeam from '#model/team/UnknownNationalTeam'
+import { type Predicate } from '#engine/backtracking/gs'
+import getSmallestArrayLength from '#utils/getSmallestArrayLength'
 
 import getNumGroupsByYear from './getNumGroupsByYear'
 

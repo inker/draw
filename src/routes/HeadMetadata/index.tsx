@@ -2,7 +2,7 @@ import { memo } from 'react'
 import { useMatch } from 'react-router-dom'
 import { Helmet } from 'react-helmet'
 
-import type Tournament from 'model/Tournament'
+import type Tournament from '#model/Tournament'
 
 import data from './data'
 

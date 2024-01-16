@@ -1,4 +1,4 @@
-import getRandomId from 'utils/getRandomId'
+import getRandomId from '#utils/getRandomId'
 
 let styleElement: HTMLStyleElement
 

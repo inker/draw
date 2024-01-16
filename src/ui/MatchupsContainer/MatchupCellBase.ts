@@ -1,6 +1,6 @@
 import styled, { type Interpolation, css, keyframes } from 'styled-components'
 
-import Cell from 'ui/table/Cell'
+import Cell from '#ui/table/Cell'
 
 const AppearLight = keyframes`
   from {

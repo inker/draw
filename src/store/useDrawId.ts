@@ -1,7 +1,7 @@
 import { useCallback } from 'react'
 import { uniqueId } from 'lodash'
 
-import makeStoreHook from 'utils/makeStoreHook'
+import makeStoreHook from '#utils/makeStoreHook'
 
 const useStore = makeStoreHook(uniqueId('draw-'))
 

@@ -1,14 +1,14 @@
 import memoizeOne from 'memoize-one'
 import { orderBy } from 'lodash'
 
-import { firstPossibleGroup } from 'engine/backtracking/gs'
-import getPredicate from 'engine/predicates/wc'
-import type Team from 'model/team/NationalTeam'
+import { firstPossibleGroup } from '#engine/backtracking/gs'
+import getPredicate from '#engine/predicates/wc'
+import type Team from '#model/team/NationalTeam'
 import {
   type GsWorkerDataSerialized,
   deserializeGsWorkerData,
-} from 'model/WorkerData'
-import exposeWorker, { type ExposedFuncType } from 'utils/worker/expose'
+} from '#model/WorkerData'
+import exposeWorker, { type ExposedFuncType } from '#utils/worker/expose'
 
 type GetPredicateParams = Parameters<typeof getPredicate>
 

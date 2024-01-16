@@ -1,4 +1,4 @@
-import objectToFunction from 'utils/objectToFunction'
+import objectToFunction from '#utils/objectToFunction'
 
 const data = {
   cl: {

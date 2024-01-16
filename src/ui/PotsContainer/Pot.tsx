@@ -1,10 +1,9 @@
 import { memo } from 'react'
 import { type Interpolation } from 'styled-components'
 
-import type Team from 'model/team'
-
-import Row from 'ui/table/Row'
-import Cell from 'ui/table/Cell'
+import type Team from '#model/team'
+import Row from '#ui/table/Row'
+import Cell from '#ui/table/Cell'
 
 import Root from './PotRoot'
 import Header from './PotHeader'

@@ -1,9 +1,8 @@
 import { chunk } from 'lodash'
 
-import countries from 'data/countries'
-
-import NationalTeam from 'model/team/NationalTeam'
-import UnknownNationalTeam from 'model/team/UnknownNationalTeam'
+import countries from '#data/countries'
+import NationalTeam from '#model/team/NationalTeam'
+import UnknownNationalTeam from '#model/team/UnknownNationalTeam'
 
 const countryNameToTeam = (host: boolean) => (c: string) => {
   const ctr = countries[c as keyof typeof countries]

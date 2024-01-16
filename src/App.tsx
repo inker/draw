@@ -3,8 +3,8 @@ import styled, { ThemeProvider } from 'styled-components'
 import { HashRouter } from 'react-router-dom'
 import { constant } from 'lodash'
 
-import usePopup from 'store/usePopup'
-import useIsDarkMode from 'utils/hooks/useIsDarkMode'
+import usePopup from '#store/usePopup'
+import useIsDarkMode from '#utils/hooks/useIsDarkMode'
 
 import * as themes from './themes'
 import Body from './Body'

@@ -1,4 +1,4 @@
-import useTheme from 'store/useTheme'
+import useTheme from '#store/useTheme'
 
 import usePrefersDarkMode from './usePrefersDarkMode'
 

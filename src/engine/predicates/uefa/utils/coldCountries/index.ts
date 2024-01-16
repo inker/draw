@@ -1,4 +1,4 @@
-import { type UefaCountry } from 'model/types'
+import { type UefaCountry } from '#model/types'
 
 const coldCountries: UefaCountry[] = [
   'Belarus',

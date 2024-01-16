@@ -1,16 +1,14 @@
 import { memo, useCallback, useContext, useRef, useState } from 'react'
 import { ThemeContext } from 'styled-components'
 
-import type Club from 'model/team/Club'
-import type NationalTeam from 'model/team/NationalTeam'
-
-import usePrevious from 'utils/hooks/usePrevious'
-import useDidUpdate from 'utils/hooks/useDidUpdate'
-import getTeamCountryName from 'utils/getTeamCountryName'
-
-import ContentWithFlag from 'ui/table/ContentWithFlag'
-import DummyContent from 'ui/table/DummyContent'
-import MovingContent from 'ui/MovingContent'
+import type Club from '#model/team/Club'
+import type NationalTeam from '#model/team/NationalTeam'
+import usePrevious from '#utils/hooks/usePrevious'
+import useDidUpdate from '#utils/hooks/useDidUpdate'
+import getTeamCountryName from '#utils/getTeamCountryName'
+import ContentWithFlag from '#ui/table/ContentWithFlag'
+import DummyContent from '#ui/table/DummyContent'
+import MovingContent from '#ui/MovingContent'
 
 import GroupCellBase from './GroupCellBase'
 

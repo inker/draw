@@ -1,9 +1,8 @@
 import { memo } from 'react'
 
-import type Team from 'model/team'
-import type GsTeam from 'model/team/GsTeam'
-
-import Row from 'ui/table/Row'
+import type Team from '#model/team'
+import type GsTeam from '#model/team/GsTeam'
+import Row from '#ui/table/Row'
 
 import PotCell from './PotCell'
 import PotContent from './PotContent'

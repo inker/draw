@@ -1,8 +1,7 @@
 import { memo, useCallback } from 'react'
 
-import { type Theme } from 'store/useTheme'
-
-import Select from 'ui/SelectWithHiddenLabel'
+import { type Theme } from '#store/useTheme'
+import Select from '#ui/SelectWithHiddenLabel'
 
 interface Props {
   value: Theme

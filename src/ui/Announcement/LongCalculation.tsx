@@ -1,7 +1,7 @@
 import { memo } from 'react'
 import styled from 'styled-components'
 
-import StyledLink from 'ui/StyledLink'
+import StyledLink from '#ui/StyledLink'
 
 const Bug = styled.div`
   padding: 10px;

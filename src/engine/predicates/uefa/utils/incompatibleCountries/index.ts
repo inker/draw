@@ -1,6 +1,6 @@
 import { stubFalse } from 'lodash'
 
-import { type UefaCountry } from 'model/types'
+import { type UefaCountry } from '#model/types'
 
 import makeGetConflictingCountries from './makeGetConflictingCountries'
 

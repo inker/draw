@@ -9,13 +9,11 @@ import {
 } from 'react'
 import styled from 'styled-components'
 
-import type Team from 'model/team'
-import type Club from 'model/team/Club'
-
-import getTeamCountryName from 'utils/getTeamCountryName'
-
-import FixedOverlay from 'ui/FixedOverlay'
-import ContentWithFlag from 'ui/table/ContentWithFlag'
+import type Team from '#model/team'
+import type Club from '#model/team/Club'
+import getTeamCountryName from '#utils/getTeamCountryName'
+import FixedOverlay from '#ui/FixedOverlay'
+import ContentWithFlag from '#ui/table/ContentWithFlag'
 
 const ContentWithFlagFixed = styled(ContentWithFlag)`
   position: fixed;

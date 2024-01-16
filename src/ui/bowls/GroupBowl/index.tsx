@@ -1,7 +1,7 @@
 import { memo, useCallback } from 'react'
 import styled from 'styled-components'
 
-import getGroupLetter from 'utils/getGroupLetter'
+import getGroupLetter from '#utils/getGroupLetter'
 
 import Ball from './Ball'
 

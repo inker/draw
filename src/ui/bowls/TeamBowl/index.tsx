@@ -1,8 +1,8 @@
 import { memo, useCallback } from 'react'
 import styled from 'styled-components'
 
-import type Club from 'model/team/Club'
-import type NationalTeam from 'model/team/NationalTeam'
+import type Club from '#model/team/Club'
+import type NationalTeam from '#model/team/NationalTeam'
 
 import Ball from './Ball'
 

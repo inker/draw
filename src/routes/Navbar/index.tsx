@@ -1,19 +1,16 @@
 import { memo, useCallback } from 'react'
 import styled from 'styled-components'
 
-import type Tournament from 'model/Tournament'
-import type Stage from 'model/Stage'
-
-import useTheme from 'store/useTheme'
-
-import useMedia from 'utils/hooks/useMedia'
-import useDrawId from 'store/useDrawId'
-import useXRay from 'store/useXRay'
-import useFastDraw from 'store/useFastDraw'
-
-import Checkbox from 'ui/Checkbox'
-import Button from 'ui/Button'
-import StyledLink from 'ui/StyledLink'
+import type Tournament from '#model/Tournament'
+import type Stage from '#model/Stage'
+import useTheme from '#store/useTheme'
+import useMedia from '#utils/hooks/useMedia'
+import useDrawId from '#store/useDrawId'
+import useXRay from '#store/useXRay'
+import useFastDraw from '#store/useFastDraw'
+import Checkbox from '#ui/Checkbox'
+import Button from '#ui/Button'
+import StyledLink from '#ui/StyledLink'
 
 import SelectSeason from './SelectSeason'
 import SelectTheme from './SelectTheme'

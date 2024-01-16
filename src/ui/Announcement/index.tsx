@@ -1,12 +1,12 @@
 import { type RefObject, memo, useEffect, useRef } from 'react'
 import styled from 'styled-components'
 
-import type Club from 'model/team/Club'
-import type NationalTeam from 'model/team/NationalTeam'
-import ButtonLink from 'ui/ButtonLink'
-import Dots from 'ui/Dots'
-import Deferred from 'ui/Deferred'
-import getGroupLetter from 'utils/getGroupLetter'
+import type Club from '#model/team/Club'
+import type NationalTeam from '#model/team/NationalTeam'
+import ButtonLink from '#ui/ButtonLink'
+import Dots from '#ui/Dots'
+import Deferred from '#ui/Deferred'
+import getGroupLetter from '#utils/getGroupLetter'
 
 import PossibleGroups from './PossibleGroups'
 import LongCalculation from './LongCalculation'

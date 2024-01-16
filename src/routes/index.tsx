@@ -7,21 +7,18 @@ import {
   useNavigate,
 } from 'react-router-dom'
 
-import usePopup from 'store/usePopup'
-import useDrawId from 'store/useDrawId'
-import useFastDraw from 'store/useFastDraw'
-
-import Visibility from 'ui/Visibility'
-
-import type Tournament from 'model/Tournament'
-import type Stage from 'model/Stage'
+import Visibility from '#ui/Visibility'
+import type Tournament from '#model/Tournament'
+import type Stage from '#model/Stage'
+import useFastDraw from '#store/useFastDraw'
+import useDrawId from '#store/useDrawId'
+import usePopup from '#store/usePopup'
 
 import config from '../config'
 
 import HeadMetadata from './HeadMetadata'
 import Navbar from './Navbar'
 import Pages from './Pages'
-
 import currentSeasonByTournament from './currentSeasonByTournament'
 
 interface Path {

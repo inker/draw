@@ -1,6 +1,6 @@
 import { memoize } from 'lodash'
 
-import parseWc from 'model/parsePotsData/wc'
+import parseWc from '#model/parsePotsData/wc'
 
 async function getWcPots(season: number) {
   const txt = await import(
