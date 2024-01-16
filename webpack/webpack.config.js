@@ -3,6 +3,7 @@ const path = require('path')
 const optimization = require('./optimization')
 const rules = require('./rules')
 const plugins = require('./plugins')
+const devServer = require('./devServer')
 
 const rootDir = process.cwd()
 
@@ -56,28 +57,6 @@ module.exports = env => {
       rules: rules(isDev),
     },
     plugins: plugins(isDev),
-    devServer: /** @type {import('webpack-dev-server')} */ {
-      static: {
-        directory: distDir,
-      },
-      port: 9080,
-      compress: !isDev,
-      devMiddleware: {
-        stats: 'errors-warnings',
-      },
-      client: {
-        overlay: false,
-      },
-      historyApiFallback: {
-        rewrites: [
-          {
-            from: /./,
-            to: '/404.html',
-          },
-        ],
-      },
-      hot: isDev,
-      open: true,
-    },
+    devServer: isDev ? devServer : undefined,
   }
 }
