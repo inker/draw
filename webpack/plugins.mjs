@@ -1,21 +1,26 @@
-const webpack = require('webpack')
+import { compact } from 'lodash-es'
 
-const CleanTerminalPlugin = require('clean-terminal-webpack-plugin')
-const HtmlWebpackPlugin = require('html-webpack-plugin')
-const MiniCssExtractPlugin = require('mini-css-extract-plugin')
-const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin')
-const ESLintPlugin = require('eslint-webpack-plugin')
-const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer')
+import webpack from 'webpack'
 
-const { compact } = require('lodash')
+// @ts-expect-error No types
+import CleanTerminalPlugin from 'clean-terminal-webpack-plugin'
+import HtmlWebpackPlugin from 'html-webpack-plugin'
+import MiniCssExtractPlugin from 'mini-css-extract-plugin'
+import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin'
+import ESLintPlugin from 'eslint-webpack-plugin'
+import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer'
 
-const getCurrentDate = require('./utils/getCurrentDate')
-const getLastCommitHash = require('./utils/getLastCommitHash')
+import getCurrentDate from './utils/getCurrentDate.mjs'
+import getLastCommitHash from './utils/getLastCommitHash.mjs'
 
 const currentDate = getCurrentDate()
 const lastCommitHash = getLastCommitHash()
 
-module.exports = isDev =>
+/**
+ * @param {boolean} isDev
+ * @returns {import('webpack').Configuration['plugins']}
+ */
+export default isDev =>
   compact([
     new webpack.DefinePlugin({
       'process.env': {

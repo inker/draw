@@ -1,10 +1,17 @@
-const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+import { compact } from 'lodash-es'
+
+import MiniCssExtractPlugin from 'mini-css-extract-plugin'
 // const createStyledComponentsTransformer = require('typescript-plugin-styled-components').default
-const { compact } = require('lodash')
 
 // const styledComponentsTransformer = createStyledComponentsTransformer()
 
-module.exports = isDev =>
+/**
+ * @typedef {NonNullable<import('webpack').Configuration['module']>['rules']} Rules
+ *
+ * @param {boolean} isDev
+ * @returns {Rules}
+ */
+export default isDev =>
   compact([
     {
       test: /\.tsx?$/,

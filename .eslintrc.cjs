@@ -84,7 +84,7 @@ module.exports = {
             ],
           },
           {
-            name: 'lodash',
+            pattern: 'lodash{,-es}',
             importNames: [
               {
                 imported: 'namespace',
