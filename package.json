@@ -31,8 +31,8 @@
     "lint": "run-p -c \"lint:css -- {1}\" \"lint:js -- {1}\" --",
     "prettier": "prettier --cache --check .",
     "check-types": "tsc --project tsconfig.json --noEmit",
-    "build": "webpack --color --config webpack/webpack.config.mjs",
-    "start": "webpack serve --color --env dev --config webpack/webpack.config.mjs",
+    "build": "webpack --color --config webpack/webpack.config.js",
+    "start": "webpack serve --color --env dev --config webpack/webpack.config.js",
     "test": "echo \"No test\""
   },
   "dependencies": {

@@ -1,4 +1,4 @@
-import MiniCssExtractPlugin from 'mini-css-extract-plugin'
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 // const createStyledComponentsTransformer = require('typescript-plugin-styled-components').default
 
 // const styledComponentsTransformer = createStyledComponentsTransformer()
@@ -9,7 +9,7 @@ import MiniCssExtractPlugin from 'mini-css-extract-plugin'
  * @param {boolean} isDev
  * @returns {Rules}
  */
-export default isDev => [
+module.exports = isDev => [
   {
     test: /\.tsx?$/,
     use: {

@@ -1,10 +1,8 @@
-import * as path from 'path'
+const path = require('path')
 
-import 'webpack-dev-server'
-
-import optimization from './optimization.mjs'
-import rules from './rules.mjs'
-import plugins from './plugins.mjs'
+const optimization = require('./optimization')
+const rules = require('./rules')
+const plugins = require('./plugins')
 
 const rootDir = process.cwd()
 
@@ -16,7 +14,7 @@ const defaultEnv = {
 /**
  * @returns {import('webpack').Configuration}
  */
-export default env => {
+module.exports = env => {
   console.log('passed env:', env)
   const envOptions = {
     ...defaultEnv,
@@ -58,7 +56,7 @@ export default env => {
       rules: rules(isDev),
     },
     plugins: plugins(isDev),
-    devServer: {
+    devServer: /** @type {import('webpack-dev-server')} */ {
       static: {
         directory: distDir,
       },

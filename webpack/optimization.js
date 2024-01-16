@@ -1,11 +1,11 @@
-import TerserPlugin from 'terser-webpack-plugin'
-import CssMinimizerPlugin from 'css-minimizer-webpack-plugin'
+const TerserPlugin = require('terser-webpack-plugin')
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin')
 
 /**
  * @param {boolean} isDev
  * @returns {import('webpack').Configuration['optimization']}
  */
-export default isDev => ({
+module.exports = isDev => ({
   minimize: true,
 
   minimizer: isDev
