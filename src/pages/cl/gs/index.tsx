@@ -226,10 +226,7 @@ function CLGS({ season, pots: initialPots, isFirstPotShortDraw }: Props) {
 
   useEffect(() => {
     if (isNoGroupBallPick && possibleGroupsShuffled?.length) {
-      const index = isDrawShort
-        ? Math.min(...possibleGroupsShuffled)
-        : sample(possibleGroupsShuffled)!
-
+      const index = sample(possibleGroupsShuffled)!
       handleGroupBallPick(index)
     }
   }, [isNoGroupBallPick, possibleGroupsShuffled])
