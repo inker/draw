@@ -66,15 +66,6 @@ export default <S>(key: string, initialState: S, options?: Options<S>) => {
       [setStoredValue, storedValue],
     )
 
-    const reset = useCallback(() => {
-      setStoredValue(initialState)
-      try {
-        window.localStorage.removeItem(key)
-      } catch (err) {
-        console.error(err)
-      }
-    }, [setStoredValue])
-
-    return [storedValue, setValue, reset] as const
+    return [storedValue, setValue] as const
   }
 }
