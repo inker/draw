@@ -1,7 +1,7 @@
 import memoizeOne from 'memoize-one'
 import { orderBy } from 'lodash'
 
-import { firstPossibleGroup } from '#engine/backtracking/gs'
+import { firstPossibleGroup } from '#engine/dfs/gs'
 import getPredicate from '#engine/predicates/wc'
 import type Team from '#model/team/NationalTeam'
 import {

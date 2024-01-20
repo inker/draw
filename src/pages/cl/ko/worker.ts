@@ -1,6 +1,6 @@
 import memoizeOne from 'memoize-one'
 
-import { allPossibleGroups } from '#engine/backtracking/gs'
+import { allPossibleGroups } from '#engine/dfs/gs'
 import getPredicate from '#engine/predicates/uefa/ko'
 import type Team from '#model/team/KnockoutTeam'
 import {

@@ -1,5 +1,5 @@
 import type Team from '#model/team/KnockoutTeam'
-import { type Predicate } from '#engine/backtracking/gs'
+import { type Predicate } from '#engine/dfs/gs'
 import getSmallestArrayLength from '#utils/getSmallestArrayLength'
 
 import incompatibleCountries from '../utils/incompatibleCountries'
