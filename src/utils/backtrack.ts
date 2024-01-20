@@ -4,15 +4,22 @@ interface BacktrackOptions<C> {
   generate: (candidate: C) => C[]
 }
 
-const backtrack = <C>(candidate: C, options: BacktrackOptions<C>): boolean => {
+const backtrack = <C>(
+  candidate: C,
+  options: BacktrackOptions<C>,
+): C | undefined => {
   if (options.reject(candidate)) {
-    return false
+    return
   }
   if (options.accept(candidate)) {
-    return true
+    return candidate
   }
-  const candidates = options.generate(candidate)
-  return candidates.some(c => backtrack(c, options))
+  for (const c of options.generate(candidate)) {
+    const result = backtrack(c, options)
+    if (result !== undefined) {
+      return result
+    }
+  }
 }
 
 export default backtrack

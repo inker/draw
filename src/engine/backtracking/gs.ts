@@ -16,7 +16,7 @@ function anyGroupPossible<T>(
   groupIndex: number,
   predicate: Predicate<T>,
 ): boolean {
-  return backtrack(
+  const candidate = backtrack(
     {
       source,
       groups,
@@ -41,6 +41,7 @@ function anyGroupPossible<T>(
       },
     },
   )
+  return candidate !== undefined
 }
 
 interface Input<T> {
