@@ -1,3 +1,5 @@
+import backtrack from '#utils/backtrack'
+
 type ReadonlyDoubleArray<T> = readonly (readonly T[])[]
 
 export type Predicate<T> = (
@@ -14,26 +16,30 @@ function anyGroupPossible<T>(
   groupIndex: number,
   predicate: Predicate<T>,
 ): boolean {
-  if (!predicate(picked, groups, groupIndex)) {
-    return false
-  }
-
-  // If there are no empty items remaining, do not continue, just return true
-  if (source.length === 0) {
-    return true
-  }
-
-  // Otherwise, continue
-  // The predicate returned true, so group `groupIndex` is good
-  // Put the picked item into it
-  const newGroups = groups.with(groupIndex, [picked, ...groups[groupIndex]])
-
-  // Next, pick the head item from the current pot
-  const [newPicked, ...newSource] = source
-
-  // Determine if the picked item can be put into any group
-  return newGroups.some((_, i) =>
-    anyGroupPossible(newSource, newGroups, newPicked, i, predicate),
+  return backtrack(
+    {
+      source,
+      groups,
+      picked,
+      groupIndex,
+    },
+    {
+      reject: c => !predicate(c.picked, c.groups, c.groupIndex),
+      accept: c => c.source.length === 0,
+      generate: c => {
+        const newGroups = c.groups.with(c.groupIndex, [
+          c.picked,
+          ...c.groups[c.groupIndex],
+        ])
+        const [newPicked, ...newSource] = c.source
+        return newGroups.map((_, i) => ({
+          source: newSource,
+          groups: newGroups,
+          picked: newPicked,
+          groupIndex: i,
+        }))
+      },
+    },
   )
 }
 
