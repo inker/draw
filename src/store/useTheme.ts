@@ -24,7 +24,7 @@ const themeAtom = atomWithStorage<Theme>('store:theme', 'light', {
           return callback(newValue)
         }
         if (newValue !== null) {
-          localStorage.setItem(key, initialValue)
+          localStorage.removeItem(key)
         }
         callback(initialValue)
       }
