@@ -37,7 +37,7 @@
   "scripts": {
     "prepare": "patch-package && husky install",
     "pre-commit": "lint-staged --allow-empty",
-    "lint:js": "eslint --ext .ts,.tsx,.js,.jsx --max-warnings=0 src",
+    "lint:js": "eslint --ext .ts,.tsx,.js,.jsx --max-warnings=0 --cache src",
     "lint:css": "stylelint './src/**/*.{ts,tsx,js,jsx,css,scss,postcss}'",
     "lint": "run-p -c \"lint:css -- {1}\" \"lint:js -- {1}\" --",
     "prettier": "prettier --cache --check .",
