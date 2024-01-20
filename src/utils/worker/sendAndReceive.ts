@@ -1,5 +1,3 @@
-import getRandomId from '#utils/getRandomId'
-
 export default <Request, Response>(worker: Worker) => {
   interface ReceivedMessage {
     correlationId: string
@@ -22,7 +20,7 @@ export default <Request, Response>(worker: Worker) => {
 
   return (message: Request) =>
     new Promise<Response>(resolve => {
-      const id = getRandomId()
+      const id = global.crypto.randomUUID()
       callbacks.set(id, resolve)
       worker.postMessage({
         correlationId: id,
