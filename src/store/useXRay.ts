@@ -1,3 +1,6 @@
-import makeStoreHookPersist from '#utils/makeStoreHookPersist'
+import { useAtom } from 'jotai'
+import { atomWithStorage } from 'jotai/utils'
 
-export default makeStoreHookPersist('store:xray', false)
+const xrayAtom = atomWithStorage('store:xray', false)
+
+export default () => useAtom(xrayAtom)

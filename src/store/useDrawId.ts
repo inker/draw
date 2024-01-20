@@ -1,12 +1,11 @@
 import { useCallback } from 'react'
+import { atom, useAtom } from 'jotai'
 import { uniqueId } from 'lodash'
 
-import makeStoreHook from '#utils/makeStoreHook'
-
-const useStore = makeStoreHook(uniqueId('draw-'))
+const drawIdAtom = atom(uniqueId('draw-'))
 
 export default () => {
-  const [state, setState] = useStore()
+  const [state, setState] = useAtom(drawIdAtom)
   const setDrawId = useCallback(() => {
     setState(uniqueId('draw-'))
   }, [])

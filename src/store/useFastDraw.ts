@@ -1,3 +1,5 @@
-import makeStoreHook from '#utils/makeStoreHook'
+import { atom, useAtom } from 'jotai'
 
-export default makeStoreHook(false)
+const fastDrawAtom = atom(false)
+
+export default () => useAtom(fastDrawAtom)

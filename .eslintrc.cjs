@@ -196,10 +196,10 @@ module.exports = {
       {
         disabledHooks: ['useEffect', 'useLayoutEffect'],
         staticHooks: {
+          useAtom: [false, true],
           useDrawId: [false, true],
           useFastDraw: [false, true],
           usePopup: [false, true],
-          useStore: [false, true],
           useTheme: [false, true],
           useXRay: [false, true],
         },

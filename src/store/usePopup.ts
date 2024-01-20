@@ -1,6 +1,5 @@
 import { useCallback } from 'react'
-
-import makeStoreHook from '#utils/makeStoreHook'
+import { atom, useAtom } from 'jotai'
 
 interface PopupState {
   initial: boolean
@@ -14,10 +13,10 @@ const initialState: PopupState = {
   error: null,
 }
 
-const useStore = makeStoreHook(initialState)
+const popupAtom = atom(initialState)
 
 export default () => {
-  const [popupState, set] = useStore()
+  const [popupState, set] = useAtom(popupAtom)
   const setPartialPopupState = useCallback(
     (partialState: Partial<PopupState>) => {
       set(state => ({
