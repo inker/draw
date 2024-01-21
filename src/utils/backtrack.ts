@@ -1,6 +1,17 @@
 interface BacktrackOptions<C> {
+  /**
+   * Should current path traversal be stopped
+   */
   reject: (candidate: C) => boolean
+
+  /**
+   * Should solution be accepted
+   */
   accept: (candidate: C) => boolean
+
+  /**
+   * Generate new candidates
+   */
   generate: (candidate: C) => C[]
 }
 
