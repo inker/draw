@@ -1,4 +1,4 @@
-import backtrack from '#utils/backtrack'
+import { backtrackFirstSolution } from '#utils/backtrack'
 
 type ReadonlyDoubleArray<T> = readonly (readonly T[])[]
 
@@ -16,7 +16,7 @@ function anyGroupPossible<T>(
   groupIndex: number,
   predicate: Predicate<T>,
 ): boolean {
-  const candidate = backtrack(
+  const solution = backtrackFirstSolution(
     {
       source,
       groups,
@@ -41,7 +41,7 @@ function anyGroupPossible<T>(
       },
     },
   )
-  return candidate !== undefined
+  return solution !== undefined
 }
 
 interface Input<T> {

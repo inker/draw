@@ -4,7 +4,8 @@ interface BacktrackOptions<C> {
   generate: (candidate: C) => C[]
 }
 
-const backtrack = <C>(
+// eslint-disable-next-line import/prefer-default-export
+export const backtrackFirstSolution = <C>(
   candidate: C,
   options: BacktrackOptions<C>,
 ): C | undefined => {
@@ -15,11 +16,9 @@ const backtrack = <C>(
     return candidate
   }
   for (const newCandidate of options.generate(candidate)) {
-    const result = backtrack(newCandidate, options)
+    const result = backtrackFirstSolution(newCandidate, options)
     if (result !== undefined) {
       return result
     }
   }
 }
-
-export default backtrack
