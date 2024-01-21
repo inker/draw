@@ -14,8 +14,8 @@ const backtrack = <C>(
   if (options.accept(candidate)) {
     return candidate
   }
-  for (const c of options.generate(candidate)) {
-    const result = backtrack(c, options)
+  for (const newCandidate of options.generate(candidate)) {
+    const result = backtrack(newCandidate, options)
     if (result !== undefined) {
       return result
     }
