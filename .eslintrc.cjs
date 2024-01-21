@@ -240,4 +240,27 @@ module.exports = {
     __DEV__: true,
     __SSR__: true,
   },
+
+  overrides: [
+    {
+      files: ['tests/**/*'],
+      extends: ['plugin:vitest/recommended'],
+      rules: {
+        'import/no-extraneous-dependencies': [
+          2,
+          {
+            devDependencies: true,
+            optionalDependencies: false,
+            peerDependencies: false,
+          },
+        ],
+        'vitest/prefer-comparison-matcher': 2,
+        'vitest/prefer-equality-matcher': 2,
+        'vitest/prefer-hooks-in-order': 2,
+        'vitest/prefer-hooks-on-top': 2,
+        'vitest/prefer-to-contain': 2,
+        'vitest/prefer-to-have-length': 2,
+      },
+    },
+  ],
 }

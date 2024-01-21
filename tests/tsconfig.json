@@ -1,0 +1,11 @@
+{
+  "compilerOptions": {
+    "target": "ESNext",
+    "module": "CommonJS",
+    "declaration": true,
+    "strict": true,
+    "lib": ["DOM", "ScriptHost", "DOM.Iterable", "ESNext"],
+    "types": ["vitest/globals"]
+  },
+  "include": ["./**/*", "../vitest.config.ts"]
+}

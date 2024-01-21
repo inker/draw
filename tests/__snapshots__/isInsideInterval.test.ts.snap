@@ -1,0 +1,49 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`isInsideInterval > range: [0, 1] > value: -0 1`] = `true`;
+
+exports[`isInsideInterval > range: [0, 1] > value: -1 1`] = `false`;
+
+exports[`isInsideInterval > range: [0, 1] > value: 0 1`] = `true`;
+
+exports[`isInsideInterval > range: [0, 1] > value: 0.5 1`] = `true`;
+
+exports[`isInsideInterval > range: [0, 1] > value: 1 1`] = `true`;
+
+exports[`isInsideInterval > range: [0, 1] > value: Infinity 1`] = `false`;
+
+exports[`isInsideInterval > range: [0, Infinity] > value: -0 1`] = `true`;
+
+exports[`isInsideInterval > range: [0, Infinity] > value: -1 1`] = `false`;
+
+exports[`isInsideInterval > range: [0, Infinity] > value: 0 1`] = `true`;
+
+exports[`isInsideInterval > range: [0, Infinity] > value: 0.5 1`] = `true`;
+
+exports[`isInsideInterval > range: [0, Infinity] > value: 1 1`] = `true`;
+
+exports[`isInsideInterval > range: [0, Infinity] > value: Infinity 1`] = `true`;
+
+exports[`isInsideInterval > range: [1, 0] > value: -0 1`] = `false`;
+
+exports[`isInsideInterval > range: [1, 0] > value: -1 1`] = `false`;
+
+exports[`isInsideInterval > range: [1, 0] > value: 0 1`] = `false`;
+
+exports[`isInsideInterval > range: [1, 0] > value: 0.5 1`] = `false`;
+
+exports[`isInsideInterval > range: [1, 0] > value: 1 1`] = `false`;
+
+exports[`isInsideInterval > range: [1, 0] > value: Infinity 1`] = `false`;
+
+exports[`isInsideInterval > range: [1, 1] > value: -0 1`] = `false`;
+
+exports[`isInsideInterval > range: [1, 1] > value: -1 1`] = `false`;
+
+exports[`isInsideInterval > range: [1, 1] > value: 0 1`] = `false`;
+
+exports[`isInsideInterval > range: [1, 1] > value: 0.5 1`] = `false`;
+
+exports[`isInsideInterval > range: [1, 1] > value: 1 1`] = `true`;
+
+exports[`isInsideInterval > range: [1, 1] > value: Infinity 1`] = `false`;
