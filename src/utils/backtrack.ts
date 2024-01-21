@@ -5,7 +5,7 @@ interface BacktrackOptions<C> {
 }
 
 // eslint-disable-next-line import/prefer-default-export
-export const backtrackFirstSolution = <C>(
+export const findFirstSolution = <C>(
   candidate: C,
   options: BacktrackOptions<C>,
 ): C | undefined => {
@@ -16,7 +16,7 @@ export const backtrackFirstSolution = <C>(
     return candidate
   }
   for (const newCandidate of options.generate(candidate)) {
-    const result = backtrackFirstSolution(newCandidate, options)
+    const result = findFirstSolution(newCandidate, options)
     if (result !== undefined) {
       return result
     }
