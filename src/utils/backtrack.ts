@@ -12,7 +12,7 @@ interface BacktrackOptions<C> {
   /**
    * Generate new candidates
    */
-  generate: (candidate: C) => C[]
+  generate: (candidate: C) => Iterable<C>
 }
 
 // eslint-disable-next-line import/prefer-default-export
