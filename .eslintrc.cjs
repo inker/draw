@@ -47,6 +47,7 @@ module.exports = {
     // TODO: remove (formatting)
     indent: 0,
     'function-paren-newline': 0,
+    'generator-star-spacing': 0,
     'no-extra-semi': 0,
     'object-curly-newline': 0,
     'operator-linebreak': 0,
