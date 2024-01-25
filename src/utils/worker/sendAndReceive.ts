@@ -20,7 +20,7 @@ export default <Request, Response>(worker: Worker) => {
 
   return (message: Request) =>
     new Promise<Response>(resolve => {
-      const id = global.crypto.randomUUID()
+      const id = globalThis.crypto.randomUUID()
       callbacks.set(id, resolve)
       worker.postMessage({
         correlationId: id,
