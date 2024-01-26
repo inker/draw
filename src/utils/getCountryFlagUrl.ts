@@ -3,8 +3,6 @@ import { memoize } from 'lodash'
 import countries from '#data/countries'
 import { type Country } from '#model/types'
 
-declare const require: any
-
 const requireFlag = require.context('flag-icons/flags/4x3/', false, /\.svg$/)
 const requireAltFlag = require.context('assets/altFlags/', false, /\.svg$/)
 
@@ -19,7 +17,7 @@ function getCountryFlagUrl(country: Country) {
   }
 
   const flag = countries[country]?.flag
-  return flag ? (requireFlag(`./${flag}.svg`) as string) : undefined
+  return flag ? requireFlag(`./${flag}.svg`) : undefined
 }
 
 export default memoize(getCountryFlagUrl)

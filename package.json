@@ -83,6 +83,7 @@
     "@types/react-helmet": "^6.1.5",
     "@types/react-router-dom": "^5.3.3",
     "@types/styled-components": "^5.1.24",
+    "@types/webpack-env": "^1.18.4",
     "clean-terminal-webpack-plugin": "^3.0.0",
     "css-loader": "^6.7.1",
     "css-minimizer-webpack-plugin": "^5.0.0",
