@@ -4,7 +4,7 @@ module.exports = {
     '@inker/eslint-config-typescript',
     // 'plugin:import/errors',
     // 'plugin:import/warnings',
-    "prettier",
+    'prettier',
   ],
 
   plugins: [
