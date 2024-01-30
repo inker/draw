@@ -4,6 +4,7 @@ module.exports = {
     '@inker/eslint-config-typescript',
     // 'plugin:import/errors',
     // 'plugin:import/warnings',
+    "prettier",
   ],
 
   plugins: [
@@ -44,15 +45,6 @@ module.exports = {
   },
 
   rules: {
-    // TODO: remove (formatting)
-    indent: 0,
-    'function-paren-newline': 0,
-    'generator-star-spacing': 0,
-    'no-extra-semi': 0,
-    'object-curly-newline': 0,
-    'operator-linebreak': 0,
-    'react/jsx-wrap-multilines': 0,
-
     'object-property-newline': [
       2,
       {
