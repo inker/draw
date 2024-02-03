@@ -14,7 +14,7 @@ async function getPotsFromBert(
   const [data, pairings] = await Promise.all([
     import(
       /* webpackChunkName: "pots/[request]" */
-      `data/${tournament}/${stage}/${season}/pots.json`
+      `../../data/${tournament}/${stage}/${season}/pots.json`
     ).then(mod => mod.default),
     getPairings(season, tournament),
   ])

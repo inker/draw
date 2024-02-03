@@ -4,7 +4,7 @@ import parseWc from '#model/parsePotsData/wc'
 
 async function getWcPots(season: number) {
   const txt = await import(
-    /* webpackChunkName: "wc-data-[request]" */ `data/wc-${season}.txt`
+    /* webpackChunkName: "wc-data-[request]" */ `../../data/wc-${season}.txt`
   )
   const [ths, rest] = (txt.default as string)
     .trim()

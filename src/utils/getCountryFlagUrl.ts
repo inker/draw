@@ -4,7 +4,7 @@ import countries from '#data/countries'
 import { type Country } from '#model/types'
 
 const requireFlag = require.context('flag-icons/flags/4x3/', false, /\.svg$/)
-const requireAltFlag = require.context('assets/altFlags/', false, /\.svg$/)
+const requireAltFlag = require.context('../assets/altFlags/', false, /\.svg$/)
 
 const flags = {
   Moldova: requireAltFlag('./mda.svg'),

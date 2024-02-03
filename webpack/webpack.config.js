@@ -44,7 +44,6 @@ module.exports = env => {
     },
     resolve: {
       extensions: ['.ts', '.tsx', '.js', '.jsx'],
-      modules: [path.resolve(rootDir, 'src'), 'node_modules'],
       alias: isDev
         ? undefined
         : {
