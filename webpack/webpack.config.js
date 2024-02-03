@@ -32,6 +32,7 @@ module.exports = env => {
   return {
     mode: isDev ? 'development' : 'production',
     target: 'web',
+    context: path.resolve(__dirname, '..'),
     entry: {
       app: './src/index.tsx',
     },
@@ -51,7 +52,11 @@ module.exports = env => {
             // 'react': path.join(rootDir, 'node_modules/react/dist/react.min.js'),
             // 'react-dom': path.join(rootDir, 'node_modules/react-dom/dist/react-dom.min.js'),
           },
-      plugins: [new TsconfigPathsPlugin({})],
+      plugins: [
+        new TsconfigPathsPlugin({
+          configFile: '../tsconfig.json',
+        }),
+      ],
     },
     devtool: isDev ? 'eval-source-map' : undefined,
     optimization: optimization(isDev),

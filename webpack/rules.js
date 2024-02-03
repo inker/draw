@@ -14,7 +14,7 @@ module.exports = isDev =>
     {
       test: /\.tsx?$/,
       use: {
-        loader: 'esbuild-loader',
+        loader: require.resolve('esbuild-loader'),
         options: {
           target: 'es2021',
         },
@@ -23,7 +23,7 @@ module.exports = isDev =>
     },
     {
       test: /\.css$/,
-      use: [isDev ? 'style-loader' : MiniCssExtractPlugin.loader, 'css-loader'],
+      use: [isDev ? require.resolve('style-loader') : MiniCssExtractPlugin.loader, require.resolve('css-loader')],
     },
     {
       test: /\.(png|jpe?g|gif|svg)$/,
