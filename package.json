@@ -73,8 +73,8 @@
     "unfocus": "^1.0.1"
   },
   "devDependencies": {
-    "@inker/eslint-config-typescript": "^11.0.0",
     "@inker/build": "file:./webpack",
+    "@inker/eslint-config-typescript": "^11.0.0",
     "@types/dom-to-image": "^2.6.4",
     "@types/file-saver": "^2.0.5",
     "@types/lodash": "^4.14.180",
