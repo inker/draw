@@ -53,7 +53,7 @@ module.exports = env => {
           },
       plugins: [
         new TsconfigPathsPlugin({
-          configFile: '../tsconfig.json',
+          configFile: path.resolve(rootDir, 'tsconfig.json'),
         }),
       ],
     },
