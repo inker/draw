@@ -1,4 +1,4 @@
-import { memo, useCallback, useEffect, useRef, useState } from 'react'
+import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { css } from 'styled-components'
 import { random, sample, shuffle, stubArray } from 'lodash'
 
@@ -47,7 +47,6 @@ interface State {
   pickedGroup: number | null
   hungPot: readonly Team[]
   possibleGroups: readonly number[] | null
-  possibleGroupsShuffled: readonly number[] | null
   pots: readonly (readonly Team[])[]
   groups: readonly (readonly Team[])[]
 }
@@ -62,7 +61,6 @@ function getState(initialPots: readonly (readonly Team[])[]): State {
     pickedGroup: null,
     hungPot: currentPot,
     possibleGroups: null,
-    possibleGroupsShuffled: null,
     pots,
     groups: initialPots[0].map(stubArray),
   }
@@ -79,7 +77,6 @@ function CLGS({ season, pots: initialPots, isFirstPotShortDraw }: Props) {
       pickedGroup,
       hungPot,
       possibleGroups,
-      possibleGroupsShuffled,
       pots,
       groups,
     },
@@ -104,6 +101,11 @@ function CLGS({ season, pots: initialPots, isFirstPotShortDraw }: Props) {
 
   const isDrawShort = isFirstPotShortDraw && currentPotNum === 0
   const isNoGroupBallPick = isFastDraw || isDrawShort
+
+  const possibleGroupsShuffled = useMemo(
+    () => shuffle(possibleGroups),
+    [possibleGroups],
+  )
 
   const handleTeamSelected = async () => {
     if (!selectedTeam) {
@@ -145,7 +147,6 @@ function CLGS({ season, pots: initialPots, isFirstPotShortDraw }: Props) {
       ...state,
       pickedGroup: null,
       possibleGroups: newPossibleGroups,
-      possibleGroupsShuffled: shuffle(newPossibleGroups),
     }))
   }
 
@@ -199,7 +200,6 @@ function CLGS({ season, pots: initialPots, isFirstPotShortDraw }: Props) {
         pickedGroup: newPickedGroup,
         hungPot: pots[newCurrentPotNum],
         possibleGroups: null,
-        possibleGroupsShuffled: null,
         currentPotNum: newCurrentPotNum,
         groups: newGroups,
       }))
