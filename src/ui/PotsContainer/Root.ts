@@ -1,7 +1,7 @@
-import styled, { css } from 'styled-components'
+import styled, { css } from 'styled-components';
 
 interface Props {
-  $limitWidth: boolean
+  $limitWidth: boolean;
 }
 
 const Root = styled.div<Props>`
@@ -23,6 +23,6 @@ const Root = styled.div<Props>`
       max-width: initial;
     }
   }
-`
+`;
 
-export default Root
+export default Root;

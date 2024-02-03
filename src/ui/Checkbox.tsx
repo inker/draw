@@ -4,8 +4,8 @@ import {
   type InputHTMLAttributes,
   memo,
   useCallback,
-} from 'react'
-import styled, { css } from 'styled-components'
+} from 'react';
+import styled, { css } from 'styled-components';
 
 const Root = styled.label`
   display: flex;
@@ -13,7 +13,7 @@ const Root = styled.label`
   margin-right: 3px;
   margin-left: 3px;
   cursor: pointer;
-`
+`;
 
 const Box = styled.input.attrs({
   type: 'checkbox',
@@ -25,30 +25,30 @@ const Box = styled.input.attrs({
       border: ${props.theme.border};
       background-color: #246;
     `}
-`
+`;
 
 const ChildrenWrapper = styled.div`
   margin-left: 0.5rem;
   user-select: none;
-`
+`;
 
 type InputProps = DetailedHTMLProps<
   InputHTMLAttributes<HTMLInputElement>,
   HTMLInputElement
->
+>;
 
 interface Props extends Omit<InputProps, 'value' | 'onChange'> {
-  value: boolean
-  onChange: (value: boolean) => void
+  value: boolean;
+  onChange: (value: boolean) => void;
 }
 
 function SelectWithHiddenLabel({ children, value, onChange, ...props }: Props) {
   const rawOnChange = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => {
-      onChange(e.target.checked)
+      onChange(e.target.checked);
     },
     [onChange],
-  )
+  );
 
   return (
     <Root>
@@ -59,7 +59,7 @@ function SelectWithHiddenLabel({ children, value, onChange, ...props }: Props) {
       />
       <ChildrenWrapper>{children}</ChildrenWrapper>
     </Root>
-  )
+  );
 }
 
-export default memo(SelectWithHiddenLabel)
+export default memo(SelectWithHiddenLabel);

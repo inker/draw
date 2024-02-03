@@ -1,12 +1,12 @@
-import { memo, useCallback } from 'react'
-import styled from 'styled-components'
+import { memo, useCallback } from 'react';
+import styled from 'styled-components';
 
-import type Club from '#model/team/Club'
-import type NationalTeam from '#model/team/NationalTeam'
+import type Club from '#model/team/Club';
+import type NationalTeam from '#model/team/NationalTeam';
 
-import Ball from './Ball'
+import Ball from './Ball';
 
-type Team = Club | NationalTeam
+type Team = Club | NationalTeam;
 
 const Root = styled.div`
   display: flex;
@@ -16,15 +16,15 @@ const Root = styled.div`
   @media (max-width: 999px) {
     justify-content: center;
   }
-`
+`;
 
 interface Props {
-  forceNoSelect?: boolean
-  display: boolean
-  displayTeams: boolean
-  selectedTeam: Team | null
-  pot: readonly Team[]
-  onPick: (i: number, teams: readonly Team[]) => void
+  forceNoSelect?: boolean;
+  display: boolean;
+  displayTeams: boolean;
+  selectedTeam: Team | null;
+  pot: readonly Team[];
+  onPick: (i: number, teams: readonly Team[]) => void;
 }
 
 function TeamBowl({
@@ -37,14 +37,14 @@ function TeamBowl({
 }: Props) {
   const handleBallPick = useCallback(
     (ev: React.MouseEvent<HTMLDivElement>) => {
-      const ball = ev.target as HTMLDivElement
-      const i = pot.findIndex(team => team.id === ball.dataset.teamid)
-      onPick(i, pot)
+      const ball = ev.target as HTMLDivElement;
+      const i = pot.findIndex(team => team.id === ball.dataset.teamid);
+      onPick(i, pot);
     },
     [pot, onPick],
-  )
+  );
 
-  const noSelect = forceNoSelect || selectedTeam
+  const noSelect = forceNoSelect || selectedTeam;
 
   return (
     <Root>
@@ -65,7 +65,7 @@ function TeamBowl({
           </Ball>
         ))}
     </Root>
-  )
+  );
 }
 
-export default memo(TeamBowl)
+export default memo(TeamBowl);

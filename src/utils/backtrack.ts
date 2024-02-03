@@ -2,17 +2,17 @@ export interface BacktrackOptions<C> {
   /**
    * Should current path traversal be stopped
    */
-  reject: (candidate: C) => boolean
+  reject: (candidate: C) => boolean;
 
   /**
    * Should solution be accepted
    */
-  accept: (candidate: C) => boolean
+  accept: (candidate: C) => boolean;
 
   /**
    * Generate new candidates
    */
-  generate: (candidate: C) => Iterable<C>
+  generate: (candidate: C) => Iterable<C>;
 }
 
 export const findFirstSolution = <C>(
@@ -20,15 +20,15 @@ export const findFirstSolution = <C>(
   options: BacktrackOptions<C>,
 ): C | undefined => {
   if (options.reject(candidate)) {
-    return
+    return;
   }
   if (options.accept(candidate)) {
-    return candidate
+    return candidate;
   }
   for (const newCandidate of options.generate(candidate)) {
-    const result = findFirstSolution(newCandidate, options)
+    const result = findFirstSolution(newCandidate, options);
     if (result !== undefined) {
-      return result
+      return result;
     }
   }
-}
+};

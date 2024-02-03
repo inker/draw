@@ -1,13 +1,13 @@
-import { memo } from 'react'
-import styled from 'styled-components'
+import { memo } from 'react';
+import styled from 'styled-components';
 
-import { type EmptyOrSingleOrPair } from '#model/types'
-import type Team from '#model/team/Club'
-import Row from '#ui/table/Row'
-import Cell from '#ui/table/Cell'
-import Content from '#ui/table/Content'
+import { type EmptyOrSingleOrPair } from '#model/types';
+import type Team from '#model/team/Club';
+import Row from '#ui/table/Row';
+import Cell from '#ui/table/Cell';
+import Content from '#ui/table/Content';
 
-import MatchupCellDeferred from './MatchupCellDeferred'
+import MatchupCellDeferred from './MatchupCellDeferred';
 
 const VersusCell = styled(Content)`
   justify-content: center;
@@ -17,14 +17,14 @@ const VersusCell = styled(Content)`
   &::before {
     content: 'v';
   }
-`
+`;
 
 interface Props {
-  teams: EmptyOrSingleOrPair<Team> | null
+  teams: EmptyOrSingleOrPair<Team> | null;
 }
 
 function Matchup({ teams }: Props) {
-  const [ru, gw] = teams ?? []
+  const [ru, gw] = teams ?? [];
 
   return (
     <Row>
@@ -34,7 +34,7 @@ function Matchup({ teams }: Props) {
       </Cell>
       <MatchupCellDeferred team={gw} />
     </Row>
-  )
+  );
 }
 
-export default memo(Matchup)
+export default memo(Matchup);

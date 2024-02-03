@@ -1,11 +1,11 @@
-import { useAtom } from 'jotai'
-import { atomWithStorage } from 'jotai/utils'
+import { useAtom } from 'jotai';
+import { atomWithStorage } from 'jotai/utils';
 
-import storageWithThemeConfig from './utils/syncStorageWithThemeConfig'
+import storageWithThemeConfig from './utils/syncStorageWithThemeConfig';
 
-const possibleValues = ['light', 'dark', 'auto'] as const
+const possibleValues = ['light', 'dark', 'auto'] as const;
 
-export type Theme = (typeof possibleValues)[number]
+export type Theme = (typeof possibleValues)[number];
 
 const themeAtom = atomWithStorage<Theme>(
   'store:theme',
@@ -14,6 +14,6 @@ const themeAtom = atomWithStorage<Theme>(
     validate: value =>
       value !== null && possibleValues.includes(value as Theme),
   }),
-)
+);
 
-export default () => useAtom<Theme>(themeAtom)
+export default () => useAtom<Theme>(themeAtom);

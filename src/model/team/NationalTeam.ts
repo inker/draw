@@ -1,11 +1,11 @@
-import { type Confederation } from '#model/types'
+import { type Confederation } from '#model/types';
 
-import Team from '.'
+import Team from '.';
 
 export default class NationalTeam extends Team {
-  readonly coefficient: number
-  readonly confederation: Confederation
-  readonly host: boolean
+  readonly coefficient: number;
+  readonly confederation: Confederation;
+  readonly host: boolean;
 
   constructor(
     name: string,
@@ -13,9 +13,9 @@ export default class NationalTeam extends Team {
     confederation: Confederation,
     host: boolean,
   ) {
-    super(name)
-    this.coefficient = coefficient
-    this.confederation = confederation
-    this.host = host
+    super(name);
+    this.coefficient = coefficient;
+    this.confederation = confederation;
+    this.host = host;
   }
 }

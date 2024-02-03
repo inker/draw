@@ -1,52 +1,52 @@
-import { memo, useCallback, useEffect, useRef, useState } from 'react'
-import { random, shuffle, stubArray, without } from 'lodash'
+import { memo, useCallback, useEffect, useRef, useState } from 'react';
+import { random, shuffle, stubArray, without } from 'lodash';
 
-import PageRoot from '#ui/PageRoot'
-import PotsContainer from '#ui/PotsContainer'
-import MatchupsContainer from '#ui/MatchupsContainer'
-import TablesContainer from '#ui/TablesContainer'
-import BowlsContainer from '#ui/BowlsContainer'
-import TeamBowl from '#ui/bowls/TeamBowl'
-import Separator from '#ui/Separator'
-import Announcement from '#ui/Announcement'
-import { serializeGsWorkerData } from '#model/WorkerData'
-import type Team from '#model/team/KnockoutTeam'
-import { type EmptyOrSingleOrPair, type FixedArray } from '#model/types'
-import useWorkerSendAndReceive from '#utils/hooks/useWorkerSendAndReceive'
-import useMedia from '#utils/hooks/useMedia'
-import useXRay from '#store/useXRay'
-import useFastDraw from '#store/useFastDraw'
-import useDrawId from '#store/useDrawId'
-import usePopup from '#store/usePopup'
+import PageRoot from '#ui/PageRoot';
+import PotsContainer from '#ui/PotsContainer';
+import MatchupsContainer from '#ui/MatchupsContainer';
+import TablesContainer from '#ui/TablesContainer';
+import BowlsContainer from '#ui/BowlsContainer';
+import TeamBowl from '#ui/bowls/TeamBowl';
+import Separator from '#ui/Separator';
+import Announcement from '#ui/Announcement';
+import { serializeGsWorkerData } from '#model/WorkerData';
+import type Team from '#model/team/KnockoutTeam';
+import { type EmptyOrSingleOrPair, type FixedArray } from '#model/types';
+import useWorkerSendAndReceive from '#utils/hooks/useWorkerSendAndReceive';
+import useMedia from '#utils/hooks/useMedia';
+import useXRay from '#store/useXRay';
+import useFastDraw from '#store/useFastDraw';
+import useDrawId from '#store/useDrawId';
+import usePopup from '#store/usePopup';
 
-import { type Func } from './worker'
+import { type Func } from './worker';
 
-const createWorker = () => new Worker(new URL('./worker', import.meta.url))
+const createWorker = () => new Worker(new URL('./worker', import.meta.url));
 
 interface Props {
-  season: number
-  pots: FixedArray<readonly Team[], 2>
+  season: number;
+  pots: FixedArray<readonly Team[], 2>;
 }
 
 interface State {
-  currentMatchupNum: number
-  currentPotNum: number
-  possiblePairings: readonly number[] | null
-  pots: FixedArray<readonly Team[], 2>
-  potsToDisplay: readonly [readonly Team[] | null, readonly Team[]]
-  matchups: readonly EmptyOrSingleOrPair<Team>[]
+  currentMatchupNum: number;
+  currentPotNum: number;
+  possiblePairings: readonly number[] | null;
+  pots: FixedArray<readonly Team[], 2>;
+  potsToDisplay: readonly [readonly Team[] | null, readonly Team[]];
+  matchups: readonly EmptyOrSingleOrPair<Team>[];
 }
 
 function getState(
   initialPots: FixedArray<readonly Team[], 2>,
   season: number,
 ): State {
-  const currentPotNum = 1
-  const currentMatchupNum = 0
-  const numMatchups = season < 2021 ? 16 : 8
+  const currentPotNum = 1;
+  const currentMatchupNum = 0;
+  const numMatchups = season < 2021 ? 16 : 8;
   const pots = initialPots.map(
     pot => shuffle(pot) as readonly Team[],
-  ) as typeof initialPots
+  ) as typeof initialPots;
   return {
     currentMatchupNum,
     currentPotNum,
@@ -54,12 +54,12 @@ function getState(
     pots,
     potsToDisplay: [null, pots[1]],
     matchups: Array.from({ length: numMatchups }, stubArray as () => []),
-  }
+  };
 }
 
 function ELKO({ season, pots: initialPots }: Props) {
-  const [drawId, setNewDrawId] = useDrawId()
-  const [isFastDraw] = useFastDraw()
+  const [drawId, setNewDrawId] = useDrawId();
+  const [isFastDraw] = useFastDraw();
 
   const [
     {
@@ -71,37 +71,37 @@ function ELKO({ season, pots: initialPots }: Props) {
       matchups,
     },
     setState,
-  ] = useState(() => getState(initialPots, season))
+  ] = useState(() => getState(initialPots, season));
 
   useEffect(() => {
-    setState(getState(initialPots, season))
-  }, [initialPots, season, drawId])
+    setState(getState(initialPots, season));
+  }, [initialPots, season, drawId]);
 
-  const isTallScreen = useMedia('(min-height: 750px)')
-  const [, setPopup] = usePopup()
-  const [isXRay] = useXRay()
+  const isTallScreen = useMedia('(min-height: 750px)');
+  const [, setPopup] = usePopup();
+  const [isXRay] = useXRay();
 
   const getPossiblePairingsResponse = useWorkerSendAndReceive(
     createWorker,
-  ) as Func
+  ) as Func;
 
-  const groupsContanerRef = useRef<HTMLElement>(null)
+  const groupsContanerRef = useRef<HTMLElement>(null);
 
-  const selectedTeam = matchups.find(m => m.length === 1)?.at(-1)
+  const selectedTeam = matchups.find(m => m.length === 1)?.at(-1);
 
   const getPossiblePairings = useCallback(
     async (
       newPots: FixedArray<readonly Team[], 2>,
       newMatchups: readonly EmptyOrSingleOrPair<Team>[],
     ) => {
-      const [newGwPot, newRuPot] = newPots
-      const initialGwPot = initialPots[0]
+      const [newGwPot, newRuPot] = newPots;
+      const initialGwPot = initialPots[0];
       // eslint-disable-next-line @typescript-eslint/no-non-null-asserted-optional-chain
-      const pickedTeam = newMatchups.find(m => m.length === 1)?.at(-1)!
+      const pickedTeam = newMatchups.find(m => m.length === 1)?.at(-1)!;
       const groups = initialGwPot.map(gw => {
-        const ru = newMatchups.find(pair => pair[1] === gw)?.[0]
-        return ru ? [gw, ru] : [gw]
-      })
+        const ru = newMatchups.find(pair => pair[1] === gw)?.[0];
+        return ru ? [gw, ru] : [gw];
+      });
       try {
         const allPossibleGroups = await getPossiblePairingsResponse(
           serializeGsWorkerData({
@@ -110,44 +110,44 @@ function ELKO({ season, pots: initialPots }: Props) {
             groups,
             selectedTeam: pickedTeam,
           }),
-        )
-        return allPossibleGroups.map(i => newGwPot.indexOf(groups[i][0]))
+        );
+        return allPossibleGroups.map(i => newGwPot.indexOf(groups[i][0]));
       } catch (err) {
         setPopup({
           error: 'Could not determine possible pairings',
-        })
-        throw err
+        });
+        throw err;
       }
     },
     [initialPots, getPossiblePairingsResponse, season],
-  )
+  );
 
   const handleBallPick = useCallback(
     async (index: number) => {
-      const currentPot = potsToDisplay[currentPotNum]!
-      const pickedTeam = currentPot[index]
+      const currentPot = potsToDisplay[currentPotNum]!;
+      const pickedTeam = currentPot[index];
 
       const newPots = pots.with(
         currentPotNum,
         without(pots[currentPotNum], pickedTeam),
-      ) as typeof pots
+      ) as typeof pots;
 
       const newMatchups = matchups.with(currentMatchupNum, [
         ...(matchups[currentMatchupNum] as [Team]),
         pickedTeam,
-      ]) as typeof matchups
+      ]) as typeof matchups;
 
       const newPossiblePairings =
         currentPotNum === 1
           ? await getPossiblePairings(newPots, newMatchups)
-          : null
+          : null;
 
       const gwPot = newPossiblePairings
         ? newPots[0].filter((_, i) => newPossiblePairings.includes(i))
-        : null
-      const newPotsToDisplay = [gwPot, pots[1]] as const
+        : null;
+      const newPotsToDisplay = [gwPot, pots[1]] as const;
 
-      const newCurrentMatchNum = currentMatchupNum - currentPotNum + 1
+      const newCurrentMatchNum = currentMatchupNum - currentPotNum + 1;
 
       setState(state => ({
         ...state,
@@ -157,7 +157,7 @@ function ELKO({ season, pots: initialPots }: Props) {
         pots: newPots,
         potsToDisplay: newPotsToDisplay,
         matchups: newMatchups,
-      }))
+      }));
     },
     [
       pots,
@@ -167,36 +167,36 @@ function ELKO({ season, pots: initialPots }: Props) {
       currentMatchupNum,
       getPossiblePairings,
     ],
-  )
+  );
 
   const autoPickIfOneBall = () => {
     if (isFastDraw) {
-      return
+      return;
     }
     const isOnlyChoice =
       possiblePairings?.length === 1 ||
-      (currentPotNum === 1 && pots[1].length === 1)
+      (currentPotNum === 1 && pots[1].length === 1);
     if (isOnlyChoice) {
-      handleBallPick(0)
+      handleBallPick(0);
     }
-  }
+  };
 
   useEffect(() => {
-    setTimeout(autoPickIfOneBall, 250)
-  }, [currentPotNum])
+    setTimeout(autoPickIfOneBall, 250);
+  }, [currentPotNum]);
 
-  const completed = currentMatchupNum >= initialPots[0].length
+  const completed = currentMatchupNum >= initialPots[0].length;
 
   useEffect(() => {
     if (isFastDraw) {
-      const teams = potsToDisplay[currentPotNum]!
-      const numTeams = teams.length
+      const teams = potsToDisplay[currentPotNum]!;
+      const numTeams = teams.length;
       if (numTeams > 0) {
-        const index = random(numTeams - 1)
-        handleBallPick(index)
+        const index = random(numTeams - 1);
+        handleBallPick(index);
       }
     }
-  }, [isFastDraw, currentPotNum])
+  }, [isFastDraw, currentPotNum]);
 
   return (
     <PageRoot>
@@ -252,7 +252,7 @@ function ELKO({ season, pots: initialPots }: Props) {
         )}
       </BowlsContainer>
     </PageRoot>
-  )
+  );
 }
 
-export default memo(ELKO)
+export default memo(ELKO);

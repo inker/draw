@@ -4,18 +4,18 @@ import {
   memo,
   useCallback,
   useRef,
-} from 'react'
-import styled, { css } from 'styled-components'
+} from 'react';
+import styled, { css } from 'styled-components';
 
-import useGlobalEvent from '#utils/hooks/useGlobalEvent'
-import Ball from '#ui/Ball'
+import useGlobalEvent from '#utils/hooks/useGlobalEvent';
+import Ball from '#ui/Ball';
 
 // TODO: Fix transient props
 
 interface RootProps {
-  noHover?: boolean
-  selected?: boolean
-  forceVisible?: boolean
+  noHover?: boolean;
+  selected?: boolean;
+  forceVisible?: boolean;
 }
 
 const Root = styled(Ball)<RootProps>`
@@ -40,31 +40,31 @@ const Root = styled(Ball)<RootProps>`
   @media (max-width: 999px) {
     font-size: ${props => (props.selected ? 8 : 0)}px;
   }
-`
+`;
 
-type InputProps = DetailedHTMLProps<HTMLAttributes<HTMLElement>, HTMLElement>
+type InputProps = DetailedHTMLProps<HTMLAttributes<HTMLElement>, HTMLElement>;
 
-type Props = RootProps & InputProps
+type Props = RootProps & InputProps;
 
 function BowlBall({ noHover, ...props }: Props) {
-  const ballRef = useRef<HTMLDivElement | null>(null)
+  const ballRef = useRef<HTMLDivElement | null>(null);
 
   const cb = useCallback(
     (e: KeyboardEvent) => {
-      const el = ballRef.current
+      const el = ballRef.current;
       if (
         !noHover &&
         el &&
         document.activeElement === el &&
         e.key === 'Enter'
       ) {
-        el.click()
+        el.click();
       }
     },
     [ballRef, noHover],
-  )
+  );
 
-  useGlobalEvent('keydown', cb)
+  useGlobalEvent('keydown', cb);
 
   return (
     <Root
@@ -73,7 +73,7 @@ function BowlBall({ noHover, ...props }: Props) {
       ref={ballRef}
       tabIndex={noHover ? undefined : 0}
     />
-  )
+  );
 }
 
-export default memo(BowlBall)
+export default memo(BowlBall);

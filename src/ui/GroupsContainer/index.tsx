@@ -1,13 +1,13 @@
-import { forwardRef, memo } from 'react'
-import styled, { type Interpolation } from 'styled-components'
+import { forwardRef, memo } from 'react';
+import styled, { type Interpolation } from 'styled-components';
 
-import type Club from '#model/team/Club'
-import type NationalTeam from '#model/team/NationalTeam'
-import getGroupLetter from '#utils/getGroupLetter'
+import type Club from '#model/team/Club';
+import type NationalTeam from '#model/team/NationalTeam';
+import getGroupLetter from '#utils/getGroupLetter';
 
-import Group from './Group'
+import Group from './Group';
 
-type Team = Club | NationalTeam
+type Team = Club | NationalTeam;
 
 const Root = styled.div`
   display: flex;
@@ -17,14 +17,14 @@ const Root = styled.div`
     flex: 1;
     flex-basis: 22%;
   }
-`
+`;
 
 interface Props {
-  maxTeams: number
-  currentPotNum: number
-  groups: readonly (readonly Team[])[]
-  possibleGroups: readonly number[] | null
-  getGroupHeaderStyles?: (index: number) => Interpolation<any>
+  maxTeams: number;
+  currentPotNum: number;
+  groups: readonly (readonly Team[])[];
+  possibleGroups: readonly number[] | null;
+  getGroupHeaderStyles?: (index: number) => Interpolation<any>;
 }
 
 const GroupsContainer = forwardRef(
@@ -40,8 +40,8 @@ const GroupsContainer = forwardRef(
   ) => (
     <Root ref={ref}>
       {groups?.map((group, i) => {
-        const letter = getGroupLetter(i)
-        const headerStyles = getGroupHeaderStyles?.(i)
+        const letter = getGroupLetter(i);
+        const headerStyles = getGroupHeaderStyles?.(i);
 
         return (
           <Group
@@ -53,10 +53,10 @@ const GroupsContainer = forwardRef(
             possible={!!possibleGroups?.includes(i)}
             headerStyles={headerStyles}
           />
-        )
+        );
       })}
     </Root>
   ),
-)
+);
 
-export default memo(GroupsContainer)
+export default memo(GroupsContainer);

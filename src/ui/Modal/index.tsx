@@ -1,11 +1,11 @@
-import { type ReactNode, memo } from 'react'
+import { type ReactNode, memo } from 'react';
 
-import Background from './Background'
-import Body from './Body'
+import Background from './Background';
+import Body from './Body';
 
 interface Props {
-  children: ReactNode
-  noAnimation: boolean
+  children: ReactNode;
+  noAnimation: boolean;
 }
 
 function Modal({ noAnimation, children }: Props) {
@@ -14,7 +14,7 @@ function Modal({ noAnimation, children }: Props) {
       <Background $animate={!noAnimation} />
       <Body>{children}</Body>
     </div>
-  )
+  );
 }
 
-export default memo(Modal)
+export default memo(Modal);

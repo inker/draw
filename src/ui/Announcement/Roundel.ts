@@ -1,7 +1,7 @@
-import styled, { css } from 'styled-components'
+import styled, { css } from 'styled-components';
 
 interface Props {
-  $possible: boolean
+  $possible: boolean;
 }
 
 const Roundel = styled.div<Props>`
@@ -24,6 +24,6 @@ const Roundel = styled.div<Props>`
           border-color: rgb(0 0 0 / 0);
           filter: opacity(0.25);
         `}
-`
+`;
 
-export default Roundel
+export default Roundel;

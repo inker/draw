@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled from 'styled-components';
 
 const BaseContent = styled.span`
   display: flex;
@@ -12,6 +12,6 @@ const BaseContent = styled.span`
     font-family: Roboto, sans-serif;
     font-size: 10px;
   }
-`
+`;
 
-export default BaseContent
+export default BaseContent;

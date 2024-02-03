@@ -1,7 +1,7 @@
-import { type ReactNode, memo } from 'react'
-import styled from 'styled-components'
+import { type ReactNode, memo } from 'react';
+import styled from 'styled-components';
 
-import Modal from './Modal'
+import Modal from './Modal';
 
 const Text = styled.div`
   font-size: 5vw;
@@ -11,11 +11,11 @@ const Text = styled.div`
   @media (max-width: 999px) {
     font-size: 8vw;
   }
-`
+`;
 
 interface Props {
-  children: ReactNode
-  noAnimation: boolean
+  children: ReactNode;
+  noAnimation: boolean;
 }
 
 function Notification({ noAnimation, children }: Props) {
@@ -23,7 +23,7 @@ function Notification({ noAnimation, children }: Props) {
     <Modal noAnimation={noAnimation}>
       <Text>{children}</Text>
     </Modal>
-  )
+  );
 }
 
-export default memo(Notification)
+export default memo(Notification);

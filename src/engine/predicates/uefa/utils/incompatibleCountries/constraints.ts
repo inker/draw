@@ -1,17 +1,17 @@
-import { stubTrue } from 'lodash'
+import { stubTrue } from 'lodash';
 
-import type Tournament from '#model/Tournament'
-import type Stage from '#model/Stage'
-import { type Country, type OptionalPropertyOf } from '#model/types'
-import isInsideInterval from '#utils/isInsideInterval'
+import type Tournament from '#model/Tournament';
+import type Stage from '#model/Stage';
+import { type Country, type OptionalPropertyOf } from '#model/types';
+import isInsideInterval from '#utils/isInsideInterval';
 
 interface PartialItem {
-  countries: readonly [Country, Country]
+  countries: readonly [Country, Country];
   predicate?: (
     season: number,
     tournament?: Tournament,
     stage?: Stage,
-  ) => boolean
+  ) => boolean;
 }
 
 const constraints = [
@@ -31,15 +31,15 @@ const constraints = [
   {
     countries: ['Spain', 'Gibraltar'],
   },
-] as const satisfies readonly PartialItem[]
+] as const satisfies readonly PartialItem[];
 
-type ItemOptionalProperty = OptionalPropertyOf<PartialItem>
+type ItemOptionalProperty = OptionalPropertyOf<PartialItem>;
 
 const defaultItem: Required<Pick<PartialItem, ItemOptionalProperty>> = {
   predicate: stubTrue,
-}
+};
 
 export default constraints.map(item => ({
   ...defaultItem,
   ...item,
-}))
+}));

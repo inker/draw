@@ -1,14 +1,14 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef } from 'react';
 
-type UseEffectParameters = Parameters<typeof useEffect>
+type UseEffectParameters = Parameters<typeof useEffect>;
 
 export default (effect: () => void, deps?: UseEffectParameters[1]) => {
-  const didMountRef = useRef(false)
+  const didMountRef = useRef(false);
   useEffect(() => {
     if (didMountRef.current) {
-      effect()
+      effect();
     } else {
-      didMountRef.current = true
+      didMountRef.current = true;
     }
-  }, deps)
-}
+  }, deps);
+};

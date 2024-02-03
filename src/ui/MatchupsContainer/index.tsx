@@ -1,20 +1,20 @@
-import { forwardRef, memo } from 'react'
-import styled from 'styled-components'
+import { forwardRef, memo } from 'react';
+import styled from 'styled-components';
 
-import { type EmptyOrSingleOrPair } from '#model/types'
-import type Team from '#model/team/Club'
-import Table from '#ui/table/Table'
+import { type EmptyOrSingleOrPair } from '#model/types';
+import type Team from '#model/team/Club';
+import Table from '#ui/table/Table';
 
-import Matchup from './Matchup'
+import Matchup from './Matchup';
 
 const RootTable = styled(Table)`
   align-self: center;
   width: auto;
   max-width: initial;
-`
+`;
 
 interface Props {
-  matchups: readonly EmptyOrSingleOrPair<Team>[]
+  matchups: readonly EmptyOrSingleOrPair<Team>[];
 }
 
 const MatchupContainer = forwardRef(({ matchups }: Props, ref: any) => (
@@ -29,6 +29,6 @@ const MatchupContainer = forwardRef(({ matchups }: Props, ref: any) => (
       ))}
     </tbody>
   </RootTable>
-))
+));
 
-export default memo(MatchupContainer)
+export default memo(MatchupContainer);

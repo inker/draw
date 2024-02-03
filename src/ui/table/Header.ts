@@ -1,9 +1,9 @@
-import styled, { type Interpolation } from 'styled-components'
+import styled, { type Interpolation } from 'styled-components';
 
-import BaseContent from './BaseContent'
+import BaseContent from './BaseContent';
 
 interface Props {
-  $styles?: Interpolation<any>
+  $styles?: Interpolation<any>;
 }
 
 const Header = styled(BaseContent)<Props>`
@@ -12,6 +12,6 @@ const Header = styled(BaseContent)<Props>`
   height: 100%;
   font-weight: 600;
   ${props => props.$styles}
-`
+`;
 
-export default Header
+export default Header;

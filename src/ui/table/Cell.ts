@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled from 'styled-components';
 
 const Cell = styled.td`
   height: 20px;
@@ -8,6 +8,6 @@ const Cell = styled.td`
   @media (max-width: 999px) {
     height: 14px;
   }
-`
+`;
 
-export default Cell
+export default Cell;

@@ -1,4 +1,4 @@
-import getHalfArrayOfIndex from '../src/utils/getHalfArrayOfIndex'
+import getHalfArrayOfIndex from '../src/utils/getHalfArrayOfIndex';
 
 describe('getHalfArrayOfIndex', () => {
   describe.each([
@@ -9,8 +9,8 @@ describe('getHalfArrayOfIndex', () => {
     { arr: [] },
   ])('%s', ({ arr }) => {
     it.each([-1, ...arr.map((_, i) => i), arr.length])('%s', i => {
-      const result = getHalfArrayOfIndex(arr, i)
-      expect(result).toMatchSnapshot()
-    })
-  })
-})
+      const result = getHalfArrayOfIndex(arr, i);
+      expect(result).toMatchSnapshot();
+    });
+  });
+});

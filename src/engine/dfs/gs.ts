@@ -1,12 +1,12 @@
-import { findFirstSolution } from '#utils/backtrack'
+import { findFirstSolution } from '#utils/backtrack';
 
-type ReadonlyDoubleArray<T> = readonly (readonly T[])[]
+type ReadonlyDoubleArray<T> = readonly (readonly T[])[];
 
 export type Predicate<T> = (
   picked: T,
   groups: ReadonlyDoubleArray<T>,
   groupIndex: number,
-) => boolean
+) => boolean;
 
 // eslint-disable-next-line max-params
 function anyGroupPossible<T>(
@@ -30,25 +30,25 @@ function anyGroupPossible<T>(
         const newGroups = c.groups.with(c.groupIndex, [
           c.picked,
           ...c.groups[c.groupIndex],
-        ])
-        const [newPicked, ...newSource] = c.source
+        ]);
+        const [newPicked, ...newSource] = c.source;
         return newGroups.map((_, i) => ({
           source: newSource,
           groups: newGroups,
           picked: newPicked,
           groupIndex: i,
-        }))
+        }));
       },
     },
-  )
-  return solution !== undefined
+  );
+  return solution !== undefined;
 }
 
 interface Input<T> {
-  pots: ReadonlyDoubleArray<T>
-  groups: ReadonlyDoubleArray<T>
-  picked: T
-  predicate: Predicate<T>
+  pots: ReadonlyDoubleArray<T>;
+  groups: ReadonlyDoubleArray<T>;
+  picked: T;
+  predicate: Predicate<T>;
 }
 
 export const allPossibleGroups = <T>({
@@ -57,11 +57,11 @@ export const allPossibleGroups = <T>({
   picked,
   predicate,
 }: Input<T>) => {
-  const source = pots.flat()
+  const source = pots.flat();
   return groups
     .map((_, i) => i)
-    .filter(i => anyGroupPossible(source, groups, picked, i, predicate))
-}
+    .filter(i => anyGroupPossible(source, groups, picked, i, predicate));
+};
 
 export const firstPossibleGroup = <T>({
   pots,
@@ -69,8 +69,8 @@ export const firstPossibleGroup = <T>({
   picked,
   predicate,
 }: Input<T>) => {
-  const source = pots.flat()
+  const source = pots.flat();
   return groups.findIndex((_, i) =>
     anyGroupPossible(source, groups, picked, i, predicate),
-  )
-}
+  );
+};

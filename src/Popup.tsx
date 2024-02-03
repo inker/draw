@@ -1,17 +1,17 @@
-import { type ReactNode, memo, useCallback } from 'react'
+import { type ReactNode, memo, useCallback } from 'react';
 
-import Notification from '#ui/Notification'
-import Dots from '#ui/Dots'
-import usePopup from '#store/usePopup'
+import Notification from '#ui/Notification';
+import Dots from '#ui/Dots';
+import usePopup from '#store/usePopup';
 
 interface WrappedPopupProps {
-  children: ReactNode
+  children: ReactNode;
 }
 
 function Popup() {
-  const [popup] = usePopup()
+  const [popup] = usePopup();
 
-  const { initial, error, waiting } = popup
+  const { initial, error, waiting } = popup;
 
   const WrappedPopup = useCallback(
     (props: WrappedPopupProps) => (
@@ -21,10 +21,10 @@ function Popup() {
       />
     ),
     [initial],
-  )
+  );
 
   if (error) {
-    return <WrappedPopup>{error}</WrappedPopup>
+    return <WrappedPopup>{error}</WrappedPopup>;
   }
 
   if (waiting) {
@@ -37,9 +37,9 @@ function Popup() {
           interval={1000}
         />
       </WrappedPopup>
-    )
+    );
   }
-  return null
+  return null;
 }
 
-export default memo(Popup)
+export default memo(Popup);

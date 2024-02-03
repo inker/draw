@@ -1,9 +1,9 @@
-import styled from 'styled-components'
+import styled from 'styled-components';
 
-import Table from '#ui/table/Table'
+import Table from '#ui/table/Table';
 
 interface Props {
-  $highlighted?: boolean
+  $highlighted?: boolean;
 }
 
 const Root = styled(Table)<Props>`
@@ -13,6 +13,6 @@ const Root = styled(Table)<Props>`
     `
 
   `}
-`
+`;
 
-export default Root
+export default Root;

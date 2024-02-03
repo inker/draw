@@ -1,10 +1,10 @@
-import { memoize } from 'lodash'
+import { memoize } from 'lodash';
 
-import type Tournament from '#model/Tournament'
-import type Stage from '#model/Stage'
-import getPairings from '#model/getPairings'
-import parseGS from '#model/parsePotsData/gs'
-import parseKo from '#model/parsePotsData/ko'
+import type Tournament from '#model/Tournament';
+import type Stage from '#model/Stage';
+import getPairings from '#model/getPairings';
+import parseGS from '#model/parsePotsData/gs';
+import parseKo from '#model/parsePotsData/ko';
 
 async function getPotsFromBert(
   tournament: Tournament,
@@ -17,9 +17,9 @@ async function getPotsFromBert(
       `../../data/${tournament}/${stage}/${season}/pots.json`
     ).then(mod => mod.default),
     getPairings(season, tournament),
-  ])
+  ]);
 
-  return stage === 'ko' ? parseKo(data) : parseGS(data, pairings)
+  return stage === 'ko' ? parseKo(data) : parseGS(data, pairings);
 }
 
-export default memoize(getPotsFromBert, (...args) => args.join(':'))
+export default memoize(getPotsFromBert, (...args) => args.join(':'));

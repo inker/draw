@@ -1,6 +1,6 @@
-import styled, { css } from 'styled-components'
+import styled, { css } from 'styled-components';
 
-import BaseContent from './BaseContent'
+import BaseContent from './BaseContent';
 
 const Content = styled(BaseContent)`
   overflow: hidden;
@@ -18,6 +18,6 @@ const Content = styled(BaseContent)`
     font-family: 'Roboto Condensed', RobotoCondensed, RobotoCondensed-Regular,
       sans-serif;
   }
-`
+`;
 
-export default Content
+export default Content;

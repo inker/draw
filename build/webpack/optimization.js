@@ -1,5 +1,5 @@
-const TerserPlugin = require('terser-webpack-plugin')
-const CssMinimizerPlugin = require('css-minimizer-webpack-plugin')
+const TerserPlugin = require('terser-webpack-plugin');
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 
 /**
  * @param {boolean} isDev
@@ -64,12 +64,12 @@ module.exports = isDev => ({
           //   .identifier()
           //   .split('/')
           //   .reduceRight(item => item);
-          const allChunksNames = chunks.map(item => item.name).join('~')
+          const allChunksNames = chunks.map(item => item.name).join('~');
           // return `${cacheGroupKey}--${allChunksNames}--${moduleFileName}`;
           // return `${cacheGroupKey}--${allChunksNames}`;
-          return `vendors-${allChunksNames}`
+          return `vendors-${allChunksNames}`;
         },
       },
     },
   },
-})
+});

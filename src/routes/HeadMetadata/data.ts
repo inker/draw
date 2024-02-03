@@ -1,4 +1,4 @@
-import objectToFunction from '#utils/objectToFunction'
+import objectToFunction from '#utils/objectToFunction';
 
 const data = {
   cl: {
@@ -26,6 +26,6 @@ const data = {
     themeColor: '#326295',
     description: 'FIFA World Cup draw simulator',
   },
-} as const
+} as const;
 
-export default objectToFunction(data)
+export default objectToFunction(data);

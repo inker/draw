@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled from 'styled-components';
 
 const BowlsContainer = styled.div`
   display: flex;
@@ -10,6 +10,6 @@ const BowlsContainer = styled.div`
   @media (max-width: 999px) {
     align-items: center;
   }
-`
+`;
 
-export default BowlsContainer
+export default BowlsContainer;

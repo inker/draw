@@ -1,9 +1,9 @@
-import styled, { css } from 'styled-components'
+import styled, { css } from 'styled-components';
 
-import { type Country } from '#model/types'
-import getCountryFlagUrl from '#utils/getCountryFlagUrl'
+import { type Country } from '#model/types';
+import getCountryFlagUrl from '#utils/getCountryFlagUrl';
 
-import Content from './Content'
+import Content from './Content';
 
 const ContentWithoutFlag = styled(Content)`
   padding-left: 19px;
@@ -15,10 +15,10 @@ const ContentWithoutFlag = styled(Content)`
     padding-left: 13px;
     background-size: 12px;
   }
-`
+`;
 
 interface Props {
-  $country?: Country
+  $country?: Country;
 }
 
 const ContentWithFlag = styled(ContentWithoutFlag)<Props>`
@@ -27,6 +27,6 @@ const ContentWithFlag = styled(ContentWithoutFlag)<Props>`
     css`
       background-image: url('${getCountryFlagUrl(country)}');
     `}
-`
+`;
 
-export default ContentWithFlag
+export default ContentWithFlag;

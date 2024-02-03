@@ -1,20 +1,20 @@
-import { memo } from 'react'
-import { useMatch } from 'react-router-dom'
-import { Helmet } from 'react-helmet'
+import { memo } from 'react';
+import { useMatch } from 'react-router-dom';
+import { Helmet } from 'react-helmet';
 
-import type Tournament from '#model/Tournament'
+import type Tournament from '#model/Tournament';
 
-import data from './data'
+import data from './data';
 
 const routeProps = {
   path: '/:tournament/*',
   sensitive: true,
-}
+};
 
 function HeadMetaData() {
-  const match = useMatch(routeProps)
-  const tournament = match?.params?.tournament
-  const o = (tournament && data(tournament as Tournament)) || null
+  const match = useMatch(routeProps);
+  const tournament = match?.params?.tournament;
+  const o = (tournament && data(tournament as Tournament)) || null;
   return (
     o && (
       <Helmet>
@@ -34,7 +34,7 @@ function HeadMetaData() {
         />
       </Helmet>
     )
-  )
+  );
 }
 
-export default memo(HeadMetaData)
+export default memo(HeadMetaData);

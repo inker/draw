@@ -6,4 +6,4 @@
 // eslint-disable-next-line @typescript-eslint/ban-types
 export default <T extends {}>(o: T) =>
   <K extends keyof T>(key: K) =>
-    o[key]
+    o[key];

@@ -1,19 +1,19 @@
-import { stubFalse } from 'lodash'
+import { stubFalse } from 'lodash';
 
-import { type UefaCountry } from '#model/types'
+import { type UefaCountry } from '#model/types';
 
-import makeGetConflictingCountries from './makeGetConflictingCountries'
+import makeGetConflictingCountries from './makeGetConflictingCountries';
 
 interface WithCountry {
-  readonly country: UefaCountry
+  readonly country: UefaCountry;
 }
 
 export default (season: number) => {
-  const getConflictingCountries = makeGetConflictingCountries(season)
+  const getConflictingCountries = makeGetConflictingCountries(season);
   return (teamPicked: WithCountry) => {
-    const conflictingCountries = getConflictingCountries(teamPicked.country)
+    const conflictingCountries = getConflictingCountries(teamPicked.country);
     return conflictingCountries === undefined
       ? stubFalse
-      : (otherTeam: WithCountry) => conflictingCountries.has(otherTeam.country)
-  }
-}
+      : (otherTeam: WithCountry) => conflictingCountries.has(otherTeam.country);
+  };
+};

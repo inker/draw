@@ -1,32 +1,32 @@
-const path = require('path')
+const path = require('path');
 
-const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin')
+const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 
-const optimization = require('./optimization')
-const rules = require('./rules')
-const plugins = require('./plugins')
-const devServer = require('./devServer')
+const optimization = require('./optimization');
+const rules = require('./rules');
+const plugins = require('./plugins');
+const devServer = require('./devServer');
 
 const defaultEnv = {
   dev: false,
   out: 'dist',
-}
+};
 
 /**
  * @returns {import('webpack').Configuration}
  */
 module.exports = env => {
-  console.log('passed env:', env)
+  console.log('passed env:', env);
   const envOptions = {
     ...defaultEnv,
     ...env,
-  }
-  console.log('resulting env:', envOptions)
+  };
+  console.log('resulting env:', envOptions);
 
-  const isDev = envOptions.dev
-  const outDir = envOptions.out
-  const rootDir = path.resolve(__dirname, '../..')
-  const distDir = path.resolve(rootDir, outDir)
+  const isDev = envOptions.dev;
+  const outDir = envOptions.out;
+  const rootDir = path.resolve(__dirname, '../..');
+  const distDir = path.resolve(rootDir, outDir);
 
   return {
     mode: isDev ? 'development' : 'production',
@@ -64,5 +64,5 @@ module.exports = env => {
     },
     plugins: plugins(isDev),
     devServer: isDev ? devServer : undefined,
-  }
-}
+  };
+};

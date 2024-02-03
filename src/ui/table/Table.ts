@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled from 'styled-components';
 
 // min-width, so it can have text overflow
 
@@ -16,6 +16,6 @@ const Table = styled.table`
     margin: 0 3px 6px;
     width: max-content;
   }
-`
+`;
 
-export default Table
+export default Table;

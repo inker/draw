@@ -1,15 +1,15 @@
-import styled, { css, keyframes } from 'styled-components'
+import styled, { css, keyframes } from 'styled-components';
 
-import Overlay from '../Overlay'
+import Overlay from '../Overlay';
 
 const BackgroundAnimation = keyframes`
   from {
     opacity: 0;
   }
-`
+`;
 
 interface BackgroundProps {
-  $animate: boolean
+  $animate: boolean;
 }
 
 const Background = styled(Overlay)<BackgroundProps>`
@@ -20,6 +20,6 @@ const Background = styled(Overlay)<BackgroundProps>`
     css`
       animation: ${BackgroundAnimation} 0.25s ease-out;
     `}
-`
+`;
 
-export default Background
+export default Background;

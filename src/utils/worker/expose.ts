@@ -5,7 +5,7 @@ import {
   FROM_WORKER_DATA_KEY,
   type MessageForWorker,
   type MessageFromWorker,
-} from './constants'
+} from './constants';
 
 export default <F extends (arg: any) => any>(func: F) => {
   // eslint-disable-next-line no-restricted-globals
@@ -13,17 +13,17 @@ export default <F extends (arg: any) => any>(func: F) => {
     const {
       [FOR_WORKER_CORRELATION_ID]: correlationId,
       [FOR_WORKER_DATA_KEY]: data,
-    } = e.data as MessageForWorker<Parameters<typeof func>[0]>
+    } = e.data as MessageForWorker<Parameters<typeof func>[0]>;
 
-    const result = func(data)
+    const result = func(data);
 
     postMessage({
       [FROM_WORKER_CORRELATION_ID]: correlationId,
       [FROM_WORKER_DATA_KEY]: result,
-    } satisfies MessageFromWorker<typeof result>)
-  })
-}
+    } satisfies MessageFromWorker<typeof result>);
+  });
+};
 
 export type ExposedFuncType<F extends (...args: readonly any[]) => any> = (
   ...args: Parameters<F>
-) => Promise<ReturnType<F>>
+) => Promise<ReturnType<F>>;

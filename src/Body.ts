@@ -1,9 +1,9 @@
-import { createGlobalStyle } from 'styled-components'
+import { createGlobalStyle } from 'styled-components';
 
-import { type ThemeInterface } from './themes'
+import { type ThemeInterface } from './themes';
 
 interface Props {
-  theme: ThemeInterface
+  theme: ThemeInterface;
 }
 
 const Body = createGlobalStyle<Props>`
@@ -12,6 +12,6 @@ const Body = createGlobalStyle<Props>`
     color: ${props => (props.theme.isDarkMode ? 'white' : '')};
     background-color: ${props => (props.theme.isDarkMode ? '#272a33' : '')};
   }
-`
+`;
 
-export default Body
+export default Body;

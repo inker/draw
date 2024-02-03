@@ -1,23 +1,23 @@
-import { memoize } from 'lodash'
+import { memoize } from 'lodash';
 
-import countries from '#data/countries'
-import { type Country } from '#model/types'
+import countries from '#data/countries';
+import { type Country } from '#model/types';
 
-const requireFlag = require.context('flag-icons/flags/4x3/', false, /\.svg$/)
-const requireAltFlag = require.context('../assets/altFlags/', false, /\.svg$/)
+const requireFlag = require.context('flag-icons/flags/4x3/', false, /\.svg$/);
+const requireAltFlag = require.context('../assets/altFlags/', false, /\.svg$/);
 
 const flags = {
   Moldova: requireAltFlag('./mda.svg'),
-} as const
+} as const;
 
 function getCountryFlagUrl(country: Country) {
-  const exceptionalFlag = flags[country as keyof typeof flags]
+  const exceptionalFlag = flags[country as keyof typeof flags];
   if (exceptionalFlag) {
-    return exceptionalFlag
+    return exceptionalFlag;
   }
 
-  const flag = countries[country]?.flag
-  return flag ? requireFlag(`./${flag}.svg`) : undefined
+  const flag = countries[country]?.flag;
+  return flag ? requireFlag(`./${flag}.svg`) : undefined;
 }
 
-export default memoize(getCountryFlagUrl)
+export default memoize(getCountryFlagUrl);

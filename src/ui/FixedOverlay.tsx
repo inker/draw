@@ -1,7 +1,7 @@
-import { type ReactNode, memo } from 'react'
+import { type ReactNode, memo } from 'react';
 
-import makeStyleClass from '#utils/makeStyleClass'
-import Portal from '#ui/Portal'
+import makeStyleClass from '#utils/makeStyleClass';
+import Portal from '#ui/Portal';
 
 const airborneDivClass = makeStyleClass`
   position: fixed;
@@ -13,14 +13,14 @@ const airborneDivClass = makeStyleClass`
   height: 100%;
   z-index: 1000;
   pointer-events: none;
-`
+`;
 
-const airborneDiv = document.createElement('div')
-airborneDiv.classList.add(airborneDivClass)
-document.body.insertBefore(airborneDiv, document.getElementById('app'))
+const airborneDiv = document.createElement('div');
+airborneDiv.classList.add(airborneDivClass);
+document.body.insertBefore(airborneDiv, document.getElementById('app'));
 
 interface Props {
-  children: ReactNode
+  children: ReactNode;
 }
 
 function FixedOverlay({ children }: Props) {
@@ -31,7 +31,7 @@ function FixedOverlay({ children }: Props) {
     >
       {children}
     </Portal>
-  )
+  );
 }
 
-export default memo(FixedOverlay)
+export default memo(FixedOverlay);

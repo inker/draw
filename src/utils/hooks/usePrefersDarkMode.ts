@@ -1,5 +1,5 @@
-import useMedia from './useMedia'
+import useMedia from './useMedia';
 
-const MEDIA_QUERY = '(prefers-color-scheme: dark)'
+const MEDIA_QUERY = '(prefers-color-scheme: dark)';
 
-export default () => useMedia(MEDIA_QUERY)
+export default () => useMedia(MEDIA_QUERY);

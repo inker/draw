@@ -1,18 +1,18 @@
-import { type RefObject, memo, useEffect, useRef } from 'react'
-import styled from 'styled-components'
+import { type RefObject, memo, useEffect, useRef } from 'react';
+import styled from 'styled-components';
 
-import type Club from '#model/team/Club'
-import type NationalTeam from '#model/team/NationalTeam'
-import ButtonLink from '#ui/ButtonLink'
-import Dots from '#ui/Dots'
-import Deferred from '#ui/Deferred'
-import getGroupLetter from '#utils/getGroupLetter'
+import type Club from '#model/team/Club';
+import type NationalTeam from '#model/team/NationalTeam';
+import ButtonLink from '#ui/ButtonLink';
+import Dots from '#ui/Dots';
+import Deferred from '#ui/Deferred';
+import getGroupLetter from '#utils/getGroupLetter';
 
-import PossibleGroups from './PossibleGroups'
-import LongCalculation from './LongCalculation'
-import Download from './Download'
+import PossibleGroups from './PossibleGroups';
+import LongCalculation from './LongCalculation';
+import Download from './Download';
 
-type Team = Club | NationalTeam
+type Team = Club | NationalTeam;
 
 const Root = styled.div`
   vertical-align: middle;
@@ -27,15 +27,15 @@ const Root = styled.div`
     margin-top: 15px;
     margin-bottom: 15px;
   }
-`
+`;
 
 const SelectedTeamWithColon = styled.span`
   display: inline-block;
-`
+`;
 
 const Bold = styled.strong`
   font-weight: 600;
-`
+`;
 
 const Completed = styled.div`
   display: flex;
@@ -45,18 +45,18 @@ const Completed = styled.div`
   > * + * {
     margin-top: 12px;
   }
-`
+`;
 
 interface Props {
-  long: boolean
-  completed: boolean
-  selectedTeam: Team | null
-  pickedGroup: number | null
-  possibleGroups: readonly number[] | null
-  isDisplayPossibleGroupsText?: boolean
-  numGroups: number
-  groupsElement: RefObject<HTMLElement | null>
-  reset: any
+  long: boolean;
+  completed: boolean;
+  selectedTeam: Team | null;
+  pickedGroup: number | null;
+  possibleGroups: readonly number[] | null;
+  isDisplayPossibleGroupsText?: boolean;
+  numGroups: number;
+  groupsElement: RefObject<HTMLElement | null>;
+  reset: any;
 }
 
 function Announcement({
@@ -70,14 +70,14 @@ function Announcement({
   groupsElement,
   reset,
 }: Props) {
-  const lastAnnouncementRef = useRef<React.ReactElement | null>(null)
-  const lastSelectedRef = useRef<Team | null>(null)
+  const lastAnnouncementRef = useRef<React.ReactElement | null>(null);
+  const lastSelectedRef = useRef<Team | null>(null);
 
   useEffect(() => {
-    lastSelectedRef.current = completed ? null : selectedTeam
-  }, [completed, selectedTeam])
+    lastSelectedRef.current = completed ? null : selectedTeam;
+  }, [completed, selectedTeam]);
 
-  const selected = lastSelectedRef.current ?? selectedTeam
+  const selected = lastSelectedRef.current ?? selectedTeam;
 
   if (completed) {
     return (
@@ -91,7 +91,7 @@ function Announcement({
           <ButtonLink onClick={reset}>Restart</ButtonLink>
         </Completed>
       </Root>
-    )
+    );
   }
 
   if (pickedGroup !== null) {
@@ -110,8 +110,8 @@ function Announcement({
           <Bold>{getGroupLetter(pickedGroup)}</Bold>!
         </div>
       </Root>
-    )
-    return lastAnnouncementRef.current
+    );
+    return lastAnnouncementRef.current;
   }
 
   if (selected) {
@@ -145,10 +145,10 @@ function Announcement({
           lastAnnouncementRef.current
         )}
       </Root>
-    )
+    );
   }
 
-  return <Root>Pick a ball</Root>
+  return <Root>Pick a ball</Root>;
 }
 
-export default memo(Announcement)
+export default memo(Announcement);

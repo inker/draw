@@ -7,7 +7,7 @@ eslint import/no-extraneous-dependencies: [2, {
 }]
 */
 
-import { defineConfig } from 'vitest/config'
+import { defineConfig } from 'vitest/config';
 
 export default defineConfig({
   plugins: [],
@@ -15,4 +15,4 @@ export default defineConfig({
     include: ['tests/**/*.test.ts'],
     globals: true,
   },
-})
+});

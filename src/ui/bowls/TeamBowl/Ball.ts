@@ -1,9 +1,9 @@
-import styled, { css } from 'styled-components'
+import styled, { css } from 'styled-components';
 
-import BowlBall from '../BowlBall'
+import BowlBall from '../BowlBall';
 
 interface Props {
-  $notSelected?: boolean
+  $notSelected?: boolean;
 }
 
 const TeamBall = styled(BowlBall)<Props>`
@@ -22,6 +22,6 @@ const TeamBall = styled(BowlBall)<Props>`
         background: radial-gradient(#ccf, #ccf);
       `}
   }
-`
+`;
 
-export default TeamBall
+export default TeamBall;

@@ -1,20 +1,20 @@
-import { memo, useCallback } from 'react'
-import styled from 'styled-components'
+import { memo, useCallback } from 'react';
+import styled from 'styled-components';
 
-import type Tournament from '#model/Tournament'
-import type Stage from '#model/Stage'
-import useTheme from '#store/useTheme'
-import useMedia from '#utils/hooks/useMedia'
-import useDrawId from '#store/useDrawId'
-import useXRay from '#store/useXRay'
-import useFastDraw from '#store/useFastDraw'
-import Checkbox from '#ui/Checkbox'
-import Button from '#ui/Button'
-import StyledLink from '#ui/StyledLink'
+import type Tournament from '#model/Tournament';
+import type Stage from '#model/Stage';
+import useTheme from '#store/useTheme';
+import useMedia from '#utils/hooks/useMedia';
+import useDrawId from '#store/useDrawId';
+import useXRay from '#store/useXRay';
+import useFastDraw from '#store/useFastDraw';
+import Checkbox from '#ui/Checkbox';
+import Button from '#ui/Button';
+import StyledLink from '#ui/StyledLink';
 
-import SelectSeason from './SelectSeason'
-import SelectTheme from './SelectTheme'
-import GitHubButtons from './GitHubButtons'
+import SelectSeason from './SelectSeason';
+import SelectTheme from './SelectTheme';
+import GitHubButtons from './GitHubButtons';
 
 const Root = styled.div`
   display: flex;
@@ -50,36 +50,36 @@ const Root = styled.div`
       Roboto, sans-serif;
     font-size: 10px;
   }
-`
+`;
 
 interface Props {
-  season: number
-  tournament: Tournament
-  stage: Stage
+  season: number;
+  tournament: Tournament;
+  stage: Stage;
   onSeasonChange: (
     tournament: Tournament,
     stage: Stage,
     season?: number,
-  ) => void
+  ) => void;
 }
 
 function Navbar({ season, tournament, stage, onSeasonChange }: Props) {
-  const [theme, setTheme] = useTheme()
-  const [isXRay, setIsXRay] = useXRay()
-  const [, refreshDrawId] = useDrawId()
-  const [isFastDraw, setIsFastDraw] = useFastDraw()
+  const [theme, setTheme] = useTheme();
+  const [isXRay, setIsXRay] = useXRay();
+  const [, refreshDrawId] = useDrawId();
+  const [isFastDraw, setIsFastDraw] = useFastDraw();
 
-  const isWidth900 = useMedia('(min-width: 900px)')
-  const isWidth700 = useMedia('(min-width: 700px)')
+  const isWidth900 = useMedia('(min-width: 900px)');
+  const isWidth700 = useMedia('(min-width: 700px)');
 
   const disableFastDrawAndRestart = useCallback(() => {
-    setIsFastDraw(false)
-    refreshDrawId()
-  }, [])
+    setIsFastDraw(false);
+    refreshDrawId();
+  }, []);
 
   const enableFastDraw = useCallback(() => {
-    setIsFastDraw(true)
-  }, [])
+    setIsFastDraw(true);
+  }, []);
 
   return (
     <Root>
@@ -122,7 +122,7 @@ function Navbar({ season, tournament, stage, onSeasonChange }: Props) {
         </small>
       </div>
     </Root>
-  )
+  );
 }
 
-export default memo(Navbar)
+export default memo(Navbar);

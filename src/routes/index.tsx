@@ -1,44 +1,44 @@
-import { memo, useCallback, useEffect, useMemo } from 'react'
+import { memo, useCallback, useEffect, useMemo } from 'react';
 import {
   Navigate,
   Route,
   Routes,
   useMatch,
   useNavigate,
-} from 'react-router-dom'
+} from 'react-router-dom';
 
-import Visibility from '#ui/Visibility'
-import type Tournament from '#model/Tournament'
-import type Stage from '#model/Stage'
-import useFastDraw from '#store/useFastDraw'
-import useDrawId from '#store/useDrawId'
-import usePopup from '#store/usePopup'
+import Visibility from '#ui/Visibility';
+import type Tournament from '#model/Tournament';
+import type Stage from '#model/Stage';
+import useFastDraw from '#store/useFastDraw';
+import useDrawId from '#store/useDrawId';
+import usePopup from '#store/usePopup';
 
-import config from '../config'
+import config from '../config';
 
-import HeadMetadata from './HeadMetadata'
-import Navbar from './Navbar'
-import Pages from './Pages'
-import currentSeasonByTournament from './currentSeasonByTournament'
+import HeadMetadata from './HeadMetadata';
+import Navbar from './Navbar';
+import Pages from './Pages';
+import currentSeasonByTournament from './currentSeasonByTournament';
 
 interface Path {
-  tournament?: Tournament
-  stage?: Stage
+  tournament?: Tournament;
+  stage?: Stage;
 }
 
-const { defaultTournament, defaultStage } = config
+const { defaultTournament, defaultStage } = config;
 
 function useSeasonTournamentStage() {
-  const match = useMatch(':tournament/:stage/*')
-  const params = match?.params
-  const { tournament, stage } = (params ?? {}) as Path
+  const match = useMatch(':tournament/:stage/*');
+  const params = match?.params;
+  const { tournament, stage } = (params ?? {}) as Path;
 
   const season = params
     ? +(
         params['*'] ||
         currentSeasonByTournament(tournament || null, stage || null)
       )
-    : currentSeasonByTournament(defaultTournament, defaultStage)
+    : currentSeasonByTournament(defaultTournament, defaultStage);
 
   return useMemo(
     () => ({
@@ -47,31 +47,31 @@ function useSeasonTournamentStage() {
       stage,
     }),
     [season, tournament, stage],
-  )
+  );
 }
 
 function Routing() {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
-  const [drawId, refreshDrawId] = useDrawId()
-  const [popup] = usePopup()
-  const [, setIsFastDraw] = useFastDraw()
+  const [drawId, refreshDrawId] = useDrawId();
+  const [popup] = usePopup();
+  const [, setIsFastDraw] = useFastDraw();
 
-  const o = useSeasonTournamentStage()
+  const o = useSeasonTournamentStage();
 
   useEffect(() => {
-    setIsFastDraw(false)
-    refreshDrawId()
-  }, [o])
+    setIsFastDraw(false);
+    refreshDrawId();
+  }, [o]);
 
-  const { tournament, stage, season } = o
+  const { tournament, stage, season } = o;
 
   const onSeasonChange = useCallback(
     (tm: Tournament, sg: Stage, sn?: number) => {
-      navigate(`/${tm}/${sg}${sn ? `/${sn}` : ''}`)
+      navigate(`/${tm}/${sg}${sn ? `/${sn}` : ''}`);
     },
     [navigate],
-  )
+  );
 
   return (
     <>
@@ -151,7 +151,7 @@ function Routing() {
         />
       </Routes>
     </>
-  )
+  );
 }
 
-export default memo(Routing)
+export default memo(Routing);

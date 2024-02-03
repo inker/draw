@@ -1,44 +1,44 @@
-import { memo, useCallback, useContext, useRef, useState } from 'react'
-import { ThemeContext } from 'styled-components'
+import { memo, useCallback, useContext, useRef, useState } from 'react';
+import { ThemeContext } from 'styled-components';
 
-import type Club from '#model/team/Club'
-import type NationalTeam from '#model/team/NationalTeam'
-import usePrevious from '#utils/hooks/usePrevious'
-import useDidUpdate from '#utils/hooks/useDidUpdate'
-import getTeamCountryName from '#utils/getTeamCountryName'
-import ContentWithFlag from '#ui/table/ContentWithFlag'
-import DummyContent from '#ui/table/DummyContent'
-import MovingContent from '#ui/MovingContent'
+import type Club from '#model/team/Club';
+import type NationalTeam from '#model/team/NationalTeam';
+import usePrevious from '#utils/hooks/usePrevious';
+import useDidUpdate from '#utils/hooks/useDidUpdate';
+import getTeamCountryName from '#utils/getTeamCountryName';
+import ContentWithFlag from '#ui/table/ContentWithFlag';
+import DummyContent from '#ui/table/DummyContent';
+import MovingContent from '#ui/MovingContent';
 
-import GroupCellBase from './GroupCellBase'
+import GroupCellBase from './GroupCellBase';
 
-type Team = Club | NationalTeam
+type Team = Club | NationalTeam;
 
 interface Props {
-  team?: Team
-  possible: boolean
+  team?: Team;
+  possible: boolean;
 }
 
 function GroupCellDeferred({ team, possible }: Props) {
-  const prevTeam = usePrevious(team)
-  const [displayedTeam, setDisplayedTeam] = useState(team)
-  const [isPickedAnimation, setIsPickedAnimation] = useState(false)
-  const themeContext = useContext(ThemeContext)
-  const destinationRef = useRef<HTMLElement | null>(null)
+  const prevTeam = usePrevious(team);
+  const [displayedTeam, setDisplayedTeam] = useState(team);
+  const [isPickedAnimation, setIsPickedAnimation] = useState(false);
+  const themeContext = useContext(ThemeContext);
+  const destinationRef = useRef<HTMLElement | null>(null);
 
   const setIsPickedAnimationFalse = useCallback(
     () => setIsPickedAnimation(false),
     [],
-  )
+  );
 
   const fill = useCallback(() => {
-    setDisplayedTeam(team)
-    setIsPickedAnimation(true)
-  }, [team])
+    setDisplayedTeam(team);
+    setIsPickedAnimation(true);
+  }, [team]);
 
   useDidUpdate(() => {
-    setIsPickedAnimationFalse()
-  }, [themeContext])
+    setIsPickedAnimationFalse();
+  }, [themeContext]);
 
   return (
     <>
@@ -65,7 +65,7 @@ function GroupCellDeferred({ team, possible }: Props) {
         />
       )}
     </>
-  )
+  );
 }
 
-export default memo(GroupCellDeferred)
+export default memo(GroupCellDeferred);

@@ -1,4 +1,4 @@
-const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 // const createStyledComponentsTransformer = require('typescript-plugin-styled-components').default
 
 // const styledComponentsTransformer = createStyledComponentsTransformer()
@@ -42,4 +42,4 @@ module.exports = isDev =>
         filename: `data/[name]${isDev ? '' : '.[contenthash:8]'}[ext]`,
       },
     },
-  ].filter(Boolean)
+  ].filter(Boolean);

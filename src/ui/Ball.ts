@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled from 'styled-components';
 
 const Ball = styled.div`
   display: flex;
@@ -28,6 +28,6 @@ const Ball = styled.div`
     width: 21px;
     height: 21px;
   }
-`
+`;
 
-export default Ball
+export default Ball;

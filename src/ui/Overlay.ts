@@ -1,6 +1,6 @@
-import styled from 'styled-components'
+import styled from 'styled-components';
 
-const Z_INDEX = 100000000
+const Z_INDEX = 100000000;
 
 const Overlay = styled.div`
   position: fixed;
@@ -11,6 +11,6 @@ const Overlay = styled.div`
   z-index: ${Z_INDEX};
   width: 100%;
   height: 100%;
-`
+`;
 
-export default Overlay
+export default Overlay;

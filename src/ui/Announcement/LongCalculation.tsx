@@ -1,14 +1,14 @@
-import { memo } from 'react'
-import styled from 'styled-components'
+import { memo } from 'react';
+import styled from 'styled-components';
 
-import StyledLink from '#ui/StyledLink'
+import StyledLink from '#ui/StyledLink';
 
 const Bug = styled.div`
   padding: 10px;
   border-width: 2px;
   border-style: dashed;
   border-color: rgb(255 0 0 / 0.5);
-`
+`;
 
 function LongCalculation() {
   return (
@@ -26,7 +26,7 @@ function LongCalculation() {
         .
       </div>
     </Bug>
-  )
+  );
 }
 
-export default memo(LongCalculation)
+export default memo(LongCalculation);

@@ -1,21 +1,21 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react';
 
 export default (media: string) => {
-  const matchResult = useMemo(() => window.matchMedia(media), [media])
+  const matchResult = useMemo(() => window.matchMedia(media), [media]);
 
-  const [isMatch, setIsMatch] = useState(matchResult.matches)
+  const [isMatch, setIsMatch] = useState(matchResult.matches);
 
   useEffect(() => {
     const listener = (e: MediaQueryListEvent) => {
-      setIsMatch(e.matches)
-    }
+      setIsMatch(e.matches);
+    };
 
-    matchResult.addEventListener('change', listener)
+    matchResult.addEventListener('change', listener);
 
     return () => {
-      matchResult.removeEventListener('change', listener)
-    }
-  }, [matchResult])
+      matchResult.removeEventListener('change', listener);
+    };
+  }, [matchResult]);
 
-  return isMatch
-}
+  return isMatch;
+};

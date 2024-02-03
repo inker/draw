@@ -1,22 +1,22 @@
-import { memo } from 'react'
-import { type Interpolation } from 'styled-components'
+import { memo } from 'react';
+import { type Interpolation } from 'styled-components';
 
-import type Team from '#model/team'
-import Row from '#ui/table/Row'
-import Cell from '#ui/table/Cell'
+import type Team from '#model/team';
+import Row from '#ui/table/Row';
+import Cell from '#ui/table/Cell';
 
-import Root from './PotRoot'
-import Header from './PotHeader'
-import PotRow from './PotRow'
+import Root from './PotRoot';
+import Header from './PotHeader';
+import PotRow from './PotRow';
 
 interface Props {
-  isCurrent: boolean
-  potNum: number
-  teams: readonly Team[]
-  pickedTeams: readonly Team[]
-  selectedTeams: readonly Team[] | null
-  numCols: number
-  headerStyles?: Interpolation<any>
+  isCurrent: boolean;
+  potNum: number;
+  teams: readonly Team[];
+  pickedTeams: readonly Team[];
+  selectedTeams: readonly Team[] | null;
+  numCols: number;
+  headerStyles?: Interpolation<any>;
 }
 
 function Pot({
@@ -28,7 +28,7 @@ function Pot({
   numCols,
   headerStyles,
 }: Props) {
-  const numRows = teams.length / numCols
+  const numRows = teams.length / numCols;
 
   return (
     <Root $highlighted={isCurrent}>
@@ -47,12 +47,12 @@ function Pot({
       </thead>
       <tbody>
         {Array.from({ length: numRows }, (_, i) => {
-          const offset = i * numCols
+          const offset = i * numCols;
           const rowTeams = Array.from(
             { length: numCols },
             // eslint-disable-next-line @typescript-eslint/no-shadow, no-shadow
             (_, c) => teams[offset + c],
-          )
+          );
 
           return (
             <PotRow
@@ -61,11 +61,11 @@ function Pot({
               selectedTeams={selectedTeams}
               pickedTeams={pickedTeams}
             />
-          )
+          );
         })}
       </tbody>
     </Root>
-  )
+  );
 }
 
-export default memo(Pot)
+export default memo(Pot);

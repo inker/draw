@@ -1,16 +1,16 @@
-const webpack = require('webpack')
-const CleanTerminalPlugin = require('clean-terminal-webpack-plugin')
-const HtmlWebpackPlugin = require('html-webpack-plugin')
-const MiniCssExtractPlugin = require('mini-css-extract-plugin')
-const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin')
-const ESLintPlugin = require('eslint-webpack-plugin')
-const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer')
+const webpack = require('webpack');
+const CleanTerminalPlugin = require('clean-terminal-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
+const ESLintPlugin = require('eslint-webpack-plugin');
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 
-const getCurrentDate = require('./utils/getCurrentDate')
-const getLastCommitHash = require('./utils/getLastCommitHash')
+const getCurrentDate = require('./utils/getCurrentDate');
+const getLastCommitHash = require('./utils/getLastCommitHash');
 
-const currentDate = getCurrentDate()
-const lastCommitHash = getLastCommitHash()
+const currentDate = getCurrentDate();
+const lastCommitHash = getLastCommitHash();
 
 /**
  * @param {boolean} isDev
@@ -69,4 +69,4 @@ module.exports = isDev =>
       }),
 
     process.env.npm_config_report && new BundleAnalyzerPlugin(),
-  ].filter(Boolean)
+  ].filter(Boolean);

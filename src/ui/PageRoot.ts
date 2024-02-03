@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled from 'styled-components';
 
 const Root = styled.div`
   display: flex;
@@ -9,6 +9,6 @@ const Root = styled.div`
     flex-direction: column;
     width: 100%;
   }
-`
+`;
 
-export default Root
+export default Root;

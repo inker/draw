@@ -1,12 +1,12 @@
-import { type Alpha2Code } from 'i18n-iso-countries'
+import { type Alpha2Code } from 'i18n-iso-countries';
 
-import { type Confederation } from '#model/types'
+import { type Confederation } from '#model/types';
 
-type Flag = Lowercase<Alpha2Code> | `gb-${string}`
+type Flag = Lowercase<Alpha2Code> | `gb-${string}`;
 
 interface ValueObj {
-  confederation: Confederation
-  flag: Flag
+  confederation: Confederation;
+  flag: Flag;
 }
 
 export default {
@@ -343,4 +343,4 @@ export default {
     flag: 'nz',
     confederation: 'OFC',
   },
-} as const satisfies Record<string, ValueObj>
+} as const satisfies Record<string, ValueObj>;

@@ -1,9 +1,9 @@
-import { memo, useCallback } from 'react'
-import styled from 'styled-components'
+import { memo, useCallback } from 'react';
+import styled from 'styled-components';
 
-import getGroupLetter from '#utils/getGroupLetter'
+import getGroupLetter from '#utils/getGroupLetter';
 
-import Ball from './Ball'
+import Ball from './Ball';
 
 const Root = styled.div`
   display: flex;
@@ -13,27 +13,27 @@ const Root = styled.div`
   @media (max-width: 999px) {
     justify-content: center;
   }
-`
+`;
 
 interface Props {
-  display: boolean
-  displayGroups: boolean
-  possibleGroups: readonly number[] | null
-  onPick: (groupNum: number) => void
+  display: boolean;
+  displayGroups: boolean;
+  possibleGroups: readonly number[] | null;
+  onPick: (groupNum: number) => void;
 }
 
 function GroupBowl({ display, displayGroups, possibleGroups, onPick }: Props) {
   const handleBallPick = useCallback(
     (ev: React.MouseEvent<HTMLDivElement>) => {
-      const ball = ev.target as HTMLDivElement
-      const pickedGroup = +ball.dataset.group!
+      const ball = ev.target as HTMLDivElement;
+      const pickedGroup = +ball.dataset.group!;
       if (Number.isNaN(pickedGroup)) {
-        throw new TypeError(`Incorrect group ball: ${ball.dataset.group}`)
+        throw new TypeError(`Incorrect group ball: ${ball.dataset.group}`);
       }
-      onPick(pickedGroup)
+      onPick(pickedGroup);
     },
     [onPick],
-  )
+  );
 
   return (
     <Root>
@@ -49,7 +49,7 @@ function GroupBowl({ display, displayGroups, possibleGroups, onPick }: Props) {
           </Ball>
         ))}
     </Root>
-  )
+  );
 }
 
-export default memo(GroupBowl)
+export default memo(GroupBowl);
