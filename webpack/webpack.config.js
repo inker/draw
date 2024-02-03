@@ -7,8 +7,6 @@ const rules = require('./rules')
 const plugins = require('./plugins')
 const devServer = require('./devServer')
 
-const rootDir = process.cwd()
-
 const defaultEnv = {
   dev: false,
   out: 'dist',
@@ -27,12 +25,13 @@ module.exports = env => {
 
   const isDev = envOptions.dev
   const outDir = envOptions.out
-  const distDir = path.join(rootDir, outDir)
+  const rootDir = path.resolve(__dirname, '..')
+  const distDir = path.resolve(rootDir, defaultEnv.out)
 
   return {
     mode: isDev ? 'development' : 'production',
     target: 'web',
-    context: path.resolve(__dirname, '..'),
+    context: rootDir,
     entry: {
       app: './src/index.tsx',
     },
@@ -48,7 +47,7 @@ module.exports = env => {
       alias: isDev
         ? undefined
         : {
-            lodash: path.join(rootDir, 'node_modules/lodash-es'),
+            lodash: require.resolve('lodash-es'),
             // 'react': path.join(rootDir, 'node_modules/react/dist/react.min.js'),
             // 'react-dom': path.join(rootDir, 'node_modules/react-dom/dist/react-dom.min.js'),
           },
