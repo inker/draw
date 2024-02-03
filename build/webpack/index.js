@@ -25,7 +25,7 @@ module.exports = env => {
 
   const isDev = envOptions.dev
   const outDir = envOptions.out
-  const rootDir = path.resolve(__dirname, '..')
+  const rootDir = path.resolve(__dirname, '../..')
   const distDir = path.resolve(rootDir, outDir)
 
   return {

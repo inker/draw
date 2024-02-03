@@ -36,7 +36,7 @@ module.exports = {
       node: {
         extensions: ['.mjs', '.js', '.jsx', '.ts', '.tsx', '.json'],
         webpack: {
-          config: 'webpack/webpack.config.js',
+          config: 'build/webpack/index.js',
         },
       },
     },

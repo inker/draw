@@ -42,8 +42,8 @@
     "lint": "run-p -c \"lint:css -- {1}\" \"lint:js -- {1}\" --",
     "prettier": "prettier --cache --check .",
     "check-types": "tsc --project tsconfig.json --noEmit",
-    "build": "npm run build --prefix webpack",
-    "start": "npm start --prefix webpack",
+    "build": "npm run build --prefix build",
+    "start": "npm start --prefix build",
     "test": "vitest"
   },
   "dependencies": {

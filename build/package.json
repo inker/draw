@@ -12,8 +12,8 @@
     "url": "git+https://github.com/inker/draw.git"
   },
   "scripts": {
-    "build": "webpack --color --config webpack.config.js",
-    "start": "webpack serve --color --env dev --config webpack.config.js"
+    "build": "webpack --color --config webpack",
+    "start": "webpack serve --color --env dev --config webpack"
   },
   "dependencies": {
     "@swc/core": "^1.3.64",
