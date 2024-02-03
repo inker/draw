@@ -23,7 +23,10 @@ module.exports = isDev =>
     },
     {
       test: /\.css$/,
-      use: [isDev ? require.resolve('style-loader') : MiniCssExtractPlugin.loader, require.resolve('css-loader')],
+      use: [
+        isDev ? require.resolve('style-loader') : MiniCssExtractPlugin.loader,
+        require.resolve('css-loader'),
+      ],
     },
     {
       test: /\.(png|jpe?g|gif|svg)$/,
