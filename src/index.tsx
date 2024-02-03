@@ -1,5 +1,4 @@
 import 'normalize.css'
-import 'unfocus'
 import { createRoot } from 'react-dom/client'
 
 import App from './App'

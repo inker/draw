@@ -69,8 +69,7 @@
     "react-helmet": "^6.1.0",
     "react-router-dom": "^6.3.0",
     "styled-components": "^6.0.2",
-    "tslib": "^2.3.1",
-    "unfocus": "^1.0.1"
+    "tslib": "^2.3.1"
   },
   "devDependencies": {
     "@inker/build": "file:./webpack",
