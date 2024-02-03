@@ -1,4 +1,4 @@
-interface BacktrackOptions<C> {
+export interface BacktrackOptions<C> {
   /**
    * Should current path traversal be stopped
    */
@@ -15,7 +15,6 @@ interface BacktrackOptions<C> {
   generate: (candidate: C) => Iterable<C>
 }
 
-// eslint-disable-next-line import/prefer-default-export
 export const findFirstSolution = <C>(
   candidate: C,
   options: BacktrackOptions<C>,
