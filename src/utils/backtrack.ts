@@ -19,10 +19,12 @@ export const findFirstSolution = <C>(
   candidate: C,
   options: BacktrackOptions<C>,
 ): C | undefined => {
-  if (options.reject(candidate)) {
+  const isRejected = options.reject(candidate);
+  if (isRejected) {
     return;
   }
-  if (options.accept(candidate)) {
+  const isAccepted = options.accept(candidate);
+  if (isAccepted) {
     return candidate;
   }
   for (const newCandidate of options.generate(candidate)) {
