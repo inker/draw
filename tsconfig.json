@@ -6,9 +6,7 @@
     "skipLibCheck": true,
     "allowSyntheticDefaultImports": true,
     "paths": {
-      "#*": [
-        "./src/*"
-      ]
+      "#*": ["./src/*"]
     },
     // "sourceMap": true, // not needed when assembled with webpack
     // "watch": true, // not needed when assembled with webpack
