@@ -19,6 +19,8 @@ jobs:
           node-version: ${{ env.NODE_VERSION }}
           cache: npm
           cache-dependency-path: package-lock.json
+      - name: Install build dependencies
+        run: npm ci --no-audit --no-progress --prefix build
       - name: Install dependencies
         run: npm ci --no-audit --no-progress
       - name: Build
