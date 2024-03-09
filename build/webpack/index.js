@@ -41,6 +41,7 @@ module.exports = env => {
       filename: `[name]${isDev ? '' : '.[contenthash:8]'}.js`,
       sourceMapFilename: '[file].map',
       globalObject: isDev ? 'this' : undefined, // TODO
+      hashDigest: 'base64url',
     },
     resolve: {
       extensions: ['.ts', '.tsx', '.js', '.jsx'],
