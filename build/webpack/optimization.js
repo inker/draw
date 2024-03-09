@@ -64,7 +64,9 @@ module.exports = isDev => ({
           //   .identifier()
           //   .split('/')
           //   .reduceRight(item => item);
-          const allChunksNames = chunks.map(item => item.name).join('~');
+          const allChunksNames = chunks
+            .map(item => item.name || item.debugId)
+            .join('~');
           // return `${cacheGroupKey}--${allChunksNames}--${moduleFileName}`;
           // return `${cacheGroupKey}--${allChunksNames}`;
           return `vendors-${allChunksNames}`;
