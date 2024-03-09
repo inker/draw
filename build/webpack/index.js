@@ -43,6 +43,13 @@ module.exports = env => {
       globalObject: isDev ? 'this' : undefined, // TODO
       hashDigest: 'base64url',
     },
+    cache: {
+      type: 'filesystem',
+      store: 'pack',
+      buildDependencies: {
+        config: [__filename],
+      },
+    },
     resolve: {
       extensions: ['.ts', '.tsx', '.js', '.jsx'],
       alias: isDev
