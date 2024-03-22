@@ -14,4 +14,4 @@
 	</a>
 </p>
 
-Works in all major browsers (Chrome, Firefox, etc) with the exception of IE & Edge. Sometimes, Safari disappoints, too.
+Works in all major browsers (Chrome, Edge, Firefox, etc) with the exception of IE. Sometimes, Safari disappoints, too.
