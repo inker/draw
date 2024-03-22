@@ -45,6 +45,7 @@ module.exports = {
   },
 
   rules: {
+    curly: [2, 'all'], // disabled by eslint-config-prettie
     'object-property-newline': [
       2,
       {
