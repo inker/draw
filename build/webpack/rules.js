@@ -12,7 +12,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 module.exports = isDev =>
   [
     {
-      test: /\.tsx?$/,
+      test: /\.(js|mjs|jsx|ts|tsx)$/,
       use: {
         loader: require.resolve('esbuild-loader'),
         options: {
@@ -23,6 +23,7 @@ module.exports = isDev =>
     },
     {
       test: /\.css$/,
+      exclude: /\.module\.css$/,
       use: [
         isDev ? require.resolve('style-loader') : MiniCssExtractPlugin.loader,
         require.resolve('css-loader'),
