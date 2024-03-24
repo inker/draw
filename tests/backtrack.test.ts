@@ -1,6 +1,6 @@
 import {
-  findFirstSolution,
   type BacktrackOptions,
+  findFirstSolution,
 } from '../src/utils/backtrack';
 
 describe('findFirstSolution', () => {

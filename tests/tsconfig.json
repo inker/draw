@@ -1,10 +1,10 @@
 {
   "compilerOptions": {
     "target": "ESNext",
-    "module": "CommonJS",
+    "module": "NodeNext",
     "strict": true,
     "lib": ["DOM", "DOM.Iterable", "ESNext"],
     "types": ["vitest/globals"]
   },
-  "include": ["./**/*", "../vitest.config.ts"]
+  "include": ["./**/*", "../vitest.config.mts"]
 }

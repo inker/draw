@@ -238,6 +238,10 @@ module.exports = {
   overrides: [
     {
       files: ['tests/**/*'],
+      parserOptions: {
+        tsconfigRootDir: __dirname,
+        project: ["./tests/tsconfig.json"],
+      },
       extends: ['plugin:vitest/recommended'],
       rules: {
         'import/no-extraneous-dependencies': [
