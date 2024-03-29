@@ -240,7 +240,7 @@ module.exports = {
       files: ['tests/**/*'],
       parserOptions: {
         tsconfigRootDir: __dirname,
-        project: ["./tests/tsconfig.json"],
+        project: ['./tests/tsconfig.json'],
       },
       extends: ['plugin:vitest/recommended'],
       rules: {
