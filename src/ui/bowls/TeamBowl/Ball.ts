@@ -15,6 +15,8 @@ const TeamBall = styled(BowlBall)<Props>`
         : 'radial-gradient(#fff, #004)'};
   cursor: ${props => (props.noHover ? 'not-allowed' : 'pointer')};
 
+  color: #015cc8;
+
   &:hover {
     ${props =>
       !props.noHover &&
