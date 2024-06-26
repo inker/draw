@@ -3,7 +3,7 @@ import { orderBy } from 'lodash';
 import generateFull from './generateFull';
 import getFirstSuitableMatch from './getFirstSuitableMatch';
 
-const generateMatchdays = ({
+export default ({
   teams,
   numPots,
   numMatchdays,
@@ -72,5 +72,3 @@ const generateMatchdays = ({
 
   return matches;
 };
-
-export default generateMatchdays;

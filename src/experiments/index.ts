@@ -1,8 +1,8 @@
 import { range, stubTrue } from 'lodash';
 
-import generateMatchdays from './generatePairings';
+import generatePairings from './generatePairings';
 
-const matchdays = generateMatchdays({
+const matchdays = generatePairings({
   teams: range(36),
   numPots: 4,
   numMatchdays: 8,
