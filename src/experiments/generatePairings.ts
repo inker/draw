@@ -220,15 +220,15 @@ const generateMatchdays = ({
   teams,
   numPots,
   numMatchdays,
+  canPlay,
 }: {
   teams: readonly number[];
   numPots: number;
   numMatchdays: number;
+  canPlay: (a: number, b: number) => boolean;
 }) => {
   const numTeamsPerPot = teams.length / numPots;
   const numGamesPerMatchday = teams.length / 2;
-
-  console.log('doing for', numMatchdays);
 
   let allGames = generateFull(teams);
 
@@ -252,6 +252,8 @@ const generateMatchdays = ({
     // },
     // ([a, b]) => -Math.abs(a - b),
   ]);
+
+  allGames = allGames.filter(([a, b]) => canPlay(a, b));
 
   // remainingGames = shuffle(remainingGames);
 
