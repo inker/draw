@@ -8,12 +8,10 @@ const generateMatchdays = ({
   teams,
   numPots,
   numMatchdays,
-  maxHomeGamesVsPot,
 }: {
   teams: readonly number[];
   numPots: number;
   numMatchdays: number;
-  maxHomeGamesVsPot: number;
 }) => {
   const numTeamsPerPot = teams.length / numPots;
   const numGamesPerMatchday = teams.length / 2;
@@ -58,7 +56,7 @@ const generateMatchdays = ({
    */
   const hasPlayedWithPotMap: Record<
     `${number}:${number}:${'h' | 'a'}`,
-    number
+    boolean
   > = {};
 
   while (matches.length < numMatchdays * numGamesPerMatchday) {
@@ -99,17 +97,11 @@ const generateMatchdays = ({
             const homeTeamPotIndex = Math.floor(m1 / numTeamsPerPot);
             const awayTeamPotIndex = Math.floor(m2 / numTeamsPerPot);
 
-            if (
-              c.hasPlayedWithPotMap[`${m1}:${awayTeamPotIndex}:h`] ===
-              maxHomeGamesVsPot
-            ) {
+            if (c.hasPlayedWithPotMap[`${m1}:${awayTeamPotIndex}:h`]) {
               return true;
             }
 
-            if (
-              c.hasPlayedWithPotMap[`${m2}:${homeTeamPotIndex}:a`] ===
-              maxHomeGamesVsPot
-            ) {
+            if (c.hasPlayedWithPotMap[`${m2}:${homeTeamPotIndex}:a`]) {
               return true;
             }
 
@@ -135,14 +127,8 @@ const generateMatchdays = ({
 
             const newHasPlayedWithPotMap: typeof c.hasPlayedWithPotMap = {
               ...c.hasPlayedWithPotMap,
-              [`${c.picked[0]}:${pickedAwayPotIndex}:h`]:
-                (c.hasPlayedWithPotMap[
-                  `${c.picked[0]}:${pickedAwayPotIndex}:h`
-                ] ?? 0) + 1,
-              [`${c.picked[1]}:${pickedHomePotIndex}:a`]:
-                (c.hasPlayedWithPotMap[
-                  `${c.picked[1]}:${pickedHomePotIndex}:a`
-                ] ?? 0) + 1,
+              [`${c.picked[0]}:${pickedAwayPotIndex}:h`]: true,
+              [`${c.picked[1]}:${pickedHomePotIndex}:a`]: true,
             } satisfies typeof c.hasPlayedWithPotMap;
 
             const newSource = c.source.filter(m => {
@@ -162,17 +148,11 @@ const generateMatchdays = ({
               const homePot = Math.floor(m[0] / numTeamsPerPot);
               const awayPot = Math.floor(m[1] / numTeamsPerPot);
 
-              if (
-                hasPlayedWithPotMap[`${m[0]}:${awayPot}:h`] ===
-                maxHomeGamesVsPot
-              ) {
+              if (hasPlayedWithPotMap[`${m[0]}:${awayPot}:h`]) {
                 return false;
               }
 
-              if (
-                hasPlayedWithPotMap[`${m[1]}:${homePot}:a`] ===
-                maxHomeGamesVsPot
-              ) {
+              if (hasPlayedWithPotMap[`${m[1]}:${homePot}:a`]) {
                 return false;
               }
 
@@ -251,10 +231,8 @@ const generateMatchdays = ({
 
     const pickedHomePot = Math.floor(pickedMatch[0] / numTeamsPerPot);
     const pickedAwayPot = Math.floor(pickedMatch[1] / numTeamsPerPot);
-    hasPlayedWithPotMap[`${pickedMatch[0]}:${pickedAwayPot}:h`] =
-      (hasPlayedWithPotMap[`${pickedMatch[0]}:${pickedAwayPot}:h`] ?? 0) + 1;
-    hasPlayedWithPotMap[`${pickedMatch[1]}:${pickedHomePot}:a`] =
-      (hasPlayedWithPotMap[`${pickedMatch[1]}:${pickedHomePot}:a`] ?? 0) + 1;
+    hasPlayedWithPotMap[`${pickedMatch[0]}:${pickedAwayPot}:h`] = true;
+    hasPlayedWithPotMap[`${pickedMatch[1]}:${pickedHomePot}:a`] = true;
 
     console.log(numHomeGamesByTeam, numAwayGamesByTeam);
 
@@ -275,11 +253,11 @@ const generateMatchdays = ({
       const aPot = Math.floor(a / numTeamsPerPot);
       const bPot = Math.floor(b / numTeamsPerPot);
 
-      if (hasPlayedWithPotMap[`${a}:${bPot}:h`] === maxHomeGamesVsPot) {
+      if (hasPlayedWithPotMap[`${a}:${bPot}:h`]) {
         return false;
       }
 
-      if (hasPlayedWithPotMap[`${b}:${aPot}:a`] === maxHomeGamesVsPot) {
+      if (hasPlayedWithPotMap[`${b}:${aPot}:a`]) {
         return false;
       }
 
