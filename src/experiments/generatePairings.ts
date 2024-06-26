@@ -53,12 +53,12 @@ export default ({
     // remainingGames = shuffle(remainingGames);
 
     const pickedMatch = getFirstSuitableMatch({
-      allGames,
-      matches,
+      numPots,
       numTeamsPerPot,
       numMatchdays,
       numGamesPerMatchday,
-      numPots,
+      allGames,
+      pickedMatches: matches,
     });
 
     console.log('taking', pickedMatch);

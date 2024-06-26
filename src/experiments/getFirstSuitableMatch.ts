@@ -3,19 +3,19 @@ import { shuffle } from 'lodash';
 import { findFirstSolution } from '../utils/backtrack';
 
 export default ({
-  allGames,
-  matches,
+  numPots,
   numTeamsPerPot,
   numMatchdays,
   numGamesPerMatchday,
-  numPots,
+  allGames,
+  pickedMatches,
 }: {
   numPots: number;
-  allGames: readonly (readonly [number, number])[];
-  matches: readonly (readonly [number, number])[];
   numTeamsPerPot: number;
   numMatchdays: number;
   numGamesPerMatchday: number;
+  allGames: readonly (readonly [number, number])[];
+  pickedMatches: readonly (readonly [number, number])[];
 }) => {
   const maxGamesAtHome = Math.ceil(numMatchdays / 2);
 
@@ -30,7 +30,7 @@ export default ({
     boolean
   > = {};
 
-  for (const m of matches) {
+  for (const m of pickedMatches) {
     const homePot = Math.floor(m[0] / numTeamsPerPot);
     const awayPot = Math.floor(m[1] / numTeamsPerPot);
     numHomeGamesByTeam[m[0]] = (numHomeGamesByTeam[m[0]] ?? 0) + 1;
@@ -64,12 +64,12 @@ export default ({
   return shuffle(remainingGames).find(m => {
     console.log('test...', m, {
       remainingGames: [...remainingGames],
-      matches: [...matches],
+      pickedMatches: [...pickedMatches],
     });
     const solution = findFirstSolution(
       {
         source: remainingGames,
-        target: matches,
+        target: pickedMatches,
         numHomeGamesByTeam,
         numAwayGamesByTeam,
         hasPlayedWithPotMap,
