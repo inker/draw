@@ -1,9 +1,9 @@
 import { orderBy, range, shuffle } from 'lodash';
 
 import generateFull from './generateFull';
-import getFirstSuitableMatch from './getFirstSuitableMatch';
+import getFirstSuitableMatch from './getFirstSuitableMatch.wrapper';
 
-export default <T>({
+export default async <T>({
   pots,
   numMatchdays,
   isMatchPossible,
@@ -51,7 +51,8 @@ export default <T>({
     console.log('nice');
     // remainingGames = shuffle(remainingGames);
 
-    const pickedMatch = getFirstSuitableMatch({
+    // eslint-disable-next-line no-await-in-loop
+    const pickedMatch = await getFirstSuitableMatch({
       numPots: pots.length,
       numTeamsPerPot,
       numMatchdays,
