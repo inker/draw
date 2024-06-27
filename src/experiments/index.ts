@@ -1,11 +1,22 @@
-import { range, stubTrue } from 'lodash';
+import { chunk, range, stubTrue } from 'lodash';
 
 import generatePairings from './generatePairings';
+import pots from './pots';
+
+const NUM_MATCHDAYS = 8;
+
+type Team = (typeof pots)[number][number];
+
+function canPlay(a: Team, b: Team) {
+  return a.country !== b.country;
+}
 
 const matchdays = generatePairings({
-  teams: range(36),
-  numPots: 4,
-  numMatchdays: 8,
-  canPlay: stubTrue,
+  pots,
+  numMatchdays: NUM_MATCHDAYS,
+  isMatchPossible: canPlay,
 });
-console.log('final', matchdays);
+console.log(
+  'final',
+  matchdays.map(m => [m[0].name, m[1].name]),
+);

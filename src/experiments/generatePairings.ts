@@ -1,28 +1,27 @@
-import { orderBy } from 'lodash';
+import { orderBy, range, shuffle } from 'lodash';
 
 import generateFull from './generateFull';
 import getFirstSuitableMatch from './getFirstSuitableMatch';
 
-export default ({
-  teams,
-  numPots,
+export default <T>({
+  pots,
   numMatchdays,
-  canPlay,
+  isMatchPossible,
 }: {
-  teams: readonly number[];
-  numPots: number;
+  pots: readonly (readonly T[])[];
   numMatchdays: number;
-  canPlay: (a: number, b: number) => boolean;
+  isMatchPossible: (h: T, a: T) => boolean;
 }) => {
-  const numTeamsPerPot = teams.length / numPots;
+  console.log(JSON.stringify(pots));
+  const teams = pots.flat();
+  const numTeamsPerPot = pots[0].length;
   const numGamesPerMatchday = teams.length / 2;
 
-  let allGames = generateFull(teams);
+  const teamIndices = range(teams.length);
 
-  allGames = [
-    ...allGames,
-    ...allGames.map(([a, b]) => [b, a] as [number, number]),
-  ];
+  let allGames = generateFull(teamIndices);
+
+  allGames = [...allGames, ...allGames.map(([a, b]) => [b, a] as const)];
 
   allGames = orderBy(allGames, [
     m => Math.min(...m),
@@ -40,11 +39,11 @@ export default ({
     // ([a, b]) => -Math.abs(a - b),
   ]);
 
-  allGames = allGames.filter(([a, b]) => canPlay(a, b));
+  allGames = allGames.filter(([h, a]) => isMatchPossible(teams[h], teams[a]));
 
-  // remainingGames = shuffle(remainingGames);
+  allGames = shuffle(allGames);
 
-  console.log('initial games', JSON.stringify(allGames));
+  console.log('initial games', allGames.length, JSON.stringify(allGames));
 
   const matches: (readonly [number, number])[] = [];
 
@@ -53,7 +52,7 @@ export default ({
     // remainingGames = shuffle(remainingGames);
 
     const pickedMatch = getFirstSuitableMatch({
-      numPots,
+      numPots: pots.length,
       numTeamsPerPot,
       numMatchdays,
       numGamesPerMatchday,
@@ -70,5 +69,5 @@ export default ({
 
   console.log('done for num matchdays:', numMatchdays);
 
-  return matches;
+  return matches.map(([h, a]) => [teams[h], teams[a]] as const);
 };

@@ -40,6 +40,15 @@ export default ({
   }
 
   const remainingGames = allGames.filter(([a, b]) => {
+    if (
+      pickedMatches.some(
+        m => (m[0] === a && m[1] === b) || (m[0] === b && m[1] === a),
+      )
+    ) {
+      // already played before
+      return false;
+    }
+
     if (numHomeGamesByTeam[a] === maxGamesAtHome) {
       return false;
     }
@@ -61,11 +70,10 @@ export default ({
     return true;
   });
 
+  console.log('num remaining possible games', remainingGames.length);
+
   return shuffle(remainingGames).find(m => {
-    console.log('test...', m, {
-      remainingGames: [...remainingGames],
-      pickedMatches: [...pickedMatches],
-    });
+    console.log('test...', m);
     const solution = findFirstSolution(
       {
         source: remainingGames,
