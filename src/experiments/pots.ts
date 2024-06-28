@@ -94,7 +94,7 @@ export default [
     },
     {
       name: 'Slavia Praha',
-      country: 'Czech Republic',
+      country: 'Czechia',
     },
     {
       name: 'Dinamo Zagreb',
