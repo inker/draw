@@ -15,6 +15,7 @@ import useDrawId from '#store/useDrawId';
 import usePopup from '#store/usePopup';
 
 import config from '../config';
+import League from '../pages/league';
 
 import HeadMetadata from './HeadMetadata';
 import Navbar from './Navbar';
@@ -95,6 +96,10 @@ function Routing() {
       ) : null}
       <Routes>
         {/* TODO */}
+        <Route
+          path="league"
+          element={<League />}
+        />
         <Route
           path="wc/ko/:season"
           element={

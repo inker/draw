@@ -8,5 +8,5 @@ const root = createRoot(container);
 root.render(<App />);
 
 setTimeout(() => {
-  import('./experiments');
+  // import('./experiments');
 }, 2000);

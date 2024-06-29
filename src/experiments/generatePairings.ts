@@ -3,7 +3,7 @@ import { orderBy, range, shuffle } from 'lodash';
 import generateFull from './generateFull';
 import getFirstSuitableMatch from './getFirstSuitableMatch.wrapper';
 
-export default async <T>({
+export default async function* generatePairings<T>({
   pots,
   numMatchdays,
   isMatchPossible,
@@ -11,8 +11,7 @@ export default async <T>({
   pots: readonly (readonly T[])[];
   numMatchdays: number;
   isMatchPossible: (h: T, a: T) => boolean;
-}) => {
-  console.log(JSON.stringify(pots));
+}) {
   const teams = pots.flat();
   const numTeamsPerPot = pots[0].length;
   const numGamesPerMatchday = teams.length / 2;
@@ -48,9 +47,6 @@ export default async <T>({
   const matches: (readonly [number, number])[] = [];
 
   while (matches.length < numMatchdays * numGamesPerMatchday) {
-    console.log('nice');
-    // remainingGames = shuffle(remainingGames);
-
     // eslint-disable-next-line no-await-in-loop
     const pickedMatch = await getFirstSuitableMatch({
       numPots: pots.length,
@@ -60,15 +56,8 @@ export default async <T>({
       allGames,
       pickedMatches: matches,
     });
-
-    console.log('taking', pickedMatch);
-
     matches.push(pickedMatch);
 
-    console.log('current total', matches.length);
+    yield [teams[pickedMatch[0]], teams[pickedMatch[1]]] as const;
   }
-
-  console.log('done for num matchdays:', numMatchdays);
-
-  return matches.map(([h, a]) => [teams[h], teams[a]] as const);
-};
+}

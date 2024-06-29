@@ -10,11 +10,11 @@ function canPlay(a: Team, b: Team) {
 }
 
 (async () => {
-  const matchdays = await generatePairings({
-    pots,
-    numMatchdays: NUM_MATCHDAYS,
-    isMatchPossible: canPlay,
-  });
+  // const matchdays = await generatePairings({
+  //   pots,
+  //   numMatchdays: NUM_MATCHDAYS,
+  //   isMatchPossible: canPlay,
+  // });
   console.log(
     'final',
     matchdays.map(m => [m[0].name, m[1].name]),
