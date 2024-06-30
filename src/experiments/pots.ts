@@ -151,7 +151,7 @@ export default [
       country: 'France',
     },
   ],
-] satisfies readonly (readonly {
+] as const satisfies readonly (readonly {
   name: string;
   country: string;
 }[])[];

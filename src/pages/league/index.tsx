@@ -1,13 +1,14 @@
-import { memo, useCallback, useEffect, useMemo, useState } from 'react';
-import styled, { css, keyframes } from 'styled-components';
+import { memo, useEffect, useMemo, useState } from 'react';
+import styled from 'styled-components';
 
 import usePopup from '#store/usePopup';
 import rawPots from '#experiments/pots';
 import generatePairings from '#experiments/generatePairings';
 import generateSchedule from '#experiments/generateSchedule';
-import getCountryFlagUrl from '#utils/getCountryFlagUrl';
+import Button from '#ui/Button';
 
-import games from './games';
+import Schedule from './Schedule';
+import MatchesTable from './MatchesTable';
 
 const pots = rawPots.map(pot =>
   pot.map(team => ({
@@ -20,141 +21,43 @@ type Team = (typeof pots)[number][number];
 
 const Root = styled.div`
   display: flex;
-  gap: 16px;
+  flex-direction: column;
   margin: 10px;
+  font-size: 14px;
 `;
 
-const Table = styled.table`
-  border-collapse: collapse;
-  border: 1px double rgb(128 128 128);
-  font-size: 10px;
+const Interface = styled.div`
+  margin-bottom: 16px;
 `;
 
-const HeaderCell = styled.th<{
-  hovered?: boolean;
-}>`
-  vertical-align: bottom;
-  border: 1px solid rgb(192 192 192);
-  border-bottom-color: rgb(128 128 128);
-  padding: 3px 1px;
-
-  &:nth-child(9n + 2) {
-    border-left: 1px double rgb(128 128 128);
-  }
-
-  ${props =>
-    props.hovered &&
-    css`
-      background-color: rgba(0 0 0 / 0.1);
-    `}
-`;
-
-const HeaderCellDiv = styled.div`
+const MatrixWrapper = styled.div`
   display: flex;
-  gap: 4px;
-  writing-mode: vertical-lr;
-  text-orientation: mixed;
-  font-weight: normal;
-  transform: rotate(180deg);
-
-  > img {
-    width: 12px;
-    transform: rotate(90deg);
-    user-select: none;
-    pointer-events: none;
-  }
-`;
-
-const BodyRow = styled.tr`
-  border: 1px solid rgb(192 192 192);
-
-  &:hover {
-    background-color: rgba(0 0 0 / 0.1);
-  }
-
-  &:nth-child(9n + 1) {
-    > td {
-      border-top: 1px double rgb(128 128 128);
-    }
-  }
-`;
-
-const TeamCell = styled.td`
-  padding: 1px 3px;
-  border: 1px solid rgb(192 192 192);
-
-  & + & {
-    text-align: center;
-  }
-
-  &:nth-child(9n + 1) {
-    border-right: 1px double rgb(128 128 128);
-  }
-`;
-
-const AppearLight = keyframes`
-  from {
-    background-color: rgb(255 255 0 / 0.5);
-  }
-`;
-
-const TableCell = styled.td<{
-  isMatch?: boolean;
-  hovered?: boolean;
-}>`
-  border: 1px solid rgb(192 192 192);
-
-  text-align: center;
-
-  &:nth-child(9n + 1) {
-    border-right: 1px double rgb(128 128 128);
-  }
-
-  ${props =>
-    props.isMatch &&
-    css`
-      animation: ${AppearLight} 3s ease-out normal forwards;
-
-      &::before {
-        content: '✕';
-      }
-    `}
-
-  ${props =>
-    props.hovered &&
-    css`
-      background-color: rgba(0 0 0 / 0.1);
-    `}
-`;
-
-const TeamDiv = styled.div<{
-  country: string;
-}>`
-  padding-left: 14.5px;
-  background-position-y: 1.5px;
-  background-size: 12px;
-  background-repeat: no-repeat;
-
-  ${props =>
-    props.country &&
-    css`
-      background-image: url('${getCountryFlagUrl(props.country)}');
-    `}
+  gap: 16px;
 `;
 
 function LeagueStage() {
+  const numMatchdays = 8;
+
   const [, setPopup] = usePopup();
 
-  const [hoverColumn, setHoverColumn] = useState<string | undefined>(undefined);
+  const [isMatchdayMode, setIsMatchdayMode] = useState(false);
 
-  // @ts-expect-error Foo
-  const [pairings, setPairings] = useState<(readonly [Team, Team])[]>(games);
-  const [schedule, setSchedule] = useState<(readonly [Team, Team])[]>([]);
-  const [isFixturesDone, setIsFixturesDone] = useState(true);
-
-  console.log('pairings', JSON.stringify(pairings));
+  const [pairings, setPairings] = useState<(readonly [Team, Team])[]>([]);
+  const [schedule, setSchedule] = useState<
+    readonly (readonly (readonly [Team, Team])[])[]
+  >(
+    Array.from(
+      {
+        length: numMatchdays,
+      },
+      () => [],
+    ),
+  );
+  const [isFixturesDone, setIsFixturesDone] = useState(false);
 
   const allTeams = useMemo(() => pots.flat(), []);
+
+  const matchdaySize = allTeams.length / 2;
 
   useEffect(() => {
     setPopup({
@@ -162,123 +65,83 @@ function LeagueStage() {
     });
   }, []);
 
-  // useEffect(() => {
-  //   const foo = async () => {
-  //     const generator = generatePairings({
-  //       pots,
-  //       numMatchdays: 8,
-  //       isMatchPossible: (a, b) => a.country !== b.country,
-  //     });
-  //     for await (const pickedMatch of generator) {
-  //       setPairings(prev => [...prev, pickedMatch]);
-  //     }
-  //     console.log('pairings', JSON.stringify(pairings));
-  //     setIsFixturesDone(true);
-  //   };
+  useEffect(() => {
+    const formPairings = async () => {
+      const generator = generatePairings({
+        pots,
+        numMatchdays: 8,
+        isMatchPossible: (a, b) => a.country !== b.country,
+      });
+      for await (const pickedMatch of generator) {
+        setPairings(prev => [...prev, pickedMatch]);
+      }
+      console.log('pairings', JSON.stringify(pairings));
+      setIsFixturesDone(true);
+    };
 
-  //   foo();
-  // }, []);
+    formPairings();
+  }, []);
 
   useEffect(() => {
     if (isFixturesDone) {
-      const foo = async () => {
+      const formSchedule = async () => {
+        // setIsMatchdayMode(true);
+        // setSchedule(chunk(pairings, 18));
         const generator = generateSchedule({
-          matchdaySize: allTeams.length / 2,
-          matches: pairings,
+          matchdaySize,
+          allGames: pairings,
+          currentSchedule: schedule,
         });
-        for await (const pickedMatch of generator) {
-          setSchedule(prev => [...prev, pickedMatch]);
+        const iterator = await generator.next();
+        if (iterator.done) {
+          throw new Error('Cannot be fully done');
         }
+        const it = iterator.value;
+        setSchedule(it.solutionSchedule);
+        setIsMatchdayMode(true);
       };
 
-      setTimeout(() => {
-        // foo();
-      }, 2000);
+      formSchedule();
     }
   }, [isFixturesDone]);
 
-  const pairingsMap = useMemo(() => {
-    const o: Record<`${string}:${string}`, boolean> = {};
-    for (const pairing of pairings) {
-      o[`${pairing[0].name}:${pairing[1].name}`] = true;
-    }
-    return o;
-  }, [pairings]);
-
-  const handleTableMouseOver = useCallback(
-    (e: React.MouseEvent<HTMLTableElement>) => {
-      const opponentId =
-        (e.target as HTMLTableCellElement).dataset.opponent ||
-        (
-          e.nativeEvent
-            .composedPath()
-            .find(el => (el as HTMLElement).dataset?.opponent) as
-            | HTMLElement
-            | undefined
-        )?.dataset?.opponent;
-      setHoverColumn(opponentId);
-    },
-    [],
-  );
-
-  const handleTableMouseOut = useCallback(
-    (e: React.MouseEvent<HTMLTableElement>) => {
-      const opponentId = (e.target as HTMLTableCellElement).dataset.opponent;
-      if (opponentId) {
-        setHoverColumn(undefined);
-      }
-    },
-    [],
+  const isScheduleDone = useMemo(
+    () => schedule.some(md => md.length > 0),
+    [schedule],
   );
 
   return (
     <Root>
-      <Table
-        onMouseOver={handleTableMouseOver}
-        onMouseOut={handleTableMouseOut}
-      >
-        <thead>
-          <tr>
-            <HeaderCell />
-            {allTeams.map(opponent => (
-              <HeaderCell
-                key={opponent.id}
-                data-opponent={opponent.id}
-                hovered={opponent.id === hoverColumn}
-              >
-                <HeaderCellDiv>
-                  <img
-                    alt={`[${opponent.country}]`}
-                    src={getCountryFlagUrl(opponent.country)}
-                  />
-                  <span>{opponent.name}</span>
-                </HeaderCellDiv>
-              </HeaderCell>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {allTeams.map(team => (
-            <BodyRow key={team.id}>
-              <TeamCell>
-                <TeamDiv country={team.country}>{team.name}</TeamDiv>
-              </TeamCell>
-              {allTeams.map(opponent => {
-                const isMatch = pairingsMap[`${team.name}:${opponent.name}`];
-                return (
-                  <TableCell
-                    key={opponent.id}
-                    data-opponent={opponent.id}
-                    isMatch={isMatch}
-                    hovered={opponent.id === hoverColumn}
-                  />
-                );
-              })}
-            </BodyRow>
-          ))}
-        </tbody>
-      </Table>
-      <div>Drawn matches: {pairings.length}/144</div>
+      <Interface>
+        <Button
+          type="button"
+          disabled={!isScheduleDone}
+          onClick={() => {
+            setIsMatchdayMode(prev => !prev);
+          }}
+        >
+          {isMatchdayMode ? 'Display matrix' : 'Display schedule'}
+        </Button>
+      </Interface>
+      {isMatchdayMode ? (
+        <Schedule schedule={schedule} />
+      ) : (
+        <MatrixWrapper>
+          <MatchesTable
+            allTeams={allTeams}
+            pairings={pairings}
+          />
+          <div>
+            <div>Drawn matches: {pairings.length}/144</div>
+            {isFixturesDone && !isScheduleDone && (
+              <div>
+                The schedule is being generated. This will take a while. Do not
+                close the page
+              </div>
+            )}
+          </div>
+        </MatrixWrapper>
+      )}
     </Root>
   );
 }
