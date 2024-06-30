@@ -14,9 +14,9 @@ const HeaderCell = styled.th<{
   hovered?: boolean;
 }>`
   vertical-align: bottom;
+  padding: 3px 1px;
   border: 1px solid rgb(192 192 192);
   border-bottom-color: rgb(128 128 128);
-  padding: 3px 1px;
 
   &:nth-child(9n + 2) {
     border-left: 1px double rgb(128 128 128);
@@ -83,7 +83,6 @@ const TableCell = styled.td<{
   hovered?: boolean;
 }>`
   border: 1px solid rgb(192 192 192);
-
   text-align: center;
 
   &:nth-child(9n + 1) {

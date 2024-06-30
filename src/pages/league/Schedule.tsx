@@ -39,8 +39,8 @@ const MatchdayHeader = styled.div`
 const MatchPair = styled.div`
   display: flex;
   align-items: center;
-  border-top: 1px solid rgb(192 192 192);
   height: 20px;
+  border-top: 1px solid rgb(192 192 192);
 
   > :first-child {
     align-items: end;
