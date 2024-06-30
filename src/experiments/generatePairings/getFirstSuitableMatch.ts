@@ -227,10 +227,9 @@ export default ({
         },
       },
     );
-    if (!solution) {
-      console.log('sol', solution);
-    }
-    // console.log('sol', solution);
+    // if (!solution) {
+    //   console.log('sol', solution);
+    // }
     return solution !== undefined;
   })!;
 };
