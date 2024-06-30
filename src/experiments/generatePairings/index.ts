@@ -49,6 +49,8 @@ export default async function* generatePairings<T>({
   while (matches.length < numMatchdays * numGamesPerMatchday) {
     // eslint-disable-next-line no-await-in-loop
     const pickedMatch = await getFirstSuitableMatch({
+      // @ts-expect-error Fix this later
+      teams,
       numPots: pots.length,
       numTeamsPerPot,
       numMatchdays,

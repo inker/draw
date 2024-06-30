@@ -1,8 +1,14 @@
 import { orderBy, shuffle } from 'lodash';
 
 import { findFirstSolution } from '#utils/backtrack';
+import { type Country } from '#model/types';
+
+interface Team {
+  country: Country;
+}
 
 export default ({
+  teams,
   numPots,
   numTeamsPerPot,
   numMatchdays,
@@ -12,6 +18,7 @@ export default ({
   randomArray,
   shouldShuffle,
 }: {
+  teams: readonly Team[];
   numPots: number;
   numTeamsPerPot: number;
   numMatchdays: number;
@@ -25,6 +32,7 @@ export default ({
 
   const numHomeGamesByTeam: Record<number, number> = {};
   const numAwayGamesByTeam: Record<number, number> = {};
+  const numOpponentCountriesByTeam: Record<`${number}:${Country}`, number> = {};
 
   /**
    * team:pot:home?
@@ -35,10 +43,17 @@ export default ({
   > = {};
 
   for (const m of pickedMatches) {
+    const homeTeam = teams[m[0]];
+    const awayTeam = teams[m[1]];
+
     const homePot = Math.floor(m[0] / numTeamsPerPot);
     const awayPot = Math.floor(m[1] / numTeamsPerPot);
     numHomeGamesByTeam[m[0]] = (numHomeGamesByTeam[m[0]] ?? 0) + 1;
     numAwayGamesByTeam[m[1]] = (numAwayGamesByTeam[m[1]] ?? 0) + 1;
+    numOpponentCountriesByTeam[`${m[0]}:${awayTeam.country}`] =
+      (numOpponentCountriesByTeam[`${m[0]}:${awayTeam.country}`] ?? 0) + 1;
+    numOpponentCountriesByTeam[`${m[1]}:${homeTeam.country}`] =
+      (numOpponentCountriesByTeam[`${m[1]}:${homeTeam.country}`] ?? 0) + 1;
     hasPlayedWithPotMap[`${m[0]}:${awayPot}:h`] = true;
     hasPlayedWithPotMap[`${m[1]}:${homePot}:a`] = true;
   }
@@ -93,6 +108,7 @@ export default ({
         target: pickedMatches,
         numHomeGamesByTeam,
         numAwayGamesByTeam,
+        numOpponentCountriesByTeam,
         hasPlayedWithPotMap,
         picked: m,
       },
@@ -119,6 +135,18 @@ export default ({
             return true;
           }
 
+          if (
+            c.numOpponentCountriesByTeam[`${m1}:${teams[m2].country}`] === 2
+          ) {
+            return true;
+          }
+
+          if (
+            c.numOpponentCountriesByTeam[`${m2}:${teams[m1].country}`] === 2
+          ) {
+            return true;
+          }
+
           return false;
         },
 
@@ -134,6 +162,18 @@ export default ({
             ...c.numAwayGamesByTeam,
             [c.picked[1]]: (c.numAwayGamesByTeam[c.picked[1]] ?? 0) + 1,
           } as typeof c.numAwayGamesByTeam;
+
+          const newNumOpponentCountriesByTeam = {
+            ...c.numOpponentCountriesByTeam,
+            [`${c.picked[0]}:${teams[c.picked[1]].country}`]:
+              (c.numOpponentCountriesByTeam[
+                `${c.picked[0]}:${teams[c.picked[1]].country}`
+              ] ?? 0) + 1,
+            [`${c.picked[1]}:${teams[c.picked[0]].country}`]:
+              (c.numOpponentCountriesByTeam[
+                `${c.picked[1]}:${teams[c.picked[0]].country}`
+              ] ?? 0) + 1,
+          };
 
           const pickedHomePotIndex = Math.floor(c.picked[0] / numTeamsPerPot);
           const pickedAwayPotIndex = Math.floor(c.picked[1] / numTeamsPerPot);
@@ -217,6 +257,7 @@ export default ({
                   picked: newPicked,
                   numHomeGamesByTeam: newNumHomeGamesByTeam,
                   numAwayGamesByTeam: newNumAwayGamesByTeam,
+                  numOpponentCountriesByTeam: newNumOpponentCountriesByTeam,
                   hasPlayedWithPotMap: newHasPlayedWithPotMap,
                 });
               }
