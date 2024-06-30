@@ -1,6 +1,7 @@
 import { remove, sample, shuffle, uniq } from 'lodash';
 
-import raceWorkers from './raceWorkers';
+import raceWorkers from '#utils/raceWorkers';
+
 import { type Func } from './getFirstSuitableMatchday.worker';
 
 const NUM_WORKERS = navigator.hardwareConcurrency - 1;
@@ -68,7 +69,7 @@ export default ({
       };
     },
     getTimeout: (workerIndex, attempt) => {
-      const factor = 7 / (workerIndex + 1)
+      const factor = 7 / (workerIndex + 1);
       return factor * Math.min(30000, 5000 * Math.exp(attempt / 10));
     },
   });

@@ -1,5 +1,6 @@
+import raceWorkers from '#utils/raceWorkers';
+
 import { type Func } from './getFirstSuitableMatch.worker';
-import raceWorkers from './raceWorkers';
 
 const NUM_WORKERS = navigator.hardwareConcurrency - 1;
 

@@ -1,6 +1,6 @@
 import { orderBy, shuffle } from 'lodash';
 
-import { findFirstSolution } from '../utils/backtrack';
+import { findFirstSolution } from '#utils/backtrack';
 
 export default ({
   numPots,
