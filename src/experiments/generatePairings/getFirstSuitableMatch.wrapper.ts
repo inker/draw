@@ -27,6 +27,6 @@ export default async (
     },
     getTimeout: (workerIndex, iteration) => {
       const factor = 7 / (workerIndex + 1);
-      return factor * Math.min(10000, 1000 * Math.exp(iteration / 10));
+      return factor * Math.min(5000, 1000 * Math.exp(iteration / 10));
     },
   });
