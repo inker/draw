@@ -91,10 +91,9 @@ export default ({
 
   console.log('num remaining possible games', remainingGames.length);
 
-  const orderedRemainingGames = orderBy(
-    remainingGames,
-    (_, i) => randomArray[i],
-  );
+  let orderedRemainingGames = orderBy(remainingGames, (_, i) => randomArray[i]);
+
+  orderedRemainingGames = orderBy(orderedRemainingGames, m => Math.min(...m));
 
   const shuffledRemainingGames = shouldShuffle
     ? shuffle(remainingGames)
