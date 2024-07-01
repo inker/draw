@@ -11,9 +11,10 @@ export default async function* generateSchedule<T extends { id: string }>({
   allGames: readonly (readonly [T, T])[];
   currentSchedule: readonly (readonly (readonly [T, T])[])[];
 }) {
-  const allTeams = allGamesWithIds.flat();
-  const teamById = keyBy(allTeams, team => team.id);
-  const allTeamIds = uniq(allTeams.map(team => team.id));
+  const foo = allGamesWithIds.flat();
+  const teamById = keyBy(foo, team => team.id);
+  const allTeamIds = uniq(foo.map(team => team.id));
+  const allTeams = allTeamIds.map(id => foo.find(item => item.id === id)!);
   const indexByTeamId = new Map(allTeamIds.map((id, i) => [id, i] as const));
 
   const currentSchedule: Record<`${number}:${number}`, number> = {};
@@ -40,6 +41,8 @@ export default async function* generateSchedule<T extends { id: string }>({
   for (const [i, match] of allGamesUnordered.entries()) {
     // eslint-disable-next-line no-await-in-loop
     const result = await getFirstSuitableMatchday({
+      // @ts-expect-error Fix this later
+      teams: allTeams,
       matchdaySize,
       allGames: allGamesUnordered,
       currentSchedule,

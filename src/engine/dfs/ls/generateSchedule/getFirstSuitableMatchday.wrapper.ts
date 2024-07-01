@@ -1,17 +1,24 @@
-import { remove, sample, shuffle, uniq } from 'lodash';
+import { remove, sample, shuffle } from 'lodash';
 
 import raceWorkers from '#utils/raceWorkers';
 
 import { type Func } from './getFirstSuitableMatchday.worker';
+import teamsSharingStadium from './teamsSharingStadium';
 
 const NUM_WORKERS = Math.max(1, navigator.hardwareConcurrency - 1);
 
+interface Team {
+  name: string;
+}
+
 export default ({
+  teams,
   matchdaySize,
   allGames,
   currentSchedule,
   matchIndex,
 }: {
+  teams: readonly Team[];
   matchdaySize: number;
   allGames: readonly (readonly [number, number])[];
   currentSchedule: Record<`${number}:${number}`, number>;
@@ -23,24 +30,40 @@ export default ({
       new Worker(new URL('./getFirstSuitableMatchday.worker', import.meta.url)),
     getPayload: () => {
       const allGamesShuffled = shuffle(allGames);
-      const allTeamsShuffled = uniq(allGames.flat());
-      const matchesByTeam = Array.from(
+
+      const prioritizedTeams = teamsSharingStadium.flatMap(namePair => {
+        const [a, b] = namePair;
+        return [teams.find(t => t.name === a)!, teams.find(t => t.name === b)!];
+      });
+
+      const orderedGames: typeof allGamesShuffled = [];
+      for (const team of prioritizedTeams) {
+        const hah = remove(allGamesShuffled, m => {
+          const h = teams[m[0]];
+          const a = teams[m[1]];
+          return team === h || team === a;
+        });
+        orderedGames.push(...hah);
+      }
+
+      console.log('remaining after priority', allGamesShuffled);
+
+      const numMatchesByTeam = Array.from(
         {
-          length: allTeamsShuffled.length,
+          length: teams.length,
         },
         () => 0,
       );
 
       for (const [h, a] of allGamesShuffled) {
-        ++matchesByTeam[h];
-        ++matchesByTeam[a];
+        ++numMatchesByTeam[h];
+        ++numMatchesByTeam[a];
       }
 
-      const orderedGames: typeof allGamesShuffled = [];
       while (allGamesShuffled.length > 0) {
-        const min = Math.min(...matchesByTeam.filter(item => item > 0));
+        const min = Math.min(...numMatchesByTeam.filter(item => item > 0));
         const minIndices: number[] = [];
-        for (const [team, element] of matchesByTeam.entries()) {
+        for (const [team, element] of numMatchesByTeam.entries()) {
           if (element === min) {
             minIndices.push(team);
           }
@@ -51,13 +74,14 @@ export default ({
           m => m[0] === minTeam || m[1] === minTeam,
         );
         for (const m of minTeamMatches) {
-          --matchesByTeam[m[0]];
-          --matchesByTeam[m[1]];
+          --numMatchesByTeam[m[0]];
+          --numMatchesByTeam[m[1]];
         }
         orderedGames.push(...minTeamMatches);
       }
 
       return {
+        teams,
         matchdaySize,
         allGames: orderedGames,
         currentSchedule,

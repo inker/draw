@@ -2,12 +2,20 @@ import { range, shuffle } from 'lodash';
 
 import { findFirstSolution } from '#utils/backtrack';
 
+import teamsSharingStadium from './teamsSharingStadium';
+
+interface Team {
+  name: string;
+}
+
 export default ({
+  teams,
   matchdaySize,
   allGames,
   currentSchedule,
   matchIndex,
 }: {
+  teams: readonly Team[];
   matchdaySize: number;
   allGames: readonly (readonly [number, number])[];
   currentSchedule: Record<`${number}:${number}`, number>;
@@ -15,6 +23,18 @@ export default ({
 }) => {
   const numGames = allGames.length;
   const numMatchdays = numGames / matchdaySize;
+
+  const indexByTeamName = new Map(teams.map((team, i) => [team.name, i]));
+
+  const sameStadiumTeamMap = new Map<number, number>();
+  for (const pair of teamsSharingStadium) {
+    const a = indexByTeamName.get(pair[0]);
+    const b = indexByTeamName.get(pair[1]);
+    if (a !== undefined && b !== undefined) {
+      sameStadiumTeamMap.set(a, b);
+      sameStadiumTeamMap.set(b, a);
+    }
+  }
 
   let record = 0;
 
@@ -68,6 +88,26 @@ export default ({
           const hasAwayTeamPlayedThisMatchday =
             c.locationByMatchday[`${a}:${c.pickedMatchday}`];
           if (hasAwayTeamPlayedThisMatchday) {
+            return true;
+          }
+
+          const homeSameStadiumTeam = sameStadiumTeamMap.get(h);
+          if (
+            homeSameStadiumTeam !== undefined &&
+            c.locationByMatchday[
+              `${homeSameStadiumTeam}:${c.pickedMatchday}`
+            ] === 'h'
+          ) {
+            return true;
+          }
+
+          const awaySameStadiumTeam = sameStadiumTeamMap.get(a);
+          if (
+            awaySameStadiumTeam !== undefined &&
+            c.locationByMatchday[
+              `${awaySameStadiumTeam}:${c.pickedMatchday}`
+            ] === 'a'
+          ) {
             return true;
           }
 
