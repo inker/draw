@@ -1,5 +1,6 @@
 import { memo, useEffect, useMemo, useState } from 'react';
 import styled from 'styled-components';
+import { shuffle } from 'lodash';
 
 import usePopup from '#store/usePopup';
 import rawPots from '#experiments/pots';
@@ -43,9 +44,7 @@ function LeagueStage() {
   const [isMatchdayMode, setIsMatchdayMode] = useState(false);
 
   const [pairings, setPairings] = useState<(readonly [Team, Team])[]>([]);
-  const [schedule, setSchedule] = useState<
-    readonly (readonly (readonly [Team, Team])[])[]
-  >(
+  const [schedule, setSchedule] = useState<(readonly [Team, Team])[][]>(
     Array.from(
       {
         length: numMatchdays,
@@ -97,7 +96,7 @@ function LeagueStage() {
           throw new Error('Cannot be fully done');
         }
         const it = iterator.value;
-        setSchedule(it.solutionSchedule);
+        setSchedule(it.solutionSchedule.map(md => shuffle(md)));
         setIsMatchdayMode(true);
       };
 
