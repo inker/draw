@@ -3,22 +3,13 @@ import styled from 'styled-components';
 import { shuffle } from 'lodash';
 
 import usePopup from '#store/usePopup';
-import rawPots from '#experiments/pots';
+import type Team from '#model/team/GsTeam';
 import generatePairings from '#experiments/generatePairings';
 import generateSchedule from '#experiments/generateSchedule';
 import Button from '#ui/Button';
 
 import Schedule from './Schedule';
 import MatchesTable from './MatchesTable';
-
-const pots = rawPots.map(pot =>
-  pot.map(team => ({
-    ...team,
-    id: `${team.country}:${team.name}`,
-  })),
-);
-
-type Team = (typeof pots)[number][number];
 
 const Root = styled.div`
   display: flex;
@@ -36,7 +27,11 @@ const MatrixWrapper = styled.div`
   gap: 16px;
 `;
 
-function LeagueStage() {
+interface Props {
+  pots: readonly (readonly Team[])[];
+}
+
+function LeagueStage({ pots: initialPots }: Props) {
   const numMatchdays = 8;
 
   const [, setPopup] = usePopup();
@@ -54,7 +49,18 @@ function LeagueStage() {
   );
   const [isFixturesDone, setIsFixturesDone] = useState(false);
 
-  const allTeams = useMemo(() => pots.flat(), []);
+  const pots = useMemo(
+    () =>
+      initialPots.map(pot =>
+        pot.map(team => ({
+          ...team,
+          id: `${team.country}:${team.name}`,
+        })),
+      ),
+    [initialPots],
+  );
+
+  const allTeams = useMemo(() => pots.flat(), [pots]);
 
   const matchdaySize = allTeams.length / 2;
 

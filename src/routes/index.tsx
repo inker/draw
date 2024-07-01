@@ -15,7 +15,6 @@ import useDrawId from '#store/useDrawId';
 import usePopup from '#store/usePopup';
 
 import config from '../config';
-import League from '../pages/league';
 
 import HeadMetadata from './HeadMetadata';
 import Navbar from './Navbar';
@@ -97,10 +96,6 @@ function Routing() {
       <Routes>
         {/* TODO */}
         <Route
-          path="league"
-          element={<League />}
-        />
-        <Route
           path="wc/ko/:season"
           element={
             <Navigate
@@ -140,7 +135,7 @@ function Routing() {
           path="cl"
           element={
             <Navigate
-              to={`/cl/${defaultStage}`}
+              to="/cl/ls"
               replace
             />
           }

@@ -5,5 +5,11 @@ import config from '../config';
 
 const { wc, uefa } = config.currentSeason;
 
-export default (tournament: Tournament | null, stage: Stage | null): number =>
-  tournament === 'wc' ? wc : uefa[tournament || 'cl'][stage || 'gs'];
+export default (tournament: Tournament | null, stage: Stage | null): number => {
+  const resolvedTournament = tournament || 'cl';
+  const resolvedState = stage || (resolvedTournament === 'cl' ? 'ls' : 'gs');
+  return resolvedTournament === 'wc'
+    ? wc
+    : // @ts-expect-error Fix later
+      uefa[resolvedTournament][resolvedState];
+};
