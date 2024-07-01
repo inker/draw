@@ -1,1 +1,4 @@
-export default [['Internazionale', 'Milan']] as const;
+export default [
+  ['Internazionale', 'Milan'],
+  ['Roma', 'Lazio'],
+] as const;
