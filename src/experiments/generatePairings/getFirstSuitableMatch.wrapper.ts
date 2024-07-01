@@ -2,7 +2,7 @@ import raceWorkers from '#utils/raceWorkers';
 
 import { type Func } from './getFirstSuitableMatch.worker';
 
-const NUM_WORKERS = navigator.hardwareConcurrency - 1;
+const NUM_WORKERS = Math.max(1, navigator.hardwareConcurrency - 1);
 
 export default async (
   options: Omit<Parameters<Func>[0], 'randomArray' | 'shouldShuffle'>,
