@@ -52,6 +52,10 @@ const Root = styled.div`
   }
 `;
 
+const NavBarLeftContainer = styled.div`
+  display: contents;
+`;
+
 interface Props {
   season: number;
   tournament: Tournament;
@@ -83,14 +87,17 @@ function Navbar({ season, tournament, stage, onSeasonChange }: Props) {
 
   return (
     <Root>
+      <NavBarLeftContainer id="navbar-left-container" />
       <div>
         <Button onClick={disableFastDrawAndRestart}>Restart</Button>
-        <Button
-          disabled={isFastDraw}
-          onClick={enableFastDraw}
-        >
-          Fast draw
-        </Button>
+        {stage !== 'ls' && (
+          <Button
+            disabled={isFastDraw}
+            onClick={enableFastDraw}
+          >
+            Fast draw
+          </Button>
+        )}
         <SelectSeason
           tournament={tournament}
           stage={stage}

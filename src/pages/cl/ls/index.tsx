@@ -7,6 +7,7 @@ import type Team from '#model/team/GsTeam';
 import generatePairings from '#experiments/generatePairings';
 import generateSchedule from '#experiments/generateSchedule';
 import Button from '#ui/Button';
+import Portal from '#ui/Portal';
 
 import Schedule from './Schedule';
 import MatchesTable from './MatchesTable';
@@ -16,10 +17,6 @@ const Root = styled.div`
   flex-direction: column;
   margin: 10px;
   font-size: 14px;
-`;
-
-const Interface = styled.div`
-  margin-bottom: 16px;
 `;
 
 const MatrixWrapper = styled.div`
@@ -117,7 +114,10 @@ function LeagueStage({ pots: initialPots }: Props) {
 
   return (
     <Root>
-      <Interface>
+      <Portal
+        tagName="div"
+        modalRoot={document.getElementById('navbar-left-container')!}
+      >
         <Button
           type="button"
           disabled={!isScheduleDone}
@@ -127,7 +127,7 @@ function LeagueStage({ pots: initialPots }: Props) {
         >
           {isMatchdayMode ? 'Display matrix' : 'Display schedule'}
         </Button>
-      </Interface>
+      </Portal>
       {isMatchdayMode ? (
         <Schedule schedule={schedule} />
       ) : (
