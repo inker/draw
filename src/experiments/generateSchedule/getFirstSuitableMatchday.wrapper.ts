@@ -36,7 +36,7 @@ export default ({
         ++matchesByTeam[a];
       }
 
-      const res: typeof allGamesShuffled = [];
+      const orderedGames: typeof allGamesShuffled = [];
       while (allGamesShuffled.length > 0) {
         const min = Math.min(...matchesByTeam.filter(item => item > 0));
         const minIndices: number[] = [];
@@ -54,16 +54,12 @@ export default ({
           --matchesByTeam[m[0]];
           --matchesByTeam[m[1]];
         }
-        res.push(...minTeamMatches);
+        orderedGames.push(...minTeamMatches);
       }
-
-      // const indexByTeam = new Map(
-      //   allTeamsShuffled.map((item, index) => [item, index]),
-      // );
 
       return {
         matchdaySize,
-        allGames: res,
+        allGames: orderedGames,
         currentSchedule,
         matchIndex,
       };
