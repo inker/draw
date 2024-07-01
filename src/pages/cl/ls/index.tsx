@@ -4,8 +4,8 @@ import { shuffle } from 'lodash';
 
 import usePopup from '#store/usePopup';
 import type Team from '#model/team/GsTeam';
-import generatePairings from '#experiments/generatePairings';
-import generateSchedule from '#experiments/generateSchedule';
+import generatePairings from '#engine/dfs/ls/generatePairings/index.js';
+import generateSchedule from '#engine/dfs/ls/generateSchedule/index.js';
 import Button from '#ui/Button';
 import Portal from '#ui/Portal';
 
