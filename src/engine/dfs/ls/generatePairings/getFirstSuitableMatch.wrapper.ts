@@ -4,9 +4,12 @@ import { type Func } from './getFirstSuitableMatch.worker';
 
 const NUM_WORKERS = Math.max(1, navigator.hardwareConcurrency - 1);
 
-export default async (
-  options: Omit<Parameters<Func>[0], 'randomArray' | 'shouldShuffle'>,
-) =>
+export default async ({
+  signal,
+  ...options
+}: Omit<Parameters<Func>[0], 'randomArray' | 'shouldShuffle'> & {
+  signal?: AbortSignal;
+}) =>
   raceWorkers<Func>({
     numWorkers: NUM_WORKERS,
     getWorker: () =>
@@ -29,4 +32,5 @@ export default async (
       const factor = 7 / (workerIndex + 1);
       return factor * Math.min(5000, 1000 * Math.exp(iteration / 10));
     },
+    signal,
   });

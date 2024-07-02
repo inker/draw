@@ -7,14 +7,32 @@ export default async <Func extends (...args: any) => void>({
   getWorker,
   getPayload,
   getTimeout,
+  signal,
 }: {
   numWorkers: number;
   getWorker: () => Worker;
   getPayload: (workerIndex: number, attempt: number) => Parameters<Func>[0];
   getTimeout: (workerIndex: number, attempt: number) => number;
+  signal?: AbortSignal;
 }): Promise<Awaited<ReturnType<Func>>> => {
   const workers: Worker[] = [];
   let gotResult = false;
+
+  if (signal) {
+    signal.addEventListener(
+      'abort',
+      () => {
+        gotResult = true;
+        for (const w of workers) {
+          w.terminate();
+        }
+      },
+      {
+        once: true,
+      },
+    );
+  }
+
   const promises = Array.from(
     {
       length: numWorkers,

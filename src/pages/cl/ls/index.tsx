@@ -46,6 +46,15 @@ function LeagueStage({ pots: initialPots }: Props) {
   );
   const [isFixturesDone, setIsFixturesDone] = useState(false);
 
+  const abortController = useMemo(() => new AbortController(), []);
+
+  // eslint-disable-next-line arrow-body-style
+  useEffect(() => {
+    return () => {
+      abortController.abort();
+    };
+  }, []);
+
   const pots = useMemo(
     () =>
       initialPots.map(pot =>
@@ -73,6 +82,7 @@ function LeagueStage({ pots: initialPots }: Props) {
         pots,
         numMatchdays: 8,
         isMatchPossible: (a, b) => a.country !== b.country,
+        signal: abortController.signal,
       });
       for await (const pickedMatch of generator) {
         setPairings(prev => [...prev, pickedMatch]);
@@ -93,6 +103,7 @@ function LeagueStage({ pots: initialPots }: Props) {
           matchdaySize,
           allGames: pairings,
           currentSchedule: schedule,
+          signal,
         });
         const iterator = await generator.next();
         if (iterator.done) {

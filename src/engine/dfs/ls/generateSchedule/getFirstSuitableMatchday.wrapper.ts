@@ -17,12 +17,14 @@ export default ({
   allGames,
   currentSchedule,
   matchIndex,
+  signal,
 }: {
   teams: readonly Team[];
   matchdaySize: number;
   allGames: readonly (readonly [number, number])[];
   currentSchedule: Record<`${number}:${number}`, number>;
   matchIndex: number;
+  signal: AbortSignal,
 }) =>
   raceWorkers<Func>({
     numWorkers: NUM_WORKERS,
@@ -92,4 +94,5 @@ export default ({
       const factor = 7 / (workerIndex + 1);
       return factor * Math.min(10000, 5000 * Math.exp(attempt / 10));
     },
+    signal,
   });

@@ -6,10 +6,12 @@ export default async function* generateSchedule<T extends { id: string }>({
   matchdaySize,
   allGames: allGamesWithIds,
   currentSchedule: foobar,
+  signal,
 }: {
   matchdaySize: number;
   allGames: readonly (readonly [T, T])[];
   currentSchedule: readonly (readonly (readonly [T, T])[])[];
+  signal?: AbortSignal;
 }) {
   const foo = allGamesWithIds.flat();
   const teamById = keyBy(foo, team => team.id);
@@ -47,6 +49,7 @@ export default async function* generateSchedule<T extends { id: string }>({
       allGames: allGamesUnordered,
       currentSchedule,
       matchIndex: i,
+      signal,
     });
     console.log('for match', match, 'picked', result.pickedMatchday);
     currentSchedule[`${match[0]}:${match[1]}`] = result.pickedMatchday;
