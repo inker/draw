@@ -12,7 +12,7 @@ export default async function* generatePairings<T>({
   pots: readonly (readonly T[])[];
   numMatchdays: number;
   isMatchPossible: (h: T, a: T) => boolean;
-  signal?: AbortSignal,
+  signal?: AbortSignal;
 }) {
   const teams = pots.flat();
   const numTeamsPerPot = pots[0].length;
