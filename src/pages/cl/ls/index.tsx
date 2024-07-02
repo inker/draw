@@ -6,6 +6,7 @@ import usePopup from '#store/usePopup';
 import type Team from '#model/team/GsTeam';
 import generatePairings from '#engine/dfs/ls/generatePairings/index';
 import generateSchedule from '#engine/dfs/ls/generateSchedule/index';
+import useAbortSignal from '#utils/hooks/useAbortSignal';
 import Button from '#ui/Button';
 import Portal from '#ui/Portal';
 
@@ -46,14 +47,7 @@ function LeagueStage({ pots: initialPots }: Props) {
   );
   const [isFixturesDone, setIsFixturesDone] = useState(false);
 
-  const abortController = useMemo(() => new AbortController(), []);
-
-  // eslint-disable-next-line arrow-body-style
-  useEffect(() => {
-    return () => {
-      abortController.abort();
-    };
-  }, []);
+  const abortSignal = useAbortSignal();
 
   const pots = useMemo(
     () =>
@@ -82,7 +76,7 @@ function LeagueStage({ pots: initialPots }: Props) {
         pots,
         numMatchdays: 8,
         isMatchPossible: (a, b) => a.country !== b.country,
-        signal: abortController.signal,
+        signal: abortSignal,
       });
       for await (const pickedMatch of generator) {
         setPairings(prev => [...prev, pickedMatch]);
@@ -103,7 +97,7 @@ function LeagueStage({ pots: initialPots }: Props) {
           matchdaySize,
           allGames: pairings,
           currentSchedule: schedule,
-          signal: abortController.signal,
+          signal: abortSignal,
         });
         const iterator = await generator.next();
         if (iterator.done) {
