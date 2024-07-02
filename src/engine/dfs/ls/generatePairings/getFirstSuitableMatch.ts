@@ -16,7 +16,6 @@ export default ({
   allGames,
   pickedMatches,
   randomArray,
-  shouldShuffle,
 }: {
   teams: readonly Team[];
   numPots: number;
@@ -26,7 +25,6 @@ export default ({
   allGames: readonly (readonly [number, number])[];
   pickedMatches: readonly (readonly [number, number])[];
   randomArray: readonly number[];
-  shouldShuffle: boolean;
 }) => {
   const maxGamesAtHome = Math.ceil(numMatchdays / 2);
 
@@ -95,9 +93,7 @@ export default ({
 
   orderedRemainingGames = orderBy(orderedRemainingGames, m => Math.min(...m));
 
-  const shuffledRemainingGames = shouldShuffle
-    ? shuffle(remainingGames)
-    : remainingGames;
+  const shuffledRemainingGames = shuffle(remainingGames);
 
   return orderedRemainingGames.find(m => {
     console.log('test...', m);
