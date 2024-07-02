@@ -103,7 +103,7 @@ function LeagueStage({ pots: initialPots }: Props) {
           matchdaySize,
           allGames: pairings,
           currentSchedule: schedule,
-          signal,
+          signal: abortController.signal,
         });
         const iterator = await generator.next();
         if (iterator.done) {
