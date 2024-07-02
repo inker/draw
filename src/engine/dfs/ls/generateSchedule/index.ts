@@ -5,7 +5,7 @@ import getFirstSuitableMatchday from './getFirstSuitableMatchday.wrapper';
 export default async function* generateSchedule<T extends { id: string }>({
   matchdaySize,
   allGames: allGamesWithIds,
-  currentSchedule: foobar,
+  currentSchedule: currentScheduleWithIds,
   signal,
 }: {
   matchdaySize: number;
@@ -13,14 +13,16 @@ export default async function* generateSchedule<T extends { id: string }>({
   currentSchedule: readonly (readonly (readonly [T, T])[])[];
   signal?: AbortSignal;
 }) {
-  const foo = allGamesWithIds.flat();
-  const teamById = keyBy(foo, team => team.id);
-  const allTeamIds = uniq(foo.map(team => team.id));
-  const allTeams = allTeamIds.map(id => foo.find(item => item.id === id)!);
+  const allNonUniqueTeams = allGamesWithIds.flat();
+  const teamById = keyBy(allNonUniqueTeams, team => team.id);
+  const allTeamIds = uniq(allNonUniqueTeams.map(team => team.id));
+  const allTeams = allTeamIds.map(
+    id => allNonUniqueTeams.find(item => item.id === id)!,
+  );
   const indexByTeamId = new Map(allTeamIds.map((id, i) => [id, i] as const));
 
   const currentSchedule: Record<`${number}:${number}`, number> = {};
-  for (const [matchdayIndex, matchday] of foobar.entries()) {
+  for (const [matchdayIndex, matchday] of currentScheduleWithIds.entries()) {
     for (const [h, a] of matchday) {
       const homeIndex = indexByTeamId.get(h.id)!;
       const awayIndex = indexByTeamId.get(a.id)!;
@@ -51,7 +53,6 @@ export default async function* generateSchedule<T extends { id: string }>({
       matchIndex: i,
       signal,
     });
-    console.log('for match', match, 'picked', result.pickedMatchday);
     currentSchedule[`${match[0]}:${match[1]}`] = result.pickedMatchday;
 
     const homeTeam = teamById[allTeamIds[match[0]]];
@@ -60,7 +61,7 @@ export default async function* generateSchedule<T extends { id: string }>({
       m => m[0].id === homeTeam.id && m[1].id === awayTeam.id,
     )!;
 
-    const haha = result.matchdays.map(md =>
+    const solutionSchedule = result.matchdays.map(md =>
       md.map(([h, a]) => {
         const ht = teamById[allTeamIds[h]];
         const at = teamById[allTeamIds[a]];
@@ -73,7 +74,7 @@ export default async function* generateSchedule<T extends { id: string }>({
     yield {
       match: originalMatch,
       matchday: result.pickedMatchday,
-      solutionSchedule: haha,
+      solutionSchedule,
     };
   }
 }

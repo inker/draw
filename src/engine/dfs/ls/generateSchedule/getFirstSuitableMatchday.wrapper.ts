@@ -24,7 +24,7 @@ export default ({
   allGames: readonly (readonly [number, number])[];
   currentSchedule: Record<`${number}:${number}`, number>;
   matchIndex: number;
-  signal: AbortSignal,
+  signal?: AbortSignal;
 }) =>
   raceWorkers<Func>({
     numWorkers: NUM_WORKERS,
@@ -40,15 +40,13 @@ export default ({
 
       const orderedGames: typeof allGamesShuffled = [];
       for (const team of prioritizedTeams) {
-        const hah = remove(allGamesShuffled, m => {
+        const prioritizedGames = remove(allGamesShuffled, m => {
           const h = teams[m[0]];
           const a = teams[m[1]];
           return team === h || team === a;
         });
-        orderedGames.push(...hah);
+        orderedGames.push(...prioritizedGames);
       }
-
-      console.log('remaining after priority', allGamesShuffled);
 
       const numMatchesByTeam = Array.from(
         {
