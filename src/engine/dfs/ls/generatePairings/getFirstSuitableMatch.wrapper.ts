@@ -29,7 +29,7 @@ export default async ({
       };
     },
     getTimeout: (workerIndex, iteration) => {
-      const factor = 7 / (workerIndex + 1);
+      const factor = workerIndex === 0 ? 100 : 7 / (workerIndex + 1);
       return factor * Math.min(5000, 1000 * Math.exp(iteration / 10));
     },
     signal,
