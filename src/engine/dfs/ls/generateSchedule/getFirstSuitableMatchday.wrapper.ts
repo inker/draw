@@ -5,7 +5,7 @@ import raceWorkers from '#utils/raceWorkers';
 import { type Func } from './getFirstSuitableMatchday.worker';
 import teamsSharingStadium from './teamsSharingStadium';
 
-const NUM_WORKERS = Math.max(1, navigator.hardwareConcurrency - 1);
+const NUM_WORKERS = Math.max(1, navigator.hardwareConcurrency >> 1);
 
 interface Team {
   name: string;
