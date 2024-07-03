@@ -148,19 +148,23 @@ function LeagueStage({ pots: initialPots }: Props) {
             pairings={pairings}
           />
           <div>
-            <div>
-              Drawn matches: {pairings.length}/{numMatches}
-            </div>
+            {isFixturesDone ? (
+              <p>All {numMatches} matches have been drawn.</p>
+            ) : (
+              <p>
+                Drawn matches: {pairings.length}/{numMatches}
+              </p>
+            )}
             {isFixturesDone && !isScheduleDone && (
-              <div>
-                The schedule is being generated. This will take a while. Do not
+              <p>
+                Now, constructing the schedule. This will take a while. Do not
                 close the page
                 <Dots
                   initialNum={3}
                   maxNum={3}
                   interval={1000}
                 />
-              </div>
+              </p>
             )}
           </div>
         </MatrixWrapper>
