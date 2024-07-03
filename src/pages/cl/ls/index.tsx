@@ -157,8 +157,8 @@ function LeagueStage({ pots: initialPots }: Props) {
             )}
             {isFixturesDone && !isScheduleDone && (
               <p>
-                Now, constructing the schedule. This will take a while. Do not
-                close the page
+                Schedule creation in progress. This will take a while. Please do
+                not close the page
                 <Dots
                   initialNum={3}
                   maxNum={3}
