@@ -42,13 +42,12 @@ export default async function* generatePairings<T>({
 
   allGames = allGames.filter(([h, a]) => isMatchPossible(teams[h], teams[a]));
 
-  allGames = shuffle(allGames);
-
   console.log('initial games', allGames.length, JSON.stringify(allGames));
 
   const matches: (readonly [number, number])[] = [];
 
   while (matches.length < numMatchdays * numGamesPerMatchday) {
+    allGames = shuffle(allGames);
     // eslint-disable-next-line no-await-in-loop
     const pickedMatch = await getFirstSuitableMatch({
       // @ts-expect-error Fix this later
