@@ -6,7 +6,7 @@ export default {
     wc: 2022,
     uefa: {
       cl: {
-        gs: 2023,
+        ls: 2024,
         ko: 2023,
       },
       el: {

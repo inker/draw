@@ -1,4 +1,4 @@
-const validStages = ['gs', 'ko'] as const;
+const validStages = ['gs', 'ko', 'ls'] as const;
 
 type Stage = (typeof validStages)[number];
 

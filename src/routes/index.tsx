@@ -135,7 +135,7 @@ function Routing() {
           path="cl"
           element={
             <Navigate
-              to={`/cl/${defaultStage}`}
+              to="/cl/ls"
               replace
             />
           }
