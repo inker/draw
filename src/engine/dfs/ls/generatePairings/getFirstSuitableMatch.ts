@@ -196,11 +196,11 @@ export default ({
             const homePot = Math.floor(h / numTeamsPerPot);
             const awayPot = Math.floor(a / numTeamsPerPot);
 
-            if (hasPlayedWithPotMap[`${h}:${awayPot}:h`]) {
+            if (newHasPlayedWithPotMap[`${h}:${awayPot}:h`]) {
               return false;
             }
 
-            if (hasPlayedWithPotMap[`${a}:${homePot}:a`]) {
+            if (newHasPlayedWithPotMap[`${a}:${homePot}:a`]) {
               return false;
             }
 
