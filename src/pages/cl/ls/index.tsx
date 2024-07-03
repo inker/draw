@@ -23,6 +23,7 @@ const Root = styled.div`
 
 const MatrixWrapper = styled.div`
   display: flex;
+  flex-wrap: wrap;
   gap: 16px;
 `;
 
