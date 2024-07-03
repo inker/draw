@@ -1,7 +1,8 @@
-import { orderBy, shuffle } from 'lodash';
+import { orderBy, range } from 'lodash';
 
 import { findFirstSolution } from '#utils/backtrack';
 import { type Country } from '#model/types';
+import cartesian from '#utils/cartesian';
 
 interface Team {
   country: Country;
@@ -15,7 +16,6 @@ export default ({
   numGamesPerMatchday,
   allGames,
   pickedMatches,
-  randomArray,
 }: {
   teams: readonly Team[];
   numPots: number;
@@ -24,8 +24,8 @@ export default ({
   numGamesPerMatchday: number;
   allGames: readonly (readonly [number, number])[];
   pickedMatches: readonly (readonly [number, number])[];
-  randomArray: readonly number[];
 }) => {
+  const potIndices = range(numPots);
   const maxGamesAtHome = Math.ceil(numMatchdays / 2);
 
   const numHomeGamesByTeam: Record<number, number> = {};
@@ -39,6 +39,13 @@ export default ({
     `${number}:${number}:${'h' | 'a'}`,
     boolean
   > = {};
+
+  const potPairs = orderBy(cartesian(potIndices, potIndices), ([h, a]) => {
+    if (h === a) {
+      return h / 1000;
+    }
+    return h + a * 0.0001 + 1000;
+  });
 
   for (const m of pickedMatches) {
     const homeTeam = teams[m[0]];
@@ -89,17 +96,20 @@ export default ({
 
   console.log('num remaining possible games', remainingGames.length);
 
-  let orderedRemainingGames = orderBy(remainingGames, (_, i) => randomArray[i]);
-
-  orderedRemainingGames = orderBy(orderedRemainingGames, m => Math.min(...m));
-
-  const shuffledRemainingGames = shuffle(remainingGames);
+  const orderedRemainingGames = orderBy(remainingGames, [
+    m => {
+      const hPot = Math.floor(m[0] / numTeamsPerPot);
+      const aPot = Math.floor(m[1] / numTeamsPerPot);
+      return potPairs.findIndex(([a, b]) => a === hPot && b === aPot);
+    },
+    m => m[0],
+  ]);
 
   return orderedRemainingGames.find(m => {
     console.log('test...', m);
     const solution = findFirstSolution(
       {
-        source: shuffledRemainingGames,
+        source: remainingGames,
         target: pickedMatches,
         numHomeGamesByTeam,
         numAwayGamesByTeam,
@@ -207,55 +217,32 @@ export default ({
             return true;
           });
 
+          const currentPotPairIndex = Math.floor(
+            newTarget.length / numTeamsPerPot,
+          );
+          const [potPairHomePot, potPairAwayPot] =
+            potPairs[currentPotPairIndex];
+          const newHomeTeam =
+            numTeamsPerPot * potPairHomePot +
+            (newTarget.length % numTeamsPerPot);
+
           const candidates: (typeof c)[] = [];
 
-          const lowestRemainingTeam =
-            newSource.length > 0
-              ? // eslint-disable-next-line unicorn/no-array-reduce
-                newSource.reduce(
-                  (prev, cur) => Math.min(prev, ...cur),
-                  Math.min(...newSource[0]),
-                )
-              : undefined;
+          for (const newPicked of newSource) {
+            const awayPot = Math.floor(newPicked[1] / numTeamsPerPot);
 
-          if (lowestRemainingTeam !== undefined) {
-            let nextPot: number | undefined;
-            let nextPlace: 'h' | 'a' | undefined;
-            for (let i = 0; i < numPots; ++i) {
-              if (!newHasPlayedWithPotMap[`${lowestRemainingTeam}:${i}:h`]) {
-                nextPot = i;
-                nextPlace = 'h';
-                break;
-              }
-              if (!newHasPlayedWithPotMap[`${lowestRemainingTeam}:${i}:a`]) {
-                nextPot = i;
-                nextPlace = 'a';
-                break;
-              }
-            }
-
-            for (const newPicked of newSource) {
-              const homePot = Math.floor(newPicked[0] / numTeamsPerPot);
-              const awayPot = Math.floor(newPicked[1] / numTeamsPerPot);
-
-              const isMatchGood =
-                (nextPlace === 'h' &&
-                  newPicked[0] === lowestRemainingTeam &&
-                  awayPot === nextPot) ||
-                (nextPlace === 'a' &&
-                  newPicked[1] === lowestRemainingTeam &&
-                  homePot === nextPot);
-              if (isMatchGood) {
-                candidates.push({
-                  source: newSource,
-                  target: newTarget,
-                  picked: newPicked,
-                  numHomeGamesByTeam: newNumHomeGamesByTeam,
-                  numAwayGamesByTeam: newNumAwayGamesByTeam,
-                  numOpponentCountriesByTeam: newNumOpponentCountriesByTeam,
-                  hasPlayedWithPotMap: newHasPlayedWithPotMap,
-                });
-              }
+            const isMatchGood =
+              newPicked[0] === newHomeTeam && awayPot === potPairAwayPot;
+            if (isMatchGood) {
+              candidates.push({
+                source: newSource,
+                target: newTarget,
+                picked: newPicked,
+                numHomeGamesByTeam: newNumHomeGamesByTeam,
+                numAwayGamesByTeam: newNumAwayGamesByTeam,
+                numOpponentCountriesByTeam: newNumOpponentCountriesByTeam,
+                hasPlayedWithPotMap: newHasPlayedWithPotMap,
+              });
             }
           }
 
