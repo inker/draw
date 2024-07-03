@@ -99,7 +99,7 @@ export default ({
     m => m[0],
   ]);
 
-  return orderedRemainingGames.find(m => {
+  return orderedRemainingGames.find(match => {
     const solution = findFirstSolution(
       {
         source: remainingGames,
@@ -108,40 +108,36 @@ export default ({
         numAwayGamesByTeam,
         numOpponentCountriesByTeam,
         hasPlayedWithPotMap,
-        picked: m,
+        picked: match,
       },
       {
         reject: c => {
-          const [m1, m2] = c.picked;
+          const [h, a] = c.picked;
 
           // Ensure the teams play same number of games at home & away
-          if (c.numHomeGamesByTeam[m1] === maxGamesAtHome) {
+          if (c.numHomeGamesByTeam[h] === maxGamesAtHome) {
             return true;
           }
-          if (c.numAwayGamesByTeam[m2] === maxGamesAtHome) {
-            return true;
-          }
-
-          const homeTeamPotIndex = Math.floor(m1 / numTeamsPerPot);
-          const awayTeamPotIndex = Math.floor(m2 / numTeamsPerPot);
-
-          if (c.hasPlayedWithPotMap[`${m1}:${awayTeamPotIndex}:h`]) {
+          if (c.numAwayGamesByTeam[a] === maxGamesAtHome) {
             return true;
           }
 
-          if (c.hasPlayedWithPotMap[`${m2}:${homeTeamPotIndex}:a`]) {
+          const homeTeamPotIndex = Math.floor(h / numTeamsPerPot);
+          const awayTeamPotIndex = Math.floor(a / numTeamsPerPot);
+
+          if (c.hasPlayedWithPotMap[`${h}:${awayTeamPotIndex}:h`]) {
             return true;
           }
 
-          if (
-            c.numOpponentCountriesByTeam[`${m1}:${teams[m2].country}`] === 2
-          ) {
+          if (c.hasPlayedWithPotMap[`${a}:${homeTeamPotIndex}:a`]) {
             return true;
           }
 
-          if (
-            c.numOpponentCountriesByTeam[`${m2}:${teams[m1].country}`] === 2
-          ) {
+          if (c.numOpponentCountriesByTeam[`${h}:${teams[a].country}`] === 2) {
+            return true;
+          }
+
+          if (c.numOpponentCountriesByTeam[`${a}:${teams[h].country}`] === 2) {
             return true;
           }
 
