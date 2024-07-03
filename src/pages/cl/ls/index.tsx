@@ -32,7 +32,12 @@ interface Props {
 }
 
 function LeagueStage({ pots: initialPots }: Props) {
-  const numMatchdays = 8;
+  const numMatchdays = initialPots.length * 2;
+
+  const numMatches = useMemo(() => {
+    const numTeams = initialPots.flat().length;
+    return (numTeams * numMatchdays) / 2;
+  }, [initialPots, numMatchdays]);
 
   const [, setPopup] = usePopup();
 
@@ -143,7 +148,9 @@ function LeagueStage({ pots: initialPots }: Props) {
             pairings={pairings}
           />
           <div>
-            <div>Drawn matches: {pairings.length}/144</div>
+            <div>
+              Drawn matches: {pairings.length}/{numMatches}
+            </div>
             {isFixturesDone && !isScheduleDone && (
               <div>
                 The schedule is being generated. This will take a while. Do not
