@@ -9,6 +9,7 @@ import generateSchedule from '#engine/dfs/ls/generateSchedule/index';
 import useAbortSignal from '#utils/hooks/useAbortSignal';
 import Button from '#ui/Button';
 import Portal from '#ui/Portal';
+import Dots from '#ui/Dots';
 
 import Schedule from './Schedule';
 import MatchesTable from './MatchesTable';
@@ -146,6 +147,11 @@ function LeagueStage({ pots: initialPots }: Props) {
               <div>
                 The schedule is being generated. This will take a while. Do not
                 close the page
+                <Dots
+                  initialNum={3}
+                  maxNum={3}
+                  interval={1000}
+                />
               </div>
             )}
           </div>
