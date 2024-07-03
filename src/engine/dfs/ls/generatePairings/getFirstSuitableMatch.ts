@@ -94,8 +94,6 @@ export default ({
     return true;
   });
 
-  console.log('num remaining possible games', remainingGames.length);
-
   const orderedRemainingGames = orderBy(remainingGames, [
     m => {
       const hPot = Math.floor(m[0] / numTeamsPerPot);
@@ -106,7 +104,6 @@ export default ({
   ]);
 
   return orderedRemainingGames.find(m => {
-    console.log('test...', m);
     const solution = findFirstSolution(
       {
         source: remainingGames,

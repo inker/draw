@@ -191,9 +191,8 @@ export default ({
             c.numMatchesPerMatchday[c.pickedMatchday] + 1,
           );
 
-          // console.log(newMatchIndex);
-
           if (newMatchIndex > record) {
+            // eslint-disable-next-line no-console
             console.log(newMatchIndex);
             record = newMatchIndex;
           }
@@ -218,9 +217,6 @@ export default ({
       },
     );
 
-    // if (!solution) {
-    //   console.log('sol', solution);
-    // }
     if (solution) {
       const arr = Array.from(
         {

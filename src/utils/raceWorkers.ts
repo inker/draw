@@ -39,14 +39,6 @@ export default async <Func extends (...args: any) => void>({
     },
     async (_, workerIndex) => {
       for (let attempt = 0; !gotResult; ++attempt) {
-        if (workerIndex === 0) {
-          console.log(
-            'spawning',
-            workerIndex,
-            attempt,
-            getTimeout(workerIndex, attempt),
-          );
-        }
         const worker = getWorker();
         workers[workerIndex] = worker;
         // eslint-disable-next-line no-await-in-loop

@@ -42,8 +42,6 @@ export default async function* generatePairings<T>({
 
   allGames = allGames.filter(([h, a]) => isMatchPossible(teams[h], teams[a]));
 
-  console.log('initial games', allGames.length, JSON.stringify(allGames));
-
   const matches: (readonly [number, number])[] = [];
 
   while (matches.length < numMatchdays * numGamesPerMatchday) {

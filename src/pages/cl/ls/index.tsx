@@ -81,7 +81,6 @@ function LeagueStage({ pots: initialPots }: Props) {
       for await (const pickedMatch of generator) {
         setPairings(prev => [...prev, pickedMatch]);
       }
-      console.log('pairings', JSON.stringify(pairings));
       setIsFixturesDone(true);
     };
 
