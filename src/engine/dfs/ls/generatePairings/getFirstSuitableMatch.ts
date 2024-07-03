@@ -40,9 +40,6 @@ export default ({
     boolean
   > = {};
 
-  const unorderedPotPairs = cartesian(potIndices, potIndices);
-  const potPairs = orderBy(unorderedPotPairs, [m => m[0], m => m[1]]);
-
   for (const m of pickedMatches) {
     const homeTeam = teams[m[0]];
     const awayTeam = teams[m[1]];
@@ -89,6 +86,9 @@ export default ({
 
     return true;
   });
+
+  const unorderedPotPairs = cartesian(potIndices, potIndices);
+  const potPairs = orderBy(unorderedPotPairs, [m => m[0], m => m[1]]);
 
   const orderedRemainingGames = orderBy(remainingGames, [
     m => {
