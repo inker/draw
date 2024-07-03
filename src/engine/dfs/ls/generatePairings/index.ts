@@ -7,12 +7,10 @@ export default async function* generatePairings<T>({
   pots,
   numMatchdays,
   isMatchPossible,
-  signal,
 }: {
   pots: readonly (readonly T[])[];
   numMatchdays: number;
   isMatchPossible: (h: T, a: T) => boolean;
-  signal?: AbortSignal;
 }) {
   const teams = pots.flat();
   const numTeamsPerPot = pots[0].length;
@@ -44,22 +42,30 @@ export default async function* generatePairings<T>({
 
   const matches: (readonly [number, number])[] = [];
 
-  while (matches.length < numMatchdays * numGamesPerMatchday) {
-    allGames = shuffle(allGames);
-    // eslint-disable-next-line no-await-in-loop
-    const pickedMatch = await getFirstSuitableMatch({
-      // @ts-expect-error Fix this later
-      teams,
-      numPots: pots.length,
-      numTeamsPerPot,
-      numMatchdays,
-      numGamesPerMatchday,
-      allGames,
-      pickedMatches: matches,
-      signal,
-    });
-    matches.push(pickedMatch);
+  const worker = new Worker(
+    new URL('./getFirstSuitableMatch.worker', import.meta.url),
+  );
 
-    yield [teams[pickedMatch[0]], teams[pickedMatch[1]]] as const;
+  try {
+    while (matches.length < numMatchdays * numGamesPerMatchday) {
+      allGames = shuffle(allGames);
+      // eslint-disable-next-line no-await-in-loop
+      const pickedMatch = await getFirstSuitableMatch({
+        // @ts-expect-error Fix this later
+        teams,
+        numPots: pots.length,
+        numTeamsPerPot,
+        numMatchdays,
+        numGamesPerMatchday,
+        allGames,
+        pickedMatches: matches,
+        worker,
+      });
+      matches.push(pickedMatch);
+
+      yield [teams[pickedMatch[0]], teams[pickedMatch[1]]] as const;
+    }
+  } finally {
+    worker.terminate();
   }
 }

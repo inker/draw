@@ -83,7 +83,6 @@ function LeagueStage({ pots: initialPots }: Props) {
         pots,
         numMatchdays: 8,
         isMatchPossible: (a, b) => a.country !== b.country,
-        signal: abortSignal,
       });
       for await (const pickedMatch of generator) {
         setPairings(prev => [...prev, pickedMatch]);
