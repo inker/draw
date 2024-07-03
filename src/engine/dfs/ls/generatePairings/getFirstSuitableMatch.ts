@@ -40,12 +40,8 @@ export default ({
     boolean
   > = {};
 
-  const potPairs = orderBy(cartesian(potIndices, potIndices), ([h, a]) => {
-    if (h === a) {
-      return h / 1000;
-    }
-    return h + a * 0.0001 + 1000;
-  });
+  const unorderedPotPairs = cartesian(potIndices, potIndices);
+  const potPairs = orderBy(unorderedPotPairs, [m => m[0], m => m[1]]);
 
   for (const m of pickedMatches) {
     const homeTeam = teams[m[0]];
