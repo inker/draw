@@ -11,7 +11,7 @@ const Table = styled.table`
 `;
 
 const HeaderCell = styled.th<{
-  hovered?: boolean;
+  $hovered?: boolean;
 }>`
   vertical-align: bottom;
   padding: 3px 1px;
@@ -23,7 +23,7 @@ const HeaderCell = styled.th<{
   }
 
   ${props =>
-    props.hovered &&
+    props.$hovered &&
     css`
       background-color: rgba(0 0 0 / 0.1);
     `}
@@ -79,8 +79,8 @@ const AppearLight = keyframes`
 `;
 
 const TableCell = styled.td<{
-  isMatch?: boolean;
-  hovered?: boolean;
+  $isMatch?: boolean;
+  $hovered?: boolean;
 }>`
   border: 1px solid rgb(192 192 192);
   text-align: center;
@@ -90,7 +90,7 @@ const TableCell = styled.td<{
   }
 
   ${props =>
-    props.isMatch &&
+    props.$isMatch &&
     css`
       animation: ${AppearLight} 3s ease-out normal forwards;
 
@@ -100,7 +100,7 @@ const TableCell = styled.td<{
     `}
 
   ${props =>
-    props.hovered &&
+    props.$hovered &&
     css`
       background-color: rgba(0 0 0 / 0.1);
     `}
@@ -181,7 +181,7 @@ function MatchesTable({ allTeams, pairings }: Props) {
             <HeaderCell
               key={opponent.id}
               data-opponent={opponent.id}
-              hovered={opponent.id === hoverColumn}
+              $hovered={opponent.id === hoverColumn}
             >
               <HeaderCellDiv>
                 <img
@@ -206,8 +206,8 @@ function MatchesTable({ allTeams, pairings }: Props) {
                 <TableCell
                   key={opponent.id}
                   data-opponent={opponent.id}
-                  isMatch={isMatch}
-                  hovered={opponent.id === hoverColumn}
+                  $isMatch={isMatch}
+                  $hovered={opponent.id === hoverColumn}
                 />
               );
             })}
