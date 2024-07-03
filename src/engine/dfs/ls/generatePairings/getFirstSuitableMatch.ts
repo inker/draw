@@ -243,9 +243,6 @@ export default ({
         },
       },
     );
-    // if (!solution) {
-    //   console.log('sol', solution);
-    // }
     return solution !== undefined;
   })!;
 };
