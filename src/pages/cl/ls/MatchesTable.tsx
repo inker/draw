@@ -92,7 +92,7 @@ const TableCell = styled.td<{
   ${props =>
     props.$isMatch &&
     css`
-      animation: ${AppearLight} 3s ease-out normal forwards;
+      animation: ${AppearLight} 1s ease-out normal forwards;
 
       &::before {
         content: '✕';
