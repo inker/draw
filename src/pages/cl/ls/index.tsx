@@ -98,17 +98,12 @@ function LeagueStage({ pots: initialPots }: Props) {
       const formSchedule = async () => {
         // setIsMatchdayMode(true);
         // setSchedule(chunk(pairings, 18));
-        const generator = generateSchedule({
+        const it = await generateSchedule({
           matchdaySize,
           allGames: pairings,
           currentSchedule: schedule,
           signal: abortSignal,
         });
-        const iterator = await generator.next();
-        if (iterator.done) {
-          throw new Error('Cannot be fully done');
-        }
-        const it = iterator.value;
         setSchedule(it.solutionSchedule.map(md => shuffle(md)));
         setIsMatchdayMode(true);
       };

@@ -2,10 +2,9 @@ import { keyBy, uniq } from 'lodash';
 
 import getFirstSuitableMatchday from './getFirstSuitableMatchday.wrapper';
 
-export default async function* generateSchedule<T extends { id: string }>({
+export default async function generateSchedule<T extends { id: string }>({
   matchdaySize,
   allGames: allGamesWithIds,
-  currentSchedule: currentScheduleWithIds,
   signal,
 }: {
   matchdaySize: number;
@@ -21,15 +20,6 @@ export default async function* generateSchedule<T extends { id: string }>({
   );
   const indexByTeamId = new Map(allTeamIds.map((id, i) => [id, i] as const));
 
-  const currentSchedule: Record<`${number}:${number}`, number> = {};
-  for (const [matchdayIndex, matchday] of currentScheduleWithIds.entries()) {
-    for (const [h, a] of matchday) {
-      const homeIndex = indexByTeamId.get(h.id)!;
-      const awayIndex = indexByTeamId.get(a.id)!;
-      currentSchedule[`${homeIndex}:${awayIndex}`] = matchdayIndex;
-    }
-  }
-
   const allGamesUnordered: (readonly [number, number])[] = [];
   for (const [h, a] of allGamesWithIds) {
     const homeIndex = indexByTeamId.get(h.id)!;
@@ -42,39 +32,25 @@ export default async function* generateSchedule<T extends { id: string }>({
   //   m => Math.max(...m),
   // ]);
 
-  for (const [i, match] of allGamesUnordered.entries()) {
-    // eslint-disable-next-line no-await-in-loop
-    const result = await getFirstSuitableMatchday({
-      // @ts-expect-error Fix this later
-      teams: allTeams,
-      matchdaySize,
-      allGames: allGamesUnordered,
-      currentSchedule,
-      matchIndex: i,
-      signal,
-    });
-    currentSchedule[`${match[0]}:${match[1]}`] = result.pickedMatchday;
+  const result = await getFirstSuitableMatchday({
+    // @ts-expect-error Fix this later
+    teams: allTeams,
+    matchdaySize,
+    allGames: allGamesUnordered,
+    signal,
+  });
 
-    const homeTeam = teamById[allTeamIds[match[0]]];
-    const awayTeam = teamById[allTeamIds[match[1]]];
-    const originalMatch = allGamesWithIds.find(
-      m => m[0].id === homeTeam.id && m[1].id === awayTeam.id,
-    )!;
+  const solutionSchedule = result.matchdays.map(md =>
+    md.map(([h, a]) => {
+      const ht = teamById[allTeamIds[h]];
+      const at = teamById[allTeamIds[a]];
+      return allGamesWithIds.find(
+        mi => mi[0].id === ht.id && mi[1].id === at.id,
+      )!;
+    }),
+  );
 
-    const solutionSchedule = result.matchdays.map(md =>
-      md.map(([h, a]) => {
-        const ht = teamById[allTeamIds[h]];
-        const at = teamById[allTeamIds[a]];
-        return allGamesWithIds.find(
-          mi => mi[0].id === ht.id && mi[1].id === at.id,
-        )!;
-      }),
-    );
-
-    yield {
-      match: originalMatch,
-      matchday: result.pickedMatchday,
-      solutionSchedule,
-    };
-  }
+  return {
+    solutionSchedule,
+  };
 }

@@ -15,15 +15,11 @@ export default ({
   teams,
   matchdaySize,
   allGames,
-  currentSchedule,
-  matchIndex,
   signal,
 }: {
   teams: readonly Team[];
   matchdaySize: number;
   allGames: readonly (readonly [number, number])[];
-  currentSchedule: Record<`${number}:${number}`, number>;
-  matchIndex: number;
   signal?: AbortSignal;
 }) =>
   raceWorkers<Func>({
@@ -84,8 +80,6 @@ export default ({
         teams,
         matchdaySize,
         allGames: orderedGames,
-        currentSchedule,
-        matchIndex,
       };
     },
     getTimeout: (workerIndex, attempt) => {

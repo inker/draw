@@ -12,19 +12,17 @@ export default ({
   teams,
   matchdaySize,
   allGames,
-  currentSchedule,
-  matchIndex,
 }: {
   teams: readonly Team[];
   matchdaySize: number;
   allGames: readonly (readonly [number, number])[];
-  currentSchedule: Record<`${number}:${number}`, number>;
-  matchIndex: number;
 }) => {
   const numGames = allGames.length;
   const numMatchdays = numGames / matchdaySize;
 
   const indexByTeamName = new Map(teams.map((team, i) => [team.name, i]));
+
+  const schedule: Record<`${number}:${number}`, number> = {};
 
   const sameStadiumTeamMap = new Map<number, number>();
   for (const pair of teamsSharingStadium) {
@@ -49,20 +47,11 @@ export default ({
   const numHomeGamesByTeam: Record<number, number> = {};
   const numAwayGamesByTeam: Record<number, number> = {};
 
-  for (const [key, matchdayIndex] of Object.entries(currentSchedule)) {
-    const [h, a] = key.split(':').map(Number);
-    ++numMatchesPerMatchday[matchdayIndex];
-    locationByMatchday[`${h}:${matchdayIndex}`] = 'h';
-    locationByMatchday[`${a}:${matchdayIndex}`] = 'a';
-    numHomeGamesByTeam[h] = (numHomeGamesByTeam[h] ?? 0) + 1;
-    numAwayGamesByTeam[a] = (numAwayGamesByTeam[a] ?? 0) + 1;
-  }
-
   for (const pickedMatchday of shuffle(range(numMatchdays))) {
     const solution = findFirstSolution(
       {
-        matchIndex,
-        schedule: currentSchedule,
+        matchIndex: 0,
+        schedule,
         numMatchesPerMatchday,
         pickedMatchday,
         locationByMatchday,
