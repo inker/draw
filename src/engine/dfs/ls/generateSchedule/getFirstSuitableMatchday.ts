@@ -36,7 +36,7 @@ export default ({
 
   let record = 0;
 
-  const numMatchesPerMatchday = Array.from(
+  const numMatchesByMatchday = Array.from(
     {
       length: numMatchdays,
     },
@@ -52,7 +52,7 @@ export default ({
       {
         matchIndex: 0,
         schedule,
-        numMatchesPerMatchday,
+        numMatchesByMatchday,
         pickedMatchday,
         locationByMatchday,
         numHomeGamesByTeam,
@@ -63,7 +63,7 @@ export default ({
           const [h, a] = allGames[c.matchIndex];
 
           // md is full
-          if (c.numMatchesPerMatchday[c.pickedMatchday] === matchdaySize) {
+          if (c.numMatchesByMatchday[c.pickedMatchday] === matchdaySize) {
             return true;
           }
 
@@ -175,9 +175,9 @@ export default ({
             [`${pickedMatch[0]}:${pickedMatch[1]}`]: c.pickedMatchday,
           } satisfies typeof c.schedule as typeof c.schedule;
 
-          const newNumMatchesByMatchday = c.numMatchesPerMatchday.with(
+          const newNumMatchesByMatchday = c.numMatchesByMatchday.with(
             c.pickedMatchday,
-            c.numMatchesPerMatchday[c.pickedMatchday] + 1,
+            c.numMatchesByMatchday[c.pickedMatchday] + 1,
           );
 
           if (newMatchIndex > record) {
@@ -193,7 +193,7 @@ export default ({
             candidates.push({
               matchIndex: newMatchIndex,
               schedule: newSchedule,
-              numMatchesPerMatchday: newNumMatchesByMatchday,
+              numMatchesByMatchday: newNumMatchesByMatchday,
               pickedMatchday: i,
               locationByMatchday: newLocationByMatchday,
               numHomeGamesByTeam: newNumHomeGamesByTeam,
