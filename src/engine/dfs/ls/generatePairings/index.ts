@@ -1,9 +1,15 @@
 import { range, shuffle } from 'lodash';
 
+import { type Country } from '#model/types';
+
 import generateFull from './generateFull';
 import getFirstSuitableMatch from './getFirstSuitableMatch.wrapper';
 
-export default async function* generatePairings<T>({
+interface Team {
+  country: Country;
+}
+
+export default async function* generatePairings<T extends Team>({
   pots,
   numMatchdays,
   isMatchPossible,
@@ -35,7 +41,6 @@ export default async function* generatePairings<T>({
       allGames = shuffle(allGames);
       // eslint-disable-next-line no-await-in-loop
       const pickedMatch = await getFirstSuitableMatch({
-        // @ts-expect-error Fix this later
         teams,
         numPots: pots.length,
         numTeamsPerPot,
