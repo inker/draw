@@ -1,4 +1,4 @@
-import { orderBy, range } from 'lodash';
+import { chunk, orderBy, range } from 'lodash';
 
 import { findFirstSolution } from '#utils/backtrack';
 import { type Country } from '#model/types';
@@ -25,9 +25,11 @@ export default ({
   allGames: readonly (readonly [number, number])[];
   pickedMatches: readonly (readonly [number, number])[];
 }) => {
+  const pots = chunk(range(teams.length), numTeamsPerPot);
   const potIndices = range(numPots);
   const maxGamesAtHome = Math.ceil(numMatchdays / 2);
 
+  const numGamesByPotPair: Record<`${number}:${number}`, number> = {};
   const numHomeGamesByTeam: Record<number, number> = {};
   const numAwayGamesByTeam: Record<number, number> = {};
   const numOpponentCountriesByTeam: Record<`${number}:${Country}`, number> = {};
@@ -46,6 +48,9 @@ export default ({
 
     const homePot = Math.floor(m[0] / numTeamsPerPot);
     const awayPot = Math.floor(m[1] / numTeamsPerPot);
+
+    numGamesByPotPair[`${homePot}:${awayPot}`] =
+      (numGamesByPotPair[`${homePot}:${awayPot}`] ?? 0) + 1;
     numHomeGamesByTeam[m[0]] = (numHomeGamesByTeam[m[0]] ?? 0) + 1;
     numAwayGamesByTeam[m[1]] = (numAwayGamesByTeam[m[1]] ?? 0) + 1;
     numOpponentCountriesByTeam[`${m[0]}:${awayTeam.country}`] =
@@ -104,6 +109,7 @@ export default ({
       {
         source: remainingGames,
         target: pickedMatches,
+        numGamesByPotPair,
         numHomeGamesByTeam,
         numAwayGamesByTeam,
         numOpponentCountriesByTeam,
@@ -147,7 +153,19 @@ export default ({
         accept: c => c.target.length === numMatchdays * numGamesPerMatchday - 1,
 
         generate: c => {
+          const pickedHomePotIndex = Math.floor(c.picked[0] / numTeamsPerPot);
+          const pickedAwayPotIndex = Math.floor(c.picked[1] / numTeamsPerPot);
+
           const newTarget = [...c.target, c.picked];
+
+          const newNumGamesByPotPair = {
+            ...c.numGamesByPotPair,
+            [`${pickedHomePotIndex}:${pickedAwayPotIndex}`]:
+              (c.numGamesByPotPair[
+                `${pickedHomePotIndex}:${pickedAwayPotIndex}`
+              ] ?? 0) + 1,
+          } as typeof c.numGamesByPotPair;
+
           const newNumHomeGamesByTeam = {
             ...c.numHomeGamesByTeam,
             [c.picked[0]]: (c.numHomeGamesByTeam[c.picked[0]] ?? 0) + 1,
@@ -168,9 +186,6 @@ export default ({
                 `${c.picked[1]}:${teams[c.picked[0]].country}`
               ] ?? 0) + 1,
           };
-
-          const pickedHomePotIndex = Math.floor(c.picked[0] / numTeamsPerPot);
-          const pickedAwayPotIndex = Math.floor(c.picked[1] / numTeamsPerPot);
 
           const newHasPlayedWithPotMap: typeof c.hasPlayedWithPotMap = {
             ...c.hasPlayedWithPotMap,
@@ -206,14 +221,14 @@ export default ({
             return true;
           });
 
-          const currentPotPairIndex = Math.floor(
-            newTarget.length / numTeamsPerPot,
+          const [potPairHomePot, potPairAwayPot] = potPairs.find(
+            ([hPot, aPot]) =>
+              (newNumGamesByPotPair[`${hPot}:${aPot}`] ?? 0) < numTeamsPerPot,
+          )!;
+
+          const newHomeTeam = pots[potPairHomePot].find(
+            t => !newHasPlayedWithPotMap[`${t}:${potPairAwayPot}:h`],
           );
-          const [potPairHomePot, potPairAwayPot] =
-            potPairs[currentPotPairIndex];
-          const newHomeTeam =
-            numTeamsPerPot * potPairHomePot +
-            (newTarget.length % numTeamsPerPot);
 
           const candidates: (typeof c)[] = [];
 
@@ -227,6 +242,7 @@ export default ({
                 source: newSource,
                 target: newTarget,
                 picked: newPicked,
+                numGamesByPotPair: newNumGamesByPotPair,
                 numHomeGamesByTeam: newNumHomeGamesByTeam,
                 numAwayGamesByTeam: newNumAwayGamesByTeam,
                 numOpponentCountriesByTeam: newNumOpponentCountriesByTeam,
