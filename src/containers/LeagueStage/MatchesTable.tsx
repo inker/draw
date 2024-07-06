@@ -147,7 +147,7 @@ function MatchesTable({ allTeams, pairings, potSize }: Props) {
   const pairingsMap = useMemo(() => {
     const o: Record<`${string}:${string}`, boolean> = {};
     for (const pairing of pairings) {
-      o[`${pairing[0].name}:${pairing[1].name}`] = true;
+      o[`${pairing[0].id}:${pairing[1].id}`] = true;
     }
     return o;
   }, [pairings]);
@@ -214,7 +214,7 @@ function MatchesTable({ allTeams, pairings, potSize }: Props) {
               <TeamDiv country={team.country}>{team.name}</TeamDiv>
             </TeamCell>
             {allTeams.map(opponent => {
-              const isMatch = pairingsMap[`${team.name}:${opponent.name}`];
+              const isMatch = pairingsMap[`${team.id}:${opponent.id}`];
               return (
                 <TableCell
                   key={opponent.id}

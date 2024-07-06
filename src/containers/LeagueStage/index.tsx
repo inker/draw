@@ -65,7 +65,7 @@ function LeagueStage({ season, pots: initialPots }: Props) {
       initialPots.map(pot =>
         pot.map(team => ({
           ...team,
-          id: `${team.country}:${team.name}`,
+          id: `${team.country}|${team.name}`,
         })),
       ),
     [initialPots],
