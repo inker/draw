@@ -5,8 +5,8 @@ import LeagueStage from '#containers/LeagueStage/index';
 
 type Props = React.ComponentProps<typeof LeagueStage>;
 
-function CLLS(props: Props) {
+function ELLS(props: Props) {
   return <LeagueStage {...props} />;
 }
 
-export default memo(CLLS);
+export default memo(ELLS);

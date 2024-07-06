@@ -141,6 +141,15 @@ function Routing() {
           }
         />
         <Route
+          path="el"
+          element={
+            <Navigate
+              to="/el/ls"
+              replace
+            />
+          }
+        />
+        <Route
           path="/"
           element={
             <Navigate

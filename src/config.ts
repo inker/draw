@@ -10,7 +10,7 @@ export default {
         ko: 2023,
       },
       el: {
-        gs: 2023,
+        ls: 2024,
         ko: 2022,
       },
       ecl: {

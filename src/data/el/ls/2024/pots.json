@@ -1,0 +1,154 @@
+[
+  [
+    {
+      "name": "Roma",
+      "country": "Italy"
+    },
+    {
+      "name": "Man United",
+      "country": "England"
+    },
+    {
+      "name": "Porto",
+      "country": "Portugal"
+    },
+    {
+      "name": "Ajax",
+      "country": "Netherlands"
+    },
+    {
+      "name": "Frankfurt",
+      "country": "Germany"
+    },
+    {
+      "name": "Lazio",
+      "country": "Italy"
+    },
+    {
+      "name": "Tottenham",
+      "country": "England"
+    },
+    {
+      "name": "Real Sociedad",
+      "country": "Spain"
+    },
+    {
+      "name": "Salzburg",
+      "country": "Austria"
+    }
+  ],
+  [
+    {
+      "name": "AZ",
+      "country": "Netherlands"
+    },
+    {
+      "name": "Braga",
+      "country": "Portugal"
+    },
+    {
+      "name": "Olympiacos",
+      "country": "Greece"
+    },
+    {
+      "name": "Lille",
+      "country": "France"
+    },
+    {
+      "name": "Lyon",
+      "country": "France"
+    },
+    {
+      "name": "LASK",
+      "country": "Austria"
+    },
+    {
+      "name": "Fenerbahçe",
+      "country": "Turkey"
+    },
+    {
+      "name": "Young Boys",
+      "country": "Switzerland"
+    },
+    {
+      "name": "Qarabağ",
+      "country": "Azerbaijan"
+    }
+  ],
+  [
+    {
+      "name": "Galatasaray",
+      "country": "Turkey"
+    },
+    {
+      "name": "Slovan",
+      "country": "Slovakia"
+    },
+    {
+      "name": "Molde",
+      "country": "Norway"
+    },
+    {
+      "name": "Plzeň",
+      "country": "Czechia"
+    },
+    {
+      "name": "Bodø/Glimt",
+      "country": "Norway"
+    },
+    {
+      "name": "Union SG",
+      "country": "Belgium"
+    },
+    {
+      "name": "Dynamo Kyiv",
+      "country": "Ukraine"
+    },
+    {
+      "name": "Ludogorets",
+      "country": "Bulgaria"
+    },
+    {
+      "name": "Midtjylland",
+      "country": "Denmark"
+    }
+  ],
+  [
+    {
+      "name": "Partizan",
+      "country": "Serbia"
+    },
+    {
+      "name": "Sparta",
+      "country": "Czechia"
+    },
+    {
+      "name": "Sheriff",
+      "country": "Moldova"
+    },
+    {
+      "name": "Malmö",
+      "country": "Sweden"
+    },
+    {
+      "name": "Athletic",
+      "country": "Spain"
+    },
+    {
+      "name": "Hoffenheim",
+      "country": "Germany"
+    },
+    {
+      "name": "Nice",
+      "country": "France"
+    },
+    {
+      "name": "APOEL",
+      "country": "Cyprus"
+    },
+    {
+      "name": "Twente",
+      "country": "Netherlands"
+    }
+  ]
+]
