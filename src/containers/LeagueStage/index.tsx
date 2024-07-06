@@ -145,6 +145,7 @@ function LeagueStage({ season, pots: initialPots }: Props) {
             allTeams={allTeams}
             pairings={pairings}
             potSize={pots[0].length}
+            noCellAnimation={isScheduleDone}
           />
           <div>
             {isFixturesDone ? (

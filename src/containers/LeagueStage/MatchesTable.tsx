@@ -88,6 +88,7 @@ const AppearLight = keyframes`
 const TableCell = styled.td<{
   $potSize: number;
   $isMatch?: boolean;
+  $noAnimation?: boolean;
   $hovered?: boolean;
 }>`
   border: 1px solid rgb(192 192 192);
@@ -105,6 +106,11 @@ const TableCell = styled.td<{
       &::before {
         content: '✕';
       }
+    `}
+  ${props =>
+    props.$noAnimation &&
+    css`
+      animation: initial;
     `}
 
   ${props =>
@@ -139,9 +145,10 @@ interface Props {
   allTeams: readonly Team[];
   pairings: (readonly [Team, Team])[];
   potSize: number;
+  noCellAnimation?: boolean;
 }
 
-function MatchesTable({ allTeams, pairings, potSize }: Props) {
+function MatchesTable({ allTeams, pairings, potSize, noCellAnimation }: Props) {
   const [hoverColumn, setHoverColumn] = useState<string | undefined>(undefined);
 
   const pairingsMap = useMemo(() => {
@@ -221,6 +228,7 @@ function MatchesTable({ allTeams, pairings, potSize }: Props) {
                   data-opponent={opponent.id}
                   $potSize={potSize}
                   $isMatch={isMatch}
+                  $noAnimation={noCellAnimation}
                   $hovered={opponent.id === hoverColumn}
                 />
               );
