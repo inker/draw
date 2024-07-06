@@ -148,7 +148,7 @@ interface Props {
   noCellAnimation?: boolean;
 }
 
-function MatchesTable({ allTeams, pairings, potSize, noCellAnimation }: Props) {
+function Matrix({ allTeams, pairings, potSize, noCellAnimation }: Props) {
   const [hoverColumn, setHoverColumn] = useState<string | undefined>(undefined);
 
   const pairingsMap = useMemo(() => {
@@ -240,4 +240,4 @@ function MatchesTable({ allTeams, pairings, potSize, noCellAnimation }: Props) {
   );
 }
 
-export default memo(MatchesTable);
+export default memo(Matrix);

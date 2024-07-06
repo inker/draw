@@ -11,8 +11,8 @@ import Button from '#ui/Button';
 import Portal from '#ui/Portal';
 import Dots from '#ui/Dots';
 
+import Matrix from './Matrix';
 import Schedule from './Schedule';
-import MatchesTable from './MatchesTable';
 
 const Root = styled.div`
   display: flex;
@@ -141,7 +141,7 @@ function LeagueStage({ season, pots: initialPots }: Props) {
         <Schedule schedule={schedule} />
       ) : (
         <MatrixWrapper>
-          <MatchesTable
+          <Matrix
             allTeams={allTeams}
             pairings={pairings}
             potSize={pots[0].length}
