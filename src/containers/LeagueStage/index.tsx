@@ -24,6 +24,10 @@ const Root = styled.div`
 const MatrixWrapper = styled.div`
   display: flex;
   gap: 16px;
+
+  @media (orientation: portrait) {
+    flex-direction: column;
+  }
 `;
 
 interface Props {

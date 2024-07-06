@@ -5,6 +5,8 @@ import getCountryFlagUrl from '#utils/getCountryFlagUrl';
 import { type Country } from '#model/types';
 
 const Table = styled.table`
+  flex-shrink: 0;
+  table-layout: fixed;
   border-collapse: collapse;
   border: 1px double rgb(128 128 128);
   font-size: 10px;
