@@ -56,7 +56,6 @@ function LeagueStage({ season, pots: initialPots }: Props) {
       () => [],
     ),
   );
-  const [isFixturesDone, setIsFixturesDone] = useState(false);
 
   const abortSignal = useAbortSignal();
 
@@ -91,24 +90,24 @@ function LeagueStage({ season, pots: initialPots }: Props) {
       for await (const pickedMatch of generator) {
         setPairings(prev => [...prev, pickedMatch]);
       }
-      setIsFixturesDone(true);
     };
 
     formPairings();
   }, []);
 
+  const isFixturesDone = pairings.length === numMatches;
+
   useEffect(() => {
     if (isFixturesDone) {
       const formSchedule = async () => {
-        // setIsMatchdayMode(true);
-        // setSchedule(chunk(pairings, 18));
         const it = await generateSchedule({
           matchdaySize,
           allGames: pairings,
           currentSchedule: schedule,
           signal: abortSignal,
         });
-        setSchedule(it.solutionSchedule.map(md => shuffle(md)));
+        const newSchedule = it.solutionSchedule.map(md => shuffle(md));
+        setSchedule(newSchedule);
         setIsMatchdayMode(true);
       };
 
