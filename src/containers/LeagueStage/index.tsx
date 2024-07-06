@@ -23,7 +23,6 @@ const Root = styled.div`
 
 const MatrixWrapper = styled.div`
   display: flex;
-  flex-wrap: wrap;
   gap: 16px;
 `;
 
@@ -152,11 +151,11 @@ function LeagueStage({ season, pots: initialPots }: Props) {
             )}
             {isFixturesDone && !isScheduleDone && (
               <p>
-                Schedule creation in progress. This will take a while. Please do
-                not close the page
+                Schedule creation in progress. This will take between two
+                minutes to an hour. Please do not close the page.
                 <Dots
-                  initialNum={3}
-                  maxNum={3}
+                  initialNum={0}
+                  maxNum={2}
                   interval={1000}
                 />
               </p>
