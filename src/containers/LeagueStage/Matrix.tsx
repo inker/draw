@@ -4,26 +4,43 @@ import styled, { css, keyframes } from 'styled-components';
 import getCountryFlagUrl from '#utils/getCountryFlagUrl';
 import { type Country } from '#model/types';
 
-const Table = styled.table`
+const Table = styled.table<{
+  $potSize: number;
+}>`
   flex-shrink: 0;
   table-layout: fixed;
   border-collapse: collapse;
   border: 1px double rgb(128 128 128);
   font-size: 10px;
+
+  > thead {
+    > tr {
+      > th:nth-child(${props => props.$potSize}n + 2) {
+        border-left: 1px double rgb(128 128 128);
+      }
+    }
+  }
+
+  > tbody {
+    > tr {
+      &:nth-child(${props => props.$potSize}n + 1) {
+        border-top: 1px double rgb(128 128 128);
+      }
+
+      > td:nth-child(${props => props.$potSize}n + 2) {
+        border-left: 1px double rgb(128 128 128);
+      }
+    }
+  }
 `;
 
 const HeaderCell = styled.th<{
-  $potSize: number;
   $hovered?: boolean;
 }>`
   vertical-align: bottom;
   padding: 3px 1px;
   border: 1px solid rgb(192 192 192);
   border-bottom-color: rgb(128 128 128);
-
-  &:nth-child(${props => props.$potSize}n + 2) {
-    border-left: 1px double rgb(128 128 128);
-  }
 
   ${props =>
     props.$hovered &&
@@ -48,34 +65,20 @@ const HeaderCellDiv = styled.div`
   }
 `;
 
-const BodyRow = styled.tr<{
-  $potSize: number;
-}>`
+const BodyRow = styled.tr`
   border: 1px solid rgb(192 192 192);
 
   &:hover {
     background-color: rgba(0 0 0 / 0.1);
   }
-
-  &:nth-child(${props => props.$potSize}n + 1) {
-    > td {
-      border-top: 1px double rgb(128 128 128);
-    }
-  }
 `;
 
-const TeamCell = styled.td<{
-  $potSize: number;
-}>`
+const TeamCell = styled.td`
   padding: 1px 3px;
   border: 1px solid rgb(192 192 192);
 
   & + & {
     text-align: center;
-  }
-
-  &:nth-child(${props => props.$potSize}n + 1) {
-    border-right: 1px double rgb(128 128 128);
   }
 `;
 
@@ -86,17 +89,12 @@ const AppearLight = keyframes`
 `;
 
 const TableCell = styled.td<{
-  $potSize: number;
   $isMatch?: boolean;
   $noAnimation?: boolean;
   $hovered?: boolean;
 }>`
   border: 1px solid rgb(192 192 192);
   text-align: center;
-
-  &:nth-child(${props => props.$potSize}n + 1) {
-    border-right: 1px double rgb(128 128 128);
-  }
 
   ${props =>
     props.$isMatch &&
@@ -187,17 +185,17 @@ function Matrix({ allTeams, pairings, potSize, noCellAnimation }: Props) {
 
   return (
     <Table
+      $potSize={potSize}
       onMouseOver={handleTableMouseOver}
       onMouseOut={handleTableMouseOut}
     >
       <thead>
         <tr>
-          <HeaderCell $potSize={potSize} />
+          <HeaderCell />
           {allTeams.map(opponent => (
             <HeaderCell
               key={opponent.id}
               data-opponent={opponent.id}
-              $potSize={potSize}
               $hovered={opponent.id === hoverColumn}
             >
               <HeaderCellDiv>
@@ -213,11 +211,8 @@ function Matrix({ allTeams, pairings, potSize, noCellAnimation }: Props) {
       </thead>
       <tbody>
         {allTeams.map(team => (
-          <BodyRow
-            key={team.id}
-            $potSize={potSize}
-          >
-            <TeamCell $potSize={potSize}>
+          <BodyRow key={team.id}>
+            <TeamCell>
               <TeamDiv country={team.country}>{team.name}</TeamDiv>
             </TeamCell>
             {allTeams.map(opponent => {
@@ -226,7 +221,6 @@ function Matrix({ allTeams, pairings, potSize, noCellAnimation }: Props) {
                 <TableCell
                   key={opponent.id}
                   data-opponent={opponent.id}
-                  $potSize={potSize}
                   $isMatch={isMatch}
                   $noAnimation={noCellAnimation}
                   $hovered={opponent.id === hoverColumn}
