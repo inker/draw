@@ -1,4 +1,4 @@
 export default [
   ['Internazionale', 'Milan'],
   ['Roma', 'Lazio'],
-] as const;
+] as const satisfies readonly (readonly [string, string])[];

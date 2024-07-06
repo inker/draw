@@ -8,7 +8,7 @@ import teamsSharingStadium from './teamsSharingStadium';
 const NUM_WORKERS = Math.max(1, navigator.hardwareConcurrency >> 1);
 
 interface Team {
-  name: string;
+  readonly name: string;
 }
 
 export default ({

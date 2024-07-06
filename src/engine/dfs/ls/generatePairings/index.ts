@@ -7,7 +7,7 @@ import generateFull from './generateFull';
 import getFirstSuitableMatch from './getFirstSuitableMatch.wrapper';
 
 interface Team {
-  country: UefaCountry;
+  readonly country: UefaCountry;
 }
 
 export default async function* generatePairings<T extends Team>({

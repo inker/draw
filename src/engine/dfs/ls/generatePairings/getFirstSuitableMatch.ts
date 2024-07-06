@@ -5,7 +5,7 @@ import { type Country } from '#model/types';
 import cartesian from '#utils/cartesian';
 
 interface Team {
-  country: Country;
+  readonly country: Country;
 }
 
 export default ({

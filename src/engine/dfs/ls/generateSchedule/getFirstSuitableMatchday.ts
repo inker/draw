@@ -5,7 +5,7 @@ import { findFirstSolution } from '#utils/backtrack';
 import teamsSharingStadium from './teamsSharingStadium';
 
 interface Team {
-  name: string;
+  readonly name: string;
 }
 
 export default ({
