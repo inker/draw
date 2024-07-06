@@ -13,6 +13,7 @@ const Table = styled.table`
 `;
 
 const HeaderCell = styled.th<{
+  $potSize: number;
   $hovered?: boolean;
 }>`
   vertical-align: bottom;
@@ -20,7 +21,7 @@ const HeaderCell = styled.th<{
   border: 1px solid rgb(192 192 192);
   border-bottom-color: rgb(128 128 128);
 
-  &:nth-child(9n + 2) {
+  &:nth-child(${props => props.$potSize}n + 2) {
     border-left: 1px double rgb(128 128 128);
   }
 
@@ -47,21 +48,25 @@ const HeaderCellDiv = styled.div`
   }
 `;
 
-const BodyRow = styled.tr`
+const BodyRow = styled.tr<{
+  $potSize: number;
+}>`
   border: 1px solid rgb(192 192 192);
 
   &:hover {
     background-color: rgba(0 0 0 / 0.1);
   }
 
-  &:nth-child(9n + 1) {
+  &:nth-child(${props => props.$potSize}n + 1) {
     > td {
       border-top: 1px double rgb(128 128 128);
     }
   }
 `;
 
-const TeamCell = styled.td`
+const TeamCell = styled.td<{
+  $potSize: number;
+}>`
   padding: 1px 3px;
   border: 1px solid rgb(192 192 192);
 
@@ -69,7 +74,7 @@ const TeamCell = styled.td`
     text-align: center;
   }
 
-  &:nth-child(9n + 1) {
+  &:nth-child(${props => props.$potSize}n + 1) {
     border-right: 1px double rgb(128 128 128);
   }
 `;
@@ -81,13 +86,14 @@ const AppearLight = keyframes`
 `;
 
 const TableCell = styled.td<{
+  $potSize: number;
   $isMatch?: boolean;
   $hovered?: boolean;
 }>`
   border: 1px solid rgb(192 192 192);
   text-align: center;
 
-  &:nth-child(9n + 1) {
+  &:nth-child(${props => props.$potSize}n + 1) {
     border-right: 1px double rgb(128 128 128);
   }
 
@@ -132,9 +138,10 @@ interface Team {
 interface Props {
   allTeams: readonly Team[];
   pairings: (readonly [Team, Team])[];
+  potSize: number;
 }
 
-function MatchesTable({ allTeams, pairings }: Props) {
+function MatchesTable({ allTeams, pairings, potSize }: Props) {
   const [hoverColumn, setHoverColumn] = useState<string | undefined>(undefined);
 
   const pairingsMap = useMemo(() => {
@@ -178,11 +185,12 @@ function MatchesTable({ allTeams, pairings }: Props) {
     >
       <thead>
         <tr>
-          <HeaderCell />
+          <HeaderCell $potSize={potSize} />
           {allTeams.map(opponent => (
             <HeaderCell
               key={opponent.id}
               data-opponent={opponent.id}
+              $potSize={potSize}
               $hovered={opponent.id === hoverColumn}
             >
               <HeaderCellDiv>
@@ -198,8 +206,11 @@ function MatchesTable({ allTeams, pairings }: Props) {
       </thead>
       <tbody>
         {allTeams.map(team => (
-          <BodyRow key={team.id}>
-            <TeamCell>
+          <BodyRow
+            key={team.id}
+            $potSize={potSize}
+          >
+            <TeamCell $potSize={potSize}>
               <TeamDiv country={team.country}>{team.name}</TeamDiv>
             </TeamCell>
             {allTeams.map(opponent => {
@@ -208,6 +219,7 @@ function MatchesTable({ allTeams, pairings }: Props) {
                 <TableCell
                   key={opponent.id}
                   data-opponent={opponent.id}
+                  $potSize={potSize}
                   $isMatch={isMatch}
                   $hovered={opponent.id === hoverColumn}
                 />

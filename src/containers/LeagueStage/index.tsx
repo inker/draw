@@ -144,6 +144,7 @@ function LeagueStage({ season, pots: initialPots }: Props) {
           <MatchesTable
             allTeams={allTeams}
             pairings={pairings}
+            potSize={pots[0].length}
           />
           <div>
             {isFixturesDone ? (
