@@ -76,7 +76,7 @@ function Schedule({ schedule }: Props) {
       );
       const maxOffsetWidth = Math.max(...offsetWidths);
       for (const element of elements) {
-        (element as HTMLElement).style.width = `${maxOffsetWidth}px`;
+        (element as HTMLElement).style.minWidth = `${maxOffsetWidth}px`;
       }
     }
   }, [schedule]);
