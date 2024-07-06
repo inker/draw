@@ -28,10 +28,11 @@ const MatrixWrapper = styled.div`
 `;
 
 interface Props {
+  season: number;
   pots: readonly (readonly Team[])[];
 }
 
-function LeagueStage({ pots: initialPots }: Props) {
+function LeagueStage({ season, pots: initialPots }: Props) {
   const numMatchdays = initialPots.length * 2;
 
   const numMatches = useMemo(() => {
@@ -80,9 +81,9 @@ function LeagueStage({ pots: initialPots }: Props) {
   useEffect(() => {
     const formPairings = async () => {
       const generator = generatePairings({
+        season,
         pots,
         numMatchdays: 8,
-        isMatchPossible: (a, b) => a.country !== b.country,
       });
       for await (const pickedMatch of generator) {
         setPairings(prev => [...prev, pickedMatch]);

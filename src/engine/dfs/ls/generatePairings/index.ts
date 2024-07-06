@@ -1,22 +1,23 @@
 import { range, shuffle } from 'lodash';
 
-import { type Country } from '#model/types';
+import { type UefaCountry } from '#model/types';
+import incompatibleCountries from '#engine/predicates/uefa/utils/incompatibleCountries';
 
 import generateFull from './generateFull';
 import getFirstSuitableMatch from './getFirstSuitableMatch.wrapper';
 
 interface Team {
-  country: Country;
+  country: UefaCountry;
 }
 
 export default async function* generatePairings<T extends Team>({
+  season,
   pots,
   numMatchdays,
-  isMatchPossible,
 }: {
+  season: number;
   pots: readonly (readonly T[])[];
   numMatchdays: number;
-  isMatchPossible: (h: T, a: T) => boolean;
 }) {
   const teams = pots.flat();
   const numTeamsPerPot = pots[0].length;
@@ -28,7 +29,16 @@ export default async function* generatePairings<T extends Team>({
 
   allGames = [...allGames, ...allGames.map(([a, b]) => [b, a] as const)];
 
-  allGames = allGames.filter(([h, a]) => isMatchPossible(teams[h], teams[a]));
+  const isCountryIncompatibleWith = incompatibleCountries(season);
+
+  allGames = allGames.filter(([h, a]) => {
+    const hTeam = teams[h];
+    const aTeam = teams[a];
+    const isImpossible =
+      hTeam.country === aTeam.country ||
+      isCountryIncompatibleWith(hTeam)(aTeam);
+    return !isImpossible;
+  });
 
   const matches: (readonly [number, number])[] = [];
 
