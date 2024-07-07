@@ -85,7 +85,7 @@ function LeagueStage({ season, pots: initialPots }: Props) {
       const generator = generatePairings({
         season,
         pots,
-        numMatchdays: 8,
+        numMatchdays,
       });
       for await (const pickedMatch of generator) {
         setPairings(prev => [...prev, pickedMatch]);
