@@ -22,7 +22,7 @@ export default ({
 
   const indexByTeamName = new Map(teams.map((team, i) => [team.name, i]));
 
-  const schedule: Record<`${number}:${number}`, number> = {};
+  const schedule: number[] = [];
 
   const sameStadiumTeamMap = new Map<number, number>();
   for (const pair of teamsSharingStadium) {
@@ -170,10 +170,10 @@ export default ({
             [pickedMatch[1]]: (c.numAwayGamesByTeam[pickedMatch[1]] ?? 0) + 1,
           } as typeof c.numAwayGamesByTeam;
 
-          const newSchedule = {
+          const newSchedule = [
             ...c.schedule,
-            [`${pickedMatch[0]}:${pickedMatch[1]}`]: c.pickedMatchday,
-          } satisfies typeof c.schedule as typeof c.schedule;
+            c.pickedMatchday,
+          ] satisfies typeof c.schedule as typeof c.schedule;
 
           const newNumMatchesByMatchday = c.numMatchesByMatchday.with(
             c.pickedMatchday,
@@ -213,8 +213,8 @@ export default ({
         },
         () => [] as (readonly [number, number])[],
       );
-      for (const [key, matchdayIndex] of Object.entries(solution.schedule)) {
-        const m = key.split(':').map(Number) as [number, number];
+      for (const [i, matchdayIndex] of solution.schedule.entries()) {
+        const m = allGames[i];
         arr[matchdayIndex].push(m);
       }
       arr[solution.pickedMatchday].push(allGames[solution.matchIndex]);
