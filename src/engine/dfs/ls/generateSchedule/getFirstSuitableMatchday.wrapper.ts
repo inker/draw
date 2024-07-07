@@ -82,9 +82,9 @@ export default ({
         allGames: orderedGames,
       };
     },
-    getTimeout: (workerIndex, attempt) => {
+    getTimeout: workerIndex => {
       const factor = workerIndex === 0 ? 100 : 7 / (workerIndex + 1);
-      return factor * Math.min(5000, 5000 * Math.exp(attempt / 10));
+      return factor * 5000;
     },
     signal,
   });
