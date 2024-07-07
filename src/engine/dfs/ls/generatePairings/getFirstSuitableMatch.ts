@@ -42,23 +42,23 @@ export default ({
     boolean
   > = {};
 
-  for (const m of pickedMatches) {
-    const homeTeam = teams[m[0]];
-    const awayTeam = teams[m[1]];
+  for (const [h, a] of pickedMatches) {
+    const homeTeam = teams[h];
+    const awayTeam = teams[a];
 
-    const homePot = Math.floor(m[0] / numTeamsPerPot);
-    const awayPot = Math.floor(m[1] / numTeamsPerPot);
+    const homePot = Math.floor(h / numTeamsPerPot);
+    const awayPot = Math.floor(a / numTeamsPerPot);
 
     numGamesByPotPair[`${homePot}:${awayPot}`] =
       (numGamesByPotPair[`${homePot}:${awayPot}`] ?? 0) + 1;
-    numHomeGamesByTeam[m[0]] = (numHomeGamesByTeam[m[0]] ?? 0) + 1;
-    numAwayGamesByTeam[m[1]] = (numAwayGamesByTeam[m[1]] ?? 0) + 1;
-    numOpponentCountriesByTeam[`${m[0]}:${awayTeam.country}`] =
-      (numOpponentCountriesByTeam[`${m[0]}:${awayTeam.country}`] ?? 0) + 1;
-    numOpponentCountriesByTeam[`${m[1]}:${homeTeam.country}`] =
-      (numOpponentCountriesByTeam[`${m[1]}:${homeTeam.country}`] ?? 0) + 1;
-    hasPlayedWithPotMap[`${m[0]}:${awayPot}:h`] = true;
-    hasPlayedWithPotMap[`${m[1]}:${homePot}:a`] = true;
+    numHomeGamesByTeam[h] = (numHomeGamesByTeam[h] ?? 0) + 1;
+    numAwayGamesByTeam[a] = (numAwayGamesByTeam[a] ?? 0) + 1;
+    numOpponentCountriesByTeam[`${h}:${awayTeam.country}`] =
+      (numOpponentCountriesByTeam[`${h}:${awayTeam.country}`] ?? 0) + 1;
+    numOpponentCountriesByTeam[`${a}:${homeTeam.country}`] =
+      (numOpponentCountriesByTeam[`${a}:${homeTeam.country}`] ?? 0) + 1;
+    hasPlayedWithPotMap[`${h}:${awayPot}:h`] = true;
+    hasPlayedWithPotMap[`${a}:${homePot}:a`] = true;
   }
 
   const remainingGames = allGames.filter(([a, b]) => {
