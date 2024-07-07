@@ -84,7 +84,7 @@ export default ({
     },
     getTimeout: (workerIndex, attempt) => {
       const factor = workerIndex === 0 ? 100 : 7 / (workerIndex + 1);
-      return factor * Math.min(10000, 5000 * Math.exp(attempt / 10));
+      return factor * Math.min(5000, 5000 * Math.exp(attempt / 10));
     },
     signal,
   });
