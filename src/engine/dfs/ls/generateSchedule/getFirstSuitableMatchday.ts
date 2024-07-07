@@ -111,16 +111,16 @@ export default ({
               ) {
                 return true;
               }
-            } else if (c.pickedMatchday >= numMatchdays - 2) {
-              // is last two
-              if (
-                c.locationByMatchday[
-                  `${t}:${numMatchdays * 2 - 3 - c.pickedMatchday}`
-                ] === loc
-              ) {
-                return true;
-              }
-            } else {
+            } else if (
+              c.pickedMatchday >= numMatchdays - 2 && // is last two
+              c.locationByMatchday[
+                `${t}:${numMatchdays * 2 - 3 - c.pickedMatchday}`
+              ] === loc
+            ) {
+              return true;
+            }
+
+            if (c.pickedMatchday > 0 && c.pickedMatchday < numMatchdays - 1) {
               const minus1 =
                 c.locationByMatchday[`${t}:${c.pickedMatchday - 1}`];
               const plus1 =
@@ -134,10 +134,10 @@ export default ({
                 if (minus2 === loc) {
                   return true;
                 }
-              } else {
+              } else if (plus1 === loc) {
                 const plus2 =
                   c.locationByMatchday[`${t}:${c.pickedMatchday + 2}`];
-                if (plus1 === loc && plus2 === loc) {
+                if (plus2 === loc) {
                   return true;
                 }
               }
