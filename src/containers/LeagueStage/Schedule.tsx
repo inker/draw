@@ -47,13 +47,13 @@ const MatchPair = styled.div`
   }
 `;
 
-const MatchPairCenter = styled.div`
+const MatchPairCenter = styled.span`
   display: flex;
   justify-content: center;
   width: 20px;
 `;
 
-const ScheduleTeamWrapper = styled.div`
+const ScheduleTeamWrapper = styled.span`
   /* width: 300px; */
   /* padding: 1px 3px; */
 `;
@@ -70,7 +70,9 @@ interface Props {
 function Schedule({ schedule }: Props) {
   useLayoutEffect(() => {
     if (schedule.some(md => md.length > 0)) {
-      const elements = document.querySelectorAll('.team-div');
+      const elements = document.getElementsByClassName(
+        ScheduleTeamWrapper.styledComponentId,
+      );
       const offsetWidths = [...elements].map(
         el => (el as HTMLElement).offsetWidth ?? 0,
       );
@@ -89,13 +91,13 @@ function Schedule({ schedule }: Props) {
             <MatchdayHeader>MATCHDAY {i + 1}</MatchdayHeader>
             {md.map(m => (
               <MatchPair>
-                <ScheduleTeamWrapper className="team-div">
+                <ScheduleTeamWrapper>
                   <ContentWithFlag $country={m[0].country}>
                     {m[0].name}
                   </ContentWithFlag>
                 </ScheduleTeamWrapper>
                 <MatchPairCenter>-</MatchPairCenter>
-                <ScheduleTeamWrapper className="team-div">
+                <ScheduleTeamWrapper>
                   <ContentWithFlag $country={m[1].country}>
                     {m[1].name}
                   </ContentWithFlag>
