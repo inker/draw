@@ -83,8 +83,8 @@ export default ({
       };
     },
     getTimeout: workerIndex => {
-      const factor = workerIndex === 0 ? 50 : 7 / (workerIndex + 1);
-      return factor * 10000;
+      const power = (workerIndex / (NUM_WORKERS - 1)) ** 2;
+      return 5000 * 5 ** power;
     },
     signal,
   });
