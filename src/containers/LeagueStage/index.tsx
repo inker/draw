@@ -17,7 +17,7 @@ import Schedule from './Schedule';
 const Root = styled.div`
   display: flex;
   flex-direction: column;
-  margin: 10px;
+  margin: 16px;
   font-size: 14px;
 `;
 
