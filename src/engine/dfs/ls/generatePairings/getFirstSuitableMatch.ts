@@ -95,14 +95,11 @@ export default ({
   const unorderedPotPairs = cartesian(potIndices, potIndices);
   const potPairs = orderBy(unorderedPotPairs, [m => m[0], m => m[1]]);
 
-  const orderedRemainingGames = orderBy(remainingGames, [
-    m => {
-      const hPot = Math.floor(m[0] / numTeamsPerPot);
-      const aPot = Math.floor(m[1] / numTeamsPerPot);
-      return potPairs.findIndex(([a, b]) => a === hPot && b === aPot);
-    },
-    m => m[0],
-  ]);
+  const orderedRemainingGames = orderBy(remainingGames, m => {
+    const hPot = Math.floor(m[0] / numTeamsPerPot);
+    const aPot = Math.floor(m[1] / numTeamsPerPot);
+    return potPairs.findIndex(([a, b]) => a === hPot && b === aPot);
+  });
 
   return orderedRemainingGames.find(match => {
     const solution = findFirstSolution(
