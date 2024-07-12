@@ -175,6 +175,15 @@ function Matrix({
     return o;
   }, [schedule]);
 
+  const getMatchdayColor = (index: number) => {
+    if (index === 0) {
+      return undefined;
+    }
+    const turn = (angleByIndex[index] ?? index) / (numMatchdays - 1);
+    const deg = turn * 360;
+    return `lch(50% 100 ${deg})`;
+  };
+
   const handleTableMouseOver = useCallback(
     (e: React.MouseEvent<HTMLTableElement>) => {
       const opponentId =
@@ -253,10 +262,7 @@ function Matrix({
                   ) : (
                     <span
                       style={{
-                        color:
-                          matchdayIndex === 0
-                            ? undefined
-                            : `lch(50% 100 ${((angleByIndex[matchdayIndex] ?? matchdayIndex) / (numMatchdays - 1)) * 360})`,
+                        color: getMatchdayColor(matchdayIndex),
                       }}
                     >
                       {matchdayIndex + 1}
