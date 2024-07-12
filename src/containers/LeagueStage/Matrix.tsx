@@ -140,6 +140,7 @@ interface Team {
 
 interface Props {
   allTeams: readonly Team[];
+  numMatchdays: number;
   pairings: (readonly [Team, Team])[];
   schedule: readonly (readonly (readonly [Team, Team])[])[];
   potSize: number;
@@ -148,6 +149,7 @@ interface Props {
 
 function Matrix({
   allTeams,
+  numMatchdays,
   pairings,
   schedule,
   potSize,
@@ -254,7 +256,7 @@ function Matrix({
                         color:
                           matchdayIndex === 0
                             ? undefined
-                            : `lch(50% 100 ${((angleByIndex[matchdayIndex] ?? matchdayIndex) / (8 - 1)) * 360})`,
+                            : `lch(50% 100 ${((angleByIndex[matchdayIndex] ?? matchdayIndex) / (numMatchdays - 1)) * 360})`,
                       }}
                     >
                       {matchdayIndex + 1}

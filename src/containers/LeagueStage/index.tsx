@@ -142,6 +142,7 @@ function LeagueStage({ season, pots: initialPots }: Props) {
         <MatrixWrapper>
           <Matrix
             allTeams={allTeams}
+            numMatchdays={numMatchdays}
             pairings={pairings}
             schedule={schedule}
             potSize={pots[0].length}
