@@ -61,22 +61,22 @@ export default ({
       {
         reject: c => {
           const [h, a] = allGames[c.matchIndex];
-          const pickedMd = c.pickedMatchday;
+          const md = c.pickedMatchday;
 
           // md is full
-          if (c.numMatchesByMatchday[pickedMd] === matchdaySize) {
+          if (c.numMatchesByMatchday[md] === matchdaySize) {
             return true;
           }
 
           // already played this md
           const hasHomeTeamPlayedThisMatchday =
-            c.locationByMatchday[`${h}:${pickedMd}`];
+            c.locationByMatchday[`${h}:${md}`];
           if (hasHomeTeamPlayedThisMatchday) {
             return true;
           }
 
           const hasAwayTeamPlayedThisMatchday =
-            c.locationByMatchday[`${a}:${pickedMd}`];
+            c.locationByMatchday[`${a}:${md}`];
           if (hasAwayTeamPlayedThisMatchday) {
             return true;
           }
@@ -84,7 +84,7 @@ export default ({
           const homeSameStadiumTeam = sameStadiumTeamMap.get(h);
           if (
             homeSameStadiumTeam !== undefined &&
-            c.locationByMatchday[`${homeSameStadiumTeam}:${pickedMd}`] === 'h'
+            c.locationByMatchday[`${homeSameStadiumTeam}:${md}`] === 'h'
           ) {
             return true;
           }
@@ -92,7 +92,7 @@ export default ({
           const awaySameStadiumTeam = sameStadiumTeamMap.get(a);
           if (
             awaySameStadiumTeam !== undefined &&
-            c.locationByMatchday[`${awaySameStadiumTeam}:${pickedMd}`] === 'a'
+            c.locationByMatchday[`${awaySameStadiumTeam}:${md}`] === 'a'
           ) {
             return true;
           }
@@ -101,33 +101,31 @@ export default ({
             const loc = b === 0 ? 'h' : 'a';
             const t = b === 0 ? h : a;
 
-            if (pickedMd <= 1) {
+            if (md <= 1) {
               // is first two
-              if (c.locationByMatchday[`${t}:${1 - pickedMd}`] === loc) {
+              if (c.locationByMatchday[`${t}:${1 - md}`] === loc) {
                 return true;
               }
             } else if (
-              pickedMd >= numMatchdays - 2 && // is last two
-              c.locationByMatchday[
-                `${t}:${numMatchdays * 2 - 3 - pickedMd}`
-              ] === loc
+              md >= numMatchdays - 2 && // is last two
+              c.locationByMatchday[`${t}:${numMatchdays * 2 - 3 - md}`] === loc
             ) {
               return true;
             }
 
-            if (pickedMd > 0 && pickedMd < numMatchdays - 1) {
-              const minus1 = c.locationByMatchday[`${t}:${pickedMd - 1}`];
-              const plus1 = c.locationByMatchday[`${t}:${pickedMd + 1}`];
+            if (md > 0 && md < numMatchdays - 1) {
+              const minus1 = c.locationByMatchday[`${t}:${md - 1}`];
+              const plus1 = c.locationByMatchday[`${t}:${md + 1}`];
               if (minus1 === loc) {
                 if (plus1 === loc) {
                   return true;
                 }
-                const minus2 = c.locationByMatchday[`${t}:${pickedMd - 2}`];
+                const minus2 = c.locationByMatchday[`${t}:${md - 2}`];
                 if (minus2 === loc) {
                   return true;
                 }
               } else if (plus1 === loc) {
-                const plus2 = c.locationByMatchday[`${t}:${pickedMd + 2}`];
+                const plus2 = c.locationByMatchday[`${t}:${md + 2}`];
                 if (plus2 === loc) {
                   return true;
                 }
