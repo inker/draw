@@ -4,6 +4,9 @@ import styled, { css, keyframes } from 'styled-components';
 import getCountryFlagUrl from '#utils/getCountryFlagUrl';
 import { type Country } from '#model/types';
 
+// eslint-disable-next-line no-sparse-arrays
+const angleByIndex = [, 0, 5, 3, 2, 6, 4, 1];
+
 const Table = styled.table<{
   $potSize: number;
 }>`
@@ -100,10 +103,6 @@ const TableCell = styled.td<{
     props.$isMatch &&
     css`
       animation: ${AppearLight} 1s ease-out normal forwards;
-
-      &::before {
-        content: '✕';
-      }
     `}
   ${props =>
     props.$noAnimation &&
@@ -142,11 +141,18 @@ interface Team {
 interface Props {
   allTeams: readonly Team[];
   pairings: (readonly [Team, Team])[];
+  schedule: readonly (readonly (readonly [Team, Team])[])[];
   potSize: number;
   noCellAnimation?: boolean;
 }
 
-function Matrix({ allTeams, pairings, potSize, noCellAnimation }: Props) {
+function Matrix({
+  allTeams,
+  pairings,
+  schedule,
+  potSize,
+  noCellAnimation,
+}: Props) {
   const [hoverColumn, setHoverColumn] = useState<string | undefined>(undefined);
 
   const pairingsMap = useMemo(() => {
@@ -156,6 +162,16 @@ function Matrix({ allTeams, pairings, potSize, noCellAnimation }: Props) {
     }
     return o;
   }, [pairings]);
+
+  const scheduleMap = useMemo(() => {
+    const o: Record<`${string}:${string}`, number> = {};
+    for (const [mdIndex, md] of schedule.entries()) {
+      for (const m of md) {
+        o[`${m[0].id}:${m[1].id}`] = mdIndex;
+      }
+    }
+    return o;
+  }, [schedule]);
 
   const handleTableMouseOver = useCallback(
     (e: React.MouseEvent<HTMLTableElement>) => {
@@ -217,6 +233,7 @@ function Matrix({ allTeams, pairings, potSize, noCellAnimation }: Props) {
             </TeamCell>
             {allTeams.map(opponent => {
               const isMatch = pairingsMap[`${team.id}:${opponent.id}`];
+              const matchdayIndex = scheduleMap[`${team.id}:${opponent.id}`];
               return (
                 <TableCell
                   key={opponent.id}
@@ -224,7 +241,26 @@ function Matrix({ allTeams, pairings, potSize, noCellAnimation }: Props) {
                   $isMatch={isMatch}
                   $noAnimation={noCellAnimation}
                   $hovered={opponent.id === hoverColumn}
-                />
+                >
+                  {matchdayIndex === undefined ? (
+                    isMatch ? (
+                      '✕'
+                    ) : (
+                      ''
+                    )
+                  ) : (
+                    <span
+                      style={{
+                        color:
+                          matchdayIndex === 0
+                            ? undefined
+                            : `lch(50% 100 ${((angleByIndex[matchdayIndex] ?? matchdayIndex) / (8 - 1)) * 360})`,
+                      }}
+                    >
+                      {matchdayIndex + 1}
+                    </span>
+                  )}
+                </TableCell>
               );
             })}
           </BodyRow>

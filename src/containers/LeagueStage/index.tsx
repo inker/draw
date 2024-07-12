@@ -143,6 +143,7 @@ function LeagueStage({ season, pots: initialPots }: Props) {
           <Matrix
             allTeams={allTeams}
             pairings={pairings}
+            schedule={schedule}
             potSize={pots[0].length}
             noCellAnimation={isScheduleDone}
           />
