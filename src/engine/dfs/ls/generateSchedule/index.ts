@@ -2,7 +2,12 @@ import { keyBy, uniq } from 'lodash';
 
 import getFirstSuitableMatchday from './getFirstSuitableMatchday.wrapper';
 
-export default async function generateSchedule<T extends { id: string }>({
+interface Team {
+  readonly id: string;
+  readonly name: string;
+}
+
+export default async function generateSchedule<T extends Team>({
   matchdaySize,
   allGames: allGamesWithIds,
   signal,
@@ -33,7 +38,6 @@ export default async function generateSchedule<T extends { id: string }>({
   // ]);
 
   const result = await getFirstSuitableMatchday({
-    // @ts-expect-error Fix this later
     teams: allTeams,
     matchdaySize,
     allGames: allGamesUnordered,
