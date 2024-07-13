@@ -94,6 +94,6 @@
     "stylelint-config-standard": "^36.0.0",
     "stylelint-order": "^6.0.3",
     "typescript": "^5.0.4",
-    "vitest": "^1.2.1"
+    "vitest": "^2.0.2"
   }
 }
