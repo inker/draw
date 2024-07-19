@@ -218,7 +218,7 @@ export default {
     confederation: 'UEFA',
     flag: 'se',
   },
-  Turkey: {
+  Türkiye: {
     confederation: 'UEFA',
     flag: 'tr',
   },

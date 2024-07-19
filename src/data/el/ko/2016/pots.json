@@ -2,7 +2,7 @@
   [
     {
       "name": "Fenerbahçe",
-      "country": "Turkey",
+      "country": "Türkiye",
       "bertName": "Fenerbahçe",
       "group": 0
     },
@@ -68,7 +68,7 @@
     },
     {
       "name": "Osmanlıspor",
-      "country": "Turkey",
+      "country": "Türkiye",
       "bertName": "Osmanlispor",
       "group": 11
     },
@@ -92,7 +92,7 @@
     },
     {
       "name": "Beşiktaş",
-      "country": "Turkey",
+      "country": "Türkiye",
       "bertName": "Besiktas",
       "group": 30
     }

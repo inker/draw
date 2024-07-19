@@ -38,7 +38,7 @@
     },
     {
       "name": "Beşiktaş",
-      "country": "Turkey",
+      "country": "Türkiye",
       "bertName": "Besiktas",
       "coefficient": 57
     },
@@ -124,7 +124,7 @@
     },
     {
       "name": "Fenerbahçe",
-      "country": "Turkey",
+      "country": "Türkiye",
       "bertName": "Fenerbahçe",
       "coefficient": 23.5
     },
@@ -248,7 +248,7 @@
     },
     {
       "name": "Akhisarspor",
-      "country": "Turkey",
+      "country": "Türkiye",
       "bertName": "Akhisarspor",
       "coefficient": 7.16
     },
