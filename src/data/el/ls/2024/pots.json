@@ -67,8 +67,8 @@
       "country": "Türkiye"
     },
     {
-      "name": "Young Boys",
-      "country": "Switzerland"
+      "name": "M Tel-Aviv",
+      "country": "Israel"
     },
     {
       "name": "Qarabağ",
@@ -123,10 +123,6 @@
       "country": "Czechia"
     },
     {
-      "name": "Sheriff",
-      "country": "Moldova"
-    },
-    {
       "name": "Malmö",
       "country": "Sweden"
     },
@@ -145,6 +141,10 @@
     {
       "name": "APOEL",
       "country": "Cyprus"
+    },
+    {
+      "name": "Anderlecht",
+      "country": "Belgium"
     },
     {
       "name": "Twente",
