@@ -67,19 +67,15 @@
       "country": "Belgium"
     },
     {
-      "name": "Rangers",
-      "country": "Scotland"
-    },
-    {
       "name": "Shakhtar",
       "country": "Ukraine"
-    }
-  ],
-  [
+    },
     {
       "name": "Milan",
       "country": "Italy"
-    },
+    }
+  ],
+  [
     {
       "name": "Feyenoord",
       "country": "Netherlands"
@@ -101,19 +97,13 @@
       "country": "Croatia"
     },
     {
+      "name": "Salzburg",
+      "country": "Austria"
+    },
+    {
       "name": "Crvena zvezda",
       "country": "Serbia"
     },
-    {
-      "name": "PAOK",
-      "country": "Greece"
-    },
-    {
-      "name": "Ferencváros",
-      "country": "Hungary"
-    }
-  ],
-  [
     {
       "name": "Young Boys",
       "country": "Switzerland"
@@ -121,10 +111,20 @@
     {
       "name": "Celtic",
       "country": "Scotland"
+    }
+  ],
+  [
+    {
+      "name": "Slovan",
+      "country": "Slovakia"
     },
     {
       "name": "Monaco",
       "country": "France"
+    },
+    {
+      "name": "Sparta",
+      "country": "Czechia"
     },
     {
       "name": "Aston Villa",

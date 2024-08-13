@@ -17,6 +17,10 @@
       "country": "Netherlands"
     },
     {
+      "name": "Rangers",
+      "country": "Scotland"
+    },
+    {
       "name": "Frankfurt",
       "country": "Germany"
     },
@@ -31,10 +35,6 @@
     {
       "name": "Real Sociedad",
       "country": "Spain"
-    },
-    {
-      "name": "Salzburg",
-      "country": "Austria"
     }
   ],
   [
@@ -59,6 +59,10 @@
       "country": "France"
     },
     {
+      "name": "PAOK",
+      "country": "Greece"
+    },
+    {
       "name": "LASK",
       "country": "Austria"
     },
@@ -69,20 +73,20 @@
     {
       "name": "M Tel-Aviv",
       "country": "Israel"
-    },
-    {
-      "name": "Qarabağ",
-      "country": "Azerbaijan"
     }
   ],
   [
     {
-      "name": "Galatasaray",
-      "country": "Türkiye"
+      "name": "Ferencváros",
+      "country": "Hungary"
     },
     {
-      "name": "Slovan",
-      "country": "Slovakia"
+      "name": "Qarabağ",
+      "country": "Azerbaijan"
+    },
+    {
+      "name": "Galatasaray",
+      "country": "Türkiye"
     },
     {
       "name": "Molde",
@@ -107,20 +111,16 @@
     {
       "name": "Ludogorets",
       "country": "Bulgaria"
-    },
-    {
-      "name": "Midtjylland",
-      "country": "Denmark"
     }
   ],
   [
     {
-      "name": "Partizan",
-      "country": "Serbia"
+      "name": "Midtjylland",
+      "country": "Denmark"
     },
     {
-      "name": "Sparta",
-      "country": "Czechia"
+      "name": "Partizan",
+      "country": "Serbia"
     },
     {
       "name": "Malmö",
