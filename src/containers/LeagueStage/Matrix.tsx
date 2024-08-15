@@ -132,6 +132,10 @@ const TeamDiv = styled.div<{
     `}
 `;
 
+const BodyCellMatchday = styled.div`
+  transform: scaleX(1.25);
+`;
+
 interface Team {
   id: string;
   name: string;
@@ -260,13 +264,13 @@ function Matrix({
                       ''
                     )
                   ) : (
-                    <span
+                    <BodyCellMatchday
                       style={{
                         color: getMatchdayColor(matchdayIndex),
                       }}
                     >
                       {matchdayIndex + 1}
-                    </span>
+                    </BodyCellMatchday>
                   )}
                 </TableCell>
               );
