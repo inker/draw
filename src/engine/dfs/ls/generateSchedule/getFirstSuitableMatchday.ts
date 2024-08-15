@@ -97,41 +97,41 @@ export default ({
             return true;
           }
 
-          // for (let b = 0; b < 2; ++b) {
-          //   const loc = b === 0 ? 'h' : 'a';
-          //   const t = b === 0 ? h : a;
+          for (let b = 0; b < 2; ++b) {
+            const loc = b === 0 ? 'h' : 'a';
+            const t = b === 0 ? h : a;
 
-          //   if (md <= 1) {
-          //     // is first two
-          //     if (c.locationByMatchday[`${t}:${1 - md}`] === loc) {
-          //       return true;
-          //     }
-          //   } else if (
-          //     md >= numMatchdays - 2 && // is last two
-          //     c.locationByMatchday[`${t}:${numMatchdays * 2 - 3 - md}`] === loc
-          //   ) {
-          //     return true;
-          //   }
+            if (md <= 1) {
+              // is first two
+              if (c.locationByMatchday[`${t}:${1 - md}`] === loc) {
+                return true;
+              }
+            } else if (
+              md >= numMatchdays - 2 && // is last two
+              c.locationByMatchday[`${t}:${numMatchdays * 2 - 3 - md}`] === loc
+            ) {
+              return true;
+            }
 
-          //   if (md > 0 && md < numMatchdays - 1) {
-          //     const minus1 = c.locationByMatchday[`${t}:${md - 1}`];
-          //     const plus1 = c.locationByMatchday[`${t}:${md + 1}`];
-          //     if (minus1 === loc) {
-          //       if (plus1 === loc) {
-          //         return true;
-          //       }
-          //       const minus2 = c.locationByMatchday[`${t}:${md - 2}`];
-          //       if (minus2 === loc) {
-          //         return true;
-          //       }
-          //     } else if (plus1 === loc) {
-          //       const plus2 = c.locationByMatchday[`${t}:${md + 2}`];
-          //       if (plus2 === loc) {
-          //         return true;
-          //       }
-          //     }
-          //   }
-          // }
+            if (md > 0 && md < numMatchdays - 1) {
+              const minus1 = c.locationByMatchday[`${t}:${md - 1}`];
+              const plus1 = c.locationByMatchday[`${t}:${md + 1}`];
+              if (minus1 === loc) {
+                if (plus1 === loc) {
+                  return true;
+                }
+                const minus2 = c.locationByMatchday[`${t}:${md - 2}`];
+                if (minus2 === loc) {
+                  return true;
+                }
+              } else if (plus1 === loc) {
+                const plus2 = c.locationByMatchday[`${t}:${md + 2}`];
+                if (plus2 === loc) {
+                  return true;
+                }
+              }
+            }
+          }
 
           return false;
         },
