@@ -7,7 +7,7 @@ import Content from './Content';
 
 const ContentWithoutFlag = styled(Content)`
   padding-left: 19px;
-  background-position-y: 1px;
+  background-position-y: center;
   background-size: 16px;
   background-repeat: no-repeat;
 

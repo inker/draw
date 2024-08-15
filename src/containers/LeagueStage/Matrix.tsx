@@ -121,7 +121,7 @@ const TeamDiv = styled.div<{
   country: Country;
 }>`
   padding-left: 14.5px;
-  background-position-y: 1.5px;
+  background-position-y: center;
   background-size: 12px;
   background-repeat: no-repeat;
 
