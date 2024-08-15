@@ -75,11 +75,10 @@ function SelectSeason({ tournament, stage, season, onChange }: Props) {
         onChange={onStageChange}
         value={stage}
       >
-        {tournament !== 'wc' && season >= 2024 ? (
+        {tournament !== 'wc' && season >= 2024 && (
           <option value="ls">League Stage</option>
-        ) : (
-          <option value="gs">Group Stage</option>
         )}
+        <option value="gs">Group Stage</option>
         {tournament !== 'wc' && <option value="ko">Knockout Stage</option>}
       </Select>
       <Select

@@ -132,6 +132,15 @@ function Routing() {
           }
         />
         <Route
+          path="cl/gs"
+          element={
+            <Navigate
+              to="/cl/gs/2023"
+              replace
+            />
+          }
+        />
+        <Route
           path="cl"
           element={
             <Navigate

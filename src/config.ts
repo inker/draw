@@ -7,10 +7,12 @@ export default {
     uefa: {
       cl: {
         ls: 2024,
+        gs: 2023,
         ko: 2023,
       },
       el: {
         ls: 2024,
+        gs: 2023,
         ko: 2022,
       },
       ecl: {
