@@ -119,10 +119,6 @@
       "country": "Denmark"
     },
     {
-      "name": "Partizan",
-      "country": "Serbia"
-    },
-    {
       "name": "Malmö",
       "country": "Sweden"
     },
@@ -149,6 +145,10 @@
     {
       "name": "Twente",
       "country": "Netherlands"
+    },
+    {
+      "name": "Beşiktaş",
+      "country": "Türkiye"
     }
   ]
 ]
