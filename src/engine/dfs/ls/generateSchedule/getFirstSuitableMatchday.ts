@@ -44,8 +44,6 @@ export default ({
   );
   // team:md
   const locationByMatchday: Record<`${number}:${number}`, 'h' | 'a'> = {};
-  const numHomeGamesByTeam: Record<number, number> = {};
-  const numAwayGamesByTeam: Record<number, number> = {};
 
   for (const pickedMatchday of shuffle(range(numMatchdays))) {
     const solution = findFirstSolution(
@@ -55,8 +53,6 @@ export default ({
         numMatchesByMatchday,
         pickedMatchday,
         locationByMatchday,
-        numHomeGamesByTeam,
-        numAwayGamesByTeam,
       },
       {
         reject: c => {
@@ -150,15 +146,6 @@ export default ({
             [`${pickedMatch[1]}:${c.pickedMatchday}`]: 'a',
           } satisfies typeof c.locationByMatchday;
 
-          const newNumHomeGamesByTeam = {
-            ...c.numHomeGamesByTeam,
-            [pickedMatch[0]]: (c.numHomeGamesByTeam[pickedMatch[0]] ?? 0) + 1,
-          } as typeof c.numHomeGamesByTeam;
-          const newNumAwayGamesByTeam = {
-            ...c.numAwayGamesByTeam,
-            [pickedMatch[1]]: (c.numAwayGamesByTeam[pickedMatch[1]] ?? 0) + 1,
-          } as typeof c.numAwayGamesByTeam;
-
           const newSchedule = [
             ...c.schedule,
             c.pickedMatchday,
@@ -185,8 +172,6 @@ export default ({
               numMatchesByMatchday: newNumMatchesByMatchday,
               pickedMatchday: i,
               locationByMatchday: newLocationByMatchday,
-              numHomeGamesByTeam: newNumHomeGamesByTeam,
-              numAwayGamesByTeam: newNumAwayGamesByTeam,
             });
           }
 
