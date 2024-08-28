@@ -33,11 +33,15 @@
       "country": "England"
     },
     {
-      "name": "Real Sociedad",
-      "country": "Spain"
+      "name": "Slavia Praha",
+      "country": "Czechia"
     }
   ],
   [
+    {
+      "name": "Real Sociedad",
+      "country": "Spain"
+    },
     {
       "name": "AZ",
       "country": "Netherlands"
@@ -49,10 +53,6 @@
     {
       "name": "Olympiacos",
       "country": "Greece"
-    },
-    {
-      "name": "Lille",
-      "country": "France"
     },
     {
       "name": "Lyon",
