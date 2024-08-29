@@ -63,23 +63,19 @@
       "country": "Greece"
     },
     {
-      "name": "LASK",
-      "country": "Austria"
-    },
-    {
       "name": "Fenerbahçe",
       "country": "Türkiye"
     },
     {
       "name": "M Tel-Aviv",
       "country": "Israel"
-    }
-  ],
-  [
+    },
     {
       "name": "Ferencváros",
       "country": "Hungary"
-    },
+    }
+  ],
+  [
     {
       "name": "Qarabağ",
       "country": "Azerbaijan"
@@ -87,10 +83,6 @@
     {
       "name": "Galatasaray",
       "country": "Türkiye"
-    },
-    {
-      "name": "Molde",
-      "country": "Norway"
     },
     {
       "name": "Plzeň",
@@ -111,9 +103,7 @@
     {
       "name": "Ludogorets",
       "country": "Bulgaria"
-    }
-  ],
-  [
+    },
     {
       "name": "Midtjylland",
       "country": "Denmark"
@@ -121,7 +111,9 @@
     {
       "name": "Malmö",
       "country": "Sweden"
-    },
+    }
+  ],
+  [
     {
       "name": "Athletic",
       "country": "Spain"
@@ -135,10 +127,6 @@
       "country": "France"
     },
     {
-      "name": "APOEL",
-      "country": "Cyprus"
-    },
-    {
       "name": "Anderlecht",
       "country": "Belgium"
     },
@@ -149,6 +137,18 @@
     {
       "name": "Beşiktaş",
       "country": "Türkiye"
+    },
+    {
+      "name": "FCSB",
+      "country": "Romania"
+    },
+    {
+      "name": "RFS",
+      "country": "Latvia"
+    },
+    {
+      "name": "Elfsborg",
+      "country": "Sweden"
     }
   ]
 ]
