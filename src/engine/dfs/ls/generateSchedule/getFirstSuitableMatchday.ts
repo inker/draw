@@ -1,11 +1,14 @@
 import { range, shuffle } from 'lodash';
 
 import { findFirstSolution } from '#utils/backtrack';
+import { type UefaCountry } from '#model/types';
+import coldCountries from '#engine/predicates/uefa/utils/coldCountries';
 
 import teamsSharingStadium from './teamsSharingStadium';
 
 interface Team {
   readonly name: string;
+  readonly country: UefaCountry;
 }
 
 export default ({
@@ -33,6 +36,12 @@ export default ({
       sameStadiumTeamMap.set(b, a);
     }
   }
+
+  // TODO: pass season
+  const isFromColdCountry = coldCountries(0);
+  const coldTeams = new Set(
+    range(teams.length).filter(i => isFromColdCountry(teams[i])),
+  );
 
   let record = 0;
 
@@ -90,6 +99,10 @@ export default ({
             awaySameStadiumTeam !== undefined &&
             c.locationByMatchday[`${awaySameStadiumTeam}:${md}`] === 'a'
           ) {
+            return true;
+          }
+
+          if (md === numMatchdays - 1 && coldTeams.has(h)) {
             return true;
           }
 

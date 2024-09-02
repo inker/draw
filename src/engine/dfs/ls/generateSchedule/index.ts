@@ -1,10 +1,13 @@
 import { keyBy, uniq } from 'lodash';
 
+import { type UefaCountry } from '#model/types';
+
 import getFirstSuitableMatchday from './getFirstSuitableMatchday.wrapper';
 
 interface Team {
   readonly id: string;
   readonly name: string;
+  readonly country: UefaCountry;
 }
 
 export default async function generateSchedule<T extends Team>({

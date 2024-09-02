@@ -1,6 +1,7 @@
 import { remove, sample, shuffle } from 'lodash';
 
 import raceWorkers from '#utils/raceWorkers';
+import { type UefaCountry } from '#model/types';
 
 import { type Func } from './getFirstSuitableMatchday.worker';
 import teamsSharingStadium from './teamsSharingStadium';
@@ -9,6 +10,7 @@ const NUM_WORKERS = Math.max(1, navigator.hardwareConcurrency >> 1);
 
 interface Team {
   readonly name: string;
+  readonly country: UefaCountry;
 }
 
 export default ({
