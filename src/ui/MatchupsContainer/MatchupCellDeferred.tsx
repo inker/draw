@@ -22,10 +22,9 @@ function MatchupCellDeferred({ team }: Props) {
   const themeContext = useContext(ThemeContext);
   const destinationRef = useRef<HTMLElement | null>(null);
 
-  const setIsPickedAnimationFalse = useCallback(
-    () => setIsPickedAnimation(false),
-    [],
-  );
+  const setIsPickedAnimationFalse = useCallback(() => {
+    setIsPickedAnimation(false);
+  }, []);
 
   const fill = useCallback(() => {
     setDisplayedTeam(team);

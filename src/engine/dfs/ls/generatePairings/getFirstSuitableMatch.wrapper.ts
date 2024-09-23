@@ -8,8 +8,6 @@ export default ({
 }: Parameters<Func>[0] & {
   worker: Worker;
 }) => {
-  const invoke = workerSendAndReceive<Parameters<Func>[0], ReturnType<Func>>(
-    worker,
-  );
+  const invoke = workerSendAndReceive<ReturnType<Func>>(worker);
   return invoke(options);
 };

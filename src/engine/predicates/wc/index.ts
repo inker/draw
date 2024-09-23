@@ -28,7 +28,9 @@ export default (year: number, teams: readonly Team[]): Predicate<Team> => {
     const teamsPerGroup = v / numGroups;
     return [Math.floor(teamsPerGroup), Math.ceil(teamsPerGroup)] as const;
   });
+
   type Pair = [Confederation, readonly [number, number]];
+
   const confMinMaxEntries = Object.entries(confMinMax) as readonly Pair[];
 
   return (picked, groups, groupIndex) => {

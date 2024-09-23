@@ -50,7 +50,7 @@ function Pot({
           const offset = i * numCols;
           const rowTeams = Array.from(
             { length: numCols },
-            // eslint-disable-next-line @typescript-eslint/no-shadow, no-shadow
+            // eslint-disable-next-line @typescript-eslint/no-shadow
             (_, c) => teams[offset + c],
           );
 

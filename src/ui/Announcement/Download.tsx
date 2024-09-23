@@ -66,14 +66,12 @@ function Download({ completed, groupsElement }: Props) {
     }
   }, [completed]);
 
-  const onDownloadPngClick = useCallback(
-    () => setDownloadClicked('png'),
-    [setDownloadClicked],
-  );
-  const onDownloadSvgClick = useCallback(
-    () => setDownloadClicked('svg'),
-    [setDownloadClicked],
-  );
+  const onDownloadPngClick = useCallback(() => {
+    setDownloadClicked('png');
+  }, [setDownloadClicked]);
+  const onDownloadSvgClick = useCallback(() => {
+    setDownloadClicked('svg');
+  }, [setDownloadClicked]);
 
   return completed && !!groupsElement ? (
     <div>

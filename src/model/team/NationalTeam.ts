@@ -7,6 +7,7 @@ export default class NationalTeam extends Team {
   readonly confederation: Confederation;
   readonly host: boolean;
 
+  // eslint-disable-next-line max-params
   constructor(
     name: string,
     coefficient: number,

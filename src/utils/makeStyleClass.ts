@@ -12,6 +12,7 @@ export default (strings: TemplateStringsArray, ...keys: readonly any[]) => {
   }
   const className = getRandomId('styled-element-');
   const content = template(strings, ...keys);
+  // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
   styleElement.textContent += `.${className}{${content}}`;
   return className;
 };

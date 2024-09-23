@@ -4,7 +4,6 @@ import Club from './Club';
 
 export default class GsTeam extends Club {
   readonly coefficient: number;
-  // eslint-disable-next-line no-use-before-define
   pairing?: GsTeam;
 
   // eslint-disable-next-line max-params

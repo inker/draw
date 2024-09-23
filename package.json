@@ -42,7 +42,7 @@
   },
   "dependencies": {
     "bowser": "^2.11.0",
-    "date-fns": "^3.0.5",
+    "date-fns": "^4.1.0",
     "delay.js": "^2.0.1",
     "dom-to-image": "^2.6.0",
     "fast-delete": "^1.0.1",

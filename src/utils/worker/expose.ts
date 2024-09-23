@@ -7,7 +7,7 @@ import {
   type MessageFromWorker,
 } from './constants';
 
-export default <F extends (arg: any) => any>(func: F) => {
+export default (func: (arg: any) => any) => {
   // eslint-disable-next-line no-restricted-globals
   addEventListener('message', (e: MessageEvent) => {
     const {

@@ -6,8 +6,9 @@ import {
   type MessageFromWorker,
 } from './constants';
 
-export default <Request, Response>(worker: Worker) => {
+export default <Response>(worker: Worker) => {
   type Callback = (response: Response) => void;
+
   const callbacks = new Map<string, Callback>();
 
   worker.addEventListener(
@@ -24,7 +25,7 @@ export default <Request, Response>(worker: Worker) => {
     },
   );
 
-  return (message: Request) =>
+  return (message: unknown) =>
     new Promise<Response>(resolve => {
       const id = globalThis.crypto.randomUUID();
       callbacks.set(id, resolve);

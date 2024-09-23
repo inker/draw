@@ -1,4 +1,5 @@
 import { type atomWithStorage } from 'jotai/utils';
+import { noop } from 'lodash';
 
 type Storage<T> = NonNullable<Parameters<typeof atomWithStorage<T>>[2]>;
 
@@ -23,7 +24,8 @@ export default <T>({ validate }: Options) =>
         if (e.storageArea === localStorage && e.key === key) {
           const { newValue } = e;
           if (validate(newValue)) {
-            return callback(newValue as T);
+            callback(newValue as T);
+            return;
           }
           if (newValue !== null) {
             localStorage.removeItem(key);
@@ -31,6 +33,6 @@ export default <T>({ validate }: Options) =>
           callback(initialValue);
         }
       });
-      return () => {};
+      return noop;
     },
   }) satisfies Storage<T>;

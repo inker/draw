@@ -43,9 +43,9 @@ export default async <Func extends (...args: any) => void>({
         workers[workerIndex] = worker;
         // eslint-disable-next-line no-await-in-loop
         const raceResult = await Promise.race([
-          workerSendAndReceive<Parameters<Func>[0], ReturnType<Func>>(worker)(
+          workerSendAndReceive<ReturnType<Func>>(worker)(
             getPayload(workerIndex, attempt),
-          ).catch(err => {
+          ).catch((err: unknown) => {
             console.error(err);
           }),
           delay(getTimeout(workerIndex, attempt)),
