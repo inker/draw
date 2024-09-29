@@ -5,7 +5,7 @@ export default async (season: number, tournament: Tournament) => {
   try {
     const pairings = await import(
       /* webpackChunkName: "pairings/[request]" */
-      `../data/${tournament}/gs/${season}/pairings.txt`
+      `../data/${tournament}/${season < 2024 ? 'gs' : 'ls'}/${season}/pairings.txt`
     );
     return (pairings.default as string)
       .trim()

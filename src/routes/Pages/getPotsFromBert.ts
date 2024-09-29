@@ -19,7 +19,25 @@ async function getPotsFromBert(
     getPairings(season, tournament),
   ]);
 
-  return stage === 'ko' ? parseKo(data) : parseGS(data, pairings);
+  const parsedPots = stage === 'ko' ? parseKo(data) : parseGS(data, pairings);
+
+  const flatTeams = parsedPots.flat();
+  const parsedPairings = pairings.map(([a, b]) => {
+    const firstTeam = flatTeams.find(t => t.name === a);
+    if (!firstTeam) {
+      throw new Error(`Team not found: ${a}`);
+    }
+    const secondTeam = flatTeams.find(t => t.name === b);
+    if (!secondTeam) {
+      throw new Error(`Team not found: ${b}`);
+    }
+    return [firstTeam, secondTeam] as const;
+  });
+
+  return {
+    pots: parsedPots,
+    pairings: parsedPairings,
+  };
 }
 
 export default memoize(getPotsFromBert, (...args) => args.join(':'));

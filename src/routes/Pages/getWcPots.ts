@@ -10,7 +10,10 @@ async function getWcPots(season: number) {
     .trim()
     .split('\n\n')
     .map(line => line.trim().split('\n'));
-  return parseWc(ths, rest); // TODO: only works with 'default' right now
+  const parsedPots = parseWc(ths, rest); // TODO: only works with 'default' right now
+  return {
+    pots: parsedPots,
+  };
 }
 
 export default memoize(getWcPots);

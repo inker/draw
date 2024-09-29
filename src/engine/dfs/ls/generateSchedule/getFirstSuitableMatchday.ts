@@ -2,9 +2,11 @@ import { range, shuffle } from 'lodash';
 
 import { findFirstSolution } from '#utils/backtrack';
 import { type UefaCountry } from '#model/types';
+import type Tournament from '#model/Tournament';
 import coldCountries from '#engine/predicates/uefa/utils/coldCountries';
 
 import teamsSharingStadium from './teamsSharingStadium';
+import splitMatchdaysIntoDays from './splitMatchdaysIntoDays';
 
 interface Team {
   readonly name: string;
@@ -13,11 +15,15 @@ interface Team {
 
 export default ({
   teams,
+  tournament,
   matchdaySize,
+  tvPairings,
   allGames,
 }: {
   teams: readonly Team[];
+  tournament: Tournament;
   matchdaySize: number;
+  tvPairings: readonly (readonly [number, number])[];
   allGames: readonly (readonly [number, number])[];
 }) => {
   const numGames = allGames.length;
@@ -205,9 +211,16 @@ export default ({
         arr[matchdayIndex].push(m);
       }
       arr[solution.pickedMatchday].push(allGames[solution.matchIndex]);
+      const matchdays = splitMatchdaysIntoDays({
+        matchdays: arr,
+        tournament,
+        matchdaySize,
+        teams,
+        tvPairings,
+      });
       return {
         pickedMatchday,
-        matchdays: arr,
+        matchdays,
       };
     }
   }

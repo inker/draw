@@ -1,8 +1,8 @@
 import { memo, useEffect, useMemo, useState } from 'react';
 import styled from 'styled-components';
-import { shuffle } from 'lodash';
 
 import usePopup from '#store/usePopup';
+import type Tournament from '#model/Tournament';
 import type Team from '#model/team/GsTeam';
 import generatePairings from '#engine/dfs/ls/generatePairings/index';
 import generateSchedule from '#engine/dfs/ls/generateSchedule/index';
@@ -31,11 +31,18 @@ const MatrixWrapper = styled.div`
 `;
 
 interface Props {
+  tournament: Tournament;
   season: number;
   pots: readonly (readonly Team[])[];
+  tvPairings: readonly (readonly [Team, Team])[];
 }
 
-function LeagueStage({ season, pots: initialPots }: Props) {
+function LeagueStage({
+  tournament,
+  season,
+  pots: initialPots,
+  tvPairings,
+}: Props) {
   const numMatchdays = initialPots.length * 2;
 
   const numMatches = useMemo(() => {
@@ -48,7 +55,7 @@ function LeagueStage({ season, pots: initialPots }: Props) {
   const [isMatchdayMode, setIsMatchdayMode] = useState(false);
 
   const [pairings, setPairings] = useState<(readonly [Team, Team])[]>([]);
-  const [schedule, setSchedule] = useState<(readonly [Team, Team])[][]>(
+  const [schedule, setSchedule] = useState<(readonly [Team, Team])[][][]>(
     Array.from(
       {
         length: numMatchdays,
@@ -64,7 +71,6 @@ function LeagueStage({ season, pots: initialPots }: Props) {
       initialPots.map(pot =>
         pot.map(team => ({
           ...team,
-          id: `${team.country}|${team.name}`,
         })),
       ),
     [initialPots],
@@ -101,13 +107,14 @@ function LeagueStage({ season, pots: initialPots }: Props) {
     if (isFixturesDone) {
       const formSchedule = async () => {
         const it = await generateSchedule({
+          tournament,
           matchdaySize,
+          tvPairings,
           allGames: pairings,
           currentSchedule: schedule,
           signal: abortSignal,
         });
-        const newSchedule = it.solutionSchedule.map(md => shuffle(md));
-        setSchedule(newSchedule);
+        setSchedule(it.solutionSchedule);
         setIsMatchdayMode(true);
       };
 
@@ -137,7 +144,10 @@ function LeagueStage({ season, pots: initialPots }: Props) {
         </Button>
       </Portal>
       {isMatchdayMode ? (
-        <Schedule schedule={schedule} />
+        <Schedule
+          tournament={tournament}
+          schedule={schedule}
+        />
       ) : (
         <MatrixWrapper>
           <Matrix

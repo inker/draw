@@ -146,7 +146,7 @@ interface Props {
   allTeams: readonly Team[];
   numMatchdays: number;
   pairings: (readonly [Team, Team])[];
-  schedule: readonly (readonly (readonly [Team, Team])[])[];
+  schedule: readonly (readonly (readonly (readonly [Team, Team])[])[])[];
   potSize: number;
   noCellAnimation?: boolean;
 }
@@ -172,8 +172,10 @@ function Matrix({
   const scheduleMap = useMemo(() => {
     const o: Record<`${string}:${string}`, number> = {};
     for (const [mdIndex, md] of schedule.entries()) {
-      for (const m of md) {
-        o[`${m[0].id}:${m[1].id}`] = mdIndex;
+      for (const day of md) {
+        for (const m of day) {
+          o[`${m[0].id}:${m[1].id}`] = mdIndex;
+        }
       }
     }
     return o;

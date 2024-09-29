@@ -1,6 +1,7 @@
 import { keyBy, uniq } from 'lodash';
 
 import { type UefaCountry } from '#model/types';
+import type Tournament from '#model/Tournament';
 
 import getFirstSuitableMatchday from './getFirstSuitableMatchday.wrapper';
 
@@ -11,13 +12,17 @@ interface Team {
 }
 
 export default async function generateSchedule<T extends Team>({
+  tournament,
   matchdaySize,
+  tvPairings,
   allGames: allGamesWithIds,
   signal,
 }: {
+  tournament: Tournament;
   matchdaySize: number;
+  tvPairings: readonly (readonly [T, T])[];
   allGames: readonly (readonly [T, T])[];
-  currentSchedule: readonly (readonly (readonly [T, T])[])[];
+  currentSchedule: readonly (readonly (readonly (readonly [T, T])[])[])[];
   signal?: AbortSignal;
 }) {
   const allNonUniqueTeams = allGamesWithIds.flat();
@@ -40,21 +45,29 @@ export default async function generateSchedule<T extends Team>({
   //   m => Math.max(...m),
   // ]);
 
+  const tvPairingsNumbers = tvPairings.map(
+    p => [indexByTeamId.get(p[0].id)!, indexByTeamId.get(p[1].id)!] as const,
+  );
+
   const result = await getFirstSuitableMatchday({
+    tournament,
     teams: allTeams,
+    tvPairings: tvPairingsNumbers,
     matchdaySize,
     allGames: allGamesUnordered,
     signal,
   });
 
   const solutionSchedule = result.matchdays.map(md =>
-    md.map(([h, a]) => {
-      const ht = teamById[allTeamIds[h]];
-      const at = teamById[allTeamIds[a]];
-      return allGamesWithIds.find(
-        mi => mi[0].id === ht.id && mi[1].id === at.id,
-      )!;
-    }),
+    md.map(day =>
+      day.map(([h, a]) => {
+        const ht = teamById[allTeamIds[h]];
+        const at = teamById[allTeamIds[a]];
+        return allGamesWithIds.find(
+          mi => mi[0].id === ht.id && mi[1].id === at.id,
+        )!;
+      }),
+    ),
   );
 
   return {

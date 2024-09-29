@@ -43,6 +43,7 @@ interface Props {
 interface State {
   Page: React.ComponentType<any> | null;
   pots: readonly (readonly Team[])[] | null;
+  pairings?: readonly (readonly [Team, Team])[];
   // tournament: Tournament,
   // stage: Stage,
   season: number; // for error handling (so that we know the previous season)
@@ -52,7 +53,7 @@ function Pages({ drawId, tournament, stage, season, onSeasonChange }: Props) {
   const params = useParams();
   const [, setPopup] = usePopup();
 
-  const [{ Page, pots }, setState] = useState<State>(initialState);
+  const [{ Page, pots, pairings }, setState] = useState<State>(initialState);
 
   const fetchData = async () => {
     setPopup({
@@ -67,7 +68,8 @@ function Pages({ drawId, tournament, stage, season, onSeasonChange }: Props) {
 
       const newPage = await getPage(tournament, stage);
 
-      const newPots = await potsPromise;
+      const data = await potsPromise;
+      const { pots: newPots } = data;
 
       if (!isFirefox) {
         const teamsWithFlags = [
@@ -83,6 +85,7 @@ function Pages({ drawId, tournament, stage, season, onSeasonChange }: Props) {
       setState({
         Page: newPage,
         pots: newPots,
+        pairings: 'pairings' in data ? data.pairings : undefined,
         // tournament,
         // stage,
         season,
@@ -130,6 +133,7 @@ function Pages({ drawId, tournament, stage, season, onSeasonChange }: Props) {
         stage={params.stage}
         season={season}
         pots={pots}
+        tvPairings={pairings}
         isFirstPotShortDraw={isUefaClubTournament && season >= 2021}
       />
     )

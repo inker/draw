@@ -3,6 +3,7 @@ import styled from 'styled-components';
 
 import ContentWithFlag from '#ui/table/ContentWithFlag';
 import { type Country } from '#model/types';
+import type Tournament from '#model/Tournament';
 
 const Root = styled.div`
   width: 100%;
@@ -13,6 +14,7 @@ const CalendarContainer = styled.div`
   display: grid;
   gap: 16px;
   grid-template-columns: repeat(4, 1fr);
+  align-items: self-start;
   width: fit-content;
 
   @container (max-width: 1000px) {
@@ -25,7 +27,7 @@ const CalendarContainer = styled.div`
 `;
 
 const MatchdayRoot = styled.div`
-  border: 1px double rgb(128 128 128);
+  border: 1px solid rgb(192 192 192);
   font-size: 12px;
 `;
 
@@ -34,6 +36,18 @@ const MatchdayHeader = styled.div`
   justify-content: center;
   align-items: center;
   height: 20px;
+  background-color: black;
+  color: white;
+  font-weight: 600;
+`;
+
+const DayHeader = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 20px;
+  border-top: 1px solid rgb(192 192 192);
+  background-color: rgb(240 240 240);
 `;
 
 const MatchPair = styled.div`
@@ -64,10 +78,11 @@ interface Team {
 }
 
 interface Props {
-  schedule: readonly (readonly (readonly [Team, Team])[])[];
+  tournament: Tournament;
+  schedule: readonly (readonly (readonly (readonly [Team, Team])[])[])[];
 }
 
-function Schedule({ schedule }: Props) {
+function Schedule({ tournament, schedule }: Props) {
   useLayoutEffect(() => {
     if (schedule.some(md => md.length > 0)) {
       const elements = document.getElementsByClassName(
@@ -89,20 +104,35 @@ function Schedule({ schedule }: Props) {
         {schedule.map((md, i) => (
           <MatchdayRoot className="matchday">
             <MatchdayHeader>MATCHDAY {i + 1}</MatchdayHeader>
-            {md.map(m => (
-              <MatchPair>
-                <ScheduleTeamWrapper>
-                  <ContentWithFlag $country={m[0].country}>
-                    {m[0].name}
-                  </ContentWithFlag>
-                </ScheduleTeamWrapper>
-                <MatchPairCenter>-</MatchPairCenter>
-                <ScheduleTeamWrapper>
-                  <ContentWithFlag $country={m[1].country}>
-                    {m[1].name}
-                  </ContentWithFlag>
-                </ScheduleTeamWrapper>
-              </MatchPair>
+            {md.map((day, dayIndex) => (
+              <>
+                <DayHeader>
+                  {tournament === 'cl'
+                    ? dayIndex === 2
+                      ? 'Thursday'
+                      : dayIndex === 1 || md.length === 1
+                        ? 'Wednesday'
+                        : 'Tuesday'
+                    : dayIndex === 1 || md.length === 1
+                      ? 'Night'
+                      : 'Evening'}
+                </DayHeader>
+                {day.map(m => (
+                  <MatchPair>
+                    <ScheduleTeamWrapper>
+                      <ContentWithFlag $country={m[0].country}>
+                        {m[0].name}
+                      </ContentWithFlag>
+                    </ScheduleTeamWrapper>
+                    <MatchPairCenter>-</MatchPairCenter>
+                    <ScheduleTeamWrapper>
+                      <ContentWithFlag $country={m[1].country}>
+                        {m[1].name}
+                      </ContentWithFlag>
+                    </ScheduleTeamWrapper>
+                  </MatchPair>
+                ))}
+              </>
             ))}
           </MatchdayRoot>
         ))}
