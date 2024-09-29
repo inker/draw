@@ -23,8 +23,6 @@ export default ({
 }) => {
   const numMatchdays = matchdays.length;
 
-  const allPairedTeams = new Set(tvPairings.flat());
-
   const numTeamsByCountry = countBy(teams, team => team.country);
   const countriesWithMultipleTeams = Object.keys(numTeamsByCountry).filter(
     c => numTeamsByCountry[c] > 1,
