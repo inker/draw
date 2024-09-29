@@ -13,8 +13,8 @@ const Root = styled.div`
 const CalendarContainer = styled.div`
   display: grid;
   gap: 16px;
-  grid-template-columns: repeat(4, 1fr);
   align-items: self-start;
+  grid-template-columns: repeat(4, 1fr);
   width: fit-content;
 
   @container (max-width: 1000px) {
