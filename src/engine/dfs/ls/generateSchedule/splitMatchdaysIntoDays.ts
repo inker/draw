@@ -1,7 +1,9 @@
-import { countBy, minBy, orderBy, pull, shuffle, sumBy } from 'lodash';
+import { countBy, difference, orderBy, shuffle } from 'lodash';
 
 import { type UefaCountry } from '#model/types';
 import type Tournament from '#model/Tournament';
+import { findFirstSolution } from '#utils/backtrack';
+import combine from '#utils/combine';
 
 interface Team {
   readonly name: string;
@@ -24,13 +26,11 @@ export default ({
   const numMatchdays = matchdays.length;
 
   const numTeamsByCountry = countBy(teams, team => team.country);
-  const countriesWithMultipleTeams = Object.keys(numTeamsByCountry).filter(
-    c => numTeamsByCountry[c] > 1,
-  ) as UefaCountry[];
-  const countriesWithMultipleTeamsSet = new Set(countriesWithMultipleTeams);
+  const allCountries = Object.keys(numTeamsByCountry) as UefaCountry[];
 
   const newMatchdays: (readonly [number, number])[][][] = [];
   for (const [matchdayIndex, md] of matchdays.entries()) {
+    const shuffledMd = shuffle(md);
     const days = Array.from(
       {
         // TODO: remove this hardcode
@@ -45,58 +45,176 @@ export default ({
     );
     const numGamesPerDay = matchdaySize / days.length;
 
-    // TODO: build a graph of paired teams
+    let solution;
+    for (
+      let numEliminatedPairings = 0;
+      numEliminatedPairings < tvPairings.length;
+      ++numEliminatedPairings
+    ) {
+      for (const eliminatedTvPairings of combine(
+        tvPairings.toReversed(),
+        numEliminatedPairings,
+      )) {
+        // eslint-disable-next-line no-console
+        console.log('Eliminating the following:', eliminatedTvPairings);
+        const remainingTvPairings = difference(
+          tvPairings,
+          eliminatedTvPairings,
+        );
 
-    for (const pair of tvPairings) {
-      for (const t of shuffle(pair)) {
-        const pairedT = t === pair[0] ? pair[1] : pair[0];
-        const team = teams[t];
-        const teamCountry = team.country;
-        const match = md.find(m => m[0] === t || m[1] === t);
-        if (!match) {
-          // Already allocated
-          continue;
-        }
-        const nonFullDays = days.filter(day => day.length < numGamesPerDay);
-        const minDay = minBy(shuffle(nonFullDays), day =>
-          sumBy(day, m =>
-            m[0] === pairedT || m[1] === pairedT
-              ? 1000000
-              : (teams[m[0]].country === teamCountry ? 1 : 0) +
-                (teams[m[1]].country === teamCountry ? 1 : 0),
+        const getPairedTeam = new Map([
+          ...remainingTvPairings,
+          ...remainingTvPairings.map(
+            pair => pair.toReversed() as [number, number],
           ),
-        )!;
-        minDay.push(match);
-        pull(md, match);
+        ]);
+
+        const s = findFirstSolution(
+          {
+            matchIndex: 0,
+            pickedDay: 0,
+            schedule: [] as number[],
+            numMatchesByDay: Array.from(
+              {
+                length: days.length,
+              },
+              () => 0,
+            ),
+            dayByTeam: {} as Record<number, number>,
+            countryTeamsByDay: Object.fromEntries(
+              allCountries.map(
+                country => [country, days.map(() => 0)] as const,
+              ),
+            ) as Record<UefaCountry, number[]>,
+          },
+          {
+            reject: c => {
+              if (days.length === 1) {
+                return false;
+              }
+
+              if (c.numMatchesByDay[c.pickedDay] === numGamesPerDay) {
+                return true;
+              }
+
+              const match = shuffledMd[c.matchIndex];
+              const [firstTeam, secondTeam] = match;
+              const firstPairedTeam = getPairedTeam.get(firstTeam);
+              if (
+                firstPairedTeam !== undefined &&
+                c.dayByTeam[firstPairedTeam] === c.pickedDay
+              ) {
+                return true;
+              }
+              const secondPairedTeam = getPairedTeam.get(secondTeam);
+              if (
+                secondPairedTeam !== undefined &&
+                c.dayByTeam[secondPairedTeam] === c.pickedDay
+              ) {
+                return true;
+              }
+
+              return false;
+            },
+
+            accept: c => c.matchIndex === shuffledMd.length - 1,
+
+            generate: c => {
+              const match = shuffledMd[c.matchIndex];
+
+              const newSchedule = [...c.schedule, c.pickedDay];
+
+              const newNumMatchesByDay = c.numMatchesByDay.with(
+                c.pickedDay,
+                c.numMatchesByDay[c.pickedDay] + 1,
+              );
+
+              const newDayByTeam = {
+                ...c.dayByTeam,
+                [match[0]]: c.pickedDay,
+                [match[1]]: c.pickedDay,
+              };
+
+              const newCountryTeamsByDay = {
+                ...c.countryTeamsByDay,
+                [teams[match[0]].country]: c.countryTeamsByDay[
+                  teams[match[0]].country
+                ].with(
+                  c.pickedDay,
+                  c.countryTeamsByDay[teams[match[0]].country][c.pickedDay] + 1,
+                ),
+                [teams[match[1]].country]: c.countryTeamsByDay[
+                  teams[match[1]].country
+                ].with(
+                  c.pickedDay,
+                  c.countryTeamsByDay[teams[match[1]].country][c.pickedDay] + 1,
+                ),
+              };
+
+              const candidates: (typeof c)[] = [];
+              for (let dayIndex = 0; dayIndex < days.length; ++dayIndex) {
+                candidates.push({
+                  matchIndex: c.matchIndex + 1,
+                  pickedDay: dayIndex,
+                  schedule: newSchedule,
+                  numMatchesByDay: newNumMatchesByDay,
+                  dayByTeam: newDayByTeam,
+                  countryTeamsByDay: newCountryTeamsByDay,
+                });
+              }
+              return orderBy(shuffle(candidates), newCandidate => {
+                const [h, a] = shuffledMd[newCandidate.matchIndex];
+                const numTeamsFromHomeCountry =
+                  newCandidate.countryTeamsByDay[teams[h].country][
+                    newCandidate.pickedDay
+                  ];
+                const numTeamsFromAwayCountry =
+                  newCandidate.countryTeamsByDay[teams[a].country][
+                    newCandidate.pickedDay
+                  ];
+                return (
+                  (numTeamsFromHomeCountry === 0
+                    ? -1000000
+                    : numTeamsFromHomeCountry) +
+                  (numTeamsFromAwayCountry === 0
+                    ? -1000000
+                    : numTeamsFromAwayCountry)
+                );
+              });
+            },
+          },
+        );
+
+        if (s) {
+          if (numEliminatedPairings > 0) {
+            // eslint-disable-next-line no-console
+            console.log(
+              `solution found after eliminating ${numEliminatedPairings} pairings:`,
+              eliminatedTvPairings,
+            );
+          }
+          solution = s;
+          break;
+        }
+
+        // eslint-disable-next-line no-console
+        console.warn('No solution found');
+      }
+
+      if (solution) {
+        break;
       }
     }
 
-    const remainingTeams = md.flat();
-    const orderedRemainingTeams = orderBy(
-      shuffle(remainingTeams),
-      t => countriesWithMultipleTeamsSet.has(teams[t].country),
-      'desc',
-    );
-    for (const t of orderedRemainingTeams) {
-      const team = teams[t];
-      const teamCountry = team.country;
-      const match = md.find(p => p[0] === t || p[1] === t);
-      if (!match) {
-        // Already allocated
-        continue;
-      }
-      const nonFullDays = days.filter(day => day.length < numGamesPerDay);
-      const minDay = minBy(shuffle(nonFullDays), day =>
-        sumBy(
-          day,
-          m =>
-            (teams[m[0]].country === teamCountry ? 1 : 0) +
-            (teams[m[1]].country === teamCountry ? 1 : 0),
-        ),
-      )!;
-      minDay.push(match);
-      pull(md, match);
+    if (!solution) {
+      throw new Error('No solution found after all');
     }
+
+    for (const [i, dayIndex] of solution.schedule.entries()) {
+      const match = shuffledMd[i];
+      days[dayIndex].push(match);
+    }
+    days[solution.pickedDay].push(shuffledMd[solution.matchIndex]);
 
     newMatchdays.push(shuffle(days.map(day => shuffle(day))));
   }
