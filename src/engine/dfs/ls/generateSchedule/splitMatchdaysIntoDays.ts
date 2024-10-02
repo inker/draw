@@ -1,4 +1,11 @@
-import { countBy, difference, orderBy, shuffle } from 'lodash';
+import {
+  countBy,
+  difference,
+  mapValues,
+  orderBy,
+  shuffle,
+  sumBy,
+} from 'lodash';
 
 import { type UefaCountry } from '#model/types';
 import type Tournament from '#model/Tournament';
@@ -44,6 +51,26 @@ export default ({
       () => [] as (readonly [number, number])[],
     );
     const numGamesPerDay = matchdaySize / days.length;
+
+    const teamsFromCountryByDay = mapValues(numTeamsByCountry, n => {
+      const quotient = Math.floor(n / days.length);
+      const remainder = n % days.length;
+      return remainder === 0
+        ? {
+            maxAllowed: quotient,
+            numMaxes: days.length,
+          }
+        : {
+            maxAllowed: quotient + 1,
+            numMaxes: remainder,
+          };
+    }) as Record<
+      UefaCountry,
+      {
+        maxAllowed: number;
+        numMaxes: number;
+      }
+    >;
 
     let solution;
     for (
@@ -110,6 +137,40 @@ export default ({
               if (
                 secondPairedTeam !== undefined &&
                 c.dayByTeam[secondPairedTeam] === c.pickedDay
+              ) {
+                return true;
+              }
+
+              const firstTeamCountry = teams[firstTeam].country;
+              const teamsFromFirstTeamCountryData =
+                teamsFromCountryByDay[firstTeamCountry];
+              const firstTeamNumTeamsByDay = c.countryTeamsByDay[
+                firstTeamCountry
+              ].with(
+                c.pickedDay,
+                c.countryTeamsByDay[firstTeamCountry][c.pickedDay] + 1,
+              );
+              if (
+                sumBy(firstTeamNumTeamsByDay, n =>
+                  n >= teamsFromFirstTeamCountryData.maxAllowed ? 1 : 0,
+                ) > teamsFromFirstTeamCountryData.numMaxes
+              ) {
+                return true;
+              }
+
+              const secondTeamCountry = teams[secondTeam].country;
+              const teamsFromSecondTeamCountryData =
+                teamsFromCountryByDay[secondTeamCountry];
+              const secondTeamNumTeamsByDay = c.countryTeamsByDay[
+                secondTeamCountry
+              ].with(
+                c.pickedDay,
+                c.countryTeamsByDay[secondTeamCountry][c.pickedDay] + 1,
+              );
+              if (
+                sumBy(secondTeamNumTeamsByDay, n =>
+                  n >= teamsFromSecondTeamCountryData.maxAllowed ? 1 : 0,
+                ) > teamsFromSecondTeamCountryData.numMaxes
               ) {
                 return true;
               }
@@ -189,8 +250,10 @@ export default ({
           if (numEliminatedPairings > 0) {
             // eslint-disable-next-line no-console
             console.log(
-              `solution found after eliminating ${numEliminatedPairings} pairings:`,
-              eliminatedTvPairings,
+              `solution found after eliminating ${numEliminatedPairings} pairings in md ${matchdayIndex + 1}:`,
+              eliminatedTvPairings.map(pair =>
+                [teams[pair[0]].name, teams[pair[1]].name].join(' & '),
+              ),
             );
           }
           solution = s;
