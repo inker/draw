@@ -2,7 +2,6 @@ import { remove, sample, shuffle } from 'lodash';
 
 import raceWorkers from '#utils/raceWorkers';
 import { type UefaCountry } from '#model/types';
-import type Tournament from '#model/Tournament';
 
 import { type Func } from './getFirstSuitableMatchday.worker';
 import teamsSharingStadium from './teamsSharingStadium';
@@ -15,16 +14,12 @@ interface Team {
 }
 
 export default ({
-  tournament,
   teams,
   matchdaySize,
-  tvPairings,
   allGames,
   signal,
 }: {
-  tournament: Tournament;
   teams: readonly Team[];
-  tvPairings: readonly (readonly [number, number])[];
   matchdaySize: number;
   allGames: readonly (readonly [number, number])[];
   signal?: AbortSignal;
@@ -84,9 +79,7 @@ export default ({
       }
 
       return {
-        tournament,
         teams,
-        tvPairings,
         matchdaySize,
         allGames: orderedGames,
       };

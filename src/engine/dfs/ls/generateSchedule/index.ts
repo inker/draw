@@ -4,6 +4,7 @@ import { type UefaCountry } from '#model/types';
 import type Tournament from '#model/Tournament';
 
 import getFirstSuitableMatchday from './getFirstSuitableMatchday.wrapper';
+import splitMatchdaysIntoDays from './splitMatchdaysIntoDays';
 
 interface Team {
   readonly id: string;
@@ -50,15 +51,21 @@ export default async function generateSchedule<T extends Team>({
   );
 
   const result = await getFirstSuitableMatchday({
-    tournament,
     teams: allTeams,
-    tvPairings: tvPairingsNumbers,
     matchdaySize,
     allGames: allGamesUnordered,
     signal,
   });
 
-  const solutionSchedule = result.matchdays.map(md =>
+  const matchdays = splitMatchdaysIntoDays({
+    matchdays: result,
+    tournament,
+    matchdaySize,
+    teams: allTeams,
+    tvPairings: tvPairingsNumbers,
+  });
+
+  const solutionSchedule = matchdays.map(md =>
     md.map(day =>
       day.map(([h, a]) => {
         const ht = teamById[allTeamIds[h]];
