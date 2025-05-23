@@ -1,10 +1,51 @@
-import { range, shuffle } from 'lodash';
+import { orderBy, range, sum } from 'lodash';
 
 import { findFirstSolution } from '#utils/backtrack';
 import { type UefaCountry } from '#model/types';
 import coldCountries from '#engine/predicates/uefa/utils/coldCountries';
 
 import teamsSharingStadium from './teamsSharingStadium';
+
+function toBase3Array(num: number, length: number) {
+  const result = Array.from(
+    {
+      length,
+    },
+    () => 0,
+  );
+  for (let i = length - 1, n = num; i >= 0 && n > 0; --i) {
+    result[i] = n % 3;
+    n = Math.floor(n / 3);
+  }
+  return result;
+}
+
+function generateSequenceCombos(numMatchdays: number) {
+  // generate all
+  const arr: string[] = [];
+  for (let i = 0; i < 2 ** numMatchdays; ++i) {
+    const binary = i.toString(2).padStart(numMatchdays, '0');
+    const digits = binary.split('').map(Number);
+    const s = sum(digits);
+    if (s === numMatchdays / 2) {
+      arr.push(binary);
+    }
+  }
+
+  // filter
+  return arr
+    .filter(item => {
+      const impossible =
+        item.startsWith('00') ||
+        item.startsWith('11') ||
+        item.endsWith('00') ||
+        item.endsWith('11') ||
+        item.includes('000') ||
+        item.includes('111');
+      return !impossible;
+    })
+    .map(item => item.split('').map(s => +s + 1));
+}
 
 interface Team {
   readonly name: string;
@@ -22,6 +63,29 @@ export default ({
 }) => {
   const numGames = allGames.length;
   const numMatchdays = numGames / matchdaySize;
+
+  const sequences = generateSequenceCombos(numMatchdays);
+
+  const isLocComboPossible = (s: number) => {
+    const base3Arr = toBase3Array(s, numMatchdays);
+    return sequences.some(seq => {
+      for (let i = 0; i < numMatchdays; ++i) {
+        const item = base3Arr[i];
+        if (!item || item === seq[i]) {
+          continue;
+        }
+        return false;
+      }
+      return true;
+    });
+  };
+
+  const locComboPossibleBySum = Array.from(
+    {
+      length: 3 ** numMatchdays,
+    },
+    (_, i) => isLocComboPossible(i),
+  );
 
   const indexByTeamName = new Map(teams.map((team, i) => [team.name, i]));
 
@@ -53,8 +117,9 @@ export default ({
   );
   // team:md
   const locationByMatchday: Record<`${number}:${number}`, 'h' | 'a'> = {};
+  const locationSequenceSumByTeam: Record<number, number> = {};
 
-  for (const pickedMatchday of shuffle(range(numMatchdays))) {
+  for (const pickedMatchday of range(numMatchdays)) {
     const solution = findFirstSolution(
       {
         matchIndex: 0,
@@ -62,6 +127,7 @@ export default ({
         numMatchesByMatchday,
         pickedMatchday,
         locationByMatchday,
+        locationSequenceSumByTeam,
       },
       {
         reject: c => {
@@ -106,40 +172,14 @@ export default ({
             return true;
           }
 
-          for (let b = 0; b < 2; ++b) {
-            const loc = b === 0 ? 'h' : 'a';
-            const t = b === 0 ? h : a;
-
-            if (md <= 1) {
-              // is first two
-              if (c.locationByMatchday[`${t}:${1 - md}`] === loc) {
-                return true;
-              }
-            } else if (
-              md >= numMatchdays - 2 && // is last two
-              c.locationByMatchday[`${t}:${numMatchdays * 2 - 3 - md}`] === loc
-            ) {
-              return true;
-            }
-
-            if (md > 0 && md < numMatchdays - 1) {
-              const minus1 = c.locationByMatchday[`${t}:${md - 1}`];
-              const plus1 = c.locationByMatchday[`${t}:${md + 1}`];
-              if (minus1 === loc) {
-                if (plus1 === loc) {
-                  return true;
-                }
-                const minus2 = c.locationByMatchday[`${t}:${md - 2}`];
-                if (minus2 === loc) {
-                  return true;
-                }
-              } else if (plus1 === loc) {
-                const plus2 = c.locationByMatchday[`${t}:${md + 2}`];
-                if (plus2 === loc) {
-                  return true;
-                }
-              }
-            }
+          const pow = 3 ** c.pickedMatchday;
+          const hS = (c.locationSequenceSumByTeam[h] ?? 0) + 1 * pow;
+          if (!locComboPossibleBySum[hS]) {
+            return true;
+          }
+          const aS = (c.locationSequenceSumByTeam[a] ?? 0) + 2 * pow;
+          if (!locComboPossibleBySum[aS]) {
+            return true;
           }
 
           return false;
@@ -159,6 +199,15 @@ export default ({
             [`${pickedMatch[1]}:${c.pickedMatchday}`]: 'a',
           } satisfies typeof c.locationByMatchday;
 
+          const pow = 3 ** c.pickedMatchday;
+          const newLocationSequenceSumByTeam = {
+            ...c.locationSequenceSumByTeam,
+            [pickedMatch[0]]:
+              (c.locationSequenceSumByTeam[pickedMatch[0]] ?? 0) + 1 * pow,
+            [pickedMatch[1]]:
+              (c.locationSequenceSumByTeam[pickedMatch[1]] ?? 0) + 2 * pow,
+          };
+
           const newSchedule = [
             ...c.schedule,
             c.pickedMatchday,
@@ -175,20 +224,51 @@ export default ({
             record = newMatchIndex;
           }
 
+          const mds = orderBy(range(numMatchdays), i => {
+            const [h, a] = allGames[newMatchIndex];
+            let score = 0;
+            const homeLoc = newLocationByMatchday[`${h}:${i - 1}`];
+            const awayLoc = newLocationByMatchday[`${a}:${i - 1}`];
+
+            // 1. Prefer alternating with the previous match
+            if (homeLoc === 'h') {
+              score += 10;
+            }
+            if (awayLoc === 'a') {
+              score += 10;
+            }
+
+            // 2. Penalize risk of 3H/3A if md+1 is already set
+            if (newLocationByMatchday[`${h}:${i + 1}`] === 'h') {
+              score += 20;
+            }
+            if (newLocationByMatchday[`${a}:${i + 1}`] === 'a') {
+              score += 20;
+            }
+
+            // 4. Penalize full matchdays
+            score += numMatchesByMatchday[i] * 2;
+
+            score += i * 1.5;
+
+            return score;
+          });
+
           // shuffling candidates makes it worse
           const candidates: (typeof c)[] = [];
 
-          for (let i = 0; i < numMatchdays; ++i) {
+          for (const i of mds) {
             candidates.push({
               matchIndex: newMatchIndex,
               schedule: newSchedule,
               numMatchesByMatchday: newNumMatchesByMatchday,
               pickedMatchday: i,
               locationByMatchday: newLocationByMatchday,
+              locationSequenceSumByTeam: newLocationSequenceSumByTeam,
             });
           }
 
-          return shuffle(candidates);
+          return candidates;
         },
       },
     );
