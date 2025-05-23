@@ -1,7 +1,8 @@
-import { remove, sample, shuffle } from 'lodash';
+import { intersection, remove, sample, shuffle, uniq } from 'lodash';
 
 import raceWorkers from '#utils/raceWorkers';
 import { type UefaCountry } from '#model/types';
+import coldCountries from '#engine/predicates/uefa/utils/coldCountries';
 
 import { type Func } from './getFirstSuitableMatchday.worker';
 import teamsSharingStadium from './teamsSharingStadium';
@@ -31,10 +32,20 @@ export default ({
     getPayload: () => {
       const allGamesShuffled = shuffle(allGames);
 
-      const prioritizedTeams = teamsSharingStadium.flatMap(namePair => {
+      const stadiumSharingTeams = teamsSharingStadium.flatMap(namePair => {
         const [a, b] = namePair;
         return [teams.find(t => t.name === a)!, teams.find(t => t.name === b)!];
       });
+
+      // TODO: pass season
+      const isFromColdCountry = coldCountries(0);
+      const coldTeams = teams.filter(team => isFromColdCountry(team));
+
+      const prioritizedTeams = uniq([
+        ...intersection(stadiumSharingTeams, coldTeams),
+        ...stadiumSharingTeams,
+        ...coldTeams,
+      ]);
 
       const orderedGames: typeof allGamesShuffled = [];
       for (const team of prioritizedTeams) {
