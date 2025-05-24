@@ -129,7 +129,7 @@ function Pages({ drawId, tournament, stage, season, onSeasonChange }: Props) {
     Page && (
       <Page
         key={drawId}
-        tournament={params.tournament}
+        tournament={tournament}
         stage={params.stage}
         season={season}
         pots={pots}
