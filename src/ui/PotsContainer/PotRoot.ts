@@ -7,7 +7,6 @@ interface Props {
 }
 
 const Root = styled(Table)<Props>`
-  transform: box-shadow 1s linear;
   ${props =>
     props.$highlighted &&
     `

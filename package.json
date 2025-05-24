@@ -49,7 +49,7 @@
     "file-saver": "^2.0.5",
     "flag-icons": "^7.0.2",
     "history": "^5.3.0",
-    "html-tags": "^4.0.0",
+    "html-tags": "^5.0.0",
     "i18n-iso-countries": "^7.7.0",
     "jotai": "^2.6.2",
     "lodash": "^4.17.21",
@@ -91,7 +91,7 @@
     "patch-package": "^8.0.0",
     "postcss-styled-syntax": "^0.7.1",
     "stylelint": "^16.0.2",
-    "stylelint-config-standard": "^36.0.0",
+    "stylelint-config-standard": "^38.0.0",
     "stylelint-order": "^7.0.0",
     "typescript": "^5.0.4",
     "vitest": "^3.1.4"

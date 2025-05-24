@@ -48,7 +48,7 @@ const HeaderCell = styled.th<{
   ${props =>
     props.$hovered &&
     css`
-      background-color: rgba(0 0 0 / 0.1);
+      background-color: rgb(0 0 0 / 0.1);
     `}
 `;
 
@@ -72,7 +72,7 @@ const BodyRow = styled.tr`
   border: 1px solid rgb(192 192 192);
 
   &:hover {
-    background-color: rgba(0 0 0 / 0.1);
+    background-color: rgb(0 0 0 / 0.1);
   }
 `;
 
@@ -113,7 +113,7 @@ const TableCell = styled.td<{
   ${props =>
     props.$hovered &&
     css`
-      background-color: rgba(0 0 0 / 0.1);
+      background-color: rgb(0 0 0 / 0.1);
     `}
 `;
 
