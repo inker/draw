@@ -109,6 +109,7 @@ function LeagueStage({
     if (isFixturesDone) {
       const formSchedule = async () => {
         const it = await generateSchedule({
+          season,
           tournament,
           matchdaySize,
           tvPairings,

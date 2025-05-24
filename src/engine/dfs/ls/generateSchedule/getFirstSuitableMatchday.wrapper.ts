@@ -15,11 +15,13 @@ interface Team {
 }
 
 export default ({
+  season,
   teams,
   matchdaySize,
   allGames,
   signal,
 }: {
+  season: number;
   teams: readonly Team[];
   matchdaySize: number;
   allGames: readonly (readonly [number, number])[];
@@ -37,9 +39,9 @@ export default ({
         return [teams.find(t => t.name === a)!, teams.find(t => t.name === b)!];
       });
 
-      // TODO: pass season
-      const isFromColdCountry = coldCountries(0);
+      const isFromColdCountry = coldCountries(season);
       const coldTeams = teams.filter(team => isFromColdCountry(team));
+      const coldTeamIndices = coldTeams.map(t => teams.indexOf(t));
 
       const prioritizedTeams = uniq([
         ...intersection(stadiumSharingTeams, coldTeams),
@@ -93,6 +95,7 @@ export default ({
         teams,
         matchdaySize,
         allGames: orderedGames,
+        coldTeamIndices,
       };
     },
     getTimeout: workerIndex => {

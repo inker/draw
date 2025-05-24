@@ -13,12 +13,14 @@ interface Team {
 }
 
 export default async function generateSchedule<T extends Team>({
+  season,
   tournament,
   matchdaySize,
   tvPairings,
   allGames: allGamesWithIds,
   signal,
 }: {
+  season: number;
   tournament: Tournament;
   matchdaySize: number;
   tvPairings: readonly (readonly [T, T])[];
@@ -51,6 +53,7 @@ export default async function generateSchedule<T extends Team>({
   );
 
   const result = await getFirstSuitableMatchday({
+    season,
     teams: allTeams,
     matchdaySize,
     allGames: allGamesUnordered,

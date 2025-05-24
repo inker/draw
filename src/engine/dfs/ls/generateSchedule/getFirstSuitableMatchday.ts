@@ -2,7 +2,6 @@ import { orderBy, range, sum } from 'lodash';
 
 import { findFirstSolution } from '#utils/backtrack';
 import { type UefaCountry } from '#model/types';
-import coldCountries from '#engine/predicates/uefa/utils/coldCountries';
 
 import teamsSharingStadium from './teamsSharingStadium';
 
@@ -56,10 +55,12 @@ export default ({
   teams,
   matchdaySize,
   allGames,
+  coldTeamIndices,
 }: {
   teams: readonly Team[];
   matchdaySize: number;
   allGames: readonly (readonly [number, number])[];
+  coldTeamIndices: readonly number[];
 }) => {
   const numGames = allGames.length;
   const numMatchdays = numGames / matchdaySize;
@@ -101,11 +102,7 @@ export default ({
     }
   }
 
-  // TODO: pass season
-  const isFromColdCountry = coldCountries(0);
-  const coldTeams = new Set(
-    range(teams.length).filter(i => isFromColdCountry(teams[i])),
-  );
+  const coldTeams = new Set(coldTeamIndices);
 
   let record = 0;
 
