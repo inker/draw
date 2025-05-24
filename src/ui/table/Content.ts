@@ -15,8 +15,8 @@ const Content = styled(BaseContent)`
     `}
 
   @media (max-width: 999px) {
-    font-family: 'Roboto Condensed', RobotoCondensed, RobotoCondensed-Regular,
-      sans-serif;
+    font-family:
+      'Roboto Condensed', RobotoCondensed, RobotoCondensed-Regular, sans-serif;
   }
 `;
 

@@ -46,8 +46,9 @@ const Root = styled.div`
   @media (max-width: 999px) {
     justify-content: center;
     margin-top: 5px;
-    font-family: 'Roboto Condensed', RobotoCondensed, RobotoCondensed-Regular,
-      Roboto, sans-serif;
+    font-family:
+      'Roboto Condensed', RobotoCondensed, RobotoCondensed-Regular, Roboto,
+      sans-serif;
     font-size: 10px;
   }
 `;
