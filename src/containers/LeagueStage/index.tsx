@@ -67,15 +67,7 @@ function LeagueStage({
 
   const abortSignal = useAbortSignal();
 
-  const pots = useMemo(
-    () =>
-      initialPots.map(pot =>
-        pot.map(team => ({
-          ...team,
-        })),
-      ),
-    [initialPots],
-  );
+  const pots = useMemo(() => [...initialPots], [initialPots]);
 
   const allTeams = useMemo(() => pots.flat(), [pots]);
 
