@@ -14,6 +14,7 @@ export default ({
   numTeamsPerPot,
   numMatchdays,
   numGamesPerMatchday,
+  isPairedPotMode,
   allGames,
   pickedMatches,
 }: {
@@ -22,12 +23,16 @@ export default ({
   numTeamsPerPot: number;
   numMatchdays: number;
   numGamesPerMatchday: number;
+  isPairedPotMode: boolean;
   allGames: readonly (readonly [number, number])[];
   pickedMatches: readonly (readonly [number, number])[];
 }) => {
   const pots = chunk(range(teams.length), numTeamsPerPot);
   const potIndices = range(numPots);
   const maxGamesAtHome = Math.ceil(numMatchdays / 2);
+  const maxSameLocMatchesPerPot = isPairedPotMode
+    ? numTeamsPerPot / 2
+    : numTeamsPerPot;
 
   const numGamesByPotPair: Record<`${number}:${number}`, number> = {};
   const numHomeGamesByTeam: Record<number, number> = {};
@@ -85,8 +90,28 @@ export default ({
       return false;
     }
 
+    if (isPairedPotMode) {
+      if (hasPlayedWithPotMap[`${a}:${bPot}:a`]) {
+        return false;
+      }
+
+      if (hasPlayedWithPotMap[`${a}:${bPot ^ 1}:h`]) {
+        return false;
+      }
+    }
+
     if (hasPlayedWithPotMap[`${b}:${aPot}:a`]) {
       return false;
+    }
+
+    if (isPairedPotMode) {
+      if (hasPlayedWithPotMap[`${b}:${aPot}:h`]) {
+        return false;
+      }
+
+      if (hasPlayedWithPotMap[`${b}:${aPot ^ 1}:a`]) {
+        return false;
+      }
     }
 
     return true;
@@ -132,8 +157,28 @@ export default ({
             return true;
           }
 
+          if (isPairedPotMode) {
+            if (c.hasPlayedWithPotMap[`${h}:${awayTeamPotIndex}:a`]) {
+              return true;
+            }
+
+            if (c.hasPlayedWithPotMap[`${h}:${awayTeamPotIndex ^ 1}:h`]) {
+              return true;
+            }
+          }
+
           if (c.hasPlayedWithPotMap[`${a}:${homeTeamPotIndex}:a`]) {
             return true;
+          }
+
+          if (isPairedPotMode) {
+            if (c.hasPlayedWithPotMap[`${a}:${homeTeamPotIndex}:h`]) {
+              return true;
+            }
+
+            if (c.hasPlayedWithPotMap[`${a}:${homeTeamPotIndex ^ 1}:a`]) {
+              return true;
+            }
           }
 
           if (c.numOpponentCountriesByTeam[`${h}:${teams[a].country}`] === 2) {
@@ -211,8 +256,28 @@ export default ({
               return false;
             }
 
+            if (isPairedPotMode) {
+              if (newHasPlayedWithPotMap[`${h}:${awayPot}:a`]) {
+                return false;
+              }
+
+              if (newHasPlayedWithPotMap[`${h}:${awayPot ^ 1}:h`]) {
+                return false;
+              }
+            }
+
             if (newHasPlayedWithPotMap[`${a}:${homePot}:a`]) {
               return false;
+            }
+
+            if (isPairedPotMode) {
+              if (newHasPlayedWithPotMap[`${a}:${homePot}:h`]) {
+                return false;
+              }
+
+              if (newHasPlayedWithPotMap[`${a}:${homePot ^ 1}:a`]) {
+                return false;
+              }
             }
 
             return true;
@@ -220,11 +285,16 @@ export default ({
 
           const [potPairHomePot, potPairAwayPot] = potPairs.find(
             ([hPot, aPot]) =>
-              (newNumGamesByPotPair[`${hPot}:${aPot}`] ?? 0) < numTeamsPerPot,
+              (newNumGamesByPotPair[`${hPot}:${aPot}`] ?? 0) <
+              maxSameLocMatchesPerPot,
           )!;
 
           const newHomeTeam = pots[potPairHomePot].find(
-            t => !newHasPlayedWithPotMap[`${t}:${potPairAwayPot}:h`],
+            t =>
+              !newHasPlayedWithPotMap[`${t}:${potPairAwayPot}:h`] &&
+              (!isPairedPotMode ||
+                (!newHasPlayedWithPotMap[`${t}:${potPairAwayPot}:a`] &&
+                  !newHasPlayedWithPotMap[`${t}:${potPairAwayPot ^ 1}:h`])),
           );
 
           const candidates: (typeof c)[] = [];

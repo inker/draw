@@ -1,0 +1,158 @@
+[
+  [
+    {
+      "name": "Chelsea",
+      "country": "England"
+    },
+    {
+      "name": "København",
+      "country": "Denmark"
+    },
+    {
+      "name": "Gent",
+      "country": "Belgium"
+    },
+    {
+      "name": "Fiorentina",
+      "country": "Italy"
+    },
+    {
+      "name": "LASK",
+      "country": "Austria"
+    },
+    {
+      "name": "Betis",
+      "country": "Spain"
+    }
+  ],
+  [
+    {
+      "name": "Başakşehir",
+      "country": "Türkiye"
+    },
+    {
+      "name": "Molde",
+      "country": "Norway"
+    },
+    {
+      "name": "Legia",
+      "country": "Poland"
+    },
+    {
+      "name": "Heidenheim",
+      "country": "Germany"
+    },
+    {
+      "name": "Djurgården",
+      "country": "Sweden"
+    },
+    {
+      "name": "APOEL",
+      "country": "Cyprus"
+    }
+  ],
+  [
+    {
+      "name": "Rapid Wien",
+      "country": "Austria"
+    },
+    {
+      "name": "Omonia",
+      "country": "Cyprus"
+    },
+    {
+      "name": "HJK",
+      "country": "Finland"
+    },
+    {
+      "name": "Guimarães",
+      "country": "Portugal"
+    },
+    {
+      "name": "Astana",
+      "country": "Kazakhstan"
+    },
+    {
+      "name": "Olimpija",
+      "country": "Slovenia"
+    }
+  ],
+  [
+    {
+      "name": "Cercle Brugge",
+      "country": "Belgium"
+    },
+    {
+      "name": "Shamrock Rovers",
+      "country": "Ireland"
+    },
+    {
+      "name": "TNS",
+      "country": "Wales"
+    },
+    {
+      "name": "Lugano",
+      "country": "Switzerland"
+    },
+    {
+      "name": "Hearts",
+      "country": "Scotland"
+    },
+    {
+      "name": "Mladá Boleslav",
+      "country": "Czechia"
+    }
+  ],
+  [
+    {
+      "name": "Petrocub",
+      "country": "Moldova"
+    },
+    {
+      "name": "St Gallen",
+      "country": "Switzerland"
+    },
+    {
+      "name": "Panathinaikos",
+      "country": "Greece"
+    },
+    {
+      "name": "TSC",
+      "country": "Serbia"
+    },
+    {
+      "name": "Borac",
+      "country": "Bosnia & Herzegovina"
+    },
+    {
+      "name": "Jagiellonia",
+      "country": "Poland"
+    }
+  ],
+  [
+    {
+      "name": "Celje",
+      "country": "Slovenia"
+    },
+    {
+      "name": "Larne",
+      "country": "Northern Ireland"
+    },
+    {
+      "name": "Dynama Minsk",
+      "country": "Belarus"
+    },
+    {
+      "name": "Pafos",
+      "country": "Cyprus"
+    },
+    {
+      "name": "Víkingur",
+      "country": "Iceland"
+    },
+    {
+      "name": "Noah",
+      "country": "Armenia"
+    }
+  ]
+]

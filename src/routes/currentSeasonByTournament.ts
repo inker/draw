@@ -12,6 +12,5 @@ export default (tournament: Tournament | null, stage: Stage | null): number => {
     (resolvedTournament === 'cl' || resolvedTournament === 'el' ? 'ls' : 'gs');
   return resolvedTournament === 'wc'
     ? wc
-    : // @ts-expect-error Fix later
-      uefa[resolvedTournament][resolvedState];
+    : uefa[resolvedTournament][resolvedState];
 };

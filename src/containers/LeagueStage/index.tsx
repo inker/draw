@@ -43,7 +43,8 @@ function LeagueStage({
   pots: initialPots,
   tvPairings,
 }: Props) {
-  const numMatchdays = initialPots.length * 2;
+  const numMatchdays =
+    tournament === 'ecl' ? initialPots.length : initialPots.length * 2;
 
   const numMatches = useMemo(() => {
     const numTeams = initialPots.flat().length;
@@ -90,6 +91,7 @@ function LeagueStage({
     const formPairings = async () => {
       const generator = generatePairings({
         season,
+        tournament,
         pots,
         numMatchdays,
       });

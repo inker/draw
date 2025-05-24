@@ -1,5 +1,6 @@
 import { range, shuffle } from 'lodash';
 
+import type Tournament from '#model/Tournament';
 import { type UefaCountry } from '#model/types';
 import incompatibleCountries from '#engine/predicates/uefa/utils/incompatibleCountries';
 
@@ -12,10 +13,12 @@ interface Team {
 
 export default async function* generatePairings<T extends Team>({
   season,
+  tournament,
   pots,
   numMatchdays,
 }: {
   season: number;
+  tournament: Tournament;
   pots: readonly (readonly T[])[];
   numMatchdays: number;
 }) {
@@ -56,6 +59,7 @@ export default async function* generatePairings<T extends Team>({
         numTeamsPerPot,
         numMatchdays,
         numGamesPerMatchday,
+        isPairedPotMode: tournament === 'ecl',
         allGames,
         pickedMatches: matches,
         worker,
