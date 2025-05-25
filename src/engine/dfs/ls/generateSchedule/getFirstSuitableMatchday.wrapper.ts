@@ -59,12 +59,7 @@ export default ({
         orderedGames.push(...prioritizedGames);
       }
 
-      const numMatchesByTeam = Array.from(
-        {
-          length: teams.length,
-        },
-        () => 0,
-      );
+      const numMatchesByTeam = teams.map(() => 0);
 
       for (const [h, a] of allGamesShuffled) {
         ++numMatchesByTeam[h];

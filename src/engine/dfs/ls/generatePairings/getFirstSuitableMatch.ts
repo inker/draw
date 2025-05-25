@@ -312,8 +312,6 @@ export default ({
             t => numTeamsByCountry[teams[t].country],
           )!;
 
-          const candidates: (typeof c)[] = [];
-
           const potentialMatches = newSource.filter(newPicked => {
             const awayPot = Math.floor(newPicked[1] / numTeamsPerPot);
             return newPicked[0] === newHomeTeam && awayPot === potPairAwayPot;
@@ -330,21 +328,17 @@ export default ({
             m => newNumRemainingMatchesByTeam[m[1]],
           ]);
 
-          for (const newPicked of orderedPotentialMatches) {
-            candidates.push({
-              source: newSource,
-              target: newTarget,
-              picked: newPicked,
-              numRemainingMatchesByTeam: newNumRemainingMatchesByTeam,
-              numGamesByPotPair: newNumGamesByPotPair,
-              numHomeGamesByTeam: newNumHomeGamesByTeam,
-              numAwayGamesByTeam: newNumAwayGamesByTeam,
-              numOpponentCountriesByTeam: newNumOpponentCountriesByTeam,
-              hasPlayedWithPotMap: newHasPlayedWithPotMap,
-            });
-          }
-
-          return candidates;
+          return orderedPotentialMatches.map(newPicked => ({
+            source: newSource,
+            target: newTarget,
+            picked: newPicked,
+            numRemainingMatchesByTeam: newNumRemainingMatchesByTeam,
+            numGamesByPotPair: newNumGamesByPotPair,
+            numHomeGamesByTeam: newNumHomeGamesByTeam,
+            numAwayGamesByTeam: newNumAwayGamesByTeam,
+            numOpponentCountriesByTeam: newNumOpponentCountriesByTeam,
+            hasPlayedWithPotMap: newHasPlayedWithPotMap,
+          }));
         },
       },
     );
