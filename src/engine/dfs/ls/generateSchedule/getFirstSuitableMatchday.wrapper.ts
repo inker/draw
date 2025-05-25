@@ -1,4 +1,4 @@
-import { intersection, remove, sample, shuffle, uniq } from 'lodash';
+import { intersection, maxBy, remove, shuffle, sumBy, uniq } from 'lodash';
 
 import raceWorkers from '#utils/raceWorkers';
 import { type UefaCountry } from '#model/types';
@@ -79,7 +79,15 @@ export default ({
             minIndices.push(team);
           }
         }
-        const minTeam = sample(minIndices);
+        const minTeam = maxBy(minIndices, i => {
+          const numHomeGames = sumBy(allGamesShuffled, m =>
+            m[0] === i ? 1 : 0,
+          );
+          const numAwayGames = sumBy(allGamesShuffled, m =>
+            m[1] === i ? 1 : 0,
+          );
+          return Math.abs(numHomeGames - numAwayGames);
+        });
         const minTeamMatches = remove(
           allGamesShuffled,
           m => m[0] === minTeam || m[1] === minTeam,
