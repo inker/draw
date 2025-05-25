@@ -1,4 +1,4 @@
-import { chunk, orderBy, range } from 'lodash';
+import { chunk, countBy, maxBy, orderBy, range } from 'lodash';
 
 import { findFirstSolution } from '#utils/backtrack';
 import { type Country } from '#model/types';
@@ -33,6 +33,8 @@ export default ({
   const maxSameLocMatchesPerPot = isPairedPotMode
     ? numTeamsPerPot / 2
     : numTeamsPerPot;
+
+  const numTeamsByCountry = countBy(teams, t => t.country);
 
   const numGamesByPotPair: Record<`${number}:${number}`, number> = {};
   const numHomeGamesByTeam: Record<number, number> = {};
@@ -126,11 +128,20 @@ export default ({
     return potPairs.findIndex(([a, b]) => a === hPot && b === aPot);
   });
 
+  const numRemainingMatchesByTeam: Record<number, number> = {};
+  for (const m of remainingGames) {
+    numRemainingMatchesByTeam[m[0]] =
+      (numRemainingMatchesByTeam[m[0]] ?? 0) + 1;
+    numRemainingMatchesByTeam[m[1]] =
+      (numRemainingMatchesByTeam[m[1]] ?? 0) + 1;
+  }
+
   return orderedRemainingGames.find(match => {
     const solution = findFirstSolution(
       {
         source: remainingGames,
         target: pickedMatches,
+        numRemainingMatchesByTeam,
         numGamesByPotPair,
         numHomeGamesByTeam,
         numAwayGamesByTeam,
@@ -289,33 +300,48 @@ export default ({
               maxSameLocMatchesPerPot,
           )!;
 
-          const newHomeTeam = pots[potPairHomePot].find(
+          const newHomeTeamCandidates = pots[potPairHomePot].filter(
             t =>
               !newHasPlayedWithPotMap[`${t}:${potPairAwayPot}:h`] &&
               (!isPairedPotMode ||
                 (!newHasPlayedWithPotMap[`${t}:${potPairAwayPot}:a`] &&
                   !newHasPlayedWithPotMap[`${t}:${potPairAwayPot ^ 1}:h`])),
           );
+          const newHomeTeam = maxBy(
+            newHomeTeamCandidates,
+            t => numTeamsByCountry[teams[t].country],
+          )!;
 
           const candidates: (typeof c)[] = [];
 
-          for (const newPicked of newSource) {
+          const potentialMatches = newSource.filter(newPicked => {
             const awayPot = Math.floor(newPicked[1] / numTeamsPerPot);
+            return newPicked[0] === newHomeTeam && awayPot === potPairAwayPot;
+          });
 
-            const isMatchGood =
-              newPicked[0] === newHomeTeam && awayPot === potPairAwayPot;
-            if (isMatchGood) {
-              candidates.push({
-                source: newSource,
-                target: newTarget,
-                picked: newPicked,
-                numGamesByPotPair: newNumGamesByPotPair,
-                numHomeGamesByTeam: newNumHomeGamesByTeam,
-                numAwayGamesByTeam: newNumAwayGamesByTeam,
-                numOpponentCountriesByTeam: newNumOpponentCountriesByTeam,
-                hasPlayedWithPotMap: newHasPlayedWithPotMap,
-              });
-            }
+          const newNumRemainingMatchesByTeam = {
+            ...c.numRemainingMatchesByTeam,
+            [c.picked[0]]: (c.numRemainingMatchesByTeam[c.picked[0]] ?? 0) + 1,
+            [c.picked[1]]: (c.numRemainingMatchesByTeam[c.picked[1]] ?? 0) + 1,
+          };
+
+          const orderedPotentialMatches = orderBy(potentialMatches, [
+            m => numTeamsByCountry[teams[m[1]].country],
+            m => newNumRemainingMatchesByTeam[m[1]],
+          ]);
+
+          for (const newPicked of orderedPotentialMatches) {
+            candidates.push({
+              source: newSource,
+              target: newTarget,
+              picked: newPicked,
+              numRemainingMatchesByTeam: newNumRemainingMatchesByTeam,
+              numGamesByPotPair: newNumGamesByPotPair,
+              numHomeGamesByTeam: newNumHomeGamesByTeam,
+              numAwayGamesByTeam: newNumAwayGamesByTeam,
+              numOpponentCountriesByTeam: newNumOpponentCountriesByTeam,
+              hasPlayedWithPotMap: newHasPlayedWithPotMap,
+            });
           }
 
           return candidates;
