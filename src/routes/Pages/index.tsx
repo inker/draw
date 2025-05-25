@@ -19,7 +19,7 @@ import prefetchFlags from './prefetchFlags';
 const initialState = {
   Page: null,
   pots: null,
-  season: currentSeasonByTournament('cl', 'gs'),
+  season: currentSeasonByTournament('cl', 'ls'),
 };
 
 interface Match {
