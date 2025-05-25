@@ -1,0 +1,154 @@
+[
+  [
+    {
+      "name": "Real Madrid",
+      "country": "Spain"
+    },
+    {
+      "name": "Man City",
+      "country": "England"
+    },
+    {
+      "name": "Bayern",
+      "country": "Germany"
+    },
+    {
+      "name": "Liverpool",
+      "country": "England"
+    },
+    {
+      "name": "Paris",
+      "country": "France"
+    },
+    {
+      "name": "Internazionale",
+      "country": "Italy"
+    },
+    {
+      "name": "Chelsea",
+      "country": "England"
+    },
+    {
+      "name": "Dortmund",
+      "country": "Germany"
+    },
+    {
+      "name": "Barcelona",
+      "country": "Spain"
+    }
+  ],
+  [
+    {
+      "name": "Arsenal",
+      "country": "England"
+    },
+    {
+      "name": "Leverkusen",
+      "country": "Germany"
+    },
+    {
+      "name": "Atlético",
+      "country": "Spain"
+    },
+    {
+      "name": "Benfica",
+      "country": "Portugal"
+    },
+    {
+      "name": "Atalanta",
+      "country": "Italy"
+    },
+    {
+      "name": "Villarreal",
+      "country": "Spain"
+    },
+    {
+      "name": "Juventus",
+      "country": "Italy"
+    },
+    {
+      "name": "Frankfurt",
+      "country": "Germany"
+    },
+    {
+      "name": "Club Brugge",
+      "country": "Belgium"
+    }
+  ],
+  [
+    {
+      "name": "Tottenham",
+      "country": "England"
+    },
+    {
+      "name": "PSV",
+      "country": "Netherlands"
+    },
+    {
+      "name": "Ajax",
+      "country": "Netherlands"
+    },
+    {
+      "name": "Napoli",
+      "country": "Italy"
+    },
+    {
+      "name": "Sporting CP",
+      "country": "Portugal"
+    },
+    {
+      "name": "Olympiacos",
+      "country": "Greece"
+    },
+    {
+      "name": "Slavia",
+      "country": "Czechia"
+    },
+    {
+      "name": "Bodø/Glimt",
+      "country": "Norway"
+    },
+    {
+      "name": "Marseille",
+      "country": "France"
+    }
+  ],
+  [
+    {
+      "name": "København",
+      "country": "Denmark"
+    },
+    {
+      "name": "Crvena zvezda",
+      "country": "Serbia"
+    },
+    {
+      "name": "Monaco",
+      "country": "France"
+    },
+    {
+      "name": "Ferencváros",
+      "country": "Hungary"
+    },
+    {
+      "name": "Galatasaray",
+      "country": "Türkiye"
+    },
+    {
+      "name": "Celtic",
+      "country": "Scotland"
+    },
+    {
+      "name": "Union SG",
+      "country": "Belgium"
+    },
+    {
+      "name": "Athletic",
+      "country": "Spain"
+    },
+    {
+      "name": "Newcastle",
+      "country": "England"
+    }
+  ]
+]

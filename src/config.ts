@@ -11,7 +11,7 @@ export default {
         ko: 2023,
       },
       el: {
-        ls: 2024,
+        ls: 2025,
         gs: 2023,
         ko: 2022,
       },
