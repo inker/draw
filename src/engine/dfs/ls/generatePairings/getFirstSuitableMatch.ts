@@ -324,7 +324,7 @@ export default ({
           };
 
           const orderedPotentialMatches = orderBy(potentialMatches, [
-            m => -numTeamsByCountry[teams[m[1]].country],
+            m => numTeamsByCountry[teams[m[1]].country],
             m => newNumRemainingMatchesByTeam[m[1]],
           ]);
 
