@@ -238,7 +238,7 @@ export default ({
               (c.numOpponentCountriesByTeam[
                 `${c.picked[1]}:${teams[c.picked[0]].country}`
               ] ?? 0) + 1,
-          };
+          } as typeof c.numOpponentCountriesByTeam;
 
           const newHasPlayedWithPotMap: typeof c.hasPlayedWithPotMap = {
             ...c.hasPlayedWithPotMap,
