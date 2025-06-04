@@ -1,6 +1,10 @@
 [
   [
     {
+      "name": "Paris SG",
+      "country": "France"
+    },
+    {
       "name": "Real Madrid",
       "country": "Spain"
     },
@@ -15,10 +19,6 @@
     {
       "name": "Liverpool",
       "country": "England"
-    },
-    {
-      "name": "Paris SG",
-      "country": "France"
     },
     {
       "name": "Internazionale",
