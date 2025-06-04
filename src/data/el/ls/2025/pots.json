@@ -1,0 +1,154 @@
+[
+  [
+    {
+      "name": "Roma",
+      "country": "Italy"
+    },
+    {
+      "name": "Porto",
+      "country": "Portugal"
+    },
+    {
+      "name": "Rangers",
+      "country": "Scotland"
+    },
+    {
+      "name": "Feyenoord",
+      "country": "Netherlands"
+    },
+    {
+      "name": "Lille",
+      "country": "France"
+    },
+    {
+      "name": "Dinamo Zagreb",
+      "country": "Croatia"
+    },
+    {
+      "name": "Betis",
+      "country": "Spain"
+    },
+    {
+      "name": "Shakhtar",
+      "country": "Ukraine"
+    },
+    {
+      "name": "Salzburg",
+      "country": "Austria"
+    }
+  ],
+  [
+    {
+      "name": "Aston Villa",
+      "country": "England"
+    },
+    {
+      "name": "Fenerbahçe",
+      "country": "Türkiye"
+    },
+    {
+      "name": "Braga",
+      "country": "Portugal"
+    },
+    {
+      "name": "Lyon",
+      "country": "France"
+    },
+    {
+      "name": "PAOK",
+      "country": "Greece"
+    },
+    {
+      "name": "Plzeň",
+      "country": "Czechia"
+    },
+    {
+      "name": "M Tel-Aviv",
+      "country": "Israel"
+    },
+    {
+      "name": "Young Boys",
+      "country": "Switzerland"
+    },
+    {
+      "name": "Slovan",
+      "country": "Slovakia"
+    }
+  ],
+  [
+    {
+      "name": "Basel",
+      "country": "Switzerland"
+    },
+    {
+      "name": "Midtjylland",
+      "country": "Denmark"
+    },
+    {
+      "name": "Qarabağ",
+      "country": "Azerbaijan"
+    },
+    {
+      "name": "Legia",
+      "country": "Poland"
+    },
+    {
+      "name": "Anderlecht",
+      "country": "Belgium"
+    },
+    {
+      "name": "Freiburg",
+      "country": "Germany"
+    },
+    {
+      "name": "Ludogorets",
+      "country": "Bulgaria"
+    },
+    {
+      "name": "Dynamo",
+      "country": "Ukraine"
+    },
+    {
+      "name": "Crystal Palace",
+      "country": "England"
+    }
+  ],
+  [
+    {
+      "name": "Sturm",
+      "country": "Austria"
+    },
+    {
+      "name": "FCSB",
+      "country": "Romania"
+    },
+    {
+      "name": "Partizan",
+      "country": "Serbia"
+    },
+    {
+      "name": "Nice",
+      "country": "France"
+    },
+    {
+      "name": "Bologna",
+      "country": "Italy"
+    },
+    {
+      "name": "Lech",
+      "country": "Poland"
+    },
+    {
+      "name": "Celta",
+      "country": "Spain"
+    },
+    {
+      "name": "Stuttgart",
+      "country": "Germany"
+    },
+    {
+      "name": "Go Ahead Eagles",
+      "country": "Netherlands"
+    }
+  ]
+]
