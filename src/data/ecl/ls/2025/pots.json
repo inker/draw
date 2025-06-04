@@ -1,0 +1,158 @@
+[
+  [
+    {
+      "name": "Fiorentina",
+      "country": "Italy"
+    },
+    {
+      "name": "AZ",
+      "country": "Netherlands"
+    },
+    {
+      "name": "Rapid Wien",
+      "country": "Austria"
+    },
+    {
+      "name": "Sparta",
+      "country": "Czechia"
+    },
+    {
+      "name": "Nottingham",
+      "country": "England"
+    },
+    {
+      "name": "Başakşehir",
+      "country": "Türkiye"
+    }
+  ],
+  [
+    {
+      "name": "Sheriff",
+      "country": "Moldova"
+    },
+    {
+      "name": "Lugano",
+      "country": "Switzerland"
+    },
+    {
+      "name": "CFR Cluj",
+      "country": "Romania"
+    },
+    {
+      "name": "Rayo Vallecano",
+      "country": "Spain"
+    },
+    {
+      "name": "M Haifa",
+      "country": "Israel"
+    },
+    {
+      "name": "Shamrock Rovers",
+      "country": "Ireland"
+    }
+  ],
+  [
+    {
+      "name": "Olimpija",
+      "country": "Slovenia"
+    },
+    {
+      "name": "Omonia",
+      "country": "Cyprus"
+    },
+    {
+      "name": "Mainz",
+      "country": "Germany"
+    },
+    {
+      "name": "H Beer-Sheva",
+      "country": "Israel"
+    },
+    {
+      "name": "Panathinaikos",
+      "country": "Greece"
+    },
+    {
+      "name": "Beşiktaş",
+      "country": "Türkiye"
+    }
+  ],
+  [
+    {
+      "name": "Strasbourg",
+      "country": "France"
+    },
+    {
+      "name": "Malmö",
+      "country": "Sweden"
+    },
+    {
+      "name": "Jagiellonia",
+      "country": "Poland"
+    },
+    {
+      "name": "Rijeka",
+      "country": "Croatia"
+    },
+    {
+      "name": "Žalgiris",
+      "country": "Lithuania"
+    },
+    {
+      "name": "Genk",
+      "country": "Belgium"
+    }
+  ],
+  [
+    {
+      "name": "Pafos",
+      "country": "Cyprus"
+    },
+    {
+      "name": "RFS",
+      "country": "Latvia"
+    },
+    {
+      "name": "KuPS",
+      "country": "Finland"
+    },
+    {
+      "name": "Zrinjski",
+      "country": "Bosnia & Herzegovina"
+    },
+    {
+      "name": "Lincoln",
+      "country": "Gibraltar"
+    },
+    {
+      "name": "Aberdeen",
+      "country": "Scotland"
+    }
+  ],
+  [
+    {
+      "name": "TNS",
+      "country": "Wales"
+    },
+    {
+      "name": "Drita",
+      "country": "Kosovo"
+    },
+    {
+      "name": "Breiðablik",
+      "country": "Iceland"
+    },
+    {
+      "name": "Olomouc",
+      "country": "Czechia"
+    },
+    {
+      "name": "Samsunspor",
+      "country": "Türkiye"
+    },
+    {
+      "name": "Linfield",
+      "country": "Northern Ireland"
+    }
+  ]
+]
