@@ -122,12 +122,6 @@ export default ({
   const unorderedPotPairs = cartesian(potIndices, potIndices);
   const potPairs = orderBy(unorderedPotPairs, [m => m[0], m => m[1]]);
 
-  const orderedRemainingGames = orderBy(remainingGames, m => {
-    const hPot = Math.floor(m[0] / numTeamsPerPot);
-    const aPot = Math.floor(m[1] / numTeamsPerPot);
-    return potPairs.findIndex(([a, b]) => a === hPot && b === aPot);
-  });
-
   const numRemainingMatchesByTeam: Record<number, number> = {};
   for (const m of remainingGames) {
     numRemainingMatchesByTeam[m[0]] =
@@ -136,7 +130,30 @@ export default ({
       (numRemainingMatchesByTeam[m[1]] ?? 0) + 1;
   }
 
-  return orderedRemainingGames.find(match => {
+  const remainingGamesFromPotPair: typeof remainingGames = [];
+  let minPotIndex = Number.MAX_SAFE_INTEGER;
+  for (const m of remainingGames) {
+    const hPot = Math.floor(m[0] / numTeamsPerPot);
+    const aPot = Math.floor(m[1] / numTeamsPerPot);
+    const potPairIndex = potPairs.findIndex(
+      ([a, b]) => a === hPot && b === aPot,
+    );
+    if (potPairIndex > minPotIndex) {
+      continue;
+    }
+    if (potPairIndex < minPotIndex) {
+      minPotIndex = potPairIndex;
+      remainingGamesFromPotPair.length = 0;
+    }
+    remainingGamesFromPotPair.push(m);
+  }
+
+  const pickedHomeTeam = remainingGamesFromPotPair[0][0];
+  const candidateMatchesForPickedTeam = remainingGamesFromPotPair.filter(
+    m => m[0] === pickedHomeTeam,
+  );
+
+  return candidateMatchesForPickedTeam.find(match => {
     const solution = findFirstSolution(
       {
         source: remainingGames,
