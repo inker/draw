@@ -168,23 +168,15 @@ export default ({
       (numRemainingMatchesByTeam[m[1]] ?? 0) + 1;
   }
 
-  const remainingGamesFromPotPair: typeof remainingGames = [];
-  let minPotPairIndex = Number.MAX_SAFE_INTEGER;
-  for (const m of remainingGames) {
-    const hPot = Math.floor(m[0] / numTeamsPerPot);
-    const aPot = Math.floor(m[1] / numTeamsPerPot);
-    const potPairIndex = potPairs.findIndex(
-      ([a, b]) => a === hPot && b === aPot,
-    );
-    if (potPairIndex > minPotPairIndex) {
-      continue;
-    }
-    if (potPairIndex < minPotPairIndex) {
-      minPotPairIndex = potPairIndex;
-      remainingGamesFromPotPair.length = 0;
-    }
-    remainingGamesFromPotPair.push(m);
-  }
+  const minPotPair = potPairs.find(
+    ([hp, ap]) =>
+      (numGamesByPotPair[`${hp}:${ap}`] ?? 0) < maxSameLocMatchesPerPot,
+  )!;
+  const remainingGamesFromPotPair = remainingGames.filter(([h, a]) => {
+    const hp = Math.floor(h / numTeamsPerPot);
+    const ap = Math.floor(a / numTeamsPerPot);
+    return hp === minPotPair[0] && ap === minPotPair[1];
+  });
 
   const pickedHomeTeam = remainingGamesFromPotPair[0][0];
   const candidateMatchesForPickedTeam = remainingGamesFromPotPair.filter(
