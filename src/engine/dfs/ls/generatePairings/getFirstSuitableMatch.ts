@@ -121,11 +121,11 @@ export default ({
     }
 
     if (numOpponentCountriesByTeam[`${h}:${teams[a].country}`] === 2) {
-      return true;
+      return false;
     }
 
     if (numOpponentCountriesByTeam[`${a}:${teams[h].country}`] === 2) {
-      return true;
+      return false;
     }
 
     return true;
