@@ -34,7 +34,10 @@ export default ({
     ? numTeamsPerPot / 2
     : numTeamsPerPot;
 
-  const numTeamsByCountry = countBy(teams, t => t.country);
+  const numTeamsByCountry = countBy(teams, t => t.country) as Record<
+    Country,
+    number
+  >;
 
   const numGamesByPotPair: Record<`${number}:${number}`, number> = {};
   const numHomeGamesByTeam: Record<number, number> = {};
