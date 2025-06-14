@@ -215,6 +215,12 @@ export default ({
 
           const newTarget = [...c.target, c.picked];
 
+          const newNumRemainingMatchesByTeam = {
+            ...c.numRemainingMatchesByTeam,
+            [c.picked[0]]: (c.numRemainingMatchesByTeam[c.picked[0]] ?? 0) + 1,
+            [c.picked[1]]: (c.numRemainingMatchesByTeam[c.picked[1]] ?? 0) + 1,
+          };
+
           const newNumGamesByPotPair = {
             ...c.numGamesByPotPair,
             [`${pickedHomePotIndex}:${pickedAwayPotIndex}`]:
@@ -292,12 +298,6 @@ export default ({
             const awayPot = Math.floor(newPicked[1] / numTeamsPerPot);
             return newPicked[0] === newHomeTeam && awayPot === potPairAwayPot;
           });
-
-          const newNumRemainingMatchesByTeam = {
-            ...c.numRemainingMatchesByTeam,
-            [c.picked[0]]: (c.numRemainingMatchesByTeam[c.picked[0]] ?? 0) + 1,
-            [c.picked[1]]: (c.numRemainingMatchesByTeam[c.picked[1]] ?? 0) + 1,
-          };
 
           const orderedPotentialMatches = orderBy(potentialMatches, [
             m => numTeamsByCountry[teams[m[1]].country],
