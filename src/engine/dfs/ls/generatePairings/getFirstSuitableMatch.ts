@@ -53,19 +53,19 @@ export default ({
     const homeTeam = teams[h];
     const awayTeam = teams[a];
 
-    const homePot = Math.floor(h / numTeamsPerPot);
-    const awayPot = Math.floor(a / numTeamsPerPot);
+    const hp = Math.floor(h / numTeamsPerPot);
+    const ap = Math.floor(a / numTeamsPerPot);
 
-    numGamesByPotPair[`${homePot}:${awayPot}`] =
-      (numGamesByPotPair[`${homePot}:${awayPot}`] ?? 0) + 1;
+    numGamesByPotPair[`${hp}:${ap}`] =
+      (numGamesByPotPair[`${hp}:${ap}`] ?? 0) + 1;
     numHomeGamesByTeam[h] = (numHomeGamesByTeam[h] ?? 0) + 1;
     numAwayGamesByTeam[a] = (numAwayGamesByTeam[a] ?? 0) + 1;
     numOpponentCountriesByTeam[`${h}:${awayTeam.country}`] =
       (numOpponentCountriesByTeam[`${h}:${awayTeam.country}`] ?? 0) + 1;
     numOpponentCountriesByTeam[`${a}:${homeTeam.country}`] =
       (numOpponentCountriesByTeam[`${a}:${homeTeam.country}`] ?? 0) + 1;
-    hasPlayedWithPotMap[`${h}:${awayPot}:h`] = true;
-    hasPlayedWithPotMap[`${a}:${homePot}:a`] = true;
+    hasPlayedWithPotMap[`${h}:${ap}:h`] = true;
+    hasPlayedWithPotMap[`${a}:${hp}:a`] = true;
   }
 
   const canPlay = (c: {
@@ -86,40 +86,37 @@ export default ({
       return false;
     }
 
-    const homeTeamPotIndex = Math.floor(h / numTeamsPerPot);
-    const awayTeamPotIndex = Math.floor(a / numTeamsPerPot);
+    const hp = Math.floor(h / numTeamsPerPot);
+    const ap = Math.floor(a / numTeamsPerPot);
 
-    if (
-      c.numGamesByPotPair[`${homeTeamPotIndex}:${awayTeamPotIndex}`] ===
-      maxSameLocMatchesPerPot
-    ) {
+    if (c.numGamesByPotPair[`${hp}:${ap}`] === maxSameLocMatchesPerPot) {
       return false;
     }
 
-    if (c.hasPlayedWithPotMap[`${h}:${awayTeamPotIndex}:h`]) {
-      return false;
-    }
-
-    if (isPairedPotMode) {
-      if (c.hasPlayedWithPotMap[`${h}:${awayTeamPotIndex}:a`]) {
-        return false;
-      }
-
-      if (c.hasPlayedWithPotMap[`${h}:${awayTeamPotIndex ^ 1}:h`]) {
-        return false;
-      }
-    }
-
-    if (c.hasPlayedWithPotMap[`${a}:${homeTeamPotIndex}:a`]) {
+    if (c.hasPlayedWithPotMap[`${h}:${ap}:h`]) {
       return false;
     }
 
     if (isPairedPotMode) {
-      if (c.hasPlayedWithPotMap[`${a}:${homeTeamPotIndex}:h`]) {
+      if (c.hasPlayedWithPotMap[`${h}:${ap}:a`]) {
         return false;
       }
 
-      if (c.hasPlayedWithPotMap[`${a}:${homeTeamPotIndex ^ 1}:a`]) {
+      if (c.hasPlayedWithPotMap[`${h}:${ap ^ 1}:h`]) {
+        return false;
+      }
+    }
+
+    if (c.hasPlayedWithPotMap[`${a}:${hp}:a`]) {
+      return false;
+    }
+
+    if (isPairedPotMode) {
+      if (c.hasPlayedWithPotMap[`${a}:${hp}:h`]) {
+        return false;
+      }
+
+      if (c.hasPlayedWithPotMap[`${a}:${hp ^ 1}:a`]) {
         return false;
       }
     }
