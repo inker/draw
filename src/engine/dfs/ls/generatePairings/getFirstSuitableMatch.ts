@@ -320,6 +320,18 @@ export default ({
               }
             }
 
+            if (
+              newNumOpponentCountriesByTeam[`${h}:${teams[a].country}`] === 2
+            ) {
+              return false;
+            }
+
+            if (
+              newNumOpponentCountriesByTeam[`${a}:${teams[h].country}`] === 2
+            ) {
+              return false;
+            }
+
             return true;
           });
 
