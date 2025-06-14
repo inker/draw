@@ -68,63 +68,63 @@ export default ({
     hasPlayedWithPotMap[`${a}:${homePot}:a`] = true;
   }
 
-  const remainingGames = allGames.filter(([a, b]) => {
+  const remainingGames = allGames.filter(([h, a]) => {
     if (
       pickedMatches.some(
-        m => (m[0] === a && m[1] === b) || (m[0] === b && m[1] === a),
+        m => (m[0] === h && m[1] === a) || (m[0] === a && m[1] === h),
       )
     ) {
       // already played before
       return false;
     }
 
-    if (numHomeGamesByTeam[a] === maxGamesAtHome) {
+    if (numHomeGamesByTeam[h] === maxGamesAtHome) {
       return false;
     }
-    if (numAwayGamesByTeam[b] === maxGamesAtHome) {
+    if (numAwayGamesByTeam[a] === maxGamesAtHome) {
       return false;
     }
 
-    const aPot = Math.floor(a / numTeamsPerPot);
-    const bPot = Math.floor(b / numTeamsPerPot);
+    const aPot = Math.floor(h / numTeamsPerPot);
+    const bPot = Math.floor(a / numTeamsPerPot);
 
     if (numGamesByPotPair[`${aPot}:${bPot}`] === maxSameLocMatchesPerPot) {
       return false;
     }
 
-    if (hasPlayedWithPotMap[`${a}:${bPot}:h`]) {
+    if (hasPlayedWithPotMap[`${h}:${bPot}:h`]) {
       return false;
     }
 
     if (isPairedPotMode) {
-      if (hasPlayedWithPotMap[`${a}:${bPot}:a`]) {
+      if (hasPlayedWithPotMap[`${h}:${bPot}:a`]) {
         return false;
       }
 
-      if (hasPlayedWithPotMap[`${a}:${bPot ^ 1}:h`]) {
+      if (hasPlayedWithPotMap[`${h}:${bPot ^ 1}:h`]) {
         return false;
       }
     }
 
-    if (hasPlayedWithPotMap[`${b}:${aPot}:a`]) {
+    if (hasPlayedWithPotMap[`${a}:${aPot}:a`]) {
       return false;
     }
 
     if (isPairedPotMode) {
-      if (hasPlayedWithPotMap[`${b}:${aPot}:h`]) {
+      if (hasPlayedWithPotMap[`${a}:${aPot}:h`]) {
         return false;
       }
 
-      if (hasPlayedWithPotMap[`${b}:${aPot ^ 1}:a`]) {
+      if (hasPlayedWithPotMap[`${a}:${aPot ^ 1}:a`]) {
         return false;
       }
     }
 
-    if (numOpponentCountriesByTeam[`${a}:${teams[b].country}`] === 2) {
+    if (numOpponentCountriesByTeam[`${h}:${teams[a].country}`] === 2) {
       return true;
     }
 
-    if (numOpponentCountriesByTeam[`${b}:${teams[a].country}`] === 2) {
+    if (numOpponentCountriesByTeam[`${a}:${teams[h].country}`] === 2) {
       return true;
     }
 
