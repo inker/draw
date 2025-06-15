@@ -36,7 +36,9 @@ export default ({
 
       const stadiumSharingTeams = teamsSharingStadium.flatMap(namePair => {
         const [a, b] = namePair;
-        return [teams.find(t => t.name === a)!, teams.find(t => t.name === b)!];
+        const aTeam = teams.find(t => t.name === a);
+        const bTeam = teams.find(t => t.name === b);
+        return aTeam && bTeam ? [aTeam, bTeam] : [];
       });
 
       const isFromColdCountry = coldCountries(season);
