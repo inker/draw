@@ -213,14 +213,12 @@ export default ({
           const mds = orderBy(matchdayIndices, i => {
             const [h, a] = allGames[newMatchIndex];
             let score = 0;
-            const homeLoc = newLocationByMatchday[`${h}:${i - 1}`];
-            const awayLoc = newLocationByMatchday[`${a}:${i - 1}`];
 
             // 1. Prefer alternating with the previous match
-            if (homeLoc === 'h') {
+            if (newLocationByMatchday[`${h}:${i - 1}`] === 'h') {
               score += 10;
             }
-            if (awayLoc === 'a') {
+            if (newLocationByMatchday[`${a}:${i - 1}`] === 'a') {
               score += 10;
             }
 
