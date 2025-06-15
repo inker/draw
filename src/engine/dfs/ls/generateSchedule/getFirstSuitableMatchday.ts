@@ -43,20 +43,7 @@ function generateSequenceCombos(numMatchdays: number) {
     .map(item => item.split('').map(s => +s + 1));
 }
 
-export default ({
-  matchdaySize,
-  allGames,
-  coldTeamIndices,
-  sameStadiumTeamPairs,
-}: {
-  matchdaySize: number;
-  allGames: readonly (readonly [number, number])[];
-  coldTeamIndices: readonly number[];
-  sameStadiumTeamPairs: readonly (readonly [number, number])[];
-}) => {
-  const numGames = allGames.length;
-  const numMatchdays = numGames / matchdaySize;
-
+function getPossibleLocations(numMatchdays: number) {
   const sequences = generateSequenceCombos(numMatchdays);
 
   const isLocComboPossible = (s: number) => {
@@ -73,12 +60,29 @@ export default ({
     });
   };
 
-  const locComboPossibleBySum = Array.from(
+  return Array.from(
     {
       length: 3 ** numMatchdays,
     },
     (_, i) => isLocComboPossible(i),
   );
+}
+
+export default ({
+  matchdaySize,
+  allGames,
+  coldTeamIndices,
+  sameStadiumTeamPairs,
+}: {
+  matchdaySize: number;
+  allGames: readonly (readonly [number, number])[];
+  coldTeamIndices: readonly number[];
+  sameStadiumTeamPairs: readonly (readonly [number, number])[];
+}) => {
+  const numGames = allGames.length;
+  const numMatchdays = numGames / matchdaySize;
+
+  const locComboPossibleBySum = getPossibleLocations(numMatchdays);
 
   const schedule: number[] = [];
 
