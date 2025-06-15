@@ -34,12 +34,23 @@ export default ({
     getPayload: () => {
       const allGamesShuffled = shuffle(allGames);
 
-      const stadiumSharingTeams = teamsSharingStadium.flatMap(namePair => {
-        const [a, b] = namePair;
-        const aTeam = teams.find(t => t.name === a);
-        const bTeam = teams.find(t => t.name === b);
-        return aTeam && bTeam ? [aTeam, bTeam] : [];
-      });
+      const stadiumSharingTeamIndices = teamsSharingStadium
+        .map(namePair => {
+          const [h, i] = namePair;
+          const aTeam = teams.findIndex(t => t.name === h);
+          const bTeam = teams.findIndex(t => t.name === i);
+          return aTeam && bTeam ? ([aTeam, bTeam] as const) : undefined;
+        })
+        .filter(Boolean) as (readonly [number, number])[];
+
+      const stadiumSharingTeams = stadiumSharingTeamIndices.flatMap(
+        indexPair => {
+          const [h, i] = indexPair;
+          const aTeam = teams[h];
+          const bTeam = teams[i];
+          return [aTeam, bTeam];
+        },
+      );
 
       const isFromColdCountry = coldCountries(season);
       const coldTeams = teams.filter(team => isFromColdCountry(team));
@@ -97,10 +108,10 @@ export default ({
       }
 
       return {
-        teams,
         matchdaySize,
         allGames: orderedGames,
         coldTeamIndices,
+        sameStadiumTeamPairs: stadiumSharingTeamIndices,
       };
     },
     getTimeout: workerIndex => {

@@ -1,9 +1,6 @@
 import { orderBy, range, sum } from 'lodash';
 
 import { findFirstSolution } from '#utils/backtrack';
-import { type UefaCountry } from '#model/types';
-
-import teamsSharingStadium from './teamsSharingStadium';
 
 function toBase3Array(num: number, length: number) {
   const result = Array.from(
@@ -46,21 +43,16 @@ function generateSequenceCombos(numMatchdays: number) {
     .map(item => item.split('').map(s => +s + 1));
 }
 
-interface Team {
-  readonly name: string;
-  readonly country: UefaCountry;
-}
-
 export default ({
-  teams,
   matchdaySize,
   allGames,
   coldTeamIndices,
+  sameStadiumTeamPairs,
 }: {
-  teams: readonly Team[];
   matchdaySize: number;
   allGames: readonly (readonly [number, number])[];
   coldTeamIndices: readonly number[];
+  sameStadiumTeamPairs: readonly (readonly [number, number])[];
 }) => {
   const numGames = allGames.length;
   const numMatchdays = numGames / matchdaySize;
@@ -88,19 +80,11 @@ export default ({
     (_, i) => isLocComboPossible(i),
   );
 
-  const indexByTeamName = new Map(teams.map((team, i) => [team.name, i]));
-
   const schedule: number[] = [];
 
-  const sameStadiumTeamMap = new Map<number, number>();
-  for (const pair of teamsSharingStadium) {
-    const a = indexByTeamName.get(pair[0]);
-    const b = indexByTeamName.get(pair[1]);
-    if (a !== undefined && b !== undefined) {
-      sameStadiumTeamMap.set(a, b);
-      sameStadiumTeamMap.set(b, a);
-    }
-  }
+  const sameStadiumTeamMap = new Map(
+    sameStadiumTeamPairs.values().flatMap(pair => [pair, [pair[1], pair[0]]]),
+  );
 
   const coldTeams = new Set(coldTeamIndices);
 
