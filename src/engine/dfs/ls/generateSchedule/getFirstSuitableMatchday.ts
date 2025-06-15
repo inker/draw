@@ -81,6 +81,7 @@ export default ({
 }) => {
   const numGames = allGames.length;
   const numMatchdays = numGames / matchdaySize;
+  const matchdayIndices = range(numMatchdays);
 
   const locComboPossibleBySum = getPossibleLocations(numMatchdays);
 
@@ -209,7 +210,7 @@ export default ({
             record = newMatchIndex;
           }
 
-          const mds = orderBy(range(numMatchdays), i => {
+          const mds = orderBy(matchdayIndices, i => {
             const [h, a] = allGames[newMatchIndex];
             let score = 0;
             const homeLoc = newLocationByMatchday[`${h}:${i - 1}`];
@@ -239,21 +240,14 @@ export default ({
             return score;
           });
 
-          // shuffling candidates makes it worse
-          const candidates: (typeof c)[] = [];
-
-          for (const i of mds) {
-            candidates.push({
-              matchIndex: newMatchIndex,
-              schedule: newSchedule,
-              numMatchesByMatchday: newNumMatchesByMatchday,
-              pickedMatchday: i,
-              locationByMatchday: newLocationByMatchday,
-              locationSequenceSumByTeam: newLocationSequenceSumByTeam,
-            });
-          }
-
-          return candidates;
+          return mds.map(i => ({
+            matchIndex: newMatchIndex,
+            schedule: newSchedule,
+            numMatchesByMatchday: newNumMatchesByMatchday,
+            pickedMatchday: i,
+            locationByMatchday: newLocationByMatchday,
+            locationSequenceSumByTeam: newLocationSequenceSumByTeam,
+          }));
         },
       },
     );
