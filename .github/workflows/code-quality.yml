@@ -19,7 +19,7 @@ jobs:
           node-version: ${{ env.NODE_VERSION }}
           cache: npm
           cache-dependency-path: package-lock.json
-      - run: npm ci --no-audit --no-progress
+      - run: npm ci --no-audit --no-fund --no-progress
       - run: npm run lint
       - run: npm run prettier
 
@@ -33,7 +33,7 @@ jobs:
           node-version: ${{ env.NODE_VERSION }}
           cache: npm
           cache-dependency-path: package-lock.json
-      - run: npm ci --no-audit --no-progress
+      - run: npm ci --no-audit --no-fund --no-progress
       - run: npm run check-types
 
   test:
@@ -46,5 +46,5 @@ jobs:
           node-version: ${{ env.NODE_VERSION }}
           cache: npm
           cache-dependency-path: package-lock.json
-      - run: npm ci --no-audit --no-progress
+      - run: npm ci --no-audit --no-fund --no-progress
       - run: npm test
