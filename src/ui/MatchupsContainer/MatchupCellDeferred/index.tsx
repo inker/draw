@@ -9,7 +9,7 @@ import getTeamCountryName from '#utils/getTeamCountryName';
 import ContentWithFlag from '#ui/table/ContentWithFlag';
 import DummyContent from '#ui/table/DummyContent';
 import MovingContent from '#ui/MovingContent';
-import Cell from '#ui/table/Cell';
+import * as cellStyles from '#ui/table/cell.module.scss';
 
 import * as styles from './styles.module.scss';
 
@@ -39,8 +39,9 @@ function MatchupCellDeferred({ team }: Props) {
 
   return (
     <>
-      <Cell
+      <td
         className={clsx(
+          cellStyles.root,
           styles['matchup-cell-base'],
           isPickedAnimation && !!displayedTeam && styles.picked,
         )}
@@ -53,7 +54,7 @@ function MatchupCellDeferred({ team }: Props) {
         ) : (
           <DummyContent ref={destinationRef} />
         )}
-      </Cell>
+      </td>
       {team && team !== prevTeam && (
         <MovingContent
           from={`[data-cellid='${team.id}']`}

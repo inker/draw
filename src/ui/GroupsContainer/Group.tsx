@@ -5,7 +5,7 @@ import type NationalTeam from '#model/team/NationalTeam';
 import Table from '#ui/table/Table';
 import Header from '#ui/table/Header';
 import Row from '#ui/table/Row';
-import Cell from '#ui/table/Cell';
+import * as cellStyles from '#ui/table/cell.module.scss';
 
 import GroupCellDeferred from './GroupCellDeferred';
 
@@ -32,9 +32,9 @@ function Group({
     <Table>
       <thead>
         <Row>
-          <Cell>
+          <td className={cellStyles.root}>
             <Header className={headerClassName}>Group {groupLetter}</Header>
-          </Cell>
+          </td>
         </Row>
       </thead>
       <tbody>

@@ -1,9 +1,10 @@
 import { memo } from 'react';
+import clsx from 'clsx';
 
 import type Team from '#model/team';
 import type GsTeam from '#model/team/GsTeam';
 import Row from '#ui/table/Row';
-import Cell from '#ui/table/Cell';
+import * as cellStyles from '#ui/table/cell.module.scss';
 
 import PotContent from '../PotContent';
 
@@ -22,9 +23,9 @@ function PotRow({ teams, pickedTeams, selectedTeams }: Props) {
         const { name, country, shortName, pairing } = team as GsTeam;
 
         return (
-          <Cell
+          <td
             key={team.id}
-            className={styles['pot-cell']}
+            className={clsx(cellStyles.root, styles['pot-cell'])}
           >
             <PotContent
               data-cellid={team.id}
@@ -37,7 +38,7 @@ function PotRow({ teams, pickedTeams, selectedTeams }: Props) {
             >
               {shortName ?? name}
             </PotContent>
-          </Cell>
+          </td>
         );
       })}
     </Row>

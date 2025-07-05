@@ -3,7 +3,7 @@ import { memo } from 'react';
 import type Team from '#model/team';
 import Table from '#ui/table/Table';
 import Row from '#ui/table/Row';
-import Cell from '#ui/table/Cell';
+import * as cellStyles from '#ui/table/cell.module.scss';
 
 import Header from '../PotHeader';
 import PotRow from '../PotRow';
@@ -33,7 +33,10 @@ function Pot({
     <Table>
       <thead>
         <Row>
-          <Cell colSpan={numCols}>
+          <td
+            className={cellStyles.root}
+            colSpan={numCols}
+          >
             <Header
               $highlighted={isCurrent}
               $depleted={!teams || pickedTeams.length === teams.length}
@@ -41,7 +44,7 @@ function Pot({
             >
               Pot {potNum + 1}
             </Header>
-          </Cell>
+          </td>
         </Row>
       </thead>
       <tbody>

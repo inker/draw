@@ -3,7 +3,7 @@ import { memo } from 'react';
 import { type EmptyOrSingleOrPair } from '#model/types';
 import type Team from '#model/team/Club';
 import Row from '#ui/table/Row';
-import Cell from '#ui/table/Cell';
+import * as cellStyles from '#ui/table/cell.module.scss';
 import Content from '#ui/table/Content';
 
 import MatchupCellDeferred from '../MatchupCellDeferred';
@@ -20,9 +20,9 @@ function Matchup({ teams }: Props) {
   return (
     <Row>
       <MatchupCellDeferred team={ru} />
-      <Cell>
+      <td className={cellStyles.root}>
         <Content className={styles['versus-cell']} />
-      </Cell>
+      </td>
       <MatchupCellDeferred team={gw} />
     </Row>
   );
