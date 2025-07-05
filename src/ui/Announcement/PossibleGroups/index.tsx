@@ -1,15 +1,10 @@
 import { memo } from 'react';
-import styled from 'styled-components';
 
 import getGroupLetter from '#utils/getGroupLetter';
 
-import Roundel from './Roundel';
+import Roundel from '../Roundel';
 
-const Root = styled.div`
-  display: flex;
-  justify-content: center;
-  margin-top: 2px;
-`;
+import * as styles from './styles.module.scss';
 
 interface Props {
   numGroups: number;
@@ -20,7 +15,7 @@ function PossibleGroups({ numGroups, possibleGroups }: Props) {
   const halfNum = numGroups >> 1;
 
   return (
-    <Root>
+    <div className={styles.root}>
       {Array.from({ length: numGroups }, (_, i) => {
         const letter = getGroupLetter(i);
         return (
@@ -33,7 +28,7 @@ function PossibleGroups({ numGroups, possibleGroups }: Props) {
           </Roundel>
         );
       })}
-    </Root>
+    </div>
   );
 }
 

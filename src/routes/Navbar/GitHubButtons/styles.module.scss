@@ -1,0 +1,10 @@
+.root {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 170px;
+
+  > * {
+    margin-left: 5px;
+  }
+}

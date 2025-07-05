@@ -1,16 +1,11 @@
 import { memo } from 'react';
-import { css } from 'styled-components';
 import { difference } from 'lodash';
 
 import type Team from '#model/team';
 
 import Root from './Root';
 import Pot from './Pot';
-
-const headerStyles = css`
-  background-color: rgb(0 0 0 / 0.75);
-  color: #fff;
-`;
+import * as styles from './styles.module.scss';
 
 interface Props {
   initialPots: readonly (readonly Team[])[];
@@ -46,7 +41,7 @@ function PotsContainer({
             pickedTeams={pickedTeams}
             selectedTeams={selectedTeams}
             numCols={split ? 2 : 1}
-            headerStyles={headerStyles}
+            headerClassName={styles.header}
           />
         );
       })}

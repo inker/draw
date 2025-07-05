@@ -1,5 +1,4 @@
 import { memo, useCallback } from 'react';
-import styled from 'styled-components';
 
 import type Tournament from '#model/Tournament';
 import type Stage from '#model/Stage';
@@ -15,47 +14,7 @@ import StyledLink from '#ui/StyledLink';
 import SelectSeason from './SelectSeason';
 import SelectTheme from './SelectTheme';
 import GitHubButtons from './GitHubButtons';
-
-const Root = styled.div`
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  margin-bottom: 10px;
-  height: 24px;
-  padding-right: 10px;
-  font-size: 14px;
-
-  > * {
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-
-    &:not(:last-child) {
-      margin-right: 15px;
-    }
-
-    > * {
-      margin-left: 5px;
-
-      &:not(:last-child) {
-        margin-right: 5px;
-      }
-    }
-  }
-
-  @media (max-width: 999px) {
-    justify-content: center;
-    margin-top: 5px;
-    font-family:
-      'Roboto Condensed', RobotoCondensed, RobotoCondensed-Regular, Roboto,
-      sans-serif;
-    font-size: 10px;
-  }
-`;
-
-const NavBarLeftContainer = styled.div`
-  display: contents;
-`;
+import * as styles from './styles.module.scss';
 
 interface Props {
   season: number;
@@ -87,8 +46,11 @@ function Navbar({ season, tournament, stage, onSeasonChange }: Props) {
   }, []);
 
   return (
-    <Root>
-      <NavBarLeftContainer id="navbar-left-container" />
+    <div className={styles.root}>
+      <div
+        id="navbar-left-container"
+        className={styles['nav-bar-left-container']}
+      />
       <div>
         <Button onClick={disableFastDrawAndRestart}>Restart</Button>
         {stage !== 'ls' && (
@@ -129,7 +91,7 @@ function Navbar({ season, tournament, stage, onSeasonChange }: Props) {
           </StyledLink>
         </small>
       </div>
-    </Root>
+    </div>
   );
 }
 

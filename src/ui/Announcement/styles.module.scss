@@ -1,0 +1,32 @@
+.root {
+  vertical-align: middle;
+  margin-top: 30px;
+  margin-bottom: 30px;
+  width: 100%;
+  font-size: 1.25em;
+  line-height: 150%;
+  user-select: none;
+
+  @media (max-width: 999px) {
+    margin-top: 15px;
+    margin-bottom: 15px;
+  }
+}
+
+.selected-team-with-colon {
+  display: inline-block;
+}
+
+.bold {
+  font-weight: 600;
+}
+
+.completed {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  > * + * {
+    margin-top: 12px;
+  }
+}

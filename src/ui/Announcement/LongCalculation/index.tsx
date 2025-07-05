@@ -1,18 +1,12 @@
 import { memo } from 'react';
-import styled from 'styled-components';
 
 import StyledLink from '#ui/StyledLink';
 
-const Bug = styled.div`
-  padding: 10px;
-  border-width: 2px;
-  border-style: dashed;
-  border-color: rgb(255 0 0 / 0.5);
-`;
+import * as styles from './styles.module.scss';
 
 function LongCalculation() {
   return (
-    <Bug>
+    <div className={styles.bug}>
       <div>Calculation is taking too long.</div>
       <div>
         And{' '}
@@ -25,7 +19,7 @@ function LongCalculation() {
         </StyledLink>
         .
       </div>
-    </Bug>
+    </div>
   );
 }
 

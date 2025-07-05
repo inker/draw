@@ -1,5 +1,4 @@
 import { type RefObject, memo, useEffect, useRef } from 'react';
-import styled from 'styled-components';
 
 import type Club from '#model/team/Club';
 import type NationalTeam from '#model/team/NationalTeam';
@@ -11,41 +10,9 @@ import getGroupLetter from '#utils/getGroupLetter';
 import PossibleGroups from './PossibleGroups';
 import LongCalculation from './LongCalculation';
 import Download from './Download';
+import * as styles from './styles.module.scss';
 
 type Team = Club | NationalTeam;
-
-const Root = styled.div`
-  vertical-align: middle;
-  margin-top: 30px;
-  margin-bottom: 30px;
-  width: 100%;
-  font-size: 1.25em;
-  line-height: 150%;
-  user-select: none;
-
-  @media (max-width: 999px) {
-    margin-top: 15px;
-    margin-bottom: 15px;
-  }
-`;
-
-const SelectedTeamWithColon = styled.span`
-  display: inline-block;
-`;
-
-const Bold = styled.strong`
-  font-weight: 600;
-`;
-
-const Completed = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-
-  > * + * {
-    margin-top: 12px;
-  }
-`;
 
 interface Props {
   long: boolean;
@@ -81,48 +48,51 @@ function Announcement({
 
   if (completed) {
     return (
-      <Root>
-        <Completed>
+      <div className={styles.root}>
+        <div className={styles.completed}>
           <div>Draw completed!</div>
           <Download
             completed={completed}
             groupsElement={groupsElement}
           />
           <ButtonLink onClick={reset}>Restart</ButtonLink>
-        </Completed>
-      </Root>
+        </div>
+      </div>
     );
   }
 
   if (pickedGroup !== null) {
     lastAnnouncementRef.current = (
-      <Root>
+      <div className={styles.root}>
         <div>
           {long && selected ? (
             <span>
-              <Bold>{(selected as Club).shortName ?? selected.name}</Bold> goes
-              to group
+              <strong className={styles.bold}>
+                {(selected as Club).shortName ?? selected.name}
+              </strong>{' '}
+              goes to group
             </span>
           ) : (
             <span>Group</span>
           )}
           &nbsp;
-          <Bold>{getGroupLetter(pickedGroup)}</Bold>!
+          <strong className={styles.bold}>{getGroupLetter(pickedGroup)}</strong>
+          !
         </div>
-      </Root>
+      </div>
     );
     return lastAnnouncementRef.current;
   }
 
   if (selected) {
     return (
-      <Root>
+      <div className={styles.root}>
         {isDisplayPossibleGroupsText ? (
           <div>
             Possible groups for{' '}
-            <SelectedTeamWithColon>
-              <Bold>{selected.name}</Bold>:
-            </SelectedTeamWithColon>
+            <span className={styles['selected-team-with-colon']}>
+              <strong className={styles.bold}>{selected.name}</strong>:
+            </span>
             {possibleGroups ? (
               <PossibleGroups
                 numGroups={numGroups}
@@ -144,11 +114,11 @@ function Announcement({
         ) : (
           lastAnnouncementRef.current
         )}
-      </Root>
+      </div>
     );
   }
 
-  return <Root>Pick a ball</Root>;
+  return <div className={styles.root}>Pick a ball</div>;
 }
 
 export default memo(Announcement);

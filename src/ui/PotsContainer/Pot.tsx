@@ -1,5 +1,4 @@
 import { memo } from 'react';
-import { type Interpolation } from 'styled-components';
 
 import type Team from '#model/team';
 import Row from '#ui/table/Row';
@@ -16,7 +15,7 @@ interface Props {
   pickedTeams: readonly Team[];
   selectedTeams: readonly Team[] | null;
   numCols: number;
-  headerStyles?: Interpolation<any>;
+  headerClassName?: string;
 }
 
 function Pot({
@@ -26,7 +25,7 @@ function Pot({
   pickedTeams,
   selectedTeams,
   numCols,
-  headerStyles,
+  headerClassName,
 }: Props) {
   const numRows = teams.length / numCols;
 
@@ -38,7 +37,7 @@ function Pot({
             <Header
               $highlighted={isCurrent}
               $depleted={!teams || pickedTeams.length === teams.length}
-              $styles={headerStyles}
+              className={headerClassName}
             >
               Pot {potNum + 1}
             </Header>

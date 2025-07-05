@@ -1,24 +1,15 @@
-import { memo, useContext } from 'react';
-import styled, { ThemeContext } from 'styled-components';
+import { memo } from 'react';
 import GitHubButton from 'react-github-btn';
 
-const Root = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 170px;
+import useIsDarkMode from '#utils/hooks/useIsDarkMode';
 
-  > * {
-    margin-left: 5px;
-  }
-`;
+import * as styles from './styles.module.scss';
 
 function GitHubButtons() {
-  const themeContext = useContext(ThemeContext);
-  const { isDarkMode } = themeContext ?? {};
+  const isDarkMode = useIsDarkMode();
 
   return (
-    <Root>
+    <div className={styles.root}>
       <GitHubButton
         href="https://github.com/inker/draw/issues"
         data-icon="octicon-issue-opened"
@@ -37,7 +28,7 @@ function GitHubButtons() {
       >
         Star
       </GitHubButton>
-    </Root>
+    </div>
   );
 }
 

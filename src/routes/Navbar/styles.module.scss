@@ -1,0 +1,40 @@
+.root {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin-bottom: 10px;
+  height: 24px;
+  padding-right: 10px;
+  font-size: 14px;
+
+  > * {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+
+    &:not(:last-child) {
+      margin-right: 15px;
+    }
+
+    > * {
+      margin-left: 5px;
+
+      &:not(:last-child) {
+        margin-right: 5px;
+      }
+    }
+  }
+
+  @media (max-width: 999px) {
+    justify-content: center;
+    margin-top: 5px;
+    font-family:
+      'Roboto Condensed', RobotoCondensed, RobotoCondensed-Regular, Roboto,
+      sans-serif;
+    font-size: 10px;
+  }
+}
+
+.nav-bar-left-container {
+  display: contents;
+}
