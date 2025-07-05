@@ -1,8 +1,11 @@
 import { memo, useCallback, useMemo, useState } from 'react';
-import styled, { css, keyframes } from 'styled-components';
+import styled from 'styled-components';
+import clsx from 'clsx';
 
 import getCountryFlagUrl from '#utils/getCountryFlagUrl';
 import { type Country } from '#model/types';
+
+import * as styles from './styles.module.scss';
 
 // eslint-disable-next-line no-sparse-arrays
 const angleByIndex = [, 0, 5, 3, 2, 6, 4, 1];
@@ -35,105 +38,6 @@ const Table = styled.table<{
       }
     }
   }
-`;
-
-const HeaderCell = styled.th<{
-  $hovered?: boolean;
-}>`
-  vertical-align: bottom;
-  padding: 3px 1px;
-  border: 1px solid rgb(192 192 192);
-  border-bottom-color: rgb(128 128 128);
-
-  ${props =>
-    props.$hovered &&
-    css`
-      background-color: rgb(0 0 0 / 0.1);
-    `}
-`;
-
-const HeaderCellDiv = styled.div`
-  display: flex;
-  gap: 4px;
-  writing-mode: vertical-lr;
-  text-orientation: mixed;
-  font-weight: normal;
-  transform: rotate(180deg);
-
-  > img {
-    width: 12px;
-    transform: rotate(90deg);
-    user-select: none;
-    pointer-events: none;
-  }
-`;
-
-const BodyRow = styled.tr`
-  border: 1px solid rgb(192 192 192);
-
-  &:hover {
-    background-color: rgb(0 0 0 / 0.1);
-  }
-`;
-
-const TeamCell = styled.td`
-  padding: 1px 3px;
-  border: 1px solid rgb(192 192 192);
-
-  & + & {
-    text-align: center;
-  }
-`;
-
-const AppearLight = keyframes`
-  from {
-    background-color: rgb(255 255 0 / 0.5);
-  }
-`;
-
-const TableCell = styled.td<{
-  $isMatch?: boolean;
-  $noAnimation?: boolean;
-  $hovered?: boolean;
-}>`
-  border: 1px solid rgb(192 192 192);
-  text-align: center;
-
-  ${props =>
-    props.$isMatch &&
-    css`
-      animation: ${AppearLight} 1s ease-out normal forwards;
-    `}
-  ${props =>
-    props.$noAnimation &&
-    css`
-      animation: initial;
-    `}
-
-  ${props =>
-    props.$hovered &&
-    css`
-      background-color: rgb(0 0 0 / 0.1);
-    `}
-`;
-
-const TeamDiv = styled.div<{
-  country: Country;
-}>`
-  padding-left: 14.5px;
-  background-position-y: center;
-  background-size: 12px;
-  background-repeat: no-repeat;
-
-  ${props =>
-    props.country &&
-    css`
-      background-image: url('${getCountryFlagUrl(props.country)}');
-    `}
-`;
-
-const BodyCellMatchday = styled.div`
-  transform: scaleX(1.25);
 `;
 
 interface Team {
@@ -224,40 +128,57 @@ function Matrix({
     >
       <thead>
         <tr>
-          <HeaderCell />
+          {/* eslint-disable-next-line jsx-a11y/control-has-associated-label */}
+          <th className={styles['header-cell']} />
           {allTeams.map(opponent => (
-            <HeaderCell
+            <th
               key={opponent.id}
               data-opponent={opponent.id}
-              $hovered={opponent.id === hoverColumn}
+              className={clsx(
+                styles['header-cell'],
+                opponent.id === hoverColumn && styles.hovered,
+              )}
             >
-              <HeaderCellDiv>
+              <div className={styles['header-cell-div']}>
                 <img
                   alt={`[${opponent.country}]`}
                   src={getCountryFlagUrl(opponent.country)}
                 />
                 <span>{opponent.name}</span>
-              </HeaderCellDiv>
-            </HeaderCell>
+              </div>
+            </th>
           ))}
         </tr>
       </thead>
       <tbody>
         {allTeams.map(team => (
-          <BodyRow key={team.id}>
-            <TeamCell>
-              <TeamDiv country={team.country}>{team.name}</TeamDiv>
-            </TeamCell>
+          <tr
+            key={team.id}
+            className={styles['body-row']}
+          >
+            <td className={styles['team-cell']}>
+              <div
+                className={styles.team}
+                style={{
+                  backgroundImage: `url('${getCountryFlagUrl(team.country)}')`,
+                }}
+              >
+                {team.name}
+              </div>
+            </td>
             {allTeams.map(opponent => {
               const isMatch = pairingsMap[`${team.id}:${opponent.id}`];
               const matchdayIndex = scheduleMap[`${team.id}:${opponent.id}`];
               return (
-                <TableCell
+                <td
                   key={opponent.id}
                   data-opponent={opponent.id}
-                  $isMatch={isMatch}
-                  $noAnimation={noCellAnimation}
-                  $hovered={opponent.id === hoverColumn}
+                  className={clsx(
+                    styles['table-cell'],
+                    isMatch && styles.match,
+                    noCellAnimation && styles['no-animation'],
+                    opponent.id === hoverColumn && styles.hovered,
+                  )}
                 >
                   {matchdayIndex === undefined ? (
                     isMatch ? (
@@ -266,18 +187,19 @@ function Matrix({
                       ''
                     )
                   ) : (
-                    <BodyCellMatchday
+                    <div
+                      className={styles['body-cell-matchday']}
                       style={{
                         color: getMatchdayColor(matchdayIndex),
                       }}
                     >
                       {matchdayIndex + 1}
-                    </BodyCellMatchday>
+                    </div>
                   )}
-                </TableCell>
+                </td>
               );
             })}
-          </BodyRow>
+          </tr>
         ))}
       </tbody>
     </Table>

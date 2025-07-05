@@ -1,0 +1,77 @@
+.header-cell {
+  vertical-align: bottom;
+  padding: 3px 1px;
+  border: 1px solid rgb(192 192 192);
+  border-bottom-color: rgb(128 128 128);
+
+  &.hovered {
+    background-color: rgb(0 0 0 / 0.1);
+  }
+}
+
+.header-cell-div {
+  display: flex;
+  gap: 4px;
+  writing-mode: vertical-lr;
+  text-orientation: mixed;
+  font-weight: normal;
+  transform: rotate(180deg);
+
+  > img {
+    width: 12px;
+    transform: rotate(90deg);
+    user-select: none;
+    pointer-events: none;
+  }
+}
+
+.body-row {
+  border: 1px solid rgb(192 192 192);
+
+  &:hover {
+    background-color: rgb(0 0 0 / 0.1);
+  }
+}
+
+.team-cell {
+  padding: 1px 3px;
+  border: 1px solid rgb(192 192 192);
+
+  & + & {
+    text-align: center;
+  }
+}
+
+.team {
+  padding-left: 14.5px;
+  background-position-y: center;
+  background-size: 12px;
+  background-repeat: no-repeat;
+}
+
+@keyframes appear-light {
+  from {
+    background-color: rgb(255 255 0 / 0.5);
+  }
+}
+
+.table-cell {
+  border: 1px solid rgb(192 192 192);
+  text-align: center;
+
+  &.match {
+    animation: appear-light 1s ease-out normal forwards;
+  }
+
+  &.no-animation {
+    animation: initial;
+  }
+
+  &.hovered {
+    background-color: rgb(0 0 0 / 0.1);
+  }
+}
+
+.body-cell-matchday {
+  transform: scaleX(1.25);
+}

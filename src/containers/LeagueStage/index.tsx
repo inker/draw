@@ -1,5 +1,4 @@
 import { memo, useEffect, useMemo, useState } from 'react';
-import styled from 'styled-components';
 
 import usePopup from '#store/usePopup';
 import type Tournament from '#model/Tournament';
@@ -13,22 +12,7 @@ import Dots from '#ui/Dots';
 
 import Matrix from './Matrix';
 import Schedule from './Schedule';
-
-const Root = styled.div`
-  display: flex;
-  flex-direction: column;
-  margin: 16px;
-  font-size: 14px;
-`;
-
-const MatrixWrapper = styled.div`
-  display: flex;
-  gap: 16px;
-
-  @media (orientation: portrait) {
-    flex-direction: column;
-  }
-`;
+import * as styles from './styles.module.scss';
 
 interface Props {
   tournament: Tournament;
@@ -123,7 +107,7 @@ function LeagueStage({
   );
 
   return (
-    <Root>
+    <div className={styles.root}>
       <Portal
         tagName="div"
         modalRoot={document.getElementById('navbar-left-container')!}
@@ -144,7 +128,7 @@ function LeagueStage({
           schedule={schedule}
         />
       ) : (
-        <MatrixWrapper>
+        <div className={styles['matrix-wrapper']}>
           <Matrix
             allTeams={allTeams}
             numMatchdays={numMatchdays}
@@ -173,9 +157,9 @@ function LeagueStage({
               </p>
             )}
           </div>
-        </MatrixWrapper>
+        </div>
       )}
-    </Root>
+    </div>
   );
 }
 

@@ -1,0 +1,15 @@
+.root {
+  display: flex;
+  flex-direction: column;
+  margin: 16px;
+  font-size: 14px;
+}
+
+.matrix-wrapper {
+  display: flex;
+  gap: 16px;
+
+  @media (orientation: portrait) {
+    flex-direction: column;
+  }
+}
