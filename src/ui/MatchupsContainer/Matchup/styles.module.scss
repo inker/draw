@@ -1,0 +1,9 @@
+.versus-cell {
+  justify-content: center;
+  width: 23px;
+  color: light-dark(#333, #ccc);
+
+  &::before {
+    content: 'v';
+  }
+}

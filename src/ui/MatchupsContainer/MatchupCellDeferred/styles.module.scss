@@ -1,0 +1,13 @@
+@keyframes appear {
+  from {
+    background-color: light-dark(rgb(255 255 0 / 0.5), rgb(192 224 255 / 0.5));
+  }
+}
+
+.matchup-cell-base {
+  width: 150px;
+
+  &.picked {
+    animation: appear 3s ease-out normal forwards;
+  }
+}

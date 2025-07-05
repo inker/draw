@@ -1,5 +1,4 @@
 import { memo } from 'react';
-import styled from 'styled-components';
 
 import { type EmptyOrSingleOrPair } from '#model/types';
 import type Team from '#model/team/Club';
@@ -7,17 +6,9 @@ import Row from '#ui/table/Row';
 import Cell from '#ui/table/Cell';
 import Content from '#ui/table/Content';
 
-import MatchupCellDeferred from './MatchupCellDeferred';
+import MatchupCellDeferred from '../MatchupCellDeferred';
 
-const VersusCell = styled(Content)`
-  justify-content: center;
-  width: 23px;
-  color: ${props => (props.theme.isDarkMode ? '#ccc' : '#333')};
-
-  &::before {
-    content: 'v';
-  }
-`;
+import * as styles from './styles.module.scss';
 
 interface Props {
   teams: EmptyOrSingleOrPair<Team> | null;
@@ -30,7 +21,7 @@ function Matchup({ teams }: Props) {
     <Row>
       <MatchupCellDeferred team={ru} />
       <Cell>
-        <VersusCell />
+        <Content className={styles['versus-cell']} />
       </Cell>
       <MatchupCellDeferred team={gw} />
     </Row>
