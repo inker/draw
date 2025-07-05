@@ -31,7 +31,6 @@ function generateSequenceCombos(numMatchdays: number) {
   // filter
   return arr
     .filter(item => {
-      return true
       const impossible =
         item.startsWith('00') ||
         item.startsWith('11') ||
