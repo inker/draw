@@ -2,7 +2,6 @@ import { memo } from 'react';
 
 import type Team from '#model/team';
 import Table from '#ui/table/Table';
-import Row from '#ui/table/Row';
 import * as cellStyles from '#ui/table/cell.module.scss';
 
 import Header from '../PotHeader';
@@ -32,7 +31,7 @@ function Pot({
   return (
     <Table>
       <thead>
-        <Row>
+        <tr>
           <td
             className={cellStyles.root}
             colSpan={numCols}
@@ -45,7 +44,7 @@ function Pot({
               Pot {potNum + 1}
             </Header>
           </td>
-        </Row>
+        </tr>
       </thead>
       <tbody>
         {Array.from({ length: numRows }, (_, i) => {

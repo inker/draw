@@ -4,7 +4,6 @@ import type Club from '#model/team/Club';
 import type NationalTeam from '#model/team/NationalTeam';
 import Table from '#ui/table/Table';
 import Header from '#ui/table/Header';
-import Row from '#ui/table/Row';
 import * as cellStyles from '#ui/table/cell.module.scss';
 
 import GroupCellDeferred from './GroupCellDeferred';
@@ -31,20 +30,20 @@ function Group({
   return (
     <Table>
       <thead>
-        <Row>
+        <tr>
           <td className={cellStyles.root}>
             <Header className={headerClassName}>Group {groupLetter}</Header>
           </td>
-        </Row>
+        </tr>
       </thead>
       <tbody>
         {Array.from({ length: maxTeams }, (_, i) => (
-          <Row key={i}>
+          <tr key={i}>
             <GroupCellDeferred
               team={teams[i]}
               possible={i === potNum && possible}
             />
-          </Row>
+          </tr>
         ))}
       </tbody>
     </Table>

@@ -3,7 +3,6 @@ import clsx from 'clsx';
 
 import type Team from '#model/team';
 import type GsTeam from '#model/team/GsTeam';
-import Row from '#ui/table/Row';
 import * as cellStyles from '#ui/table/cell.module.scss';
 
 import PotContent from '../PotContent';
@@ -18,7 +17,7 @@ interface Props {
 
 function PotRow({ teams, pickedTeams, selectedTeams }: Props) {
   return (
-    <Row>
+    <tr>
       {teams.map(team => {
         const { name, country, shortName, pairing } = team as GsTeam;
 
@@ -41,7 +40,7 @@ function PotRow({ teams, pickedTeams, selectedTeams }: Props) {
           </td>
         );
       })}
-    </Row>
+    </tr>
   );
 }
 

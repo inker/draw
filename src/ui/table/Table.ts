@@ -16,6 +16,10 @@ const Table = styled.table`
     margin: 0 3px 6px;
     width: max-content;
   }
+
+  tr {
+    border: var(--border);
+  }
 `;
 
 export default Table;
