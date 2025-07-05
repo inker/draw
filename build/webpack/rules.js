@@ -6,9 +6,8 @@ const getCssLoader = global => ({
   options: global
     ? undefined
     : {
-        esModule: false,
         modules: {
-          localIdentName: '[path]___[name]__[local]___[hash:base64:5]',
+          localIdentName: '[local]_[hash:base64:5]',
         },
         importLoaders: 1,
       },
@@ -42,11 +41,23 @@ module.exports = isDev =>
     },
     {
       test: /\.s[ac]ss$/i,
+      exclude: /\.module\.s[ac]ss$/,
       use: [
         // Creates `style` nodes from JS strings
         require.resolve('style-loader'),
         // Translates CSS into CommonJS
         require.resolve('css-loader'),
+        // Compiles Sass to CSS
+        require.resolve('sass-loader'),
+      ],
+    },
+    {
+      test: /\.module\.s[ac]ss$/i,
+      use: [
+        // Creates `style` nodes from JS strings
+        isDev ? require.resolve('style-loader') : MiniCssExtractPlugin.loader,
+        // Translates CSS into CommonJS
+        getCssLoader(false),
         // Compiles Sass to CSS
         require.resolve('sass-loader'),
       ],
