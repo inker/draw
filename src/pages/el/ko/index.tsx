@@ -7,7 +7,7 @@ import MatchupsContainer from '#ui/MatchupsContainer';
 import TablesContainer from '#ui/TablesContainer';
 import BowlsContainer from '#ui/BowlsContainer';
 import TeamBowl from '#ui/bowls/TeamBowl';
-import Separator from '#ui/Separator';
+import * as separatorStyles from '#ui/separator.module.scss';
 import Announcement from '#ui/Announcement';
 import { serializeGsWorkerData } from '#model/WorkerData';
 import type Team from '#model/team/KnockoutTeam';
@@ -216,7 +216,9 @@ function ELKO({ season, pots: initialPots }: Props) {
       <BowlsContainer>
         {!isFastDraw && (
           <>
-            {!completed && <Separator>Runners-up</Separator>}
+            {!completed && (
+              <div className={separatorStyles.root}>Runners-up</div>
+            )}
             <TeamBowl
               forceNoSelect={currentPotNum === 0}
               display={!completed}
@@ -225,7 +227,9 @@ function ELKO({ season, pots: initialPots }: Props) {
               pot={potsToDisplay[1]}
               onPick={handleBallPick}
             />
-            {!completed && <Separator>Group Winners</Separator>}
+            {!completed && (
+              <div className={separatorStyles.root}>Group Winners</div>
+            )}
             {potsToDisplay[0] && (
               <TeamBowl
                 forceNoSelect={currentPotNum === 1}
