@@ -1,12 +1,12 @@
 import { memo } from 'react';
 
 import type Team from '#model/team';
+import Table from '#ui/table/Table';
 import Row from '#ui/table/Row';
 import Cell from '#ui/table/Cell';
 
-import Root from './PotRoot';
-import Header from './PotHeader';
-import PotRow from './PotRow';
+import Header from '../PotHeader';
+import PotRow from '../PotRow';
 
 interface Props {
   isCurrent: boolean;
@@ -30,7 +30,7 @@ function Pot({
   const numRows = teams.length / numCols;
 
   return (
-    <Root $highlighted={isCurrent}>
+    <Table>
       <thead>
         <Row>
           <Cell colSpan={numCols}>
@@ -63,7 +63,7 @@ function Pot({
           );
         })}
       </tbody>
-    </Root>
+    </Table>
   );
 }
 

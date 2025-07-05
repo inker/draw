@@ -3,9 +3,11 @@ import { memo } from 'react';
 import type Team from '#model/team';
 import type GsTeam from '#model/team/GsTeam';
 import Row from '#ui/table/Row';
+import Cell from '#ui/table/Cell';
 
-import PotCell from './PotCell';
-import PotContent from './PotContent';
+import PotContent from '../PotContent';
+
+import * as styles from './styles.module.scss';
 
 interface Props {
   teams: Team[];
@@ -20,7 +22,10 @@ function PotRow({ teams, pickedTeams, selectedTeams }: Props) {
         const { name, country, shortName, pairing } = team as GsTeam;
 
         return (
-          <PotCell key={team.id}>
+          <Cell
+            key={team.id}
+            className={styles['pot-cell']}
+          >
             <PotContent
               data-cellid={team.id}
               title={
@@ -32,7 +37,7 @@ function PotRow({ teams, pickedTeams, selectedTeams }: Props) {
             >
               {shortName ?? name}
             </PotContent>
-          </PotCell>
+          </Cell>
         );
       })}
     </Row>
