@@ -1,10 +1,10 @@
-import { memo, useCallback, useContext, useRef, useState } from 'react';
-import { ThemeContext } from 'styled-components';
+import { memo, useCallback, useRef, useState } from 'react';
 
 import type Club from '#model/team/Club';
 import type NationalTeam from '#model/team/NationalTeam';
 import usePrevious from '#utils/hooks/usePrevious';
 import useDidUpdate from '#utils/hooks/useDidUpdate';
+import useIsDarkMode from '#utils/hooks/useIsDarkMode';
 import getTeamCountryName from '#utils/getTeamCountryName';
 import ContentWithFlag from '#ui/table/ContentWithFlag';
 import DummyContent from '#ui/table/DummyContent';
@@ -23,7 +23,7 @@ function GroupCellDeferred({ team, possible }: Props) {
   const prevTeam = usePrevious(team);
   const [displayedTeam, setDisplayedTeam] = useState(team);
   const [isPickedAnimation, setIsPickedAnimation] = useState(false);
-  const themeContext = useContext(ThemeContext);
+  const isDarkMode = useIsDarkMode();
   const destinationRef = useRef<HTMLElement | null>(null);
 
   const setIsPickedAnimationFalse = useCallback(() => {
@@ -37,7 +37,7 @@ function GroupCellDeferred({ team, possible }: Props) {
 
   useDidUpdate(() => {
     setIsPickedAnimationFalse();
-  }, [themeContext]);
+  }, [isDarkMode]);
 
   return (
     <>

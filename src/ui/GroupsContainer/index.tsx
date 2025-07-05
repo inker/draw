@@ -1,23 +1,13 @@
 import { forwardRef, memo } from 'react';
-import styled from 'styled-components';
 
 import type Club from '#model/team/Club';
 import type NationalTeam from '#model/team/NationalTeam';
 import getGroupLetter from '#utils/getGroupLetter';
 
 import Group from './Group';
+import * as styles from './styles.module.scss';
 
 type Team = Club | NationalTeam;
-
-const Root = styled.div`
-  display: flex;
-  flex-flow: row wrap;
-
-  > * {
-    flex: 1;
-    flex-basis: 22%;
-  }
-`;
 
 interface Props {
   maxTeams: number;
@@ -38,7 +28,10 @@ const GroupsContainer = forwardRef(
     }: Props,
     ref: any,
   ) => (
-    <Root ref={ref}>
+    <div
+      ref={ref}
+      className={styles.root}
+    >
       {groups?.map((group, i) => {
         const letter = getGroupLetter(i);
         const headerClassName = getGroupHeaderClassName?.(i);
@@ -55,7 +48,7 @@ const GroupsContainer = forwardRef(
           />
         );
       })}
-    </Root>
+    </div>
   ),
 );
 

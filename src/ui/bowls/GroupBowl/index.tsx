@@ -1,19 +1,9 @@
 import { memo, useCallback } from 'react';
-import styled from 'styled-components';
 
 import getGroupLetter from '#utils/getGroupLetter';
 
 import Ball from './Ball';
-
-const Root = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-
-  @media (max-width: 999px) {
-    justify-content: center;
-  }
-`;
+import * as styles from './styles.module.scss';
 
 interface Props {
   display: boolean;
@@ -36,7 +26,7 @@ function GroupBowl({ display, displayGroups, possibleGroups, onPick }: Props) {
   );
 
   return (
-    <Root>
+    <div className={styles.root}>
       {display &&
         possibleGroups?.map(groupNum => (
           <Ball
@@ -48,7 +38,7 @@ function GroupBowl({ display, displayGroups, possibleGroups, onPick }: Props) {
             {getGroupLetter(groupNum)}
           </Ball>
         ))}
-    </Root>
+    </div>
   );
 }
 

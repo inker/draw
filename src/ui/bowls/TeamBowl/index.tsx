@@ -1,22 +1,12 @@
 import { memo, useCallback } from 'react';
-import styled from 'styled-components';
 
 import type Club from '#model/team/Club';
 import type NationalTeam from '#model/team/NationalTeam';
 
 import Ball from './Ball';
+import * as styles from './styles.module.scss';
 
 type Team = Club | NationalTeam;
-
-const Root = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-
-  @media (max-width: 999px) {
-    justify-content: center;
-  }
-`;
 
 interface Props {
   forceNoSelect?: boolean;
@@ -47,7 +37,7 @@ function TeamBowl({
   const noSelect = forceNoSelect || selectedTeam;
 
   return (
-    <Root>
+    <div className={styles.root}>
       {display &&
         pot.map(team => (
           <Ball
@@ -64,7 +54,7 @@ function TeamBowl({
             {(team as Club).shortName ?? team.name}
           </Ball>
         ))}
-    </Root>
+    </div>
   );
 }
 
