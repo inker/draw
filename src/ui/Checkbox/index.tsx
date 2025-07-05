@@ -7,13 +7,7 @@ import {
 } from 'react';
 import styled, { css } from 'styled-components';
 
-const Root = styled.label`
-  display: flex;
-  align-items: center;
-  margin-right: 3px;
-  margin-left: 3px;
-  cursor: pointer;
-`;
+import * as styles from './styles.module.scss';
 
 const Box = styled.input.attrs({
   type: 'checkbox',
@@ -29,11 +23,6 @@ const Box = styled.input.attrs({
         accent-color: #468;
       }
     `}
-`;
-
-const ChildrenWrapper = styled.div`
-  margin-left: 0.5rem;
-  user-select: none;
 `;
 
 type InputProps = DetailedHTMLProps<
@@ -55,14 +44,15 @@ function SelectWithHiddenLabel({ children, value, onChange, ...props }: Props) {
   );
 
   return (
-    <Root>
+    // eslint-disable-next-line jsx-a11y/label-has-associated-control
+    <label className={styles.root}>
       <Box
         checked={value}
         onChange={rawOnChange}
         {...(props as any)}
       />
-      <ChildrenWrapper>{children}</ChildrenWrapper>
-    </Root>
+      <div className={styles['children-wrapper']}>{children}</div>
+    </label>
   );
 }
 

@@ -1,9 +1,6 @@
 import { memo, useEffect, useState } from 'react';
-import styled from 'styled-components';
 
-const InvisibleSpan = styled.span`
-  opacity: 0;
-`;
+import styles from './styles.module.scss';
 
 interface Props {
   initialNum: number;
@@ -31,7 +28,9 @@ function Dots({ initialNum, maxNum, interval }: Props) {
   return (
     <>
       <span>{'.'.repeat(numVisible)}</span>
-      <InvisibleSpan>{'.'.repeat(maxNum - numVisible)}</InvisibleSpan>
+      <span className={styles['invisible-span']}>
+        {'.'.repeat(maxNum - numVisible)}
+      </span>
     </>
   );
 }

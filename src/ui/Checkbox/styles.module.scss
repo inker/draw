@@ -1,0 +1,12 @@
+.root {
+  display: flex;
+  align-items: center;
+  margin-right: 3px;
+  margin-left: 3px;
+  cursor: pointer;
+}
+
+.children-wrapper {
+  margin-left: 0.5rem;
+  user-select: none;
+}
