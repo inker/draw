@@ -5,7 +5,7 @@ import PageRoot from '#ui/PageRoot';
 import PotsContainer from '#ui/PotsContainer';
 import GroupsContainer from '#ui/GroupsContainer';
 import TablesContainer from '#ui/TablesContainer';
-import BowlsContainer from '#ui/BowlsContainer';
+import * as bowlsContainerStyles from '#ui/bowls-container.module.scss';
 import TeamBowl from '#ui/bowls/TeamBowl';
 import GroupBowl from '#ui/bowls/GroupBowl';
 import Announcement from '#ui/Announcement';
@@ -249,7 +249,7 @@ function CLGS({ season, pots: initialPots, isFirstPotShortDraw }: Props) {
           getGroupHeaderClassName={getGroupHeaderClassName}
         />
       </TablesContainer>
-      <BowlsContainer>
+      <div className={bowlsContainerStyles.root}>
         {!isFastDraw && (
           <TeamBowl
             display={!completed}
@@ -278,7 +278,7 @@ function CLGS({ season, pots: initialPots, isFirstPotShortDraw }: Props) {
             onPick={handleGroupBallPick}
           />
         )}
-      </BowlsContainer>
+      </div>
     </PageRoot>
   );
 }

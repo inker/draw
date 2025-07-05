@@ -5,7 +5,7 @@ import PageRoot from '#ui/PageRoot';
 import PotsContainer from '#ui/PotsContainer';
 import MatchupsContainer from '#ui/MatchupsContainer';
 import TablesContainer from '#ui/TablesContainer';
-import BowlsContainer from '#ui/BowlsContainer';
+import * as bowlsContainerStyles from '#ui/bowls-container.module.scss';
 import TeamBowl from '#ui/bowls/TeamBowl';
 import * as separatorStyles from '#ui/separator.module.scss';
 import Announcement from '#ui/Announcement';
@@ -213,7 +213,7 @@ function ELKO({ season, pots: initialPots }: Props) {
           matchups={matchups}
         />
       </TablesContainer>
-      <BowlsContainer>
+      <div className={bowlsContainerStyles.root}>
         {!isFastDraw && (
           <>
             {!completed && (
@@ -254,7 +254,7 @@ function ELKO({ season, pots: initialPots }: Props) {
             reset={setNewDrawId}
           />
         )}
-      </BowlsContainer>
+      </div>
     </PageRoot>
   );
 }

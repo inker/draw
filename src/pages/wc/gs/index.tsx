@@ -5,7 +5,7 @@ import PageRoot from '#ui/PageRoot';
 import PotsContainer from '#ui/PotsContainer';
 import GroupsContainer from '#ui/GroupsContainer';
 import TablesContainer from '#ui/TablesContainer';
-import BowlsContainer from '#ui/BowlsContainer';
+import * as bowlsContainerStyles from '#ui/bowls-container.module.scss';
 import TeamBowl from '#ui/bowls/TeamBowl';
 import Announcement from '#ui/Announcement';
 import { serializeGsWorkerData } from '#model/WorkerData';
@@ -185,7 +185,7 @@ function WCGS({ season, pots: initialPots }: Props) {
           getGroupHeaderClassName={getGroupHeaderClassName}
         />
       </TablesContainer>
-      <BowlsContainer>
+      <div className={bowlsContainerStyles.root}>
         {!isFastDraw && (
           <TeamBowl
             forceNoSelect={!!selectedTeam}
@@ -207,7 +207,7 @@ function WCGS({ season, pots: initialPots }: Props) {
           groupsElement={groupsContanerRef}
           reset={setNewDrawId}
         />
-      </BowlsContainer>
+      </div>
     </PageRoot>
   );
 }
