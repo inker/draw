@@ -1,5 +1,4 @@
 import { memo, useCallback, useEffect, useRef, useState } from 'react';
-import { css } from 'styled-components';
 import { constant, random, shuffle, stubArray } from 'lodash';
 
 import PageRoot from '#ui/PageRoot';
@@ -18,12 +17,11 @@ import useDrawId from '#store/useDrawId';
 import usePopup from '#store/usePopup';
 
 import { type Func } from './worker';
+import * as styles from './styles.module.scss';
 
 const createWorker = () => new Worker(new URL('./worker', import.meta.url));
 
-const getGroupHeaderStyles = constant(css`
-  background-color: ${props => (props.theme.isDarkMode ? '#363' : '#c0e0c0')};
-`);
+const getGroupHeaderClassName = constant(styles['group-header']);
 
 interface Props {
   season: number;
@@ -184,7 +182,7 @@ function WCGS({ season, pots: initialPots }: Props) {
           currentPotNum={currentPotNum}
           groups={groups}
           possibleGroups={null}
-          getGroupHeaderStyles={getGroupHeaderStyles}
+          getGroupHeaderClassName={getGroupHeaderClassName}
         />
       </TablesContainer>
       <BowlsContainer>

@@ -1,5 +1,4 @@
 import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { css } from 'styled-components';
 import { random, sample, shuffle, stubArray } from 'lodash';
 
 import PageRoot from '#ui/PageRoot';
@@ -20,20 +19,13 @@ import useWorkerSendAndReceive from '#utils/hooks/useWorkerSendAndReceive';
 
 import { type Func as AllPossibleGroupsFunc } from './allPossibleGroupsWorker';
 import { type Func as FirstPossibleGroupFunc } from './firstPossibleGroupWorker';
+import * as styles from './styles.module.scss';
 
 const createAllPossibleGroupsWorker = () =>
   new Worker(new URL('./allPossibleGroupsWorker', import.meta.url));
 
 const createFirstPossibleGroupWorker = () =>
   new Worker(new URL('./firstPossibleGroupWorker', import.meta.url));
-
-const redGroup = css`
-  background-color: ${props => (props.theme.isDarkMode ? '#933' : '#ffc0c0')};
-`;
-
-const blueGroup = css`
-  background-color: ${props => (props.theme.isDarkMode ? '#039' : '#c0e0ff')};
-`;
 
 interface Props {
   season: number;
@@ -233,8 +225,9 @@ function CLGS({ season, pots: initialPots, isFirstPotShortDraw }: Props) {
 
   const numGroups = groups.length;
 
-  const getGroupHeaderStyles = useCallback(
-    (i: number) => (i < numGroups >> 1 ? redGroup : blueGroup),
+  const getGroupHeaderClassName = useCallback(
+    (i: number) =>
+      i < numGroups >> 1 ? styles['red-group'] : styles['blue-group'],
     [numGroups],
   );
 
@@ -253,7 +246,7 @@ function CLGS({ season, pots: initialPots, isFirstPotShortDraw }: Props) {
           currentPotNum={currentPotNum}
           groups={groups}
           possibleGroups={isNoGroupBallPick ? null : possibleGroups}
-          getGroupHeaderStyles={getGroupHeaderStyles}
+          getGroupHeaderClassName={getGroupHeaderClassName}
         />
       </TablesContainer>
       <BowlsContainer>

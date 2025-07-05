@@ -1,5 +1,4 @@
 import { memo } from 'react';
-import { type Interpolation } from 'styled-components';
 
 import type Club from '#model/team/Club';
 import type NationalTeam from '#model/team/NationalTeam';
@@ -18,7 +17,7 @@ interface Props {
   teams: readonly Team[];
   potNum: number;
   possible: boolean;
-  headerStyles?: Interpolation<any>;
+  headerClassName?: string;
 }
 
 function Group({
@@ -27,14 +26,14 @@ function Group({
   teams,
   potNum,
   possible,
-  headerStyles,
+  headerClassName,
 }: Props) {
   return (
     <Table>
       <thead>
         <Row>
           <Cell>
-            <Header $styles={headerStyles}>Group {groupLetter}</Header>
+            <Header className={headerClassName}>Group {groupLetter}</Header>
           </Cell>
         </Row>
       </thead>

@@ -1,5 +1,5 @@
 import { Suspense, lazy, memo, useEffect } from 'react';
-import styled, { ThemeProvider } from 'styled-components';
+import styled, { ThemeProvider, createGlobalStyle } from 'styled-components';
 import { HashRouter } from 'react-router-dom';
 import { constant } from 'lodash';
 
@@ -15,6 +15,12 @@ const Routes = lazy(
     import(/* webpackPreload: true, webpackChunkName: "routes" */ './routes'),
   ),
 );
+
+const ColorScheme = createGlobalStyle<{ $value?: 'light' | 'dark' }>`
+  :root {
+    color-scheme: ${props => props.$value}
+  }
+`;
 
 const Root = styled.div`
   * {
@@ -36,6 +42,7 @@ function App() {
 
   return (
     <ThemeProvider theme={isDarkMode ? themes.dark : themes.light}>
+      <ColorScheme $value={isDarkMode ? 'dark' : 'light'} />
       {/* @ts-expect-error Fix types */}
       <Body />
       <Root>

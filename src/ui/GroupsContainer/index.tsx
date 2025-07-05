@@ -1,5 +1,5 @@
 import { forwardRef, memo } from 'react';
-import styled, { type Interpolation } from 'styled-components';
+import styled from 'styled-components';
 
 import type Club from '#model/team/Club';
 import type NationalTeam from '#model/team/NationalTeam';
@@ -24,7 +24,7 @@ interface Props {
   currentPotNum: number;
   groups: readonly (readonly Team[])[];
   possibleGroups: readonly number[] | null;
-  getGroupHeaderStyles?: (index: number) => Interpolation<any>;
+  getGroupHeaderClassName?: (index: number) => string;
 }
 
 const GroupsContainer = forwardRef(
@@ -34,14 +34,14 @@ const GroupsContainer = forwardRef(
       currentPotNum,
       groups,
       possibleGroups,
-      getGroupHeaderStyles,
+      getGroupHeaderClassName,
     }: Props,
     ref: any,
   ) => (
     <Root ref={ref}>
       {groups?.map((group, i) => {
         const letter = getGroupLetter(i);
-        const headerStyles = getGroupHeaderStyles?.(i);
+        const headerClassName = getGroupHeaderClassName?.(i);
 
         return (
           <Group
@@ -51,7 +51,7 @@ const GroupsContainer = forwardRef(
             teams={group}
             potNum={currentPotNum}
             possible={!!possibleGroups?.includes(i)}
-            headerStyles={headerStyles}
+            headerClassName={headerClassName}
           />
         );
       })}

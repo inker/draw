@@ -1,5 +1,4 @@
 import { memo, useCallback, useEffect, useRef, useState } from 'react';
-import { css } from 'styled-components';
 import { random, shuffle, stubArray } from 'lodash';
 
 import type Team from '#model/team/GsTeam';
@@ -18,16 +17,9 @@ import useDrawId from '#store/useDrawId';
 import usePopup from '#store/usePopup';
 
 import { type Func } from './worker';
+import * as styles from './styles.module.scss';
 
 const createWorker = () => new Worker(new URL('./worker', import.meta.url));
-
-const redGroup = css`
-  background-color: ${props => (props.theme.isDarkMode ? '#933' : '#ffc0c0')};
-`;
-
-const blueGroup = css`
-  background-color: ${props => (props.theme.isDarkMode ? '#039' : '#c0e0ff')};
-`;
 
 interface Props {
   season: number;
@@ -166,8 +158,9 @@ function ELGS({ season, pots: initialPots }: Props) {
 
   const numGroups = groups.length;
 
-  const getGroupHeaderStyles = useCallback(
-    (i: number) => (i < numGroups >> 1 ? redGroup : blueGroup),
+  const getGroupHeaderClassName = useCallback(
+    (i: number) =>
+      i < numGroups >> 1 ? styles['red-group'] : styles['blue-group'],
     [numGroups],
   );
 
@@ -186,7 +179,7 @@ function ELGS({ season, pots: initialPots }: Props) {
           currentPotNum={currentPotNum}
           groups={groups}
           possibleGroups={null}
-          getGroupHeaderStyles={getGroupHeaderStyles}
+          getGroupHeaderClassName={getGroupHeaderClassName}
         />
       </TablesContainer>
       <BowlsContainer>
