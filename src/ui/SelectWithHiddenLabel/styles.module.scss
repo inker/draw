@@ -7,3 +7,16 @@
 .hidden-label {
   display: none;
 }
+
+.select {
+  border-radius: 3px;
+  border: var(--border);
+  background-color: light-dark(white, #246);
+  color: light-dark(black, white);
+  cursor: pointer;
+
+  &:hover {
+    background-color: light-dark(white, #468);
+    border-color: light-dark(black, var(--border));
+  }
+}

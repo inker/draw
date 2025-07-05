@@ -4,39 +4,15 @@ import {
   memo,
   useId,
 } from 'react';
-import styled, { css } from 'styled-components';
 
 import * as styles from './styles.module.scss';
-
-const Select = styled.select`
-  border-radius: 3px;
-  border: var(--border);
-  background-color: light-dark(white, #246);
-  color: ${props => (props.theme.isDarkMode ? 'white' : '')};
-  cursor: pointer;
-
-  &:disabled {
-    cursor: not-allowed;
-  }
-
-  &:hover {
-    ${props =>
-      props.theme.isDarkMode
-        ? css`
-            background-color: #468;
-          `
-        : css`
-            border-color: black;
-          `}
-  }
-`;
 
 type SelectProps = DetailedHTMLProps<
   SelectHTMLAttributes<HTMLSelectElement>,
   HTMLSelectElement
 >;
 
-interface Props extends SelectProps {
+interface Props extends Omit<SelectProps, "disabled"> {
   label: string;
 }
 
@@ -51,13 +27,14 @@ function SelectWithHiddenLabel({ label, children, ...props }: Props) {
       >
         {label}
       </label>
-      <Select
+      <select
         id={id}
+        className={styles.select}
         title={label}
         {...(props as any)}
       >
         {children}
-      </Select>
+      </select>
     </div>
   );
 }
