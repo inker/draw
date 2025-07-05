@@ -6,15 +6,7 @@ import {
 } from 'react';
 import styled, { css } from 'styled-components';
 
-const Root = styled.div`
-  display: inline;
-  margin-right: 3px;
-  margin-left: 3px;
-`;
-
-const HiddenLabel = styled.label`
-  display: none;
-`;
+import * as styles from './styles.module.scss';
 
 const Select = styled.select`
   border-radius: 3px;
@@ -52,8 +44,13 @@ function SelectWithHiddenLabel({ label, children, ...props }: Props) {
   const id = useId();
 
   return (
-    <Root>
-      <HiddenLabel htmlFor={id}>{label}</HiddenLabel>
+    <div className={styles.root}>
+      <label
+        className={styles['hidden-label']}
+        htmlFor={id}
+      >
+        {label}
+      </label>
       <Select
         id={id}
         title={label}
@@ -61,7 +58,7 @@ function SelectWithHiddenLabel({ label, children, ...props }: Props) {
       >
         {children}
       </Select>
-    </Root>
+    </div>
   );
 }
 
