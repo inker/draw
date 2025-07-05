@@ -7,6 +7,7 @@ import usePopup from '#store/usePopup';
 import useIsDarkMode from '#utils/hooks/useIsDarkMode';
 
 import './theme.css';
+import './global.css';
 import * as themes from './themes';
 import Body from './Body';
 import Popup from './Popup';
