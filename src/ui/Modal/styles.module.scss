@@ -1,0 +1,20 @@
+@keyframes background-animation {
+  from {
+    opacity: 0;
+  }
+}
+
+.background {
+  background-color: light-dark(white, #222);
+  opacity: 0.75;
+
+  &.animate {
+    animation: background-animation 0.25s ease-out;
+  }
+}
+
+.body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
