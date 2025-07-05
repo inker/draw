@@ -10,7 +10,7 @@ import PotContent from '../PotContent';
 import * as styles from './styles.module.scss';
 
 interface Props {
-  teams: Team[];
+  teams: readonly Team[];
   pickedTeams: readonly Team[];
   selectedTeams: readonly Team[] | null;
 }
