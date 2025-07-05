@@ -7,8 +7,8 @@ const Table = styled.table`
   width: 150px;
   min-width: 0;
   table-layout: fixed;
-  border-left: ${props => props.theme.border};
-  border-right: ${props => props.theme.border};
+  border-left: var(--border);
+  border-right: var(--border);
   border-spacing: 0;
   border-collapse: collapse;
 

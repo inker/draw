@@ -1,7 +1,7 @@
 import styled, { css } from 'styled-components';
 
 export const linkCss = css`
-  color: ${props => (props.theme.isDarkMode ? '#f70' : 'blue')};
+  color: light-dark(blue, #f70);
   text-decoration: none;
   cursor: pointer;
 

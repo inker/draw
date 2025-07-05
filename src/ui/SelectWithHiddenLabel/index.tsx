@@ -10,8 +10,8 @@ import * as styles from './styles.module.scss';
 
 const Select = styled.select`
   border-radius: 3px;
-  border: ${props => props.theme.border};
-  background-color: ${props => (props.theme.isDarkMode ? '#246' : 'white')};
+  border: var(--border);
+  background-color: light-dark(white, #246);
   color: ${props => (props.theme.isDarkMode ? 'white' : '')};
   cursor: pointer;
 

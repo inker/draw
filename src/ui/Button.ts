@@ -2,9 +2,9 @@ import styled, { css } from 'styled-components';
 
 const Button = styled.button`
   border-radius: 3px;
-  border: ${props => props.theme.border};
-  background-color: ${props => (props.theme.isDarkMode ? '#246' : 'white')};
-  color: ${props => (props.theme.isDarkMode ? 'white' : '')};
+  border: var(--border);
+  background-color: light-dark(white, #246);
+  color: light-dark(black, white);
   font-weight: normal;
   cursor: pointer;
 

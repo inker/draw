@@ -9,8 +9,8 @@ interface Props {
 const Body = createGlobalStyle<Props>`
   body {
     font-family: Tahoma, Arial, sans-serif;
-    color: ${props => (props.theme.isDarkMode ? 'white' : '')};
-    background-color: ${props => (props.theme.isDarkMode ? '#272a33' : '')};
+    color: light-dark(black, white);
+    background-color: light-dark(transparent, #272a33);
   }
 `;
 

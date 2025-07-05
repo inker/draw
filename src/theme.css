@@ -1,0 +1,4 @@
+:root {
+  --border-color: light-dark(#aaa, #222);
+  --border: solid 1px var(--border-color);
+}

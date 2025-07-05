@@ -16,7 +16,7 @@ const Box = styled.input.attrs({
   ${props =>
     props.theme.isDarkMode &&
     css`
-      border: ${props.theme.border};
+      border: var(--border);
       accent-color: #246;
 
       &:hover {
