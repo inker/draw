@@ -77,7 +77,7 @@ function Routing() {
     <>
       <HeadMetadata />
       <Navbar
-        className={clsx(popup.initial && 'd-none')}
+        className={clsx(popup.initial && 'v-hidden')}
         season={season}
         tournament={tournament!}
         stage={stage!}
