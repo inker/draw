@@ -7,7 +7,6 @@ import {
   useMemo,
   useState,
 } from 'react';
-import styled from 'styled-components';
 
 import type Team from '#model/team';
 import type Club from '#model/team/Club';
@@ -15,15 +14,7 @@ import getTeamCountryName from '#utils/getTeamCountryName';
 import FixedOverlay from '#ui/FixedOverlay';
 import ContentWithFlag from '#ui/table/ContentWithFlag';
 
-const ContentWithFlagFixed = styled(ContentWithFlag)`
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 1000;
-  margin: 0;
-  user-select: none;
-  pointer-events: none;
-`;
+import * as styles from './styles.module.scss';
 
 type El = RefObject<HTMLElement | null> | string;
 
@@ -78,13 +69,14 @@ function MovingContent({ from, to, duration, team, onAnimationEnd }: Props) {
   return (
     posCell && (
       <FixedOverlay>
-        <ContentWithFlagFixed
+        <ContentWithFlag
+          className={styles['content-with-flag-fixed']}
           $country={getTeamCountryName(team)}
           style={style}
           onTransitionEnd={onTransitionEnd}
         >
           {(team as Club).shortName ?? team.name}
-        </ContentWithFlagFixed>
+        </ContentWithFlag>
       </FixedOverlay>
     )
   );
