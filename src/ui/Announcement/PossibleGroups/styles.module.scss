@@ -3,3 +3,19 @@
   justify-content: center;
   margin-top: 2px;
 }
+
+.roundel {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 2px;
+  width: 25px;
+  height: 25px;
+  border: 1px solid transparent;
+  border-radius: 100%;
+  font-size: 18px;
+
+  &:not(.possible) {
+    filter: opacity(0.25);
+  }
+}

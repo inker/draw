@@ -1,8 +1,7 @@
 import { memo } from 'react';
+import clsx from 'clsx';
 
 import getGroupLetter from '#utils/getGroupLetter';
-
-import Roundel from '../Roundel';
 
 import * as styles from './styles.module.scss';
 
@@ -18,14 +17,22 @@ function PossibleGroups({ numGroups, possibleGroups }: Props) {
     <div className={styles.root}>
       {Array.from({ length: numGroups }, (_, i) => {
         const letter = getGroupLetter(i);
+        const isPossible = possibleGroups.includes(i);
         return (
-          <Roundel
+          <div
             key={letter}
-            color={i < halfNum ? 'red' : 'blue'}
-            $possible={possibleGroups.includes(i)}
+            className={clsx(styles.roundel, isPossible && styles.possible)}
+            style={{
+              ...(isPossible
+                ? {
+                    color: i < halfNum ? 'red' : 'blue',
+                    borderColor: i < halfNum ? 'red' : 'blue',
+                  }
+                : undefined),
+            }}
           >
             {letter}
-          </Roundel>
+          </div>
         );
       })}
     </div>
