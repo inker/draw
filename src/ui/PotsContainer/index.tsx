@@ -1,9 +1,9 @@
 import { memo } from 'react';
 import { difference } from 'lodash';
+import clsx from 'clsx';
 
 import type Team from '#model/team';
 
-import Root from './Root';
 import Pot from './Pot';
 import * as styles from './styles.module.scss';
 
@@ -23,7 +23,7 @@ function PotsContainer({
   split,
 }: Props) {
   return (
-    <Root $limitWidth={!split}>
+    <div className={clsx(styles.root, !split && styles['limit-width'])}>
       {initialPots.map((pot, i) => {
         const isCurrent = i === currentPotNum;
         const pickedTeams = difference(
@@ -45,7 +45,7 @@ function PotsContainer({
           />
         );
       })}
-    </Root>
+    </div>
   );
 }
 

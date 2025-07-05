@@ -1,3 +1,25 @@
+.root {
+  display: flex;
+  flex-flow: row wrap;
+  flex-wrap: nowrap;
+  justify-content: center;
+
+  > * {
+    flex: 1;
+    flex-basis: 22%;
+
+    @media (max-width: 999px) {
+      max-width: initial;
+    }
+  }
+
+  &.limit-width {
+    > * {
+      max-width: 160px;
+    }
+  }
+}
+
 .header {
   background-color: rgb(0 0 0 / 0.75);
   color: #fff;
