@@ -6,8 +6,8 @@ import {
   useMatch,
   useNavigate,
 } from 'react-router-dom';
+import clsx from 'clsx';
 
-import Visibility from '#ui/Visibility';
 import type Tournament from '#model/Tournament';
 import type Stage from '#model/Stage';
 import useFastDraw from '#store/useFastDraw';
@@ -76,14 +76,13 @@ function Routing() {
   return (
     <>
       <HeadMetadata />
-      <Visibility $visible={!popup.initial}>
-        <Navbar
-          season={season}
-          tournament={tournament!}
-          stage={stage!}
-          onSeasonChange={onSeasonChange}
-        />
-      </Visibility>
+      <Navbar
+        className={clsx(popup.initial && 'd-none')}
+        season={season}
+        tournament={tournament!}
+        stage={stage!}
+        onSeasonChange={onSeasonChange}
+      />
       {tournament && stage ? (
         <Pages
           drawId={drawId}

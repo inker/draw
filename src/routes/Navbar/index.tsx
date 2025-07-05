@@ -1,4 +1,5 @@
 import { memo, useCallback } from 'react';
+import clsx from 'clsx';
 
 import type Tournament from '#model/Tournament';
 import type Stage from '#model/Stage';
@@ -20,6 +21,7 @@ interface Props {
   season: number;
   tournament: Tournament;
   stage: Stage;
+  className?: string;
   onSeasonChange: (
     tournament: Tournament,
     stage: Stage,
@@ -27,7 +29,13 @@ interface Props {
   ) => void;
 }
 
-function Navbar({ season, tournament, stage, onSeasonChange }: Props) {
+function Navbar({
+  season,
+  tournament,
+  stage,
+  className,
+  onSeasonChange,
+}: Props) {
   const [theme, setTheme] = useTheme();
   const [isXRay, setIsXRay] = useXRay();
   const [, refreshDrawId] = useDrawId();
@@ -46,7 +54,7 @@ function Navbar({ season, tournament, stage, onSeasonChange }: Props) {
   }, []);
 
   return (
-    <div className={styles.root}>
+    <div className={clsx(styles.root, className)}>
       <div
         id="navbar-left-container"
         className={styles['nav-bar-left-container']}
