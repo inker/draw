@@ -55,7 +55,7 @@ function Navbar({ season, tournament, stage, onSeasonChange }: Props) {
         <Button onClick={disableFastDrawAndRestart}>Restart</Button>
         {stage !== 'ls' && (
           <Button
-            disabled={isFastDraw}
+            isDisabled={isFastDraw}
             onClick={enableFastDraw}
           >
             Fast draw

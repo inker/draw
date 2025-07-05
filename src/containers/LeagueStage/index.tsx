@@ -114,7 +114,7 @@ function LeagueStage({
       >
         <Button
           type="button"
-          disabled={!isScheduleDone}
+          isDisabled={!isScheduleDone}
           onClick={() => {
             setIsMatchdayMode(prev => !prev);
           }}
