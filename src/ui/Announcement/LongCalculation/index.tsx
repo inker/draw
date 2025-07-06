@@ -1,7 +1,5 @@
 import { memo } from 'react';
 
-import StyledLink from '#ui/StyledLink';
-
 import * as styles from './styles.module.scss';
 
 function LongCalculation() {
@@ -10,13 +8,14 @@ function LongCalculation() {
       <div>Calculation is taking too long.</div>
       <div>
         And{' '}
-        <StyledLink
+        <a
           href="https://github.com/inker/draw/issues/14"
           target="_blank"
-          rel="noopener"
+          rel="noopener noreferrer"
+          className="styled-link"
         >
           here&apos;s why
-        </StyledLink>
+        </a>
         .
       </div>
     </div>

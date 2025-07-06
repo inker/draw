@@ -10,7 +10,6 @@ import useXRay from '#store/useXRay';
 import useFastDraw from '#store/useFastDraw';
 import Checkbox from '#ui/Checkbox';
 import Button from '#ui/Button';
-import StyledLink from '#ui/StyledLink';
 
 import SelectSeason from './SelectSeason';
 import SelectTheme from './SelectTheme';
@@ -90,13 +89,14 @@ function Navbar({
         {isWidth900 && <GitHubButtons />}
         <small>
           {isWidth700 ? 'Crafted with ♡ by' : '©'}{' '}
-          <StyledLink
+          <a
             href="https://github.com/inker"
             target="_blank"
-            rel="noopener"
+            rel="noopener noreferrer"
+            className="styled-link"
           >
             inker
-          </StyledLink>
+          </a>
         </small>
       </div>
     </div>
