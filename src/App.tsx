@@ -6,7 +6,6 @@ import { constant } from 'lodash';
 import usePopup from '#store/usePopup';
 import useIsDarkMode from '#utils/hooks/useIsDarkMode';
 
-import Body from './Body';
 import Popup from './Popup';
 
 const Routes = lazy(
@@ -36,7 +35,6 @@ function App() {
   return (
     <>
       <ColorScheme $value={isDarkMode ? 'dark' : 'light'} />
-      <Body />
       <Popup />
       <HashRouter>
         <Suspense>
