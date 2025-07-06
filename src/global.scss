@@ -8,6 +8,17 @@ body {
   background-color: light-dark(transparent, #272a33);
 }
 
+.page-root {
+  display: flex;
+  margin: auto;
+  width: 1000px;
+
+  @media (max-width: 999px) {
+    flex-direction: column;
+    width: 100%;
+  }
+}
+
 .styled-link {
   color: light-dark(blue, #f70);
   text-decoration: none;

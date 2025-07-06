@@ -1,7 +1,6 @@
 import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { random, sample, shuffle, stubArray } from 'lodash';
 
-import PageRoot from '#ui/PageRoot';
 import PotsContainer from '#ui/PotsContainer';
 import GroupsContainer from '#ui/GroupsContainer';
 import TablesContainer from '#ui/TablesContainer';
@@ -232,7 +231,7 @@ function CLGS({ season, pots: initialPots, isFirstPotShortDraw }: Props) {
   );
 
   return (
-    <PageRoot>
+    <div className='page-root'>
       <TablesContainer>
         <PotsContainer
           selectedTeams={selectedTeam && [selectedTeam]}
@@ -279,7 +278,7 @@ function CLGS({ season, pots: initialPots, isFirstPotShortDraw }: Props) {
           />
         )}
       </div>
-    </PageRoot>
+    </div>
   );
 }
 

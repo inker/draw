@@ -1,7 +1,6 @@
 import { memo, useCallback, useEffect, useRef, useState } from 'react';
 import { random, shuffle, stubArray, without } from 'lodash';
 
-import PageRoot from '#ui/PageRoot';
 import PotsContainer from '#ui/PotsContainer';
 import MatchupsContainer from '#ui/MatchupsContainer';
 import TablesContainer from '#ui/TablesContainer';
@@ -199,7 +198,7 @@ function ELKO({ season, pots: initialPots }: Props) {
   }, [isFastDraw, currentPotNum]);
 
   return (
-    <PageRoot>
+    <div className='page-root'>
       <TablesContainer>
         <PotsContainer
           selectedTeams={potsToDisplay[0]}
@@ -255,7 +254,7 @@ function ELKO({ season, pots: initialPots }: Props) {
           />
         )}
       </div>
-    </PageRoot>
+    </div>
   );
 }
 

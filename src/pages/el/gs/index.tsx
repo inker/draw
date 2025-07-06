@@ -3,7 +3,6 @@ import { random, shuffle, stubArray } from 'lodash';
 
 import type Team from '#model/team/GsTeam';
 import { serializeGsWorkerData } from '#model/WorkerData';
-import PageRoot from '#ui/PageRoot';
 import PotsContainer from '#ui/PotsContainer';
 import GroupsContainer from '#ui/GroupsContainer';
 import TablesContainer from '#ui/TablesContainer';
@@ -165,7 +164,7 @@ function ELGS({ season, pots: initialPots }: Props) {
   );
 
   return (
-    <PageRoot>
+    <div className='page-root'>
       <TablesContainer>
         <PotsContainer
           selectedTeams={selectedTeam && [selectedTeam]}
@@ -205,7 +204,7 @@ function ELGS({ season, pots: initialPots }: Props) {
           reset={setNewDrawId}
         />
       </div>
-    </PageRoot>
+    </div>
   );
 }
 

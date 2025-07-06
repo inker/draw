@@ -1,7 +1,6 @@
 import { memo, useCallback, useEffect, useRef, useState } from 'react';
 import { constant, random, shuffle, stubArray } from 'lodash';
 
-import PageRoot from '#ui/PageRoot';
 import PotsContainer from '#ui/PotsContainer';
 import GroupsContainer from '#ui/GroupsContainer';
 import TablesContainer from '#ui/TablesContainer';
@@ -168,7 +167,7 @@ function WCGS({ season, pots: initialPots }: Props) {
   const numGroups = groups.length;
 
   return (
-    <PageRoot>
+    <div className='page-root'>
       <TablesContainer>
         <PotsContainer
           selectedTeams={selectedTeam && [selectedTeam]}
@@ -208,7 +207,7 @@ function WCGS({ season, pots: initialPots }: Props) {
           reset={setNewDrawId}
         />
       </div>
-    </PageRoot>
+    </div>
   );
 }
 
