@@ -193,7 +193,7 @@ function CLKO({ season, pots: initialPots }: Props) {
   }, [isFastDraw, currentPotNum]);
 
   return (
-    <div className='page-root'>
+    <div className="page-root">
       <TablesContainer>
         <PotsContainer
           selectedTeams={potsToDisplay[0]}

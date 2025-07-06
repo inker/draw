@@ -164,7 +164,7 @@ function ELGS({ season, pots: initialPots }: Props) {
   );
 
   return (
-    <div className='page-root'>
+    <div className="page-root">
       <TablesContainer>
         <PotsContainer
           selectedTeams={selectedTeam && [selectedTeam]}

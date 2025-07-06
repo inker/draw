@@ -167,7 +167,7 @@ function WCGS({ season, pots: initialPots }: Props) {
   const numGroups = groups.length;
 
   return (
-    <div className='page-root'>
+    <div className="page-root">
       <TablesContainer>
         <PotsContainer
           selectedTeams={selectedTeam && [selectedTeam]}

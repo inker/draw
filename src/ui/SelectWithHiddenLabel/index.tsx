@@ -12,7 +12,7 @@ type SelectProps = DetailedHTMLProps<
   HTMLSelectElement
 >;
 
-interface Props extends Omit<SelectProps, "disabled"> {
+interface Props extends Omit<SelectProps, 'disabled'> {
   label: string;
 }
 

@@ -231,7 +231,7 @@ function CLGS({ season, pots: initialPots, isFirstPotShortDraw }: Props) {
   );
 
   return (
-    <div className='page-root'>
+    <div className="page-root">
       <TablesContainer>
         <PotsContainer
           selectedTeams={selectedTeam && [selectedTeam]}
