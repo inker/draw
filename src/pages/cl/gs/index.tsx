@@ -3,7 +3,6 @@ import { random, sample, shuffle, stubArray } from 'lodash';
 
 import PotsContainer from '#ui/PotsContainer';
 import GroupsContainer from '#ui/GroupsContainer';
-import TablesContainer from '#ui/TablesContainer';
 import * as bowlsContainerStyles from '#ui/bowls-container.module.scss';
 import TeamBowl from '#ui/bowls/TeamBowl';
 import GroupBowl from '#ui/bowls/GroupBowl';
@@ -232,7 +231,7 @@ function CLGS({ season, pots: initialPots, isFirstPotShortDraw }: Props) {
 
   return (
     <div className="page-root">
-      <TablesContainer>
+      <div className="tables-container">
         <PotsContainer
           selectedTeams={selectedTeam && [selectedTeam]}
           initialPots={initialPots}
@@ -247,7 +246,7 @@ function CLGS({ season, pots: initialPots, isFirstPotShortDraw }: Props) {
           possibleGroups={isNoGroupBallPick ? null : possibleGroups}
           getGroupHeaderClassName={getGroupHeaderClassName}
         />
-      </TablesContainer>
+      </div>
       <div className={bowlsContainerStyles.root}>
         {!isFastDraw && (
           <TeamBowl

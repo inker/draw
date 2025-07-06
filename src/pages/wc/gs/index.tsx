@@ -3,7 +3,6 @@ import { constant, random, shuffle, stubArray } from 'lodash';
 
 import PotsContainer from '#ui/PotsContainer';
 import GroupsContainer from '#ui/GroupsContainer';
-import TablesContainer from '#ui/TablesContainer';
 import * as bowlsContainerStyles from '#ui/bowls-container.module.scss';
 import TeamBowl from '#ui/bowls/TeamBowl';
 import Announcement from '#ui/Announcement';
@@ -168,7 +167,7 @@ function WCGS({ season, pots: initialPots }: Props) {
 
   return (
     <div className="page-root">
-      <TablesContainer>
+      <div className="tables-container">
         <PotsContainer
           selectedTeams={selectedTeam && [selectedTeam]}
           initialPots={initialPots}
@@ -183,7 +182,7 @@ function WCGS({ season, pots: initialPots }: Props) {
           possibleGroups={null}
           getGroupHeaderClassName={getGroupHeaderClassName}
         />
-      </TablesContainer>
+      </div>
       <div className={bowlsContainerStyles.root}>
         {!isFastDraw && (
           <TeamBowl

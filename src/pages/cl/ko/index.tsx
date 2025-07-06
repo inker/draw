@@ -3,7 +3,6 @@ import { random, shuffle, stubArray, without } from 'lodash';
 
 import PotsContainer from '#ui/PotsContainer';
 import MatchupsContainer from '#ui/MatchupsContainer';
-import TablesContainer from '#ui/TablesContainer';
 import * as bowlsContainerStyles from '#ui/bowls-container.module.scss';
 import TeamBowl from '#ui/bowls/TeamBowl';
 import * as separatorStyles from '#ui/separator.module.scss';
@@ -194,7 +193,7 @@ function CLKO({ season, pots: initialPots }: Props) {
 
   return (
     <div className="page-root">
-      <TablesContainer>
+      <div className="tables-container">
         <PotsContainer
           selectedTeams={potsToDisplay[0]}
           initialPots={initialPots}
@@ -205,7 +204,7 @@ function CLKO({ season, pots: initialPots }: Props) {
           ref={groupsContanerRef}
           matchups={matchups}
         />
-      </TablesContainer>
+      </div>
       <div className={bowlsContainerStyles.root}>
         {!isFastDraw && (
           <>

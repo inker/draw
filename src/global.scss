@@ -19,6 +19,13 @@ body {
   }
 }
 
+.tables-container {
+  display: flex;
+  flex-direction: column;
+  margin: 0 5px 10px;
+  min-width: 65%;
+}
+
 .styled-link {
   color: light-dark(blue, #f70);
   text-decoration: none;
