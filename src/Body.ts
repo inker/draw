@@ -1,12 +1,6 @@
 import { createGlobalStyle } from 'styled-components';
 
-import { type ThemeInterface } from './themes';
-
-interface Props {
-  theme: ThemeInterface;
-}
-
-const Body = createGlobalStyle<Props>`
+const Body = createGlobalStyle`
   body {
     font-family: Tahoma, Arial, sans-serif;
     color: light-dark(black, white);

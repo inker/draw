@@ -1,12 +1,11 @@
 import { Suspense, lazy, memo, useEffect } from 'react';
-import { ThemeProvider, createGlobalStyle } from 'styled-components';
+import { createGlobalStyle } from 'styled-components';
 import { HashRouter } from 'react-router-dom';
 import { constant } from 'lodash';
 
 import usePopup from '#store/usePopup';
 import useIsDarkMode from '#utils/hooks/useIsDarkMode';
 
-import * as themes from './themes';
 import Body from './Body';
 import Popup from './Popup';
 
@@ -35,9 +34,8 @@ function App() {
   }, [popup.waiting]);
 
   return (
-    <ThemeProvider theme={isDarkMode ? themes.dark : themes.light}>
+    <>
       <ColorScheme $value={isDarkMode ? 'dark' : 'light'} />
-      {/* @ts-expect-error Fix types */}
       <Body />
       <Popup />
       <HashRouter>
@@ -45,7 +43,7 @@ function App() {
           <Routes />
         </Suspense>
       </HashRouter>
-    </ThemeProvider>
+    </>
   );
 }
 
