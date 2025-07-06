@@ -6,6 +6,19 @@
   cursor: pointer;
 }
 
+.box {
+  cursor: pointer;
+
+  &.dark {
+    border: var(--border);
+    accent-color: #246;
+
+    &:hover {
+      accent-color: #468;
+    }
+  }
+}
+
 .children-wrapper {
   margin-left: 0.5rem;
   user-select: none;
