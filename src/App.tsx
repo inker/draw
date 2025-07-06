@@ -1,13 +1,11 @@
 import { Suspense, lazy, memo, useEffect } from 'react';
-import styled, { ThemeProvider, createGlobalStyle } from 'styled-components';
+import { ThemeProvider, createGlobalStyle } from 'styled-components';
 import { HashRouter } from 'react-router-dom';
 import { constant } from 'lodash';
 
 import usePopup from '#store/usePopup';
 import useIsDarkMode from '#utils/hooks/useIsDarkMode';
 
-import './theme.css';
-import './global.css';
 import * as themes from './themes';
 import Body from './Body';
 import Popup from './Popup';
@@ -21,12 +19,6 @@ const Routes = lazy(
 const ColorScheme = createGlobalStyle<{ $value?: 'light' | 'dark' }>`
   :root {
     color-scheme: ${props => props.$value}
-  }
-`;
-
-const Root = styled.div`
-  * {
-    box-sizing: border-box;
   }
 `;
 
@@ -47,14 +39,12 @@ function App() {
       <ColorScheme $value={isDarkMode ? 'dark' : 'light'} />
       {/* @ts-expect-error Fix types */}
       <Body />
-      <Root>
-        <Popup />
-        <HashRouter>
-          <Suspense>
-            <Routes />
-          </Suspense>
-        </HashRouter>
-      </Root>
+      <Popup />
+      <HashRouter>
+        <Suspense>
+          <Routes />
+        </Suspense>
+      </HashRouter>
     </ThemeProvider>
   );
 }
