@@ -77,9 +77,19 @@ function Download({ completed, groupsElement }: Props) {
     <div>
       {!transitionsEnabled && <NoTransitions />}
       {'Download as '}
-      <ButtonLink onClick={onDownloadPngClick}>PNG</ButtonLink>
+      <ButtonLink
+        className="styled-link"
+        onClick={onDownloadPngClick}
+      >
+        PNG
+      </ButtonLink>
       {', '}
-      <ButtonLink onClick={onDownloadSvgClick}>SVG</ButtonLink>
+      <ButtonLink
+        className="styled-link"
+        onClick={onDownloadSvgClick}
+      >
+        SVG
+      </ButtonLink>
     </div>
   ) : null;
 }
