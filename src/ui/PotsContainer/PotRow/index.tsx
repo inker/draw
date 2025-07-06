@@ -4,8 +4,7 @@ import clsx from 'clsx';
 import type Team from '#model/team';
 import type GsTeam from '#model/team/GsTeam';
 import * as cellStyles from '#ui/table/cell.module.scss';
-
-import PotContent from '../PotContent';
+import ContentWithFlag from '#ui/table/ContentWithFlag';
 
 import * as styles from './styles.module.scss';
 
@@ -26,17 +25,20 @@ function PotRow({ teams, pickedTeams, selectedTeams }: Props) {
             key={team.id}
             className={clsx(cellStyles.root, styles['pot-cell'])}
           >
-            <PotContent
+            <ContentWithFlag
               data-cellid={team.id}
               title={
                 pairing && `paired with ${pairing.shortName ?? pairing.name}`
               }
-              $selected={!!selectedTeams?.includes(team)}
-              $picked={pickedTeams.includes(team)}
+              className={clsx(
+                styles['cell-content'],
+                selectedTeams?.includes(team) && styles.selected,
+                pickedTeams.includes(team) && styles.picked,
+              )}
               $country={country ?? name}
             >
               {shortName ?? name}
-            </PotContent>
+            </ContentWithFlag>
           </td>
         );
       })}

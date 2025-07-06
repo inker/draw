@@ -1,0 +1,10 @@
+.header {
+  &.depleted {
+    filter: grayscale(0.5);
+    opacity: 0.4;
+  }
+
+  &.highlighted {
+    color: #f70;
+  }
+}

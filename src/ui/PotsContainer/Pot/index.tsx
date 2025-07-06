@@ -1,11 +1,14 @@
 import { memo } from 'react';
+import clsx from 'clsx';
 
 import type Team from '#model/team';
 import Table from '#ui/table/Table';
+import Header from '#ui/table/Header';
 import * as cellStyles from '#ui/table/cell.module.scss';
 
-import Header from '../PotHeader';
 import PotRow from '../PotRow';
+
+import * as styles from './styles.module.scss';
 
 interface Props {
   isCurrent: boolean;
@@ -37,9 +40,13 @@ function Pot({
             colSpan={numCols}
           >
             <Header
-              $highlighted={isCurrent}
-              $depleted={!teams || pickedTeams.length === teams.length}
-              className={headerClassName}
+              className={clsx(
+                styles.header,
+                isCurrent && styles.highlighted,
+                (!teams || pickedTeams.length === teams.length) &&
+                  styles.depleted,
+                headerClassName,
+              )}
             >
               Pot {potNum + 1}
             </Header>

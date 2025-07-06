@@ -3,3 +3,14 @@
     border-left: var(--border);
   }
 }
+
+.cell-content {
+  &.selected {
+    color: light-dark(blue, yellow);
+  }
+
+  &.picked {
+    filter: grayscale(0.5);
+    opacity: 0.4;
+  }
+}
