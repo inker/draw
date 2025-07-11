@@ -60,12 +60,14 @@ function getPossibleLocations(numMatchdays: number) {
     });
   };
 
-  return Array.from(
-    {
-      length: 3 ** numMatchdays,
-    },
-    (_, i) => isLocComboPossible(i),
-  );
+  const set = new Set<number>();
+  for (let i = 0; i < 3 ** numMatchdays; ++i) {
+    if (isLocComboPossible(i)) {
+      set.add(i);
+    }
+  }
+
+  return set;
 }
 
 export default ({
@@ -160,11 +162,11 @@ export default ({
 
           const pow = 3 ** c.pickedMatchday;
           const hS = (c.locationSequenceSumByTeam[h] ?? 0) + 1 * pow;
-          if (!locComboPossibleBySum[hS]) {
+          if (!locComboPossibleBySum.has(hS)) {
             return true;
           }
           const aS = (c.locationSequenceSumByTeam[a] ?? 0) + 2 * pow;
-          if (!locComboPossibleBySum[aS]) {
+          if (!locComboPossibleBySum.has(aS)) {
             return true;
           }
 
