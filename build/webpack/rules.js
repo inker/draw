@@ -7,7 +7,7 @@ const getCssLoader = global => ({
     ? undefined
     : {
         modules: {
-          localIdentName: '[local]_[hash:base64:5]',
+          localIdentName: '[folder]__[local]__[hash:base64:5]',
         },
         importLoaders: 1,
       },
