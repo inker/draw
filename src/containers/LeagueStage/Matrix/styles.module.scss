@@ -2,10 +2,11 @@
   --cell-height: round(down, clamp(15px, calc(100vh / 46), 30px), 5px);
   --flag-width: calc(var(--cell-height) * 0.8);
   --flag-height: calc(var(--flag-width) * 0.75);
+  --cell-padding-start: calc((var(--cell-height) - var(--flag-height)) / 2);
+  --flag-team-gap: calc(0.15 * var(--cell-height));
   --flag-rotation-compensation: calc(
     (var(--flag-width) - var(--flag-height)) / 2
   );
-  --flag-team-gap: calc(0.15 * var(--cell-height));
 }
 
 .table {
@@ -19,11 +20,7 @@
 .header-cell {
   vertical-align: bottom;
   width: var(--cell-height);
-  padding: calc(
-      (var(--cell-height) - var(--flag-height)) / 2 +
-        var(--flag-rotation-compensation)
-    )
-    0;
+  padding: calc(var(--cell-padding-start) + var(--flag-rotation-compensation)) 0;
   border: 1px solid rgb(192 192 192);
   border-bottom-color: rgb(128 128 128);
 
@@ -60,7 +57,7 @@
 
 .team-cell {
   height: var(--cell-height);
-  padding: 0 calc((var(--cell-height) - var(--flag-height)) / 2);
+  padding: 0 var(--cell-padding-start);
   border: 1px solid rgb(192 192 192);
 
   & + & {
