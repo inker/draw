@@ -1,7 +1,7 @@
 import { type RefObject, memo, useCallback, useEffect, useState } from 'react';
 import delay from 'delay.js';
+import clsx from 'clsx';
 
-import ButtonLink from '#ui/ButtonLink';
 import NoTransitions from '#ui/NoTransitions';
 
 const saveScreenshotPromise = import(
@@ -77,19 +77,21 @@ function Download({ completed, groupsElement }: Props) {
     <div>
       {!transitionsEnabled && <NoTransitions />}
       {'Download as '}
-      <ButtonLink
-        className="styled-link"
+      <button
+        type="button"
+        className={clsx('button-link', 'styled-link')}
         onClick={onDownloadPngClick}
       >
         PNG
-      </ButtonLink>
+      </button>
       {', '}
-      <ButtonLink
-        className="styled-link"
+      <button
+        type="button"
+        className={clsx('button-link', 'styled-link')}
         onClick={onDownloadSvgClick}
       >
         SVG
-      </ButtonLink>
+      </button>
     </div>
   ) : null;
 }

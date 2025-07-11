@@ -26,6 +26,12 @@ body {
   min-width: 65%;
 }
 
+.button-link {
+  padding: initial;
+  border: initial;
+  background-color: initial;
+}
+
 .styled-link {
   color: light-dark(blue, #f70);
   text-decoration: none;
