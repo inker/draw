@@ -1,7 +1,7 @@
 import { type ReactNode, memo } from 'react';
 import clsx from 'clsx';
 
-import Overlay from '../Overlay';
+import * as overlayStyles from '../overlay.module.scss';
 
 import * as styles from './styles.module.scss';
 
@@ -13,10 +13,14 @@ interface Props {
 function Modal({ noAnimation, children }: Props) {
   return (
     <div>
-      <Overlay
-        className={clsx(styles.background, !noAnimation && styles.animate)}
+      <div
+        className={clsx(
+          overlayStyles.root,
+          styles.background,
+          !noAnimation && styles.animate,
+        )}
       />
-      <Overlay className={styles.body}>{children}</Overlay>
+      <div className={clsx(overlayStyles.root, styles.body)}>{children}</div>
     </div>
   );
 }
