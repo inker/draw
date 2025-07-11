@@ -13,12 +13,6 @@ const angleByIndex = [, 0, 5, 3, 2, 6, 4, 1];
 const Table = styled.table<{
   $potSize: number;
 }>`
-  flex-shrink: 0;
-  table-layout: fixed;
-  border-collapse: collapse;
-  border: 1px double rgb(128 128 128);
-  font-size: 10px;
-
   > thead {
     > tr {
       > th:nth-child(${props => props.$potSize}n + 2) {
@@ -122,6 +116,7 @@ function Matrix({
 
   return (
     <Table
+      className={styles.table}
       $potSize={potSize}
       onMouseOver={handleTableMouseOver}
       onMouseOut={handleTableMouseOut}

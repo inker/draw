@@ -1,6 +1,29 @@
+:root {
+  --cell-height: round(down, clamp(15px, calc(100vh / 46), 30px), 5px);
+  --flag-width: calc(var(--cell-height) * 0.8);
+  --flag-height: calc(var(--flag-width) * 0.75);
+  --flag-rotation-compensation: calc(
+    (var(--flag-width) - var(--flag-height)) / 2
+  );
+  --flag-team-gap: calc(0.15 * var(--cell-height));
+}
+
+.table {
+  flex-shrink: 0;
+  table-layout: fixed;
+  border-collapse: collapse;
+  border: 1px double rgb(128 128 128);
+  font-size: max(10px, calc(var(--cell-height) * 0.6));
+}
+
 .header-cell {
   vertical-align: bottom;
-  padding: 3px 1px;
+  width: var(--cell-height);
+  padding: calc(
+      (var(--cell-height) - var(--flag-height)) / 2 +
+        var(--flag-rotation-compensation)
+    )
+    0;
   border: 1px solid rgb(192 192 192);
   border-bottom-color: rgb(128 128 128);
 
@@ -11,14 +34,16 @@
 
 .header-cell-div {
   display: flex;
-  gap: 4px;
+  align-items: center;
+  gap: calc(var(--flag-team-gap) + var(--flag-rotation-compensation));
   writing-mode: vertical-lr;
   text-orientation: mixed;
+  width: 100%;
   font-weight: normal;
   transform: rotate(180deg);
 
   > img {
-    width: 12px;
+    width: var(--flag-width);
     transform: rotate(90deg);
     user-select: none;
     pointer-events: none;
@@ -34,7 +59,8 @@
 }
 
 .team-cell {
-  padding: 1px 3px;
+  height: var(--cell-height);
+  padding: 0 calc((var(--cell-height) - var(--flag-height)) / 2);
   border: 1px solid rgb(192 192 192);
 
   & + & {
@@ -43,9 +69,10 @@
 }
 
 .team {
-  padding-left: 14.5px;
+  white-space: nowrap;
+  padding-left: calc(var(--flag-width) + var(--flag-team-gap));
   background-position-y: center;
-  background-size: 12px;
+  background-size: var(--flag-width);
   background-repeat: no-repeat;
 }
 
