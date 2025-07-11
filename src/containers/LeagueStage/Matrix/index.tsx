@@ -124,15 +124,12 @@ function Matrix({
       <thead>
         <tr>
           {/* eslint-disable-next-line jsx-a11y/control-has-associated-label */}
-          <th className={styles['header-cell']} />
+          <th />
           {allTeams.map(opponent => (
             <th
               key={opponent.id}
               data-opponent={opponent.id}
-              className={clsx(
-                styles['header-cell'],
-                opponent.id === hoverColumn && styles.hovered,
-              )}
+              className={clsx(opponent.id === hoverColumn && styles.hovered)}
             >
               <div className={styles['header-cell-div']}>
                 <img
@@ -147,11 +144,8 @@ function Matrix({
       </thead>
       <tbody>
         {allTeams.map(team => (
-          <tr
-            key={team.id}
-            className={styles['body-row']}
-          >
-            <td className={styles['team-cell']}>
+          <tr key={team.id}>
+            <td>
               <div
                 className={styles.team}
                 style={{
@@ -169,7 +163,6 @@ function Matrix({
                   key={opponent.id}
                   data-opponent={opponent.id}
                   className={clsx(
-                    styles['table-cell'],
                     isMatch && styles.match,
                     noCellAnimation && styles['no-animation'],
                     opponent.id === hoverColumn && styles.hovered,
