@@ -6,9 +6,10 @@ import type Team from '#model/team/GsTeam';
 import generatePairings from '#engine/dfs/ls/generatePairings/index';
 import generateSchedule from '#engine/dfs/ls/generateSchedule/index';
 import useAbortSignal from '#utils/hooks/useAbortSignal';
+import formatDuration from '#utils/formatDuration';
+import useTimer from '#utils/hooks/useTimer';
 import Button from '#ui/Button';
 import Portal from '#ui/Portal';
-import Dots from '#ui/Dots';
 
 import Matrix from './Matrix';
 import Schedule from './Schedule';
@@ -106,6 +107,14 @@ function LeagueStage({
     [schedule],
   );
 
+  const elapsedTimeMs = useTimer({
+    key: isFixturesDone && !isScheduleDone ? true : undefined,
+    intervalMs: 1000,
+  });
+
+  const elapsedTimeFormatted =
+    elapsedTimeMs === undefined ? undefined : formatDuration(elapsedTimeMs);
+
   return (
     <div className={styles.root}>
       <Portal
@@ -138,7 +147,9 @@ function LeagueStage({
             noCellAnimation={isScheduleDone}
           />
           <div>
-            {isFixturesDone ? (
+            {isScheduleDone ? (
+              <p>Schedule generation took: {elapsedTimeFormatted}</p>
+            ) : isFixturesDone ? (
               <p>All {numMatches} matches have been drawn.</p>
             ) : (
               <p>
@@ -146,15 +157,15 @@ function LeagueStage({
               </p>
             )}
             {isFixturesDone && !isScheduleDone && (
-              <p>
-                Schedule creation in progress. This will take between two
-                minutes to an hour. Please do not close the page.
-                <Dots
-                  initialNum={0}
-                  maxNum={2}
-                  interval={1000}
-                />
-              </p>
+              <>
+                <p>
+                  Schedule creation in progress. This will take between two
+                  minutes to an hour. Please do not close the page.
+                </p>
+                {elapsedTimeFormatted !== undefined && (
+                  <p>Elapsed time: {elapsedTimeFormatted}</p>
+                )}
+              </>
             )}
           </div>
         </div>
