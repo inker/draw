@@ -1,6 +1,7 @@
 import { orderBy, range, sum } from 'lodash';
 
 import { findFirstSolution } from '#utils/backtrack';
+import rangeGenerator from '#utils/rangeGenerator';
 
 function toBase3Array(num: number, length: number) {
   const result = Array.from(
@@ -60,14 +61,7 @@ function getPossibleLocations(numMatchdays: number) {
     });
   };
 
-  const set = new Set<number>();
-  for (let i = 0; i < 3 ** numMatchdays; ++i) {
-    if (isLocComboPossible(i)) {
-      set.add(i);
-    }
-  }
-
-  return set;
+  return new Set(rangeGenerator(3 ** numMatchdays).filter(isLocComboPossible));
 }
 
 export default ({
