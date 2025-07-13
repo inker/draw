@@ -36,9 +36,9 @@ export default ({
 
       const stadiumSharingTeamIndices = teamsSharingStadium
         .map(namePair => {
-          const [h, i] = namePair;
+          const [h, a] = namePair;
           const aTeam = teams.findIndex(t => t.name === h);
-          const bTeam = teams.findIndex(t => t.name === i);
+          const bTeam = teams.findIndex(t => t.name === a);
           return aTeam > -1 && bTeam > -1
             ? ([aTeam, bTeam] as const)
             : undefined;
