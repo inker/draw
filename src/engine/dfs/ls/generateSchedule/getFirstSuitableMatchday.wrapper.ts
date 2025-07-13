@@ -39,7 +39,9 @@ export default ({
           const [h, i] = namePair;
           const aTeam = teams.findIndex(t => t.name === h);
           const bTeam = teams.findIndex(t => t.name === i);
-          return aTeam && bTeam ? ([aTeam, bTeam] as const) : undefined;
+          return aTeam > -1 && bTeam > -1
+            ? ([aTeam, bTeam] as const)
+            : undefined;
         })
         .filter(Boolean) as (readonly [number, number])[];
 
