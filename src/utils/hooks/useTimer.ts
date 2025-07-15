@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import delay from 'delay.js';
 
 export default ({
   key,
@@ -21,9 +22,7 @@ export default ({
         while (isTimerOnRef.current) {
           setCurrentTimestamp(new Date());
           // eslint-disable-next-line no-await-in-loop
-          await new Promise<void>(resolve => {
-            setTimeout(resolve, intervalMs);
-          });
+          await delay(intervalMs);
         }
       };
 
