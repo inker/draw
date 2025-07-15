@@ -18,6 +18,7 @@ export default async function generateSchedule<T extends Team>({
   matchdaySize,
   tvPairings,
   allGames: allGamesWithIds,
+  getNumWorkers,
   signal,
 }: {
   season: number;
@@ -26,6 +27,7 @@ export default async function generateSchedule<T extends Team>({
   tvPairings: readonly (readonly [T, T])[];
   allGames: readonly (readonly [T, T])[];
   currentSchedule: readonly (readonly (readonly (readonly [T, T])[])[])[];
+  getNumWorkers: () => number;
   signal?: AbortSignal;
 }) {
   const allNonUniqueTeams = allGamesWithIds.flat();
@@ -57,6 +59,7 @@ export default async function generateSchedule<T extends Team>({
     teams: allTeams,
     matchdaySize,
     allGames: allGamesUnordered,
+    getNumWorkers,
     signal,
   });
 

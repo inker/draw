@@ -2,14 +2,16 @@ import delay from 'delay.js';
 
 import workerSendAndReceive from '#utils/worker/sendAndReceive';
 
+const maxNumWorkers = navigator.hardwareConcurrency;
+
 export default async <Func extends (...args: any) => void>({
-  numWorkers,
+  numWorkers: numWorkersParam,
   getWorker,
   getPayload,
   getTimeout,
   signal,
 }: {
-  numWorkers: number;
+  numWorkers: number | (() => number);
   getWorker: () => Worker;
   getPayload: (workerIndex: number, attempt: number) => Parameters<Func>[0];
   getTimeout: (workerIndex: number, attempt: number) => number;
@@ -35,10 +37,18 @@ export default async <Func extends (...args: any) => void>({
 
   const promises = Array.from(
     {
-      length: numWorkers,
+      length: maxNumWorkers,
     },
     async (_, workerIndex) => {
       for (let attempt = 0; !gotResult; ++attempt) {
+        const numWorkers =
+          typeof numWorkersParam === 'function'
+            ? numWorkersParam()
+            : numWorkersParam;
+        if (workerIndex >= numWorkers) {
+          // eslint-disable-next-line no-await-in-loop
+          await delay(1000);
+        }
         const worker = getWorker();
         workers[workerIndex] = worker;
         // eslint-disable-next-line no-await-in-loop

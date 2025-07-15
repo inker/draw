@@ -1,4 +1,4 @@
-import { memo, useEffect, useMemo, useState } from 'react';
+import { memo, useEffect, useMemo, useRef, useState } from 'react';
 
 import usePopup from '#store/usePopup';
 import type Tournament from '#model/Tournament';
@@ -6,6 +6,7 @@ import type Team from '#model/team/GsTeam';
 import generatePairings from '#engine/dfs/ls/generatePairings/index';
 import generateSchedule from '#engine/dfs/ls/generateSchedule/index';
 import useAbortSignal from '#utils/hooks/useAbortSignal';
+import usePageVisible from '#utils/hooks/usePageVisible';
 import formatDuration from '#utils/formatDuration';
 import useTimer from '#utils/hooks/useTimer';
 import Button from '#ui/Button';
@@ -82,6 +83,10 @@ function LeagueStage({
 
   const isFixturesDone = pairings.length === numMatches;
 
+  const isPageActive = usePageVisible();
+  const isPageActiveRef = useRef(isPageActive);
+  isPageActiveRef.current = isPageActive;
+
   useEffect(() => {
     if (isFixturesDone) {
       const formSchedule = async () => {
@@ -92,6 +97,11 @@ function LeagueStage({
           tvPairings,
           allGames: pairings,
           currentSchedule: schedule,
+          getNumWorkers: () =>
+            Math.max(
+              1,
+              isPageActiveRef.current ? navigator.hardwareConcurrency - 1 : 1,
+            ),
           signal: abortSignal,
         });
         setSchedule(it.solutionSchedule);

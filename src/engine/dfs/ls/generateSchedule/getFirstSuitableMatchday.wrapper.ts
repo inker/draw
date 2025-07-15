@@ -7,8 +7,6 @@ import coldCountries from '#engine/predicates/uefa/utils/coldCountries';
 import { type Func } from './getFirstSuitableMatchday.worker';
 import teamsSharingStadium from './teamsSharingStadium';
 
-const NUM_WORKERS = Math.max(1, navigator.hardwareConcurrency >> 1);
-
 interface Team {
   readonly name: string;
   readonly country: UefaCountry;
@@ -19,16 +17,18 @@ export default ({
   teams,
   matchdaySize,
   allGames,
+  getNumWorkers,
   signal,
 }: {
   season: number;
   teams: readonly Team[];
   matchdaySize: number;
   allGames: readonly (readonly [number, number])[];
+  getNumWorkers: () => number;
   signal?: AbortSignal;
 }) =>
   raceWorkers<Func>({
-    numWorkers: NUM_WORKERS,
+    numWorkers: getNumWorkers,
     getWorker: () =>
       new Worker(new URL('./getFirstSuitableMatchday.worker', import.meta.url)),
     getPayload: () => {
@@ -117,7 +117,7 @@ export default ({
       };
     },
     getTimeout: workerIndex => {
-      const power = (workerIndex / (NUM_WORKERS - 1)) ** 2;
+      const power = workerIndex % 2;
       return 5000 * 5 ** power;
     },
     signal,
