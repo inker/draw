@@ -13,8 +13,15 @@ export default async <Func extends (...args: any) => void>({
 }: {
   numWorkers: number | (() => number);
   getWorker: () => Worker;
-  getPayload: (workerIndex: number, attempt: number) => Parameters<Func>[0];
-  getTimeout: (workerIndex: number, attempt: number) => number;
+  getPayload: (o: {
+    workerIndex: number;
+    attempt: number;
+  }) => Parameters<Func>[0];
+  getTimeout: (o: {
+    workerIndex: number;
+    numWorkers: number;
+    attempt: number;
+  }) => number;
   signal?: AbortSignal;
 }): Promise<Awaited<ReturnType<Func>>> => {
   const workers: Worker[] = [];
@@ -54,11 +61,20 @@ export default async <Func extends (...args: any) => void>({
         // eslint-disable-next-line no-await-in-loop
         const raceResult = await Promise.race([
           workerSendAndReceive<ReturnType<Func>>(worker)(
-            getPayload(workerIndex, attempt),
+            getPayload({
+              workerIndex,
+              attempt,
+            }),
           ).catch((err: unknown) => {
             console.error(err);
           }),
-          delay(getTimeout(workerIndex, attempt)),
+          delay(
+            getTimeout({
+              workerIndex,
+              numWorkers,
+              attempt,
+            }),
+          ),
         ]);
         if (raceResult !== undefined) {
           gotResult = true;

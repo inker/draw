@@ -116,8 +116,8 @@ export default ({
         sameStadiumTeamPairs: stadiumSharingTeamIndices,
       };
     },
-    getTimeout: workerIndex => {
-      const power = workerIndex % 2;
+    getTimeout: ({ workerIndex, numWorkers }) => {
+      const power = (workerIndex / (numWorkers - 1)) ** 2;
       return 5000 * 5 ** power;
     },
     signal,
