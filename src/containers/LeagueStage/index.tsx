@@ -100,7 +100,9 @@ function LeagueStage({
           getNumWorkers: () =>
             Math.max(
               1,
-              isPageActiveRef.current ? navigator.hardwareConcurrency - 1 : 1,
+              isPageActiveRef.current
+                ? navigator.hardwareConcurrency - 1
+                : navigator.hardwareConcurrency >> 2,
             ),
           signal: abortSignal,
         });
