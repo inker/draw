@@ -227,7 +227,7 @@ export default ({
             }
 
             // 4. Penalize full matchdays
-            score += numMatchesByMatchday[i] * 2;
+            score += newNumMatchesByMatchday[i] * 2;
 
             score += i * 1.5;
 
