@@ -58,13 +58,13 @@ function Schedule({ tournament, schedule }: Props) {
                 {day.map(m => (
                   <div className={styles['match-pair']}>
                     <span className={scheduleTeamWrapperClass}>
-                      <ContentWithFlag $country={m[0].country}>
+                      <ContentWithFlag country={m[0].country}>
                         {m[0].name}
                       </ContentWithFlag>
                     </span>
                     <span className={styles['match-pair-center']}>-</span>
                     <span className={scheduleTeamWrapperClass}>
-                      <ContentWithFlag $country={m[1].country}>
+                      <ContentWithFlag country={m[1].country}>
                         {m[1].name}
                       </ContentWithFlag>
                     </span>

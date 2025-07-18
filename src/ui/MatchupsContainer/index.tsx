@@ -13,7 +13,7 @@ interface Props {
 
 const MatchupContainer = forwardRef(({ matchups }: Props, ref: any) => (
   <Table
-    ref={ref}
+    innerRef={ref}
     className={styles['root-table']}
   >
     <tbody>
