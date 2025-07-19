@@ -94,22 +94,24 @@ function Matrix({
     <>
       <Global
         styles={css`
-          > thead {
-            > tr {
-              > th:nth-child(${potSize}n + 2) {
-                border-left: 1px double rgb(128 128 128);
+          .${styles.table} {
+            > thead {
+              > tr {
+                > th:nth-child(${potSize}n + 2) {
+                  border-left: 1px double rgb(128 128 128);
+                }
               }
             }
-          }
 
-          > tbody {
-            > tr {
-              &:nth-child(${potSize}n + 1) {
-                border-top: 1px double rgb(128 128 128);
-              }
+            > tbody {
+              > tr {
+                &:nth-child(${potSize}n + 1) {
+                  border-top: 1px double rgb(128 128 128);
+                }
 
-              > td:nth-child(${potSize}n + 2) {
-                border-left: 1px double rgb(128 128 128);
+                > td:nth-child(${potSize}n + 2) {
+                  border-left: 1px double rgb(128 128 128);
+                }
               }
             }
           }
