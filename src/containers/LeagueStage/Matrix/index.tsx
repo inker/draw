@@ -3,12 +3,18 @@ import clsx from 'clsx';
 
 import getCountryFlagUrl from '#utils/getCountryFlagUrl';
 import { type Country } from '#model/types';
+import rangeGenerator from '#utils/rangeGenerator';
 
 import TableStyles from './TableStyles';
 import * as styles from './styles.module.scss';
 
 // eslint-disable-next-line no-sparse-arrays
 const angleByIndex = [, 0, 5, 3, 2, 6, 4, 1];
+
+const isTableCell = (node: any): node is HTMLTableCellElement => {
+  const tag = (node as Element).tagName?.toLowerCase();
+  return tag === 'td' || tag === 'th';
+};
 
 interface Team {
   id: string;
@@ -33,7 +39,7 @@ function Matrix({
   potSize,
   noCellAnimation,
 }: Props) {
-  const [hoverColumn, setHoverColumn] = useState<string | undefined>(undefined);
+  const [hoverColumn, setHoverColumn] = useState<number | undefined>(undefined);
 
   const pairingsMap = useMemo(() => {
     const o: Record<`${string}:${string}`, boolean> = {};
@@ -66,29 +72,25 @@ function Matrix({
 
   const handleTableMouseOver = useCallback(
     (e: React.MouseEvent<HTMLTableElement>) => {
-      const opponentId =
-        (e.target as HTMLTableCellElement).dataset.opponent ||
-        (
-          e.nativeEvent
-            .composedPath()
-            .find(el => (el as HTMLElement).dataset?.opponent) as
-            | HTMLElement
-            | undefined
-        )?.dataset?.opponent;
-      setHoverColumn(opponentId);
+      const cell = isTableCell(e.target)
+        ? e.target
+        : e.nativeEvent.composedPath().find(isTableCell);
+      if (!cell) {
+        setHoverColumn(undefined);
+        return;
+      }
+      const siblings = cell.parentNode!.children;
+      const index = rangeGenerator(siblings.length).find(
+        i => siblings[i] === cell,
+      );
+      setHoverColumn(index);
     },
     [],
   );
 
-  const handleTableMouseOut = useCallback(
-    (e: React.MouseEvent<HTMLTableElement>) => {
-      const opponentId = (e.target as HTMLTableCellElement).dataset.opponent;
-      if (opponentId) {
-        setHoverColumn(undefined);
-      }
-    },
-    [],
-  );
+  const handleTableMouseOut = useCallback(() => {
+    setHoverColumn(undefined);
+  }, []);
 
   return (
     <>
@@ -107,11 +109,12 @@ function Matrix({
           <tr>
             {/* eslint-disable-next-line jsx-a11y/control-has-associated-label */}
             <th />
-            {allTeams.map(opponent => (
+            {allTeams.map((opponent, opponentIndex) => (
               <th
                 key={opponent.id}
-                data-opponent={opponent.id}
-                className={clsx(opponent.id === hoverColumn && styles.hovered)}
+                className={clsx(
+                  opponentIndex + 1 === hoverColumn && styles.hovered,
+                )}
               >
                 <div className={styles['header-cell-div']}>
                   <img
@@ -137,17 +140,16 @@ function Matrix({
                   {team.name}
                 </div>
               </td>
-              {allTeams.map(opponent => {
+              {allTeams.map((opponent, opponentIndex) => {
                 const isMatch = pairingsMap[`${team.id}:${opponent.id}`];
                 const matchdayIndex = scheduleMap[`${team.id}:${opponent.id}`];
                 return (
                   <td
                     key={opponent.id}
-                    data-opponent={opponent.id}
                     className={clsx(
                       isMatch && styles.match,
                       noCellAnimation && styles['no-animation'],
-                      opponent.id === hoverColumn && styles.hovered,
+                      opponentIndex + 1 === hoverColumn && styles.hovered,
                     )}
                   >
                     {matchdayIndex === undefined ? (
