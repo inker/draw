@@ -10,11 +10,11 @@
   grid-template-columns: repeat(4, 1fr);
   width: fit-content;
 
-  @container (max-width: 1000px) {
+  @container (width <= 1000px) {
     grid-template-columns: repeat(3, 1fr);
   }
 
-  @container (max-width: 500px) {
+  @container (width <= 500px) {
     grid-template-columns: repeat(2, 1fr);
   }
 }
