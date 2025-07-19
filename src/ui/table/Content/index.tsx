@@ -7,13 +7,12 @@ import * as styles from './styles.module.scss';
 
 type Props = React.HTMLAttributes<HTMLSpanElement> & {
   dummy?: boolean;
-  innerRef?: React.RefObject<HTMLSpanElement>;
+  ref?: React.RefObject<HTMLSpanElement | null>;
 };
 
-function Content({ className, innerRef, dummy, ...otherProps }: Props) {
+function Content({ className, dummy, ...otherProps }: Props) {
   return (
     <span
-      ref={innerRef}
       className={clsx(
         baseContentStyles.root,
         styles.root,

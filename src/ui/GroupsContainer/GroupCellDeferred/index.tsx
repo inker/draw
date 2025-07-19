@@ -26,7 +26,7 @@ function GroupCellDeferred({ team, possible }: Props) {
   const [displayedTeam, setDisplayedTeam] = useState(team);
   const [isPickedAnimation, setIsPickedAnimation] = useState(false);
   const isDarkMode = useIsDarkMode();
-  const destinationRef = useRef<HTMLElement | null>(null);
+  const destinationRef = useRef<HTMLElement>(null);
 
   const setIsPickedAnimationFalse = useCallback(() => {
     setIsPickedAnimation(false);
@@ -58,7 +58,7 @@ function GroupCellDeferred({ team, possible }: Props) {
           </ContentWithFlag>
         ) : (
           <Content
-            innerRef={destinationRef}
+            ref={destinationRef}
             dummy
           />
         )}

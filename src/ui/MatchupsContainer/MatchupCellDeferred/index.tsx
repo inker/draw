@@ -50,7 +50,7 @@ function MatchupCellDeferred({ team }: Props) {
             {displayedTeam.shortName ?? displayedTeam.name}
           </ContentWithFlag>
         ) : (
-          <Content innerRef={destinationRef} />
+          <Content ref={destinationRef} />
         )}
       </td>
       {team && team !== prevTeam && (

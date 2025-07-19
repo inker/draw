@@ -5,13 +5,12 @@ import clsx from 'clsx';
 import * as styles from './styles.module.scss';
 
 type Props = React.HTMLAttributes<HTMLTableElement> & {
-  innerRef?: React.RefObject<HTMLTableElement>;
+  ref?: React.RefObject<HTMLTableElement | null>;
 };
 
-function Table({ className, innerRef, ...otherProps }: Props) {
+function Table({ className, ...otherProps }: Props) {
   return (
     <table
-      ref={innerRef}
       className={clsx(styles.root, className)}
       {...otherProps}
     />
