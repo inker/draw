@@ -13,7 +13,7 @@ function TableStyles({ className, blockSize }: Props) {
         .${className} {
           > thead {
             > tr {
-              > th:nth-child(${blockSize}n + 2) {
+              > th:nth-of-type(${blockSize}n + 2) {
                 border-left: 1px double var(--block-border-color);
               }
             }
@@ -21,11 +21,11 @@ function TableStyles({ className, blockSize }: Props) {
 
           > tbody {
             > tr {
-              &:nth-child(${blockSize}n + 1) {
+              &:nth-of-type(${blockSize}n + 1) {
                 border-top: 1px double var(--block-border-color);
               }
 
-              > td:nth-child(${blockSize}n + 2) {
+              > td:nth-of-type(${blockSize}n + 2) {
                 border-left: 1px double var(--block-border-color);
               }
             }
