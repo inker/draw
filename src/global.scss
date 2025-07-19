@@ -8,6 +8,13 @@ body {
   background-color: light-dark(transparent, #272a33);
 }
 
+.reset-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  text-indent: 0;
+}
+
 .page-root {
   display: flex;
   margin: auto;

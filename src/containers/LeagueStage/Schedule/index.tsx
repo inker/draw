@@ -38,43 +38,45 @@ function Schedule({ tournament, schedule }: Props) {
 
   return (
     <div className={styles.root}>
-      <div className={styles['calendar-container']}>
+      <ul className={clsx('reset-list', styles['calendar-container'])}>
         {schedule.map((md, i) => (
-          <div className={clsx(styles['matchday-root'], 'matchday')}>
-            <div className={styles['matchday-header']}>MATCHDAY {i + 1}</div>
-            {md.map((day, dayIndex) => (
-              <>
-                <div className={styles['day-header']}>
-                  {tournament === 'cl'
-                    ? dayIndex === 2
-                      ? 'Thursday'
+          <li>
+            <div className={clsx(styles['matchday-root'], 'matchday')}>
+              <div className={styles['matchday-header']}>MATCHDAY {i + 1}</div>
+              {md.map((day, dayIndex) => (
+                <>
+                  <div className={styles['day-header']}>
+                    {tournament === 'cl'
+                      ? dayIndex === 2
+                        ? 'Thursday'
+                        : dayIndex === 1 || md.length === 1
+                          ? 'Wednesday'
+                          : 'Tuesday'
                       : dayIndex === 1 || md.length === 1
-                        ? 'Wednesday'
-                        : 'Tuesday'
-                    : dayIndex === 1 || md.length === 1
-                      ? 'Night'
-                      : 'Evening'}
-                </div>
-                {day.map(m => (
-                  <div className={styles['match-pair']}>
-                    <span className={scheduleTeamWrapperClass}>
-                      <ContentWithFlag country={m[0].country}>
-                        {m[0].name}
-                      </ContentWithFlag>
-                    </span>
-                    <span className={styles['match-pair-center']}>-</span>
-                    <span className={scheduleTeamWrapperClass}>
-                      <ContentWithFlag country={m[1].country}>
-                        {m[1].name}
-                      </ContentWithFlag>
-                    </span>
+                        ? 'Night'
+                        : 'Evening'}
                   </div>
-                ))}
-              </>
-            ))}
-          </div>
+                  {day.map(m => (
+                    <div className={styles['match-pair']}>
+                      <span className={scheduleTeamWrapperClass}>
+                        <ContentWithFlag country={m[0].country}>
+                          {m[0].name}
+                        </ContentWithFlag>
+                      </span>
+                      <span className={styles['match-pair-center']}>-</span>
+                      <span className={scheduleTeamWrapperClass}>
+                        <ContentWithFlag country={m[1].country}>
+                          {m[1].name}
+                        </ContentWithFlag>
+                      </span>
+                    </div>
+                  ))}
+                </>
+              ))}
+            </div>
+          </li>
         ))}
-      </div>
+      </ul>
     </div>
   );
 }
