@@ -1,10 +1,10 @@
 import { memo, useCallback, useMemo, useState } from 'react';
-import { Global, css } from '@emotion/react';
 import clsx from 'clsx';
 
 import getCountryFlagUrl from '#utils/getCountryFlagUrl';
 import { type Country } from '#model/types';
 
+import TableStyles from './TableStyles';
 import * as styles from './styles.module.scss';
 
 // eslint-disable-next-line no-sparse-arrays
@@ -92,30 +92,9 @@ function Matrix({
 
   return (
     <>
-      <Global
-        styles={css`
-          .${styles.table} {
-            > thead {
-              > tr {
-                > th:nth-child(${potSize}n + 2) {
-                  border-left: 1px double var(--block-border-color);
-                }
-              }
-            }
-
-            > tbody {
-              > tr {
-                &:nth-child(${potSize}n + 1) {
-                  border-top: 1px double var(--block-border-color);
-                }
-
-                > td:nth-child(${potSize}n + 2) {
-                  border-left: 1px double var(--block-border-color);
-                }
-              }
-            }
-          }
-        `}
+      <TableStyles
+        className={styles.table}
+        blockSize={potSize}
       />
       <table
         className={styles.table}
