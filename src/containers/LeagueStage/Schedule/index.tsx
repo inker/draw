@@ -26,7 +26,7 @@ function Schedule({ tournament, schedule }: Props) {
       const elements = document.getElementsByClassName(
         scheduleTeamWrapperClass,
       );
-      const offsetWidths = [...elements].map(
+      const offsetWidths = Iterator.from(elements).map(
         el => (el as HTMLElement).offsetWidth ?? 0,
       );
       const maxOffsetWidth = Math.max(...offsetWidths);
