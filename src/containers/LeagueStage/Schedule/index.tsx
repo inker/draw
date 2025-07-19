@@ -45,11 +45,11 @@ function Schedule({ tournament, schedule }: Props) {
     >
       <ul className={clsx('reset-list', styles['calendar-container'])}>
         {schedule.map((md, i) => (
-          <li>
-            <div className={clsx(styles['matchday-root'], 'matchday')}>
-              <div className={styles['matchday-header']}>MATCHDAY {i + 1}</div>
+          <li className={clsx(styles['matchday-root'], 'matchday')}>
+            <div className={styles['matchday-header']}>MATCHDAY {i + 1}</div>
+            <ul className="reset-list">
               {md.map((day, dayIndex) => (
-                <>
+                <li>
                   <div className={styles['day-header']}>
                     {tournament === 'cl'
                       ? dayIndex === 2
@@ -61,24 +61,26 @@ function Schedule({ tournament, schedule }: Props) {
                         ? 'Night'
                         : 'Evening'}
                   </div>
-                  {day.map(m => (
-                    <div className={styles['match-pair']}>
-                      <span className={styles['match-pair-team']}>
-                        <ContentWithFlag country={m[0].country}>
-                          {m[0].name}
-                        </ContentWithFlag>
-                      </span>
-                      <span className={styles['match-pair-center']}>-</span>
-                      <span className={styles['match-pair-team']}>
-                        <ContentWithFlag country={m[1].country}>
-                          {m[1].name}
-                        </ContentWithFlag>
-                      </span>
-                    </div>
-                  ))}
-                </>
+                  <ul className="reset-list">
+                    {day.map(m => (
+                      <li className={styles['match-pair']}>
+                        <span className={styles['match-pair-team']}>
+                          <ContentWithFlag country={m[0].country}>
+                            {m[0].name}
+                          </ContentWithFlag>
+                        </span>
+                        <span className={styles['match-pair-center']}>-</span>
+                        <span className={styles['match-pair-team']}>
+                          <ContentWithFlag country={m[1].country}>
+                            {m[1].name}
+                          </ContentWithFlag>
+                        </span>
+                      </li>
+                    ))}
+                  </ul>
+                </li>
               ))}
-            </div>
+            </ul>
           </li>
         ))}
       </ul>
