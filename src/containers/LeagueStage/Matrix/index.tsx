@@ -1,20 +1,15 @@
-import { memo, useCallback, useMemo, useState } from 'react';
+import { memo, useMemo } from 'react';
 import clsx from 'clsx';
 
 import getCountryFlagUrl from '#utils/getCountryFlagUrl';
 import { type Country } from '#model/types';
-import rangeGenerator from '#utils/rangeGenerator';
+import useTableColumnHover from '#utils/hooks/useTableColumnHover';
 
 import TableStyles from './TableStyles';
 import * as styles from './styles.module.scss';
 
 // eslint-disable-next-line no-sparse-arrays
 const angleByIndex = [, 0, 5, 3, 2, 6, 4, 1];
-
-const isTableCell = (node: any): node is HTMLTableCellElement => {
-  const tag = (node as Element).tagName?.toLowerCase();
-  return tag === 'td' || tag === 'th';
-};
 
 interface Team {
   id: string;
@@ -39,7 +34,7 @@ function Matrix({
   potSize,
   noCellAnimation,
 }: Props) {
-  const [hoverColumn, setHoverColumn] = useState<number | undefined>(undefined);
+  const columnHover = useTableColumnHover();
 
   const pairingsMap = useMemo(() => {
     const o: Record<`${string}:${string}`, boolean> = {};
@@ -70,28 +65,6 @@ function Matrix({
     return `lch(50% 100 ${deg})`;
   };
 
-  const handleTableMouseOver = useCallback(
-    (e: React.MouseEvent<HTMLTableElement>) => {
-      const cell = isTableCell(e.target)
-        ? e.target
-        : e.nativeEvent.composedPath().find(isTableCell);
-      if (!cell) {
-        setHoverColumn(undefined);
-        return;
-      }
-      const siblings = cell.parentNode!.children;
-      const index = rangeGenerator(siblings.length).find(
-        i => siblings[i] === cell,
-      );
-      setHoverColumn(index);
-    },
-    [],
-  );
-
-  const handleTableMouseOut = useCallback(() => {
-    setHoverColumn(undefined);
-  }, []);
-
   return (
     <>
       <TableStyles
@@ -101,9 +74,9 @@ function Matrix({
       <table
         className={styles.table}
         // eslint-disable-next-line jsx-a11y/mouse-events-have-key-events
-        onMouseOver={handleTableMouseOver}
+        onMouseOver={columnHover.onMouseOver}
         // eslint-disable-next-line jsx-a11y/mouse-events-have-key-events
-        onMouseOut={handleTableMouseOut}
+        onMouseOut={columnHover.onMouseOut}
       >
         <thead>
           <tr>
@@ -113,7 +86,7 @@ function Matrix({
               <th
                 key={opponent.id}
                 className={clsx(
-                  opponentIndex + 1 === hoverColumn && styles.hovered,
+                  opponentIndex + 1 === columnHover.index && styles.hovered,
                 )}
               >
                 <div className={styles['header-cell-div']}>
@@ -149,7 +122,7 @@ function Matrix({
                     className={clsx(
                       isMatch && styles.match,
                       noCellAnimation && styles['no-animation'],
-                      opponentIndex + 1 === hoverColumn && styles.hovered,
+                      opponentIndex + 1 === columnHover.index && styles.hovered,
                     )}
                   >
                     {matchdayIndex === undefined ? (
