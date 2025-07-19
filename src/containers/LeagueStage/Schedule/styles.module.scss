@@ -20,7 +20,6 @@
 }
 
 .matchday-root {
-  border: 1px solid rgb(192 192 192);
   font-size: 12px;
 }
 
@@ -28,10 +27,15 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 20px;
+  height: 22px;
   background-color: black;
   color: white;
   font-weight: 600;
+}
+
+.matchday-day {
+  border: 1px solid rgb(192 192 192);
+  border-top: none;
 }
 
 .day-header {
@@ -39,7 +43,6 @@
   justify-content: center;
   align-items: center;
   height: 20px;
-  border-top: 1px solid rgb(192 192 192);
   background-color: rgb(240 240 240);
 }
 

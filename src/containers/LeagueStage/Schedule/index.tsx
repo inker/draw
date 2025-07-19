@@ -49,7 +49,7 @@ function Schedule({ tournament, schedule }: Props) {
             <div className={styles['matchday-header']}>MATCHDAY {i + 1}</div>
             <ul className="reset-list">
               {md.map((day, dayIndex) => (
-                <li>
+                <li className={styles['matchday-day']}>
                   <div className={styles['day-header']}>
                     {tournament === 'cl'
                       ? dayIndex === 2
