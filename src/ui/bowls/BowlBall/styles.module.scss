@@ -1,0 +1,20 @@
+.root {
+  &.selected {
+    font-size: 0.8em;
+    font-weight: bold;
+    color: white;
+
+    @media (width <= 999px) {
+      font-size: 8px;
+    }
+  }
+
+  &:not(.selected) {
+    font-size: 0;
+    background: radial-gradient(#004, #002, #002);
+  }
+
+  &.force-visible {
+    font-size: 0.8em;
+  }
+}

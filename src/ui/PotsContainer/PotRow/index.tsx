@@ -35,7 +35,7 @@ function PotRow({ teams, pickedTeams, selectedTeams }: Props) {
                 selectedTeams?.includes(team) && styles.selected,
                 pickedTeams.includes(team) && styles.picked,
               )}
-              $country={country ?? name}
+              country={country ?? name}
             >
               {shortName ?? name}
             </ContentWithFlag>

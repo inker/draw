@@ -1,6 +1,4 @@
-import styled from 'styled-components';
-
-const Ball = styled.div`
+.root {
   display: flex;
   justify-content: center; /* align horizontal */
   align-items: center; /* align vertical */
@@ -17,17 +15,14 @@ const Ball = styled.div`
   cursor: pointer;
   user-select: none;
 
-  @media (max-width: 999px) {
+  @media (width <= 999px) {
     flex-flow: row wrap;
+    width: 21px;
+    height: 21px;
 
     > * {
       flex: 1;
       flex-basis: 22%;
     }
-
-    width: 21px;
-    height: 21px;
   }
-`;
-
-export default Ball;
+}

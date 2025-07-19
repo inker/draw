@@ -8,12 +8,19 @@ body {
   background-color: light-dark(transparent, #272a33);
 }
 
+.reset-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  text-indent: 0;
+}
+
 .page-root {
   display: flex;
   margin: auto;
   width: 1000px;
 
-  @media (max-width: 999px) {
+  @media (width <= 999px) {
     flex-direction: column;
     width: 100%;
   }

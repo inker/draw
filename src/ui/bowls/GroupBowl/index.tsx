@@ -2,7 +2,8 @@ import { memo, useCallback } from 'react';
 
 import getGroupLetter from '#utils/getGroupLetter';
 
-import Ball from './Ball';
+import BowlBall from '../BowlBall';
+
 import * as styles from './styles.module.scss';
 
 interface Props {
@@ -29,14 +30,15 @@ function GroupBowl({ display, displayGroups, possibleGroups, onPick }: Props) {
     <div className={styles.root}>
       {display &&
         possibleGroups?.map(groupNum => (
-          <Ball
+          <BowlBall
             key={groupNum}
             data-group={groupNum}
+            className={styles['group-ball']}
             forceVisible={displayGroups}
             onClick={handleBallPick}
           >
             {getGroupLetter(groupNum)}
-          </Ball>
+          </BowlBall>
         ))}
     </div>
   );

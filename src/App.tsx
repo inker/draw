@@ -1,5 +1,5 @@
 import { Suspense, lazy, memo, useEffect } from 'react';
-import { createGlobalStyle } from 'styled-components';
+import { Global, css } from '@emotion/react';
 import { HashRouter } from 'react-router-dom';
 import { constant } from 'lodash';
 
@@ -13,12 +13,6 @@ const Routes = lazy(
     import(/* webpackPreload: true, webpackChunkName: "routes" */ './routes'),
   ),
 );
-
-const ColorScheme = createGlobalStyle<{ $value?: 'light' | 'dark' }>`
-  :root {
-    color-scheme: ${props => props.$value}
-  }
-`;
 
 function App() {
   const [popup, setPopup] = usePopup();
@@ -34,7 +28,13 @@ function App() {
 
   return (
     <>
-      <ColorScheme $value={isDarkMode ? 'dark' : 'light'} />
+      <Global
+        styles={css`
+          :root {
+            color-scheme: ${isDarkMode ? 'dark' : 'light'};
+          }
+        `}
+      />
       <Popup />
       <HashRouter>
         <Suspense>

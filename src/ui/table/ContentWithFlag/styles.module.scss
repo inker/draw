@@ -1,0 +1,11 @@
+.root {
+  padding-left: 19px;
+  background-position-y: center;
+  background-size: 16px;
+  background-repeat: no-repeat;
+
+  @media (width <= 999px) {
+    padding-left: 13px;
+    background-size: 12px;
+  }
+}

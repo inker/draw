@@ -1,6 +1,4 @@
-import styled from 'styled-components';
-
-const BaseContent = styled.span`
+.root {
   display: flex;
   align-items: center;
   text-align: center;
@@ -8,10 +6,8 @@ const BaseContent = styled.span`
   font-family: Tahoma, Arial, sans-serif;
   font-size: 12px;
 
-  @media (max-width: 999px) {
+  @media (width <= 999px) {
     font-family: Roboto, sans-serif;
     font-size: 10px;
   }
-`;
-
-export default BaseContent;
+}

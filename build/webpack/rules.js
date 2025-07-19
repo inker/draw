@@ -1,5 +1,4 @@
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-// const createStyledComponentsTransformer = require('typescript-plugin-styled-components').default
 
 const getCssLoader = global => ({
   loader: require.resolve('css-loader'),

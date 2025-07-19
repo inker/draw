@@ -8,7 +8,7 @@ import useDidUpdate from '#utils/hooks/useDidUpdate';
 import useIsDarkMode from '#utils/hooks/useIsDarkMode';
 import getTeamCountryName from '#utils/getTeamCountryName';
 import ContentWithFlag from '#ui/table/ContentWithFlag';
-import DummyContent from '#ui/table/DummyContent';
+import Content from '#ui/table/Content';
 import MovingContent from '#ui/MovingContent';
 import * as cellStyles from '#ui/table/cell.module.scss';
 
@@ -26,7 +26,7 @@ function GroupCellDeferred({ team, possible }: Props) {
   const [displayedTeam, setDisplayedTeam] = useState(team);
   const [isPickedAnimation, setIsPickedAnimation] = useState(false);
   const isDarkMode = useIsDarkMode();
-  const destinationRef = useRef<HTMLElement | null>(null);
+  const destinationRef = useRef<HTMLElement>(null);
 
   const setIsPickedAnimationFalse = useCallback(() => {
     setIsPickedAnimation(false);
@@ -53,11 +53,14 @@ function GroupCellDeferred({ team, possible }: Props) {
         onAnimationEnd={setIsPickedAnimationFalse}
       >
         {displayedTeam ? (
-          <ContentWithFlag $country={getTeamCountryName(displayedTeam)}>
+          <ContentWithFlag country={getTeamCountryName(displayedTeam)}>
             {(displayedTeam as Club).shortName ?? displayedTeam.name}
           </ContentWithFlag>
         ) : (
-          <DummyContent ref={destinationRef} />
+          <Content
+            ref={destinationRef}
+            dummy
+          />
         )}
       </td>
       {team && team !== prevTeam && (

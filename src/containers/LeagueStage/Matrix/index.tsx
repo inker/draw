@@ -1,38 +1,15 @@
-import { memo, useCallback, useMemo, useState } from 'react';
-import styled from 'styled-components';
+import { memo, useMemo } from 'react';
 import clsx from 'clsx';
 
 import getCountryFlagUrl from '#utils/getCountryFlagUrl';
 import { type Country } from '#model/types';
+import useTableColumnHover from '#utils/hooks/useTableColumnHover';
 
+import TableStyles from './TableStyles';
 import * as styles from './styles.module.scss';
 
 // eslint-disable-next-line no-sparse-arrays
 const angleByIndex = [, 0, 5, 3, 2, 6, 4, 1];
-
-const Table = styled.table<{
-  $potSize: number;
-}>`
-  > thead {
-    > tr {
-      > th:nth-child(${props => props.$potSize}n + 2) {
-        border-left: 1px double rgb(128 128 128);
-      }
-    }
-  }
-
-  > tbody {
-    > tr {
-      &:nth-child(${props => props.$potSize}n + 1) {
-        border-top: 1px double rgb(128 128 128);
-      }
-
-      > td:nth-child(${props => props.$potSize}n + 2) {
-        border-left: 1px double rgb(128 128 128);
-      }
-    }
-  }
-`;
 
 interface Team {
   id: string;
@@ -57,26 +34,31 @@ function Matrix({
   potSize,
   noCellAnimation,
 }: Props) {
-  const [hoverColumn, setHoverColumn] = useState<string | undefined>(undefined);
+  const columnHover = useTableColumnHover();
 
-  const pairingsMap = useMemo(() => {
-    const o: Record<`${string}:${string}`, boolean> = {};
-    for (const pairing of pairings) {
-      o[`${pairing[0].id}:${pairing[1].id}`] = true;
-    }
-    return o;
-  }, [pairings]);
+  const pairingsSet = useMemo(
+    () =>
+      new Set(
+        pairings
+          .values()
+          .map(
+            pairing =>
+              `${pairing[0].id}:${pairing[1].id}` satisfies `${string}:${string}`,
+          ),
+      ),
+    [pairings],
+  );
 
   const scheduleMap = useMemo(() => {
-    const o: Record<`${string}:${string}`, number> = {};
+    const map = new Map<`${string}:${string}`, number>();
     for (const [mdIndex, md] of schedule.entries()) {
       for (const day of md) {
         for (const m of day) {
-          o[`${m[0].id}:${m[1].id}`] = mdIndex;
+          map.set(`${m[0].id}:${m[1].id}`, mdIndex);
         }
       }
     }
-    return o;
+    return map;
   }, [schedule]);
 
   const getMatchdayColor = (index: number) => {
@@ -88,109 +70,92 @@ function Matrix({
     return `lch(50% 100 ${deg})`;
   };
 
-  const handleTableMouseOver = useCallback(
-    (e: React.MouseEvent<HTMLTableElement>) => {
-      const opponentId =
-        (e.target as HTMLTableCellElement).dataset.opponent ||
-        (
-          e.nativeEvent
-            .composedPath()
-            .find(el => (el as HTMLElement).dataset?.opponent) as
-            | HTMLElement
-            | undefined
-        )?.dataset?.opponent;
-      setHoverColumn(opponentId);
-    },
-    [],
-  );
-
-  const handleTableMouseOut = useCallback(
-    (e: React.MouseEvent<HTMLTableElement>) => {
-      const opponentId = (e.target as HTMLTableCellElement).dataset.opponent;
-      if (opponentId) {
-        setHoverColumn(undefined);
-      }
-    },
-    [],
-  );
-
   return (
-    <Table
-      className={styles.table}
-      $potSize={potSize}
-      onMouseOver={handleTableMouseOver}
-      onMouseOut={handleTableMouseOut}
-    >
-      <thead>
-        <tr>
-          {/* eslint-disable-next-line jsx-a11y/control-has-associated-label */}
-          <th />
-          {allTeams.map(opponent => (
-            <th
-              key={opponent.id}
-              data-opponent={opponent.id}
-              className={clsx(opponent.id === hoverColumn && styles.hovered)}
-            >
-              <div className={styles['header-cell-div']}>
-                <img
-                  alt={`[${opponent.country}]`}
-                  src={getCountryFlagUrl(opponent.country)}
-                />
-                <span>{opponent.name}</span>
-              </div>
-            </th>
-          ))}
-        </tr>
-      </thead>
-      <tbody>
-        {allTeams.map(team => (
-          <tr key={team.id}>
-            <td>
-              <div
-                className={styles.team}
-                style={{
-                  backgroundImage: `url('${getCountryFlagUrl(team.country)}')`,
-                }}
+    <>
+      <TableStyles
+        className={styles.table}
+        blockSize={potSize}
+      />
+      <table
+        className={styles.table}
+        // eslint-disable-next-line jsx-a11y/mouse-events-have-key-events
+        onMouseOver={columnHover.onMouseOver}
+        // eslint-disable-next-line jsx-a11y/mouse-events-have-key-events
+        onMouseOut={columnHover.onMouseOut}
+      >
+        <thead>
+          <tr>
+            {/* eslint-disable-next-line jsx-a11y/control-has-associated-label */}
+            <th />
+            {allTeams.map((opponent, opponentIndex) => (
+              <th
+                key={opponent.id}
+                className={clsx(
+                  opponentIndex + 1 === columnHover.index && styles.hovered,
+                )}
               >
-                {team.name}
-              </div>
-            </td>
-            {allTeams.map(opponent => {
-              const isMatch = pairingsMap[`${team.id}:${opponent.id}`];
-              const matchdayIndex = scheduleMap[`${team.id}:${opponent.id}`];
-              return (
-                <td
-                  key={opponent.id}
-                  data-opponent={opponent.id}
-                  className={clsx(
-                    isMatch && styles.match,
-                    noCellAnimation && styles['no-animation'],
-                    opponent.id === hoverColumn && styles.hovered,
-                  )}
-                >
-                  {matchdayIndex === undefined ? (
-                    isMatch ? (
-                      '✕'
-                    ) : (
-                      ''
-                    )
-                  ) : (
-                    <div
-                      className={styles['body-cell-matchday']}
-                      style={{
-                        color: getMatchdayColor(matchdayIndex),
-                      }}
-                    >
-                      {matchdayIndex + 1}
-                    </div>
-                  )}
-                </td>
-              );
-            })}
+                <div className={styles['header-cell-div']}>
+                  <img
+                    alt={`[${opponent.country}]`}
+                    src={getCountryFlagUrl(opponent.country)}
+                  />
+                  <span>{opponent.name}</span>
+                </div>
+              </th>
+            ))}
           </tr>
-        ))}
-      </tbody>
-    </Table>
+        </thead>
+        <tbody>
+          {allTeams.map(team => (
+            <tr key={team.id}>
+              <td>
+                <div
+                  className={styles.team}
+                  style={{
+                    backgroundImage: `url('${getCountryFlagUrl(team.country)}')`,
+                  }}
+                >
+                  {team.name}
+                </div>
+              </td>
+              {allTeams.map((opponent, opponentIndex) => {
+                const isMatch = pairingsSet.has(`${team.id}:${opponent.id}`);
+                const matchdayIndex = scheduleMap.get(
+                  `${team.id}:${opponent.id}`,
+                );
+                return (
+                  <td
+                    key={opponent.id}
+                    className={clsx(
+                      isMatch && styles.match,
+                      noCellAnimation && styles['no-animation'],
+                      opponentIndex + 1 === columnHover.index && styles.hovered,
+                    )}
+                  >
+                    {matchdayIndex === undefined ? (
+                      isMatch ? (
+                        '✕'
+                      ) : (
+                        ''
+                      )
+                    ) : (
+                      <div
+                        className={styles['body-cell-matchday']}
+                        style={{
+                          color: getMatchdayColor(matchdayIndex),
+                        }}
+                      >
+                        {matchdayIndex + 1}
+                      </div>
+                    )}
+                  </td>
+                );
+              })}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </>
   );
 }
 

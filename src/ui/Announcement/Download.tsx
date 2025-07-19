@@ -1,8 +1,7 @@
 import { type RefObject, memo, useCallback, useEffect, useState } from 'react';
 import delay from 'delay.js';
 import clsx from 'clsx';
-
-import NoTransitions from '#ui/NoTransitions';
+import { Global, css } from '@emotion/react';
 
 const saveScreenshotPromise = import(
   /* webpackChunkName: "screenshot", webpackPrefetch: true */ '#utils/saveScreenshot'
@@ -75,7 +74,16 @@ function Download({ completed, groupsElement }: Props) {
 
   return completed && !!groupsElement ? (
     <div>
-      {!transitionsEnabled && <NoTransitions />}
+      {!transitionsEnabled && (
+        <Global
+          styles={css`
+            body * {
+              transition-property: none !important;
+              animation: none !important;
+            }
+          `}
+        />
+      )}
       {'Download as '}
       <button
         type="button"

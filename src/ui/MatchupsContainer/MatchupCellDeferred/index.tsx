@@ -1,5 +1,4 @@
-import { memo, useCallback, useContext, useRef, useState } from 'react';
-import { ThemeContext } from 'styled-components';
+import { memo, useCallback, useRef, useState } from 'react';
 import clsx from 'clsx';
 
 import type Team from '#model/team/Club';
@@ -7,7 +6,7 @@ import usePrevious from '#utils/hooks/usePrevious';
 import useDidUpdate from '#utils/hooks/useDidUpdate';
 import getTeamCountryName from '#utils/getTeamCountryName';
 import ContentWithFlag from '#ui/table/ContentWithFlag';
-import DummyContent from '#ui/table/DummyContent';
+import Content from '#ui/table/Content';
 import MovingContent from '#ui/MovingContent';
 import * as cellStyles from '#ui/table/cell.module.scss';
 
@@ -21,7 +20,6 @@ function MatchupCellDeferred({ team }: Props) {
   const prevTeam = usePrevious(team);
   const [displayedTeam, setDisplayedTeam] = useState(team);
   const [isPickedAnimation, setIsPickedAnimation] = useState(false);
-  const themeContext = useContext(ThemeContext);
   const destinationRef = useRef<HTMLElement | null>(null);
 
   const setIsPickedAnimationFalse = useCallback(() => {
@@ -35,7 +33,7 @@ function MatchupCellDeferred({ team }: Props) {
 
   useDidUpdate(() => {
     setIsPickedAnimationFalse();
-  }, [themeContext]);
+  }, []);
 
   return (
     <>
@@ -48,11 +46,11 @@ function MatchupCellDeferred({ team }: Props) {
         onAnimationEnd={setIsPickedAnimationFalse}
       >
         {displayedTeam ? (
-          <ContentWithFlag $country={getTeamCountryName(displayedTeam)}>
+          <ContentWithFlag country={getTeamCountryName(displayedTeam)}>
             {displayedTeam.shortName ?? displayedTeam.name}
           </ContentWithFlag>
         ) : (
-          <DummyContent ref={destinationRef} />
+          <Content ref={destinationRef} />
         )}
       </td>
       {team && team !== prevTeam && (

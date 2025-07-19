@@ -83,7 +83,7 @@ function ELKO({ season, pots: initialPots }: Props) {
     createWorker,
   ) as Func;
 
-  const groupsContanerRef = useRef<HTMLElement>(null);
+  const groupsContanerRef = useRef<HTMLTableElement>(null);
 
   const selectedTeam = matchups.find(m => m.length === 1)?.at(-1);
 

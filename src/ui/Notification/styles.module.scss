@@ -3,7 +3,7 @@
   color: light-dark(#808080, white);
   user-select: none;
 
-  @media (max-width: 999px) {
+  @media (width <= 999px) {
     font-size: 8vw;
   }
 }

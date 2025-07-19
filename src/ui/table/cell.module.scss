@@ -3,7 +3,7 @@
   padding: 0;
   background-color: light-dark(white, #58595e);
 
-  @media (max-width: 999px) {
+  @media (width <= 999px) {
     height: 14px;
   }
 }

@@ -1,8 +1,6 @@
-import styled from 'styled-components';
-
 // min-width, so it can have text overflow
 
-const Table = styled.table`
+.root {
   margin: 0 5px 10px;
   width: 150px;
   min-width: 0;
@@ -12,7 +10,7 @@ const Table = styled.table`
   border-spacing: 0;
   border-collapse: collapse;
 
-  @media (max-width: 999px) {
+  @media (width <= 999px) {
     margin: 0 3px 6px;
     width: max-content;
   }
@@ -20,6 +18,4 @@ const Table = styled.table`
   tr {
     border: var(--border);
   }
-`;
-
-export default Table;
+}

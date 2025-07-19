@@ -71,7 +71,7 @@ function MovingContent({ from, to, duration, team, onAnimationEnd }: Props) {
       <FixedOverlay>
         <ContentWithFlag
           className={styles['content-with-flag-fixed']}
-          $country={getTeamCountryName(team)}
+          country={getTeamCountryName(team)}
           style={style}
           onTransitionEnd={onTransitionEnd}
         >
