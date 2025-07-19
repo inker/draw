@@ -1,5 +1,4 @@
-import { memo, useCallback, useContext, useRef, useState } from 'react';
-import { ThemeContext } from 'styled-components';
+import { memo, useCallback, useRef, useState } from 'react';
 import clsx from 'clsx';
 
 import type Team from '#model/team/Club';
@@ -21,7 +20,6 @@ function MatchupCellDeferred({ team }: Props) {
   const prevTeam = usePrevious(team);
   const [displayedTeam, setDisplayedTeam] = useState(team);
   const [isPickedAnimation, setIsPickedAnimation] = useState(false);
-  const themeContext = useContext(ThemeContext);
   const destinationRef = useRef<HTMLElement | null>(null);
 
   const setIsPickedAnimationFalse = useCallback(() => {
@@ -35,7 +33,7 @@ function MatchupCellDeferred({ team }: Props) {
 
   useDidUpdate(() => {
     setIsPickedAnimationFalse();
-  }, [themeContext]);
+  }, []);
 
   return (
     <>

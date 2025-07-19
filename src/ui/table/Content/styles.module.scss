@@ -5,7 +5,7 @@
   text-overflow: ellipsis;
   white-space: nowrap;
 
-  @media (max-width: 999px) {
+  @media (width <= 999px) {
     font-family:
       'Roboto Condensed', RobotoCondensed, RobotoCondensed-Regular, sans-serif;
   }

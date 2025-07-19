@@ -13,7 +13,7 @@ body {
   margin: auto;
   width: 1000px;
 
-  @media (max-width: 999px) {
+  @media (width <= 999px) {
     flex-direction: column;
     width: 100%;
   }

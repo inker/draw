@@ -25,7 +25,7 @@
     }
   }
 
-  @media (max-width: 999px) {
+  @media (width <= 999px) {
     justify-content: center;
     margin-top: 5px;
     font-family:

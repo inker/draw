@@ -71,11 +71,11 @@
 
 .header-cell-div {
   display: flex;
-  align-items: center;
   gap: calc(var(--flag-team-gap) + var(--flag-rotation-compensation));
+  align-items: center;
+  width: 100%;
   writing-mode: vertical-lr;
   text-orientation: mixed;
-  width: 100%;
   font-weight: normal;
   transform: rotate(180deg);
 
@@ -88,8 +88,8 @@
 }
 
 .team {
-  white-space: nowrap;
   padding-left: calc(var(--flag-width) + var(--flag-team-gap));
+  white-space: nowrap;
   background-position-y: center;
   background-size: var(--flag-width);
   background-repeat: no-repeat;

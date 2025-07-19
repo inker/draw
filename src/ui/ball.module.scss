@@ -15,7 +15,7 @@
   cursor: pointer;
   user-select: none;
 
-  @media (max-width: 999px) {
+  @media (width <= 999px) {
     flex-flow: row wrap;
 
     > * {

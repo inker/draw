@@ -6,7 +6,7 @@
   font-family: Tahoma, Arial, sans-serif;
   font-size: 12px;
 
-  @media (max-width: 999px) {
+  @media (width <= 999px) {
     font-family: Roboto, sans-serif;
     font-size: 10px;
   }

@@ -1,20 +1,28 @@
 module.exports = {
-  extends: ['stylelint-config-standard'],
-  customSyntax: 'postcss-styled-syntax',
-  plugins: ['stylelint-order'],
+  reportInvalidScopeDisables: true,
+  reportNeedlessDisables: true,
+  reportUnscopedDisables: true,
+
+  extends: ['stylelint-config-standard-scss'],
+  plugins: ['stylelint-order', 'stylelint-scss'],
   rules: {
     'comment-empty-line-before': null,
+    'font-family-no-missing-generic-family-keyword': null,
     'no-descending-specificity': null,
     'alpha-value-notation': null,
-    'media-feature-range-notation': null,
     'declaration-block-no-redundant-longhand-properties': null, // TODO: remove
+    'scss/at-rule-no-unknown': true,
+    'scss/selector-no-redundant-nesting-selector': true,
+    'scss/selector-no-union-class-name': true,
     'declaration-block-no-duplicate-properties': true,
-    // 'value-keyword-case': [
-    //   'lower',
-    //   {
-    //     camelCaseSvgKeywords: true,
-    //   },
-    // ],
+    'selector-class-pattern': new RegExp(
+      [
+        /^[a-z]+(-[\da-z]+)*$/, // kebab-case
+        /^[a-z][\dA-Za-z]*(?:[A-Z][\dA-Za-z]*)*$/, // camelCase
+      ]
+        .map(r => r.source)
+        .join('|'),
+    ),
     'selector-pseudo-class-no-unknown': [
       true,
       {

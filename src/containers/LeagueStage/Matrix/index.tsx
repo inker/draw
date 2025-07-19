@@ -1,5 +1,5 @@
 import { memo, useCallback, useMemo, useState } from 'react';
-import styled from 'styled-components';
+import { Global, css } from '@emotion/react';
 import clsx from 'clsx';
 
 import getCountryFlagUrl from '#utils/getCountryFlagUrl';
@@ -9,30 +9,6 @@ import * as styles from './styles.module.scss';
 
 // eslint-disable-next-line no-sparse-arrays
 const angleByIndex = [, 0, 5, 3, 2, 6, 4, 1];
-
-const Table = styled.table<{
-  $potSize: number;
-}>`
-  > thead {
-    > tr {
-      > th:nth-child(${props => props.$potSize}n + 2) {
-        border-left: 1px double rgb(128 128 128);
-      }
-    }
-  }
-
-  > tbody {
-    > tr {
-      &:nth-child(${props => props.$potSize}n + 1) {
-        border-top: 1px double rgb(128 128 128);
-      }
-
-      > td:nth-child(${props => props.$potSize}n + 2) {
-        border-left: 1px double rgb(128 128 128);
-      }
-    }
-  }
-`;
 
 interface Team {
   id: string;
@@ -115,82 +91,108 @@ function Matrix({
   );
 
   return (
-    <Table
-      className={styles.table}
-      $potSize={potSize}
-      onMouseOver={handleTableMouseOver}
-      onMouseOut={handleTableMouseOut}
-    >
-      <thead>
-        <tr>
-          {/* eslint-disable-next-line jsx-a11y/control-has-associated-label */}
-          <th />
-          {allTeams.map(opponent => (
-            <th
-              key={opponent.id}
-              data-opponent={opponent.id}
-              className={clsx(opponent.id === hoverColumn && styles.hovered)}
-            >
-              <div className={styles['header-cell-div']}>
-                <img
-                  alt={`[${opponent.country}]`}
-                  src={getCountryFlagUrl(opponent.country)}
-                />
-                <span>{opponent.name}</span>
-              </div>
-            </th>
-          ))}
-        </tr>
-      </thead>
-      <tbody>
-        {allTeams.map(team => (
-          <tr key={team.id}>
-            <td>
-              <div
-                className={styles.team}
-                style={{
-                  backgroundImage: `url('${getCountryFlagUrl(team.country)}')`,
-                }}
+    <>
+      <Global
+        styles={css`
+          > thead {
+            > tr {
+              > th:nth-child(${potSize}n + 2) {
+                border-left: 1px double rgb(128 128 128);
+              }
+            }
+          }
+
+          > tbody {
+            > tr {
+              &:nth-child(${potSize}n + 1) {
+                border-top: 1px double rgb(128 128 128);
+              }
+
+              > td:nth-child(${potSize}n + 2) {
+                border-left: 1px double rgb(128 128 128);
+              }
+            }
+          }
+        `}
+      />
+      <table
+        className={styles.table}
+        // eslint-disable-next-line jsx-a11y/mouse-events-have-key-events
+        onMouseOver={handleTableMouseOver}
+        // eslint-disable-next-line jsx-a11y/mouse-events-have-key-events
+        onMouseOut={handleTableMouseOut}
+      >
+        <thead>
+          <tr>
+            {/* eslint-disable-next-line jsx-a11y/control-has-associated-label */}
+            <th />
+            {allTeams.map(opponent => (
+              <th
+                key={opponent.id}
+                data-opponent={opponent.id}
+                className={clsx(opponent.id === hoverColumn && styles.hovered)}
               >
-                {team.name}
-              </div>
-            </td>
-            {allTeams.map(opponent => {
-              const isMatch = pairingsMap[`${team.id}:${opponent.id}`];
-              const matchdayIndex = scheduleMap[`${team.id}:${opponent.id}`];
-              return (
-                <td
-                  key={opponent.id}
-                  data-opponent={opponent.id}
-                  className={clsx(
-                    isMatch && styles.match,
-                    noCellAnimation && styles['no-animation'],
-                    opponent.id === hoverColumn && styles.hovered,
-                  )}
-                >
-                  {matchdayIndex === undefined ? (
-                    isMatch ? (
-                      '✕'
-                    ) : (
-                      ''
-                    )
-                  ) : (
-                    <div
-                      className={styles['body-cell-matchday']}
-                      style={{
-                        color: getMatchdayColor(matchdayIndex),
-                      }}
-                    >
-                      {matchdayIndex + 1}
-                    </div>
-                  )}
-                </td>
-              );
-            })}
+                <div className={styles['header-cell-div']}>
+                  <img
+                    alt={`[${opponent.country}]`}
+                    src={getCountryFlagUrl(opponent.country)}
+                  />
+                  <span>{opponent.name}</span>
+                </div>
+              </th>
+            ))}
           </tr>
-        ))}
-      </tbody>
-    </Table>
+        </thead>
+        <tbody>
+          {allTeams.map(team => (
+            <tr key={team.id}>
+              <td>
+                <div
+                  className={styles.team}
+                  style={{
+                    backgroundImage: `url('${getCountryFlagUrl(team.country)}')`,
+                  }}
+                >
+                  {team.name}
+                </div>
+              </td>
+              {allTeams.map(opponent => {
+                const isMatch = pairingsMap[`${team.id}:${opponent.id}`];
+                const matchdayIndex = scheduleMap[`${team.id}:${opponent.id}`];
+                return (
+                  <td
+                    key={opponent.id}
+                    data-opponent={opponent.id}
+                    className={clsx(
+                      isMatch && styles.match,
+                      noCellAnimation && styles['no-animation'],
+                      opponent.id === hoverColumn && styles.hovered,
+                    )}
+                  >
+                    {matchdayIndex === undefined ? (
+                      isMatch ? (
+                        '✕'
+                      ) : (
+                        ''
+                      )
+                    ) : (
+                      <div
+                        className={styles['body-cell-matchday']}
+                        style={{
+                          color: getMatchdayColor(matchdayIndex),
+                        }}
+                      >
+                        {matchdayIndex + 1}
+                      </div>
+                    )}
+                  </td>
+                );
+              })}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </>
   );
 }
 

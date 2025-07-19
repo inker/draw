@@ -10,7 +10,7 @@
   border-spacing: 0;
   border-collapse: collapse;
 
-  @media (max-width: 999px) {
+  @media (width <= 999px) {
     margin: 0 3px 6px;
     width: max-content;
   }

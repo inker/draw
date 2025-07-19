@@ -4,7 +4,7 @@
     font-weight: bold;
     color: white;
 
-    @media (max-width: 999px) {
+    @media (width <= 999px) {
       font-size: 8px;
     }
   }

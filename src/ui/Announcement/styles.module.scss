@@ -7,7 +7,7 @@
   line-height: 150%;
   user-select: none;
 
-  @media (max-width: 999px) {
+  @media (width <= 999px) {
     margin-top: 15px;
     margin-bottom: 15px;
   }
