@@ -9,6 +9,7 @@
   );
   --hover-color-base: light-dark(black, white);
   --hover-color: rgb(from var(--hover-color-base) r g b / 0.1);
+  --block-border-color: light-dark(rgb(128 128 128), rgb(192 192 192));
 
   flex-shrink: 0;
   table-layout: fixed;

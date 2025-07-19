@@ -95,11 +95,6 @@ function Matrix({
       <Global
         styles={css`
           .${styles.table} {
-            --block-border-color: light-dark(
-              rgb(128 128 128),
-              rgb(192 192 192)
-            );
-
             > thead {
               > tr {
                 > th:nth-child(${potSize}n + 2) {
