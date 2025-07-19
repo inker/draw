@@ -95,10 +95,15 @@ function Matrix({
       <Global
         styles={css`
           .${styles.table} {
+            --block-border-color: light-dark(
+              rgb(128 128 128),
+              rgb(192 192 192)
+            );
+
             > thead {
               > tr {
                 > th:nth-child(${potSize}n + 2) {
-                  border-left: 1px double rgb(128 128 128);
+                  border-left: 1px double var(--block-border-color);
                 }
               }
             }
@@ -106,11 +111,11 @@ function Matrix({
             > tbody {
               > tr {
                 &:nth-child(${potSize}n + 1) {
-                  border-top: 1px double rgb(128 128 128);
+                  border-top: 1px double var(--block-border-color);
                 }
 
                 > td:nth-child(${potSize}n + 2) {
-                  border-left: 1px double rgb(128 128 128);
+                  border-left: 1px double var(--block-border-color);
                 }
               }
             }
