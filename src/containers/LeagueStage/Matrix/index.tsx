@@ -36,24 +36,29 @@ function Matrix({
 }: Props) {
   const columnHover = useTableColumnHover();
 
-  const pairingsMap = useMemo(() => {
-    const o: Record<`${string}:${string}`, boolean> = {};
-    for (const pairing of pairings) {
-      o[`${pairing[0].id}:${pairing[1].id}`] = true;
-    }
-    return o;
-  }, [pairings]);
+  const pairingsSet = useMemo(
+    () =>
+      new Set(
+        pairings
+          .values()
+          .map(
+            pairing =>
+              `${pairing[0].id}:${pairing[1].id}` satisfies `${string}:${string}`,
+          ),
+      ),
+    [pairings],
+  );
 
   const scheduleMap = useMemo(() => {
-    const o: Record<`${string}:${string}`, number> = {};
+    const map = new Map<`${string}:${string}`, number>();
     for (const [mdIndex, md] of schedule.entries()) {
       for (const day of md) {
         for (const m of day) {
-          o[`${m[0].id}:${m[1].id}`] = mdIndex;
+          map.set(`${m[0].id}:${m[1].id}`, mdIndex);
         }
       }
     }
-    return o;
+    return map;
   }, [schedule]);
 
   const getMatchdayColor = (index: number) => {
@@ -114,8 +119,10 @@ function Matrix({
                 </div>
               </td>
               {allTeams.map((opponent, opponentIndex) => {
-                const isMatch = pairingsMap[`${team.id}:${opponent.id}`];
-                const matchdayIndex = scheduleMap[`${team.id}:${opponent.id}`];
+                const isMatch = pairingsSet.has(`${team.id}:${opponent.id}`);
+                const matchdayIndex = scheduleMap.get(
+                  `${team.id}:${opponent.id}`,
+                );
                 return (
                   <td
                     key={opponent.id}
