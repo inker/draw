@@ -1,4 +1,4 @@
-:root {
+.table {
   --cell-height: round(down, clamp(15px, calc(100vh / 46), 20px), 5px);
   --flag-width: calc(var(--cell-height) * 0.8);
   --flag-height: calc(var(--flag-width) * 0.75);
@@ -7,9 +7,6 @@
   --flag-rotation-compensation: calc(
     (var(--flag-width) - var(--flag-height)) / 2
   );
-}
-
-.table {
   --hover-color-base: light-dark(black, white);
   --hover-color: rgb(from var(--hover-color-base) r g b / 0.1);
 
