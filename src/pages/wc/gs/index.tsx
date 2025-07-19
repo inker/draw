@@ -69,7 +69,7 @@ function WCGS({ season, pots: initialPots }: Props) {
     createWorker,
   ) as Func;
 
-  const groupsContanerRef = useRef<HTMLElement>(null);
+  const groupsContanerRef = useRef<HTMLDivElement>(null);
 
   const handleTeamSelected = async () => {
     if (!selectedTeam) {

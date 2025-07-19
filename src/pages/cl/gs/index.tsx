@@ -87,7 +87,7 @@ function CLGS({ season, pots: initialPots, isFirstPotShortDraw }: Props) {
     createAllPossibleGroupsWorker,
   ) as AllPossibleGroupsFunc;
 
-  const groupsContanerRef = useRef<HTMLElement>(null);
+  const groupsContanerRef = useRef<HTMLDivElement>(null);
 
   const isDrawShort = isFirstPotShortDraw && currentPotNum === 0;
   const isNoGroupBallPick = isFastDraw || isDrawShort;

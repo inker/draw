@@ -1,4 +1,4 @@
-import { forwardRef, memo } from 'react';
+import { memo } from 'react';
 
 import type Club from '#model/team/Club';
 import type NationalTeam from '#model/team/NationalTeam';
@@ -10,6 +10,7 @@ import * as styles from './styles.module.scss';
 type Team = Club | NationalTeam;
 
 interface Props {
+  ref: React.RefObject<HTMLDivElement | null>;
   maxTeams: number;
   currentPotNum: number;
   groups: readonly (readonly Team[])[];
@@ -17,17 +18,15 @@ interface Props {
   getGroupHeaderClassName?: (index: number) => string;
 }
 
-const GroupsContainer = forwardRef(
-  (
-    {
-      maxTeams,
-      currentPotNum,
-      groups,
-      possibleGroups,
-      getGroupHeaderClassName,
-    }: Props,
-    ref: any,
-  ) => (
+function GroupsContainer({
+  ref,
+  maxTeams,
+  currentPotNum,
+  groups,
+  possibleGroups,
+  getGroupHeaderClassName,
+}: Props) {
+  return (
     <div
       ref={ref}
       className={styles.root}
@@ -49,7 +48,7 @@ const GroupsContainer = forwardRef(
         );
       })}
     </div>
-  ),
-);
+  );
+}
 
 export default memo(GroupsContainer);
