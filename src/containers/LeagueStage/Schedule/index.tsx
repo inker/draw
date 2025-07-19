@@ -24,9 +24,9 @@ function Schedule({ tournament, schedule }: Props) {
     if (schedule.some(md => md.length > 0)) {
       const elements = document.getElementsByClassName(
         styles['match-pair-team'],
-      );
+      ) as HTMLCollectionOf<HTMLElement>;
       const offsetWidths = Iterator.from(elements).map(
-        el => (el as HTMLElement).offsetWidth ?? 0,
+        el => el.offsetWidth ?? 0,
       );
       const maxOffsetWidth = Math.max(...offsetWidths);
       if (rootRef.current) {
