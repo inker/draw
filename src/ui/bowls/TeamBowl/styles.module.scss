@@ -7,3 +7,26 @@
     justify-content: center;
   }
 }
+
+.team-ball {
+  cursor: pointer;
+  background: radial-gradient(#fff, #004);
+
+  &.selected {
+    background: #004;
+  }
+
+  &:not(.selected) {
+    &.not-selected {
+      background: #ddd;
+    }
+  }
+
+  &.no-hover {
+    cursor: not-allowed;
+  }
+
+  &:not(.no-hover):hover {
+    background: radial-gradient(#ccf, #ccf);
+  }
+}

@@ -7,3 +7,9 @@
     justify-content: center;
   }
 }
+
+.group-ball {
+  &:not(.no-hover):hover {
+    background: radial-gradient(#ccf, #ccf);
+  }
+}

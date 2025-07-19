@@ -5,10 +5,12 @@ import {
   useCallback,
   useRef,
 } from 'react';
-import styled, { css } from 'styled-components';
+import clsx from 'clsx';
 
 import useGlobalEvent from '#utils/hooks/useGlobalEvent';
-import Ball from '#ui/Ball';
+import * as ballStyles from '#ui/ball.module.scss';
+
+import * as styles from './styles.module.scss';
 
 // TODO: Fix transient props
 
@@ -18,35 +20,17 @@ interface RootProps {
   forceVisible?: boolean;
 }
 
-const Root = styled(Ball)<RootProps>`
-  ${props =>
-    props.selected
-      ? css`
-          font-size: 0.8em;
-          font-weight: bold;
-          color: white;
-        `
-      : css`
-          font-size: 0;
-          background: radial-gradient(#004, #002, #002);
-        `}
-
-  ${props =>
-    props.forceVisible &&
-    css`
-      font-size: 0.8em;
-    `}
-
-  @media (max-width: 999px) {
-    font-size: ${props => (props.selected ? 8 : 0)}px;
-  }
-`;
-
 type InputProps = DetailedHTMLProps<HTMLAttributes<HTMLElement>, HTMLElement>;
 
 type Props = RootProps & InputProps;
 
-function BowlBall({ noHover, ...props }: Props) {
+function BowlBall({
+  className,
+  selected,
+  noHover,
+  forceVisible,
+  ...props
+}: Props) {
   const ballRef = useRef<HTMLDivElement | null>(null);
 
   const cb = useCallback(
@@ -67,9 +51,15 @@ function BowlBall({ noHover, ...props }: Props) {
   useGlobalEvent('keydown', cb);
 
   return (
-    <Root
+    <div
       {...props}
-      noHover={noHover}
+      className={clsx(
+        ballStyles.root,
+        styles.root,
+        className,
+        selected && styles.selected,
+        forceVisible && styles['force-visible'],
+      )}
       ref={ballRef}
       tabIndex={noHover ? undefined : 0}
     />

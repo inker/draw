@@ -1,9 +1,11 @@
 import { memo, useCallback } from 'react';
+import clsx from 'clsx';
 
 import type Club from '#model/team/Club';
 import type NationalTeam from '#model/team/NationalTeam';
 
-import Ball from './Ball';
+import BowlBall from '../BowlBall';
+
 import * as styles from './styles.module.scss';
 
 type Team = Club | NationalTeam;
@@ -40,19 +42,23 @@ function TeamBowl({
     <div className={styles.root}>
       {display &&
         pot.map(team => (
-          <Ball
+          <BowlBall
             key={team.id}
             data-teamid={team.id}
+            className={clsx(
+              styles['team-ball'],
+              team === selectedTeam && styles.selected,
+              (forceNoSelect || (!!selectedTeam && team !== selectedTeam)) &&
+                styles['not-selected'],
+              !!noSelect && styles['no-hover'],
+            )}
             selected={team === selectedTeam}
-            $notSelected={
-              forceNoSelect || (!!selectedTeam && team !== selectedTeam)
-            }
             forceVisible={displayTeams}
             noHover={!!noSelect}
             onClick={noSelect ? undefined : handleBallPick}
           >
             {(team as Club).shortName ?? team.name}
-          </Ball>
+          </BowlBall>
         ))}
     </div>
   );
