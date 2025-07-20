@@ -27,12 +27,15 @@ function Table({ className, blockSize, hoverStyle, ...otherProps }: Props) {
       />
       <GlobalStyle
         styles={
-          columnHover.index
-            ? css`
+          columnHover.index === undefined
+            ? ''
+            : css`
                 .${tableClass} {
                   > thead {
                     > tr {
-                      > th:nth-of-type(${columnHover.index + 1}) {
+                      > th:nth-of-type(${columnHover.index + 1}):not(
+                          :first-of-type
+                        ) {
                         ${hoverStyle}
                       }
                     }
@@ -44,14 +47,15 @@ function Table({ className, blockSize, hoverStyle, ...otherProps }: Props) {
                         ${hoverStyle}
                       }
 
-                      > td:nth-of-type(${columnHover.index + 1}) {
+                      > td:nth-of-type(${columnHover.index + 1}):not(
+                          :first-of-type
+                        ) {
                         ${hoverStyle}
                       }
                     }
                   }
                 }
               `
-            : ''
         }
       />
       <table
