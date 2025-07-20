@@ -41,7 +41,6 @@
     "test": "vitest"
   },
   "dependencies": {
-    "@emotion/react": "^11.14.0",
     "bowser": "^2.11.0",
     "clsx": "^2.1.1",
     "date-fns": "^4.1.0",

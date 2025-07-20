@@ -1,5 +1,6 @@
 import { memo } from 'react';
-import { Global, css } from '@emotion/react';
+
+import GlobalStyle, { css } from '#ui/GlobalStyle';
 
 interface Props {
   className: string;
@@ -8,7 +9,7 @@ interface Props {
 
 function TableStyles({ className, blockSize }: Props) {
   return (
-    <Global
+    <GlobalStyle
       styles={css`
         .${className} {
           > thead {

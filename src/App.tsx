@@ -1,10 +1,10 @@
 import { Suspense, lazy, memo, useEffect } from 'react';
-import { Global, css } from '@emotion/react';
 import { HashRouter } from 'react-router-dom';
 import { constant } from 'lodash';
 
 import usePopup from '#store/usePopup';
 import useIsDarkMode from '#utils/hooks/useIsDarkMode';
+import { css, useGlobalStyle } from '#ui/GlobalStyle';
 
 import Popup from './Popup';
 
@@ -26,15 +26,14 @@ function App() {
     }
   }, [popup.waiting]);
 
+  useGlobalStyle(css`
+    :root {
+      color-scheme: ${isDarkMode ? 'dark' : 'light'};
+    }
+  `);
+
   return (
     <>
-      <Global
-        styles={css`
-          :root {
-            color-scheme: ${isDarkMode ? 'dark' : 'light'};
-          }
-        `}
-      />
       <Popup />
       <HashRouter>
         <Suspense>
