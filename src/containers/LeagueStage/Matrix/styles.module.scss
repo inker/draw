@@ -13,16 +13,12 @@
   flex-shrink: 0;
   table-layout: fixed;
   border-collapse: collapse;
-  border: 1px double rgb(128 128 128);
+  border: 1px double var(--block-border-color);
   font-size: max(10px, calc(var(--cell-height) * 0.6));
 
   th,
   td {
     border: 1px solid light-dark(rgb(192 192 192), rgb(128 128 128));
-
-    &.hovered {
-      background-color: var(--hover-color);
-    }
   }
 
   > thead {
@@ -32,17 +28,13 @@
         width: var(--cell-height);
         padding: var(--cell-padding-start) 0
           calc(var(--cell-padding-start) + var(--flag-rotation-compensation));
-        border-bottom-color: rgb(128 128 128);
+        border-bottom-color: var(--block-border-color);
       }
     }
   }
 
   > tbody {
     > tr {
-      &:hover {
-        background-color: var(--hover-color);
-      }
-
       > td {
         &:first-child {
           height: var(--cell-height);
