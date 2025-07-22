@@ -31,10 +31,6 @@
       "country": "Serbia"
     },
     {
-      "name": "Sheriff",
-      "country": "Moldova"
-    },
-    {
       "name": "Lugano",
       "country": "Switzerland"
     },
@@ -49,13 +45,13 @@
     {
       "name": "M Haifa",
       "country": "Israel"
-    }
-  ],
-  [
+    },
     {
       "name": "Shamrock Rovers",
       "country": "Ireland"
-    },
+    }
+  ],
+  [
     {
       "name": "Olimpija",
       "country": "Slovenia"
@@ -75,13 +71,13 @@
     {
       "name": "Panathinaikos",
       "country": "Greece"
-    }
-  ],
-  [
+    },
     {
       "name": "Beşiktaş",
       "country": "Türkiye"
-    },
+    }
+  ],
+  [
     {
       "name": "Strasbourg",
       "country": "France"
@@ -89,6 +85,10 @@
     {
       "name": "Malmö",
       "country": "Sweden"
+    },
+    {
+      "name": "Jagiellonia",
+      "country": "Poland"
     },
     {
       "name": "Rijeka",
