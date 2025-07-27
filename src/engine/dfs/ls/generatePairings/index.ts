@@ -90,7 +90,7 @@ export default async function* generatePairings<T extends Team>({
           .then(resolveWithCleanup)
           .catch(reject);
 
-        await delay(500);
+        await delay(250);
 
         if (resultObtained) {
           return;
@@ -110,7 +110,7 @@ export default async function* generatePairings<T extends Team>({
           .then(resolveWithCleanup)
           .catch(reject);
 
-        await delay(500);
+        await delay(0);
 
         if (resultObtained) {
           return;
