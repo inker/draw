@@ -92,43 +92,26 @@ export default async function* generatePairings<T extends Team>({
 
         await delay(250);
 
-        if (resultObtained) {
-          return;
-        }
-        // eslint-disable-next-line no-console
-        console.log('extra aid to the worker');
-        extraWorkers.push(
-          new Worker(
+        for (let i = 1; i < 3; ++i) {
+          // eslint-disable-next-line no-await-in-loop
+          await delay(0);
+          if (resultObtained) {
+            return;
+          }
+          // eslint-disable-next-line no-console
+          console.log('adding extra worker', i);
+          const extraWorker = new Worker(
             new URL('./getFirstSuitableMatch.worker', import.meta.url),
-          ),
-        );
-        getFirstSuitableMatch({
-          ...payload,
-          worker: extraWorkers.at(-1)!,
-          reverseSortingMode: 1,
-        })
-          .then(resolveWithCleanup)
-          .catch(reject);
-
-        await delay(0);
-
-        if (resultObtained) {
-          return;
+          );
+          extraWorkers.push(extraWorker);
+          getFirstSuitableMatch({
+            ...payload,
+            worker: extraWorker,
+            reverseSortingMode: i as 0 | 1 | 2,
+          })
+            .then(resolveWithCleanup)
+            .catch(reject);
         }
-        // eslint-disable-next-line no-console
-        console.log('adding another worker');
-        extraWorkers.push(
-          new Worker(
-            new URL('./getFirstSuitableMatch.worker', import.meta.url),
-          ),
-        );
-        getFirstSuitableMatch({
-          ...payload,
-          worker: extraWorkers.at(-1)!,
-          reverseSortingMode: 2,
-        })
-          .then(resolveWithCleanup)
-          .catch(reject);
       });
 
       matches.push(pickedMatch);
