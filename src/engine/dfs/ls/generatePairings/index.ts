@@ -1,4 +1,5 @@
 import { range, shuffle } from 'lodash';
+import delay from 'delay.js';
 
 import type Tournament from '#model/Tournament';
 import { type UefaCountry } from '#model/types';
@@ -61,46 +62,73 @@ export default async function* generatePairings<T extends Team>({
         isPairedPotMode: tournament === 'ecl',
         allGames,
         pickedMatches: matches,
-        worker,
       } satisfies Omit<
         Parameters<typeof getFirstSuitableMatch>[0],
-        'reverseSortingMode'
+        'reverseSortingMode' | 'worker'
       >;
       // eslint-disable-next-line no-await-in-loop
       const pickedMatch = await new Promise<
         Awaited<ReturnType<typeof getFirstSuitableMatch>>
-      >((resolve, reject) => {
+        // eslint-disable-next-line no-async-promise-executor
+      >(async (resolve, reject) => {
+        const extraWorkers: Worker[] = [];
+
+        const resolveWithCleanup: typeof resolve = result => {
+          resultObtained = true;
+          for (const w of extraWorkers) {
+            w.terminate();
+          }
+          resolve(result);
+        };
+
         let resultObtained = false;
         getFirstSuitableMatch({
           ...payload,
-          reverseSortingMode: false,
+          worker,
+          reverseSortingMode: 0,
         })
-          .then(result => {
-            resultObtained = true;
-            resolve(result);
-          })
+          .then(resolveWithCleanup)
           .catch(reject);
 
-        setTimeout(() => {
-          if (resultObtained) {
-            return;
-          }
-          // eslint-disable-next-line no-console
-          console.log('extra aid to the worker');
-          const extraWorker = new Worker(
+        await delay(500);
+
+        if (resultObtained) {
+          return;
+        }
+        // eslint-disable-next-line no-console
+        console.log('extra aid to the worker');
+        extraWorkers.push(
+          new Worker(
             new URL('./getFirstSuitableMatch.worker', import.meta.url),
-          );
-          // eslint-disable-next-line promise/catch-or-return
-          getFirstSuitableMatch({
-            ...payload,
-            reverseSortingMode: true,
-          })
-            .then(resolve)
-            .catch(reject)
-            .finally(() => {
-              extraWorker.terminate();
-            });
-        }, 500);
+          ),
+        );
+        getFirstSuitableMatch({
+          ...payload,
+          worker: extraWorkers.at(-1)!,
+          reverseSortingMode: 1,
+        })
+          .then(resolveWithCleanup)
+          .catch(reject);
+
+        await delay(500);
+
+        if (resultObtained) {
+          return;
+        }
+        // eslint-disable-next-line no-console
+        console.log('adding another worker');
+        extraWorkers.push(
+          new Worker(
+            new URL('./getFirstSuitableMatch.worker', import.meta.url),
+          ),
+        );
+        getFirstSuitableMatch({
+          ...payload,
+          worker: extraWorkers.at(-1)!,
+          reverseSortingMode: 2,
+        })
+          .then(resolveWithCleanup)
+          .catch(reject);
       });
 
       matches.push(pickedMatch);
