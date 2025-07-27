@@ -52,8 +52,7 @@ export default async function* generatePairings<T extends Team>({
   try {
     while (matches.length < numMatchdays * numGamesPerMatchday) {
       allGames = shuffle(allGames);
-      // eslint-disable-next-line no-await-in-loop
-      const pickedMatch = await getFirstSuitableMatch({
+      const payload = {
         teams,
         numPots: pots.length,
         numTeamsPerPot,
@@ -63,7 +62,47 @@ export default async function* generatePairings<T extends Team>({
         allGames,
         pickedMatches: matches,
         worker,
+      } satisfies Omit<
+        Parameters<typeof getFirstSuitableMatch>[0],
+        'reverseSortingMode'
+      >;
+      // eslint-disable-next-line no-await-in-loop
+      const pickedMatch = await new Promise<
+        Awaited<ReturnType<typeof getFirstSuitableMatch>>
+      >((resolve, reject) => {
+        let resultObtained = false;
+        getFirstSuitableMatch({
+          ...payload,
+          reverseSortingMode: false,
+        })
+          .then(result => {
+            resultObtained = true;
+            resolve(result);
+          })
+          .catch(reject);
+
+        setTimeout(() => {
+          if (resultObtained) {
+            return;
+          }
+          // eslint-disable-next-line no-console
+          console.log('extra aid to the worker');
+          const extraWorker = new Worker(
+            new URL('./getFirstSuitableMatch.worker', import.meta.url),
+          );
+          // eslint-disable-next-line promise/catch-or-return
+          getFirstSuitableMatch({
+            ...payload,
+            reverseSortingMode: true,
+          })
+            .then(resolve)
+            .catch(reject)
+            .finally(() => {
+              extraWorker.terminate();
+            });
+        }, 500);
       });
+
       matches.push(pickedMatch);
 
       yield [teams[pickedMatch[0]], teams[pickedMatch[1]]] as const;

@@ -17,6 +17,7 @@ export default ({
   isPairedPotMode,
   allGames,
   pickedMatches,
+  reverseSortingMode,
 }: {
   teams: readonly Team[];
   numPots: number;
@@ -26,6 +27,7 @@ export default ({
   isPairedPotMode: boolean;
   allGames: readonly (readonly [number, number])[];
   pickedMatches: readonly (readonly [number, number])[];
+  reverseSortingMode: boolean;
 }) => {
   const pots = chunk(range(teams.length), numTeamsPerPot);
   const potIndices = range(numPots);
@@ -292,7 +294,10 @@ export default ({
           });
 
           const orderedPotentialMatches = orderBy(potentialMatches, [
-            m => numTeamsByCountry[teams[m[1]].country],
+            m => {
+              const r = numTeamsByCountry[teams[m[1]].country];
+              return reverseSortingMode ? r : -r;
+            },
             m => newNumRemainingMatchesByTeam[m[1]] ?? 0,
           ]);
 
