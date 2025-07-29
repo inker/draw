@@ -131,10 +131,6 @@
   ],
   [
     {
-      "name": "TNS",
-      "country": "Wales"
-    },
-    {
       "name": "Drita",
       "country": "Kosovo"
     },
@@ -153,6 +149,10 @@
     {
       "name": "Budućnost",
       "country": "Montenegro"
+    },
+    {
+      "name": "Kairat",
+      "country": "Kazakhstan"
     }
   ]
 ]
