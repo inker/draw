@@ -93,10 +93,6 @@
       "country": "Poland"
     },
     {
-      "name": "Anderlecht",
-      "country": "Belgium"
-    },
-    {
       "name": "Freiburg",
       "country": "Germany"
     },
@@ -111,20 +107,16 @@
     {
       "name": "Nottingham",
       "country": "England"
+    },
+    {
+      "name": "Sturm",
+      "country": "Austria"
     }
   ],
   [
     {
-      "name": "Sturm",
-      "country": "Austria"
-    },
-    {
       "name": "FCSB",
       "country": "Romania"
-    },
-    {
-      "name": "Sheriff",
-      "country": "Moldova"
     },
     {
       "name": "Nice",
@@ -145,6 +137,14 @@
     {
       "name": "Stuttgart",
       "country": "Germany"
+    },
+    {
+      "name": "Malmö",
+      "country": "Sweden"
+    },
+    {
+      "name": "Utrecht",
+      "country": "Netherlands"
     },
     {
       "name": "Go Ahead Eagles",

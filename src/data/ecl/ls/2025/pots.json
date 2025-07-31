@@ -17,15 +17,19 @@
       "country": "Czechia"
     },
     {
-      "name": "Crystal Palace",
-      "country": "England"
+      "name": "Anderlecht",
+      "country": "Belgium"
     },
     {
-      "name": "Başakşehir",
-      "country": "Türkiye"
+      "name": "Crystal Palace",
+      "country": "England"
     }
   ],
   [
+    {
+      "name": "Başakşehir",
+      "country": "Türkiye"
+    },
     {
       "name": "Partizan",
       "country": "Serbia"
@@ -45,13 +49,13 @@
     {
       "name": "M Haifa",
       "country": "Israel"
-    },
-    {
-      "name": "Shamrock Rovers",
-      "country": "Ireland"
     }
   ],
   [
+    {
+      "name": "Shamrock Rovers",
+      "country": "Ireland"
+    },
     {
       "name": "Olimpija",
       "country": "Slovenia"
@@ -63,10 +67,6 @@
     {
       "name": "Mainz",
       "country": "Germany"
-    },
-    {
-      "name": "H Beer-Sheva",
-      "country": "Israel"
     },
     {
       "name": "Panathinaikos",
@@ -83,10 +83,6 @@
       "country": "France"
     },
     {
-      "name": "Malmö",
-      "country": "Sweden"
-    },
-    {
       "name": "Jagiellonia",
       "country": "Poland"
     },
@@ -95,15 +91,9 @@
       "country": "Croatia"
     },
     {
-      "name": "Žalgiris",
-      "country": "Lithuania"
-    },
-    {
       "name": "Genk",
       "country": "Belgium"
-    }
-  ],
-  [
+    },
     {
       "name": "Pafos",
       "country": "Cyprus"
@@ -111,7 +101,9 @@
     {
       "name": "RFS",
       "country": "Latvia"
-    },
+    }
+  ],
+  [
     {
       "name": "KuPS",
       "country": "Finland"
@@ -127,9 +119,7 @@
     {
       "name": "Aberdeen",
       "country": "Scotland"
-    }
-  ],
-  [
+    },
     {
       "name": "Drita",
       "country": "Kosovo"
@@ -137,7 +127,9 @@
     {
       "name": "Breiðablik",
       "country": "Iceland"
-    },
+    }
+  ],
+  [
     {
       "name": "Olomouc",
       "country": "Czechia"
@@ -145,6 +137,14 @@
     {
       "name": "Samsunspor",
       "country": "Türkiye"
+    },
+    {
+      "name": "Linfield",
+      "country": "Northern Ireland"
+    },
+    {
+      "name": "Brann",
+      "country": "Norway"
     },
     {
       "name": "Shkëndija",
