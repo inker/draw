@@ -71,15 +71,11 @@
       "country": "Switzerland"
     },
     {
-      "name": "Slovan",
-      "country": "Slovakia"
+      "name": "Basel",
+      "country": "Switzerland"
     }
   ],
   [
-    {
-      "name": "Basel",
-      "country": "Switzerland"
-    },
     {
       "name": "Midtjylland",
       "country": "Denmark"
@@ -101,19 +97,13 @@
       "country": "Bulgaria"
     },
     {
-      "name": "Dynamo",
-      "country": "Ukraine"
-    },
-    {
       "name": "Nottingham",
       "country": "England"
     },
     {
       "name": "Sturm",
       "country": "Austria"
-    }
-  ],
-  [
+    },
     {
       "name": "FCSB",
       "country": "Romania"
@@ -121,7 +111,9 @@
     {
       "name": "Nice",
       "country": "France"
-    },
+    }
+  ],
+  [
     {
       "name": "Bologna",
       "country": "Italy"
@@ -149,6 +141,14 @@
     {
       "name": "Go Ahead Eagles",
       "country": "Netherlands"
+    },
+    {
+      "name": "Pafos",
+      "country": "Cyprus"
+    },
+    {
+      "name": "Kairat",
+      "country": "Kazakhstan"
     }
   ]
 ]
