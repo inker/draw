@@ -9,6 +9,10 @@
       "country": "Netherlands"
     },
     {
+      "name": "Shakhtar",
+      "country": "Ukraine"
+    },
+    {
       "name": "Slovan",
       "country": "Slovakia"
     },
@@ -17,15 +21,19 @@
       "country": "Austria"
     },
     {
+      "name": "Legia",
+      "country": "Poland"
+    }
+  ],
+  [
+    {
       "name": "Sparta",
       "country": "Czechia"
     },
     {
       "name": "Anderlecht",
       "country": "Belgium"
-    }
-  ],
-  [
+    },
     {
       "name": "Dynamo",
       "country": "Ukraine"
@@ -39,14 +47,6 @@
       "country": "Türkiye"
     },
     {
-      "name": "Partizan",
-      "country": "Serbia"
-    },
-    {
-      "name": "Lugano",
-      "country": "Switzerland"
-    },
-    {
       "name": "CFR Cluj",
       "country": "Romania"
     }
@@ -55,10 +55,6 @@
     {
       "name": "Rayo Vallecano",
       "country": "Spain"
-    },
-    {
-      "name": "M Haifa",
-      "country": "Israel"
     },
     {
       "name": "Shamrock Rovers",
@@ -75,17 +71,13 @@
     {
       "name": "Mainz",
       "country": "Germany"
-    }
-  ],
-  [
-    {
-      "name": "Panathinaikos",
-      "country": "Greece"
     },
     {
       "name": "Beşiktaş",
       "country": "Türkiye"
-    },
+    }
+  ],
+  [
     {
       "name": "Strasbourg",
       "country": "France"
@@ -95,19 +87,23 @@
       "country": "Poland"
     },
     {
+      "name": "Celje",
+      "country": "Slovenia"
+    },
+    {
       "name": "Rijeka",
       "country": "Croatia"
     },
     {
       "name": "Genk",
       "country": "Belgium"
-    }
-  ],
-  [
+    },
     {
       "name": "RFS",
       "country": "Latvia"
-    },
+    }
+  ],
+  [
     {
       "name": "KuPS",
       "country": "Finland"
@@ -127,13 +123,13 @@
     {
       "name": "Drita",
       "country": "Kosovo"
-    }
-  ],
-  [
+    },
     {
       "name": "Breiðablik",
       "country": "Iceland"
-    },
+    }
+  ],
+  [
     {
       "name": "Olomouc",
       "country": "Czechia"
@@ -147,8 +143,12 @@
       "country": "Northern Ireland"
     },
     {
-      "name": "Brann",
-      "country": "Norway"
+      "name": "Raków",
+      "country": "Poland"
+    },
+    {
+      "name": "AEK Larnaca",
+      "country": "Cyprus"
     },
     {
       "name": "Shkëndija",

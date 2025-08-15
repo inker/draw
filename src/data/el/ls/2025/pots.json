@@ -29,19 +29,15 @@
       "country": "Spain"
     },
     {
-      "name": "Shakhtar",
-      "country": "Ukraine"
-    },
-    {
       "name": "Salzburg",
       "country": "Austria"
-    }
-  ],
-  [
+    },
     {
       "name": "Aston Villa",
       "country": "England"
-    },
+    }
+  ],
+  [
     {
       "name": "Fenerbahçe",
       "country": "Türkiye"
@@ -73,20 +69,16 @@
     {
       "name": "Basel",
       "country": "Switzerland"
+    },
+    {
+      "name": "Midtjylland",
+      "country": "Denmark"
     }
   ],
   [
     {
-      "name": "Midtjylland",
-      "country": "Denmark"
-    },
-    {
       "name": "Qarabağ",
       "country": "Azerbaijan"
-    },
-    {
-      "name": "Legia",
-      "country": "Poland"
     },
     {
       "name": "Freiburg",
@@ -111,9 +103,7 @@
     {
       "name": "Nice",
       "country": "France"
-    }
-  ],
-  [
+    },
     {
       "name": "Bologna",
       "country": "Italy"
@@ -121,7 +111,9 @@
     {
       "name": "Lech",
       "country": "Poland"
-    },
+    }
+  ],
+  [
     {
       "name": "Celta",
       "country": "Spain"
@@ -129,6 +121,10 @@
     {
       "name": "Stuttgart",
       "country": "Germany"
+    },
+    {
+      "name": "Panathinaikos",
+      "country": "Greece"
     },
     {
       "name": "Malmö",
@@ -145,6 +141,10 @@
     {
       "name": "Pafos",
       "country": "Cyprus"
+    },
+    {
+      "name": "Brann",
+      "country": "Norway"
     },
     {
       "name": "Kairat",

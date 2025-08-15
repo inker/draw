@@ -1,3 +1,6 @@
+Shakhtar
+Dynamo
+
 Anderlecht
 Genk
 
@@ -6,3 +9,12 @@ Olomouc
 
 Başakşehir
 Beşiktaş
+
+Legia
+Jagiellonia
+
+Olimpija
+Celje
+
+Omonia
+AEK Larnaca
