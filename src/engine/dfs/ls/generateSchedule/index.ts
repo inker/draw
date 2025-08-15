@@ -1,4 +1,4 @@
-import { keyBy, uniq } from 'lodash';
+import { differenceBy, keyBy, uniq } from 'lodash';
 
 import { type UefaCountry } from '#model/types';
 import type Tournament from '#model/Tournament';
@@ -30,6 +30,8 @@ export default async function generateSchedule<T extends Team>({
   getNumWorkers: () => number;
   signal?: AbortSignal;
 }) {
+  const numMatchdays = allGamesWithIds.length / matchdaySize;
+
   const allNonUniqueTeams = allGamesWithIds.flat();
   const teamById = keyBy(allNonUniqueTeams, team => team.id);
   const allTeamIds = uniq(allNonUniqueTeams.map(team => team.id));
@@ -54,14 +56,62 @@ export default async function generateSchedule<T extends Team>({
     p => [indexByTeamId.get(p[0].id)!, indexByTeamId.get(p[1].id)!] as const,
   );
 
-  const result = await getFirstSuitableMatchday({
-    season,
-    teams: allTeams,
-    matchdaySize,
-    allGames: allGamesUnordered,
-    getNumWorkers,
-    signal,
-  });
+  let result!: Awaited<ReturnType<typeof getFirstSuitableMatchday>>;
+  if (numMatchdays < 8) {
+    result = await getFirstSuitableMatchday({
+      season,
+      teams: allTeams,
+      matchdaySize,
+      pickedGames: [],
+      remainingGames: allGamesUnordered,
+      schedule: [],
+      distributionStage: 'middle',
+      getNumWorkers,
+      signal,
+    });
+  } else {
+    const stages = ['end', 'start', 'middle'] as const;
+    const pickedGames: (readonly [number, number])[] = [];
+    let remainingGames = [...allGamesUnordered];
+    const schedule: number[] = [];
+    for (const stage of stages) {
+      // eslint-disable-next-line no-await-in-loop
+      const stageResult = await getFirstSuitableMatchday({
+        season,
+        teams: allTeams,
+        matchdaySize,
+        pickedGames,
+        remainingGames,
+        schedule,
+        distributionStage: stage,
+        getNumWorkers,
+        signal,
+      });
+      if (stage === 'middle') {
+        result = stageResult;
+        break;
+      }
+      const indices =
+        stage === 'end' ? [numMatchdays - 2, numMatchdays - 1] : [0, 1];
+      const newGames = indices.flatMap(i => stageResult[i]);
+      pickedGames.push(...newGames);
+      remainingGames = differenceBy(
+        remainingGames,
+        newGames,
+        m => `${m[0]}:${m[1]}`,
+      );
+      schedule.push(
+        ...indices.flatMap(i =>
+          Array.from(
+            {
+              length: matchdaySize,
+            },
+            () => i,
+          ),
+        ),
+      );
+    }
+  }
 
   const matchdays = splitMatchdaysIntoDays({
     matchdays: result,

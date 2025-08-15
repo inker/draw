@@ -16,14 +16,20 @@ export default ({
   season,
   teams,
   matchdaySize,
-  allGames,
+  pickedGames,
+  remainingGames,
+  schedule,
+  distributionStage,
   getNumWorkers,
   signal,
 }: {
   season: number;
   teams: readonly Team[];
   matchdaySize: number;
-  allGames: readonly (readonly [number, number])[];
+  pickedGames: readonly (readonly [number, number])[];
+  remainingGames: readonly (readonly [number, number])[];
+  schedule: readonly number[];
+  distributionStage: 'end' | 'start' | 'middle';
   getNumWorkers: () => number;
   signal?: AbortSignal;
 }) =>
@@ -32,7 +38,7 @@ export default ({
     getWorker: () =>
       new Worker(new URL('./getFirstSuitableMatchday.worker', import.meta.url)),
     getPayload: () => {
-      const allGamesShuffled = shuffle(allGames);
+      const allGamesShuffled = shuffle(remainingGames);
 
       const stadiumSharingTeamIndices = teamsSharingStadium
         .map(namePair => {
@@ -111,7 +117,9 @@ export default ({
 
       return {
         matchdaySize,
-        allGames: orderedGames,
+        allGames: [...pickedGames, ...orderedGames],
+        schedule,
+        distributionStage,
         coldTeamIndices,
         sameStadiumTeamPairs: stadiumSharingTeamIndices,
       };

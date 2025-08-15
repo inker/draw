@@ -17,7 +17,10 @@ function toBase3Array(num: number, length: number) {
   return result;
 }
 
-function generateSequenceCombos(numMatchdays: number) {
+function generateSequenceCombos(
+  numMatchdays: number,
+  distributionStage: 'end' | 'start' | 'middle',
+) {
   // generate all
   const arr: string[] = [];
   for (let i = 0; i < 2 ** numMatchdays; ++i) {
@@ -35,17 +38,20 @@ function generateSequenceCombos(numMatchdays: number) {
       const impossible =
         item.startsWith('00') ||
         item.startsWith('11') ||
-        item.endsWith('00') ||
-        item.endsWith('11') ||
-        item.includes('000') ||
-        item.includes('111');
+        (distributionStage === 'start' &&
+          (item.endsWith('00') || item.endsWith('11'))) ||
+        ((distributionStage === 'start' || distributionStage === 'middle') &&
+          (item.includes('000') || item.includes('111')));
       return !impossible;
     })
     .map(item => item.split('').map(s => +s + 1));
 }
 
-function getPossibleLocations(numMatchdays: number) {
-  const sequences = generateSequenceCombos(numMatchdays);
+function getPossibleLocations(
+  numMatchdays: number,
+  distributionStage: 'end' | 'start' | 'middle',
+) {
+  const sequences = generateSequenceCombos(numMatchdays, distributionStage);
 
   const isLocComboPossible = (s: number) => {
     const base3Arr = toBase3Array(s, numMatchdays);
@@ -67,21 +73,31 @@ function getPossibleLocations(numMatchdays: number) {
 export default ({
   matchdaySize,
   allGames,
+  schedule,
+  distributionStage,
   coldTeamIndices,
   sameStadiumTeamPairs,
 }: {
   matchdaySize: number;
   allGames: readonly (readonly [number, number])[];
+  schedule: readonly number[];
+  distributionStage: 'end' | 'start' | 'middle';
   coldTeamIndices: readonly number[];
   sameStadiumTeamPairs: readonly (readonly [number, number])[];
 }) => {
   const numGames = allGames.length;
   const numMatchdays = numGames / matchdaySize;
-  const matchdayIndices = range(numMatchdays);
+  const matchdayIndices =
+    distributionStage === 'end'
+      ? range(numMatchdays)
+      : distributionStage === 'start'
+        ? range(numMatchdays - 2)
+        : range(2, numMatchdays - 2);
 
-  const locComboPossibleBySum = getPossibleLocations(numMatchdays);
-
-  const schedule: number[] = [];
+  const locComboPossibleBySum = getPossibleLocations(
+    numMatchdays,
+    distributionStage,
+  );
 
   const sameStadiumTeamMap = new Map(
     sameStadiumTeamPairs.values().flatMap(pair => [pair, [pair[1], pair[0]]]),
@@ -101,10 +117,24 @@ export default ({
   const locationByMatchday: Record<`${number}:${number}`, 'h' | 'a'> = {};
   const locationSequenceSumByTeam: Record<number, number> = {};
 
+  const initialMatchIndex = schedule.length;
+
+  for (const [i, md] of schedule.entries()) {
+    const [h, a] = allGames[i];
+    ++numMatchesByMatchday[md];
+    locationByMatchday[`${h}:${md}`] = 'h';
+    locationByMatchday[`${a}:${md}`] = 'a';
+    const pow = 3 ** md;
+    locationSequenceSumByTeam[h] =
+      (locationSequenceSumByTeam[h] ?? 0) + 1 * pow;
+    locationSequenceSumByTeam[a] =
+      (locationSequenceSumByTeam[a] ?? 0) + 2 * pow;
+  }
+
   for (const pickedMatchday of range(numMatchdays)) {
     const solution = findFirstSolution(
       {
-        matchIndex: 0,
+        matchIndex: initialMatchIndex,
         schedule,
         numMatchesByMatchday,
         pickedMatchday,
