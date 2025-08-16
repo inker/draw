@@ -275,5 +275,5 @@ export default ({
     }
   }
 
-  throw new Error('No solution!');
+  throw new Error('No solution');
 };
