@@ -19,7 +19,7 @@ function toBase3Array(num: number, length: number) {
 
 function generateSequenceCombos(
   numMatchdays: number,
-  distributionStage: 'end' | 'start' | 'middle',
+  step: 'end' | 'start' | 'middle',
 ) {
   // generate all
   const arr: string[] = [];
@@ -38,9 +38,8 @@ function generateSequenceCombos(
       const impossible =
         item.startsWith('00') ||
         item.startsWith('11') ||
-        (distributionStage === 'start' &&
-          (item.endsWith('00') || item.endsWith('11'))) ||
-        ((distributionStage === 'start' || distributionStage === 'middle') &&
+        (step === 'start' && (item.endsWith('00') || item.endsWith('11'))) ||
+        ((step === 'start' || step === 'middle') &&
           (item.includes('000') || item.includes('111')));
       return !impossible;
     })
@@ -49,9 +48,9 @@ function generateSequenceCombos(
 
 function getPossibleLocations(
   numMatchdays: number,
-  distributionStage: 'end' | 'start' | 'middle',
+  step: 'end' | 'start' | 'middle',
 ) {
-  const sequences = generateSequenceCombos(numMatchdays, distributionStage);
+  const sequences = generateSequenceCombos(numMatchdays, step);
 
   const isLocComboPossible = (s: number) => {
     const base3Arr = toBase3Array(s, numMatchdays);
@@ -74,30 +73,27 @@ export default ({
   matchdaySize,
   allGames,
   schedule,
-  distributionStage,
+  step,
   coldTeamIndices,
   sameStadiumTeamPairs,
 }: {
   matchdaySize: number;
   allGames: readonly (readonly [number, number])[];
   schedule: readonly number[];
-  distributionStage: 'end' | 'start' | 'middle';
+  step: 'end' | 'start' | 'middle';
   coldTeamIndices: readonly number[];
   sameStadiumTeamPairs: readonly (readonly [number, number])[];
 }) => {
   const numGames = allGames.length;
   const numMatchdays = numGames / matchdaySize;
   const matchdayIndices =
-    distributionStage === 'end'
+    step === 'end'
       ? range(numMatchdays)
-      : distributionStage === 'start'
+      : step === 'start'
         ? range(numMatchdays - 2)
         : range(2, numMatchdays - 2);
 
-  const locComboPossibleBySum = getPossibleLocations(
-    numMatchdays,
-    distributionStage,
-  );
+  const locComboPossibleBySum = getPossibleLocations(numMatchdays, step);
 
   const sameStadiumTeamMap = new Map(
     sameStadiumTeamPairs.values().flatMap(pair => [pair, [pair[1], pair[0]]]),

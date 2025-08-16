@@ -65,7 +65,7 @@ export default async function generateSchedule<T extends Team>({
       pickedGames: [],
       remainingGames: allGamesUnordered,
       schedule: [],
-      distributionStage: 'middle',
+      step: 'middle',
       getNumWorkers,
       signal,
     });
@@ -74,7 +74,7 @@ export default async function generateSchedule<T extends Team>({
     const pickedGames: (readonly [number, number])[] = [];
     let remainingGames = [...allGamesUnordered];
     const schedule: number[] = [];
-    for (const stage of stages) {
+    for (const step of stages) {
       // eslint-disable-next-line no-await-in-loop
       const stageResult = await getFirstSuitableMatchday({
         season,
@@ -83,16 +83,16 @@ export default async function generateSchedule<T extends Team>({
         pickedGames,
         remainingGames,
         schedule,
-        distributionStage: stage,
+        step,
         getNumWorkers,
         signal,
       });
-      if (stage === 'middle') {
+      if (step === 'middle') {
         result = stageResult;
         break;
       }
       const indices =
-        stage === 'end' ? [numMatchdays - 2, numMatchdays - 1] : [0, 1];
+        step === 'end' ? [numMatchdays - 2, numMatchdays - 1] : [0, 1];
       const newGames = indices.flatMap(i => stageResult[i]);
       pickedGames.push(...newGames);
       remainingGames = differenceBy(

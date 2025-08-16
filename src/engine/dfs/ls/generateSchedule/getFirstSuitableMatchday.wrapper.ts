@@ -19,7 +19,7 @@ export default ({
   pickedGames,
   remainingGames,
   schedule,
-  distributionStage,
+  step,
   getNumWorkers,
   signal,
 }: {
@@ -29,7 +29,7 @@ export default ({
   pickedGames: readonly (readonly [number, number])[];
   remainingGames: readonly (readonly [number, number])[];
   schedule: readonly number[];
-  distributionStage: 'end' | 'start' | 'middle';
+  step: 'end' | 'start' | 'middle';
   getNumWorkers: () => number;
   signal?: AbortSignal;
 }) =>
@@ -119,7 +119,7 @@ export default ({
         matchdaySize,
         allGames: [...pickedGames, ...orderedGames],
         schedule,
-        distributionStage,
+        step,
         coldTeamIndices,
         sameStadiumTeamPairs: stadiumSharingTeamIndices,
       };
