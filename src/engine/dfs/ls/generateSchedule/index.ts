@@ -65,7 +65,6 @@ export default async function generateSchedule<T extends Team>({
       pickedGames: [],
       remainingGames: allGamesUnordered,
       schedule: [],
-      step: 'middle',
       getNumWorkers,
       signal,
     });

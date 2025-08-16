@@ -29,7 +29,7 @@ export default ({
   pickedGames: readonly (readonly [number, number])[];
   remainingGames: readonly (readonly [number, number])[];
   schedule: readonly number[];
-  step: 'end' | 'start' | 'middle';
+  step?: 'end' | 'start' | 'middle';
   getNumWorkers: () => number;
   signal?: AbortSignal;
 }) =>

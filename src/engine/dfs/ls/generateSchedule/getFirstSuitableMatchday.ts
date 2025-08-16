@@ -6,7 +6,7 @@ import intToBase3Array from '#utils/intToBase3Array';
 
 function generateSequenceCombos(
   numMatchdays: number,
-  step: 'end' | 'start' | 'middle',
+  step?: 'end' | 'start' | 'middle',
 ) {
   // generate all
   const arr: string[] = [];
@@ -23,11 +23,12 @@ function generateSequenceCombos(
   return arr
     .filter(item => {
       const impossible =
-        ((step === 'end' || step === 'start' || step === 'middle') &&
+        ((!step || step === 'end' || step === 'start' || step === 'middle') &&
           (item.startsWith('00') || item.startsWith('11'))) ||
-        ((step === 'start' || step === 'middle') &&
+        ((!step || step === 'start' || step === 'middle') &&
           (item.endsWith('00') || item.endsWith('11'))) ||
-        (step === 'middle' && (item.includes('000') || item.includes('111')));
+        ((!step || step === 'middle') &&
+          (item.includes('000') || item.includes('111')));
       return !impossible;
     })
     .map(item => item.split('').map(s => +s + 1));
@@ -35,7 +36,7 @@ function generateSequenceCombos(
 
 function getValidLocationSums(
   numMatchdays: number,
-  step: 'end' | 'start' | 'middle',
+  step?: 'end' | 'start' | 'middle',
 ) {
   const sequences = generateSequenceCombos(numMatchdays, step);
 
@@ -67,14 +68,14 @@ export default ({
   matchdaySize: number;
   allGames: readonly (readonly [number, number])[];
   schedule: readonly number[];
-  step: 'end' | 'start' | 'middle';
+  step?: 'end' | 'start' | 'middle';
   coldTeamIndices: readonly number[];
   sameStadiumTeamPairs: readonly (readonly [number, number])[];
 }) => {
   const numGames = allGames.length;
   const numMatchdays = numGames / matchdaySize;
   const matchdayIndices =
-    step === 'end'
+    !step || step === 'end'
       ? range(numMatchdays)
       : step === 'start'
         ? range(numMatchdays - 2)
