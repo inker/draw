@@ -1,4 +1,4 @@
-import { differenceBy, keyBy, uniq } from 'lodash';
+import { keyBy, pullAllBy, uniq } from 'lodash';
 
 import { type UefaCountry } from '#model/types';
 import type Tournament from '#model/Tournament';
@@ -72,7 +72,7 @@ export default async function generateSchedule<T extends Team>({
   } else {
     const stages = ['end', 'start', 'middle'] as const;
     const pickedGames: (readonly [number, number])[] = [];
-    let remainingGames = [...allGamesUnordered];
+    const remainingGames = [...allGamesUnordered];
     const schedule: number[] = [];
     for (const step of stages) {
       // eslint-disable-next-line no-await-in-loop
@@ -95,11 +95,7 @@ export default async function generateSchedule<T extends Team>({
         step === 'end' ? [numMatchdays - 2, numMatchdays - 1] : [0, 1];
       const newGames = indices.flatMap(i => stageResult[i]);
       pickedGames.push(...newGames);
-      remainingGames = differenceBy(
-        remainingGames,
-        newGames,
-        m => `${m[0]}:${m[1]}`,
-      );
+      pullAllBy(remainingGames, newGames, m => `${m[0]}:${m[1]}`);
       schedule.push(
         ...indices.flatMap(i =>
           Array.from(
