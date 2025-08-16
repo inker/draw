@@ -33,7 +33,7 @@ function generateSequenceCombos(
     .map(item => item.split('').map(s => +s + 1));
 }
 
-function getPossibleLocations(
+function getValidLocationSums(
   numMatchdays: number,
   step: 'end' | 'start' | 'middle',
 ) {
@@ -80,7 +80,7 @@ export default ({
         ? range(numMatchdays - 2)
         : range(2, numMatchdays - 2);
 
-  const locComboPossibleBySum = getPossibleLocations(numMatchdays, step);
+  const validLocationSums = getValidLocationSums(numMatchdays, step);
 
   const sameStadiumTeamMap = new Map(
     sameStadiumTeamPairs.values().flatMap(pair => [pair, [pair[1], pair[0]]]),
@@ -169,11 +169,11 @@ export default ({
 
           const pow = 3 ** c.pickedMatchday;
           const hS = (c.locationSequenceSumByTeam[h] ?? 0) + 1 * pow;
-          if (!locComboPossibleBySum.has(hS)) {
+          if (!validLocationSums.has(hS)) {
             return true;
           }
           const aS = (c.locationSequenceSumByTeam[a] ?? 0) + 2 * pow;
-          if (!locComboPossibleBySum.has(aS)) {
+          if (!validLocationSums.has(aS)) {
             return true;
           }
 
