@@ -23,8 +23,8 @@ function generateSequenceCombos(
   return arr
     .filter(item => {
       const impossible =
-        item.startsWith('00') ||
-        item.startsWith('11') ||
+        ((step === 'end' || step === 'start' || step === 'middle') &&
+          (item.startsWith('00') || item.startsWith('11'))) ||
         ((step === 'start' || step === 'middle') &&
           (item.endsWith('00') || item.endsWith('11'))) ||
         (step === 'middle' && (item.includes('000') || item.includes('111')));
