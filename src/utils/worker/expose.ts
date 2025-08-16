@@ -15,12 +15,21 @@ export default (func: (arg: any) => any) => {
       [FOR_WORKER_DATA_KEY]: data,
     } = e.data as MessageForWorker<Parameters<typeof func>[0]>;
 
-    const result = func(data);
+    try {
+      const result = func(data);
 
-    postMessage({
-      [FROM_WORKER_CORRELATION_ID]: correlationId,
-      [FROM_WORKER_DATA_KEY]: result,
-    } satisfies MessageFromWorker<typeof result>);
+      postMessage({
+        type: 'result',
+        [FROM_WORKER_CORRELATION_ID]: correlationId,
+        [FROM_WORKER_DATA_KEY]: result,
+      } satisfies MessageFromWorker<ReturnType<typeof func>>);
+    } catch (err) {
+      postMessage({
+        type: 'error',
+        [FROM_WORKER_CORRELATION_ID]: correlationId,
+        [FROM_WORKER_DATA_KEY]: err as Error,
+      } satisfies MessageFromWorker<ReturnType<typeof func>>);
+    }
   });
 };
 
