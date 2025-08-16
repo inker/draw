@@ -2,20 +2,7 @@ import { orderBy, range, sum } from 'lodash';
 
 import { findFirstSolution } from '#utils/backtrack';
 import rangeGenerator from '#utils/rangeGenerator';
-
-function toBase3Array(num: number, length: number) {
-  const result = Array.from(
-    {
-      length,
-    },
-    () => 0,
-  );
-  for (let i = length - 1, n = num; i >= 0 && n > 0; --i) {
-    result[i] = n % 3;
-    n = Math.floor(n / 3);
-  }
-  return result;
-}
+import intToBase3Array from '#utils/intToBase3Array';
 
 function generateSequenceCombos(
   numMatchdays: number,
@@ -53,7 +40,7 @@ function getPossibleLocations(
   const sequences = generateSequenceCombos(numMatchdays, step);
 
   const isLocComboPossible = (s: number) => {
-    const base3Arr = toBase3Array(s, numMatchdays);
+    const base3Arr = intToBase3Array(s, numMatchdays);
     return sequences.some(seq => {
       for (let i = 0; i < numMatchdays; ++i) {
         const item = base3Arr[i];
