@@ -3,9 +3,9 @@ import { intersection, maxBy, remove, shuffle, sumBy, uniq } from 'lodash';
 import raceWorkers from '#utils/raceWorkers';
 import { type UefaCountry } from '#model/types';
 import coldCountries from '#engine/predicates/uefa/utils/coldCountries';
+import teamsSharingStadium from '#engine/predicates/uefa/utils/teamsSharingStadium';
 
 import { type Func } from './getFirstSuitableMatchday.worker';
-import teamsSharingStadium from './teamsSharingStadium';
 
 interface Team {
   readonly name: string;

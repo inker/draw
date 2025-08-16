@@ -1,0 +1,9 @@
+.root {
+  .main-list {
+    > li {
+      &:not(:first-of-type) {
+        margin-top: 4px;
+      }
+    }
+  }
+}

@@ -14,6 +14,7 @@ import Portal from '#ui/Portal';
 
 import Matrix from './Matrix';
 import Schedule from './Schedule';
+import ScheduleCreationDescription from './ScheduleCreationDescription';
 import * as styles from './styles.module.scss';
 
 interface Props {
@@ -174,6 +175,10 @@ function LeagueStage({
                   Schedule creation in progress. This will take between two
                   minutes to an hour. Please do not close the page.
                 </p>
+                <ScheduleCreationDescription
+                  season={season}
+                  teams={allTeams}
+                />
                 {elapsedTimeFormatted !== undefined && (
                   <p>Elapsed time: {elapsedTimeFormatted}</p>
                 )}
