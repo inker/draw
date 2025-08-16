@@ -25,9 +25,9 @@ function generateSequenceCombos(
       const impossible =
         item.startsWith('00') ||
         item.startsWith('11') ||
-        (step === 'start' && (item.endsWith('00') || item.endsWith('11'))) ||
         ((step === 'start' || step === 'middle') &&
-          (item.includes('000') || item.includes('111')));
+          (item.endsWith('00') || item.endsWith('11'))) ||
+        (step === 'middle' && (item.includes('000') || item.includes('111')));
       return !impossible;
     })
     .map(item => item.split('').map(s => +s + 1));
