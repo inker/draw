@@ -58,11 +58,11 @@ export default async function generateSchedule<T extends Team>({
 
   const tryGetResultInSteps = async () => {
     let result!: Awaited<ReturnType<typeof getFirstSuitableMatchday>>;
-    const stages = ['end', 'start', 'middle'] as const;
+    const steps = ['end', 'start', 'middle'] as const;
     const pickedGames: (readonly [number, number])[] = [];
     const remainingGames = [...allGamesUnordered];
     const schedule: number[] = [];
-    for (const step of stages) {
+    for (const step of steps) {
       // eslint-disable-next-line no-await-in-loop
       const stageResult = await getFirstSuitableMatchday({
         season,
