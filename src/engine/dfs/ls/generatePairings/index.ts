@@ -46,9 +46,37 @@ export default async function* generatePairings<T extends Team>({
 
   const matches: (readonly [number, number])[] = [];
 
-  const worker = new Worker(
-    new URL('./getFirstSuitableMatch.worker', import.meta.url),
-  );
+  const workerManager = (() => {
+    const workers = new Set<Worker>();
+
+    const register = () => {
+      const w = new Worker(
+        new URL('./getFirstSuitableMatch.worker', import.meta.url),
+      );
+      workers.add(w);
+      return w;
+    };
+
+    const kill = (w: Worker) => {
+      w.terminate();
+      workers.delete(w);
+    };
+
+    const killAll = () => {
+      for (const w of workers) {
+        w.terminate();
+      }
+      workers.clear();
+    };
+
+    return {
+      register,
+      kill,
+      killAll,
+    };
+  })();
+
+  let worker = workerManager.register();
 
   try {
     while (matches.length < numMatchdays * numGamesPerMatchday) {
@@ -69,16 +97,33 @@ export default async function* generatePairings<T extends Team>({
       // eslint-disable-next-line no-await-in-loop
       const pickedMatch = await new Promise<
         Awaited<ReturnType<typeof getFirstSuitableMatch>>
-        // eslint-disable-next-line no-async-promise-executor
+        // eslint-disable-next-line no-async-promise-executor, no-loop-func
       >(async (resolve, reject) => {
         const extraWorkers: Worker[] = [];
 
-        const resolveWithCleanup: typeof resolve = result => {
+        const resolveWithCleanup = (
+          successfulWorker: Worker,
+          result: Parameters<typeof resolve>[0],
+        ) => {
           resultObtained = true;
           for (const w of extraWorkers) {
-            w.terminate();
+            if (w === successfulWorker) {
+              continue;
+            }
+            workerManager.kill(w);
+          }
+          if (successfulWorker !== worker) {
+            workerManager.kill(worker);
+            worker = successfulWorker;
           }
           resolve(result);
+        };
+
+        const rejectWithCleanup: typeof reject = (err: Error) => {
+          for (const w of extraWorkers) {
+            workerManager.kill(w);
+          }
+          reject(err);
         };
 
         let resultObtained = false;
@@ -87,8 +132,10 @@ export default async function* generatePairings<T extends Team>({
           worker,
           reverseSortingMode: 0,
         })
-          .then(resolveWithCleanup)
-          .catch(reject);
+          .then(result => {
+            resolveWithCleanup(worker, result);
+          })
+          .catch(rejectWithCleanup);
 
         await delay(250);
 
@@ -100,17 +147,17 @@ export default async function* generatePairings<T extends Team>({
           }
           // eslint-disable-next-line no-console
           console.log('adding extra worker', i);
-          const extraWorker = new Worker(
-            new URL('./getFirstSuitableMatch.worker', import.meta.url),
-          );
+          const extraWorker = workerManager.register();
           extraWorkers.push(extraWorker);
           getFirstSuitableMatch({
             ...payload,
             worker: extraWorker,
             reverseSortingMode: i as 0 | 1 | 2,
           })
-            .then(resolveWithCleanup)
-            .catch(reject);
+            .then(result => {
+              resolveWithCleanup(extraWorker, result);
+            })
+            .catch(rejectWithCleanup);
         }
       });
 
@@ -119,6 +166,6 @@ export default async function* generatePairings<T extends Team>({
       yield [teams[pickedMatch[0]], teams[pickedMatch[1]]] as const;
     }
   } finally {
-    worker.terminate();
+    workerManager.killAll();
   }
 }
