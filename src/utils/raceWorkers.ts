@@ -9,6 +9,7 @@ export default async <Func extends (...args: any) => void>({
   getWorker,
   getPayload,
   getTimeout,
+  shouldSwallowErrors,
   signal,
 }: {
   numWorkers: number | (() => number);
@@ -22,6 +23,7 @@ export default async <Func extends (...args: any) => void>({
     numWorkers: number;
     attempt: number;
   }) => number;
+  shouldSwallowErrors?: boolean;
   signal?: AbortSignal;
 }): Promise<Awaited<ReturnType<Func>>> => {
   const workers: Worker[] = [];
@@ -58,40 +60,48 @@ export default async <Func extends (...args: any) => void>({
         }
         const worker = getWorker();
         workers[workerIndex] = worker;
-        // eslint-disable-next-line no-await-in-loop
-        const raceResult = await Promise.race([
-          workerSendAndReceive<ReturnType<Func>>(worker)(
-            getPayload({
+        try {
+          // eslint-disable-next-line no-await-in-loop
+          const raceResult = await Promise.race([
+            workerSendAndReceive<ReturnType<Func>>(worker)(
+              getPayload({
+                workerIndex,
+                attempt,
+              }),
+            ),
+            delay(
+              getTimeout({
+                workerIndex,
+                numWorkers,
+                attempt,
+              }),
+            ),
+          ]);
+          if (raceResult !== undefined) {
+            gotResult = true;
+            for (const w of workers) {
+              w.terminate();
+            }
+            return {
+              result: raceResult as Awaited<ReturnType<Func>>,
               workerIndex,
               attempt,
-            }),
-          ).catch((err: unknown) => {
-            console.error(err);
-          }),
-          delay(
-            getTimeout({
-              workerIndex,
-              numWorkers,
-              attempt,
-            }),
-          ),
-        ]);
-        if (raceResult !== undefined) {
-          gotResult = true;
-          for (const w of workers) {
-            w.terminate();
+            };
           }
-          return {
-            result: raceResult as Awaited<ReturnType<Func>>,
-            workerIndex,
-            attempt,
-          };
+          // timed out
+          workers[workerIndex]?.terminate();
+        } catch (err) {
+          if (shouldSwallowErrors) {
+            console.error(err);
+          } else {
+            throw err;
+          }
+        } finally {
+          workers[workerIndex]?.terminate();
         }
-        // timed out
-        workers[workerIndex]?.terminate();
       }
     },
   );
-  const firstResult = (await Promise.race(promises))!;
+  const firstResult = (await Promise.any(promises))!;
   return firstResult.result;
 };
