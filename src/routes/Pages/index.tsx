@@ -49,11 +49,18 @@ interface State {
   season: number; // for error handling (so that we know the previous season)
 }
 
-function Pages({ drawId, tournament, stage, season, onSeasonChange }: Props) {
+function Pages({
+  drawId,
+  tournament,
+  stage,
+  season: providedSeason,
+  onSeasonChange,
+}: Props) {
   const params = useParams();
   const [, setPopup] = usePopup();
 
-  const [{ Page, pots, pairings }, setState] = useState<State>(initialState);
+  const [{ Page, season, pots, pairings }, setState] =
+    useState<State>(initialState);
 
   const fetchData = async () => {
     setPopup({
@@ -63,8 +70,8 @@ function Pages({ drawId, tournament, stage, season, onSeasonChange }: Props) {
     try {
       const potsPromise =
         tournament === 'wc'
-          ? getWcPots(season)
-          : getPotsFromBert(tournament, stage, season);
+          ? getWcPots(providedSeason)
+          : getPotsFromBert(tournament, stage, providedSeason);
 
       const newPage = await getPage(tournament, stage);
 
@@ -88,7 +95,7 @@ function Pages({ drawId, tournament, stage, season, onSeasonChange }: Props) {
         pairings: 'pairings' in data ? data.pairings : undefined,
         // tournament,
         // stage,
-        season,
+        season: providedSeason,
       });
 
       setPopup({
@@ -107,8 +114,9 @@ function Pages({ drawId, tournament, stage, season, onSeasonChange }: Props) {
         params as unknown as Match;
 
       const newSeason =
-        pots && season !== currentSeasonByTournament(newTournament, newStage)
-          ? season
+        pots &&
+        providedSeason !== currentSeasonByTournament(newTournament, newStage)
+          ? providedSeason
           : undefined;
       onSeasonChange(newTournament, newStage, newSeason);
       setPopup({
@@ -119,7 +127,7 @@ function Pages({ drawId, tournament, stage, season, onSeasonChange }: Props) {
 
   useEffect(() => {
     fetchData();
-  }, [season, stage, tournament]);
+  }, [providedSeason, stage, tournament]);
 
   const isUefaClubTournament =
     tournament === 'cl' || tournament === 'el' || tournament === 'ecl';

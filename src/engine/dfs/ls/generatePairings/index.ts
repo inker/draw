@@ -17,11 +17,13 @@ export default async function* generatePairings<T extends Team>({
   tournament,
   pots,
   numMatchdays,
+  signal,
 }: {
   season: number;
   tournament: Tournament;
   pots: readonly (readonly T[])[];
   numMatchdays: number;
+  signal?: AbortSignal;
 }) {
   const teams = pots.flat();
   const numTeamsPerPot = pots[0].length;
@@ -79,7 +81,20 @@ export default async function* generatePairings<T extends Team>({
   let worker = workerManager.register();
 
   try {
-    while (matches.length < numMatchdays * numGamesPerMatchday) {
+    let shouldStop = false;
+    if (signal) {
+      signal.addEventListener(
+        'abort',
+        () => {
+          shouldStop = true;
+        },
+        {
+          once: true,
+        },
+      );
+    }
+
+    while (!shouldStop && matches.length < numMatchdays * numGamesPerMatchday) {
       allGames = shuffle(allGames);
       const payload = {
         teams,

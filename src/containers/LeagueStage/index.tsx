@@ -5,7 +5,6 @@ import type Tournament from '#model/Tournament';
 import type Team from '#model/team/GsTeam';
 import generatePairings from '#engine/dfs/ls/generatePairings/index';
 import generateSchedule from '#engine/dfs/ls/generateSchedule/index';
-import useAbortSignal from '#utils/hooks/useAbortSignal';
 import usePageVisible from '#utils/hooks/usePageVisible';
 import formatDuration from '#utils/formatDuration';
 import useTimer from '#utils/hooks/useTimer';
@@ -52,8 +51,6 @@ function LeagueStage({
     ),
   );
 
-  const abortSignal = useAbortSignal();
-
   const pots = useMemo(() => [...initialPots], [initialPots]);
 
   const allTeams = useMemo(() => pots.flat(), [pots]);
@@ -67,12 +64,15 @@ function LeagueStage({
   }, []);
 
   useEffect(() => {
+    const abortController = new AbortController();
+
     const formPairings = async () => {
       const generator = generatePairings({
         season,
         tournament,
         pots,
         numMatchdays,
+        signal: abortController.signal,
       });
       for await (const pickedMatch of generator) {
         setPairings(prev => [...prev, pickedMatch]);
@@ -80,7 +80,11 @@ function LeagueStage({
     };
 
     formPairings();
-  }, []);
+
+    return () => {
+      abortController.abort();
+    };
+  }, [tournament, season]);
 
   const isFixturesDone = pairings.length === numMatches;
 
@@ -89,6 +93,8 @@ function LeagueStage({
   isPageActiveRef.current = isPageActive;
 
   useEffect(() => {
+    const abortController = new AbortController();
+
     if (isFixturesDone) {
       const formSchedule = async () => {
         const it = await generateSchedule({
@@ -105,7 +111,7 @@ function LeagueStage({
                 ? navigator.hardwareConcurrency - 1
                 : navigator.hardwareConcurrency >> 2,
             ),
-          signal: abortSignal,
+          signal: abortController.signal,
         });
         setSchedule(it.solutionSchedule);
         setIsMatchdayMode(true);
@@ -113,6 +119,10 @@ function LeagueStage({
 
       formSchedule();
     }
+
+    return () => {
+      abortController.abort();
+    };
   }, [isFixturesDone]);
 
   const isScheduleDone = useMemo(
