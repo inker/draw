@@ -56,19 +56,8 @@ export default async function generateSchedule<T extends Team>({
     p => [indexByTeamId.get(p[0].id)!, indexByTeamId.get(p[1].id)!] as const,
   );
 
-  let result!: Awaited<ReturnType<typeof getFirstSuitableMatchday>>;
-  if (numMatchdays < 8) {
-    result = await getFirstSuitableMatchday({
-      season,
-      teams: allTeams,
-      matchdaySize,
-      pickedGames: [],
-      remainingGames: allGamesUnordered,
-      schedule: [],
-      getNumWorkers,
-      signal,
-    });
-  } else {
+  const tryGetResultInSteps = async () => {
+    let result!: Awaited<ReturnType<typeof getFirstSuitableMatchday>>;
     const stages = ['end', 'start', 'middle'] as const;
     const pickedGames: (readonly [number, number])[] = [];
     const remainingGames = [...allGamesUnordered];
@@ -106,6 +95,34 @@ export default async function generateSchedule<T extends Team>({
         ),
       );
     }
+    return result;
+  };
+
+  let result: Awaited<ReturnType<typeof getFirstSuitableMatchday>> | undefined;
+  if (numMatchdays >= 8) {
+    for (let attempt = 0; attempt < 5; ++attempt) {
+      try {
+        // eslint-disable-next-line no-console
+        console.log(`Attempt #${attempt + 1}`);
+        // eslint-disable-next-line no-await-in-loop
+        result = await tryGetResultInSteps();
+        break;
+      } catch (err) {
+        console.error(`Attempt #${attempt + 1} was unsuccessful`, err);
+      }
+    }
+  }
+  if (!result) {
+    result = await getFirstSuitableMatchday({
+      season,
+      teams: allTeams,
+      matchdaySize,
+      pickedGames: [],
+      remainingGames: allGamesUnordered,
+      schedule: [],
+      getNumWorkers,
+      signal,
+    });
   }
 
   const matchdays = splitMatchdaysIntoDays({
