@@ -2,6 +2,7 @@ import { memo, useMemo } from 'react';
 import clsx from 'clsx';
 
 import getCountryFlagUrl from '#utils/getCountryFlagUrl';
+import useIsDarkMode from '#utils/hooks/useIsDarkMode';
 import { type Country } from '#model/types';
 import { css } from '#ui/GlobalStyle';
 
@@ -34,6 +35,8 @@ function Matrix({
   potSize,
   noCellAnimation,
 }: Props) {
+  const isDarkMode = useIsDarkMode();
+
   const pairingsSet = useMemo(
     () =>
       new Set(
@@ -70,7 +73,7 @@ function Matrix({
 
   return (
     <Table
-      className={styles.table}
+      className={clsx(styles.table, isDarkMode && styles.dark)}
       blockSize={potSize}
       hoverStyle={css`
         background-color: var(--hover-color);

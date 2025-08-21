@@ -16,6 +16,12 @@
   border: 1px double var(--block-border-color);
   font-size: max(10px, calc(var(--cell-height) * 0.6));
 
+  &.dark {
+    .body-cell-matchday {
+      filter: brightness(1.5);
+    }
+  }
+
   th,
   td {
     border: 1px solid light-dark(rgb(192 192 192), rgb(128 128 128));
