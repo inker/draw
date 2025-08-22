@@ -1,5 +1,6 @@
 import delay from 'delay.js';
 
+import WorkerManager from '#utils/WorkerManager';
 import workerSendAndReceive from '#utils/worker/sendAndReceive';
 
 const maxNumWorkers = navigator.hardwareConcurrency;
@@ -26,7 +27,9 @@ export default async <Func extends (...args: any) => void>({
   shouldSwallowErrors?: boolean;
   signal?: AbortSignal;
 }): Promise<Awaited<ReturnType<Func>>> => {
-  const workers: Worker[] = [];
+  const workerManager = new WorkerManager({
+    maker: getWorker,
+  });
   let gotResult = false;
 
   if (signal) {
@@ -34,9 +37,7 @@ export default async <Func extends (...args: any) => void>({
       'abort',
       () => {
         gotResult = true;
-        for (const w of workers) {
-          w.terminate();
-        }
+        workerManager.killAll();
       },
       {
         once: true,
@@ -58,8 +59,7 @@ export default async <Func extends (...args: any) => void>({
           // eslint-disable-next-line no-await-in-loop
           await delay(1000);
         }
-        const worker = getWorker();
-        workers[workerIndex] = worker;
+        const worker = workerManager.register();
         try {
           // eslint-disable-next-line no-await-in-loop
           const raceResult = await Promise.race([
@@ -79,9 +79,7 @@ export default async <Func extends (...args: any) => void>({
           ]);
           if (raceResult !== undefined) {
             gotResult = true;
-            for (const w of workers) {
-              w.terminate();
-            }
+            workerManager.killAll();
             return {
               result: raceResult as Awaited<ReturnType<Func>>,
               workerIndex,
@@ -89,7 +87,7 @@ export default async <Func extends (...args: any) => void>({
             };
           }
           // timed out
-          workers[workerIndex]?.terminate();
+          workerManager.kill(worker);
         } catch (err) {
           if (shouldSwallowErrors) {
             console.error(err);
@@ -97,7 +95,7 @@ export default async <Func extends (...args: any) => void>({
             throw err;
           }
         } finally {
-          workers[workerIndex]?.terminate();
+          workerManager.kill(worker);
         }
       }
     },
