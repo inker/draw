@@ -1,6 +1,7 @@
 import { range, shuffle } from 'lodash';
 import delay from 'delay.js';
 
+import WorkerManager from '#utils/WorkerManager';
 import type Tournament from '#model/Tournament';
 import { type UefaCountry } from '#model/types';
 import incompatibleCountries from '#engine/predicates/uefa/utils/incompatibleCountries';
@@ -48,35 +49,10 @@ export default async function* generatePairings<T extends Team>({
 
   const matches: (readonly [number, number])[] = [];
 
-  const workerManager = (() => {
-    const workers = new Set<Worker>();
-
-    const register = () => {
-      const w = new Worker(
-        new URL('./getFirstSuitableMatch.worker', import.meta.url),
-      );
-      workers.add(w);
-      return w;
-    };
-
-    const kill = (w: Worker) => {
-      w.terminate();
-      workers.delete(w);
-    };
-
-    const killAll = () => {
-      for (const w of workers) {
-        w.terminate();
-      }
-      workers.clear();
-    };
-
-    return {
-      register,
-      kill,
-      killAll,
-    };
-  })();
+  const workerManager = new WorkerManager({
+    maker: () =>
+      new Worker(new URL('./getFirstSuitableMatch.worker', import.meta.url)),
+  });
 
   let worker = workerManager.register();
 
