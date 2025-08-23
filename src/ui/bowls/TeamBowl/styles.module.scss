@@ -29,4 +29,14 @@
   &:not(.no-hover):hover {
     background: radial-gradient(#ccf, #ccf);
   }
+
+  &.responsive {
+    --margin: 2px;
+
+    overflow: hidden;
+    margin: var(--margin);
+    width: calc(100% / var(--num-balls) - var(--margin) * 2) !important;
+    height: initial;
+    aspect-ratio: 1 / 1;
+  }
 }

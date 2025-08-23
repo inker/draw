@@ -1,4 +1,5 @@
-import { memo, useCallback } from 'react';
+import type React from 'react';
+import { memo, useCallback, useMemo } from 'react';
 import clsx from 'clsx';
 
 import type Club from '#model/team/Club';
@@ -16,6 +17,7 @@ interface Props {
   displayTeams: boolean;
   selectedTeam: Team | null;
   pot: readonly Team[];
+  responsiveNumItems?: number;
   onPick: (i: number, teams: readonly Team[]) => void;
 }
 
@@ -25,6 +27,7 @@ function TeamBowl({
   displayTeams,
   pot,
   selectedTeam,
+  responsiveNumItems,
   onPick,
 }: Props) {
   const handleBallPick = useCallback(
@@ -38,6 +41,15 @@ function TeamBowl({
 
   const noSelect = forceNoSelect || selectedTeam;
 
+  const bowlBallStyles = useMemo(
+    () =>
+      ({
+        // @ts-expect-error CSS prop
+        '--num-balls': responsiveNumItems,
+      }) satisfies React.CSSProperties as React.CSSProperties,
+    [responsiveNumItems],
+  );
+
   return (
     <div className={styles.root}>
       {display &&
@@ -47,11 +59,13 @@ function TeamBowl({
             data-teamid={team.id}
             className={clsx(
               styles['team-ball'],
+              responsiveNumItems !== undefined && styles.responsive,
               team === selectedTeam && styles.selected,
               (forceNoSelect || (!!selectedTeam && team !== selectedTeam)) &&
                 styles['not-selected'],
               !!noSelect && styles['no-hover'],
             )}
+            style={bowlBallStyles}
             selected={team === selectedTeam}
             forceVisible={displayTeams}
             noHover={!!noSelect}

@@ -259,7 +259,7 @@ function LeagueStage({
             potSize={pots[0].length}
             noCellAnimation={isScheduleDone}
           />
-          <div>
+          <div className={styles['right-wrapper']}>
             {isScheduleDone ? (
               <p>Schedule generation took: {elapsedTimeFormatted}</p>
             ) : isFixturesDone ? (
@@ -287,6 +287,7 @@ function LeagueStage({
             {!isFastDraw && !isScheduleGenerating && !isScheduleDone && (
               <div>
                 <TeamBowl
+                  responsiveNumItems={pots[0].length}
                   forceNoSelect={isGeneratingPairings}
                   display
                   displayTeams={isXRay}
