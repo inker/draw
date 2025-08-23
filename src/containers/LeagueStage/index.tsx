@@ -67,8 +67,8 @@ function LeagueStage({
   const setPairingWithDelay = useCallback(
     (...args: Parameters<typeof setPairings>) =>
       limit(async () => {
-        setPairings(...args);
         await delay(1000 / (pairings.length / 50 + 1));
+        setPairings(...args);
       }),
     [limit, pairings.length],
   );
