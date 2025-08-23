@@ -16,7 +16,7 @@ export default ({
   numGamesPerMatchday,
   isPairedPotMode,
   allGames,
-  pickedMatches,
+  allocatedMatches,
   reverseSortingMode,
 }: {
   teams: readonly Team[];
@@ -26,7 +26,7 @@ export default ({
   numGamesPerMatchday: number;
   isPairedPotMode: boolean;
   allGames: readonly (readonly [number, number])[];
-  pickedMatches: readonly (readonly [number, number])[];
+  allocatedMatches: readonly (readonly [number, number])[];
   reverseSortingMode: 0 | 1 | 2;
 }) => {
   const pots = chunk(range(teams.length), numTeamsPerPot);
@@ -54,7 +54,7 @@ export default ({
     boolean
   > = {};
 
-  for (const [h, a] of pickedMatches) {
+  for (const [h, a] of allocatedMatches) {
     const homeTeam = teams[h];
     const awayTeam = teams[a];
 
@@ -141,7 +141,7 @@ export default ({
     const [h, a] = match;
 
     if (
-      pickedMatches.some(
+      allocatedMatches.some(
         m => (m[0] === h && m[1] === a) || (m[0] === a && m[1] === h),
       )
     ) {
@@ -189,7 +189,7 @@ export default ({
     const solution = findFirstSolution(
       {
         source: remainingGames,
-        target: pickedMatches,
+        target: allocatedMatches,
         numRemainingMatchesByTeam,
         numGamesByPotPair,
         numHomeGamesByTeam,

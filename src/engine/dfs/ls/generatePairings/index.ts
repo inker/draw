@@ -80,7 +80,7 @@ export default async function* generatePairings<T extends Team>({
         numGamesPerMatchday,
         isPairedPotMode: tournament === 'ecl',
         allGames,
-        pickedMatches: matches,
+        allocatedMatches: matches,
       } satisfies Omit<
         Parameters<typeof getFirstSuitableMatch>[0],
         'reverseSortingMode' | 'worker'
