@@ -60,14 +60,12 @@ function Navbar({
       />
       <div>
         <Button onClick={disableFastDrawAndRestart}>Restart</Button>
-        {stage !== 'ls' && (
-          <Button
-            isDisabled={isFastDraw}
-            onClick={enableFastDraw}
-          >
-            Fast draw
-          </Button>
-        )}
+        <Button
+          isDisabled={isFastDraw}
+          onClick={enableFastDraw}
+        >
+          Fast draw
+        </Button>
         <SelectSeason
           tournament={tournament}
           stage={stage}

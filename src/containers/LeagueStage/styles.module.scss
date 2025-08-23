@@ -13,3 +13,24 @@
     flex-direction: column;
   }
 }
+
+.picked-team-announcement {
+  margin-top: 16px;
+}
+
+.selected-team {
+  display: inline;
+  margin-right: 0;
+  font-size: 14px;
+}
+
+.opponent-list {
+  margin-top: 8px;
+}
+
+.generate-schedule-button {
+  margin-top: 16px;
+  height: 28px;
+  font-size: 16px;
+  cursor: pointer;
+}
