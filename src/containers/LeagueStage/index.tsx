@@ -294,7 +294,7 @@ function LeagueStage({
                   pot={displayedPots[currentPotIndex]}
                   onPick={handleTeamBallPick}
                 />
-                {selectedTeam && (
+                {selectedTeam ? (
                   <>
                     <div className={styles['picked-team-announcement']}>
                       <ContentWithFlag
@@ -339,6 +339,10 @@ function LeagueStage({
                       })}
                     />
                   </>
+                ) : (
+                  <div className={styles['picked-team-announcement']}>
+                    Pick a ball
+                  </div>
                 )}
               </div>
             )}
