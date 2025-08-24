@@ -62,15 +62,15 @@ function LeagueStage({
     ),
   );
 
-  const limit = useMemo(() => pLimit(1), []);
+  const limitOne = useMemo(() => pLimit(1), []);
 
-  const setPairingWithDelay = useCallback(
-    (...args: Parameters<typeof setPairings>) =>
-      limit(async () => {
-        await delay(1000 / (pairings.length / 50 + 1));
-        setPairings(...args);
+  const setPairingsWithDelay = useCallback(
+    <T,>(ms: number, func: () => T) =>
+      limitOne(async () => {
+        await delay(ms);
+        return await func();
       }),
-    [limit, pairings.length],
+    [limitOne],
   );
 
   const virtualGeneratedMatchesRef = useRef<(readonly [Team, Team])[]>([]);
@@ -114,6 +114,11 @@ function LeagueStage({
 
     const generatePairingsForSelectedTeam = async () => {
       setIsGeneratingPairings(true);
+
+      const arePairingsAlreadyExistForSelectedTeam = pairings.some(
+        m => m[0] === selectedTeam || m[1] === selectedTeam,
+      );
+
       const generator = generatePairings({
         season,
         tournament,
@@ -125,14 +130,28 @@ function LeagueStage({
         signal: abortController.signal,
       });
 
-      let lastPromise!: Promise<void> | void;
+      let hasStarted = false;
+      const promises: Promise<void>[] = [];
       for await (const it of generator) {
         virtualGeneratedMatchesRef.current = it.virtualGeneratedMatches;
-        const func = isFastDraw ? setPairings : setPairingWithDelay;
-        // eslint-disable-next-line @typescript-eslint/no-confusing-void-expression
-        lastPromise = func(prev => [...prev, it.match]);
+        const set = () => {
+          setPairings(prev => [...prev, it.match]);
+        };
+        if (
+          isFastDraw ||
+          (!arePairingsAlreadyExistForSelectedTeam && !hasStarted)
+        ) {
+          set();
+        } else {
+          const promise = setPairingsWithDelay(
+            1000 / (pairings.length / 50 + 1),
+            set,
+          );
+          promises.push(promise);
+        }
+        hasStarted = true;
       }
-      await lastPromise;
+      await Promise.all(promises);
       previousPickedTeamsRef.current.push(selectedTeam);
       const newCurrentPot = displayedPots[currentPotIndex].toSpliced(
         displayedPots[currentPotIndex].indexOf(selectedTeam),
