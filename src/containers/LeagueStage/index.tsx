@@ -64,15 +64,6 @@ function LeagueStage({
 
   const limitOne = useMemo(() => pLimit(1), []);
 
-  const setPairingsWithDelay = useCallback(
-    <T,>(ms: number, func: () => T) =>
-      limitOne(async () => {
-        await delay(ms);
-        return await func();
-      }),
-    [limitOne],
-  );
-
   const virtualGeneratedMatchesRef = useRef<(readonly [Team, Team])[]>([]);
   const previousPickedTeamsRef = useRef<Team[]>([]);
   const [currentPotIndex, setCurrentPotIndex] = useState(0);
@@ -119,6 +110,8 @@ function LeagueStage({
         m => m[0] === selectedTeam || m[1] === selectedTeam,
       );
 
+      const animationDurationMs = 1000 / (pairings.length / 50 + 1);
+
       const generator = generatePairings({
         season,
         tournament,
@@ -137,16 +130,17 @@ function LeagueStage({
         const set = () => {
           setPairings(prev => [...prev, it.match]);
         };
-        if (
-          isFastDraw ||
-          (!arePairingsAlreadyExistForSelectedTeam && !hasStarted)
-        ) {
+        if (isFastDraw) {
           set();
         } else {
-          const promise = setPairingsWithDelay(
-            1000 / (pairings.length / 50 + 1),
-            set,
-          );
+          const hasStartedLocal = hasStarted;
+          const promise = limitOne(async () => {
+            if (arePairingsAlreadyExistForSelectedTeam && !hasStartedLocal) {
+              await delay(animationDurationMs / 2);
+            }
+            set();
+            await delay(animationDurationMs);
+          });
           promises.push(promise);
         }
         hasStarted = true;
