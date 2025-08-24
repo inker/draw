@@ -64,6 +64,7 @@ function LeagueStage({
 
   const limitOne = useMemo(() => pLimit(1), []);
 
+  const animationDurationMsRef = useRef(0);
   const virtualGeneratedMatchesRef = useRef<(readonly [Team, Team])[]>([]);
   const previousPickedTeamsRef = useRef<Team[]>([]);
   const [currentPotIndex, setCurrentPotIndex] = useState(0);
@@ -110,7 +111,7 @@ function LeagueStage({
         m => m[0] === selectedTeam || m[1] === selectedTeam,
       );
 
-      const animationDurationMs = 1000 / (pairings.length / 50 + 1);
+      animationDurationMsRef.current = 1000 / (pairings.length / 50 + 1);
 
       const generator = generatePairings({
         season,
@@ -136,10 +137,10 @@ function LeagueStage({
           const hasStartedLocal = hasStarted;
           const promise = limitOne(async () => {
             if (arePairingsAlreadyExistForSelectedTeam && !hasStartedLocal) {
-              await delay(animationDurationMs / 2);
+              await delay(animationDurationMsRef.current);
             }
             set();
-            await delay(animationDurationMs);
+            await delay(animationDurationMsRef.current);
           });
           promises.push(promise);
         }
@@ -330,6 +331,10 @@ function LeagueStage({
                     </div>
                     <OpponentList
                       className={styles['opponent-list']}
+                      animationDurationMs={Math.min(
+                        animationDurationMsRef.current,
+                        500,
+                      )}
                       data={orderBy(
                         pairings.filter(
                           m => m[0] === selectedTeam || m[1] === selectedTeam,

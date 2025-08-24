@@ -1,35 +1,22 @@
 .list {
   display: flex;
   flex-direction: column;
-}
-
-@keyframes grid-appear {
-  from {
-    grid-template-rows: 0fr;
-  }
+  width: fit-content;
 }
 
 .grid {
   display: grid;
   grid-template-rows: 1fr;
-  animation: grid-appear 0.5s;
 }
 
 .grid-inner {
   overflow: hidden;
 }
 
-@keyframes item-content-inner-appear {
-  from {
-    opacity: 0;
-  }
-}
-
 .item-content-inner {
   display: flex;
   margin: 2px 0;
-  animation: item-content-inner-appear 1s;
-  animation-fill-mode: forwards;
+  opacity: 0;
 }
 
 .content-with-flag {
