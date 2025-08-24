@@ -69,9 +69,6 @@ function LeagueStage({
   const previousPickedTeamsRef = useRef<Team[]>([]);
   const [currentPotIndex, setCurrentPotIndex] = useState(0);
   const [selectedTeam, setSelectedTeam] = useState<Team | null>(null);
-  const [displayedPots, setDisplayedPots] = useState(
-    initialPots.map(pot => shuffle(pot)),
-  );
   const [isGeneratingPairings, setIsGeneratingPairings] = useState(false);
   const [isFixturesDone, setIsFixturesDone] = useState(false);
   const [isScheduleGenerating, setIsScheduleGenerating] = useState(false);
@@ -81,6 +78,10 @@ function LeagueStage({
   }, []);
 
   const pots = useMemo(() => [...initialPots], [initialPots]);
+
+  const [displayedPots, setDisplayedPots] = useState(
+    pots.map(pot => shuffle(pot)),
+  );
 
   const allTeams = useMemo(() => pots.flat(), [pots]);
 
@@ -96,6 +97,10 @@ function LeagueStage({
       waiting: false,
     });
   }, []);
+
+  useEffect(() => {
+    setDisplayedPots(pots.map(pot => shuffle(pot)));
+  }, [pots]);
 
   useEffect(() => {
     if (!selectedTeam) {
