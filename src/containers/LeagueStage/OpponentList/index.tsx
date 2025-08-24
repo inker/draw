@@ -25,11 +25,13 @@ function OpponentList({ className, animationDurationMs, data }: Props) {
   const containerId = useId();
   const rootRef = useRef<HTMLUListElement>(null);
 
+  const keys = useMemo(() => data.map(getKey), [data]);
+  const prevKeys = usePrevious(keys);
+
   const noAnimationItemsRef = useRef(new Set<string>());
   const animationElementsRef = useRef(new Set<string>());
 
-  const prevLength = usePrevious(data.length);
-
+  const prevLength = usePrevious(keys.length);
   const prevLengthRef = useRef(prevLength);
 
   if (prevLength !== prevLengthRef.current) {
@@ -38,15 +40,12 @@ function OpponentList({ className, animationDurationMs, data }: Props) {
 
   if (
     prevLengthRef.current !== undefined &&
-    prevLengthRef.current > data.length
+    prevLengthRef.current > keys.length
   ) {
-    for (const item of data) {
-      noAnimationItemsRef.current.add(getKey(item));
+    for (const key of keys) {
+      noAnimationItemsRef.current.add(key);
     }
   }
-
-  const keys = useMemo(() => data.map(getKey), [data]);
-  const prevKeys = usePrevious(keys);
 
   useLayoutEffect(() => {
     const root = rootRef.current;
