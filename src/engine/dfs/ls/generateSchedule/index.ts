@@ -56,7 +56,11 @@ export default async function generateSchedule<T extends Team>({
     p => [indexByTeamId.get(p[0].id)!, indexByTeamId.get(p[1].id)!] as const,
   );
 
-  const tryGetResultInSteps = async () => {
+  const tryGetResultInSteps = async ({
+    signal: innerSignal,
+  }: {
+    signal: AbortSignal;
+  }) => {
     let result!: Awaited<ReturnType<typeof getFirstSuitableMatchday>>;
     const steps = ['end', 'start', 'middle'] as const;
     const pickedGames: (readonly [number, number])[] = [];
@@ -73,7 +77,7 @@ export default async function generateSchedule<T extends Team>({
         schedule,
         step,
         getNumWorkers,
-        signal,
+        signal: innerSignal,
       });
       if (step === 'middle') {
         result = stageResult;
@@ -100,15 +104,39 @@ export default async function generateSchedule<T extends Team>({
 
   let result: Awaited<ReturnType<typeof getFirstSuitableMatchday>> | undefined;
   if (numMatchdays >= 8) {
-    for (let attempt = 0; attempt < 5; ++attempt) {
+    for (let attempt = 0; attempt < 10; ++attempt) {
+      const abortController = new AbortController();
       try {
         // eslint-disable-next-line no-console
         console.log(`Attempt #${attempt + 1}`);
+        if (signal) {
+          signal.addEventListener(
+            'abort',
+            () => {
+              abortController.abort();
+            },
+            {
+              once: true,
+            },
+          );
+        }
         // eslint-disable-next-line no-await-in-loop
-        result = await tryGetResultInSteps();
+        result = await new Promise<typeof result>((resolve, reject) => {
+          tryGetResultInSteps({
+            signal: abortController.signal,
+          })
+            .then(resolve)
+            .catch(reject);
+          const delayMs = 60000 * 2 ** attempt;
+          setTimeout(() => {
+            reject(new Error(`Timed out after ${delayMs}ms`));
+          }, delayMs);
+        });
         break;
       } catch (err) {
         console.error(`Attempt #${attempt + 1} was unsuccessful`, err);
+      } finally {
+        abortController.abort();
       }
     }
   }
