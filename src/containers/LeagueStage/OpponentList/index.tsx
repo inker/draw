@@ -18,10 +18,7 @@ function OpponentList({ className, data }: Props) {
   return (
     <ul className={clsx('reset-list', styles.list, className)}>
       {data.map(item => (
-        <li
-          key={`${item.team.id}:${item.location}`}
-          className={styles.item}
-        >
+        <li key={`${item.team.id}:${item.location}`}>
           <div className={styles.grid}>
             <div className={styles['grid-inner']}>
               <div className={styles['item-content-inner']}>
