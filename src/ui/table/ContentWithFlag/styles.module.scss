@@ -1,11 +1,12 @@
 .root {
-  padding-left: 19px;
+  --background-width: calc(1em * 4 / 3);
+
+  padding-left: calc(var(--background-width) + 0.25em);
   background-position-y: center;
-  background-size: 16px;
+  background-size: var(--background-width);
   background-repeat: no-repeat;
 
   @media (width <= 999px) {
-    padding-left: 13px;
-    background-size: 12px;
+    --background-width: 1rem;
   }
 }
