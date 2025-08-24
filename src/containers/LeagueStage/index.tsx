@@ -116,7 +116,7 @@ function LeagueStage({
         m => m[0] === selectedTeam || m[1] === selectedTeam,
       );
 
-      animationDurationMsRef.current = 1000 / (pairings.length / 50 + 1);
+      animationDurationMsRef.current = 1000 / (pairings.length / 100 + 1);
 
       const generator = generatePairings({
         season,
