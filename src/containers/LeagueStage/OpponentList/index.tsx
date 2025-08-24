@@ -64,14 +64,14 @@ function OpponentList({ className, animationDurationMs, data }: Props) {
         animationElementsRef.current.add(key);
         const gridEl = root.querySelector(
           `[data-id="${containerId}:grid:${key}"]`,
-        );
+        )!;
         const innerEl = root.querySelector(
           `[data-id="${containerId}:inner:${key}"]`,
-        );
+        )!;
         (async () => {
           const noAnimation = noAnimationItemsRef.current.has(key);
           if (!isLast && !noAnimation) {
-            await gridEl!.animate(
+            await gridEl.animate(
               [
                 {
                   gridTemplateRows: '0fr',
@@ -85,7 +85,7 @@ function OpponentList({ className, animationDurationMs, data }: Props) {
           }
           await Promise.all([
             (async () => {
-              await gridEl!.animate(
+              await gridEl.animate(
                 [
                   {
                     // transform: `translateX(8px)`,
@@ -103,7 +103,7 @@ function OpponentList({ className, animationDurationMs, data }: Props) {
                 },
               ).finished;
             })(),
-            innerEl!.animate(
+            innerEl.animate(
               [
                 {
                   opacity: '0',
