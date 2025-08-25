@@ -371,12 +371,19 @@ function LeagueStage({
               </div>
             )}
             {isFixturesDone && !isScheduleGenerating && !isScheduleDone && (
-              <Button
-                className={styles['generate-schedule-button']}
-                onClick={startGeneratingSchedule}
-              >
-                Generate schedule
-              </Button>
+              <>
+                <p>
+                  You can now generate a fixture schedule. This is a
+                  CPU-intensive task and may take anywhere from two minutes to
+                  an hour to finish.
+                </p>
+                <Button
+                  className={styles['generate-schedule-button']}
+                  onClick={startGeneratingSchedule}
+                >
+                  Generate schedule
+                </Button>
+              </>
             )}
           </div>
         </div>
