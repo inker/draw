@@ -8,6 +8,7 @@ type Props = Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'disabled'> & {
 };
 
 function Button({
+  type = 'button',
   isDisabled,
   onClick,
   onMouseDown,
@@ -16,7 +17,8 @@ function Button({
 }: Props) {
   return (
     <button
-      type="button"
+      // eslint-disable-next-line react/button-has-type
+      type={type}
       className={styles.root}
       aria-disabled={isDisabled}
       onClick={isDisabled ? undefined : onClick}
