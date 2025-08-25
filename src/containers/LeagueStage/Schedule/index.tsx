@@ -63,7 +63,7 @@ function Schedule({ tournament, schedule }: Props) {
                   </div>
                   <ul className="reset-list">
                     {day.map(m => (
-                      <li className={styles['match-pair']}>
+                      <li className={styles['match-item']}>
                         <span>
                           <span className={styles['match-pair-team']}>
                             <ContentWithFlag
