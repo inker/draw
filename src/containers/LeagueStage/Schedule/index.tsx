@@ -64,16 +64,26 @@ function Schedule({ tournament, schedule }: Props) {
                   <ul className="reset-list">
                     {day.map(m => (
                       <li className={styles['match-pair']}>
-                        <span className={styles['match-pair-team']}>
-                          <ContentWithFlag country={m[0].country}>
-                            {m[0].name}
-                          </ContentWithFlag>
-                        </span>
-                        <span className={styles['match-pair-center']}>-</span>
-                        <span className={styles['match-pair-team']}>
-                          <ContentWithFlag country={m[1].country}>
-                            {m[1].name}
-                          </ContentWithFlag>
+                        <span>
+                          <span className={styles['match-pair-team']}>
+                            <ContentWithFlag
+                              className={styles['content-with-flag']}
+                              country={m[0].country}
+                            >
+                              {m[0].name}
+                            </ContentWithFlag>
+                          </span>
+                          <span className={styles['match-pair-center']}>
+                            &nbsp;-&nbsp;
+                          </span>
+                          <span className={styles['match-pair-team']}>
+                            <ContentWithFlag
+                              className={styles['content-with-flag']}
+                              country={m[1].country}
+                            >
+                              {m[1].name}
+                            </ContentWithFlag>
+                          </span>
                         </span>
                       </li>
                     ))}

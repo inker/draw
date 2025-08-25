@@ -51,18 +51,19 @@
   align-items: center;
   height: 20px;
   border-top: 1px solid light-dark(rgb(192 192 192), rgb(128 128 128));
-
-  > :first-child {
-    align-items: end;
-  }
 }
 
 .match-pair-center {
-  display: flex;
-  justify-content: center;
+  display: inline-block;
   width: 20px;
+  text-align: center;
 }
 
 .match-pair-team {
+  display: inline-block;
   min-width: var(--team-width);
+}
+
+.content-with-flag {
+  display: inline;
 }
