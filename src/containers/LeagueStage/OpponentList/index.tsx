@@ -1,4 +1,11 @@
-import { memo, useId, useLayoutEffect, useMemo, useRef } from 'react';
+import {
+  memo,
+  useEffect,
+  useId,
+  useLayoutEffect,
+  useMemo,
+  useRef,
+} from 'react';
 import clsx from 'clsx';
 import { difference } from 'lodash';
 
@@ -23,29 +30,16 @@ interface Props {
 
 function OpponentList({ className, animationDurationMs, data }: Props) {
   const containerId = useId();
+  const isMountedRef = useRef(false);
   const rootRef = useRef<HTMLUListElement>(null);
+  const animationElementsRef = useRef(new Set<string>());
 
   const keys = useMemo(() => data.map(getKey), [data]);
   const prevKeys = usePrevious(keys);
 
-  const noAnimationItemsRef = useRef(new Set<string>());
-  const animationElementsRef = useRef(new Set<string>());
-
-  const prevLength = usePrevious(keys.length);
-  const prevLengthRef = useRef(prevLength);
-
-  if (prevLength !== prevLengthRef.current) {
-    prevLengthRef.current = prevLength;
-  }
-
-  if (
-    prevLengthRef.current !== undefined &&
-    prevLengthRef.current > keys.length
-  ) {
-    for (const key of keys) {
-      noAnimationItemsRef.current.add(key);
-    }
-  }
+  useEffect(() => {
+    isMountedRef.current = true;
+  }, []);
 
   useLayoutEffect(() => {
     const root = rootRef.current;
@@ -68,7 +62,7 @@ function OpponentList({ className, animationDurationMs, data }: Props) {
           `[data-id="${containerId}:inner:${key}"]`,
         )!;
         (async () => {
-          const noAnimation = noAnimationItemsRef.current.has(key);
+          const noAnimation = !isMountedRef.current;
           if (!isLast && !noAnimation) {
             await gridEl.animate(
               [

@@ -335,6 +335,7 @@ function LeagueStage({
                       )}
                     </div>
                     <OpponentList
+                      key={selectedTeam.id}
                       className={styles['opponent-list']}
                       animationDurationMs={Math.min(
                         animationDurationMsRef.current,
