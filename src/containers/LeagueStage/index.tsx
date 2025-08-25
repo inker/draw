@@ -292,7 +292,7 @@ function LeagueStage({
               <>
                 <p>
                   Schedule creation in progress. This will take between two
-                  minutes to an hour. Please do not close the page.
+                  seconds to an hour. Please do not close the page.
                 </p>
                 <ScheduleCreationDescription
                   season={season}
@@ -375,7 +375,7 @@ function LeagueStage({
               <>
                 <p>
                   You can now generate a fixture schedule. This is a
-                  CPU-intensive task and may take anywhere from two minutes to
+                  CPU-intensive task and may take anywhere from two seconds to
                   an hour to finish.
                 </p>
                 <Button
