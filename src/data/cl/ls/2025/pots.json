@@ -135,10 +135,6 @@
       "country": "Türkiye"
     },
     {
-      "name": "Celtic",
-      "country": "Scotland"
-    },
-    {
       "name": "Union SG",
       "country": "Belgium"
     },
@@ -149,6 +145,10 @@
     {
       "name": "Newcastle",
       "country": "England"
+    },
+    {
+      "name": "Kairat",
+      "country": "Kazakhstan"
     }
   ]
 ]

@@ -59,6 +59,10 @@
       "country": "Czechia"
     },
     {
+      "name": "Celtic",
+      "country": "Scotland"
+    },
+    {
       "name": "M Tel-Aviv",
       "country": "Israel"
     },
@@ -69,13 +73,13 @@
     {
       "name": "Basel",
       "country": "Switzerland"
-    },
-    {
-      "name": "Midtjylland",
-      "country": "Denmark"
     }
   ],
   [
+    {
+      "name": "Midtjylland",
+      "country": "Denmark"
+    },
     {
       "name": "Qarabağ",
       "country": "Azerbaijan"
@@ -107,13 +111,13 @@
     {
       "name": "Bologna",
       "country": "Italy"
-    },
-    {
-      "name": "Lech",
-      "country": "Poland"
     }
   ],
   [
+    {
+      "name": "Lech",
+      "country": "Poland"
+    },
     {
       "name": "Celta",
       "country": "Spain"
@@ -145,10 +149,6 @@
     {
       "name": "Brann",
       "country": "Norway"
-    },
-    {
-      "name": "Kairat",
-      "country": "Kazakhstan"
     }
   ]
 ]
