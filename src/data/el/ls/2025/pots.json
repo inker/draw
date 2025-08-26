@@ -47,6 +47,10 @@
       "country": "Portugal"
     },
     {
+      "name": "Crvena zvezda",
+      "country": "Serbia"
+    },
+    {
       "name": "Lyon",
       "country": "France"
     },
@@ -69,13 +73,13 @@
     {
       "name": "Young Boys",
       "country": "Switzerland"
-    },
-    {
-      "name": "Basel",
-      "country": "Switzerland"
     }
   ],
   [
+    {
+      "name": "Basel",
+      "country": "Switzerland"
+    },
     {
       "name": "Midtjylland",
       "country": "Denmark"
@@ -107,13 +111,13 @@
     {
       "name": "Nice",
       "country": "France"
-    },
-    {
-      "name": "Bologna",
-      "country": "Italy"
     }
   ],
   [
+    {
+      "name": "Bologna",
+      "country": "Italy"
+    },
     {
       "name": "Lech",
       "country": "Poland"
@@ -141,10 +145,6 @@
     {
       "name": "Go Ahead Eagles",
       "country": "Netherlands"
-    },
-    {
-      "name": "Pafos",
-      "country": "Cyprus"
     },
     {
       "name": "Brann",

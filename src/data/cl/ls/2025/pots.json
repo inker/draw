@@ -119,10 +119,6 @@
       "country": "Denmark"
     },
     {
-      "name": "Crvena zvezda",
-      "country": "Serbia"
-    },
-    {
       "name": "Monaco",
       "country": "France"
     },
@@ -145,6 +141,10 @@
     {
       "name": "Newcastle",
       "country": "England"
+    },
+    {
+      "name": "Pafos",
+      "country": "Cyprus"
     },
     {
       "name": "Kairat",
