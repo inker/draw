@@ -63,19 +63,23 @@
       "country": "Czechia"
     },
     {
+      "name": "Ferencváros",
+      "country": "Hungary"
+    },
+    {
       "name": "Celtic",
       "country": "Scotland"
     },
     {
       "name": "M Tel-Aviv",
       "country": "Israel"
-    },
-    {
-      "name": "Young Boys",
-      "country": "Switzerland"
     }
   ],
   [
+    {
+      "name": "Young Boys",
+      "country": "Switzerland"
+    },
     {
       "name": "Basel",
       "country": "Switzerland"
@@ -83,10 +87,6 @@
     {
       "name": "Midtjylland",
       "country": "Denmark"
-    },
-    {
-      "name": "Qarabağ",
-      "country": "Azerbaijan"
     },
     {
       "name": "Freiburg",
