@@ -310,8 +310,14 @@ function LeagueStage({
                   forceNoSelect={isGeneratingPairings}
                   display
                   displayTeams={isXRay}
-                  selectedTeam={isGeneratingPairings ? selectedTeam : null}
-                  pot={displayedPots[currentPotIndex]}
+                  selectedTeam={
+                    isFixturesDone || isGeneratingPairings ? selectedTeam : null
+                  }
+                  pot={
+                    isFixturesDone
+                      ? [selectedTeam!]
+                      : displayedPots[currentPotIndex]
+                  }
                   onPick={handleTeamBallPick}
                 />
                 {selectedTeam ? (
