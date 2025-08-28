@@ -119,10 +119,6 @@
       "country": "Italy"
     },
     {
-      "name": "Lech",
-      "country": "Poland"
-    },
-    {
       "name": "Celta",
       "country": "Spain"
     },
@@ -145,6 +141,10 @@
     {
       "name": "Go Ahead Eagles",
       "country": "Netherlands"
+    },
+    {
+      "name": "Genk",
+      "country": "Belgium"
     },
     {
       "name": "Brann",

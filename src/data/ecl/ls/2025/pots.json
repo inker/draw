@@ -31,10 +31,6 @@
       "country": "Czechia"
     },
     {
-      "name": "Anderlecht",
-      "country": "Belgium"
-    },
-    {
       "name": "Dynamo",
       "country": "Ukraine"
     },
@@ -43,15 +39,9 @@
       "country": "England"
     },
     {
-      "name": "Başakşehir",
-      "country": "Türkiye"
+      "name": "Lech",
+      "country": "Poland"
     },
-    {
-      "name": "CFR Cluj",
-      "country": "Romania"
-    }
-  ],
-  [
     {
       "name": "Rayo Vallecano",
       "country": "Spain"
@@ -59,11 +49,9 @@
     {
       "name": "Shamrock Rovers",
       "country": "Ireland"
-    },
-    {
-      "name": "Olimpija",
-      "country": "Slovenia"
-    },
+    }
+  ],
+  [
     {
       "name": "Omonia",
       "country": "Cyprus"
@@ -72,12 +60,6 @@
       "name": "Mainz",
       "country": "Germany"
     },
-    {
-      "name": "Beşiktaş",
-      "country": "Türkiye"
-    }
-  ],
-  [
     {
       "name": "Strasbourg",
       "country": "France"
@@ -93,21 +75,9 @@
     {
       "name": "Rijeka",
       "country": "Croatia"
-    },
-    {
-      "name": "Genk",
-      "country": "Belgium"
-    },
-    {
-      "name": "RFS",
-      "country": "Latvia"
     }
   ],
   [
-    {
-      "name": "KuPS",
-      "country": "Finland"
-    },
     {
       "name": "Zrinjski",
       "country": "Bosnia & Herzegovina"
@@ -117,19 +87,27 @@
       "country": "Gibraltar"
     },
     {
+      "name": "KuPS",
+      "country": "Finland"
+    },
+    {
+      "name": "AEK",
+      "country": "Greece"
+    },
+    {
       "name": "Aberdeen",
       "country": "Scotland"
     },
     {
       "name": "Drita",
       "country": "Kosovo"
-    },
-    {
-      "name": "Breiðablik",
-      "country": "Iceland"
     }
   ],
   [
+    {
+      "name": "Breiðablik",
+      "country": "Iceland"
+    },
     {
       "name": "Olomouc",
       "country": "Czechia"
@@ -137,10 +115,6 @@
     {
       "name": "Samsunspor",
       "country": "Türkiye"
-    },
-    {
-      "name": "Linfield",
-      "country": "Northern Ireland"
     },
     {
       "name": "Raków",
@@ -153,6 +127,32 @@
     {
       "name": "Shkëndija",
       "country": "North Macedonia"
+    }
+  ],
+  [
+    {
+      "name": "Häcken",
+      "country": "Sweden"
+    },
+    {
+      "name": "Lausanne",
+      "country": "Switzerland"
+    },
+    {
+      "name": "U Craiova",
+      "country": "Romania"
+    },
+    {
+      "name": "Ħamrun",
+      "country": "Malta"
+    },
+    {
+      "name": "Noah",
+      "country": "Armenia"
+    },
+    {
+      "name": "Shelbourne",
+      "country": "Ireland"
     }
   ]
 ]
