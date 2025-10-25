@@ -93,7 +93,7 @@
     "sass": "^1.89.2",
     "sass-loader": "^16.0.5",
     "stylelint": "^16.0.2",
-    "stylelint-config-standard-scss": "^15.0.1",
+    "stylelint-config-standard-scss": "^16.0.0",
     "stylelint-order": "^7.0.0",
     "typescript": "^5.0.4",
     "vitest": "^3.1.4",
