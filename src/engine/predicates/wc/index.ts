@@ -29,9 +29,7 @@ export default (year: number, teams: readonly Team[]): Predicate<Team> => {
     return [Math.floor(teamsPerGroup), Math.ceil(teamsPerGroup)] as const;
   });
 
-  type Pair = [Confederation, readonly [number, number]];
-
-  const confMinMaxEntries = Object.entries(confMinMax) as readonly Pair[];
+  const confMinMaxEntries = Object.entries(confMinMax);
 
   return (picked, groups, groupIndex) => {
     const group = groups[groupIndex];
@@ -48,7 +46,9 @@ export default (year: number, teams: readonly Team[]): Predicate<Team> => {
         // @ts-expect-error
         const m = team.confederation
           ? (team as NationalTeam).confederation === conf
-          : (team as UnknownNationalTeam).confederations.has(conf);
+          : (team as UnknownNationalTeam).confederations.has(
+              conf as Confederation,
+            );
         return m ? 1 : 0;
       });
       return numConfTeams <= max && numConfTeams + numRemainingTeams >= min;
