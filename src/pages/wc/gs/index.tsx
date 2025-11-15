@@ -186,9 +186,7 @@ function WCGS({ season, pots: initialPots }: Props) {
         await delay(100);
       }
     })();
-
-    // TODO: should be drawId
-  }, [pots]);
+  }, [drawId]);
 
   const completed = currentPotNum >= pots.length;
 
