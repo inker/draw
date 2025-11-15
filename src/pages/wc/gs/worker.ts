@@ -1,9 +1,11 @@
 import memoizeOne from 'memoize-one';
-import { orderBy } from 'lodash';
+import { countBy, identity, orderBy } from 'lodash';
 
 import { firstPossibleGroup } from '#engine/dfs/gs';
 import getPredicate from '#engine/predicates/wc';
 import type Team from '#model/team/NationalTeam';
+import type UnknownNationalTeam from '#model/team/UnknownNationalTeam';
+import { type Confederation } from '#model/types';
 import {
   type GsWorkerDataSerialized,
   deserializeGsWorkerData,
@@ -29,9 +31,24 @@ const func = (data: GsWorkerDataSerialized<Team>) => {
   const { season, pots, groups, selectedTeam } = deserializeGsWorkerData(data);
 
   const teams = [selectedTeam, ...pots.flat(), ...groups.flat()];
+  const confederations = teams.flatMap(
+    team =>
+      team.confederation ??
+      // @ts-expect-error Fix this type
+      (team as UnknownNationalTeam).confederations,
+  );
+  const berthsByConfederation = countBy(confederations, identity) as Record<
+    Confederation,
+    number
+  >;
+
+  // Start with teams from the most represented confederation
+  const orderedPots = pots.map(pot =>
+    orderBy(pot, t => -berthsByConfederation[t.confederation]),
+  );
   const predicate = getPredicateMemoized(season, teams);
   return firstPossibleGroup({
-    pots,
+    pots: orderedPots,
     groups,
     picked: selectedTeam,
     predicate,
