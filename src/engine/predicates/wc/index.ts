@@ -32,6 +32,11 @@ export default (year: number, teams: readonly Team[]): Predicate<Team> => {
 
   const confMinMaxEntries = Object.entries(confMinMax);
 
+  const numMaxGroupsByConf = mapValues(berthsByConfederation, v => {
+    const r = v % numGroups;
+    return r === 0 ? numGroups : r;
+  });
+
   return (picked, groups, groupIndex) => {
     const group = groups[groupIndex];
     const currentPotIndex = getSmallestArrayLength(groups);
@@ -42,7 +47,7 @@ export default (year: number, teams: readonly Team[]): Predicate<Team> => {
 
     const virtualGroup = [...group, picked] as const;
     const numRemainingTeams = groupSize - virtualGroup.length;
-    return confMinMaxEntries.every(([conf, [min, max]]) => {
+    const isGroupPossible = confMinMaxEntries.every(([conf, [min, max]]) => {
       const numConfTeams = sumBy(virtualGroup, team => {
         // @ts-expect-error
         const m = team.confederation
@@ -54,5 +59,31 @@ export default (year: number, teams: readonly Team[]): Predicate<Team> => {
       });
       return numConfTeams <= max && numConfTeams + numRemainingTeams >= min;
     });
+    if (!isGroupPossible) {
+      return false;
+    }
+
+    const virtualGroups = groups.with(groupIndex, virtualGroup);
+    const areGroupsPossible = confMinMaxEntries.every(([conf, [, max]]) => {
+      const numMaxedOutGroups = sumBy(virtualGroups, g => {
+        const numConfTeams = sumBy(g, team => {
+          // @ts-expect-error
+          const m = team.confederation
+            ? (team as NationalTeam).confederation === conf
+            : (team as UnknownNationalTeam).confederations.has(
+                conf as Confederation,
+              );
+          return m ? 1 : 0;
+        });
+        return numConfTeams === max ? 1 : 0;
+      });
+      return numMaxedOutGroups <= numMaxGroupsByConf[conf as Confederation];
+    });
+
+    if (!areGroupsPossible) {
+      return false;
+    }
+
+    return true;
   };
 };
