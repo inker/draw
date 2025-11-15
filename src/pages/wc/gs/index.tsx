@@ -1,5 +1,6 @@
 import { memo, useCallback, useEffect, useRef, useState } from 'react';
-import { constant, random, shuffle, stubArray } from 'lodash';
+import delay from 'delay.js';
+import { constant, orderBy, random, shuffle, stubArray } from 'lodash';
 
 import PotsContainer from '#ui/PotsContainer';
 import GroupsContainer from '#ui/GroupsContainer';
@@ -146,9 +147,46 @@ function WCGS({ season, pots: initialPots }: Props) {
   }, [selectedTeam]);
 
   useEffect(() => {
-    // pick host ball
-    const i = pots[currentPotNum].findIndex(team => team.host);
-    handleTeamBallPick(i);
+    (async () => {
+      // pick host balls
+      const forcedTeams = pots
+        .flat()
+        .filter(team => team.forcedGroupIndex !== undefined);
+      const orderedForcedTeams = orderBy(
+        forcedTeams,
+        team => team.forcedGroupIndex,
+      );
+      for (const forcedTeam of orderedForcedTeams) {
+        setState(state => {
+          const newPickedGroup = forcedTeam.forcedGroupIndex!;
+          // TODO: pot index should not be hard-coded
+          // eslint-disable-next-line @typescript-eslint/no-shadow
+          const { currentPotNum } = state;
+          const newPots = state.pots.with(
+            currentPotNum,
+            state.pots[currentPotNum].toSpliced(
+              state.pots[currentPotNum].indexOf(forcedTeam),
+              1,
+            ),
+          );
+          const newGroups = state.groups.with(newPickedGroup, [
+            ...state.groups[newPickedGroup],
+            forcedTeam,
+          ]);
+          return {
+            ...state,
+            selectedTeam: null,
+            pickedGroup: newPickedGroup,
+            pots: newPots,
+            hungPot: newPots[currentPotNum],
+            groups: newGroups,
+          };
+        });
+        // eslint-disable-next-line no-await-in-loop
+        await delay(100);
+      }
+    })();
+
     // TODO: should be drawId
   }, [pots]);
 
