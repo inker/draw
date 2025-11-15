@@ -17,8 +17,9 @@ export default (year: number, teams: readonly Team[]): Predicate<Team> => {
   const groupSize = teams.length / numGroups;
   const confederations = teams.flatMap(
     team =>
-      (team as NationalTeam).confederation ??
-      (team as UnknownNationalTeam).confederations,
+      (team as NationalTeam).confederation ?? [
+        ...(team as UnknownNationalTeam).confederations,
+      ],
   );
   const berthsByConfederation = countBy(
     confederations,
