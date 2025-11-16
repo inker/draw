@@ -1,4 +1,4 @@
-import { memo, useCallback, useEffect, useMemo } from 'react';
+import { memo, useCallback, useMemo } from 'react';
 import {
   Navigate,
   Route,
@@ -10,8 +10,6 @@ import clsx from 'clsx';
 
 import type Tournament from '#model/Tournament';
 import type Stage from '#model/Stage';
-import useFastDraw from '#store/useFastDraw';
-import useDrawId from '#store/useDrawId';
 import usePopup from '#store/usePopup';
 
 import config from '../config';
@@ -53,16 +51,9 @@ function useSeasonTournamentStage() {
 function Routing() {
   const navigate = useNavigate();
 
-  const [drawId, refreshDrawId] = useDrawId();
   const [popup] = usePopup();
-  const [, setIsFastDraw] = useFastDraw();
 
   const o = useSeasonTournamentStage();
-
-  useEffect(() => {
-    setIsFastDraw(false);
-    refreshDrawId();
-  }, [o]);
 
   const { tournament, stage, season } = o;
 
@@ -85,7 +76,6 @@ function Routing() {
       />
       {tournament && stage ? (
         <Pages
-          drawId={drawId}
           tournament={tournament}
           stage={stage}
           season={season}
