@@ -259,6 +259,14 @@ export default {
     flag: 'ec',
     confederation: 'CONMEBOL',
   },
+  Paraguay: {
+    flag: 'py',
+    confederation: 'CONMEBOL',
+  },
+  Bolivia: {
+    flag: 'bo',
+    confederation: 'CONMEBOL',
+  },
 
   Mexico: {
     flag: 'mx',
@@ -278,6 +286,22 @@ export default {
   },
   'United States': {
     flag: 'us',
+    confederation: 'CONCACAF',
+  },
+  Suriname: {
+    flag: 'sr',
+    confederation: 'CONCACAF',
+  },
+  Honduras: {
+    flag: 'hn',
+    confederation: 'CONCACAF',
+  },
+  Curaçao: {
+    flag: 'cw',
+    confederation: 'CONCACAF',
+  },
+  Haiti: {
+    flag: 'ht',
     confederation: 'CONCACAF',
   },
 
@@ -313,6 +337,18 @@ export default {
     flag: 'cm',
     confederation: 'CAF',
   },
+  'Cape Verde': {
+    flag: 'cv',
+    confederation: 'CAF',
+  },
+  'South Africa': {
+    flag: 'za',
+    confederation: 'CAF',
+  },
+  'Ivory Coast': {
+    flag: 'ci',
+    confederation: 'CAF',
+  },
 
   Iran: {
     flag: 'ir',
@@ -336,6 +372,18 @@ export default {
   },
   Qatar: {
     flag: 'qa',
+    confederation: 'AFC',
+  },
+  Jordan: {
+    flag: 'jo',
+    confederation: 'AFC',
+  },
+  Uzbekistan: {
+    flag: 'uz',
+    confederation: 'AFC',
+  },
+  Iraq: {
+    flag: 'iq',
     confederation: 'AFC',
   },
 
