@@ -12,6 +12,15 @@ type BerthsByConf = Record<Confederation, number>;
 
 type Team = NationalTeam | UnknownNationalTeam;
 
+const getNumConfTeams = (group: readonly Team[], conf: Confederation) =>
+  sumBy(group, team => {
+    // @ts-expect-error
+    const m = team.confederation
+      ? (team as NationalTeam).confederation === conf
+      : (team as UnknownNationalTeam).confederations.has(conf);
+    return m ? 1 : 0;
+  });
+
 export default (year: number, teams: readonly Team[]): Predicate<Team> => {
   const numGroups = getNumGroupsByYear(year);
   const groupSize = teams.length / numGroups;
@@ -48,15 +57,7 @@ export default (year: number, teams: readonly Team[]): Predicate<Team> => {
     const virtualGroup = [...group, picked] as const;
     const numRemainingTeams = groupSize - virtualGroup.length;
     const isGroupPossible = confMinMaxEntries.every(([conf, [min, max]]) => {
-      const numConfTeams = sumBy(virtualGroup, team => {
-        // @ts-expect-error
-        const m = team.confederation
-          ? (team as NationalTeam).confederation === conf
-          : (team as UnknownNationalTeam).confederations.has(
-              conf as Confederation,
-            );
-        return m ? 1 : 0;
-      });
+      const numConfTeams = getNumConfTeams(virtualGroup, conf as Confederation);
       return numConfTeams <= max && numConfTeams + numRemainingTeams >= min;
     });
     if (!isGroupPossible) {
@@ -66,15 +67,7 @@ export default (year: number, teams: readonly Team[]): Predicate<Team> => {
     const virtualGroups = groups.with(groupIndex, virtualGroup);
     const areGroupsPossible = confMinMaxEntries.every(([conf, [, max]]) => {
       const numMaxedOutGroups = sumBy(virtualGroups, g => {
-        const numConfTeams = sumBy(g, team => {
-          // @ts-expect-error
-          const m = team.confederation
-            ? (team as NationalTeam).confederation === conf
-            : (team as UnknownNationalTeam).confederations.has(
-                conf as Confederation,
-              );
-          return m ? 1 : 0;
-        });
+        const numConfTeams = getNumConfTeams(g, conf as Confederation);
         return numConfTeams === max ? 1 : 0;
       });
       return numMaxedOutGroups <= numMaxGroupsByConf[conf as Confederation];
