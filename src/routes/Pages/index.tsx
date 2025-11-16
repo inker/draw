@@ -8,7 +8,6 @@ import type Tournament from '#model/Tournament';
 import type Stage from '#model/Stage';
 import { isFirefox } from '#utils/browser';
 import useDrawId from '#store/useDrawId';
-import useFastDraw from '#store/useFastDraw';
 import usePopup from '#store/usePopup';
 
 import currentSeasonByTournament from '../currentSeasonByTournament';
@@ -62,13 +61,7 @@ function Pages({
   const [{ Page, season, pots, pairings }, setState] =
     useState<State>(initialState);
 
-  const [, setIsFastDraw] = useFastDraw();
   const [drawId, refreshDrawId] = useDrawId();
-
-  useEffect(() => {
-    setIsFastDraw(false);
-    refreshDrawId();
-  }, [tournament, params.stage, season, pots]);
 
   const fetchData = async () => {
     setPopup({
@@ -105,6 +98,7 @@ function Pages({
         // stage,
         season: providedSeason,
       });
+      refreshDrawId();
 
       setPopup({
         waiting: false,

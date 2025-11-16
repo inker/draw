@@ -43,11 +43,6 @@ function Navbar({
   const isWidth900 = useMedia('(min-width: 900px)');
   const isWidth700 = useMedia('(min-width: 700px)');
 
-  const disableFastDrawAndRestart = useCallback(() => {
-    setIsFastDraw(false);
-    refreshDrawId();
-  }, []);
-
   const enableFastDraw = useCallback(() => {
     setIsFastDraw(true);
   }, []);
@@ -59,7 +54,7 @@ function Navbar({
         className={styles['nav-bar-left-container']}
       />
       <div>
-        <Button onClick={disableFastDrawAndRestart}>Restart</Button>
+        <Button onClick={refreshDrawId}>Restart</Button>
         <Button
           isDisabled={isFastDraw}
           onClick={enableFastDraw}
