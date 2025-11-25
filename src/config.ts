@@ -1,6 +1,6 @@
 export default {
-  defaultTournament: 'cl',
-  defaultStage: 'ls',
+  defaultTournament: 'wc',
+  defaultStage: 'gs',
   currentSeason: {
     wc: 2026,
     uefa: {
