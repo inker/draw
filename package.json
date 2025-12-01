@@ -18,6 +18,7 @@
   },
   "license": "GPLv3",
   "author": "Anton",
+  "type": "module",
   "main": "index.html",
   "repository": {
     "type": "git",
@@ -25,7 +26,10 @@
   },
   "imports": {
     "#*": [
-      "./src/*"
+      "./src/*.ts",
+      "./src/*.tsx",
+      "./src/*/index.ts",
+      "./src/*/index.tsx"
     ]
   },
   "scripts": {

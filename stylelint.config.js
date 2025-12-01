@@ -1,4 +1,4 @@
-module.exports = {
+export default {
   reportInvalidScopeDisables: true,
   reportNeedlessDisables: true,
   reportUnscopedDisables: true,
