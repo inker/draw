@@ -1,0 +1,154 @@
+[
+  [
+    {
+      "name": "Bayern",
+      "country": "Germany"
+    },
+    {
+      "name": "Real Madrid",
+      "country": "Spain"
+    },
+    {
+      "name": "Paris SG",
+      "country": "France"
+    },
+    {
+      "name": "Liverpool",
+      "country": "England"
+    },
+    {
+      "name": "Internazionale",
+      "country": "Italy"
+    },
+    {
+      "name": "Man City",
+      "country": "England"
+    },
+    {
+      "name": "Arsenal",
+      "country": "England"
+    },
+    {
+      "name": "Barcelona",
+      "country": "Spain"
+    },
+    {
+      "name": "Atlético",
+      "country": "Spain"
+    }
+  ],
+  [
+    {
+      "name": "Dortmund",
+      "country": "Germany"
+    },
+    {
+      "name": "Roma",
+      "country": "Italy"
+    },
+    {
+      "name": "Sporting CP",
+      "country": "Portugal"
+    },
+    {
+      "name": "Aston Villa",
+      "country": "England"
+    },
+    {
+      "name": "Porto",
+      "country": "Portugal"
+    },
+    {
+      "name": "Man United",
+      "country": "England"
+    },
+    {
+      "name": "Club Brugge",
+      "country": "Belgium"
+    },
+    {
+      "name": "Betis",
+      "country": "Spain"
+    },
+    {
+      "name": "PSV",
+      "country": "Netherlands"
+    }
+  ],
+  [
+    {
+      "name": "Feyenoord",
+      "country": "Netherlands"
+    },
+    {
+      "name": "Lille",
+      "country": "France"
+    },
+    {
+      "name": "Lyon",
+      "country": "France"
+    },
+    {
+      "name": "Bodø/Glimt",
+      "country": "Norway"
+    },
+    {
+      "name": "Napoli",
+      "country": "Italy"
+    },
+    {
+      "name": "Leipzig",
+      "country": "Germany"
+    },
+    {
+      "name": "Villarreal",
+      "country": "Spain"
+    },
+    {
+      "name": "Shakhtar",
+      "country": "Ukraine"
+    },
+    {
+      "name": "Galatasaray",
+      "country": "Türkiye"
+    }
+  ],
+  [
+    {
+      "name": "Crvena zvezda",
+      "country": "Serbia"
+    },
+    {
+      "name": "Dinamo Zagreb",
+      "country": "Croatia"
+    },
+    {
+      "name": "Celtic",
+      "country": "Scotland"
+    },
+    {
+      "name": "Slavia",
+      "country": "Czechia"
+    },
+    {
+      "name": "Slovan",
+      "country": "Slovakia"
+    },
+    {
+      "name": "Stuttgart",
+      "country": "Germany"
+    },
+    {
+      "name": "Lech",
+      "country": "Poland"
+    },
+    {
+      "name": "Como",
+      "country": "Italy"
+    },
+    {
+      "name": "Lens",
+      "country": "France"
+    }
+  ]
+]
