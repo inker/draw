@@ -1,0 +1,154 @@
+[
+  [
+    {
+      "name": "Leverkusen",
+      "country": "Germany"
+    },
+    {
+      "name": "Benfica",
+      "country": "Portugal"
+    },
+    {
+      "name": "Juventus",
+      "country": "Italy"
+    },
+    {
+      "name": "Milan",
+      "country": "Italy"
+    },
+    {
+      "name": "AZ",
+      "country": "Netherlands"
+    },
+    {
+      "name": "Olympiacos",
+      "country": "Greece"
+    },
+    {
+      "name": "Rangers",
+      "country": "Scotland"
+    },
+    {
+      "name": "Fenerbahçe",
+      "country": "Türkiye"
+    },
+    {
+      "name": "Real Sociedad",
+      "country": "Spain"
+    }
+  ],
+  [
+    {
+      "name": "Marseille",
+      "country": "France"
+    },
+    {
+      "name": "Ferencváros",
+      "country": "Hungary"
+    },
+    {
+      "name": "Plzeň",
+      "country": "Czechia"
+    },
+    {
+      "name": "Midtjylland",
+      "country": "Denmark"
+    },
+    {
+      "name": "PAOK",
+      "country": "Greece"
+    },
+    {
+      "name": "Union SG",
+      "country": "Belgium"
+    },
+    {
+      "name": "Salzburg",
+      "country": "Austria"
+    },
+    {
+      "name": "Sparta",
+      "country": "Czechia"
+    },
+    {
+      "name": "Rennes",
+      "country": "France"
+    }
+  ],
+  [
+    {
+      "name": "Sturm",
+      "country": "Austria"
+    },
+    {
+      "name": "AEK",
+      "country": "Greece"
+    },
+    {
+      "name": "Crystal Palace",
+      "country": "England"
+    },
+    {
+      "name": "Bournemouth",
+      "country": "England"
+    },
+    {
+      "name": "Sunderland",
+      "country": "England"
+    },
+    {
+      "name": "Celje",
+      "country": "Slovenia"
+    },
+    {
+      "name": "Omonia",
+      "country": "Cyprus"
+    },
+    {
+      "name": "LASK",
+      "country": "Austria"
+    },
+    {
+      "name": "Celta",
+      "country": "Spain"
+    }
+  ],
+  [
+    {
+      "name": "Shamrock Rovers",
+      "country": "Ireland"
+    },
+    {
+      "name": "Hoffenheim",
+      "country": "Germany"
+    },
+    {
+      "name": "Torreense",
+      "country": "Portugal"
+    },
+    {
+      "name": "KuPS",
+      "country": "Finland"
+    },
+    {
+      "name": "H Beer-Sheva",
+      "country": "Israel"
+    },
+    {
+      "name": "Drita",
+      "country": "Kosovo"
+    },
+    {
+      "name": "NEC",
+      "country": "Netherlands"
+    },
+    {
+      "name": "Lincoln",
+      "country": "Gibraltar"
+    },
+    {
+      "name": "Viking",
+      "country": "Norway"
+    }
+  ]
+]
