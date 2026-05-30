@@ -1,16 +1,16 @@
 [
   [
     {
+      "name": "Paris SG",
+      "country": "France"
+    },
+    {
       "name": "Bayern",
       "country": "Germany"
     },
     {
       "name": "Real Madrid",
       "country": "Spain"
-    },
-    {
-      "name": "Paris SG",
-      "country": "France"
     },
     {
       "name": "Liverpool",
