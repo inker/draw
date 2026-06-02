@@ -1,0 +1,158 @@
+[
+  [
+    {
+      "name": "Atalanta",
+      "country": "Italy"
+    },
+    {
+      "name": "Braga",
+      "country": "Portugal"
+    },
+    {
+      "name": "Ajax",
+      "country": "Netherlands"
+    },
+    {
+      "name": "Freiburg",
+      "country": "Germany"
+    },
+    {
+      "name": "Monaco",
+      "country": "France"
+    },
+    {
+      "name": "København",
+      "country": "Denmark"
+    }
+  ],
+  [
+    {
+      "name": "Qarabağ",
+      "country": "Azerbaijan"
+    },
+    {
+      "name": "M Tel-Aviv",
+      "country": "Israel"
+    },
+    {
+      "name": "Anderlecht",
+      "country": "Belgium"
+    },
+    {
+      "name": "Gent",
+      "country": "Belgium"
+    },
+    {
+      "name": "Rapid Wien",
+      "country": "Austria"
+    },
+    {
+      "name": "Panathinaikos",
+      "country": "Greece"
+    }
+  ],
+  [
+    {
+      "name": "Ludogorets",
+      "country": "Bulgaria"
+    },
+    {
+      "name": "FCSB",
+      "country": "Romania"
+    },
+    {
+      "name": "Pafos",
+      "country": "Cyprus"
+    },
+    {
+      "name": "Brighton",
+      "country": "England"
+    },
+    {
+      "name": "Raków",
+      "country": "Poland"
+    },
+    {
+      "name": "Jagiellonia",
+      "country": "Poland"
+    }
+  ],
+  [
+    {
+      "name": "Partizan",
+      "country": "Serbia"
+    },
+    {
+      "name": "Borac",
+      "country": "Bosnia & Herzegovina"
+    },
+    {
+      "name": "Sint-Truiden",
+      "country": "Belgium"
+    },
+    {
+      "name": "Víkingur",
+      "country": "Iceland"
+    },
+    {
+      "name": "Kairat",
+      "country": "Kazakhstan"
+    },
+    {
+      "name": "Trabzonspor",
+      "country": "Türkiye"
+    }
+  ],
+  [
+    {
+      "name": "U Craiova",
+      "country": "Romania"
+    },
+    {
+      "name": "Riga",
+      "country": "Latvia"
+    },
+    {
+      "name": "Klaksvík",
+      "country": "Faroe Islands"
+    },
+    {
+      "name": "Flora",
+      "country": "Estonia"
+    },
+    {
+      "name": "Karviná",
+      "country": "Czechia"
+    },
+    {
+      "name": "OFI",
+      "country": "Greece"
+    }
+  ],
+  [
+    {
+      "name": "Larne",
+      "country": "Northern Ireland"
+    },
+    {
+      "name": "Petrocub",
+      "country": "Moldova"
+    },
+    {
+      "name": "TNS",
+      "country": "Wales"
+    },
+    {
+      "name": "AGF",
+      "country": "Denmark"
+    },
+    {
+      "name": "Lillestrøm",
+      "country": "Norway"
+    },
+    {
+      "name": "Inter Escaldes",
+      "country": "Andorra"
+    }
+  ]
+]
