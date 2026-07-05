@@ -1,6 +1,5 @@
 import { orderBy, range, sum } from 'lodash';
 
-import { findFirstSolution } from '#utils/backtrack';
 import rangeGenerator from '#utils/rangeGenerator';
 import intToBase3Array from '#utils/intToBase3Array';
 
@@ -74,6 +73,8 @@ export default ({
 }) => {
   const numGames = allGames.length;
   const numMatchdays = numGames / matchdaySize;
+  const numTeams = matchdaySize * 2;
+  const lastMatchday = numMatchdays - 1;
   const matchdayIndices =
     !step || step === 'end'
       ? range(numMatchdays)
@@ -82,198 +83,261 @@ export default ({
         : range(2, numMatchdays - 2);
 
   const validLocationSums = getValidLocationSums(numMatchdays, step);
+  const isValidLocationSum = new Uint8Array(3 ** numMatchdays);
+  for (const s of validLocationSums) {
+    isValidLocationSum[s] = 1;
+  }
 
-  const sameStadiumTeamMap = new Map(
-    sameStadiumTeamPairs.values().flatMap(pair => [pair, [pair[1], pair[0]]]),
-  );
-
-  const coldTeams = new Set(coldTeamIndices);
-
-  let record = 0;
-
-  const numMatchesByMatchday = Array.from(
+  const pow3 = Array.from(
     {
       length: numMatchdays,
     },
-    () => 0,
+    (_, i) => 3 ** i,
   );
-  // team:md
-  const locationByMatchday: Record<`${number}:${number}`, 'h' | 'a'> = {};
-  const locationSequenceSumByTeam: Record<number, number> = {};
 
-  const initialMatchIndex = schedule.length;
-
-  for (const [i, md] of schedule.entries()) {
-    const [h, a] = allGames[i];
-    ++numMatchesByMatchday[md];
-    locationByMatchday[`${h}:${md}`] = 'h';
-    locationByMatchday[`${a}:${md}`] = 'a';
-    const pow = 3 ** md;
-    locationSequenceSumByTeam[h] =
-      (locationSequenceSumByTeam[h] ?? 0) + 1 * pow;
-    locationSequenceSumByTeam[a] =
-      (locationSequenceSumByTeam[a] ?? 0) + 2 * pow;
+  const sameStadiumTeam = new Int32Array(numTeams).fill(-1);
+  for (const [a, b] of sameStadiumTeamPairs) {
+    sameStadiumTeam[a] = b;
+    sameStadiumTeam[b] = a;
   }
 
-  for (const pickedMatchday of range(numMatchdays)) {
-    const solution = findFirstSolution(
-      {
-        matchIndex: initialMatchIndex,
-        schedule,
-        numMatchesByMatchday,
-        pickedMatchday,
-        locationByMatchday,
-        locationSequenceSumByTeam,
-      },
-      {
-        reject: c => {
-          const [h, a] = allGames[c.matchIndex];
-          const md = c.pickedMatchday;
+  const isColdTeam = new Uint8Array(numTeams);
+  for (const teamIndex of coldTeamIndices) {
+    isColdTeam[teamIndex] = 1;
+  }
 
-          // md is full
-          if (c.numMatchesByMatchday[md] === matchdaySize) {
-            return true;
-          }
+  // 0 = not playing, 1 = home, 2 = away
+  // (matches the base-3 digits of the location sums)
+  const locationByTeamMatchday = new Uint8Array(numTeams * numMatchdays);
+  const numMatchesByMatchday = new Uint16Array(numMatchdays);
+  const locationSumByTeam = new Uint32Array(numTeams);
+  const matchdayByGame = new Int32Array(numGames).fill(-1);
 
-          // already played this md
-          const hasHomeTeamPlayedThisMatchday =
-            c.locationByMatchday[`${h}:${md}`];
-          if (hasHomeTeamPlayedThisMatchday) {
-            return true;
-          }
+  let numUnassignedGames = numGames;
 
-          const hasAwayTeamPlayedThisMatchday =
-            c.locationByMatchday[`${a}:${md}`];
-          if (hasAwayTeamPlayedThisMatchday) {
-            return true;
-          }
+  const place = (gameIndex: number, md: number) => {
+    const [h, a] = allGames[gameIndex];
+    matchdayByGame[gameIndex] = md;
+    ++numMatchesByMatchday[md];
+    locationByTeamMatchday[h * numMatchdays + md] = 1;
+    locationByTeamMatchday[a * numMatchdays + md] = 2;
+    locationSumByTeam[h] += pow3[md];
+    locationSumByTeam[a] += 2 * pow3[md];
+    --numUnassignedGames;
+  };
 
-          const homeSameStadiumTeam = sameStadiumTeamMap.get(h);
-          if (
-            homeSameStadiumTeam !== undefined &&
-            c.locationByMatchday[`${homeSameStadiumTeam}:${md}`] === 'h'
-          ) {
-            return true;
-          }
+  const unplace = (gameIndex: number, md: number) => {
+    const [h, a] = allGames[gameIndex];
+    matchdayByGame[gameIndex] = -1;
+    --numMatchesByMatchday[md];
+    locationByTeamMatchday[h * numMatchdays + md] = 0;
+    locationByTeamMatchday[a * numMatchdays + md] = 0;
+    locationSumByTeam[h] -= pow3[md];
+    locationSumByTeam[a] -= 2 * pow3[md];
+    ++numUnassignedGames;
+  };
 
-          const awaySameStadiumTeam = sameStadiumTeamMap.get(a);
-          if (
-            awaySameStadiumTeam !== undefined &&
-            c.locationByMatchday[`${awaySameStadiumTeam}:${md}`] === 'a'
-          ) {
-            return true;
-          }
+  for (const [i, md] of schedule.entries()) {
+    place(i, md);
+  }
 
-          if (md === numMatchdays - 1 && coldTeams.has(h)) {
-            return true;
-          }
+  const reject = (gameIndex: number, md: number) => {
+    const [h, a] = allGames[gameIndex];
 
-          const pow = 3 ** c.pickedMatchday;
-          const hS = (c.locationSequenceSumByTeam[h] ?? 0) + 1 * pow;
-          if (!validLocationSums.has(hS)) {
-            return true;
-          }
-          const aS = (c.locationSequenceSumByTeam[a] ?? 0) + 2 * pow;
-          if (!validLocationSums.has(aS)) {
-            return true;
-          }
+    // md is full
+    if (numMatchesByMatchday[md] === matchdaySize) {
+      return true;
+    }
 
-          return false;
-        },
+    // already played this md
+    const hasHomeTeamPlayedThisMatchday =
+      locationByTeamMatchday[h * numMatchdays + md] !== 0;
+    if (hasHomeTeamPlayedThisMatchday) {
+      return true;
+    }
 
-        accept: c => c.matchIndex === numGames - 1,
+    const hasAwayTeamPlayedThisMatchday =
+      locationByTeamMatchday[a * numMatchdays + md] !== 0;
+    if (hasAwayTeamPlayedThisMatchday) {
+      return true;
+    }
 
-        // eslint-disable-next-line no-loop-func
-        generate: c => {
-          const pickedMatch = allGames[c.matchIndex];
+    const homeSameStadiumTeam = sameStadiumTeam[h];
+    if (
+      homeSameStadiumTeam !== -1 &&
+      locationByTeamMatchday[homeSameStadiumTeam * numMatchdays + md] === 1
+    ) {
+      return true;
+    }
 
-          const newMatchIndex = c.matchIndex + 1;
+    const awaySameStadiumTeam = sameStadiumTeam[a];
+    if (
+      awaySameStadiumTeam !== -1 &&
+      locationByTeamMatchday[awaySameStadiumTeam * numMatchdays + md] === 2
+    ) {
+      return true;
+    }
 
-          const newLocationByMatchday: typeof c.locationByMatchday = {
-            ...c.locationByMatchday,
-            [`${pickedMatch[0]}:${c.pickedMatchday}`]: 'h',
-            [`${pickedMatch[1]}:${c.pickedMatchday}`]: 'a',
-          } satisfies typeof c.locationByMatchday;
+    if (md === lastMatchday && isColdTeam[h]) {
+      return true;
+    }
 
-          const pow = 3 ** c.pickedMatchday;
-          const newLocationSequenceSumByTeam = {
-            ...c.locationSequenceSumByTeam,
-            [pickedMatch[0]]:
-              (c.locationSequenceSumByTeam[pickedMatch[0]] ?? 0) + 1 * pow,
-            [pickedMatch[1]]:
-              (c.locationSequenceSumByTeam[pickedMatch[1]] ?? 0) + 2 * pow,
-          };
+    const pow = pow3[md];
+    const hS = locationSumByTeam[h] + 1 * pow;
+    if (!isValidLocationSum[hS]) {
+      return true;
+    }
+    const aS = locationSumByTeam[a] + 2 * pow;
+    if (!isValidLocationSum[aS]) {
+      return true;
+    }
 
-          const newSchedule = [
-            ...c.schedule,
-            c.pickedMatchday,
-          ] satisfies typeof c.schedule as typeof c.schedule;
+    return false;
+  };
 
-          const newNumMatchesByMatchday = c.numMatchesByMatchday.with(
-            c.pickedMatchday,
-            c.numMatchesByMatchday[c.pickedMatchday] + 1,
-          );
+  let record = 0;
 
-          if (newMatchIndex > record) {
-            // eslint-disable-next-line no-console
-            console.log(newMatchIndex);
-            record = newMatchIndex;
-          }
+  // reused per search node
+  const numAvailableGamesByMatchday = new Uint16Array(numMatchdays);
+  const coverageMaskByTeam = new Uint32Array(numTeams);
 
-          const mds = orderBy(matchdayIndices, i => {
-            const [h, a] = allGames[newMatchIndex];
-            let score = 0;
+  const search = (): boolean => {
+    if (numUnassignedGames === 0) {
+      return true;
+    }
 
-            // 1. Prefer alternating with the previous match
-            if (newLocationByMatchday[`${h}:${i - 1}`] === 'h') {
-              score += 10;
-            }
-            if (newLocationByMatchday[`${a}:${i - 1}`] === 'a') {
-              score += 10;
-            }
+    // MRV: branch on the unassigned game with the fewest feasible matchdays
+    // (random tie-breaking, so retries explore different regions)
+    numAvailableGamesByMatchday.fill(0);
+    coverageMaskByTeam.fill(0);
+    let pickedGameIndex = -1;
+    let pickedMask = 0;
+    let pickedCount = Infinity;
+    let numTies = 1;
+    for (let gameIndex = 0; gameIndex < numGames; ++gameIndex) {
+      if (matchdayByGame[gameIndex] !== -1) {
+        continue;
+      }
+      let mask = 0;
+      let count = 0;
+      for (const md of matchdayIndices) {
+        if (!reject(gameIndex, md)) {
+          mask |= 1 << md;
+          ++count;
+          ++numAvailableGamesByMatchday[md];
+        }
+      }
+      // a game with an empty domain makes this branch a dead end
+      if (count === 0) {
+        return false;
+      }
+      const [h, a] = allGames[gameIndex];
+      coverageMaskByTeam[h] |= mask;
+      coverageMaskByTeam[a] |= mask;
+      if (count < pickedCount) {
+        pickedCount = count;
+        pickedGameIndex = gameIndex;
+        pickedMask = mask;
+        numTies = 1;
+      } else if (count === pickedCount) {
+        ++numTies;
+        if (Math.random() * numTies < 1) {
+          pickedGameIndex = gameIndex;
+          pickedMask = mask;
+        }
+      }
+    }
 
-            // 2. Penalize risk of 3H/3A if md+1 is already set
-            if (newLocationByMatchday[`${h}:${i + 1}`] === 'h') {
-              score += 20;
-            }
-            if (newLocationByMatchday[`${a}:${i + 1}`] === 'a') {
-              score += 20;
-            }
+    // a matchday with fewer assignable games than empty slots is a dead end
+    for (const md of matchdayIndices) {
+      if (
+        numAvailableGamesByMatchday[md] <
+        matchdaySize - numMatchesByMatchday[md]
+      ) {
+        return false;
+      }
+    }
 
-            // 4. Penalize full matchdays
-            score += newNumMatchesByMatchday[i] * 2;
+    // a team with a free matchday none of its games can fill is a dead end
+    for (let team = 0; team < numTeams; ++team) {
+      let freeMask = 0;
+      for (const md of matchdayIndices) {
+        if (locationByTeamMatchday[team * numMatchdays + md] === 0) {
+          freeMask |= 1 << md;
+        }
+      }
+      if ((coverageMaskByTeam[team] & freeMask) !== freeMask) {
+        return false;
+      }
+    }
 
-            score += i * 1.5;
-
-            return score;
-          });
-
-          return mds.map(i => ({
-            matchIndex: newMatchIndex,
-            schedule: newSchedule,
-            numMatchesByMatchday: newNumMatchesByMatchday,
-            pickedMatchday: i,
-            locationByMatchday: newLocationByMatchday,
-            locationSequenceSumByTeam: newLocationSequenceSumByTeam,
-          }));
-        },
-      },
+    const [h, a] = allGames[pickedGameIndex];
+    const feasibleMatchdays = matchdayIndices.filter(
+      md => (pickedMask & (1 << md)) !== 0,
     );
 
-    if (solution) {
-      const arr = Array.from(
-        {
-          length: numMatchdays,
-        },
-        () => [] as (readonly [number, number])[],
-      );
-      for (const [i, matchdayIndex] of solution.schedule.entries()) {
-        const m = allGames[i];
-        arr[matchdayIndex].push(m);
+    const orderedMatchdays = orderBy(feasibleMatchdays, md => {
+      let score = 0;
+
+      // 1. Prefer alternating with the previous match
+      if (md > 0) {
+        if (locationByTeamMatchday[h * numMatchdays + md - 1] === 1) {
+          score += 10;
+        }
+        if (locationByTeamMatchday[a * numMatchdays + md - 1] === 2) {
+          score += 10;
+        }
       }
-      arr[solution.pickedMatchday].push(allGames[solution.matchIndex]);
-      return arr;
+
+      // 2. Penalize risk of 3H/3A if md+1 is already set
+      if (md < lastMatchday) {
+        if (locationByTeamMatchday[h * numMatchdays + md + 1] === 1) {
+          score += 20;
+        }
+        if (locationByTeamMatchday[a * numMatchdays + md + 1] === 2) {
+          score += 20;
+        }
+      }
+
+      // 4. Penalize full matchdays
+      score += numMatchesByMatchday[md] * 2;
+
+      score += md * 1.5;
+
+      // break exact ties randomly (score granularity is 0.5)
+      score += Math.random() * 0.4;
+
+      return score;
+    });
+
+    for (const md of orderedMatchdays) {
+      place(pickedGameIndex, md);
+      const numAssignedGames = numGames - numUnassignedGames;
+      if (numAssignedGames > record) {
+        // eslint-disable-next-line no-console
+        console.log(numAssignedGames);
+        record = numAssignedGames;
+      }
+      if (search()) {
+        return true;
+      }
+      unplace(pickedGameIndex, md);
     }
+
+    return false;
+  };
+
+  if (search()) {
+    const arr = Array.from(
+      {
+        length: numMatchdays,
+      },
+      () => [] as (readonly [number, number])[],
+    );
+    for (const [gameIndex, md] of matchdayByGame.entries()) {
+      arr[md].push(allGames[gameIndex]);
+    }
+    return arr;
   }
 
   throw new Error('No solution');
