@@ -115,6 +115,17 @@ export default ({
 
   let numUnassignedGames = numGames;
 
+  const initState = () => {
+    locationByTeamMatchday.fill(0);
+    numMatchesByMatchday.fill(0);
+    locationSumByTeam.fill(0);
+    matchdayByGame.fill(-1);
+    numUnassignedGames = numGames;
+    for (const [i, md] of schedule.entries()) {
+      place(i, md);
+    }
+  };
+
   const place = (gameIndex: number, md: number) => {
     const [h, a] = allGames[gameIndex];
     matchdayByGame[gameIndex] = md;
@@ -136,10 +147,6 @@ export default ({
     locationSumByTeam[a] -= 2 * pow3[md];
     ++numUnassignedGames;
   };
-
-  for (const [i, md] of schedule.entries()) {
-    place(i, md);
-  }
 
   const reject = (gameIndex: number, md: number) => {
     const [h, a] = allGames[gameIndex];
@@ -197,6 +204,18 @@ export default ({
 
   let record = 0;
 
+  // Backtracking on this problem has heavy-tailed runtimes,
+  // so the search is randomised & restarted with a doubling node budget.
+  // A search that exhausts without hitting the budget is a definitive failure.
+  class BudgetExhaustedError extends Error {
+    constructor() {
+      super('node budget exhausted');
+      this.name = 'BudgetExhaustedError';
+    }
+  }
+
+  let nodesLeft = 0;
+
   // reused per search node
   const numAvailableGamesByMatchday = new Uint16Array(numMatchdays);
   const coverageMaskByTeam = new Uint32Array(numTeams);
@@ -206,8 +225,12 @@ export default ({
       return true;
     }
 
+    if (--nodesLeft < 0) {
+      throw new BudgetExhaustedError();
+    }
+
     // MRV: branch on the unassigned game with the fewest feasible matchdays
-    // (random tie-breaking, so retries explore different regions)
+    // (random tie-breaking, so restarts explore different regions)
     numAvailableGamesByMatchday.fill(0);
     coverageMaskByTeam.fill(0);
     let pickedGameIndex = -1;
@@ -327,18 +350,30 @@ export default ({
     return false;
   };
 
-  if (search()) {
-    const arr = Array.from(
-      {
-        length: numMatchdays,
-      },
-      () => [] as (readonly [number, number])[],
-    );
-    for (const [gameIndex, md] of matchdayByGame.entries()) {
-      arr[md].push(allGames[gameIndex]);
+  for (let budget = 10_000; ; budget *= 2) {
+    initState();
+    nodesLeft = budget;
+    try {
+      if (!search()) {
+        // the search space was exhausted within the budget
+        throw new Error('No solution');
+      }
+      break;
+    } catch (err) {
+      if (!(err instanceof BudgetExhaustedError)) {
+        throw err;
+      }
     }
-    return arr;
   }
 
-  throw new Error('No solution');
+  const arr = Array.from(
+    {
+      length: numMatchdays,
+    },
+    () => [] as (readonly [number, number])[],
+  );
+  for (const [gameIndex, md] of matchdayByGame.entries()) {
+    arr[md].push(allGames[gameIndex]);
+  }
+  return arr;
 };
