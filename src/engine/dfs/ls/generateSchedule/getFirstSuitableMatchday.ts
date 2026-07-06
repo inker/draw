@@ -1,4 +1,4 @@
-import { orderBy, range, sum } from 'lodash';
+import { range, sum } from 'lodash';
 
 import rangeGenerator from '#utils/rangeGenerator';
 import intToBase3Array from '#utils/intToBase3Array';
@@ -82,6 +82,15 @@ export default ({
         ? range(numMatchdays - 2)
         : range(2, numMatchdays - 2);
 
+  // Matchdays are filled one at a time, boundary matchdays first:
+  // their alternation constraints have zero slack,
+  // so they are satisfied while the rest of the schedule is still free.
+  // For the start & middle steps the boundaries of the open range come first anyway.
+  const fillOrder =
+    !step || step === 'end'
+      ? [lastMatchday, lastMatchday - 1, ...range(0, lastMatchday - 1)]
+      : matchdayIndices;
+
   const validLocationSums = getValidLocationSums(numMatchdays, step);
   const isValidLocationSum = new Uint8Array(3 ** numMatchdays);
   for (const s of validLocationSums) {
@@ -104,6 +113,17 @@ export default ({
   const isColdTeam = new Uint8Array(numTeams);
   for (const teamIndex of coldTeamIndices) {
     isColdTeam[teamIndex] = 1;
+  }
+
+  const gamesByTeam: number[][] = Array.from(
+    {
+      length: numTeams,
+    },
+    () => [],
+  );
+  for (const [gameIndex, [h, a]] of allGames.entries()) {
+    gamesByTeam[h].push(gameIndex);
+    gamesByTeam[a].push(gameIndex);
   }
 
   // 0 = not playing, 1 = home, 2 = away
@@ -216,10 +236,6 @@ export default ({
 
   let nodesLeft = 0;
 
-  // reused per search node
-  const numAvailableGamesByMatchday = new Uint16Array(numMatchdays);
-  const coverageMaskByTeam = new Uint32Array(numTeams);
-
   const search = (): boolean => {
     if (numUnassignedGames === 0) {
       return true;
@@ -229,112 +245,61 @@ export default ({
       throw new BudgetExhaustedError();
     }
 
-    // MRV: branch on the unassigned game with the fewest feasible matchdays
-    // (random tie-breaking, so restarts explore different regions)
-    numAvailableGamesByMatchday.fill(0);
-    coverageMaskByTeam.fill(0);
-    let pickedGameIndex = -1;
-    let pickedMask = 0;
-    let pickedCount = Infinity;
+    // active matchday: first unfilled one in the fill order
+    let md = -1;
+    for (const m of fillOrder) {
+      if (numMatchesByMatchday[m] < matchdaySize) {
+        md = m;
+        break;
+      }
+    }
+
+    // MRV within the active matchday:
+    // extend the team with the fewest feasible games
+    // (random tie-breaking, so retries explore different regions)
+    let pickedTeam = -1;
+    let pickedGames: number[] = [];
     let numTies = 1;
-    for (let gameIndex = 0; gameIndex < numGames; ++gameIndex) {
-      if (matchdayByGame[gameIndex] !== -1) {
+    for (let team = 0; team < numTeams; ++team) {
+      if (locationByTeamMatchday[team * numMatchdays + md] !== 0) {
         continue;
       }
-      let mask = 0;
-      let count = 0;
-      for (const md of matchdayIndices) {
-        if (!reject(gameIndex, md)) {
-          mask |= 1 << md;
-          ++count;
-          ++numAvailableGamesByMatchday[md];
-        }
-      }
-      // a game with an empty domain makes this branch a dead end
-      if (count === 0) {
+      const feasibleGames = gamesByTeam[team].filter(
+        g => matchdayByGame[g] === -1 && !reject(g, md),
+      );
+      // a team with no feasible game makes this matchday a dead end
+      if (feasibleGames.length === 0) {
         return false;
       }
-      const [h, a] = allGames[gameIndex];
-      coverageMaskByTeam[h] |= mask;
-      coverageMaskByTeam[a] |= mask;
-      if (count < pickedCount) {
-        pickedCount = count;
-        pickedGameIndex = gameIndex;
-        pickedMask = mask;
+      if (pickedTeam === -1 || feasibleGames.length < pickedGames.length) {
+        pickedTeam = team;
+        pickedGames = feasibleGames;
         numTies = 1;
-      } else if (count === pickedCount) {
+      } else if (feasibleGames.length === pickedGames.length) {
         ++numTies;
         if (Math.random() * numTies < 1) {
-          pickedGameIndex = gameIndex;
-          pickedMask = mask;
+          pickedTeam = team;
+          pickedGames = feasibleGames;
         }
       }
     }
 
-    // a matchday with fewer assignable games than empty slots is a dead end
-    for (const md of matchdayIndices) {
-      if (
-        numAvailableGamesByMatchday[md] <
-        matchdaySize - numMatchesByMatchday[md]
-      ) {
-        return false;
-      }
-    }
-
-    // a team with a free matchday none of its games can fill is a dead end
-    for (let team = 0; team < numTeams; ++team) {
-      let freeMask = 0;
-      for (const md of matchdayIndices) {
-        if (locationByTeamMatchday[team * numMatchdays + md] === 0) {
-          freeMask |= 1 << md;
+    // most constrained opponent first, random tie-breaking
+    const scoredGames = pickedGames.map(g => {
+      const [h, a] = allGames[g];
+      const opponent = h === pickedTeam ? a : h;
+      let numOpponentOptions = 0;
+      for (const og of gamesByTeam[opponent]) {
+        if (matchdayByGame[og] === -1 && !reject(og, md)) {
+          ++numOpponentOptions;
         }
       }
-      if ((coverageMaskByTeam[team] & freeMask) !== freeMask) {
-        return false;
-      }
-    }
-
-    const [h, a] = allGames[pickedGameIndex];
-    const feasibleMatchdays = matchdayIndices.filter(
-      md => (pickedMask & (1 << md)) !== 0,
-    );
-
-    const orderedMatchdays = orderBy(feasibleMatchdays, md => {
-      let score = 0;
-
-      // 1. Prefer alternating with the previous match
-      if (md > 0) {
-        if (locationByTeamMatchday[h * numMatchdays + md - 1] === 1) {
-          score += 10;
-        }
-        if (locationByTeamMatchday[a * numMatchdays + md - 1] === 2) {
-          score += 10;
-        }
-      }
-
-      // 2. Penalize risk of 3H/3A if md+1 is already set
-      if (md < lastMatchday) {
-        if (locationByTeamMatchday[h * numMatchdays + md + 1] === 1) {
-          score += 20;
-        }
-        if (locationByTeamMatchday[a * numMatchdays + md + 1] === 2) {
-          score += 20;
-        }
-      }
-
-      // 4. Penalize full matchdays
-      score += numMatchesByMatchday[md] * 2;
-
-      score += md * 1.5;
-
-      // break exact ties randomly (score granularity is 0.5)
-      score += Math.random() * 0.4;
-
-      return score;
+      return [g, numOpponentOptions + Math.random() * 0.5] as const;
     });
+    scoredGames.sort((x, y) => x[1] - y[1]);
 
-    for (const md of orderedMatchdays) {
-      place(pickedGameIndex, md);
+    for (const [g] of scoredGames) {
+      place(g, md);
       const numAssignedGames = numGames - numUnassignedGames;
       if (numAssignedGames > record) {
         // eslint-disable-next-line no-console
@@ -344,7 +309,7 @@ export default ({
       if (search()) {
         return true;
       }
-      unplace(pickedGameIndex, md);
+      unplace(g, md);
     }
 
     return false;
