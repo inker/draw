@@ -1,5 +1,6 @@
 import { range, sum } from 'lodash';
 
+import { findFirstSolutionMutable } from '#utils/backtrack';
 import rangeGenerator from '#utils/rangeGenerator';
 import intToBase3Array from '#utils/intToBase3Array';
 
@@ -119,14 +120,6 @@ export default ({
 
   let numUnassignedGames = numGames;
 
-  const initState = () => {
-    locationByTeamMatchday.fill(0);
-    numMatchesByMatchday.fill(0);
-    locationSumByTeam.fill(0);
-    matchdayByGame.fill(-1);
-    numUnassignedGames = numGames;
-  };
-
   const place = (gameIndex: number, md: number) => {
     const [h, a] = allGames[gameIndex];
     matchdayByGame[gameIndex] = md;
@@ -205,81 +198,67 @@ export default ({
 
   let record = 0;
 
-  // Backtracking on this problem has heavy-tailed runtimes,
-  // so the search is randomised & restarted with a doubling node budget.
-  // A search that exhausts without hitting the budget is a definitive failure.
-  class BudgetExhaustedError extends Error {
-    constructor() {
-      super('node budget exhausted');
-      this.name = 'BudgetExhaustedError';
-    }
-  }
+  const solved = findFirstSolutionMutable<readonly [number, number]>({
+    isSolved: () => numUnassignedGames === 0,
 
-  let nodesLeft = 0;
-
-  const search = (): boolean => {
-    if (numUnassignedGames === 0) {
-      return true;
-    }
-
-    if (--nodesLeft < 0) {
-      throw new BudgetExhaustedError();
-    }
-
-    // active matchday: first unfilled one in the fill order
-    let md = -1;
-    for (const m of fillOrder) {
-      if (numMatchesByMatchday[m] < matchdaySize) {
-        md = m;
-        break;
+    getCandidates: () => {
+      // active matchday: first unfilled one in the fill order
+      let md = -1;
+      for (const m of fillOrder) {
+        if (numMatchesByMatchday[m] < matchdaySize) {
+          md = m;
+          break;
+        }
       }
-    }
 
-    // MRV within the active matchday:
-    // extend the team with the fewest feasible games
-    // (random tie-breaking, so retries explore different regions)
-    let pickedTeam = -1;
-    let pickedGames: number[] = [];
-    let numTies = 1;
-    for (let team = 0; team < numTeams; ++team) {
-      if (locationByTeamMatchday[team * numMatchdays + md] !== 0) {
-        continue;
-      }
-      const feasibleGames = gamesByTeam[team].filter(
-        g => matchdayByGame[g] === -1 && !reject(g, md),
-      );
-      // a team with no feasible game makes this matchday a dead end
-      if (feasibleGames.length === 0) {
-        return false;
-      }
-      if (pickedTeam === -1 || feasibleGames.length < pickedGames.length) {
-        pickedTeam = team;
-        pickedGames = feasibleGames;
-        numTies = 1;
-      } else if (feasibleGames.length === pickedGames.length) {
-        ++numTies;
-        if (Math.random() * numTies < 1) {
+      // MRV within the active matchday:
+      // extend the team with the fewest feasible games
+      // (random tie-breaking, so restarts explore different regions)
+      let pickedTeam = -1;
+      let pickedGames: number[] = [];
+      let numTies = 1;
+      for (let team = 0; team < numTeams; ++team) {
+        if (locationByTeamMatchday[team * numMatchdays + md] !== 0) {
+          continue;
+        }
+        const feasibleGames = gamesByTeam[team].filter(
+          g => matchdayByGame[g] === -1 && !reject(g, md),
+        );
+        // a team with no feasible game makes this matchday a dead end
+        if (feasibleGames.length === 0) {
+          return [];
+        }
+        if (pickedTeam === -1 || feasibleGames.length < pickedGames.length) {
           pickedTeam = team;
           pickedGames = feasibleGames;
+          numTies = 1;
+        } else if (feasibleGames.length === pickedGames.length) {
+          ++numTies;
+          if (Math.random() * numTies < 1) {
+            pickedTeam = team;
+            pickedGames = feasibleGames;
+          }
         }
       }
-    }
 
-    // most constrained opponent first, random tie-breaking
-    const scoredGames = pickedGames.map(g => {
-      const [h, a] = allGames[g];
-      const opponent = h === pickedTeam ? a : h;
-      let numOpponentOptions = 0;
-      for (const og of gamesByTeam[opponent]) {
-        if (matchdayByGame[og] === -1 && !reject(og, md)) {
-          ++numOpponentOptions;
+      // most constrained opponent first, random tie-breaking
+      const scoredGames = pickedGames.map(g => {
+        const [h, a] = allGames[g];
+        const opponent = h === pickedTeam ? a : h;
+        let numOpponentOptions = 0;
+        for (const og of gamesByTeam[opponent]) {
+          if (matchdayByGame[og] === -1 && !reject(og, md)) {
+            ++numOpponentOptions;
+          }
         }
-      }
-      return [g, numOpponentOptions + Math.random() * 0.5] as const;
-    });
-    scoredGames.sort((x, y) => x[1] - y[1]);
+        return [g, numOpponentOptions + Math.random() * 0.5] as const;
+      });
+      scoredGames.sort((x, y) => x[1] - y[1]);
 
-    for (const [g] of scoredGames) {
+      return scoredGames.map(([g]) => [g, md] as const);
+    },
+
+    apply: ([g, md]) => {
       place(g, md);
       const numAssignedGames = numGames - numUnassignedGames;
       if (numAssignedGames > record) {
@@ -287,29 +266,15 @@ export default ({
         console.log(numAssignedGames);
         record = numAssignedGames;
       }
-      if (search()) {
-        return true;
-      }
+    },
+
+    undo: ([g, md]) => {
       unplace(g, md);
-    }
+    },
+  });
 
-    return false;
-  };
-
-  for (let budget = 10_000; ; budget *= 2) {
-    initState();
-    nodesLeft = budget;
-    try {
-      if (!search()) {
-        // the search space was exhausted within the budget
-        throw new Error('No solution');
-      }
-      break;
-    } catch (err) {
-      if (!(err instanceof BudgetExhaustedError)) {
-        throw err;
-      }
-    }
+  if (!solved) {
+    throw new Error('No solution');
   }
 
   const arr = Array.from(
