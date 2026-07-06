@@ -45,11 +45,6 @@ export default async function generateSchedule<T extends Team>({
     allGamesUnordered.push([homeIndex, awayIndex]);
   }
 
-  // const allGames = orderBy(allGamesUnordered, [
-  //   m => Math.min(...m),
-  //   m => Math.max(...m),
-  // ]);
-
   const tvPairingsNumbers = tvPairings.map(
     p => [indexByTeamId.get(p[0].id)!, indexByTeamId.get(p[1].id)!] as const,
   );
