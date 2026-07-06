@@ -1,5 +1,4 @@
 import { difference, orderBy, range, remove, shuffle } from 'lodash';
-import delay from 'delay.js';
 
 import rangeGenerator from '#utils/rangeGenerator';
 import WorkerManager from '#utils/WorkerManager';
@@ -85,7 +84,7 @@ export default async function* generatePairings<T extends Team>({
       new Worker(new URL('./getFirstSuitableMatch.worker', import.meta.url)),
   });
 
-  let worker = workerManager.register();
+  const worker = workerManager.register();
 
   async function* generatePairingsFromSource() {
     let shouldStop = false;
@@ -117,68 +116,9 @@ export default async function* generatePairings<T extends Team>({
         allocatedMatches: virtualGeneratedMatchesWithIndices,
       } satisfies Omit<Parameters<typeof getFirstSuitableMatch>[0], 'worker'>;
       // eslint-disable-next-line no-await-in-loop
-      const pickedMatch = await new Promise<
-        Awaited<ReturnType<typeof getFirstSuitableMatch>>
-        // eslint-disable-next-line no-async-promise-executor, no-loop-func
-      >(async (resolve, reject) => {
-        const extraWorkers: Worker[] = [];
-
-        const resolveWithCleanup = (
-          successfulWorker: Worker,
-          result: Parameters<typeof resolve>[0],
-        ) => {
-          resultObtained = true;
-          for (const w of extraWorkers) {
-            if (w === successfulWorker) {
-              continue;
-            }
-            workerManager.kill(w);
-          }
-          if (successfulWorker !== worker) {
-            workerManager.kill(worker);
-            worker = successfulWorker;
-          }
-          resolve(result);
-        };
-
-        const rejectWithCleanup: typeof reject = (err: Error) => {
-          for (const w of extraWorkers) {
-            workerManager.kill(w);
-          }
-          reject(err);
-        };
-
-        let resultObtained = false;
-        getFirstSuitableMatch({
-          ...payload,
-          worker,
-        })
-          .then(result => {
-            resolveWithCleanup(worker, result);
-          })
-          .catch(rejectWithCleanup);
-
-        await delay(250);
-
-        for (let i = 1; i < 3; ++i) {
-          // eslint-disable-next-line no-await-in-loop
-          await delay(0);
-          if (resultObtained) {
-            return;
-          }
-          // eslint-disable-next-line no-console
-          console.log('adding extra worker', i);
-          const extraWorker = workerManager.register();
-          extraWorkers.push(extraWorker);
-          getFirstSuitableMatch({
-            ...payload,
-            worker: extraWorker,
-          })
-            .then(result => {
-              resolveWithCleanup(extraWorker, result);
-            })
-            .catch(rejectWithCleanup);
-        }
+      const pickedMatch = await getFirstSuitableMatch({
+        ...payload,
+        worker,
       });
 
       virtualGeneratedMatchesWithIndices.push(pickedMatch);
