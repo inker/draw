@@ -1,12 +1,13 @@
-import { chunk, countBy, maxBy, orderBy, range } from 'lodash';
-
-import { findFirstSolution } from '#utils/backtrack';
+import { findFirstSolutionMutable } from '#utils/backtrack';
 import { type Country } from '#model/types';
-import cartesian from '#utils/cartesian';
 
 interface Team {
   readonly country: Country;
 }
+
+// bit pot * 2 = has played the pot at home, bit pot * 2 + 1 = away
+const homeBit = (pot: number) => 1 << (pot * 2);
+const awayBit = (pot: number) => 1 << (pot * 2 + 1);
 
 export default ({
   teams,
@@ -17,7 +18,6 @@ export default ({
   isPairedPotMode,
   allGames,
   allocatedMatches,
-  reverseSortingMode,
 }: {
   teams: readonly Team[];
   numPots: number;
@@ -27,296 +27,443 @@ export default ({
   isPairedPotMode: boolean;
   allGames: readonly (readonly [number, number])[];
   allocatedMatches: readonly (readonly [number, number])[];
-  reverseSortingMode: 0 | 1 | 2;
 }) => {
-  const pots = chunk(range(teams.length), numTeamsPerPot);
-  const potIndices = range(numPots);
+  const numTeams = teams.length;
+  const numTotalGames = numMatchdays * numGamesPerMatchday;
   const maxGamesAtHome = Math.ceil(numMatchdays / 2);
   const maxSameLocMatchesPerPot = isPairedPotMode
     ? numTeamsPerPot / 2
     : numTeamsPerPot;
 
-  const numTeamsByCountry = countBy(teams, t => t.country) as Record<
-    Country,
-    number
-  >;
+  const potByTeam = (team: number) => Math.floor(team / numTeamsPerPot);
 
-  const numGamesByPotPair: Record<`${number}:${number}`, number> = {};
-  const numHomeGamesByTeam: Record<number, number> = {};
-  const numAwayGamesByTeam: Record<number, number> = {};
-  const numOpponentCountriesByTeam: Record<`${number}:${Country}`, number> = {};
-
-  /**
-   * team:pot:home?
-   */
-  const hasPlayedWithPotMap: Record<
-    `${number}:${number}:${'h' | 'a'}`,
-    boolean
-  > = {};
-
-  for (const [h, a] of allocatedMatches) {
-    const homeTeam = teams[h];
-    const awayTeam = teams[a];
-
-    const hp = Math.floor(h / numTeamsPerPot);
-    const ap = Math.floor(a / numTeamsPerPot);
-
-    numGamesByPotPair[`${hp}:${ap}`] =
-      (numGamesByPotPair[`${hp}:${ap}`] ?? 0) + 1;
-    numHomeGamesByTeam[h] = (numHomeGamesByTeam[h] ?? 0) + 1;
-    numAwayGamesByTeam[a] = (numAwayGamesByTeam[a] ?? 0) + 1;
-    numOpponentCountriesByTeam[`${h}:${awayTeam.country}`] =
-      (numOpponentCountriesByTeam[`${h}:${awayTeam.country}`] ?? 0) + 1;
-    numOpponentCountriesByTeam[`${a}:${homeTeam.country}`] =
-      (numOpponentCountriesByTeam[`${a}:${homeTeam.country}`] ?? 0) + 1;
-    hasPlayedWithPotMap[`${h}:${ap}:h`] = true;
-    hasPlayedWithPotMap[`${a}:${hp}:a`] = true;
+  const countryIndices = new Map<Country, number>();
+  for (const team of teams) {
+    if (!countryIndices.has(team.country)) {
+      countryIndices.set(team.country, countryIndices.size);
+    }
+  }
+  const numCountries = countryIndices.size;
+  const countryByTeam = new Uint8Array(numTeams);
+  for (const [i, team] of teams.entries()) {
+    countryByTeam[i] = countryIndices.get(team.country)!;
+  }
+  const numTeamsByCountry = new Uint8Array(numCountries);
+  for (const country of countryByTeam) {
+    ++numTeamsByCountry[country];
   }
 
-  const canPlay = (c: {
-    numGamesByPotPair: typeof numGamesByPotPair;
-    numHomeGamesByTeam: typeof numHomeGamesByTeam;
-    numAwayGamesByTeam: typeof numAwayGamesByTeam;
-    numOpponentCountriesByTeam: typeof numOpponentCountriesByTeam;
-    hasPlayedWithPotMap: typeof hasPlayedWithPotMap;
-    picked: readonly [number, number];
-  }) => {
-    const [h, a] = c.picked;
+  /**
+   * away teams by home team & away pot,
+   * in the caller-shuffled order of allGames
+   */
+  const awayTeamsByHomeTeamAndPot = Array.from(
+    {
+      length: numTeams * numPots,
+    },
+    () => [] as number[],
+  );
+  const homeTeamsByAwayTeamAndPot = Array.from(
+    {
+      length: numTeams * numPots,
+    },
+    () => [] as number[],
+  );
+  for (const [h, a] of allGames) {
+    awayTeamsByHomeTeamAndPot[h * numPots + potByTeam(a)].push(a);
+    homeTeamsByAwayTeamAndPot[a * numPots + potByTeam(h)].push(h);
+  }
 
+  const numGamesByPotPair = new Uint8Array(numPots * numPots);
+  const numHomeGamesByTeam = new Uint8Array(numTeams);
+  const numAwayGamesByTeam = new Uint8Array(numTeams);
+  const numOpponentCountriesByTeam = new Uint8Array(numTeams * numCountries);
+  const playedWithPotMask = new Uint16Array(numTeams);
+  const hasPlayedPair = new Uint8Array(numTeams * numTeams);
+
+  let numAllocated = 0;
+
+  const apply = ([h, a]: readonly [number, number]) => {
+    const hp = potByTeam(h);
+    const ap = potByTeam(a);
+    ++numGamesByPotPair[hp * numPots + ap];
+    ++numHomeGamesByTeam[h];
+    ++numAwayGamesByTeam[a];
+    ++numOpponentCountriesByTeam[h * numCountries + countryByTeam[a]];
+    ++numOpponentCountriesByTeam[a * numCountries + countryByTeam[h]];
+    playedWithPotMask[h] |= homeBit(ap);
+    playedWithPotMask[a] |= awayBit(hp);
+    hasPlayedPair[h * numTeams + a] = 1;
+    hasPlayedPair[a * numTeams + h] = 1;
+    ++numAllocated;
+  };
+
+  const undo = ([h, a]: readonly [number, number]) => {
+    const hp = potByTeam(h);
+    const ap = potByTeam(a);
+    --numGamesByPotPair[hp * numPots + ap];
+    --numHomeGamesByTeam[h];
+    --numAwayGamesByTeam[a];
+    --numOpponentCountriesByTeam[h * numCountries + countryByTeam[a]];
+    --numOpponentCountriesByTeam[a * numCountries + countryByTeam[h]];
+    playedWithPotMask[h] &= ~homeBit(ap);
+    playedWithPotMask[a] &= ~awayBit(hp);
+    hasPlayedPair[h * numTeams + a] = 0;
+    hasPlayedPair[a * numTeams + h] = 0;
+    --numAllocated;
+  };
+
+  for (const m of allocatedMatches) {
+    apply(m);
+  }
+
+  const canPlay = (h: number, a: number) => {
     // Ensure the teams play same number of games at home & away
-    if (c.numHomeGamesByTeam[h] === maxGamesAtHome) {
+    if (numHomeGamesByTeam[h] === maxGamesAtHome) {
       return false;
     }
-    if (c.numAwayGamesByTeam[a] === maxGamesAtHome) {
-      return false;
-    }
-
-    const hp = Math.floor(h / numTeamsPerPot);
-    const ap = Math.floor(a / numTeamsPerPot);
-
-    if (c.numGamesByPotPair[`${hp}:${ap}`] === maxSameLocMatchesPerPot) {
+    if (numAwayGamesByTeam[a] === maxGamesAtHome) {
       return false;
     }
 
-    if (c.hasPlayedWithPotMap[`${h}:${ap}:h`]) {
+    const hp = potByTeam(h);
+    const ap = potByTeam(a);
+
+    if (numGamesByPotPair[hp * numPots + ap] === maxSameLocMatchesPerPot) {
       return false;
     }
 
-    if (isPairedPotMode) {
-      if (c.hasPlayedWithPotMap[`${h}:${ap}:a`]) {
-        return false;
-      }
-
-      if (c.hasPlayedWithPotMap[`${h}:${ap ^ 1}:h`]) {
-        return false;
-      }
-    }
-
-    if (c.hasPlayedWithPotMap[`${a}:${hp}:a`]) {
+    if (playedWithPotMask[h] & homeBit(ap)) {
       return false;
     }
 
     if (isPairedPotMode) {
-      if (c.hasPlayedWithPotMap[`${a}:${hp}:h`]) {
+      if (playedWithPotMask[h] & awayBit(ap)) {
         return false;
       }
 
-      if (c.hasPlayedWithPotMap[`${a}:${hp ^ 1}:a`]) {
+      if (playedWithPotMask[h] & homeBit(ap ^ 1)) {
         return false;
       }
     }
 
-    if (c.numOpponentCountriesByTeam[`${h}:${teams[a].country}`] === 2) {
+    if (playedWithPotMask[a] & awayBit(hp)) {
       return false;
     }
 
-    if (c.numOpponentCountriesByTeam[`${a}:${teams[h].country}`] === 2) {
+    if (isPairedPotMode) {
+      if (playedWithPotMask[a] & homeBit(hp)) {
+        return false;
+      }
+
+      if (playedWithPotMask[a] & awayBit(hp ^ 1)) {
+        return false;
+      }
+    }
+
+    if (numOpponentCountriesByTeam[h * numCountries + countryByTeam[a]] === 2) {
+      return false;
+    }
+
+    if (numOpponentCountriesByTeam[a * numCountries + countryByTeam[h]] === 2) {
       return false;
     }
 
     return true;
   };
 
-  const remainingGames = allGames.filter(match => {
-    const [h, a] = match;
+  const findMinPotPair = () => {
+    for (let potPair = 0; potPair < numPots * numPots; ++potPair) {
+      if (numGamesByPotPair[potPair] < maxSameLocMatchesPerPot) {
+        return potPair;
+      }
+    }
+    return -1;
+  };
 
-    if (
-      allocatedMatches.some(
-        m => (m[0] === h && m[1] === a) || (m[0] === a && m[1] === h),
-      )
-    ) {
-      // already played before
+  const isHomeTeamEligible = (team: number, awayPot: number) => {
+    const mask = playedWithPotMask[team];
+    if (mask & homeBit(awayPot)) {
       return false;
     }
+    if (isPairedPotMode) {
+      if (mask & awayBit(awayPot)) {
+        return false;
+      }
+      if (mask & homeBit(awayPot ^ 1)) {
+        return false;
+      }
+    }
+    return true;
+  };
 
-    return canPlay({
-      numGamesByPotPair,
-      numHomeGamesByTeam,
-      numAwayGamesByTeam,
-      numOpponentCountriesByTeam,
-      hasPlayedWithPotMap,
-      picked: match,
-    });
-  });
+  const isAwayTeamEligible = (team: number, homePot: number) => {
+    const mask = playedWithPotMask[team];
+    if (mask & awayBit(homePot)) {
+      return false;
+    }
+    if (isPairedPotMode) {
+      if (mask & homeBit(homePot)) {
+        return false;
+      }
+      if (mask & awayBit(homePot ^ 1)) {
+        return false;
+      }
+    }
+    return true;
+  };
 
-  const unorderedPotPairs = cartesian(potIndices, potIndices);
-  const potPairs = orderBy(unorderedPotPairs, [m => m[0], m => m[1]]);
+  const countEligibleTeams = (
+    pot: number,
+    isEligible: (team: number) => boolean,
+  ) => {
+    let count = 0;
+    for (let i = 0; i < numTeamsPerPot; ++i) {
+      if (isEligible(pot * numTeamsPerPot + i)) {
+        ++count;
+      }
+    }
+    return count;
+  };
 
-  const numRemainingMatchesByTeam: Record<number, number> = {};
-  for (const m of remainingGames) {
-    numRemainingMatchesByTeam[m[0]] =
-      (numRemainingMatchesByTeam[m[0]] ?? 0) + 1;
-    numRemainingMatchesByTeam[m[1]] =
-      (numRemainingMatchesByTeam[m[1]] ?? 0) + 1;
-  }
+  // a block needing more games than it has eligible teams is a dead end
+  const hasUndersuppliedBlock = () => {
+    for (let hp = 0; hp < numPots; ++hp) {
+      for (let ap = 0; ap < numPots; ++ap) {
+        const needed =
+          maxSameLocMatchesPerPot - numGamesByPotPair[hp * numPots + ap];
+        if (needed === 0) {
+          continue;
+        }
+        if (countEligibleTeams(hp, t => isHomeTeamEligible(t, ap)) < needed) {
+          return true;
+        }
+        if (countEligibleTeams(ap, t => isAwayTeamEligible(t, hp)) < needed) {
+          return true;
+        }
+      }
+    }
 
-  const minPotPair = potPairs.find(
-    ([hp, ap]) =>
-      (numGamesByPotPair[`${hp}:${ap}`] ?? 0) < maxSameLocMatchesPerPot,
-  )!;
-  const remainingGamesFromPotPair = remainingGames.filter(([h, a]) => {
-    const hp = Math.floor(h / numTeamsPerPot);
-    const ap = Math.floor(a / numTeamsPerPot);
-    return hp === minPotPair[0] && ap === minPotPair[1];
-  });
+    if (isPairedPotMode) {
+      // a team supplies one home game per away-pot pair,
+      // so the demand of the two sibling blocks is joint
+      for (let hp = 0; hp < numPots; ++hp) {
+        for (let ap = 0; ap < numPots; ap += 2) {
+          const needed =
+            2 * maxSameLocMatchesPerPot -
+            numGamesByPotPair[hp * numPots + ap] -
+            numGamesByPotPair[hp * numPots + ap + 1];
+          if (needed === 0) {
+            continue;
+          }
+          const numSuppliers = countEligibleTeams(
+            hp,
+            t => isHomeTeamEligible(t, ap) || isHomeTeamEligible(t, ap + 1),
+          );
+          if (numSuppliers < needed) {
+            return true;
+          }
+        }
+      }
 
-  const pickedHomeTeam = remainingGamesFromPotPair[0][0];
-  const candidateMatchesForPickedTeam = remainingGamesFromPotPair.filter(
-    m => m[0] === pickedHomeTeam,
+      // & one away game per home-pot pair
+      for (let ap = 0; ap < numPots; ++ap) {
+        for (let hp = 0; hp < numPots; hp += 2) {
+          const needed =
+            2 * maxSameLocMatchesPerPot -
+            numGamesByPotPair[hp * numPots + ap] -
+            numGamesByPotPair[(hp + 1) * numPots + ap];
+          if (needed === 0) {
+            continue;
+          }
+          const numSuppliers = countEligibleTeams(
+            ap,
+            t => isAwayTeamEligible(t, hp) || isAwayTeamEligible(t, hp + 1),
+          );
+          if (numSuppliers < needed) {
+            return true;
+          }
+        }
+      }
+    }
+
+    return false;
+  };
+
+  const hasFeasibleHomeGame = (team: number, pot: number) => {
+    for (const a of awayTeamsByHomeTeamAndPot[team * numPots + pot]) {
+      if (!hasPlayedPair[team * numTeams + a] && canPlay(team, a)) {
+        return true;
+      }
+    }
+    return false;
+  };
+
+  const hasFeasibleAwayGame = (team: number, pot: number) => {
+    for (const h of homeTeamsByAwayTeamAndPot[team * numPots + pot]) {
+      if (!hasPlayedPair[team * numTeams + h] && canPlay(h, team)) {
+        return true;
+      }
+    }
+    return false;
+  };
+
+  // a team with an unfilled slot no remaining game can fill is a dead end
+  const hasUncoverableSlot = () => {
+    for (let team = 0; team < numTeams; ++team) {
+      const mask = playedWithPotMask[team];
+      if (isPairedPotMode) {
+        for (let pot = 0; pot < numPots; pot += 2) {
+          const hasPlayedHome = mask & (homeBit(pot) | homeBit(pot + 1));
+          const hasPlayedAway = mask & (awayBit(pot) | awayBit(pot + 1));
+          if (!hasPlayedHome && !hasPlayedAway) {
+            // an untouched pot pair needs a jointly feasible orientation
+            const isCoverable =
+              (hasFeasibleHomeGame(team, pot) &&
+                hasFeasibleAwayGame(team, pot + 1)) ||
+              (hasFeasibleHomeGame(team, pot + 1) &&
+                hasFeasibleAwayGame(team, pot));
+            if (!isCoverable) {
+              return true;
+            }
+          } else {
+            // reject narrows a half-played pair to the right pot
+            if (
+              !hasPlayedHome &&
+              !hasFeasibleHomeGame(team, pot) &&
+              !hasFeasibleHomeGame(team, pot + 1)
+            ) {
+              return true;
+            }
+            if (
+              !hasPlayedAway &&
+              !hasFeasibleAwayGame(team, pot) &&
+              !hasFeasibleAwayGame(team, pot + 1)
+            ) {
+              return true;
+            }
+          }
+        }
+      } else {
+        for (let pot = 0; pot < numPots; ++pot) {
+          if (!(mask & homeBit(pot)) && !hasFeasibleHomeGame(team, pot)) {
+            return true;
+          }
+          if (!(mask & awayBit(pot)) && !hasFeasibleAwayGame(team, pot)) {
+            return true;
+          }
+        }
+      }
+    }
+    return false;
+  };
+
+  const getCandidates = (): readonly (readonly [number, number])[] => {
+    if (hasUndersuppliedBlock() || hasUncoverableSlot()) {
+      return [];
+    }
+
+    // active pot pair: first unfilled one
+    const potPair = findMinPotPair();
+    const homePot = Math.floor(potPair / numPots);
+    const awayPot = potPair % numPots;
+
+    // home team: hardest country to place first
+    // (random tie-breaking, so restarts explore different regions)
+    let homeTeam = -1;
+    let homeTeamScore = -1;
+    let numTies = 1;
+    for (let i = 0; i < numTeamsPerPot; ++i) {
+      const team = homePot * numTeamsPerPot + i;
+      if (!isHomeTeamEligible(team, awayPot)) {
+        continue;
+      }
+      const score = numTeamsByCountry[countryByTeam[team]];
+      if (score > homeTeamScore) {
+        homeTeam = team;
+        homeTeamScore = score;
+        numTies = 1;
+      } else if (score === homeTeamScore) {
+        ++numTies;
+        if (Math.random() * numTies < 1) {
+          homeTeam = team;
+        }
+      }
+    }
+    // no eligible home team makes this pot pair a dead end
+    if (homeTeam === -1) {
+      return [];
+    }
+
+    // The chosen team's next home game is a forced slot,
+    // so branching over all its feasible opponents keeps the search complete.
+    // In paired pot mode the slot spans both pots of the pair.
+    const awayPots = isPairedPotMode ? [awayPot, awayPot ^ 1] : [awayPot];
+
+    // opponents: hardest country first,
+    // then the most constrained opponent, random tie-breaking
+    const scoredGames: (readonly [number, number])[] = [];
+    for (const pot of awayPots) {
+      for (const a of awayTeamsByHomeTeamAndPot[homeTeam * numPots + pot]) {
+        if (hasPlayedPair[homeTeam * numTeams + a]) {
+          continue;
+        }
+        if (!canPlay(homeTeam, a)) {
+          continue;
+        }
+        const numGamesPlayed = numHomeGamesByTeam[a] + numAwayGamesByTeam[a];
+        const score =
+          -numTeamsByCountry[countryByTeam[a]] * 100 -
+          numGamesPlayed +
+          Math.random() * 0.5;
+        scoredGames.push([a, score]);
+      }
+    }
+    scoredGames.sort((x, y) => x[1] - y[1]);
+
+    return scoredGames.map(([a]) => [homeTeam, a] as const);
+  };
+
+  const options = {
+    isSolved: () => numAllocated === numTotalGames,
+    getCandidates,
+    apply,
+    undo,
+  };
+
+  // the pick preserves the caller-shuffled order of allGames:
+  // a random home team of the active pot pair,
+  // then its first candidate opponent whose draw can still complete
+  const minPotPair = findMinPotPair();
+  const firstRemainingGameFromPotPair = allGames.find(([h, a]) => {
+    const potPair = potByTeam(h) * numPots + potByTeam(a);
+    return (
+      potPair === minPotPair &&
+      !hasPlayedPair[h * numTeams + a] &&
+      canPlay(h, a)
+    );
+  })!;
+
+  const pickedHomeTeam = firstRemainingGameFromPotPair[0];
+
+  // in paired pot mode the team's home game may go to either pot of the pair
+  const pickedAwayPots = isPairedPotMode
+    ? [minPotPair % numPots, minPotPair % numPots ^ 1]
+    : [minPotPair % numPots];
+  const candidateMatchesForPickedTeam = allGames.filter(
+    ([h, a]) =>
+      h === pickedHomeTeam &&
+      pickedAwayPots.includes(potByTeam(a)) &&
+      !hasPlayedPair[h * numTeams + a] &&
+      canPlay(h, a),
   );
 
   return candidateMatchesForPickedTeam.find(match => {
-    const solution = findFirstSolution(
-      {
-        source: remainingGames,
-        target: allocatedMatches,
-        numRemainingMatchesByTeam,
-        numGamesByPotPair,
-        numHomeGamesByTeam,
-        numAwayGamesByTeam,
-        numOpponentCountriesByTeam,
-        hasPlayedWithPotMap,
-        picked: match,
-      },
-      {
-        reject: c => !canPlay(c),
-
-        accept: c => c.target.length === numMatchdays * numGamesPerMatchday - 1,
-
-        generate: c => {
-          const pickedHomePotIndex = Math.floor(c.picked[0] / numTeamsPerPot);
-          const pickedAwayPotIndex = Math.floor(c.picked[1] / numTeamsPerPot);
-
-          const newTarget = [...c.target, c.picked];
-
-          const newNumRemainingMatchesByTeam = {
-            ...c.numRemainingMatchesByTeam,
-            [c.picked[0]]: (c.numRemainingMatchesByTeam[c.picked[0]] ?? 0) + 1,
-            [c.picked[1]]: (c.numRemainingMatchesByTeam[c.picked[1]] ?? 0) + 1,
-          };
-
-          const newNumGamesByPotPair = {
-            ...c.numGamesByPotPair,
-            [`${pickedHomePotIndex}:${pickedAwayPotIndex}`]:
-              (c.numGamesByPotPair[
-                `${pickedHomePotIndex}:${pickedAwayPotIndex}`
-              ] ?? 0) + 1,
-          } as typeof c.numGamesByPotPair;
-
-          const newNumHomeGamesByTeam = {
-            ...c.numHomeGamesByTeam,
-            [c.picked[0]]: (c.numHomeGamesByTeam[c.picked[0]] ?? 0) + 1,
-          } as typeof c.numHomeGamesByTeam;
-          const newNumAwayGamesByTeam = {
-            ...c.numAwayGamesByTeam,
-            [c.picked[1]]: (c.numAwayGamesByTeam[c.picked[1]] ?? 0) + 1,
-          } as typeof c.numAwayGamesByTeam;
-
-          const newNumOpponentCountriesByTeam = {
-            ...c.numOpponentCountriesByTeam,
-            [`${c.picked[0]}:${teams[c.picked[1]].country}`]:
-              (c.numOpponentCountriesByTeam[
-                `${c.picked[0]}:${teams[c.picked[1]].country}`
-              ] ?? 0) + 1,
-            [`${c.picked[1]}:${teams[c.picked[0]].country}`]:
-              (c.numOpponentCountriesByTeam[
-                `${c.picked[1]}:${teams[c.picked[0]].country}`
-              ] ?? 0) + 1,
-          } as typeof c.numOpponentCountriesByTeam;
-
-          const newHasPlayedWithPotMap: typeof c.hasPlayedWithPotMap = {
-            ...c.hasPlayedWithPotMap,
-            [`${c.picked[0]}:${pickedAwayPotIndex}:h`]: true,
-            [`${c.picked[1]}:${pickedHomePotIndex}:a`]: true,
-          } satisfies typeof c.hasPlayedWithPotMap;
-
-          const newSource = c.source.filter(m => {
-            const [h, a] = m;
-
-            if (
-              (h === c.picked[0] && a === c.picked[1]) ||
-              (h === c.picked[1] && a === c.picked[0])
-            ) {
-              return false;
-            }
-
-            return canPlay({
-              numGamesByPotPair: newNumGamesByPotPair,
-              numHomeGamesByTeam: newNumHomeGamesByTeam,
-              numAwayGamesByTeam: newNumAwayGamesByTeam,
-              numOpponentCountriesByTeam: newNumOpponentCountriesByTeam,
-              hasPlayedWithPotMap: newHasPlayedWithPotMap,
-              picked: m,
-            });
-          });
-
-          const [potPairHomePot, potPairAwayPot] = potPairs.find(
-            ([hPot, aPot]) =>
-              (newNumGamesByPotPair[`${hPot}:${aPot}`] ?? 0) <
-              maxSameLocMatchesPerPot,
-          )!;
-
-          const newHomeTeamCandidates = pots[potPairHomePot].filter(
-            t =>
-              !newHasPlayedWithPotMap[`${t}:${potPairAwayPot}:h`] &&
-              (!isPairedPotMode ||
-                (!newHasPlayedWithPotMap[`${t}:${potPairAwayPot}:a`] &&
-                  !newHasPlayedWithPotMap[`${t}:${potPairAwayPot ^ 1}:h`])),
-          );
-          const newHomeTeam = maxBy(
-            newHomeTeamCandidates,
-            t => numTeamsByCountry[teams[t].country],
-          )!;
-
-          const potentialMatches = newSource.filter(newPicked => {
-            const awayPot = Math.floor(newPicked[1] / numTeamsPerPot);
-            return newPicked[0] === newHomeTeam && awayPot === potPairAwayPot;
-          });
-
-          const orderedPotentialMatches = orderBy(potentialMatches, [
-            reverseSortingMode === 2
-              ? Boolean
-              : m => {
-                  const r = numTeamsByCountry[teams[m[1]].country];
-                  return reverseSortingMode === 1 ? r : -r;
-                },
-            m => newNumRemainingMatchesByTeam[m[1]] ?? 0,
-          ]);
-
-          return orderedPotentialMatches.map(newPicked => ({
-            source: newSource,
-            target: newTarget,
-            picked: newPicked,
-            numRemainingMatchesByTeam: newNumRemainingMatchesByTeam,
-            numGamesByPotPair: newNumGamesByPotPair,
-            numHomeGamesByTeam: newNumHomeGamesByTeam,
-            numAwayGamesByTeam: newNumAwayGamesByTeam,
-            numOpponentCountriesByTeam: newNumOpponentCountriesByTeam,
-            hasPlayedWithPotMap: newHasPlayedWithPotMap,
-          }));
-        },
-      },
-    );
-    return solution !== undefined;
+    apply(match);
+    const solved = findFirstSolutionMutable(options);
+    if (!solved) {
+      undo(match);
+    }
+    return solved;
   })!;
 };

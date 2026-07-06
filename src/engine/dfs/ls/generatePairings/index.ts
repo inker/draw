@@ -115,10 +115,7 @@ export default async function* generatePairings<T extends Team>({
         isPairedPotMode,
         allGames,
         allocatedMatches: virtualGeneratedMatchesWithIndices,
-      } satisfies Omit<
-        Parameters<typeof getFirstSuitableMatch>[0],
-        'reverseSortingMode' | 'worker'
-      >;
+      } satisfies Omit<Parameters<typeof getFirstSuitableMatch>[0], 'worker'>;
       // eslint-disable-next-line no-await-in-loop
       const pickedMatch = await new Promise<
         Awaited<ReturnType<typeof getFirstSuitableMatch>>
@@ -155,7 +152,6 @@ export default async function* generatePairings<T extends Team>({
         getFirstSuitableMatch({
           ...payload,
           worker,
-          reverseSortingMode: 0,
         })
           .then(result => {
             resolveWithCleanup(worker, result);
@@ -177,7 +173,6 @@ export default async function* generatePairings<T extends Team>({
           getFirstSuitableMatch({
             ...payload,
             worker: extraWorker,
-            reverseSortingMode: i as 0 | 1 | 2,
           })
             .then(result => {
               resolveWithCleanup(extraWorker, result);
