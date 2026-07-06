@@ -240,12 +240,15 @@ function LeagueStage({
   );
 
   useEffect(() => {
-    if (isFastDraw) {
+    // don't start a competing draw while one is still running: overlapping
+    // draws corrupt the shared pairing state (duplicate or missing games),
+    // which then makes the schedule unsolvable
+    if (isFastDraw && !isGeneratingPairings) {
       const currentPot = displayedPots[currentPotIndex];
       const index = random(currentPot.length - 1);
       handleTeamBallPick(index);
     }
-  }, [isFastDraw, displayedPots]);
+  }, [isFastDraw, isGeneratingPairings, displayedPots]);
 
   return (
     <div className={styles.root}>
