@@ -3,10 +3,7 @@ import { range, sum } from 'lodash';
 import rangeGenerator from '#utils/rangeGenerator';
 import intToBase3Array from '#utils/intToBase3Array';
 
-function generateSequenceCombos(
-  numMatchdays: number,
-  step?: 'end' | 'start' | 'middle',
-) {
+function generateSequenceCombos(numMatchdays: number) {
   // generate all
   const arr: string[] = [];
   for (let i = 0; i < 2 ** numMatchdays; ++i) {
@@ -22,22 +19,19 @@ function generateSequenceCombos(
   return arr
     .filter(item => {
       const impossible =
-        ((!step || step === 'end' || step === 'start' || step === 'middle') &&
-          (item.startsWith('00') || item.startsWith('11'))) ||
-        ((!step || step === 'start' || step === 'middle') &&
-          (item.endsWith('00') || item.endsWith('11'))) ||
-        ((!step || step === 'middle') &&
-          (item.includes('000') || item.includes('111')));
+        item.startsWith('00') ||
+        item.startsWith('11') ||
+        item.endsWith('00') ||
+        item.endsWith('11') ||
+        item.includes('000') ||
+        item.includes('111');
       return !impossible;
     })
     .map(item => item.split('').map(s => +s + 1));
 }
 
-function getValidLocationSums(
-  numMatchdays: number,
-  step?: 'end' | 'start' | 'middle',
-) {
-  const sequences = generateSequenceCombos(numMatchdays, step);
+function getValidLocationSums(numMatchdays: number) {
+  const sequences = generateSequenceCombos(numMatchdays);
 
   const isLocComboPossible = (s: number) => {
     const base3Arr = intToBase3Array(s, numMatchdays);
@@ -59,15 +53,11 @@ function getValidLocationSums(
 export default ({
   matchdaySize,
   allGames,
-  schedule,
-  step,
   coldTeamIndices,
   sameStadiumTeamPairs,
 }: {
   matchdaySize: number;
   allGames: readonly (readonly [number, number])[];
-  schedule: readonly number[];
-  step?: 'end' | 'start' | 'middle';
   coldTeamIndices: readonly number[];
   sameStadiumTeamPairs: readonly (readonly [number, number])[];
 }) => {
@@ -75,23 +65,17 @@ export default ({
   const numMatchdays = numGames / matchdaySize;
   const numTeams = matchdaySize * 2;
   const lastMatchday = numMatchdays - 1;
-  const matchdayIndices =
-    !step || step === 'end'
-      ? range(numMatchdays)
-      : step === 'start'
-        ? range(numMatchdays - 2)
-        : range(2, numMatchdays - 2);
 
   // Matchdays are filled one at a time, boundary matchdays first:
   // their alternation constraints have zero slack,
   // so they are satisfied while the rest of the schedule is still free.
-  // For the start & middle steps the boundaries of the open range come first anyway.
-  const fillOrder =
-    !step || step === 'end'
-      ? [lastMatchday, lastMatchday - 1, ...range(0, lastMatchday - 1)]
-      : matchdayIndices;
+  const fillOrder = [
+    lastMatchday,
+    lastMatchday - 1,
+    ...range(0, lastMatchday - 1),
+  ];
 
-  const validLocationSums = getValidLocationSums(numMatchdays, step);
+  const validLocationSums = getValidLocationSums(numMatchdays);
   const isValidLocationSum = new Uint8Array(3 ** numMatchdays);
   for (const s of validLocationSums) {
     isValidLocationSum[s] = 1;
@@ -141,9 +125,6 @@ export default ({
     locationSumByTeam.fill(0);
     matchdayByGame.fill(-1);
     numUnassignedGames = numGames;
-    for (const [i, md] of schedule.entries()) {
-      place(i, md);
-    }
   };
 
   const place = (gameIndex: number, md: number) => {

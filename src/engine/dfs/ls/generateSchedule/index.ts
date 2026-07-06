@@ -58,9 +58,7 @@ export default async function generateSchedule<T extends Team>({
     season,
     teams: allTeams,
     matchdaySize,
-    pickedGames: [],
-    remainingGames: allGamesUnordered,
-    schedule: [],
+    allGames: allGamesUnordered,
     getNumWorkers,
     signal,
   });
