@@ -99,11 +99,11 @@ export default ({
     isColdTeam[teamIndex] = 1;
   }
 
-  const gamesByTeam: number[][] = Array.from(
+  const gamesByTeam = Array.from(
     {
       length: numTeams,
     },
-    () => [],
+    () => [] as number[],
   );
   for (const [gameIndex, [h, a]] of allGames.entries()) {
     gamesByTeam[h].push(gameIndex);
