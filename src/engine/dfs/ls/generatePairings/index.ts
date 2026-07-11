@@ -177,36 +177,32 @@ export default async function* generatePairings<T extends Team>({
         continue;
       }
       const keyIndex = indexByKey.get(key)!;
-      const [pickedTeamStr] = key.split(':') as [string, string, 'h' | 'a'];
-      const pickedTeamLocal = +pickedTeamStr;
+      // reveal exactly one game per slot, in slot order
+      // (pot by pot, home then away),
+      // leaving other buffered games for their own slot:
+      // flushing every buffered game at once would leak later slots
+      // ahead of earlier slots the solver has not produced yet
       for (;;) {
-        // eslint-disable-next-line no-await-in-loop
-        const iteratorResult = await pairingsGenerator.next();
-        if (!iteratorResult.done) {
-          buffer.push(iteratorResult.value);
-        }
-        const isFound = buffer.some(m => getMatchKeyIndex(m) === keyIndex);
-        if (isFound) {
-          const unorderedPickedTeamMatches = remove(
-            buffer,
-            m => m[0] === pickedTeamLocal || m[1] === pickedTeamLocal,
-          );
-          const pickedTeamMatches = orderBy(unorderedPickedTeamMatches, m =>
-            getMatchKeyIndex(m),
-          );
-          for (const m of pickedTeamMatches) {
-            const keys = getMatchKeyPair(m);
-            sentKeyIndices.add(keys[0]);
-            sentKeyIndices.add(keys[1]);
-            yield {
-              match: [teams[m[0]], teams[m[1]]] as const,
-              virtualGeneratedMatches: virtualGeneratedMatchesWithIndices.map(
-                vm => [teams[vm[0]], teams[vm[1]]] as const,
-              ),
-            };
-          }
+        const match = buffer.find(m => getMatchKeyIndex(m) === keyIndex);
+        if (match) {
+          remove(buffer, m => m === match);
+          const keys = getMatchKeyPair(match);
+          sentKeyIndices.add(keys[0]);
+          sentKeyIndices.add(keys[1]);
+          yield {
+            match: [teams[match[0]], teams[match[1]]] as const,
+            virtualGeneratedMatches: virtualGeneratedMatchesWithIndices.map(
+              vm => [teams[vm[0]], teams[vm[1]]] as const,
+            ),
+          };
           break;
         }
+        // eslint-disable-next-line no-await-in-loop
+        const iteratorResult = await pairingsGenerator.next();
+        if (iteratorResult.done) {
+          break;
+        }
+        buffer.push(iteratorResult.value);
       }
     }
   } finally {
