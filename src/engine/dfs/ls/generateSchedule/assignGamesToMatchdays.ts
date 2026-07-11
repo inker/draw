@@ -55,12 +55,12 @@ export default ({
   matchdaySize,
   allGames,
   coldTeamIndices,
-  sameStadiumTeamPairs,
+  cannotHostSameDayPairs,
 }: {
   matchdaySize: number;
   allGames: readonly (readonly [number, number])[];
   coldTeamIndices: readonly number[];
-  sameStadiumTeamPairs: readonly (readonly [number, number])[];
+  cannotHostSameDayPairs: readonly (readonly [number, number])[];
 }) => {
   const numGames = allGames.length;
   const numMatchdays = numGames / matchdaySize;
@@ -89,10 +89,10 @@ export default ({
     (_, i) => 3 ** i,
   );
 
-  const sameStadiumTeam = new Int32Array(numTeams).fill(-1);
-  for (const [a, b] of sameStadiumTeamPairs) {
-    sameStadiumTeam[a] = b;
-    sameStadiumTeam[b] = a;
+  const cannotHostSameDayTeam = new Int32Array(numTeams).fill(-1);
+  for (const [a, b] of cannotHostSameDayPairs) {
+    cannotHostSameDayTeam[a] = b;
+    cannotHostSameDayTeam[b] = a;
   }
 
   const isColdTeam = new Uint8Array(numTeams);
@@ -163,18 +163,18 @@ export default ({
       return true;
     }
 
-    const homeSameStadiumTeam = sameStadiumTeam[h];
+    const homeConflictTeam = cannotHostSameDayTeam[h];
     if (
-      homeSameStadiumTeam !== -1 &&
-      locationByTeamMatchday[homeSameStadiumTeam * numMatchdays + md] === 1
+      homeConflictTeam !== -1 &&
+      locationByTeamMatchday[homeConflictTeam * numMatchdays + md] === 1
     ) {
       return true;
     }
 
-    const awaySameStadiumTeam = sameStadiumTeam[a];
+    const awayConflictTeam = cannotHostSameDayTeam[a];
     if (
-      awaySameStadiumTeam !== -1 &&
-      locationByTeamMatchday[awaySameStadiumTeam * numMatchdays + md] === 2
+      awayConflictTeam !== -1 &&
+      locationByTeamMatchday[awayConflictTeam * numMatchdays + md] === 2
     ) {
       return true;
     }

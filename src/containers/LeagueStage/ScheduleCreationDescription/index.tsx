@@ -3,7 +3,7 @@ import { orderBy, uniq } from 'lodash';
 
 import type Team from '#model/team/GsTeam';
 import coldCountries from '#engine/predicates/uefa/utils/coldCountries';
-import teamsSharingStadium from '#engine/predicates/uefa/utils/teamsSharingStadium';
+import teamsThatCannotHostSameDay from '#engine/predicates/uefa/utils/teamsThatCannotHostSameDay';
 
 import * as styles from './styles.module.scss';
 
@@ -22,8 +22,8 @@ function ScheduleCreationDescription({ season, teams }: Props) {
     );
   }, [season, teams]);
 
-  const stadiumSharingTeams = useMemo(() => {
-    const stadiumSharingTeamIndices = teamsSharingStadium
+  const cannotHostSameDayTeams = useMemo(() => {
+    const cannotHostSameDayIndices = teamsThatCannotHostSameDay
       .map(namePair => {
         const [a, b] = namePair;
         const aTeam = teams.findIndex(t => t.name === a);
@@ -33,7 +33,7 @@ function ScheduleCreationDescription({ season, teams }: Props) {
       .filter(Boolean) as (readonly [number, number])[];
 
     return orderBy(
-      stadiumSharingTeamIndices.map(indexPair => {
+      cannotHostSameDayIndices.map(indexPair => {
         const [a, b] = indexPair;
         const aTeam = teams[a];
         const bTeam = teams[b];
@@ -58,13 +58,13 @@ function ScheduleCreationDescription({ season, teams }: Props) {
         <li>
           Clubs sharing a stadium, or whose stadiums are in close proximity,
           must not be scheduled to play at home on the same matchday.{' '}
-          {stadiumSharingTeams.length === 0 ? (
+          {cannotHostSameDayTeams.length === 0 ? (
             <>Not applicable: no such clubs are present in this draw.</>
           ) : (
             <>
               These pairs are:
               <ul>
-                {stadiumSharingTeams.map(([a, b]) => (
+                {cannotHostSameDayTeams.map(([a, b]) => (
                   <li key={`${a}:${b}`}>
                     {a} &amp; {b}
                   </li>

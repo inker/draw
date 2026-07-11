@@ -3,7 +3,7 @@ import { keyBy, uniq } from 'lodash';
 import { type UefaCountry } from '#model/types';
 import type Tournament from '#model/Tournament';
 
-import getFirstSuitableMatchday from './getFirstSuitableMatchday.wrapper';
+import assignGamesToMatchdays from './assignGamesToMatchdays.wrapper';
 import splitMatchdaysIntoDays from './splitMatchdaysIntoDays';
 
 interface Team {
@@ -43,7 +43,7 @@ export default async function generateSchedule<T extends Team>({
     allGamesUnordered.push([homeIndex, awayIndex]);
   }
 
-  const result = await getFirstSuitableMatchday({
+  const result = await assignGamesToMatchdays({
     season,
     teams: allTeams,
     matchdaySize,

@@ -3,9 +3,9 @@ import { shuffle } from 'lodash';
 import raceWorkers from '#utils/raceWorkers';
 import { type UefaCountry } from '#model/types';
 import coldCountries from '#engine/predicates/uefa/utils/coldCountries';
-import teamsSharingStadium from '#engine/predicates/uefa/utils/teamsSharingStadium';
+import teamsThatCannotHostSameDay from '#engine/predicates/uefa/utils/teamsThatCannotHostSameDay';
 
-import { type Func } from './getFirstSuitableMatchday.worker';
+import { type Func } from './assignGamesToMatchdays.worker';
 
 interface Team {
   readonly name: string;
@@ -30,11 +30,11 @@ export default ({
   raceWorkers<Func>({
     numWorkers: getNumWorkers,
     getWorker: () =>
-      new Worker(new URL('./getFirstSuitableMatchday.worker', import.meta.url)),
+      new Worker(new URL('./assignGamesToMatchdays.worker', import.meta.url)),
     getPayload: () => {
       const allGamesShuffled = shuffle(allGames);
 
-      const stadiumSharingTeamIndices = teamsSharingStadium
+      const cannotHostSameDayPairs = teamsThatCannotHostSameDay
         .map(namePair => {
           const [a, b] = namePair;
           const aTeam = teams.findIndex(t => t.name === a);
@@ -55,7 +55,7 @@ export default ({
         matchdaySize,
         allGames: allGamesShuffled,
         coldTeamIndices,
-        sameStadiumTeamPairs: stadiumSharingTeamIndices,
+        cannotHostSameDayPairs,
       };
     },
     getTimeout: () => 5000,

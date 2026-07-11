@@ -108,10 +108,10 @@ export default ({
         console.log('Eliminating the following groups:', eliminatedGroups);
         const remainingGroups = difference(separationGroups, eliminatedGroups);
 
-        const teammatesByTeam = new Map<number, readonly number[]>();
+        const groupMatesByTeam = new Map<number, readonly number[]>();
         for (const group of remainingGroups) {
           for (const team of group) {
-            teammatesByTeam.set(
+            groupMatesByTeam.set(
               team,
               group.filter(other => other !== team),
             );
@@ -147,15 +147,17 @@ export default ({
               }
 
               const [firstTeam, secondTeam] = shuffledMd[c.matchIndex];
-              const firstTeammates = teammatesByTeam.get(firstTeam);
+              const firstGroupMates = groupMatesByTeam.get(firstTeam);
               if (
-                firstTeammates?.some(mate => c.dayByTeam[mate] === c.pickedDay)
+                firstGroupMates?.some(mate => c.dayByTeam[mate] === c.pickedDay)
               ) {
                 return true;
               }
-              const secondTeammates = teammatesByTeam.get(secondTeam);
+              const secondGroupMates = groupMatesByTeam.get(secondTeam);
               if (
-                secondTeammates?.some(mate => c.dayByTeam[mate] === c.pickedDay)
+                secondGroupMates?.some(
+                  mate => c.dayByTeam[mate] === c.pickedDay,
+                )
               ) {
                 return true;
               }
