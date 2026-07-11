@@ -43,7 +43,6 @@ interface Props {
 interface State {
   Page: React.ComponentType<any> | null;
   pots: readonly (readonly Team[])[] | null;
-  pairings?: readonly (readonly [Team, Team])[];
   // tournament: Tournament,
   // stage: Stage,
   season: number; // for error handling (so that we know the previous season)
@@ -58,8 +57,7 @@ function Pages({
   const params = useParams();
   const [, setPopup] = usePopup();
 
-  const [{ Page, season, pots, pairings }, setState] =
-    useState<State>(initialState);
+  const [{ Page, season, pots }, setState] = useState<State>(initialState);
 
   const [drawId, refreshDrawId] = useDrawId();
 
@@ -93,7 +91,6 @@ function Pages({
       setState({
         Page: newPage,
         pots: newPots,
-        pairings: 'pairings' in data ? data.pairings : undefined,
         // tournament,
         // stage,
         season: providedSeason,
@@ -143,7 +140,6 @@ function Pages({
         stage={params.stage}
         season={season}
         pots={pots}
-        tvPairings={pairings}
         isFirstPotShortDraw={isUefaClubTournament && season >= 2021}
       />
     )

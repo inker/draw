@@ -1,6 +1,8 @@
 import {
+  chunk,
   countBy,
   difference,
+  groupBy,
   mapValues,
   orderBy,
   shuffle,
@@ -9,6 +11,7 @@ import {
 
 import { type UefaCountry } from '#model/types';
 import type Tournament from '#model/Tournament';
+import popularityRank from '#model/popularityRank';
 import { findFirstSolution } from '#utils/backtrack';
 import combine from '#utils/combine';
 
@@ -22,18 +25,26 @@ export default ({
   tournament,
   matchdaySize,
   teams,
-  tvPairings,
 }: {
   matchdays: readonly (readonly [number, number])[][];
   tournament: Tournament;
   matchdaySize: number;
   teams: readonly Team[];
-  tvPairings: readonly (readonly [number, number])[];
 }) => {
   const numMatchdays = matchdays.length;
 
   const numTeamsByCountry = countBy(teams, team => team.country);
   const allCountries = Object.keys(numTeamsByCountry) as UefaCountry[];
+
+  // Team indices grouped by country, each ordered by popularity (most first),
+  // falling back to seeding position for clubs that aren't listed.
+  const orderedIndicesByCountry = mapValues(
+    groupBy(
+      teams.map((_, i) => i),
+      i => teams[i].country,
+    ),
+    indices => orderBy(indices, i => popularityRank(teams[i], i)),
+  );
 
   const newMatchdays: (readonly [number, number])[][][] = [];
   for (const [matchdayIndex, md] of matchdays.entries()) {
@@ -51,6 +62,15 @@ export default ({
       () => [] as (readonly [number, number])[],
     );
     const numGamesPerDay = matchdaySize / days.length;
+
+    // The most popular clubs from a country must play on different days:
+    // chunk each country's popularity order into groups the size of the day
+    // count, so the top `days.length` clubs are split across the days, the
+    // next batch too, & so on.
+    // For a two-day matchday this is exactly the TV pairing (groups of two).
+    const separationGroups = Object.values(orderedIndicesByCountry)
+      .flatMap(indices => chunk(indices, days.length))
+      .filter(group => group.length > 1);
 
     const teamsFromCountryByDay = mapValues(numTeamsByCountry, n => {
       const quotient = Math.floor(n / days.length);
@@ -73,28 +93,30 @@ export default ({
     >;
 
     let solution;
+    // Relax the popularity separation one group at a time (least popular first)
+    // until the matchday can be split, dropping every group if need be.
     for (
-      let numEliminatedPairings = 0;
-      numEliminatedPairings < tvPairings.length;
-      ++numEliminatedPairings
+      let numEliminatedGroups = 0;
+      numEliminatedGroups <= separationGroups.length;
+      ++numEliminatedGroups
     ) {
-      for (const eliminatedTvPairings of combine(
-        tvPairings.toReversed(),
-        numEliminatedPairings,
+      for (const eliminatedGroups of combine(
+        separationGroups.toReversed(),
+        numEliminatedGroups,
       )) {
         // eslint-disable-next-line no-console
-        console.log('Eliminating the following:', eliminatedTvPairings);
-        const remainingTvPairings = difference(
-          tvPairings,
-          eliminatedTvPairings,
-        );
+        console.log('Eliminating the following groups:', eliminatedGroups);
+        const remainingGroups = difference(separationGroups, eliminatedGroups);
 
-        const getPairedTeam = new Map([
-          ...remainingTvPairings,
-          ...remainingTvPairings.map(
-            pair => pair.toReversed() as [number, number],
-          ),
-        ]);
+        const teammatesByTeam = new Map<number, readonly number[]>();
+        for (const group of remainingGroups) {
+          for (const team of group) {
+            teammatesByTeam.set(
+              team,
+              group.filter(other => other !== team),
+            );
+          }
+        }
 
         const s = findFirstSolution(
           {
@@ -124,19 +146,16 @@ export default ({
                 return true;
               }
 
-              const match = shuffledMd[c.matchIndex];
-              const [firstTeam, secondTeam] = match;
-              const firstPairedTeam = getPairedTeam.get(firstTeam);
+              const [firstTeam, secondTeam] = shuffledMd[c.matchIndex];
+              const firstTeammates = teammatesByTeam.get(firstTeam);
               if (
-                firstPairedTeam !== undefined &&
-                c.dayByTeam[firstPairedTeam] === c.pickedDay
+                firstTeammates?.some(mate => c.dayByTeam[mate] === c.pickedDay)
               ) {
                 return true;
               }
-              const secondPairedTeam = getPairedTeam.get(secondTeam);
+              const secondTeammates = teammatesByTeam.get(secondTeam);
               if (
-                secondPairedTeam !== undefined &&
-                c.dayByTeam[secondPairedTeam] === c.pickedDay
+                secondTeammates?.some(mate => c.dayByTeam[mate] === c.pickedDay)
               ) {
                 return true;
               }
@@ -247,12 +266,12 @@ export default ({
         );
 
         if (s) {
-          if (numEliminatedPairings > 0) {
+          if (numEliminatedGroups > 0) {
             // eslint-disable-next-line no-console
             console.log(
-              `solution found after eliminating ${numEliminatedPairings} pairings in md ${matchdayIndex + 1}:`,
-              eliminatedTvPairings.map(pair =>
-                [teams[pair[0]].name, teams[pair[1]].name].join(' & '),
+              `solution found after eliminating ${numEliminatedGroups} groups in md ${matchdayIndex + 1}:`,
+              eliminatedGroups.map(group =>
+                group.map(team => teams[team].name).join(' & '),
               ),
             );
           }

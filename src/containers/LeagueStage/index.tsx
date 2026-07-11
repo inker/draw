@@ -29,15 +29,9 @@ interface Props {
   tournament: Tournament;
   season: number;
   pots: readonly (readonly Team[])[];
-  tvPairings: readonly (readonly [Team, Team])[];
 }
 
-function LeagueStage({
-  tournament,
-  season,
-  pots: initialPots,
-  tvPairings,
-}: Props) {
+function LeagueStage({ tournament, season, pots: initialPots }: Props) {
   const numMatchdays =
     tournament === 'ecl' ? initialPots.length : initialPots.length * 2;
 
@@ -189,7 +183,6 @@ function LeagueStage({
           season,
           tournament,
           matchdaySize,
-          tvPairings,
           allGames: pairings,
           currentSchedule: schedule,
           getNumWorkers: () =>
