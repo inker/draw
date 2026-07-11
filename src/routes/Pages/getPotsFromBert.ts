@@ -2,7 +2,7 @@ import { memoize } from 'lodash';
 
 import type Tournament from '#model/Tournament';
 import type Stage from '#model/Stage';
-import getPairings from '#model/getPairings';
+import type GsTeam from '#model/team/GsTeam';
 import parseGS from '#model/parsePotsData/gs';
 import parseKo from '#model/parsePotsData/ko';
 
@@ -11,32 +11,36 @@ async function getPotsFromBert(
   stage: Stage,
   season: number,
 ) {
-  const [data, pairings] = await Promise.all([
-    import(
-      /* webpackChunkName: "pots/[request]" */
-      `../../data/${tournament}/${stage}/${season}/pots.json`
-    ).then(mod => mod.default),
-    getPairings(season, tournament),
-  ]);
+  const data = await import(
+    /* webpackChunkName: "pots/[request]" */
+    `../../data/${tournament}/${stage}/${season}/pots.json`
+  ).then(mod => mod.default);
 
-  const parsedPots = stage === 'ko' ? parseKo(data) : parseGS(data, pairings);
+  if (stage === 'ko') {
+    return {
+      pots: parseKo(data),
+      pairings: [],
+    };
+  }
 
-  const flatTeams = parsedPots.flat();
-  const parsedPairings = pairings.map(([a, b]) => {
-    const firstTeam = flatTeams.find(t => t.name === a);
-    if (!firstTeam) {
-      throw new Error(`Team not found: ${a}`);
+  const pots = parseGS(data);
+
+  // TV pairings are derived while parsing (each team's `pairing`); collect them
+  // into a flat list, each pair once.
+  const seen = new Set<GsTeam>();
+  const pairings: (readonly [GsTeam, GsTeam])[] = [];
+  for (const team of pots.flat()) {
+    const partner = team.pairing;
+    if (partner && !seen.has(team) && !seen.has(partner)) {
+      pairings.push([team, partner]);
+      seen.add(team);
+      seen.add(partner);
     }
-    const secondTeam = flatTeams.find(t => t.name === b);
-    if (!secondTeam) {
-      throw new Error(`Team not found: ${b}`);
-    }
-    return [firstTeam, secondTeam] as const;
-  });
+  }
 
   return {
-    pots: parsedPots,
-    pairings: parsedPairings,
+    pots,
+    pairings,
   };
 }
 
