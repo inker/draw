@@ -1,6 +1,5 @@
-import { difference, orderBy, range, remove, shuffle } from 'lodash';
+import { difference, range, remove, shuffle } from 'lodash';
 
-import rangeGenerator from '#utils/rangeGenerator';
 import WorkerManager from '#utils/WorkerManager';
 import type Tournament from '#model/Tournament';
 import { type UefaCountry } from '#model/types';
@@ -47,13 +46,9 @@ export default async function* generatePairings<T extends Team>({
     m => [indexByTeam.get(m[0])!, indexByTeam.get(m[1])!] as const,
   );
 
-  const previousPickedTeamIndices = previousPickedTeams.map(
-    t => indexByTeam.get(t)!,
+  const previousPickedTeamIndicesSet = new Set(
+    previousPickedTeams.map(t => indexByTeam.get(t)!),
   );
-  const previousPickedTeamIndicesSet = new Set(previousPickedTeamIndices);
-  const remainingTeamIndicesSet = new Set(teamIndices)
-    .difference(previousPickedTeamIndicesSet)
-    .difference(new Set([pickedTeamIndex]));
   const previousPickedMatches = virtualGeneratedMatchesWithIndices.filter(
     m =>
       previousPickedTeamIndicesSet.has(m[0]) ||
@@ -127,68 +122,47 @@ export default async function* generatePairings<T extends Team>({
     }
   }
 
+  const numLocations = isPairedPotMode ? 1 : 2;
+  const numSlots = numPots * numLocations;
+
+  // Each of the picked team's games belongs to a slot,
+  // identified by the opponent's pot &
+  // (outside paired mode) whether the picked team plays at home.
+  // Slots are revealed pot by pot, home before away.
+  const slotOfPickedGame = ([h, a]: readonly [number, number]) => {
+    const isPickedHome = h === pickedTeamIndex;
+    const opponent = isPickedHome ? a : h;
+    const opponentPot = Math.floor(opponent / numTeamsPerPot);
+    const location = isPairedPotMode || isPickedHome ? 0 : 1;
+    return opponentPot * numLocations + location;
+  };
+
+  const involvesPickedTeam = ([h, a]: readonly [number, number]) =>
+    h === pickedTeamIndex || a === pickedTeamIndex;
+
+  // slots already shown while an earlier team was drawn
+  const revealedSlots = new Set(
+    previousPickedMatches
+      .values()
+      .filter(involvesPickedTeam)
+      .map(slotOfPickedGame),
+  );
+
   try {
-    const teamsToPick = [
-      ...previousPickedTeamIndices,
-      pickedTeamIndex,
-      ...orderBy(shuffle([...remainingTeamIndicesSet]), i =>
-        Math.floor(i / numTeamsPerPot),
-      ),
-    ];
-
     const pairingsGenerator = generatePairingsFromSource();
-    const locs = isPairedPotMode ? (['h'] as const) : (['h', 'a'] as const);
-    const sortedKeys = teamsToPick.flatMap(team =>
-      rangeGenerator(numPots)
-        .flatMap(opponentPot =>
-          locs.flatMap(
-            loc =>
-              `${team}:${opponentPot}:${loc}` satisfies `${number}:${number}:${'h' | 'a'}`,
-          ),
-        )
-        .toArray(),
-    );
-    const indexByKey = new Map(sortedKeys.map((key, i) => [key, i]));
 
-    const getMatchKeyPair = (m: readonly [number, number]) =>
-      [
-        `${m[0]}:${Math.floor(m[1] / numTeamsPerPot)}:h`,
-        `${m[1]}:${Math.floor(m[0] / numTeamsPerPot)}:${isPairedPotMode ? 'h' : 'a'}`,
-      ] as const;
-
-    const getMatchKeyIndex = (m: readonly [number, number]) => {
-      const pair = getMatchKeyPair(m);
-      return Math.min(indexByKey.get(pair[0])!, indexByKey.get(pair[1])!);
-    };
-
-    const sentKeyIndices = new Set<`${number}:${number}:${'h' | 'a'}`>();
-    for (const m of previousPickedMatches) {
-      const keys = getMatchKeyPair(m);
-      sentKeyIndices.add(keys[0]);
-      sentKeyIndices.add(keys[1]);
-    }
-
-    const iterableKeys = sortedKeys.filter(key =>
-      key.startsWith(`${pickedTeamIndex}:`),
-    );
-
-    for (const key of iterableKeys) {
-      if (sentKeyIndices.has(key)) {
+    for (let slot = 0; slot < numSlots; ++slot) {
+      if (revealedSlots.has(slot)) {
         continue;
       }
-      const keyIndex = indexByKey.get(key)!;
-      // reveal exactly one game per slot, in slot order
-      // (pot by pot, home then away),
-      // leaving other buffered games for their own slot:
-      // flushing every buffered game at once would leak later slots
-      // ahead of earlier slots the solver has not produced yet
+      // pull games from the solver until this slot's game turns up,
+      // buffering the rest until their own slot comes round
       for (;;) {
-        const match = buffer.find(m => getMatchKeyIndex(m) === keyIndex);
+        const match = buffer.find(
+          m => involvesPickedTeam(m) && slotOfPickedGame(m) === slot,
+        );
         if (match) {
           remove(buffer, m => m === match);
-          const keys = getMatchKeyPair(match);
-          sentKeyIndices.add(keys[0]);
-          sentKeyIndices.add(keys[1]);
           yield {
             match: [teams[match[0]], teams[match[1]]] as const,
             virtualGeneratedMatches: virtualGeneratedMatchesWithIndices.map(
