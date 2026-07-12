@@ -3,7 +3,7 @@ import { chunk, countBy, identity, mapValues, stubTrue, sumBy } from 'lodash';
 import { type Confederation, type Country } from '#model/types';
 import type NationalTeam from '#model/team/NationalTeam';
 import type UnknownNationalTeam from '#model/team/UnknownNationalTeam';
-import { type Predicate } from '#engine/dfs/gs';
+import { type Predicate, type PredicateFn } from '#engine/dfs/gs';
 import getSmallestArrayLength from '#utils/getSmallestArrayLength';
 
 import getNumGroupsByYear from './getNumGroupsByYear';
@@ -46,7 +46,7 @@ export default (year: number, teams: readonly Team[]): Predicate<Team> => {
     return r === 0 ? numGroups : r;
   });
 
-  const isPossibleByRankingConstraint = ((): Predicate<Team> => {
+  const isPossibleByRankingConstraint = ((): PredicateFn<Team> => {
     if (year === 2026) {
       const quarters = [
         [4, 8, 5],

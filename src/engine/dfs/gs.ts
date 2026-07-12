@@ -1,47 +1,81 @@
-import { findFirstSolution } from '#utils/backtrack';
+import { findFirstSolutionMutable } from '#utils/backtrack';
 
 type ReadonlyDoubleArray<T> = readonly (readonly T[])[];
 
-export type Predicate<T> = (
+export type PredicateFn<T> = (
   picked: T,
   groups: ReadonlyDoubleArray<T>,
   groupIndex: number,
 ) => boolean;
 
+/**
+ * A predicate that keeps incremental constraint state.
+ * The search drives the lifecycle: `reset` from the committed groups at the
+ * start of each check, then `place`/`unplace` in lockstep with every
+ * descent/backtrack, so `check` can read O(1) counters instead of rescanning.
+ */
+export interface StatefulPredicate<T> {
+  check: PredicateFn<T>;
+  reset: (groups: ReadonlyDoubleArray<T>) => void;
+  place: (team: T, groupIndex: number) => void;
+  unplace: (team: T, groupIndex: number) => void;
+}
+
+export type Predicate<T> = PredicateFn<T> | StatefulPredicate<T>;
+
 // eslint-disable-next-line max-params
 function anyGroupPossible<T>(
   source: readonly T[],
-  groups: ReadonlyDoubleArray<T>,
+  initialGroups: ReadonlyDoubleArray<T>,
   picked: T,
   groupIndex: number,
   predicate: Predicate<T>,
 ): boolean {
-  const solution = findFirstSolution(
-    {
-      source,
-      groups,
-      picked,
-      groupIndex,
+  const hooks = typeof predicate === 'function' ? null : predicate;
+  const check = typeof predicate === 'function' ? predicate : predicate.check;
+
+  // mutable working copy: the search fills it in place & backtracks with pop,
+  // so no per-node array is allocated
+  const groups = initialGroups.map(group => [...group]);
+  const numGroups = groups.length;
+
+  hooks?.reset(groups);
+
+  // picked is pinned to the group under test
+  if (!check(picked, groups, groupIndex)) {
+    return false;
+  }
+  groups[groupIndex].push(picked);
+  hooks?.place(picked, groupIndex);
+
+  // teams left to place, one per descent level
+  let depth = 0;
+
+  return findFirstSolutionMutable<number>({
+    isSolved: () => depth === source.length,
+    getCandidates: () => {
+      const team = source[depth];
+      const candidates: number[] = [];
+      for (let i = 0; i < numGroups; ++i) {
+        if (check(team, groups, i)) {
+          candidates.push(i);
+        }
+      }
+      return candidates;
     },
-    {
-      reject: c => !predicate(c.picked, c.groups, c.groupIndex),
-      accept: c => c.source.length === 0,
-      generate: c => {
-        const newGroups = c.groups.with(c.groupIndex, [
-          c.picked,
-          ...c.groups[c.groupIndex],
-        ]);
-        const [newPicked, ...newSource] = c.source;
-        return newGroups.map((_, i) => ({
-          source: newSource,
-          groups: newGroups,
-          picked: newPicked,
-          groupIndex: i,
-        }));
-      },
+    apply: i => {
+      const team = source[depth];
+      groups[i].push(team);
+      hooks?.place(team, i);
+      ++depth;
     },
-  );
-  return solution !== undefined;
+    undo: i => {
+      --depth;
+      const team = source[depth];
+      hooks?.unplace(team, i);
+      groups[i].pop();
+    },
+  });
 }
 
 interface Input<T> {

@@ -6,13 +6,12 @@ import {
   mapValues,
   orderBy,
   shuffle,
-  sumBy,
 } from 'lodash';
 
 import { type UefaCountry } from '#model/types';
 import type Tournament from '#model/Tournament';
 import popularityRank from '#model/popularityRank';
-import { findFirstSolution } from '#utils/backtrack';
+import { findFirstSolutionMutable } from '#utils/backtrack';
 import combine from '#utils/combine';
 
 interface Team {
@@ -92,20 +91,18 @@ export default ({
       }
     >;
 
-    let solution;
-    // Relax the popularity separation one group at a time (least popular first)
-    // until the matchday can be split, dropping every group if need be.
+    // Relax the popularity separation one group at a time (least popular
+    // first) until the matchday can be split, dropping every group if need be.
+    let dayAssignment: readonly number[] | undefined;
     for (
       let numEliminatedGroups = 0;
-      numEliminatedGroups <= separationGroups.length;
+      numEliminatedGroups <= separationGroups.length && !dayAssignment;
       ++numEliminatedGroups
     ) {
       for (const eliminatedGroups of combine(
         separationGroups.toReversed(),
         numEliminatedGroups,
       )) {
-        // eslint-disable-next-line no-console
-        console.log('Eliminating the following groups:', eliminatedGroups);
         const remainingGroups = difference(separationGroups, eliminatedGroups);
 
         const groupMatesByTeam = new Map<number, readonly number[]>();
@@ -118,187 +115,117 @@ export default ({
           }
         }
 
-        const s = findFirstSolution(
-          {
-            matchIndex: 0,
-            pickedDay: 0,
-            schedule: [] as number[],
-            numMatchesByDay: Array.from(
-              {
-                length: days.length,
-              },
-              () => 0,
-            ),
-            dayByTeam: {} as Record<number, number>,
-            countryTeamsByDay: Object.fromEntries(
-              allCountries.map(
-                country => [country, days.map(() => 0)] as const,
-              ),
-            ) as Record<UefaCountry, number[]>,
-          },
-          {
-            reject: c => {
-              if (days.length === 1) {
+        // Assign every match in the matchday to a day by backtracking over
+        // mutable counters (apply / undo) rather than cloning the whole state
+        // at each node.
+        const scheduleDay = shuffledMd.map(() => -1);
+        const numMatchesByDay = days.map(() => 0);
+        // day index each team is committed to, -1 when not yet placed
+        const dayByTeam = new Int8Array(teams.length).fill(-1);
+        const countryTeamsByDay = new Map<UefaCountry, number[]>(
+          allCountries.map(
+            country => [country, days.map(() => 0)] as [UefaCountry, number[]],
+          ),
+        );
+        let numPlaced = 0;
+
+        const solved = findFirstSolutionMutable<readonly [number, number]>({
+          isSolved: () => numPlaced === shuffledMd.length,
+
+          getCandidates: () => {
+            const matchIndex = numPlaced;
+            // Anchor the first match to day 0 to break day-permutation
+            // symmetry.
+            const candidateDays =
+              matchIndex === 0 ? [0] : days.map((_, day) => day);
+
+            const feasibleDays = candidateDays.filter(day => {
+              if (numMatchesByDay[day] === numGamesPerDay) {
                 return false;
               }
-
-              if (c.numMatchesByDay[c.pickedDay] === numGamesPerDay) {
-                return true;
+              for (const team of shuffledMd[matchIndex]) {
+                // a group mate already on this day breaks the separation
+                const mates = groupMatesByTeam.get(team);
+                if (mates?.some(mate => dayByTeam[mate] === day)) {
+                  return false;
+                }
+                // adding this team must not push more days to the per-country
+                // cap than the allowance permits
+                const { country } = teams[team];
+                const { maxAllowed, numMaxes } = teamsFromCountryByDay[country];
+                const counts = countryTeamsByDay.get(country)!;
+                let numAtMax = 0;
+                for (const [d, base] of counts.entries()) {
+                  if ((d === day ? base + 1 : base) >= maxAllowed) {
+                    ++numAtMax;
+                  }
+                }
+                if (numAtMax > numMaxes) {
+                  return false;
+                }
               }
+              return true;
+            });
 
-              const [firstTeam, secondTeam] = shuffledMd[c.matchIndex];
-              const firstGroupMates = groupMatesByTeam.get(firstTeam);
-              if (
-                firstGroupMates?.some(mate => c.dayByTeam[mate] === c.pickedDay)
-              ) {
-                return true;
-              }
-              const secondGroupMates = groupMatesByTeam.get(secondTeam);
-              if (
-                secondGroupMates?.some(
-                  mate => c.dayByTeam[mate] === c.pickedDay,
-                )
-              ) {
-                return true;
-              }
+            if (matchIndex === 0) {
+              return feasibleDays.map(day => [matchIndex, day] as const);
+            }
 
-              const firstTeamCountry = teams[firstTeam].country;
-              const teamsFromFirstTeamCountryData =
-                teamsFromCountryByDay[firstTeamCountry];
-              const firstTeamNumTeamsByDay = c.countryTeamsByDay[
-                firstTeamCountry
-              ].with(
-                c.pickedDay,
-                c.countryTeamsByDay[firstTeamCountry][c.pickedDay] + 1,
-              );
-              if (
-                sumBy(firstTeamNumTeamsByDay, n =>
-                  n >= teamsFromFirstTeamCountryData.maxAllowed ? 1 : 0,
-                ) > teamsFromFirstTeamCountryData.numMaxes
-              ) {
-                return true;
-              }
-
-              const secondTeamCountry = teams[secondTeam].country;
-              const teamsFromSecondTeamCountryData =
-                teamsFromCountryByDay[secondTeamCountry];
-              const secondTeamNumTeamsByDay = c.countryTeamsByDay[
-                secondTeamCountry
-              ].with(
-                c.pickedDay,
-                c.countryTeamsByDay[secondTeamCountry][c.pickedDay] + 1,
-              );
-              if (
-                sumBy(secondTeamNumTeamsByDay, n =>
-                  n >= teamsFromSecondTeamCountryData.maxAllowed ? 1 : 0,
-                ) > teamsFromSecondTeamCountryData.numMaxes
-              ) {
-                return true;
-              }
-
-              return false;
-            },
-
-            accept: c => c.matchIndex === shuffledMd.length - 1,
-
-            generate: c => {
-              const match = shuffledMd[c.matchIndex];
-
-              const newSchedule = [...c.schedule, c.pickedDay];
-
-              const newNumMatchesByDay = c.numMatchesByDay.with(
-                c.pickedDay,
-                c.numMatchesByDay[c.pickedDay] + 1,
-              );
-
-              const newDayByTeam = {
-                ...c.dayByTeam,
-                [match[0]]: c.pickedDay,
-                [match[1]]: c.pickedDay,
-              };
-
-              const newCountryTeamsByDay = {
-                ...c.countryTeamsByDay,
-                [teams[match[0]].country]: c.countryTeamsByDay[
-                  teams[match[0]].country
-                ].with(
-                  c.pickedDay,
-                  c.countryTeamsByDay[teams[match[0]].country][c.pickedDay] + 1,
-                ),
-                [teams[match[1]].country]: c.countryTeamsByDay[
-                  teams[match[1]].country
-                ].with(
-                  c.pickedDay,
-                  c.countryTeamsByDay[teams[match[1]].country][c.pickedDay] + 1,
-                ),
-              };
-
-              const candidates: (typeof c)[] = [];
-              for (let dayIndex = 0; dayIndex < days.length; ++dayIndex) {
-                candidates.push({
-                  matchIndex: c.matchIndex + 1,
-                  pickedDay: dayIndex,
-                  schedule: newSchedule,
-                  numMatchesByDay: newNumMatchesByDay,
-                  dayByTeam: newDayByTeam,
-                  countryTeamsByDay: newCountryTeamsByDay,
-                });
-              }
-              return orderBy(shuffle(candidates), newCandidate => {
-                const [h, a] = shuffledMd[newCandidate.matchIndex];
-                const numTeamsFromHomeCountry =
-                  newCandidate.countryTeamsByDay[teams[h].country][
-                    newCandidate.pickedDay
-                  ];
-                const numTeamsFromAwayCountry =
-                  newCandidate.countryTeamsByDay[teams[a].country][
-                    newCandidate.pickedDay
-                  ];
-                return (
-                  (numTeamsFromHomeCountry === 0
-                    ? -1000000
-                    : numTeamsFromHomeCountry) +
-                  (numTeamsFromAwayCountry === 0
-                    ? -1000000
-                    : numTeamsFromAwayCountry)
-                );
-              });
-            },
+            // Prefer days where this match's countries are least represented
+            // (an empty day is strongly preferred), random tie-breaking.
+            const [firstTeam, secondTeam] = shuffledMd[matchIndex];
+            const firstCounts = countryTeamsByDay.get(
+              teams[firstTeam].country,
+            )!;
+            const secondCounts = countryTeamsByDay.get(
+              teams[secondTeam].country,
+            )!;
+            return orderBy(shuffle(feasibleDays), day => {
+              const first =
+                firstCounts[day] === 0 ? -1_000_000 : firstCounts[day];
+              const second =
+                secondCounts[day] === 0 ? -1_000_000 : secondCounts[day];
+              return first + second;
+            }).map(day => [matchIndex, day] as const);
           },
-        );
 
-        if (s) {
-          if (numEliminatedGroups > 0) {
-            // eslint-disable-next-line no-console
-            console.log(
-              `solution found after eliminating ${numEliminatedGroups} groups in md ${matchdayIndex + 1}:`,
-              eliminatedGroups.map(group =>
-                group.map(team => teams[team].name).join(' & '),
-              ),
-            );
-          }
-          solution = s;
+          apply: ([matchIndex, day]) => {
+            const [firstTeam, secondTeam] = shuffledMd[matchIndex];
+            scheduleDay[matchIndex] = day;
+            ++numMatchesByDay[day];
+            dayByTeam[firstTeam] = day;
+            dayByTeam[secondTeam] = day;
+            ++countryTeamsByDay.get(teams[firstTeam].country)![day];
+            ++countryTeamsByDay.get(teams[secondTeam].country)![day];
+            ++numPlaced;
+          },
+
+          undo: ([matchIndex, day]) => {
+            const [firstTeam, secondTeam] = shuffledMd[matchIndex];
+            scheduleDay[matchIndex] = -1;
+            --numMatchesByDay[day];
+            dayByTeam[firstTeam] = -1;
+            dayByTeam[secondTeam] = -1;
+            --countryTeamsByDay.get(teams[firstTeam].country)![day];
+            --countryTeamsByDay.get(teams[secondTeam].country)![day];
+            --numPlaced;
+          },
+        });
+
+        if (solved) {
+          dayAssignment = scheduleDay;
           break;
         }
-
-        // eslint-disable-next-line no-console
-        console.warn('No solution found');
-      }
-
-      if (solution) {
-        break;
       }
     }
 
-    if (!solution) {
+    if (!dayAssignment) {
       throw new Error('No solution found after all');
     }
 
-    for (const [i, dayIndex] of solution.schedule.entries()) {
-      const match = shuffledMd[i];
-      days[dayIndex].push(match);
+    for (const [matchIndex, day] of dayAssignment.entries()) {
+      days[day].push(shuffledMd[matchIndex]);
     }
-    days[solution.pickedDay].push(shuffledMd[solution.matchIndex]);
 
     newMatchdays.push(shuffle(days.map(day => shuffle(day))));
   }
