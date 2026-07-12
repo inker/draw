@@ -162,13 +162,8 @@ export default ({
 
     getCandidates: () => {
       // active matchday: first unfilled one in the fill order
-      let md = -1;
-      for (const m of fillOrder) {
-        if (numMatchesByMatchday[m] < matchdaySize) {
-          md = m;
-          break;
-        }
-      }
+      const md =
+        fillOrder.find(m => numMatchesByMatchday[m] < matchdaySize) ?? -1;
 
       // MRV within the active matchday:
       // extend the team with the fewest feasible games
