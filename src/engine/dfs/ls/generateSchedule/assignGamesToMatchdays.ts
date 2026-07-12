@@ -1,55 +1,8 @@
-import { range, sum } from 'lodash';
+import { range } from 'lodash';
 
 import { findFirstSolutionMutable } from '#utils/backtrack';
-import rangeGenerator from '#utils/rangeGenerator';
-import intToBase3Array from '#utils/intToBase3Array';
 
-function generateSequenceCombos(numMatchdays: number) {
-  // generate all
-  const arr: string[] = [];
-  for (let i = 0; i < 2 ** numMatchdays; ++i) {
-    const binary = i.toString(2).padStart(numMatchdays, '0');
-    const digits = binary.split('').map(Number);
-    const s = sum(digits);
-    if (s === numMatchdays / 2) {
-      arr.push(binary);
-    }
-  }
-
-  // filter
-  return arr
-    .filter(item => {
-      const impossible =
-        item.startsWith('00') ||
-        item.startsWith('11') ||
-        item.endsWith('00') ||
-        item.endsWith('11') ||
-        item.includes('000') ||
-        item.includes('111');
-      return !impossible;
-    })
-    .map(item => item.split('').map(s => +s + 1));
-}
-
-function getValidLocationSums(numMatchdays: number) {
-  const sequences = generateSequenceCombos(numMatchdays);
-
-  const isLocComboPossible = (s: number) => {
-    const base3Arr = intToBase3Array(s, numMatchdays);
-    return sequences.some(seq => {
-      for (let i = 0; i < numMatchdays; ++i) {
-        const item = base3Arr[i];
-        if (!item || item === seq[i]) {
-          continue;
-        }
-        return false;
-      }
-      return true;
-    });
-  };
-
-  return new Set(rangeGenerator(3 ** numMatchdays).filter(isLocComboPossible));
-}
+import createHomeAwayPatterns from './homeAwayPatterns';
 
 export default ({
   matchdaySize,
@@ -73,14 +26,6 @@ export default ({
       `allGames length ${numGames} is not a multiple of matchdaySize ${matchdaySize}`,
     );
   }
-  // locationSumByTeam (Uint32) holds a base-3 pattern up to 3 ** numMatchdays - 1,
-  // & isValidLocationSum is a lookup of that length. Beyond this it overflows
-  // the encoding (& long before that becomes a memory bomb).
-  if (3 ** numMatchdays > 2 ** 32) {
-    throw new Error(
-      `numMatchdays=${numMatchdays} too large: 3 ** numMatchdays overflows the Uint32 location-sum encoding`,
-    );
-  }
   // numMatchesByMatchday is a Uint16 counting up to matchdaySize.
   if (matchdaySize > 0xffff) {
     throw new Error(
@@ -97,18 +42,14 @@ export default ({
     ...range(0, lastMatchday - 1),
   ];
 
-  const validLocationSums = getValidLocationSums(numMatchdays);
-  const isValidLocationSum = new Uint8Array(3 ** numMatchdays);
-  for (const s of validLocationSums) {
-    isValidLocationSum[s] = 1;
-  }
-
-  const pow3 = Array.from(
-    {
-      length: numMatchdays,
-    },
-    (_, i) => 3 ** i,
-  );
+  // Tracks, per club, which complete home/away patterns are still possible as
+  // games are pinned to matchdays. Each placed game pins two clubs, so the undo
+  // log needs room for two assignments per game.
+  const homeAwayPatterns = createHomeAwayPatterns({
+    numTeams,
+    numMatchdays,
+    maxAssignments: 2 * numGames,
+  });
 
   const cannotHostSameDayTeam = new Int32Array(numTeams).fill(-1);
   for (const [a, b] of cannotHostSameDayPairs) {
@@ -133,10 +74,8 @@ export default ({
   }
 
   // 0 = not playing, 1 = home, 2 = away
-  // (matches the base-3 digits of the location sums)
   const locationByTeamMatchday = new Uint8Array(numTeams * numMatchdays);
   const numMatchesByMatchday = new Uint16Array(numMatchdays);
-  const locationSumByTeam = new Uint32Array(numTeams);
   const matchdayByGame = new Int32Array(numGames).fill(-1);
 
   let numUnassignedGames = numGames;
@@ -147,8 +86,8 @@ export default ({
     ++numMatchesByMatchday[md];
     locationByTeamMatchday[h * numMatchdays + md] = 1;
     locationByTeamMatchday[a * numMatchdays + md] = 2;
-    locationSumByTeam[h] += pow3[md];
-    locationSumByTeam[a] += 2 * pow3[md];
+    homeAwayPatterns.assign(h, true, md);
+    homeAwayPatterns.assign(a, false, md);
     --numUnassignedGames;
   };
 
@@ -158,8 +97,8 @@ export default ({
     --numMatchesByMatchday[md];
     locationByTeamMatchday[h * numMatchdays + md] = 0;
     locationByTeamMatchday[a * numMatchdays + md] = 0;
-    locationSumByTeam[h] -= pow3[md];
-    locationSumByTeam[a] -= 2 * pow3[md];
+    homeAwayPatterns.unassign();
+    homeAwayPatterns.unassign();
     ++numUnassignedGames;
   };
 
@@ -204,13 +143,12 @@ export default ({
       return true;
     }
 
-    const pow = pow3[md];
-    const hS = locationSumByTeam[h] + 1 * pow;
-    if (!isValidLocationSum[hS]) {
+    // Committing h home / a away here must leave each club at least one
+    // complete home/away pattern still possible.
+    if (!homeAwayPatterns.isViable(h, true, md)) {
       return true;
     }
-    const aS = locationSumByTeam[a] + 2 * pow;
-    if (!isValidLocationSum[aS]) {
+    if (!homeAwayPatterns.isViable(a, false, md)) {
       return true;
     }
 
