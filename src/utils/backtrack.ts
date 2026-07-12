@@ -45,7 +45,7 @@ export interface MutableBacktrackOptions<Choice> {
    * Candidate choices for the current state, in the order to try them.
    * An empty array marks a dead end.
    */
-  getCandidates: () => readonly Choice[];
+  getCandidates: () => Iterable<Choice>;
 
   /**
    * Mutate the state by taking the choice
