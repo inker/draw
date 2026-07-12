@@ -155,8 +155,6 @@ export default ({
     return false;
   };
 
-  let record = 0;
-
   const solved = findFirstSolutionMutable<readonly [number, number]>({
     isSolved: () => numUnassignedGames === 0,
 
@@ -214,12 +212,6 @@ export default ({
 
     apply: ([g, md]) => {
       place(g, md);
-      const numAssignedGames = numGames - numUnassignedGames;
-      if (numAssignedGames > record) {
-        // eslint-disable-next-line no-console
-        console.log(numAssignedGames);
-        record = numAssignedGames;
-      }
     },
 
     undo: ([g, md]) => {
