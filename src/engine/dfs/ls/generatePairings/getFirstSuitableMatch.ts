@@ -44,6 +44,29 @@ export default ({
     }
   }
   const numCountries = countryIndices.size;
+
+  // The fixed-width typed arrays below cap the input dimensions.
+  // playedWithPotMask packs two bits per pot (home & away) into a Uint16,
+  // so a 9th pot would shift into bit 16 & silently truncate to 0.
+  if (numPots * 2 > 16) {
+    throw new Error(
+      `numPots=${numPots} exceeds 8: playedWithPotMask is a 16-bit mask with 2 bits per pot`,
+    );
+  }
+  // countryByTeam stores a country index in a Uint8.
+  if (numCountries > 256) {
+    throw new Error(
+      `numCountries=${numCountries} exceeds 256: countryByTeam is a Uint8Array of country indices`,
+    );
+  }
+  // numGamesByPotPair counts up to maxSameLocMatchesPerPot & the per-team
+  // home/away counters up to maxGamesAtHome, all Uint8.
+  if (maxSameLocMatchesPerPot > 255 || maxGamesAtHome > 255) {
+    throw new Error(
+      `Uint8 counters overflow: maxSameLocMatchesPerPot=${maxSameLocMatchesPerPot}, maxGamesAtHome=${maxGamesAtHome}`,
+    );
+  }
+
   const countryByTeam = new Uint8Array(numTeams);
   for (const [i, team] of teams.entries()) {
     countryByTeam[i] = countryIndices.get(team.country)!;

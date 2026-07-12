@@ -67,6 +67,27 @@ export default ({
   const numTeams = matchdaySize * 2;
   const lastMatchday = numMatchdays - 1;
 
+  // A fractional matchday count makes every derived size nonsense.
+  if (!Number.isInteger(numMatchdays)) {
+    throw new TypeError(
+      `allGames length ${numGames} is not a multiple of matchdaySize ${matchdaySize}`,
+    );
+  }
+  // locationSumByTeam (Uint32) holds a base-3 pattern up to 3 ** numMatchdays - 1,
+  // & isValidLocationSum is a lookup of that length. Beyond this it overflows
+  // the encoding (& long before that becomes a memory bomb).
+  if (3 ** numMatchdays > 2 ** 32) {
+    throw new Error(
+      `numMatchdays=${numMatchdays} too large: 3 ** numMatchdays overflows the Uint32 location-sum encoding`,
+    );
+  }
+  // numMatchesByMatchday is a Uint16 counting up to matchdaySize.
+  if (matchdaySize > 0xffff) {
+    throw new Error(
+      `matchdaySize=${matchdaySize} exceeds 65535 (numMatchesByMatchday is Uint16)`,
+    );
+  }
+
   // Matchdays are filled one at a time, boundary matchdays first:
   // their alternation constraints have zero slack,
   // so they are satisfied while the rest of the schedule is still free.
