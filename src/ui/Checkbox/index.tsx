@@ -50,7 +50,7 @@ function SelectWithHiddenLabel({
           checkboxClassName,
         )}
         onChange={rawOnChange}
-        {...(props as any)}
+        {...props}
       />
       <div className={styles['children-wrapper']}>{children}</div>
     </label>

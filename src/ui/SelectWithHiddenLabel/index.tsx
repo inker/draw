@@ -31,7 +31,7 @@ function SelectWithHiddenLabel({ label, children, ...props }: Props) {
         id={id}
         className={styles.select}
         title={label}
-        {...(props as any)}
+        {...props}
       >
         {children}
       </select>
