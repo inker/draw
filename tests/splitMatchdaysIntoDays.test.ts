@@ -40,14 +40,16 @@ const matchday = [
   [5, 11],
 ] as [number, number][];
 
-const dayByTeam = (days: readonly (readonly (readonly [number, number])[])[]) => {
+const dayByTeam = (
+  days: readonly (readonly (readonly [number, number])[])[],
+) => {
   const map = new Map<number, number>();
-  days.forEach((matches, dayIndex) => {
+  for (const [dayIndex, matches] of days.entries()) {
     for (const [home, away] of matches) {
       map.set(home, dayIndex);
       map.set(away, dayIndex);
     }
-  });
+  }
   return map;
 };
 
