@@ -13,6 +13,11 @@ module.exports = isDev => ({
     : [
         new TerserPlugin({
           minify: TerserPlugin.swcMinify,
+          // terser-webpack-plugin defaults extractComments to true
+          // & forwards it into swc's minify options,
+          // which @swc/core rejects as an unknown field.
+          // Disable it: swc keeps license comments inline.
+          extractComments: false,
         }),
 
         new CssMinimizerPlugin(),
