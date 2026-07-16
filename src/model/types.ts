@@ -10,16 +10,16 @@ export type Country = keyof Countries;
 
 export type UefaCountry = Extract<
   Entry<Countries>,
-  [Country, { confederation: 'UEFA' }]
+  [
+    Country,
+    {
+      confederation: 'UEFA';
+    },
+  ]
 >[0];
 
 export type Confederation =
-  | 'UEFA'
-  | 'CONMEBOL'
-  | 'CONCACAF'
-  | 'CAF'
-  | 'AFC'
-  | 'OFC';
+  'UEFA' | 'CONMEBOL' | 'CONCACAF' | 'CAF' | 'AFC' | 'OFC';
 
 export type SingleOrPair<T> = readonly [T] | readonly [T, T];
 

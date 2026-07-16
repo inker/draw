@@ -31,8 +31,8 @@ export default async function generateSchedule<T extends Team>({
   const allNonUniqueTeams = allGamesWithIds.flat();
   const teamById = keyBy(allNonUniqueTeams, team => team.id);
   const allTeamIds = uniq(allNonUniqueTeams.map(team => team.id));
-  const allTeams = allTeamIds.map(
-    id => allNonUniqueTeams.find(item => item.id === id)!,
+  const allTeams = allTeamIds.map(id =>
+    allNonUniqueTeams.find(item => item.id === id)!,
   );
   const indexByTeamId = new Map(allTeamIds.map((id, i) => [id, i] as const));
 

@@ -471,7 +471,7 @@ export default ({
 
   // in paired pot mode the team's home game may go to either pot of the pair
   const pickedAwayPots = isPairedPotMode
-    ? [minPotPair % numPots, minPotPair % numPots ^ 1]
+    ? [minPotPair % numPots, (minPotPair % numPots) ^ 1]
     : [minPotPair % numPots];
   const candidateMatchesForPickedTeam = allGames.filter(
     ([h, a]) =>

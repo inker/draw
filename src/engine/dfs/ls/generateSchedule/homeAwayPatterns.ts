@@ -103,7 +103,7 @@ export default function createHomeAwayPatterns({
       ? 0
       : numPatterns % 32 === 0
         ? 0xffffffff
-        : (1 << numPatterns % 32) - 1;
+        : (1 << (numPatterns % 32)) - 1;
 
   // patternsHomeAt[md] / patternsAwayAt[md]: the patterns placing the club
   // home / away on matchday md.
