@@ -100,7 +100,8 @@ export default ({
   const numGamesByPotPair = new Uint8Array(numPots * numPots);
   const numHomeGamesByTeam = new Uint8Array(numTeams);
   const numAwayGamesByTeam = new Uint8Array(numTeams);
-  const numOpponentCountriesByTeam = new Uint8Array(numTeams * numCountries);
+  const numHomeOpponentsFromCountry = new Uint8Array(numTeams * numCountries);
+  const numAwayOpponentsFromCountry = new Uint8Array(numTeams * numCountries);
   const playedWithPotMask = new Uint16Array(numTeams);
   const hasPlayedPair = new Uint8Array(numTeams * numTeams);
 
@@ -112,8 +113,8 @@ export default ({
     ++numGamesByPotPair[hp * numPots + ap];
     ++numHomeGamesByTeam[h];
     ++numAwayGamesByTeam[a];
-    ++numOpponentCountriesByTeam[h * numCountries + countryByTeam[a]];
-    ++numOpponentCountriesByTeam[a * numCountries + countryByTeam[h]];
+    ++numHomeOpponentsFromCountry[h * numCountries + countryByTeam[a]];
+    ++numAwayOpponentsFromCountry[a * numCountries + countryByTeam[h]];
     playedWithPotMask[h] |= homeBit(ap);
     playedWithPotMask[a] |= awayBit(hp);
     hasPlayedPair[h * numTeams + a] = 1;
@@ -127,8 +128,8 @@ export default ({
     --numGamesByPotPair[hp * numPots + ap];
     --numHomeGamesByTeam[h];
     --numAwayGamesByTeam[a];
-    --numOpponentCountriesByTeam[h * numCountries + countryByTeam[a]];
-    --numOpponentCountriesByTeam[a * numCountries + countryByTeam[h]];
+    --numHomeOpponentsFromCountry[h * numCountries + countryByTeam[a]];
+    --numAwayOpponentsFromCountry[a * numCountries + countryByTeam[h]];
     playedWithPotMask[h] &= ~homeBit(ap);
     playedWithPotMask[a] &= ~awayBit(hp);
     hasPlayedPair[h * numTeams + a] = 0;
@@ -184,11 +185,19 @@ export default ({
       }
     }
 
-    if (numOpponentCountriesByTeam[h * numCountries + countryByTeam[a]] === 2) {
+    if (
+      numHomeOpponentsFromCountry[h * numCountries + countryByTeam[a]] +
+        numAwayOpponentsFromCountry[h * numCountries + countryByTeam[a]] ===
+      2
+    ) {
       return false;
     }
 
-    if (numOpponentCountriesByTeam[a * numCountries + countryByTeam[h]] === 2) {
+    if (
+      numHomeOpponentsFromCountry[a * numCountries + countryByTeam[h]] +
+        numAwayOpponentsFromCountry[a * numCountries + countryByTeam[h]] ===
+      2
+    ) {
       return false;
     }
 
