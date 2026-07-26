@@ -5,6 +5,27 @@ import workerSendAndReceive from '#utils/worker/sendAndReceive';
 
 const maxNumWorkers = navigator.hardwareConcurrency;
 
+/**
+ * Resolves once the signal aborts, so it can lose a race against the work.
+ * An already-aborted signal never fires the event, hence the upfront check.
+ */
+const untilAborted = (signal: AbortSignal) =>
+  new Promise<void>(resolve => {
+    if (signal.aborted) {
+      resolve();
+      return;
+    }
+    signal.addEventListener(
+      'abort',
+      () => {
+        resolve();
+      },
+      {
+        once: true,
+      },
+    );
+  });
+
 export default async <Func extends (...args: any) => void>({
   numWorkers: numWorkersParam,
   getWorker,
@@ -60,6 +81,20 @@ export default async <Func extends (...args: any) => void>({
           await delay(1000);
         }
         const worker = workerManager.register();
+        // The attempt is over once the deadline passes or the caller aborts,
+        // so a cancelled draw no longer waits out the remaining timeout.
+        const attemptSignal = AbortSignal.any(
+          [
+            signal,
+            AbortSignal.timeout(
+              getTimeout({
+                workerIndex,
+                numWorkers,
+                attempt,
+              }),
+            ),
+          ].filter(Boolean) as AbortSignal[],
+        );
         try {
           // eslint-disable-next-line no-await-in-loop
           const raceResult = await Promise.race([
@@ -69,13 +104,7 @@ export default async <Func extends (...args: any) => void>({
                 attempt,
               }),
             ),
-            delay(
-              getTimeout({
-                workerIndex,
-                numWorkers,
-                attempt,
-              }),
-            ),
+            untilAborted(attemptSignal),
           ]);
           if (raceResult !== undefined) {
             gotResult = true;
@@ -86,7 +115,7 @@ export default async <Func extends (...args: any) => void>({
               attempt,
             };
           }
-          // timed out
+          // timed out or aborted
           workerManager.kill(worker);
         } catch (err) {
           if (shouldSwallowErrors) {

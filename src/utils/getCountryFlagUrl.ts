@@ -3,8 +3,14 @@ import { memoize } from 'lodash';
 import countries from '#data/countries';
 import { type Country } from '#model/types';
 
-const requireFlag = require.context('flag-icons/flags/4x3/', false, /\.svg$/);
-const requireAltFlag = require.context('../assets/altFlags/', false, /\.svg$/);
+const requireFlag = import.meta.webpackContext('flag-icons/flags/4x3/', {
+  recursive: false,
+  regExp: /\.svg$/,
+});
+const requireAltFlag = import.meta.webpackContext('../assets/altFlags/', {
+  recursive: false,
+  regExp: /\.svg$/,
+});
 
 const flags = {
   Moldova: requireAltFlag('./mda.svg'),
