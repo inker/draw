@@ -8,8 +8,19 @@ const maxNumWorkers = navigator.hardwareConcurrency;
 /**
  * Resolves once the signal aborts, so it can lose a race against the work.
  * An already-aborted signal never fires the event, hence the upfront check.
+ * The listener is scoped to untilSettled:
+ * a signal with a listener attached
+ * stays reachable from the signals it was composed from,
+ * so leaving it attached would pin one composite per attempt
+ * onto the caller's long-lived signal.
  */
-const untilAborted = (signal: AbortSignal) =>
+const untilAborted = ({
+  signal,
+  untilSettled,
+}: {
+  signal: AbortSignal;
+  untilSettled: AbortSignal;
+}) =>
   new Promise<void>(resolve => {
     if (signal.aborted) {
       resolve();
@@ -22,6 +33,7 @@ const untilAborted = (signal: AbortSignal) =>
       },
       {
         once: true,
+        signal: untilSettled,
       },
     );
   });
@@ -95,6 +107,8 @@ export default async <Func extends (...args: any) => void>({
             ),
           ].filter(Boolean) as AbortSignal[],
         );
+        // detaches the abort listener once the attempt is over
+        const attemptSettled = new AbortController();
         try {
           // eslint-disable-next-line no-await-in-loop
           const raceResult = await Promise.race([
@@ -104,7 +118,10 @@ export default async <Func extends (...args: any) => void>({
                 attempt,
               }),
             ),
-            untilAborted(attemptSignal),
+            untilAborted({
+              signal: attemptSignal,
+              untilSettled: attemptSettled.signal,
+            }),
           ]);
           if (raceResult !== undefined) {
             gotResult = true;
@@ -124,6 +141,7 @@ export default async <Func extends (...args: any) => void>({
             throw err;
           }
         } finally {
+          attemptSettled.abort();
           workerManager.kill(worker);
         }
       }
