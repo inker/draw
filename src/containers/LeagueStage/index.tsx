@@ -184,7 +184,6 @@ function LeagueStage({ tournament, season, pots: initialPots }: Props) {
           tournament,
           matchdaySize,
           allGames: pairings,
-          currentSchedule: schedule,
           getNumWorkers: () =>
             Math.max(
               1,

@@ -24,7 +24,6 @@ export default async function generateSchedule<T extends Team>({
   tournament: Tournament;
   matchdaySize: number;
   allGames: readonly (readonly [T, T])[];
-  currentSchedule: readonly (readonly (readonly (readonly [T, T])[])[])[];
   getNumWorkers: () => number;
   signal?: AbortSignal;
 }) {
@@ -36,12 +35,9 @@ export default async function generateSchedule<T extends Team>({
   );
   const indexByTeamId = new Map(allTeamIds.map((id, i) => [id, i] as const));
 
-  const allGamesUnordered: (readonly [number, number])[] = [];
-  for (const [h, a] of allGamesWithIds) {
-    const homeIndex = indexByTeamId.get(h.id)!;
-    const awayIndex = indexByTeamId.get(a.id)!;
-    allGamesUnordered.push([homeIndex, awayIndex]);
-  }
+  const allGamesUnordered = allGamesWithIds.map(
+    ([h, a]) => [indexByTeamId.get(h.id)!, indexByTeamId.get(a.id)!] as const,
+  );
 
   const result = await assignGamesToMatchdays({
     season,
