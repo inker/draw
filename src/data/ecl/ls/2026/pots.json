@@ -27,8 +27,8 @@
   ],
   [
     {
-      "name": "Qarabağ",
-      "country": "Azerbaijan"
+      "name": "Gent",
+      "country": "Belgium"
     },
     {
       "name": "M Tel-Aviv",
@@ -39,23 +39,19 @@
       "country": "Belgium"
     },
     {
-      "name": "Gent",
-      "country": "Belgium"
-    },
-    {
       "name": "Rapid Wien",
       "country": "Austria"
     },
     {
       "name": "Panathinaikos",
       "country": "Greece"
-    }
-  ],
-  [
+    },
     {
       "name": "Ludogorets",
       "country": "Bulgaria"
-    },
+    }
+  ],
+  [
     {
       "name": "FCSB",
       "country": "Romania"
@@ -75,12 +71,20 @@
     {
       "name": "Jagiellonia",
       "country": "Poland"
+    },
+    {
+      "name": "Partizan",
+      "country": "Serbia"
     }
   ],
   [
     {
-      "name": "Partizan",
-      "country": "Serbia"
+      "name": "Lugano",
+      "country": "Switzerland"
+    },
+    {
+      "name": "Drita",
+      "country": "Kosovo"
     },
     {
       "name": "Borac",
@@ -97,13 +101,13 @@
     {
       "name": "Kairat",
       "country": "Kazakhstan"
-    },
-    {
-      "name": "Trabzonspor",
-      "country": "Türkiye"
     }
   ],
   [
+    {
+      "name": "Trabzonspor",
+      "country": "Türkiye"
+    },
     {
       "name": "U Craiova",
       "country": "Romania"
@@ -121,10 +125,6 @@
       "country": "Estonia"
     },
     {
-      "name": "Karviná",
-      "country": "Czechia"
-    },
-    {
       "name": "OFI",
       "country": "Greece"
     }
@@ -135,14 +135,6 @@
       "country": "Northern Ireland"
     },
     {
-      "name": "Petrocub",
-      "country": "Moldova"
-    },
-    {
-      "name": "TNS",
-      "country": "Wales"
-    },
-    {
       "name": "AGF",
       "country": "Denmark"
     },
@@ -151,8 +143,16 @@
       "country": "Norway"
     },
     {
-      "name": "Inter Escaldes",
-      "country": "Andorra"
+      "name": "Ararat-Armenia",
+      "country": "Armenia"
+    },
+    {
+      "name": "Sabah",
+      "country": "Azerbaijan"
+    },
+    {
+      "name": "Mjällby",
+      "country": "Sweden"
     }
   ]
 ]

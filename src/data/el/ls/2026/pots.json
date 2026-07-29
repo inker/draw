@@ -67,15 +67,19 @@
       "country": "Austria"
     },
     {
-      "name": "Sparta",
-      "country": "Czechia"
+      "name": "Qarabağ",
+      "country": "Azerbaijan"
     },
     {
-      "name": "Rennes",
-      "country": "France"
+      "name": "Sparta",
+      "country": "Czechia"
     }
   ],
   [
+    {
+      "name": "Rennes",
+      "country": "France"
+    },
     {
       "name": "Sturm",
       "country": "Austria"
@@ -85,15 +89,15 @@
       "country": "Greece"
     },
     {
-      "name": "Crystal Palace",
-      "country": "England"
-    },
-    {
       "name": "Bournemouth",
       "country": "England"
     },
     {
       "name": "Sunderland",
+      "country": "England"
+    },
+    {
+      "name": "Crystal Palace",
       "country": "England"
     },
     {
@@ -107,13 +111,13 @@
     {
       "name": "LASK",
       "country": "Austria"
-    },
-    {
-      "name": "Celta",
-      "country": "Spain"
     }
   ],
   [
+    {
+      "name": "Celta",
+      "country": "Spain"
+    },
     {
       "name": "Shamrock Rovers",
       "country": "Ireland"
@@ -133,10 +137,6 @@
     {
       "name": "H Beer-Sheva",
       "country": "Israel"
-    },
-    {
-      "name": "Drita",
-      "country": "Kosovo"
     },
     {
       "name": "NEC",
