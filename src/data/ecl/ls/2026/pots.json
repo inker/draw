@@ -83,8 +83,16 @@
       "country": "Switzerland"
     },
     {
+      "name": "H Beer-Sheva",
+      "country": "Israel"
+    },
+    {
       "name": "Drita",
       "country": "Kosovo"
+    },
+    {
+      "name": "Lincoln",
+      "country": "Gibraltar"
     },
     {
       "name": "Borac",
@@ -93,17 +101,13 @@
     {
       "name": "Sint-Truiden",
       "country": "Belgium"
-    },
+    }
+  ],
+  [
     {
       "name": "Víkingur",
       "country": "Iceland"
     },
-    {
-      "name": "Kairat",
-      "country": "Kazakhstan"
-    }
-  ],
-  [
     {
       "name": "Trabzonspor",
       "country": "Türkiye"
@@ -121,10 +125,6 @@
       "country": "Faroe Islands"
     },
     {
-      "name": "Flora",
-      "country": "Estonia"
-    },
-    {
       "name": "OFI",
       "country": "Greece"
     }
@@ -135,12 +135,12 @@
       "country": "Northern Ireland"
     },
     {
-      "name": "AGF",
-      "country": "Denmark"
-    },
-    {
       "name": "Lillestrøm",
       "country": "Norway"
+    },
+    {
+      "name": "Levski",
+      "country": "Bulgaria"
     },
     {
       "name": "Ararat-Armenia",
