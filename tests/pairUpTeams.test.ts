@@ -1,6 +1,7 @@
-import { readdirSync, readFileSync } from 'node:fs';
+import { readFileSync, readdirSync } from 'node:fs';
 import { join } from 'node:path';
 
+import config from '../src/config';
 import popularity from '../src/data/popularity';
 import GsTeam from '../src/model/team/GsTeam';
 import pairUpTeams from '../src/model/pairUpTeams';
@@ -18,9 +19,10 @@ const potsFiles = () => {
   const files: {
     id: string;
     path: string;
+    isInProgress: boolean;
   }[] = [];
-  for (const tournament of ['cl', 'el', 'ecl']) {
-    for (const stage of ['gs', 'ls']) {
+  for (const tournament of ['cl', 'el', 'ecl'] as const) {
+    for (const stage of ['gs', 'ls'] as const) {
       const stageDir = join(DATA_DIR, tournament, stage);
       let seasons: string[];
       try {
@@ -32,6 +34,13 @@ const potsFiles = () => {
         files.push({
           id: `${tournament}/${stage}/${season}`,
           path: join(stageDir, season, 'pots.json'),
+          // The current league-stage season is still being drawn,
+          // so its pots keep changing & its pairings aren't worth snapshotting.
+          // Group stages are all historical: that format ended after 2023,
+          // so their current season is frozen.
+          isInProgress:
+            stage === 'ls' &&
+            Number(season) === config.currentSeason.uefa[tournament].ls,
         });
       }
     }
@@ -94,9 +103,12 @@ describe('pairUpTeams', () => {
     }
   });
 
-  it('derives stable pairings for every season', () => {
+  it('derives stable pairings for every completed season', () => {
     const bySeason = Object.fromEntries(
-      files.map(({ id, path }) => [id, derivePairings(path).pairs] as const),
+      files
+        .values()
+        .filter(file => !file.isInProgress)
+        .map(file => [file.id, derivePairings(file.path).pairs] as const),
     );
     expect(bySeason).toMatchSnapshot();
   });

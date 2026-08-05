@@ -1,6 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`pairUpTeams > derives stable pairings for every season 1`] = `
+exports[`pairUpTeams > derives stable pairings for every completed season 1`] = `
 {
   "cl/gs/2000": [
     "Arsenal & Man United",
@@ -336,20 +336,6 @@ exports[`pairUpTeams > derives stable pairings for every season 1`] = `
     "Marseille & Paris SG",
     "Newcastle & Tottenham",
   ],
-  "cl/ls/2026": [
-    "Arsenal & Man City",
-    "Atlético & Villarreal",
-    "Barcelona & Real Madrid",
-    "Bayern & Dortmund",
-    "Como & Napoli",
-    "Feyenoord & PSV",
-    "Internazionale & Roma",
-    "Leipzig & Stuttgart",
-    "Lens & Lille",
-    "Liverpool & Man United",
-    "Lyon & Paris SG",
-    "Porto & Sporting CP",
-  ],
   "ecl/gs/2021": [
     "AZ & Feyenoord",
     "Anorthosis & Omonia",
@@ -383,13 +369,6 @@ exports[`pairUpTeams > derives stable pairings for every season 1`] = `
     "Lech & Legia",
     "Olomouc & Sparta",
     "Shamrock Rovers & Shelbourne",
-  ],
-  "ecl/ls/2026": [
-    "AGF & København",
-    "Anderlecht & Gent",
-    "FCSB & U Craiova",
-    "Jagiellonia & Raków",
-    "OFI & Panathinaikos",
   ],
   "el/gs/2009": [
     "AEK & Panathinaikos",
@@ -669,18 +648,6 @@ exports[`pairUpTeams > derives stable pairings for every season 1`] = `
     "Freiburg & Stuttgart",
     "Lille & Lyon",
     "PAOK & Panathinaikos",
-    "Salzburg & Sturm",
-  ],
-  "el/ls/2026": [
-    "AEK & Olympiacos",
-    "AZ & NEC",
-    "Benfica & Torreense",
-    "Bournemouth & Crystal Palace",
-    "Celta & Real Sociedad",
-    "Hoffenheim & Leverkusen",
-    "Juventus & Milan",
-    "Marseille & Rennes",
-    "Plzeň & Sparta",
     "Salzburg & Sturm",
   ],
 }
