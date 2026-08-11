@@ -51,10 +51,6 @@
       "country": "Czechia"
     },
     {
-      "name": "Midtjylland",
-      "country": "Denmark"
-    },
-    {
       "name": "PAOK",
       "country": "Greece"
     },
@@ -67,19 +63,19 @@
       "country": "Austria"
     },
     {
-      "name": "Qarabağ",
-      "country": "Azerbaijan"
-    },
-    {
       "name": "Sparta",
       "country": "Czechia"
-    }
-  ],
-  [
+    },
     {
       "name": "Rennes",
       "country": "France"
     },
+    {
+      "name": "M Tel-Aviv",
+      "country": "Israel"
+    }
+  ],
+  [
     {
       "name": "Sturm",
       "country": "Austria"
@@ -89,15 +85,15 @@
       "country": "Poland"
     },
     {
+      "name": "Crystal Palace",
+      "country": "England"
+    },
+    {
       "name": "Bournemouth",
       "country": "England"
     },
     {
       "name": "Sunderland",
-      "country": "England"
-    },
-    {
-      "name": "Crystal Palace",
       "country": "England"
     },
     {
@@ -111,13 +107,13 @@
     {
       "name": "LASK",
       "country": "Austria"
-    }
-  ],
-  [
+    },
     {
       "name": "Celta",
       "country": "Spain"
-    },
+    }
+  ],
+  [
     {
       "name": "Shamrock Rovers",
       "country": "Ireland"
@@ -125,6 +121,10 @@
     {
       "name": "Hoffenheim",
       "country": "Germany"
+    },
+    {
+      "name": "Beşiktaş",
+      "country": "Türkiye"
     },
     {
       "name": "Torreense",
@@ -139,16 +139,16 @@
       "country": "Netherlands"
     },
     {
-      "name": "Kairat",
-      "country": "Kazakhstan"
-    },
-    {
-      "name": "AGF",
-      "country": "Denmark"
-    },
-    {
       "name": "Viking",
       "country": "Norway"
+    },
+    {
+      "name": "Levski",
+      "country": "Bulgaria"
+    },
+    {
+      "name": "Sabah",
+      "country": "Azerbaijan"
     }
   ]
 ]

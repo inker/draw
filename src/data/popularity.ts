@@ -96,6 +96,18 @@ const popularity: Partial<Record<UefaCountry, readonly string[]>> = {
     'Başakşehir',
   ],
   Poland: ['Legia', 'Lech', 'Jagiellonia', 'Raków'],
+  Denmark: [
+    'København',
+    'Brøndby',
+    'AGF',
+    'Midtjylland',
+    'OB',
+    'AaB',
+    'Nordsjælland',
+    'Esbjerg',
+    'Randers',
+    'Silkeborg',
+  ],
 };
 
 export default popularity;

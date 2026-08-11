@@ -115,10 +115,6 @@
   ],
   [
     {
-      "name": "Crvena zvezda",
-      "country": "Serbia"
-    },
-    {
       "name": "Dinamo Zagreb",
       "country": "Croatia"
     },
@@ -139,8 +135,8 @@
       "country": "Germany"
     },
     {
-      "name": "Lech",
-      "country": "Poland"
+      "name": "AEK",
+      "country": "Greece"
     },
     {
       "name": "Como",
@@ -149,6 +145,10 @@
     {
       "name": "Lens",
       "country": "France"
+    },
+    {
+      "name": "H Beer-Sheva",
+      "country": "Israel"
     }
   ]
 ]

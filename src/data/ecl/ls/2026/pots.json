@@ -27,12 +27,20 @@
   ],
   [
     {
-      "name": "Gent",
-      "country": "Belgium"
+      "name": "Midtjylland",
+      "country": "Denmark"
     },
     {
-      "name": "M Tel-Aviv",
-      "country": "Israel"
+      "name": "Crvena zvezda",
+      "country": "Serbia"
+    },
+    {
+      "name": "Qarabağ",
+      "country": "Azerbaijan"
+    },
+    {
+      "name": "Gent",
+      "country": "Belgium"
     },
     {
       "name": "Anderlecht",
@@ -41,20 +49,12 @@
     {
       "name": "Rapid Wien",
       "country": "Austria"
-    },
-    {
-      "name": "Panathinaikos",
-      "country": "Greece"
-    },
-    {
-      "name": "Ludogorets",
-      "country": "Bulgaria"
     }
   ],
   [
     {
-      "name": "FCSB",
-      "country": "Romania"
+      "name": "Panathinaikos",
+      "country": "Greece"
     },
     {
       "name": "Pafos",
@@ -83,8 +83,8 @@
       "country": "Switzerland"
     },
     {
-      "name": "H Beer-Sheva",
-      "country": "Israel"
+      "name": "Sheriff",
+      "country": "Moldova"
     },
     {
       "name": "Drita",
@@ -109,6 +109,10 @@
       "country": "Iceland"
     },
     {
+      "name": "Kairat",
+      "country": "Kazakhstan"
+    },
+    {
       "name": "Trabzonspor",
       "country": "Türkiye"
     },
@@ -121,38 +125,34 @@
       "country": "Latvia"
     },
     {
-      "name": "Klaksvík",
-      "country": "Faroe Islands"
-    },
-    {
       "name": "OFI",
       "country": "Greece"
     }
   ],
   [
     {
-      "name": "Larne",
-      "country": "Northern Ireland"
+      "name": "AGF",
+      "country": "Denmark"
     },
     {
       "name": "Lillestrøm",
       "country": "Norway"
     },
     {
-      "name": "Levski",
-      "country": "Bulgaria"
-    },
-    {
       "name": "Ararat-Armenia",
       "country": "Armenia"
     },
     {
-      "name": "Sabah",
-      "country": "Azerbaijan"
+      "name": "Žalgiris",
+      "country": "Lithuania"
     },
     {
       "name": "Mjällby",
       "country": "Sweden"
+    },
+    {
+      "name": "Iberia",
+      "country": "Georgia"
     }
   ]
 ]
