@@ -9,6 +9,10 @@
       "country": "Portugal"
     },
     {
+      "name": "Rangers",
+      "country": "Scotland"
+    },
+    {
       "name": "Ajax",
       "country": "Netherlands"
     },
@@ -19,16 +23,20 @@
     {
       "name": "Monaco",
       "country": "France"
-    },
-    {
-      "name": "København",
-      "country": "Denmark"
     }
   ],
   [
     {
+      "name": "København",
+      "country": "Denmark"
+    },
+    {
       "name": "Midtjylland",
       "country": "Denmark"
+    },
+    {
+      "name": "PAOK",
+      "country": "Greece"
     },
     {
       "name": "Crvena zvezda",
@@ -41,17 +49,17 @@
     {
       "name": "Gent",
       "country": "Belgium"
-    },
+    }
+  ],
+  [
     {
-      "name": "Anderlecht",
-      "country": "Belgium"
+      "name": "M Tel-Aviv",
+      "country": "Israel"
     },
     {
       "name": "Rapid Wien",
       "country": "Austria"
-    }
-  ],
-  [
+    },
     {
       "name": "Panathinaikos",
       "country": "Greece"
@@ -67,24 +75,16 @@
     {
       "name": "Raków",
       "country": "Poland"
-    },
-    {
-      "name": "Jagiellonia",
-      "country": "Poland"
-    },
-    {
-      "name": "Partizan",
-      "country": "Serbia"
     }
   ],
   [
     {
-      "name": "Lugano",
-      "country": "Switzerland"
+      "name": "Partizan",
+      "country": "Serbia"
     },
     {
-      "name": "Sheriff",
-      "country": "Moldova"
+      "name": "Shamrock Rovers",
+      "country": "Ireland"
     },
     {
       "name": "Drita",
@@ -95,19 +95,15 @@
       "country": "Gibraltar"
     },
     {
-      "name": "Borac",
-      "country": "Bosnia & Herzegovina"
-    },
-    {
       "name": "Sint-Truiden",
       "country": "Belgium"
-    }
-  ],
-  [
+    },
     {
       "name": "Víkingur",
       "country": "Iceland"
-    },
+    }
+  ],
+  [
     {
       "name": "Kairat",
       "country": "Kazakhstan"
@@ -117,30 +113,34 @@
       "country": "Türkiye"
     },
     {
-      "name": "U Craiova",
-      "country": "Romania"
-    },
-    {
       "name": "Riga",
       "country": "Latvia"
     },
-    {
-      "name": "OFI",
-      "country": "Greece"
-    }
-  ],
-  [
     {
       "name": "AGF",
       "country": "Denmark"
     },
     {
+      "name": "Nordsjælland",
+      "country": "Denmark"
+    },
+    {
       "name": "Lillestrøm",
       "country": "Norway"
-    },
+    }
+  ],
+  [
     {
       "name": "Ararat-Armenia",
       "country": "Armenia"
+    },
+    {
+      "name": "Thun",
+      "country": "Switzerland"
+    },
+    {
+      "name": "CSKA Sofia",
+      "country": "Bulgaria"
     },
     {
       "name": "Žalgiris",

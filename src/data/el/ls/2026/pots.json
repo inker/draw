@@ -25,23 +25,19 @@
       "country": "Greece"
     },
     {
-      "name": "Rangers",
-      "country": "Scotland"
-    },
-    {
       "name": "Fenerbahçe",
       "country": "Türkiye"
     },
     {
       "name": "Real Sociedad",
       "country": "Spain"
-    }
-  ],
-  [
+    },
     {
       "name": "Marseille",
       "country": "France"
-    },
+    }
+  ],
+  [
     {
       "name": "Ferencváros",
       "country": "Hungary"
@@ -49,10 +45,6 @@
     {
       "name": "Plzeň",
       "country": "Czechia"
-    },
-    {
-      "name": "PAOK",
-      "country": "Greece"
     },
     {
       "name": "Union SG",
@@ -71,11 +63,9 @@
       "country": "France"
     },
     {
-      "name": "M Tel-Aviv",
-      "country": "Israel"
-    }
-  ],
-  [
+      "name": "Anderlecht",
+      "country": "Belgium"
+    },
     {
       "name": "Sturm",
       "country": "Austria"
@@ -83,7 +73,9 @@
     {
       "name": "Lech",
       "country": "Poland"
-    },
+    }
+  ],
+  [
     {
       "name": "Crystal Palace",
       "country": "England"
@@ -101,6 +93,10 @@
       "country": "Slovenia"
     },
     {
+      "name": "Jagiellonia",
+      "country": "Poland"
+    },
+    {
       "name": "Omonia",
       "country": "Cyprus"
     },
@@ -111,17 +107,13 @@
     {
       "name": "Celta",
       "country": "Spain"
-    }
-  ],
-  [
-    {
-      "name": "Shamrock Rovers",
-      "country": "Ireland"
     },
     {
       "name": "Hoffenheim",
       "country": "Germany"
-    },
+    }
+  ],
+  [
     {
       "name": "Beşiktaş",
       "country": "Türkiye"
@@ -131,15 +123,23 @@
       "country": "Portugal"
     },
     {
-      "name": "KuPS",
-      "country": "Finland"
-    },
-    {
       "name": "NEC",
       "country": "Netherlands"
     },
     {
+      "name": "U Craiova",
+      "country": "Romania"
+    },
+    {
+      "name": "OFI",
+      "country": "Greece"
+    },
+    {
       "name": "Viking",
+      "country": "Norway"
+    },
+    {
+      "name": "Lillestrøm",
       "country": "Norway"
     },
     {
