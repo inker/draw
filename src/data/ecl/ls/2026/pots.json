@@ -95,12 +95,12 @@
       "country": "Gibraltar"
     },
     {
-      "name": "Sint-Truiden",
-      "country": "Belgium"
+      "name": "Borac",
+      "country": "Bosnia & Herzegovina"
     },
     {
-      "name": "Víkingur",
-      "country": "Iceland"
+      "name": "Sint-Truiden",
+      "country": "Belgium"
     }
   ],
   [
@@ -125,15 +125,11 @@
       "country": "Denmark"
     },
     {
-      "name": "Lillestrøm",
-      "country": "Norway"
+      "name": "Ararat-Armenia",
+      "country": "Armenia"
     }
   ],
   [
-    {
-      "name": "Ararat-Armenia",
-      "country": "Armenia"
-    },
     {
       "name": "Thun",
       "country": "Switzerland"
@@ -153,6 +149,10 @@
     {
       "name": "Iberia",
       "country": "Georgia"
+    },
+    {
+      "name": "Egnatia",
+      "country": "Albania"
     }
   ]
 ]
