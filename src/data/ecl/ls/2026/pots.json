@@ -57,10 +57,6 @@
       "country": "Israel"
     },
     {
-      "name": "Rapid Wien",
-      "country": "Austria"
-    },
-    {
       "name": "Panathinaikos",
       "country": "Greece"
     },
@@ -75,13 +71,13 @@
     {
       "name": "Raków",
       "country": "Poland"
-    }
-  ],
-  [
+    },
     {
       "name": "Partizan",
       "country": "Serbia"
-    },
+    }
+  ],
+  [
     {
       "name": "Shamrock Rovers",
       "country": "Ireland"
@@ -101,6 +97,10 @@
     {
       "name": "Sint-Truiden",
       "country": "Belgium"
+    },
+    {
+      "name": "Hearts",
+      "country": "Scotland"
     }
   ],
   [

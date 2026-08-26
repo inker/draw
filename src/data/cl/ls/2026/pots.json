@@ -85,10 +85,6 @@
       "country": "France"
     },
     {
-      "name": "Lyon",
-      "country": "France"
-    },
-    {
       "name": "Bodø/Glimt",
       "country": "Norway"
     },
@@ -105,6 +101,10 @@
       "country": "Spain"
     },
     {
+      "name": "Fenerbahçe",
+      "country": "Türkiye"
+    },
+    {
       "name": "Shakhtar",
       "country": "Ukraine"
     },
@@ -114,10 +114,6 @@
     }
   ],
   [
-    {
-      "name": "Dinamo Zagreb",
-      "country": "Croatia"
-    },
     {
       "name": "Slavia",
       "country": "Czechia"
@@ -145,6 +141,10 @@
     {
       "name": "Lens",
       "country": "France"
+    },
+    {
+      "name": "Viking",
+      "country": "Norway"
     },
     {
       "name": "Sabah",

@@ -17,16 +17,16 @@
       "country": "Italy"
     },
     {
+      "name": "Lyon",
+      "country": "France"
+    },
+    {
       "name": "AZ",
       "country": "Netherlands"
     },
     {
       "name": "Olympiacos",
       "country": "Greece"
-    },
-    {
-      "name": "Fenerbahçe",
-      "country": "Türkiye"
     },
     {
       "name": "Real Sociedad",
@@ -51,6 +51,10 @@
       "country": "Belgium"
     },
     {
+      "name": "Dinamo Zagreb",
+      "country": "Croatia"
+    },
+    {
       "name": "Salzburg",
       "country": "Austria"
     },
@@ -69,13 +73,13 @@
     {
       "name": "Anderlecht",
       "country": "Belgium"
-    },
-    {
-      "name": "Sturm",
-      "country": "Austria"
     }
   ],
   [
+    {
+      "name": "Sturm",
+      "country": "Austria"
+    },
     {
       "name": "Lech",
       "country": "Poland"
@@ -107,13 +111,13 @@
     {
       "name": "Celta",
       "country": "Spain"
-    },
-    {
-      "name": "Hoffenheim",
-      "country": "Germany"
     }
   ],
   [
+    {
+      "name": "Hoffenheim",
+      "country": "Germany"
+    },
     {
       "name": "Beşiktaş",
       "country": "Türkiye"
@@ -137,10 +141,6 @@
     {
       "name": "OFI",
       "country": "Greece"
-    },
-    {
-      "name": "Viking",
-      "country": "Norway"
     },
     {
       "name": "Lillestrøm",
