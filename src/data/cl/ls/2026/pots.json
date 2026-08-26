@@ -119,10 +119,6 @@
       "country": "Croatia"
     },
     {
-      "name": "Celtic",
-      "country": "Scotland"
-    },
-    {
       "name": "Slavia",
       "country": "Czechia"
     },
@@ -139,6 +135,10 @@
       "country": "Greece"
     },
     {
+      "name": "LASK",
+      "country": "Austria"
+    },
+    {
       "name": "Como",
       "country": "Italy"
     },
@@ -147,8 +147,8 @@
       "country": "France"
     },
     {
-      "name": "H Beer-Sheva",
-      "country": "Israel"
+      "name": "Sabah",
+      "country": "Azerbaijan"
     }
   ]
 ]

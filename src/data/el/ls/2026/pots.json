@@ -55,6 +55,10 @@
       "country": "Austria"
     },
     {
+      "name": "Celtic",
+      "country": "Scotland"
+    },
+    {
       "name": "Sparta",
       "country": "Czechia"
     },
@@ -69,13 +73,13 @@
     {
       "name": "Sturm",
       "country": "Austria"
-    },
-    {
-      "name": "Lech",
-      "country": "Poland"
     }
   ],
   [
+    {
+      "name": "Lech",
+      "country": "Poland"
+    },
     {
       "name": "Crystal Palace",
       "country": "England"
@@ -101,10 +105,6 @@
       "country": "Cyprus"
     },
     {
-      "name": "LASK",
-      "country": "Austria"
-    },
-    {
       "name": "Celta",
       "country": "Spain"
     },
@@ -121,6 +121,10 @@
     {
       "name": "Torreense",
       "country": "Portugal"
+    },
+    {
+      "name": "H Beer-Sheva",
+      "country": "Israel"
     },
     {
       "name": "NEC",
@@ -145,10 +149,6 @@
     {
       "name": "Levski",
       "country": "Bulgaria"
-    },
-    {
-      "name": "Sabah",
-      "country": "Azerbaijan"
     }
   ]
 ]
