@@ -14,7 +14,7 @@ const requireAltFlag = import.meta.webpackContext('../assets/altFlags/', {
 
 const flags = {
   Moldova: requireAltFlag('./mda.svg'),
-} as const;
+} as const satisfies Partial<Record<Country, string>>;
 
 function getCountryFlagUrl(country: Country) {
   const exceptionalFlag = flags[country as keyof typeof flags];
