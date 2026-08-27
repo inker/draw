@@ -9,10 +9,6 @@
       "country": "Portugal"
     },
     {
-      "name": "Rangers",
-      "country": "Scotland"
-    },
-    {
       "name": "Ajax",
       "country": "Netherlands"
     },
@@ -23,38 +19,24 @@
     {
       "name": "Monaco",
       "country": "France"
+    },
+    {
+      "name": "København",
+      "country": "Denmark"
     }
   ],
   [
     {
-      "name": "København",
-      "country": "Denmark"
-    },
-    {
       "name": "Midtjylland",
       "country": "Denmark"
-    },
-    {
-      "name": "PAOK",
-      "country": "Greece"
     },
     {
       "name": "Crvena zvezda",
       "country": "Serbia"
     },
     {
-      "name": "Qarabağ",
-      "country": "Azerbaijan"
-    },
-    {
       "name": "Gent",
       "country": "Belgium"
-    }
-  ],
-  [
-    {
-      "name": "M Tel-Aviv",
-      "country": "Israel"
     },
     {
       "name": "Panathinaikos",
@@ -67,24 +49,24 @@
     {
       "name": "Brighton",
       "country": "England"
-    },
-    {
-      "name": "Raków",
-      "country": "Poland"
-    },
-    {
-      "name": "Partizan",
-      "country": "Serbia"
     }
   ],
   [
     {
-      "name": "Shamrock Rovers",
-      "country": "Ireland"
+      "name": "Lugano",
+      "country": "Switzerland"
     },
     {
-      "name": "Drita",
-      "country": "Kosovo"
+      "name": "Getafe",
+      "country": "Spain"
+    },
+    {
+      "name": "KuPS",
+      "country": "Finland"
+    },
+    {
+      "name": "Twente",
+      "country": "Netherlands"
     },
     {
       "name": "Lincoln",
@@ -93,17 +75,21 @@
     {
       "name": "Borac",
       "country": "Bosnia & Herzegovina"
-    },
+    }
+  ],
+  [
     {
       "name": "Sint-Truiden",
       "country": "Belgium"
     },
     {
+      "name": "Brann",
+      "country": "Norway"
+    },
+    {
       "name": "Hearts",
       "country": "Scotland"
-    }
-  ],
-  [
+    },
     {
       "name": "Kairat",
       "country": "Kazakhstan"
@@ -113,8 +99,22 @@
       "country": "Türkiye"
     },
     {
+      "name": "U Craiova",
+      "country": "Romania"
+    }
+  ],
+  [
+    {
       "name": "Riga",
       "country": "Latvia"
+    },
+    {
+      "name": "Hajduk",
+      "country": "Croatia"
+    },
+    {
+      "name": "Jablonec",
+      "country": "Czechia"
     },
     {
       "name": "Nordsjælland",
@@ -125,8 +125,8 @@
       "country": "Denmark"
     },
     {
-      "name": "Ararat-Armenia",
-      "country": "Armenia"
+      "name": "Inter Escaldes",
+      "country": "Andorra"
     }
   ],
   [

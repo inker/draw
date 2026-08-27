@@ -135,10 +135,6 @@
       "country": "Netherlands"
     },
     {
-      "name": "U Craiova",
-      "country": "Romania"
-    },
-    {
       "name": "OFI",
       "country": "Greece"
     },
@@ -149,6 +145,10 @@
     {
       "name": "Levski",
       "country": "Bulgaria"
+    },
+    {
+      "name": "Ararat-Armenia",
+      "country": "Armenia"
     }
   ]
 ]
