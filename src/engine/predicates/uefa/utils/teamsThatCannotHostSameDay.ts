@@ -4,6 +4,6 @@ export default [
   ['APOEL', 'Omonia'],
   ['Benfica', 'Sporting CP'],
   ['Real Madrid', 'Atlético'],
-  ['Manchester City', 'Manchester United'],
+  ['Man City', 'Man United'],
   ['Fenerbahçe', 'Galatasaray'],
 ] as const satisfies readonly (readonly [string, string])[];
