@@ -1,162 +1,83 @@
 import { memo, useCallback, useMemo } from 'react';
-import {
-  Navigate,
-  Route,
-  Routes,
-  useMatch,
-  useNavigate,
-} from 'react-router-dom';
+import { Navigate, useLocation, useNavigate } from 'react-router-dom';
 import clsx from 'clsx';
 
-import type Tournament from '#model/Tournament';
-import type Stage from '#model/Stage';
+import resolveDrawRoute, {
+  type DrawRoute,
+  type RequestedDrawRoute,
+} from '#model/resolveDrawRoute';
+import availability from '#data/availability';
 import usePopup from '#store/usePopup';
-
-import config from '../config';
 
 import HeadMetadata from './HeadMetadata';
 import Navbar from './Navbar';
 import Pages from './Pages';
-import currentSeasonByTournament from './currentSeasonByTournament';
 
-interface Path {
-  tournament?: Tournament;
-  stage?: Stage;
-}
+const toPath = ({ tournament, stage, season }: DrawRoute) =>
+  `/${tournament}/${stage}/${season}`;
 
-const { defaultTournament, defaultStage } = config;
+const parsePath = (pathname: string): RequestedDrawRoute => {
+  const [tournament, stage, season] = pathname.split('/').filter(Boolean);
+  const parsedSeason = Number(season);
 
-function useSeasonTournamentStage() {
-  const match = useMatch(':tournament/:stage/*');
-  const params = match?.params;
-  const { tournament, stage } = (params ?? {}) as Path;
-
-  const season = params
-    ? +(
-        params['*'] ||
-        currentSeasonByTournament(tournament || null, stage || null)
-      )
-    : currentSeasonByTournament(defaultTournament, defaultStage);
-
-  return useMemo(
-    () => ({
-      season,
-      tournament,
-      stage,
-    }),
-    [season, tournament, stage],
-  );
-}
+  return {
+    tournament,
+    stage,
+    season: Number.isFinite(parsedSeason) ? parsedSeason : undefined,
+  };
+};
 
 function Routing() {
   const navigate = useNavigate();
+  const { pathname } = useLocation();
 
   const [popup] = usePopup();
 
-  const o = useSeasonTournamentStage();
-
-  const { tournament, stage, season } = o;
-
-  const onSeasonChange = useCallback(
-    (tm: Tournament, sg: Stage, sn?: number) => {
-      navigate(`/${tm}/${sg}${sn ? `/${sn}` : ''}`);
-    },
-    [navigate],
+  const route = useMemo(
+    () => resolveDrawRoute(availability, parsePath(pathname)),
+    [pathname],
   );
+
+  const onChange = useCallback(
+    (change: RequestedDrawRoute) => {
+      const next = resolveDrawRoute(availability, {
+        ...route,
+        ...change,
+      });
+
+      if (next) {
+        navigate(toPath(next));
+      }
+    },
+    [route, navigate],
+  );
+
+  if (!route) {
+    return null;
+  }
+
+  const path = toPath(route);
+
+  // Everything that is not a draw that exists - an old link, a hand-typed URL,
+  // a combination one of the selects cannot express - lands on the nearest one that does
+  if (pathname !== path) {
+    return (
+      <Navigate
+        to={path}
+        replace
+      />
+    );
+  }
 
   return (
     <>
       <HeadMetadata />
       <Navbar
         className={clsx(popup.initial && 'v-hidden')}
-        season={season}
-        tournament={tournament!}
-        stage={stage!}
-        onSeasonChange={onSeasonChange}
+        route={route}
+        onChange={onChange}
       />
-      {tournament && stage ? (
-        <Pages
-          tournament={tournament}
-          stage={stage}
-          season={season}
-          onSeasonChange={onSeasonChange}
-        />
-      ) : null}
-      <Routes>
-        {/* TODO */}
-        <Route
-          path="wc/ko/:season"
-          element={
-            <Navigate
-              to={`/wc/${defaultStage}`}
-              replace
-            />
-          }
-        />
-        <Route
-          path="wc/ko"
-          element={
-            <Navigate
-              to={`/wc/${defaultStage}`}
-              replace
-            />
-          }
-        />
-        <Route
-          path="wc"
-          element={
-            <Navigate
-              to={`/wc/${defaultStage}`}
-              replace
-            />
-          }
-        />
-        <Route
-          path="el"
-          element={
-            <Navigate
-              to={`/el/${defaultStage}`}
-              replace
-            />
-          }
-        />
-        <Route
-          path="cl/gs"
-          element={
-            <Navigate
-              to="/cl/gs/2023"
-              replace
-            />
-          }
-        />
-        <Route
-          path="cl"
-          element={
-            <Navigate
-              to="/cl/ls"
-              replace
-            />
-          }
-        />
-        <Route
-          path="el"
-          element={
-            <Navigate
-              to="/el/ls"
-              replace
-            />
-          }
-        />
-        <Route
-          path="/"
-          element={
-            <Navigate
-              to={`/${defaultTournament}`}
-              replace
-            />
-          }
-        />
-      </Routes>
+      <Pages route={route} />
     </>
   );
 }

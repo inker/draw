@@ -1,62 +1,90 @@
-import { memo, useCallback } from 'react';
-import { range } from 'lodash';
+import { memo, useCallback, useMemo } from 'react';
 
-import type Tournament from '#model/Tournament';
+import { validTournaments } from '#model/Tournament';
 import type Stage from '#model/Stage';
+import type DrawSlot from '#model/DrawSlot';
+import { drawSlots, stageToSlot } from '#model/DrawSlot';
+import {
+  type DrawRoute,
+  type RequestedDrawRoute,
+} from '#model/resolveDrawRoute';
+import seasonsForSlot from '#model/seasonsForSlot';
+import availability from '#data/availability';
 import Select from '#ui/SelectWithHiddenLabel';
 
-import currentSeasonByTournament from '../currentSeasonByTournament';
-
 import seasonAsString from './seasonAsString';
+import tournamentAsString from './tournamentAsString';
 
-const minSeasons = {
-  cl: 2000,
-  el: 2009,
-  ecl: 2021,
-  wc: 2018,
-};
+const stageNames = {
+  ls: 'League Phase',
+  gs: 'Group Stage',
+  ko: 'Knockout Stage',
+} as const satisfies Record<Stage, string>;
 
 interface Props {
-  tournament: Tournament;
-  stage: Stage;
-  season: number;
-  onChange: (tournament: Tournament, stage: Stage, season?: number) => void;
+  route: DrawRoute;
+  onChange: (change: RequestedDrawRoute) => void;
 }
 
-function SelectSeason({ tournament, stage, season, onChange }: Props) {
-  const onSeasonChange = useCallback(
-    (e: React.ChangeEvent<HTMLSelectElement>) => {
-      const newSeason = +e.target.value;
-      onChange(tournament, stage, newSeason);
-    },
-    [tournament, stage, onChange],
+function SelectSeason({ route, onChange }: Props) {
+  const { tournament, stage, season } = route;
+
+  const slot = stageToSlot(stage);
+
+  const seasons = useMemo(
+    () => [...seasonsForSlot(availability, tournament, slot).keys()],
+    [tournament, slot],
+  );
+
+  // The name of a slot is whatever format that particular season used,
+  // so the same option reads "Group Stage" in 2015/16 & "League Phase" in 2025/26
+  const slotOptions = useMemo(
+    () =>
+      drawSlots
+        .map(s => {
+          const stageThatSeason = seasonsForSlot(
+            availability,
+            tournament,
+            s,
+          ).get(season);
+
+          return stageThatSeason === undefined
+            ? null
+            : {
+                slot: s,
+                name: stageNames[stageThatSeason],
+              };
+        })
+        .filter(option => option !== null),
+    [tournament, season],
   );
 
   const onTournamentChange = useCallback(
     (e: React.ChangeEvent<HTMLSelectElement>) => {
-      const newTournament = e.target.value as Tournament;
-      onChange(
-        newTournament,
-        stage,
-        currentSeasonByTournament(newTournament, stage),
-      );
+      onChange({
+        tournament: e.target.value,
+      });
     },
-    [stage, onChange],
+    [onChange],
   );
 
-  const onStageChange = useCallback(
+  const onSlotChange = useCallback(
     (e: React.ChangeEvent<HTMLSelectElement>) => {
-      const newStage = e.target.value as Stage;
-      onChange(
-        tournament,
-        newStage,
-        currentSeasonByTournament(tournament, newStage),
-      );
+      onChange({
+        slot: e.target.value as DrawSlot,
+      });
     },
-    [tournament, onChange],
+    [onChange],
   );
 
-  const minSeason = minSeasons[tournament];
+  const onSeasonChange = useCallback(
+    (e: React.ChangeEvent<HTMLSelectElement>) => {
+      onChange({
+        season: +e.target.value,
+      });
+    },
+    [onChange],
+  );
 
   return (
     <div>
@@ -65,32 +93,37 @@ function SelectSeason({ tournament, stage, season, onChange }: Props) {
         onChange={onTournamentChange}
         value={tournament}
       >
-        <option value="cl">Champions League</option>
-        <option value="el">Europa League</option>
-        <option value="ecl">Europa Conference League</option>
-        <option value="wc">World Cup</option>
+        {validTournaments.map(t => (
+          <option
+            key={t}
+            value={t}
+          >
+            {tournamentAsString(t, season)}
+          </option>
+        ))}
       </Select>
-      <Select
-        label="stage"
-        onChange={onStageChange}
-        value={stage}
-      >
-        {tournament !== 'wc' && season >= 2024 && (
-          <option value="ls">League Stage</option>
-        )}
-        <option value="gs">Group Stage</option>
-        {tournament !== 'wc' && <option value="ko">Knockout Stage</option>}
-      </Select>
+      {slotOptions.length > 1 && (
+        <Select
+          label="draw"
+          onChange={onSlotChange}
+          value={slot}
+        >
+          {slotOptions.map(option => (
+            <option
+              key={option.slot}
+              value={option.slot}
+            >
+              {option.name}
+            </option>
+          ))}
+        </Select>
+      )}
       <Select
         label="season"
         onChange={onSeasonChange}
         value={season}
       >
-        {range(
-          currentSeasonByTournament(tournament, stage),
-          minSeason - 1,
-          tournament === 'wc' ? -4 : -1,
-        ).map(i => (
+        {seasons.map(i => (
           <option
             key={i}
             value={i}

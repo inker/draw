@@ -1,4 +1,4 @@
-import { memoize } from 'lodash';
+import pMemoize from 'p-memoize';
 
 import type Tournament from '#model/Tournament';
 import type Stage from '#model/Stage';
@@ -22,4 +22,8 @@ async function getPotsFromBert(
   };
 }
 
-export default memoize(getPotsFromBert, (...args) => args.join(':'));
+// p-memoize does not cache a rejected promise,
+// so a season that failed to load can be retried instead of replaying the same error until a reload
+export default pMemoize(getPotsFromBert, {
+  cacheKey: args => args.join(':'),
+});

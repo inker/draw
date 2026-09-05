@@ -1,8 +1,10 @@
 import { memo, useCallback } from 'react';
 import clsx from 'clsx';
 
-import type Tournament from '#model/Tournament';
-import type Stage from '#model/Stage';
+import {
+  type DrawRoute,
+  type RequestedDrawRoute,
+} from '#model/resolveDrawRoute';
 import useTheme from '#store/useTheme';
 import useMedia from '#utils/hooks/useMedia';
 import useDrawId from '#store/useDrawId';
@@ -17,24 +19,12 @@ import GitHubButtons from './GitHubButtons';
 import * as styles from './styles.module.scss';
 
 interface Props {
-  season: number;
-  tournament: Tournament;
-  stage: Stage;
+  route: DrawRoute;
   className?: string;
-  onSeasonChange: (
-    tournament: Tournament,
-    stage: Stage,
-    season?: number,
-  ) => void;
+  onChange: (change: RequestedDrawRoute) => void;
 }
 
-function Navbar({
-  season,
-  tournament,
-  stage,
-  className,
-  onSeasonChange,
-}: Props) {
+function Navbar({ route, className, onChange }: Props) {
   const [theme, setTheme] = useTheme();
   const [isXRay, setIsXRay] = useXRay();
   const [, refreshDrawId] = useDrawId();
@@ -62,10 +52,8 @@ function Navbar({
           Fast draw
         </Button>
         <SelectSeason
-          tournament={tournament}
-          stage={stage}
-          season={season}
-          onChange={onSeasonChange}
+          route={route}
+          onChange={onChange}
         />
         <Checkbox
           value={isXRay}

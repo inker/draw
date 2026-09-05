@@ -1,7 +1,6 @@
 import { readFileSync, readdirSync } from 'node:fs';
 import { join } from 'node:path';
 
-import config from '../src/config';
 import popularity from '../src/data/popularity';
 import GsTeam from '../src/model/team/GsTeam';
 import pairUpTeams from '../src/model/pairUpTeams';
@@ -26,10 +25,11 @@ const potsFiles = () => {
       const stageDir = join(DATA_DIR, tournament, stage);
       let seasons: string[];
       try {
-        seasons = readdirSync(stageDir);
+        seasons = readdirSync(stageDir).filter(name => /^\d{4}$/.test(name));
       } catch {
         continue;
       }
+      const latest = Math.max(...seasons.map(Number));
       for (const season of seasons) {
         files.push({
           id: `${tournament}/${stage}/${season}`,
@@ -38,9 +38,7 @@ const potsFiles = () => {
           // so its pots keep changing & its pairings aren't worth snapshotting.
           // Group stages are all historical: that format ended after 2023,
           // so their current season is frozen.
-          isInProgress:
-            stage === 'ls' &&
-            Number(season) === config.currentSeason.uefa[tournament].ls,
+          isInProgress: stage === 'ls' && Number(season) === latest,
         });
       }
     }

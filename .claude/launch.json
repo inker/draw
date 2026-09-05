@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "draw",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["start"],
+      "port": 9080
+    }
+  ]
+}

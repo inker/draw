@@ -1,16 +1,12 @@
 import { memo, useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
 import delay from 'delay.js';
 
 import type Team from '#model/team';
 import UnknownNationalTeam from '#model/team/UnknownNationalTeam';
-import type Tournament from '#model/Tournament';
-import type Stage from '#model/Stage';
+import { type DrawRoute } from '#model/resolveDrawRoute';
 import { isFirefox } from '#utils/browser';
 import useDrawId from '#store/useDrawId';
 import usePopup from '#store/usePopup';
-
-import currentSeasonByTournament from '../currentSeasonByTournament';
 
 import getPage from './getPage';
 import getPotsFromBert from './getPotsFromBert';
@@ -20,41 +16,25 @@ import prefetchFlags from './prefetchFlags';
 const initialState = {
   Page: null,
   pots: null,
-  season: currentSeasonByTournament('cl', 'ls'),
+  season: 0,
 };
 
-interface Match {
-  tournament: Tournament;
-  stage: Stage;
-  season: string;
-}
+// Long enough to read, short enough that the previous draw is not hidden for good
+const errorDuration = 5000;
 
 interface Props {
-  tournament: Tournament;
-  stage: Stage;
-  season: number;
-  onSeasonChange: (
-    tournament: Tournament,
-    stage: Stage,
-    season?: number,
-  ) => void;
+  route: DrawRoute;
 }
 
 interface State {
   Page: React.ComponentType<any> | null;
   pots: readonly (readonly Team[])[] | null;
-  // tournament: Tournament,
-  // stage: Stage,
-  season: number; // for error handling (so that we know the previous season)
+  season: number;
 }
 
-function Pages({
-  tournament,
-  stage,
-  season: providedSeason,
-  onSeasonChange,
-}: Props) {
-  const params = useParams();
+function Pages({ route }: Props) {
+  const { tournament, stage, season: requestedSeason } = route;
+
   const [, setPopup] = usePopup();
 
   const [{ Page, season, pots }, setState] = useState<State>(initialState);
@@ -69,8 +49,8 @@ function Pages({
     try {
       const potsPromise =
         tournament === 'wc'
-          ? getWcPots(providedSeason)
-          : getPotsFromBert(tournament, stage, providedSeason);
+          ? getWcPots(requestedSeason)
+          : getPotsFromBert(tournament, stage, requestedSeason);
 
       const newPage = await getPage(tournament, stage);
 
@@ -91,9 +71,7 @@ function Pages({
       setState({
         Page: newPage,
         pots: newPots,
-        // tournament,
-        // stage,
-        season: providedSeason,
+        season: requestedSeason,
       });
       refreshDrawId();
 
@@ -103,21 +81,15 @@ function Pages({
       });
     } catch (err) {
       console.error(err);
+
+      // The route is resolved against the data that exists before it gets here,
+      // so a failure now is the network or a bad chunk & navigating cannot fix it
       setPopup({
         waiting: false,
         error: 'Could not fetch data',
       });
 
-      await delay(1000);
-      const { tournament: newTournament, stage: newStage } =
-        params as unknown as Match;
-
-      const newSeason =
-        pots &&
-        providedSeason !== currentSeasonByTournament(newTournament, newStage)
-          ? providedSeason
-          : undefined;
-      onSeasonChange(newTournament, newStage, newSeason);
+      await delay(errorDuration);
       setPopup({
         error: null,
       });
@@ -126,7 +98,7 @@ function Pages({
 
   useEffect(() => {
     fetchData();
-  }, [providedSeason, stage, tournament]);
+  }, [requestedSeason, stage, tournament]);
 
   const isUefaClubTournament =
     tournament === 'cl' || tournament === 'el' || tournament === 'ecl';
@@ -137,7 +109,7 @@ function Pages({
       <Page
         key={drawId}
         tournament={tournament}
-        stage={params.stage}
+        stage={stage}
         season={season}
         pots={pots}
         isFirstPotShortDraw={isUefaClubTournament && season >= 2021}

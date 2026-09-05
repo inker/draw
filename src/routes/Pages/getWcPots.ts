@@ -1,4 +1,4 @@
-import { memoize } from 'lodash';
+import pMemoize from 'p-memoize';
 
 import parseWc from '#model/parsePotsData/wc';
 
@@ -29,4 +29,5 @@ async function getWcPots(season: number) {
   };
 }
 
-export default memoize(getWcPots);
+// The default cache key is the first argument, which is the season here
+export default pMemoize(getWcPots);

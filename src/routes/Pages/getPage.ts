@@ -15,13 +15,12 @@ export default async (tournament: Tournament, stage: Stage) => {
   // TODO
   const tournamentDir = tournament === 'ecl' ? 'el' : tournament;
 
-  try {
-    const mod = await import(
-      /* webpackChunkName: "[request]" */
-      `../../pages/${tournamentDir}/${stage}`
-    );
-    return mod?.default;
-  } catch (err) {
-    console.error(err);
-  }
+  // Swallowing this used to leave the page blank with nothing said,
+  // which is what selecting the World Cup did until the route resolver ruled it out
+  const mod = await import(
+    /* webpackChunkName: "[request]" */
+    `../../pages/${tournamentDir}/${stage}`
+  );
+
+  return mod.default;
 };
