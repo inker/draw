@@ -4,11 +4,13 @@ import WorkerManager from '#utils/WorkerManager';
 import type Tournament from '#model/Tournament';
 import { type UefaCountry } from '#model/types';
 import incompatibleCountries from '#engine/predicates/uefa/utils/incompatibleCountries';
+import bannedFixtures from '#engine/predicates/uefa/utils/bannedFixtures';
 
 import generateFull from './generateFull';
 import getFirstSuitableMatch from './getFirstSuitableMatch.wrapper';
 
 interface Team {
+  readonly name: string;
   readonly country: UefaCountry;
 }
 
@@ -64,13 +66,15 @@ export default async function* generatePairings<T extends Team>({
   allGames = [...allGames, ...allGames.map(([a, b]) => [b, a] as const)];
 
   const isCountryIncompatibleWith = incompatibleCountries(season);
+  const isFixtureBanned = bannedFixtures(tournament, season);
 
   allGames = allGames.filter(([h, a]) => {
     const hTeam = teams[h];
     const aTeam = teams[a];
     const isImpossible =
       hTeam.country === aTeam.country ||
-      isCountryIncompatibleWith(hTeam)(aTeam);
+      isCountryIncompatibleWith(hTeam)(aTeam) ||
+      isFixtureBanned(hTeam, aTeam);
     return !isImpossible;
   });
 
