@@ -1,4 +1,5 @@
 import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import pLimit from 'p-limit';
 import delay from 'delay.js';
 import { orderBy } from 'lodash';
@@ -37,15 +38,38 @@ function LeagueStage({ tournament, season, pots: initialPots }: Props) {
   const numMatchdays =
     tournament === 'ecl' ? initialPots.length : initialPots.length * 2;
 
+  const [searchParam] = useSearchParams();
+
   const numMatches = useMemo(() => {
     const numTeams = initialPots.flat().length;
     return (numTeams * numMatchdays) / 2;
   }, [initialPots, numMatchdays]);
 
   // Lazily, or every render burns 32 bytes of entropy it then throws away.
-  const [seed] = useState(
-    () => globalThis.crypto.getRandomValues(new Uint8Array(32)).buffer,
-  );
+  const [seed] = useState(() => {
+    const str = searchParam.get('seed');
+    if (str) {
+      try {
+        return Uint8Array.fromBase64(str, {
+          alphabet: 'base64url',
+        }).buffer;
+      } catch {
+        // swallow
+      }
+    }
+    return globalThis.crypto.getRandomValues(new Uint8Array(32)).buffer;
+  });
+
+  useEffect(() => {
+    // eslint-disable-next-line no-console
+    console.log(
+      'seed:',
+      new Uint8Array(seed).toBase64({
+        alphabet: 'base64url',
+        omitPadding: true,
+      }),
+    );
+  }, [seed]);
 
   const prngGeneratorPromise = useMemo(async () => {
     const getGenerator = await prng(seed);
