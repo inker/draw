@@ -1,5 +1,3 @@
-import { shuffle } from 'lodash';
-
 import raceWorkers from '#utils/raceWorkers';
 import { type UefaCountry } from '#model/types';
 import coldCountries from '#engine/predicates/uefa/utils/coldCountries';
@@ -18,6 +16,7 @@ export default ({
   matchdaySize,
   allGames,
   openingHostTeamIndex,
+  randomSeed,
   getNumWorkers,
   signal,
 }: {
@@ -26,6 +25,7 @@ export default ({
   matchdaySize: number;
   allGames: readonly (readonly [number, number])[];
   openingHostTeamIndex?: number;
+  randomSeed: number;
   getNumWorkers: () => number;
   signal?: AbortSignal;
 }) =>
@@ -33,9 +33,7 @@ export default ({
     numWorkers: getNumWorkers,
     getWorker: () =>
       new Worker(new URL('./assignGamesToMatchdays.worker', import.meta.url)),
-    getPayload: () => {
-      const allGamesShuffled = shuffle(allGames);
-
+    getPayload: ({ workerIndex, attempt }) => {
       const cannotHostSameDayPairs = teamsThatCannotHostSameDay
         .map(namePair => {
           const [a, b] = namePair;
@@ -55,10 +53,18 @@ export default ({
       // so the input order only seeds tie-breaking
       return {
         matchdaySize,
-        allGames: allGamesShuffled,
+        allGames,
         coldTeamIndices,
         cannotHostSameDayPairs,
         openingHostTeamIndex,
+        // The solver is deterministic in its seed
+        // & every worker is handed the same games,
+        // so without an offset of its own
+        // each worker would repeat the identical search
+        // & the race would buy nothing.
+        // Two irrationals keep worker & attempt off each other's offsets.
+        randomSeed:
+          (randomSeed + workerIndex * Math.SQRT2 + attempt * Math.PI) % 1,
       };
     },
     getTimeout: () => 5000,

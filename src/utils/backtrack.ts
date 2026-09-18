@@ -50,8 +50,10 @@ const searchWithBudget = <Choice>(
 /**
  * Depth-first search over mutable state with undo.
  * Backtracking often has heavy-tailed runtimes,
- * so the search is restarted with a doubling node budget,
- * assuming getCandidates is randomised & restarts explore different regions.
+ * so the search is restarted with a doubling node budget.
+ * That only pays off while getCandidates varies between restarts,
+ * whether from a random source
+ * or from a sequence that carries on across them rather than resetting.
  * Budget exhaustion unwinds through undo,
  * so the state is guaranteed to be back at the root before each restart.
  * A search that exhausts the space without hitting the budget is a definitive failure & returns false.

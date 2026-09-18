@@ -1,7 +1,7 @@
 import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import pLimit from 'p-limit';
 import delay from 'delay.js';
-import { orderBy, random, shuffle } from 'lodash';
+import { orderBy } from 'lodash';
 
 import usePopup from '#store/usePopup';
 import useFastDraw from '#store/useFastDraw';
@@ -13,6 +13,8 @@ import generateSchedule from '#engine/dfs/ls/generateSchedule/index';
 import usePageVisible from '#utils/hooks/usePageVisible';
 import formatDuration from '#utils/formatDuration';
 import useTimer from '#utils/hooks/useTimer';
+import prng from '#utils/prng';
+import prngShuffle from '#utils/prngShuffle';
 import Button from '#ui/Button';
 import Portal from '#ui/Portal';
 import TeamBowl from '#ui/bowls/TeamBowl';
@@ -39,6 +41,16 @@ function LeagueStage({ tournament, season, pots: initialPots }: Props) {
     const numTeams = initialPots.flat().length;
     return (numTeams * numMatchdays) / 2;
   }, [initialPots, numMatchdays]);
+
+  // Lazily, or every render burns 32 bytes of entropy it then throws away.
+  const [seed] = useState(
+    () => globalThis.crypto.getRandomValues(new Uint8Array(32)).buffer,
+  );
+
+  const prngGeneratorPromise = useMemo(async () => {
+    const getGenerator = await prng(seed);
+    return getGenerator();
+  }, [seed]);
 
   const [, setPopup] = usePopup();
   const [isFastDraw] = useFastDraw();
@@ -73,9 +85,11 @@ function LeagueStage({ tournament, season, pots: initialPots }: Props) {
 
   const pots = useMemo(() => [...initialPots], [initialPots]);
 
-  const [displayedPots, setDisplayedPots] = useState(
-    pots.map(pot => shuffle(pot)),
-  );
+  const [displayedPots, setDisplayedPots] = useState(pots);
+  // The shuffle is async, so the pots render in their source order for a tick.
+  // Fast draw picks the first ball & has to wait that out,
+  // or the first pick of a seeded draw comes off an unseeded order.
+  const [arePotsShuffled, setArePotsShuffled] = useState(false);
 
   const allTeams = useMemo(() => pots.flat(), [pots]);
 
@@ -93,8 +107,25 @@ function LeagueStage({ tournament, season, pots: initialPots }: Props) {
   }, []);
 
   useEffect(() => {
-    setDisplayedPots(pots.map(pot => shuffle(pot)));
-  }, [pots]);
+    setArePotsShuffled(false);
+    (async () => {
+      const prngGenerator = await prngGeneratorPromise;
+      // One at a time: the generator is a single cursor,
+      // so concurrent draws would take their slices of the stream
+      // in whatever order the event loop resumed them.
+      const newDisplayedPots: (readonly Team[])[] = [];
+      for (const pot of pots) {
+        // eslint-disable-next-line no-await-in-loop
+        const shuffledPot = await prngShuffle({
+          array: pot,
+          prngGenerator,
+        });
+        newDisplayedPots.push(shuffledPot);
+      }
+      setDisplayedPots(newDisplayedPots);
+      setArePotsShuffled(true);
+    })();
+  }, [pots, prngGeneratorPromise]);
 
   useEffect(() => {
     if (!selectedTeam) {
@@ -112,7 +143,9 @@ function LeagueStage({ tournament, season, pots: initialPots }: Props) {
 
       animationDurationMsRef.current = 1000 / (pairings.length / 100 + 1);
 
+      const prngGenerator = await prngGeneratorPromise;
       const generator = generatePairings({
+        prngGenerator,
         season,
         tournament,
         pots,
@@ -179,6 +212,7 @@ function LeagueStage({ tournament, season, pots: initialPots }: Props) {
 
     if (isScheduleGenerating) {
       const formSchedule = async () => {
+        const prngGenerator = await prngGeneratorPromise;
         const it = await generateSchedule({
           season,
           tournament,
@@ -192,6 +226,7 @@ function LeagueStage({ tournament, season, pots: initialPots }: Props) {
                 : navigator.hardwareConcurrency >> 2,
             ),
           signal: abortController.signal,
+          prngGenerator,
         });
         setSchedule(it.solutionSchedule);
         setIsMatchdayMode(true);
@@ -235,12 +270,10 @@ function LeagueStage({ tournament, season, pots: initialPots }: Props) {
     // don't start a competing draw while one is still running: overlapping
     // draws corrupt the shared pairing state (duplicate or missing games),
     // which then makes the schedule unsolvable
-    if (isFastDraw && !isGeneratingPairings) {
-      const currentPot = displayedPots[currentPotIndex];
-      const index = random(currentPot.length - 1);
-      handleTeamBallPick(index);
+    if (isFastDraw && arePotsShuffled && !isGeneratingPairings) {
+      handleTeamBallPick(0);
     }
-  }, [isFastDraw, isGeneratingPairings, displayedPots]);
+  }, [isFastDraw, arePotsShuffled, isGeneratingPairings, displayedPots]);
 
   return (
     <div className={styles.root}>

@@ -1,4 +1,5 @@
 import { findFirstSolutionMutable } from '#utils/backtrack';
+import lowDiscrepancySequence from '#utils/lowDiscrepancySequence';
 import { type Country } from '#model/types';
 
 interface Team {
@@ -18,6 +19,7 @@ export default ({
   isPairedPotMode,
   allGames,
   allocatedMatches,
+  randomSeed = 0,
 }: {
   teams: readonly Team[];
   numPots: number;
@@ -27,6 +29,10 @@ export default ({
   isPairedPotMode: boolean;
   allGames: readonly (readonly [number, number])[];
   allocatedMatches: readonly (readonly [number, number])[];
+  /**
+   * Where in [0, 1) this solver's tie-breaking sequence starts
+   */
+  randomSeed?: number;
 }) => {
   const numTeams = teams.length;
   const numTotalGames = numMatchdays * numGamesPerMatchday;
@@ -390,6 +396,8 @@ export default ({
     return false;
   };
 
+  const nextRandom = lowDiscrepancySequence(randomSeed);
+
   const getCandidates = (): readonly (readonly [number, number])[] => {
     if (hasUndersuppliedBlock() || hasUncoverableSlot()) {
       return [];
@@ -401,7 +409,8 @@ export default ({
     const awayPot = potPair % numPots;
 
     // home team: hardest country to place first
-    // (random tie-breaking, so restarts explore different regions)
+    // ties broken off the seeded sequence,
+    // which carries on across restarts so each one explores a new region
     let homeTeam = -1;
     let homeTeamScore = -1;
     let numTies = 1;
@@ -417,7 +426,7 @@ export default ({
         numTies = 1;
       } else if (score === homeTeamScore) {
         ++numTies;
-        if (Math.random() * numTies < 1) {
+        if (nextRandom() * numTies < 1) {
           homeTeam = team;
         }
       }
@@ -433,7 +442,7 @@ export default ({
     const awayPots = isPairedPotMode ? [awayPot, awayPot ^ 1] : [awayPot];
 
     // opponents: hardest country first,
-    // then the most constrained opponent, random tie-breaking
+    // then the most constrained opponent, ties broken the same way
     const scoredGames: (readonly [number, number])[] = [];
     for (const pot of awayPots) {
       for (const a of awayTeamsByHomeTeamAndPot[homeTeam * numPots + pot]) {
@@ -447,7 +456,7 @@ export default ({
         const score =
           -numTeamsByCountry[countryByTeam[a]] * 100 -
           numGamesPlayed +
-          Math.random() * 0.5;
+          nextRandom() * 0.5;
         scoredGames.push([a, score]);
       }
     }

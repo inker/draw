@@ -1,6 +1,8 @@
-import { difference, range, remove, shuffle } from 'lodash';
+import { difference, range, remove } from 'lodash';
 
 import WorkerManager from '#utils/WorkerManager';
+import prngFloat from '#utils/prngFloat';
+import prngShuffle from '#utils/prngShuffle';
 import type Tournament from '#model/Tournament';
 import { type UefaCountry } from '#model/types';
 import incompatibleCountries from '#engine/predicates/uefa/utils/incompatibleCountries';
@@ -15,6 +17,7 @@ interface Team {
 }
 
 export default async function* generatePairings<T extends Team>({
+  prngGenerator,
   season,
   tournament,
   pots,
@@ -24,6 +27,7 @@ export default async function* generatePairings<T extends Team>({
   virtualGeneratedMatches,
   signal,
 }: {
+  prngGenerator: AsyncGenerator<ArrayBuffer, never, unknown>;
   season: number;
   tournament: Tournament;
   pots: readonly (readonly T[])[];
@@ -99,11 +103,15 @@ export default async function* generatePairings<T extends Team>({
       );
     }
 
+    allGames = await prngShuffle({
+      array: allGames,
+      prngGenerator,
+    });
+
     while (
       !shouldStop &&
       virtualGeneratedMatches.length < numMatchdays * numGamesPerMatchday
     ) {
-      allGames = shuffle(allGames);
       const payload = {
         teams,
         numPots,
@@ -113,6 +121,10 @@ export default async function* generatePairings<T extends Team>({
         isPairedPotMode,
         allGames,
         allocatedMatches: virtualGeneratedMatchesWithIndices,
+        // A fresh offset per pick, so the solver is not making the same
+        // tie-break choices over & over as the allocated set grows.
+        // eslint-disable-next-line no-await-in-loop
+        randomSeed: await prngFloat(prngGenerator),
       } satisfies Omit<Parameters<typeof getFirstSuitableMatch>[0], 'worker'>;
       // eslint-disable-next-line no-await-in-loop
       const pickedMatch = await getFirstSuitableMatch({

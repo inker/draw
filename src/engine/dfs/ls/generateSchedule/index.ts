@@ -1,8 +1,10 @@
-import { keyBy, shuffle, uniq } from 'lodash';
+import { keyBy, uniq } from 'lodash';
 
 import { getSeasonFacts } from '#data/seasonFacts';
 import { type UefaCountry } from '#model/types';
 import type Tournament from '#model/Tournament';
+import prngFloat from '#utils/prngFloat';
+import prngShuffle from '#utils/prngShuffle';
 
 import assignGamesToMatchdays from './assignGamesToMatchdays.wrapper';
 import splitMatchdaysIntoDays, {
@@ -21,6 +23,7 @@ export default async function generateSchedule<T extends Team>({
   matchdaySize,
   allGames: allGamesWithIds,
   getNumWorkers,
+  prngGenerator,
   signal,
 }: {
   season: number;
@@ -28,6 +31,7 @@ export default async function generateSchedule<T extends Team>({
   matchdaySize: number;
   allGames: readonly (readonly [T, T])[];
   getNumWorkers: () => number;
+  prngGenerator: AsyncGenerator<ArrayBuffer, never, unknown>;
   signal?: AbortSignal;
 }) {
   const allNonUniqueTeams = allGamesWithIds.flat();
@@ -51,17 +55,36 @@ export default async function generateSchedule<T extends Team>({
     ? allTeams.findIndex(team => team.name === titleHolder)
     : -1;
 
+  const allGamesShuffled = await prngShuffle({
+    array: allGamesUnordered,
+    prngGenerator,
+  });
+
   const result = await assignGamesToMatchdays({
     season,
     teams: allTeams,
     matchdaySize,
-    allGames: allGamesUnordered,
+    allGames: allGamesShuffled,
     openingHostTeamIndex,
+    randomSeed: await prngFloat(prngGenerator),
     getNumWorkers,
     signal,
   });
 
-  const shuffledMatchdaysSource = result.map(md => shuffle(md));
+  // Drawn one at a time rather than through Promise.all:
+  // the generator is a single cursor,
+  // so concurrent consumers would have their slices of the stream
+  // decided by the order the event loop happens to resume them in.
+  const shuffledMatchdaysSource: (readonly (readonly [number, number])[])[] =
+    [];
+  for (const md of result) {
+    // eslint-disable-next-line no-await-in-loop
+    const shuffled = await prngShuffle({
+      array: md,
+      prngGenerator,
+    });
+    shuffledMatchdaysSource.push(shuffled);
+  }
 
   const matchdays = splitMatchdaysIntoDays({
     matchdays: shuffledMatchdaysSource,
@@ -72,7 +95,9 @@ export default async function generateSchedule<T extends Team>({
     titleHolder,
   });
 
-  const shuffledMatchdaysResult = matchdays.map((md, matchdayIndex) => {
+  const shuffledMatchdaysResult: (readonly (readonly [number, number])[])[][] =
+    [];
+  for (const [matchdayIndex, md] of matchdays.entries()) {
     const numFixedDays =
       hasOpeningMatch(tournament, season) && matchdayIndex === 0 ? 1 : 0;
     const swappableDays = md.slice(numFixedDays);
@@ -84,11 +109,26 @@ export default async function generateSchedule<T extends Team>({
       day => day.length === firstDayLength,
     );
 
-    return [
-      ...md.slice(0, numFixedDays),
-      ...(areDaysInterchangeable ? shuffle(swappableDays) : swappableDays),
-    ].map(day => shuffle(day));
-  });
+    let orderedDays = swappableDays;
+    if (areDaysInterchangeable) {
+      // eslint-disable-next-line no-await-in-loop
+      orderedDays = await prngShuffle({
+        array: swappableDays,
+        prngGenerator,
+      });
+    }
+
+    const shuffledDays: (readonly (readonly [number, number])[])[] = [];
+    for (const day of [...md.slice(0, numFixedDays), ...orderedDays]) {
+      // eslint-disable-next-line no-await-in-loop
+      const shuffledDay = await prngShuffle({
+        array: day,
+        prngGenerator,
+      });
+      shuffledDays.push(shuffledDay);
+    }
+    shuffledMatchdaysResult.push(shuffledDays);
+  }
 
   const solutionSchedule = shuffledMatchdaysResult.map(md =>
     md.map(day =>

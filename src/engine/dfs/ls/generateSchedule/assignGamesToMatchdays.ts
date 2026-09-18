@@ -1,6 +1,7 @@
 import { range } from 'lodash';
 
 import { findFirstSolutionMutable } from '#utils/backtrack';
+import lowDiscrepancySequence from '#utils/lowDiscrepancySequence';
 
 import createHomeAwayPatterns from './homeAwayPatterns';
 
@@ -10,6 +11,7 @@ export default ({
   coldTeamIndices,
   cannotHostSameDayPairs,
   openingHostTeamIndex = -1,
+  randomSeed = 0,
 }: {
   matchdaySize: number;
   allGames: readonly (readonly [number, number])[];
@@ -19,6 +21,12 @@ export default ({
    * The club that has to be at home on the first matchday, or -1 when none does
    */
   openingHostTeamIndex?: number;
+  /**
+   * Where in [0, 1) this solver's tie-breaking sequence starts.
+   * Two solvers given the same seed search identically,
+   * so racing instances have to be handed different ones.
+   */
+  randomSeed?: number;
 }) => {
   const numGames = allGames.length;
   const numMatchdays = numGames / matchdaySize;
@@ -166,6 +174,8 @@ export default ({
     return false;
   };
 
+  const nextRandom = lowDiscrepancySequence(randomSeed);
+
   const solved = findFirstSolutionMutable<readonly [number, number]>({
     isSolved: () => numUnassignedGames === 0,
 
@@ -175,8 +185,9 @@ export default ({
         fillOrder.find(m => numMatchesByMatchday[m] < matchdaySize) ?? -1;
 
       // MRV within the active matchday:
-      // extend the team with the fewest feasible games
-      // (random tie-breaking, so restarts explore different regions)
+      // extend the team with the fewest feasible games,
+      // ties broken off the seeded sequence,
+      // so differently seeded instances explore different regions
       let pickedTeam = -1;
       let pickedGames: number[] = [];
       let numTies = 1;
@@ -197,14 +208,14 @@ export default ({
           numTies = 1;
         } else if (feasibleGames.length === pickedGames.length) {
           ++numTies;
-          if (Math.random() * numTies < 1) {
+          if (nextRandom() * numTies < 1) {
             pickedTeam = team;
             pickedGames = feasibleGames;
           }
         }
       }
 
-      // most constrained opponent first, random tie-breaking
+      // most constrained opponent first, ties broken the same way
       const scoredGames = pickedGames.map(g => {
         const [h, a] = allGames[g];
         const opponent = h === pickedTeam ? a : h;
@@ -214,7 +225,7 @@ export default ({
             ++numOpponentOptions;
           }
         }
-        return [g, numOpponentOptions + Math.random() * 0.5] as const;
+        return [g, numOpponentOptions + nextRandom() * 0.5] as const;
       });
       scoredGames.sort((x, y) => x[1] - y[1]);
 
