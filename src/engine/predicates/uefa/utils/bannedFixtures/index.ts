@@ -1,8 +1,5 @@
-import { stubFalse } from 'lodash';
-
+import { getSeasonFacts } from '#data/seasonFacts';
 import type Tournament from '#model/Tournament';
-
-import constraints from './constraints';
 
 interface WithName {
   readonly name: string;
@@ -16,13 +13,7 @@ const toKey = <A extends string, B extends string>(homeTeam: A, awayTeam: B) =>
 type Key = ReturnType<typeof toKey>;
 
 export default (tournament: Tournament, season: number) => {
-  const banList = constraints.find(
-    item => item.tournament === tournament && item.season === season,
-  )?.fixtures;
-
-  if (!banList) {
-    return stubFalse;
-  }
+  const banList = getSeasonFacts(tournament, season)?.bannedFixtures ?? [];
 
   const banListKeys = new Set<Key>(
     banList.map(([homeTeam, awayTeam]) => toKey(homeTeam, awayTeam)),

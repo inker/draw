@@ -39,6 +39,21 @@ describe('assignGamesToMatchdays', () => {
     }
   });
 
+  it('keeps the opening host at home on the first matchday', () => {
+    // run a few times: the split is randomised, the constraint must always hold
+    for (let i = 0; i < 20; ++i) {
+      const result = assignGamesToMatchdays({
+        matchdaySize: 2,
+        allGames,
+        coldTeamIndices: [],
+        cannotHostSameDayPairs: [],
+        openingHostTeamIndex: 2,
+      });
+
+      expect(result[0].some(([h]) => h === 2)).toBe(true);
+    }
+  });
+
   it('keeps a cold club away on the final matchday', () => {
     // run a few times: the split is randomised, the constraint must always hold
     for (let i = 0; i < 20; ++i) {

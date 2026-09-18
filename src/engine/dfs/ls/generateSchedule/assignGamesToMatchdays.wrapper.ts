@@ -17,6 +17,7 @@ export default ({
   teams,
   matchdaySize,
   allGames,
+  openingHostTeamIndex,
   getNumWorkers,
   signal,
 }: {
@@ -24,6 +25,7 @@ export default ({
   teams: readonly Team[];
   matchdaySize: number;
   allGames: readonly (readonly [number, number])[];
+  openingHostTeamIndex?: number;
   getNumWorkers: () => number;
   signal?: AbortSignal;
 }) =>
@@ -56,6 +58,7 @@ export default ({
         allGames: allGamesShuffled,
         coldTeamIndices,
         cannotHostSameDayPairs,
+        openingHostTeamIndex,
       };
     },
     getTimeout: () => 5000,

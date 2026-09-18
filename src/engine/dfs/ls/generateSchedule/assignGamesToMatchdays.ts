@@ -9,11 +9,16 @@ export default ({
   allGames,
   coldTeamIndices,
   cannotHostSameDayPairs,
+  openingHostTeamIndex = -1,
 }: {
   matchdaySize: number;
   allGames: readonly (readonly [number, number])[];
   coldTeamIndices: readonly number[];
   cannotHostSameDayPairs: readonly (readonly [number, number])[];
+  /**
+   * The club that has to be at home on the first matchday, or -1 when none does
+   */
+  openingHostTeamIndex?: number;
 }) => {
   const numGames = allGames.length;
   const numMatchdays = numGames / matchdaySize;
@@ -140,6 +145,12 @@ export default ({
     }
 
     if (md === lastMatchday && isColdTeam[h]) {
+      return true;
+    }
+
+    // The holders host the opening match,
+    // so the one game they have on the first matchday cannot be an away game.
+    if (md === 0 && a === openingHostTeamIndex) {
       return true;
     }
 

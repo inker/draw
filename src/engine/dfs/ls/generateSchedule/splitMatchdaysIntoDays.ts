@@ -2,7 +2,6 @@ import {
   chunk,
   countBy,
   difference,
-  groupBy,
   mapValues,
   orderBy,
   shuffle,
@@ -19,48 +18,135 @@ interface Team {
   readonly country: UefaCountry;
 }
 
+/**
+ * The season the Champions League starts opening with a match of its own,
+ * played by the holders a day before the rest of matchday 1
+ */
+export const firstSeasonWithOpeningMatch = 2027;
+
+export const hasOpeningMatch = (tournament: Tournament, season: number) =>
+  tournament === 'cl' && season >= firstSeasonWithOpeningMatch;
+
+// TODO: remove this hardcode
+function getDayCapacities({
+  tournament,
+  season,
+  matchdayIndex,
+  numMatchdays,
+  matchdaySize,
+}: {
+  tournament: Tournament;
+  season: number;
+  matchdayIndex: number;
+  numMatchdays: number;
+  matchdaySize: number;
+}) {
+  // Matchday 1 is checked before the last matchday,
+  // so that a one-matchday draw still opens the way a full season does
+  if (tournament === 'cl' && matchdayIndex === 0) {
+    if (!hasOpeningMatch(tournament, season)) {
+      return [matchdaySize / 3, matchdaySize / 3, matchdaySize / 3];
+    }
+    // 1-9-8 for a full Champions League matchday
+    const rest = matchdaySize - 1;
+    return [1, Math.ceil(rest / 2), Math.floor(rest / 2)];
+  }
+
+  if (matchdayIndex === numMatchdays - 1) {
+    return [matchdaySize];
+  }
+
+  return [matchdaySize / 2, matchdaySize / 2];
+}
+
+const findOpeningMatch = ({
+  matchday,
+  teams,
+  titleHolder,
+}: {
+  matchday: readonly (readonly [number, number])[];
+  teams: readonly Team[];
+  titleHolder: string | undefined;
+}) => {
+  if (!titleHolder) {
+    throw new Error(
+      'No title holder is on record for this season, so there is no opening match to schedule',
+    );
+  }
+  // The holders host the opener, so only their home game qualifies.
+  // assignGamesToMatchdays is what guarantees they have one on this matchday.
+  const match = matchday.find(([home]) => teams[home].name === titleHolder);
+  if (!match) {
+    throw new Error(
+      `The title holder on record, ${titleHolder}, is not at home on the first matchday`,
+    );
+  }
+  return match;
+};
+
 export default ({
   matchdays,
   tournament,
+  season,
   matchdaySize,
   teams,
+  titleHolder,
 }: {
   matchdays: readonly (readonly [number, number])[][];
   tournament: Tournament;
+  season: number;
   matchdaySize: number;
   teams: readonly Team[];
+  titleHolder?: string;
 }) => {
   const numMatchdays = matchdays.length;
 
-  const numTeamsByCountry = countBy(teams, team => team.country);
-  const allCountries = Object.keys(numTeamsByCountry) as UefaCountry[];
-
-  // Team indices grouped by country, each ordered by popularity (most first),
-  // falling back to seeding position for clubs that aren't listed.
-  const orderedIndicesByCountry = mapValues(
-    groupBy(
-      teams.map((_, i) => i),
-      i => teams[i].country,
-    ),
-    indices => orderBy(indices, i => popularityRank(teams[i], i)),
-  );
-
   const newMatchdays: (readonly [number, number])[][][] = [];
   for (const [matchdayIndex, md] of matchdays.entries()) {
-    const shuffledMd = shuffle(md);
-    const days = Array.from(
-      {
-        // TODO: remove this hardcode
-        length:
-          tournament === 'cl' && matchdayIndex === 0
-            ? 3
-            : matchdayIndex === numMatchdays - 1
-              ? 1
-              : 2,
-      },
-      () => [] as (readonly [number, number])[],
+    const dayCapacities = getDayCapacities({
+      tournament,
+      season,
+      matchdayIndex,
+      numMatchdays,
+      matchdaySize,
+    });
+
+    // The opening match is settled by who holds the title rather than by this solver,
+    // so it comes out of the matchday before the rest is split over the days that are left.
+    const openingMatch =
+      hasOpeningMatch(tournament, season) && matchdayIndex === 0
+        ? findOpeningMatch({
+            matchday: md,
+            teams,
+            titleHolder,
+          })
+        : undefined;
+
+    const capacities = openingMatch ? dayCapacities.slice(1) : dayCapacities;
+    const areDaysInterchangeable = capacities.every(
+      capacity => capacity === capacities[0],
     );
-    const numGamesPerDay = matchdaySize / days.length;
+
+    const matchesToSplit = openingMatch
+      ? md.filter(match => match !== openingMatch)
+      : md;
+    const shuffledMd = shuffle(matchesToSplit);
+    const days = capacities.map(() => [] as (readonly [number, number])[]);
+
+    // Counted over the clubs still to be placed rather than the whole field:
+    // the opening match is already on a day of its own,
+    // so letting its two clubs keep a share of the remaining days' allowance
+    // would buy their compatriots a slot nobody needs.
+    const teamsToSplit = matchesToSplit.flat();
+    const numTeamsByCountry = countBy(teamsToSplit, i => teams[i].country);
+    const allCountries = Object.keys(numTeamsByCountry) as UefaCountry[];
+
+    // Team indices grouped by country, each ordered by popularity (most first),
+    // falling back to seeding position for clubs that aren't listed.
+    const orderedIndicesByCountry = mapValues(
+      Object.groupBy(teamsToSplit, i => teams[i].country),
+      indices => orderBy(indices, i => popularityRank(teams[i], i)),
+    );
 
     // The most popular clubs from a country must play on different days:
     // chunk each country's popularity order into groups the size of the day
@@ -135,12 +221,12 @@ export default ({
           getCandidates: () => {
             const matchIndex = numPlaced;
             // Anchor the first match to day 0 to break day-permutation
-            // symmetry.
-            const candidateDays =
-              matchIndex === 0 ? [0] : days.map((_, day) => day);
+            // symmetry, which only exists while the days are the same size.
+            const isAnchored = matchIndex === 0 && areDaysInterchangeable;
+            const candidateDays = isAnchored ? [0] : days.map((_, day) => day);
 
             const feasibleDays = candidateDays.filter(day => {
-              if (numMatchesByDay[day] === numGamesPerDay) {
+              if (numMatchesByDay[day] === capacities[day]) {
                 return false;
               }
               for (const team of shuffledMd[matchIndex]) {
@@ -167,7 +253,7 @@ export default ({
               return true;
             });
 
-            if (matchIndex === 0) {
+            if (isAnchored) {
               return feasibleDays.map(day => [matchIndex, day] as const);
             }
 
@@ -227,7 +313,16 @@ export default ({
       days[day].push(shuffledMd[matchIndex]);
     }
 
-    newMatchdays.push(shuffle(days.map(day => shuffle(day))));
+    // Days of different sizes sit at fixed points in the calendar,
+    // so only same-sized ones can be swapped round.
+    const shuffledDays = days.map(day => shuffle(day));
+    const orderedDays = areDaysInterchangeable
+      ? shuffle(shuffledDays)
+      : shuffledDays;
+
+    newMatchdays.push(
+      openingMatch ? [[openingMatch], ...orderedDays] : orderedDays,
+    );
   }
 
   return newMatchdays;
