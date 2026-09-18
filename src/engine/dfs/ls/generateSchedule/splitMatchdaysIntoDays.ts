@@ -1,4 +1,4 @@
-import { chunk, difference, orderBy, range, shuffle } from 'lodash';
+import { chunk, difference, orderBy, range } from 'lodash';
 
 import { type UefaCountry } from '#model/types';
 import type Tournament from '#model/Tournament';
@@ -195,13 +195,16 @@ const findDayAssignment = ({
           )!;
           const preferredDays = isAnchored
             ? feasibleDays
-            : orderBy(shuffle(feasibleDays), day => {
-                const first =
-                  firstCounts[day] === 0 ? -1_000_000 : firstCounts[day];
-                const second =
-                  secondCounts[day] === 0 ? -1_000_000 : secondCounts[day];
-                return first + second;
-              });
+            : orderBy(feasibleDays, [
+                day => {
+                  const first =
+                    firstCounts[day] === 0 ? -1_000_000 : firstCounts[day];
+                  const second =
+                    secondCounts[day] === 0 ? -1_000_000 : secondCounts[day];
+                  return first + second;
+                },
+                day => numMatchesByDay[day],
+              ]);
 
           return preferredDays.map(day => [matchIndex, day] as const);
         },
