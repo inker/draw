@@ -61,10 +61,10 @@ export default async function generateSchedule<T extends Team>({
     signal,
   });
 
-  const shuffledMatchdays = result.map(md => shuffle(md));
+  const shuffledMatchdaysSource = result.map(md => shuffle(md));
 
   const matchdays = splitMatchdaysIntoDays({
-    matchdays: shuffledMatchdays,
+    matchdays: shuffledMatchdaysSource,
     tournament,
     season,
     matchdaySize,
@@ -72,7 +72,25 @@ export default async function generateSchedule<T extends Team>({
     titleHolder,
   });
 
-  const solutionSchedule = matchdays.map(md =>
+  const shuffledMatchdaysResult = matchdays.map((md, matchdayIndex) => {
+    const numFixedDays =
+      hasOpeningMatch(tournament, season) && matchdayIndex === 0 ? 1 : 0;
+    const swappableDays = md.slice(numFixedDays);
+    const firstDayLength = swappableDays[0].length;
+
+    // Days of different sizes sit at fixed points in the calendar,
+    // so only same-sized ones can be swapped round.
+    const areDaysInterchangeable = swappableDays.every(
+      day => day.length === firstDayLength,
+    );
+
+    return [
+      ...md.slice(0, numFixedDays),
+      ...(areDaysInterchangeable ? shuffle(swappableDays) : swappableDays),
+    ].map(day => shuffle(day));
+  });
+
+  const solutionSchedule = shuffledMatchdaysResult.map(md =>
     md.map(day =>
       day.map(([h, a]) => {
         const ht = teamById[allTeamIds[h]];

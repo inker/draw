@@ -324,14 +324,7 @@ const splitMatchday = ({
     days[day].push(matchesToSplit[matchIndex]);
   }
 
-  // Days of different sizes sit at fixed points in the calendar,
-  // so only same-sized ones can be swapped round.
-  const shuffledDays = days.map(day => shuffle(day));
-  const orderedDays = areDaysInterchangeable
-    ? shuffle(shuffledDays)
-    : shuffledDays;
-
-  return openingMatch ? [[openingMatch], ...orderedDays] : orderedDays;
+  return openingMatch ? [[openingMatch], ...days] : days;
 };
 
 export default ({
