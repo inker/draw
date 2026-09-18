@@ -19,7 +19,7 @@ interface Item {
  * The list has to be rebuilt by hand once the pots for a new season are known,
  * since the app stores no results & cannot work out who has hosted whom.
  */
-const constraints = [
+export default [
   {
     tournament: 'cl',
     season: 2026,
@@ -29,5 +29,3 @@ const constraints = [
     ],
   },
 ] as const satisfies readonly Item[];
-
-export default constraints;

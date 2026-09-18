@@ -16,18 +16,18 @@ const toKey = <A extends string, B extends string>(homeTeam: A, awayTeam: B) =>
 type Key = ReturnType<typeof toKey>;
 
 export default (tournament: Tournament, season: number) => {
-  const fixtures = constraints.find(
+  const banList = constraints.find(
     item => item.tournament === tournament && item.season === season,
   )?.fixtures;
 
-  if (!fixtures) {
+  if (!banList) {
     return stubFalse;
   }
 
-  const bannedFixtures = new Set<Key>(
-    fixtures.map(([homeTeam, awayTeam]) => toKey(homeTeam, awayTeam)),
+  const banListKeys = new Set<Key>(
+    banList.map(([homeTeam, awayTeam]) => toKey(homeTeam, awayTeam)),
   );
 
   return (homeTeam: WithName, awayTeam: WithName) =>
-    bannedFixtures.has(toKey(homeTeam.name, awayTeam.name));
+    banListKeys.has(toKey(homeTeam.name, awayTeam.name));
 };
