@@ -1,4 +1,4 @@
-import { keyBy, uniq } from 'lodash';
+import { keyBy, shuffle, uniq } from 'lodash';
 
 import { getSeasonFacts } from '#data/seasonFacts';
 import { type UefaCountry } from '#model/types';
@@ -61,8 +61,10 @@ export default async function generateSchedule<T extends Team>({
     signal,
   });
 
+  const shuffledMatchdays = result.map(md => shuffle(md));
+
   const matchdays = splitMatchdaysIntoDays({
-    matchdays: result,
+    matchdays: shuffledMatchdays,
     tournament,
     season,
     matchdaySize,

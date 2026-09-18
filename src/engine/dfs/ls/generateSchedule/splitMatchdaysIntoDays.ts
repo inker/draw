@@ -309,9 +309,8 @@ const splitMatchday = ({
     }),
   );
 
-  const matches = shuffle(matchesToSplit);
   const dayAssignment = findDayAssignment({
-    matches,
+    matches: matchesToSplit,
     teams,
     capacities,
     countries: orderedTeamsByCountry.keys().toArray(),
@@ -322,7 +321,7 @@ const splitMatchday = ({
 
   const days = capacities.map(() => [] as Match[]);
   for (const [matchIndex, day] of dayAssignment.entries()) {
-    days[day].push(matches[matchIndex]);
+    days[day].push(matchesToSplit[matchIndex]);
   }
 
   // Days of different sizes sit at fixed points in the calendar,
