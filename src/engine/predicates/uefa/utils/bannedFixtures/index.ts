@@ -1,3 +1,5 @@
+import { stubFalse } from 'lodash';
+
 import type Tournament from '#model/Tournament';
 
 import constraints from './constraints';
@@ -14,10 +16,13 @@ const toKey = <A extends string, B extends string>(homeTeam: A, awayTeam: B) =>
 type Key = ReturnType<typeof toKey>;
 
 export default (tournament: Tournament, season: number) => {
-  const fixtures =
-    constraints.find(
-      item => item.tournament === tournament && item.season === season,
-    )?.fixtures ?? [];
+  const fixtures = constraints.find(
+    item => item.tournament === tournament && item.season === season,
+  )?.fixtures;
+
+  if (!fixtures) {
+    return stubFalse;
+  }
 
   const bannedFixtures = new Set<Key>(
     fixtures.map(([homeTeam, awayTeam]) => toKey(homeTeam, awayTeam)),
