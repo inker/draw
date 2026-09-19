@@ -7,8 +7,10 @@ export type Sha256Digest = ArrayBuffer & {
   byteLength: 32;
 };
 
-export default async (key: Parameters<typeof crypto.subtle.importKey>[1]) => {
-  const cryptoKey = await crypto.subtle.importKey(
+export default async (
+  key: Parameters<typeof globalThis.crypto.subtle.importKey>[1],
+) => {
+  const cryptoKey = await globalThis.crypto.subtle.importKey(
     'raw',
     key,
     {
@@ -18,9 +20,13 @@ export default async (key: Parameters<typeof crypto.subtle.importKey>[1]) => {
     false,
     ['sign'],
   );
-  return (data: Parameters<typeof crypto.subtle.sign>[2]) =>
+  return (data: Parameters<typeof globalThis.crypto.subtle.sign>[2]) =>
     // Asserted rather than inferred,
     // because crypto.subtle.sign is typed for every algorithm it accepts
     // & so can only promise an ArrayBuffer of some width or other.
-    crypto.subtle.sign('HMAC', cryptoKey, data) as Promise<Sha256Digest>;
+    globalThis.crypto.subtle.sign(
+      'HMAC',
+      cryptoKey,
+      data,
+    ) as Promise<Sha256Digest>;
 };
