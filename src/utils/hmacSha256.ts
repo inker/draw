@@ -1,4 +1,4 @@
-export default async (key: BufferSource) => {
+export default async (key: Parameters<typeof crypto.subtle.importKey>[1]) => {
   const cryptoKey = await crypto.subtle.importKey(
     'raw',
     key,
@@ -9,5 +9,6 @@ export default async (key: BufferSource) => {
     false,
     ['sign'],
   );
-  return (data: BufferSource) => crypto.subtle.sign('HMAC', cryptoKey, data);
+  return (data: Parameters<typeof crypto.subtle.sign>[2]) =>
+    crypto.subtle.sign('HMAC', cryptoKey, data);
 };

@@ -38,8 +38,8 @@ export default async function* ({
   seed,
 }: {
   byteLength: number;
-  seed: BufferSource;
-}): AsyncGenerator<ArrayBuffer, never, unknown> {
+  seed: Parameters<typeof hmacSha256>[0];
+}): AsyncGenerator<Awaited<ReturnType<typeof calcHmacSha256>>, never, unknown> {
   const calcHmacSha256 = await hmacSha256(seed);
   const counters = counterSequence(byteLength);
   for (;;) {
