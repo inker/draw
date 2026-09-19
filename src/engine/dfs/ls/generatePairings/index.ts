@@ -1,6 +1,7 @@
 import { difference, range, remove } from 'lodash';
 
 import WorkerManager from '#utils/WorkerManager';
+import { type PrngGenerator } from '#utils/prng';
 import prngFloat from '#utils/prngFloat';
 import prngShuffle from '#utils/prngShuffle';
 import type Tournament from '#model/Tournament';
@@ -27,7 +28,7 @@ export default async function* generatePairings<T extends Team>({
   virtualGeneratedMatches,
   signal,
 }: {
-  prngGenerator: AsyncGenerator<ArrayBuffer, never, unknown>;
+  prngGenerator: PrngGenerator;
   season: number;
   tournament: Tournament;
   pots: readonly (readonly T[])[];

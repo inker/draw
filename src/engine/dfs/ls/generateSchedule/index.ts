@@ -3,6 +3,7 @@ import { keyBy, uniq } from 'lodash';
 import { getSeasonFacts } from '#data/seasonFacts';
 import { type UefaCountry } from '#model/types';
 import type Tournament from '#model/Tournament';
+import { type PrngGenerator } from '#utils/prng';
 import prngFloat from '#utils/prngFloat';
 import prngShuffle from '#utils/prngShuffle';
 
@@ -31,7 +32,7 @@ export default async function generateSchedule<T extends Team>({
   matchdaySize: number;
   allGames: readonly (readonly [T, T])[];
   getNumWorkers: () => number;
-  prngGenerator: AsyncGenerator<ArrayBuffer, never, unknown>;
+  prngGenerator: PrngGenerator;
   signal?: AbortSignal;
 }) {
   const allNonUniqueTeams = allGamesWithIds.flat();

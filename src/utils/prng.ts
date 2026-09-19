@@ -1,4 +1,11 @@
-import hmacSha256 from './hmacSha256';
+import hmacSha256, { type Sha256Digest } from './hmacSha256';
+
+/**
+ * The stream every draw is dealt from,
+ * carrying the digest width
+ * so a consumer that needs a fixed number of bytes per pull can demand it
+ */
+export type PrngGenerator = AsyncGenerator<Sha256Digest, never, unknown>;
 
 /**
  * Counts up big-endian across `byteLength` bytes,
@@ -39,7 +46,7 @@ export default async function* ({
 }: {
   byteLength: number;
   seed: Parameters<typeof hmacSha256>[0];
-}): AsyncGenerator<Awaited<ReturnType<typeof calcHmacSha256>>, never, unknown> {
+}): PrngGenerator {
   const calcHmacSha256 = await hmacSha256(seed);
   const counters = counterSequence(byteLength);
   for (;;) {
