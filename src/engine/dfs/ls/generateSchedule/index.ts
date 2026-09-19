@@ -61,13 +61,15 @@ export default async function generateSchedule<T extends Team>({
     prngGenerator,
   });
 
+  const randomSeed = await prngFloat(prngGenerator);
+
   const result = await assignGamesToMatchdays({
     season,
     teams: allTeams,
     matchdaySize,
     allGames: allGamesShuffled,
     openingHostTeamIndex,
-    randomSeed: await prngFloat(prngGenerator),
+    randomSeed,
     getNumWorkers,
     signal,
   });

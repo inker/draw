@@ -113,6 +113,9 @@ export default async function* generatePairings<T extends Team>({
       !shouldStop &&
       virtualGeneratedMatches.length < numMatchdays * numGamesPerMatchday
     ) {
+      // eslint-disable-next-line no-await-in-loop
+      const randomSeed = await prngFloat(prngGenerator);
+
       const payload = {
         teams,
         numPots,
@@ -124,8 +127,7 @@ export default async function* generatePairings<T extends Team>({
         allocatedMatches: virtualGeneratedMatchesWithIndices,
         // A fresh offset per pick, so the solver is not making the same
         // tie-break choices over & over as the allocated set grows.
-        // eslint-disable-next-line no-await-in-loop
-        randomSeed: await prngFloat(prngGenerator),
+        randomSeed,
       } satisfies Omit<Parameters<typeof getFirstSuitableMatch>[0], 'worker'>;
       // eslint-disable-next-line no-await-in-loop
       const pickedMatch = await getFirstSuitableMatch({
