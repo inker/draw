@@ -71,10 +71,14 @@ function LeagueStage({ tournament, season, pots: initialPots }: Props) {
     );
   }, [seed]);
 
-  const prngGeneratorPromise = useMemo(async () => {
-    const getGenerator = await prng(seed);
-    return getGenerator();
-  }, [seed]);
+  const prngGenerator = useMemo(
+    () =>
+      prng({
+        byteLength: 4,
+        seed,
+      }),
+    [seed],
+  );
 
   const [, setPopup] = usePopup();
   const [isFastDraw] = useFastDraw();
@@ -133,7 +137,6 @@ function LeagueStage({ tournament, season, pots: initialPots }: Props) {
   useEffect(() => {
     setArePotsShuffled(false);
     (async () => {
-      const prngGenerator = await prngGeneratorPromise;
       // One at a time: the generator is a single cursor,
       // so concurrent draws would take their slices of the stream
       // in whatever order the event loop resumed them.
@@ -149,7 +152,7 @@ function LeagueStage({ tournament, season, pots: initialPots }: Props) {
       setDisplayedPots(newDisplayedPots);
       setArePotsShuffled(true);
     })();
-  }, [pots, prngGeneratorPromise]);
+  }, [pots, prngGenerator]);
 
   useEffect(() => {
     if (!selectedTeam) {
@@ -167,7 +170,6 @@ function LeagueStage({ tournament, season, pots: initialPots }: Props) {
 
       animationDurationMsRef.current = 1000 / (pairings.length / 100 + 1);
 
-      const prngGenerator = await prngGeneratorPromise;
       const generator = generatePairings({
         prngGenerator,
         season,
@@ -236,7 +238,6 @@ function LeagueStage({ tournament, season, pots: initialPots }: Props) {
 
     if (isScheduleGenerating) {
       const formSchedule = async () => {
-        const prngGenerator = await prngGeneratorPromise;
         const it = await generateSchedule({
           season,
           tournament,
