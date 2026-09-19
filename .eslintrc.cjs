@@ -32,6 +32,10 @@ module.exports = {
         // always try to resolve types under `<roo/>@types` directory
         // even if it doesn't contain any source code, like `@types/unist`
         alwaysTryTypes: true,
+        // Pinned here rather than left to default to the cwd,
+        // so the `#*` imports still resolve
+        // when an editor runs ESLint from a parent folder.
+        project: __dirname,
       },
       node: {
         extensions: ['.mjs', '.js', '.jsx', '.ts', '.tsx', '.json'],
