@@ -1,5 +1,5 @@
-import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { random, sample, shuffle, stubArray } from 'lodash';
+import { memo, useCallback, useEffect, useRef, useState } from 'react';
+import { stubArray } from 'lodash';
 
 import PotsContainer from '#ui/PotsContainer';
 import GroupsContainer from '#ui/GroupsContainer';
@@ -14,6 +14,9 @@ import useFastDraw from '#store/useFastDraw';
 import useDrawId from '#store/useDrawId';
 import usePopup from '#store/usePopup';
 import useWorkerSendAndReceive from '#utils/hooks/useWorkerSendAndReceive';
+import usePrngGenerator from '#utils/hooks/usePrngGenerator';
+import prngShuffle from '#utils/prngShuffle';
+import prngShuffleAll from '#utils/prngShuffleAll';
 
 import { type Func as AllPossibleGroupsFunc } from './allPossibleGroupsWorker';
 import { type Func as FirstPossibleGroupFunc } from './firstPossibleGroupWorker';
@@ -41,24 +44,23 @@ interface State {
   groups: readonly (readonly Team[])[];
 }
 
-function getState(initialPots: readonly (readonly Team[])[]): State {
+function getState(pots: readonly (readonly Team[])[]): State {
   const currentPotNum = 0;
-  const pots = initialPots.map(pot => shuffle(pot));
-  const currentPot = pots[currentPotNum];
   return {
     currentPotNum,
     selectedTeam: null,
     pickedGroup: null,
-    hungPot: currentPot,
+    hungPot: pots[currentPotNum],
     possibleGroups: null,
     pots,
-    groups: initialPots[0].map(stubArray),
+    groups: pots[0].map(stubArray),
   };
 }
 
 function CLGS({ season, pots: initialPots, isFirstPotShortDraw }: Props) {
-  const [drawId, setNewDrawId] = useDrawId();
+  const [, setNewDrawId] = useDrawId();
   const [isFastDraw] = useFastDraw();
+  const prngGenerator = usePrngGenerator();
 
   const [
     {
@@ -73,9 +75,21 @@ function CLGS({ season, pots: initialPots, isFirstPotShortDraw }: Props) {
     setState,
   ] = useState(() => getState(initialPots));
 
+  // The shuffle is async, so the pots render in source order for a tick
+  // & fast draw has to wait it out or pick off an unseeded order.
+  const [arePotsShuffled, setArePotsShuffled] = useState(false);
+
   useEffect(() => {
-    setState(getState(initialPots));
-  }, [initialPots, drawId]);
+    setArePotsShuffled(false);
+    (async () => {
+      const shuffledPots = await prngShuffleAll({
+        collections: initialPots,
+        prngGenerator,
+      });
+      setState(getState(shuffledPots));
+      setArePotsShuffled(true);
+    })();
+  }, [initialPots, prngGenerator]);
 
   const [, setPopup] = usePopup();
   const [isXRay] = useXRay();
@@ -92,10 +106,26 @@ function CLGS({ season, pots: initialPots, isFirstPotShortDraw }: Props) {
   const isDrawShort = isFirstPotShortDraw && currentPotNum === 0;
   const isNoGroupBallPick = isFastDraw || isDrawShort;
 
-  const possibleGroupsShuffled = useMemo(
-    () => shuffle(possibleGroups),
-    [possibleGroups],
-  );
+  const [possibleGroupsShuffled, setPossibleGroupsShuffled] = useState<
+    readonly number[] | null
+  >(null);
+
+  useEffect(() => {
+    // Cleared first, or the automatic pick below takes
+    // the previous team's groups while these are still shuffling.
+    setPossibleGroupsShuffled(null);
+    if (!possibleGroups) {
+      return;
+    }
+    (async () => {
+      setPossibleGroupsShuffled(
+        await prngShuffle({
+          collection: possibleGroups,
+          prngGenerator,
+        }),
+      );
+    })();
+  }, [possibleGroups, prngGenerator]);
 
   const handleTeamSelected = async () => {
     if (!selectedTeam) {
@@ -208,16 +238,16 @@ function CLGS({ season, pots: initialPots, isFirstPotShortDraw }: Props) {
   useEffect(() => {
     // TODO: make hungPot nullable
     const hungPotSize = hungPot?.length;
-    if (isFastDraw && hungPotSize) {
-      const index = random(hungPotSize - 1);
-      handleTeamBallPick(index);
+    if (arePotsShuffled && isFastDraw && hungPotSize) {
+      // The pot is already in seeded random order,
+      // so the front ball is as uniform as a random index.
+      handleTeamBallPick(0);
     }
-  }, [isFastDraw, hungPot]);
+  }, [arePotsShuffled, isFastDraw, hungPot]);
 
   useEffect(() => {
     if (isNoGroupBallPick && possibleGroupsShuffled?.length) {
-      const index = sample(possibleGroupsShuffled)!;
-      handleGroupBallPick(index);
+      handleGroupBallPick(possibleGroupsShuffled[0]);
     }
   }, [isNoGroupBallPick, possibleGroupsShuffled]);
 

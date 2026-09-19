@@ -1,5 +1,5 @@
 import { memo, useCallback, useEffect, useRef, useState } from 'react';
-import { random, shuffle, stubArray } from 'lodash';
+import { stubArray } from 'lodash';
 
 import type Team from '#model/team/GsTeam';
 import { serializeGsWorkerData } from '#model/WorkerData';
@@ -9,6 +9,8 @@ import * as bowlsContainerStyles from '#ui/bowls-container.module.scss';
 import TeamBowl from '#ui/bowls/TeamBowl';
 import Announcement from '#ui/Announcement';
 import useWorkerSendAndReceive from '#utils/hooks/useWorkerSendAndReceive';
+import usePrngGenerator from '#utils/hooks/usePrngGenerator';
+import prngShuffleAll from '#utils/prngShuffleAll';
 import useXRay from '#store/useXRay';
 import useFastDraw from '#store/useFastDraw';
 import useDrawId from '#store/useDrawId';
@@ -33,32 +35,43 @@ interface State {
   groups: readonly (readonly Team[])[];
 }
 
-function getState(initialPots: readonly (readonly Team[])[]): State {
+function getState(pots: readonly (readonly Team[])[]): State {
   const currentPotNum = 0;
-  const pots = initialPots.map(pot => shuffle(pot));
-  const currentPot = pots[currentPotNum];
   return {
     currentPotNum,
     selectedTeam: null,
     pickedGroup: null,
-    hungPot: currentPot,
+    hungPot: pots[currentPotNum],
     pots,
-    groups: initialPots[0].map(stubArray),
+    groups: pots[0].map(stubArray),
   };
 }
 
 function ELGS({ season, pots: initialPots }: Props) {
-  const [drawId, setNewDrawId] = useDrawId();
+  const [, setNewDrawId] = useDrawId();
   const [isFastDraw] = useFastDraw();
+  const prngGenerator = usePrngGenerator();
 
   const [
     { currentPotNum, selectedTeam, pickedGroup, hungPot, pots, groups },
     setState,
   ] = useState(() => getState(initialPots));
 
+  // The shuffle is async, so the pots render in source order for a tick
+  // & fast draw has to wait it out or pick off an unseeded order.
+  const [arePotsShuffled, setArePotsShuffled] = useState(false);
+
   useEffect(() => {
-    setState(getState(initialPots));
-  }, [initialPots, drawId]);
+    setArePotsShuffled(false);
+    (async () => {
+      const shuffledPots = await prngShuffleAll({
+        collections: initialPots,
+        prngGenerator,
+      });
+      setState(getState(shuffledPots));
+      setArePotsShuffled(true);
+    })();
+  }, [initialPots, prngGenerator]);
 
   const [, setPopup] = usePopup();
   const [isXRay] = useXRay();
@@ -148,11 +161,12 @@ function ELGS({ season, pots: initialPots }: Props) {
   useEffect(() => {
     // TODO: make hungPot nullable
     const hungPotSize = hungPot?.length;
-    if (isFastDraw && hungPotSize) {
-      const index = random(hungPotSize - 1);
-      handleTeamBallPick(index);
+    if (arePotsShuffled && isFastDraw && hungPotSize) {
+      // The pot is already in seeded random order,
+      // so the front ball is as uniform as a random index.
+      handleTeamBallPick(0);
     }
-  }, [isFastDraw, hungPot]);
+  }, [arePotsShuffled, isFastDraw, hungPot]);
 
   const numGroups = groups.length;
 

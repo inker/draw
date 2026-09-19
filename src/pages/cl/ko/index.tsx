@@ -1,5 +1,5 @@
 import { memo, useCallback, useEffect, useRef, useState } from 'react';
-import { random, shuffle, stubArray, without } from 'lodash';
+import { stubArray, without } from 'lodash';
 
 import PotsContainer from '#ui/PotsContainer';
 import MatchupsContainer from '#ui/MatchupsContainer';
@@ -11,6 +11,8 @@ import { serializeGsWorkerData } from '#model/WorkerData';
 import type Team from '#model/team/KnockoutTeam';
 import { type EmptyOrSingleOrPair, type FixedArray } from '#model/types';
 import useWorkerSendAndReceive from '#utils/hooks/useWorkerSendAndReceive';
+import usePrngGenerator from '#utils/hooks/usePrngGenerator';
+import prngShuffleAll from '#utils/prngShuffleAll';
 import useXRay from '#store/useXRay';
 import useFastDraw from '#store/useFastDraw';
 import useDrawId from '#store/useDrawId';
@@ -34,13 +36,10 @@ interface State {
   matchups: readonly EmptyOrSingleOrPair<Team>[];
 }
 
-function getState(initialPots: FixedArray<readonly Team[], 2>): State {
+function getState(pots: FixedArray<readonly Team[], 2>): State {
   const currentPotNum = 1;
   const currentMatchupNum = 0;
   const numMatchups = 8;
-  const pots = initialPots.map(
-    pot => shuffle(pot) as readonly Team[],
-  ) as typeof initialPots;
   return {
     currentMatchupNum,
     currentPotNum,
@@ -52,8 +51,9 @@ function getState(initialPots: FixedArray<readonly Team[], 2>): State {
 }
 
 function CLKO({ season, pots: initialPots }: Props) {
-  const [drawId, setNewDrawId] = useDrawId();
+  const [, setNewDrawId] = useDrawId();
   const [isFastDraw] = useFastDraw();
+  const prngGenerator = usePrngGenerator();
 
   const [
     {
@@ -67,9 +67,21 @@ function CLKO({ season, pots: initialPots }: Props) {
     setState,
   ] = useState(() => getState(initialPots));
 
+  // The shuffle is async, so the pots render in source order for a tick
+  // & fast draw has to wait it out or pick off an unseeded order.
+  const [arePotsShuffled, setArePotsShuffled] = useState(false);
+
   useEffect(() => {
-    setState(getState(initialPots));
-  }, [initialPots, drawId]);
+    setArePotsShuffled(false);
+    (async () => {
+      const [gwPot, ruPot] = await prngShuffleAll({
+        collections: initialPots,
+        prngGenerator,
+      });
+      setState(getState([gwPot, ruPot]));
+      setArePotsShuffled(true);
+    })();
+  }, [initialPots, prngGenerator]);
 
   const [, setPopup] = usePopup();
   const [isXRay] = useXRay();
@@ -181,15 +193,15 @@ function CLKO({ season, pots: initialPots }: Props) {
   const completed = currentMatchupNum >= initialPots[0].length;
 
   useEffect(() => {
-    if (isFastDraw) {
+    if (arePotsShuffled && isFastDraw) {
       const teams = potsToDisplay[currentPotNum]!;
-      const numTeams = teams.length;
-      if (numTeams > 0) {
-        const index = random(numTeams - 1);
-        handleBallPick(index);
+      if (teams.length > 0) {
+        // The pot is already in seeded random order (narrowing to the
+        // possible opponents keeps it), so the front ball is as uniform.
+        handleBallPick(0);
       }
     }
-  }, [isFastDraw, currentPotNum]);
+  }, [arePotsShuffled, isFastDraw, currentPotNum]);
 
   return (
     <div className="page-root">

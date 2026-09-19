@@ -1,9 +1,8 @@
-import { memo, useRef } from 'react';
+import { memo, useId } from 'react';
 import clsx from 'clsx';
 
 import GlobalStyle, { css } from '#ui/GlobalStyle';
 import useTableColumnHover from '#utils/hooks/useTableColumnHover';
-import getRandomId from '#utils/getRandomId';
 
 import TableStyles from './TableStyles';
 
@@ -13,9 +12,10 @@ type Props = React.HTMLAttributes<HTMLTableElement> & {
 };
 
 function Table({ className, blockSize, hoverStyle, ...otherProps }: Props) {
-  const randomIdRef = useRef(getRandomId());
+  const id = useId();
 
-  const tableClass = `table-${randomIdRef.current}`;
+  // Stripped, because React's ids carry delimiters a CSS selector cannot take.
+  const tableClass = `table-${id.replaceAll(/\W/g, '')}`;
 
   const columnHover = useTableColumnHover();
 

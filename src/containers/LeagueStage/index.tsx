@@ -1,5 +1,4 @@
 import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
 import pLimit from 'p-limit';
 import delay from 'delay.js';
 import { orderBy } from 'lodash';
@@ -14,8 +13,8 @@ import generateSchedule from '#engine/dfs/ls/generateSchedule/index';
 import usePageVisible from '#utils/hooks/usePageVisible';
 import formatDuration from '#utils/formatDuration';
 import useTimer from '#utils/hooks/useTimer';
-import prng from '#utils/prng';
-import prngShuffle from '#utils/prngShuffle';
+import usePrngGenerator from '#utils/hooks/usePrngGenerator';
+import prngShuffleAll from '#utils/prngShuffleAll';
 import Button from '#ui/Button';
 import Portal from '#ui/Portal';
 import TeamBowl from '#ui/bowls/TeamBowl';
@@ -38,47 +37,12 @@ function LeagueStage({ tournament, season, pots: initialPots }: Props) {
   const numMatchdays =
     tournament === 'ecl' ? initialPots.length : initialPots.length * 2;
 
-  const [searchParam] = useSearchParams();
-
   const numMatches = useMemo(() => {
     const numTeams = initialPots.flat().length;
     return (numTeams * numMatchdays) / 2;
   }, [initialPots, numMatchdays]);
 
-  // Lazily, or every render burns 32 bytes of entropy it then throws away.
-  const [seed] = useState(() => {
-    const str = searchParam.get('seed');
-    if (str) {
-      try {
-        return Uint8Array.fromBase64(str, {
-          alphabet: 'base64url',
-        }).buffer;
-      } catch {
-        // swallow
-      }
-    }
-    return globalThis.crypto.getRandomValues(new Uint8Array(32)).buffer;
-  });
-
-  useEffect(() => {
-    // eslint-disable-next-line no-console
-    console.log(
-      'seed:',
-      new Uint8Array(seed).toBase64({
-        alphabet: 'base64url',
-        omitPadding: true,
-      }),
-    );
-  }, [seed]);
-
-  const prngGenerator = useMemo(
-    () =>
-      prng({
-        byteLength: 4,
-        seed,
-      }),
-    [seed],
-  );
+  const prngGenerator = usePrngGenerator();
 
   const [, setPopup] = usePopup();
   const [isFastDraw] = useFastDraw();
@@ -114,9 +78,8 @@ function LeagueStage({ tournament, season, pots: initialPots }: Props) {
   const pots = useMemo(() => [...initialPots], [initialPots]);
 
   const [displayedPots, setDisplayedPots] = useState(pots);
-  // The shuffle is async, so the pots render in their source order for a tick.
-  // Fast draw picks the first ball & has to wait that out,
-  // or the first pick of a seeded draw comes off an unseeded order.
+  // The shuffle is async, so the pots render in source order for a tick
+  // & fast draw has to wait it out or pick off an unseeded order.
   const [arePotsShuffled, setArePotsShuffled] = useState(false);
 
   const allTeams = useMemo(() => pots.flat(), [pots]);
@@ -137,18 +100,10 @@ function LeagueStage({ tournament, season, pots: initialPots }: Props) {
   useEffect(() => {
     setArePotsShuffled(false);
     (async () => {
-      // One at a time: the generator is a single cursor,
-      // so concurrent draws would take their slices of the stream
-      // in whatever order the event loop resumed them.
-      const newDisplayedPots: (readonly Team[])[] = [];
-      for (const pot of pots) {
-        // eslint-disable-next-line no-await-in-loop
-        const shuffledPot = await prngShuffle({
-          collection: pot,
-          prngGenerator,
-        });
-        newDisplayedPots.push(shuffledPot);
-      }
+      const newDisplayedPots = await prngShuffleAll({
+        collections: pots,
+        prngGenerator,
+      });
       setDisplayedPots(newDisplayedPots);
       setArePotsShuffled(true);
     })();
