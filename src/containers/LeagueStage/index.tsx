@@ -141,7 +141,7 @@ function LeagueStage({ tournament, season, pots: initialPots }: Props) {
       for (const pot of pots) {
         // eslint-disable-next-line no-await-in-loop
         const shuffledPot = await prngShuffle({
-          array: pot,
+          collection: pot,
           prngGenerator,
         });
         newDisplayedPots.push(shuffledPot);

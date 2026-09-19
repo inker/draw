@@ -104,7 +104,7 @@ export default async function* generatePairings<T extends Team>({
     }
 
     allGames = await prngShuffle({
-      array: allGames,
+      collection: allGames,
       prngGenerator,
     });
 

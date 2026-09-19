@@ -37,14 +37,14 @@ const makeBitReader = (
 };
 
 export default async <T>({
-  array,
+  collection,
   prngGenerator,
 }: {
-  array: readonly T[];
+  collection: Iterable<T>;
   prngGenerator: AsyncGenerator<ArrayBuffer, never, unknown>;
 }) => {
   const readBits = makeBitReader(prngGenerator);
-  const shuffled = [...array];
+  const shuffled = [...collection];
 
   // Fisher-Yates over a bit reader rather than a sort key per element:
   // a key costs 64 bits where an index into the unshuffled tail needs about 9,

@@ -56,7 +56,7 @@ export default async function generateSchedule<T extends Team>({
     : -1;
 
   const allGamesShuffled = await prngShuffle({
-    array: allGamesUnordered,
+    collection: allGamesUnordered,
     prngGenerator,
   });
 
@@ -80,7 +80,7 @@ export default async function generateSchedule<T extends Team>({
   for (const md of result) {
     // eslint-disable-next-line no-await-in-loop
     const shuffled = await prngShuffle({
-      array: md,
+      collection: md,
       prngGenerator,
     });
     shuffledMatchdaysSource.push(shuffled);
@@ -113,7 +113,7 @@ export default async function generateSchedule<T extends Team>({
     if (areDaysInterchangeable) {
       // eslint-disable-next-line no-await-in-loop
       orderedDays = await prngShuffle({
-        array: swappableDays,
+        collection: swappableDays,
         prngGenerator,
       });
     }
@@ -122,7 +122,7 @@ export default async function generateSchedule<T extends Team>({
     for (const day of [...md.slice(0, numFixedDays), ...orderedDays]) {
       // eslint-disable-next-line no-await-in-loop
       const shuffledDay = await prngShuffle({
-        array: day,
+        collection: day,
         prngGenerator,
       });
       shuffledDays.push(shuffledDay);
