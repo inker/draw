@@ -6,7 +6,9 @@ function prefetchImage(url: string) {
   link.as = 'image';
   link.onerror = console.error;
   return new Promise<void>(resolve => {
-    link.onload = resolve as any;
+    link.onload = () => {
+      resolve();
+    };
     link.href = url;
     document.head.append(link);
   });
