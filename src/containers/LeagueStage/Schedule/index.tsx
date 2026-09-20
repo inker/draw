@@ -74,7 +74,7 @@ function Schedule({ tournament, schedule }: Props) {
                             </ContentWithFlag>
                           </span>
                           <span className={styles['match-pair-center']}>
-                            &nbsp;-&nbsp;
+                            {' - '}
                           </span>
                           <span className={styles['match-pair-team']}>
                             <ContentWithFlag
