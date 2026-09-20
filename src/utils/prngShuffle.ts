@@ -1,26 +1,5 @@
+import bitStream, { type BitStream } from './bitStream';
 import { type PrngGenerator } from './prng';
-
-const BITS_PER_BYTE = 8;
-
-/**
- * The digests taken a bit at a time, most significant first.
- * Spelled out rather than inferred,
- * because TypeScript only infers a never-returning type
- * for function declarations rather than expressions
- */
-async function* bitStream(
-  prngGenerator: PrngGenerator,
-): AsyncGenerator<0 | 1, never, unknown> {
-  for (;;) {
-    // eslint-disable-next-line no-await-in-loop
-    const { value } = await prngGenerator.next();
-    for (const byte of new Uint8Array(value)) {
-      for (let shift = BITS_PER_BYTE - 1; shift >= 0; --shift) {
-        yield ((byte >> shift) & 1) as 0 | 1;
-      }
-    }
-  }
-}
 
 /**
  * A uniform integer below `bound`, a bit at a time.
@@ -32,7 +11,7 @@ const readBelow = async ({
   bits,
   bound,
 }: {
-  bits: ReturnType<typeof bitStream>;
+  bits: BitStream;
   bound: number;
 }) => {
   let range = 1;
