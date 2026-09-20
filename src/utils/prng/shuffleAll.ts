@@ -1,5 +1,5 @@
-import { type PrngGenerator } from './prng';
-import prngShuffle from './prngShuffle';
+import prngShuffle from './shuffle';
+import { type PrngGenerator } from './generator';
 
 /**
  * Shuffles each collection off the one stream, one at a time,

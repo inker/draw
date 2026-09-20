@@ -12,7 +12,7 @@ import type Team from '#model/team/KnockoutTeam';
 import { type EmptyOrSingleOrPair, type FixedArray } from '#model/types';
 import useWorkerSendAndReceive from '#utils/hooks/useWorkerSendAndReceive';
 import usePrngGenerator from '#utils/hooks/usePrngGenerator';
-import prngShuffleAll from '#utils/prngShuffleAll';
+import prngShuffleAll from '#utils/prng/shuffleAll';
 import useMedia from '#utils/hooks/useMedia';
 import useXRay from '#store/useXRay';
 import useFastDraw from '#store/useFastDraw';

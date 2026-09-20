@@ -15,8 +15,8 @@ import useDrawId from '#store/useDrawId';
 import usePopup from '#store/usePopup';
 import useWorkerSendAndReceive from '#utils/hooks/useWorkerSendAndReceive';
 import usePrngGenerator from '#utils/hooks/usePrngGenerator';
-import prngShuffle from '#utils/prngShuffle';
-import prngShuffleAll from '#utils/prngShuffleAll';
+import prngShuffle from '#utils/prng/shuffle';
+import prngShuffleAll from '#utils/prng/shuffleAll';
 
 import { type Func as AllPossibleGroupsFunc } from './allPossibleGroupsWorker';
 import { type Func as FirstPossibleGroupFunc } from './firstPossibleGroupWorker';

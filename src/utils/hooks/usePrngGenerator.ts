@@ -3,7 +3,7 @@ import { useSearchParams } from 'react-router-dom';
 
 import useDrawId from '#store/useDrawId';
 import useDidUpdate from '#utils/hooks/useDidUpdate';
-import prng from '#utils/prng';
+import createPrngGenerator from '#utils/prng/generator';
 
 /**
  * More entropy than there are orderings of anything being drawn
@@ -35,7 +35,7 @@ const startStream = (str: string | null) => {
   const seed = toSeed(str);
   return {
     seed,
-    prngGenerator: prng({
+    prngGenerator: createPrngGenerator({
       byteLength: COUNTER_BYTE_LENGTH,
       seed,
     }),

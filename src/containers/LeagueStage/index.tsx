@@ -14,7 +14,7 @@ import usePageVisible from '#utils/hooks/usePageVisible';
 import formatDuration from '#utils/formatDuration';
 import useTimer from '#utils/hooks/useTimer';
 import usePrngGenerator from '#utils/hooks/usePrngGenerator';
-import prngShuffleAll from '#utils/prngShuffleAll';
+import prngShuffleAll from '#utils/prng/shuffleAll';
 import Button from '#ui/Button';
 import Portal from '#ui/Portal';
 import TeamBowl from '#ui/bowls/TeamBowl';

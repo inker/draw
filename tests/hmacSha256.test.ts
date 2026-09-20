@@ -1,4 +1,4 @@
-import hmacSha256 from '../src/utils/hmacSha256';
+import hmacSha256 from '../src/utils/prng/hmacSha256';
 
 describe('hmacSha256', () => {
   // The width is asserted rather than inferred in the module,

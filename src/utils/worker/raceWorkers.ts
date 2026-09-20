@@ -1,7 +1,7 @@
 import delay from 'delay.js';
 
-import WorkerManager from '#utils/WorkerManager';
-import workerSendAndReceive from '#utils/worker/sendAndReceive';
+import WorkerManager from './WorkerManager';
+import workerSendAndReceive from './sendAndReceive';
 
 const maxNumWorkers = navigator.hardwareConcurrency;
 

@@ -3,9 +3,9 @@ import { keyBy, uniq } from 'lodash';
 import { getSeasonFacts } from '#data/seasonFacts';
 import { type UefaCountry } from '#model/types';
 import type Tournament from '#model/Tournament';
-import { type PrngGenerator } from '#utils/prng';
-import prngFloat from '#utils/prngFloat';
-import prngShuffle from '#utils/prngShuffle';
+import { type PrngGenerator } from '#utils/prng/generator';
+import prngFloat from '#utils/prng/float';
+import prngShuffle from '#utils/prng/shuffle';
 
 import assignGamesToMatchdays from './assignGamesToMatchdays.wrapper';
 import splitMatchdaysIntoDays, {

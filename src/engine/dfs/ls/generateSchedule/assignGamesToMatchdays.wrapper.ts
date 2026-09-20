@@ -1,4 +1,4 @@
-import raceWorkers from '#utils/raceWorkers';
+import raceWorkers from '#utils/worker/raceWorkers';
 import { type UefaCountry } from '#model/types';
 import coldCountries from '#engine/predicates/uefa/utils/coldCountries';
 import teamsThatCannotHostSameDay from '#engine/predicates/uefa/utils/teamsThatCannotHostSameDay';

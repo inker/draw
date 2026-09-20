@@ -1,9 +1,9 @@
 import { difference, range, remove } from 'lodash';
 
-import WorkerManager from '#utils/WorkerManager';
-import { type PrngGenerator } from '#utils/prng';
-import prngFloat from '#utils/prngFloat';
-import prngShuffle from '#utils/prngShuffle';
+import WorkerManager from '#utils/worker/WorkerManager';
+import { type PrngGenerator } from '#utils/prng/generator';
+import prngFloat from '#utils/prng/float';
+import prngShuffle from '#utils/prng/shuffle';
 import type Tournament from '#model/Tournament';
 import { type UefaCountry } from '#model/types';
 import incompatibleCountries from '#engine/predicates/uefa/utils/incompatibleCountries';

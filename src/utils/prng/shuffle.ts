@@ -1,5 +1,5 @@
 import bitStream, { type BitStream } from './bitStream';
-import { type PrngGenerator } from './prng';
+import { type PrngGenerator } from './generator';
 
 /**
  * A uniform integer below `bound`, a bit at a time.

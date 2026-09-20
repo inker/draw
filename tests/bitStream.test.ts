@@ -1,4 +1,4 @@
-import bitStream from '../src/utils/bitStream';
+import bitStream from '../src/utils/prng/bitStream';
 
 /**
  * Spelled out rather than inferred,

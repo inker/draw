@@ -1,6 +1,7 @@
+import rangeGenerator from '../rangeGenerator';
+
 import counterSequence from './counterSequence';
 import hmacSha256, { type Sha256Digest } from './hmacSha256';
-import rangeGenerator from './rangeGenerator';
 
 /**
  * How many digests are signed at once.

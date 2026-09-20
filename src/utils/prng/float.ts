@@ -1,4 +1,4 @@
-import { type PrngGenerator } from './prng/generator';
+import { type PrngGenerator } from './generator';
 
 /**
  * One float in [0, 1) drawn from the stream,
