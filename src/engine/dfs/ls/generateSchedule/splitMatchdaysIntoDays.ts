@@ -27,6 +27,33 @@ interface Allowance {
 }
 
 /**
+ * How many days of the matchday a country's clubs have to cover between them,
+ * & how many clubs it has to do it with
+ */
+interface Coverage {
+  country: UefaCountry;
+  numTeams: number;
+  minDays: number;
+}
+
+/**
+ * Every way of keeping as much of the list as possible:
+ * the fewest constraints dropped first,
+ * & the ones latest in the list before the ones ahead of them
+ */
+function* relaxations<T>(constraints: readonly T[]) {
+  for (
+    let numEliminated = 0;
+    numEliminated <= constraints.length;
+    ++numEliminated
+  ) {
+    for (const eliminated of combine(constraints.toReversed(), numEliminated)) {
+      yield difference(constraints, eliminated);
+    }
+  }
+}
+
+/**
  * The season the Champions League starts opening with a match of its own,
  * played by the holders a day before the rest of matchday 1
  */
@@ -100,6 +127,7 @@ const findDayAssignment = ({
   teams,
   capacities,
   countries,
+  coverages,
   separationGroups,
   allowanceByCountry,
   areDaysInterchangeable,
@@ -108,25 +136,22 @@ const findDayAssignment = ({
   teams: readonly Team[];
   capacities: readonly number[];
   countries: readonly UefaCountry[];
+  coverages: readonly Coverage[];
   separationGroups: readonly (readonly number[])[];
   allowanceByCountry: ReadonlyMap<UefaCountry, Allowance>;
   areDaysInterchangeable: boolean;
 }) => {
   const allDays = range(capacities.length);
 
-  // Relax the popularity separation one group at a time (least popular
-  // first) until the matchday can be split, dropping every group if need be.
-  for (
-    let numEliminatedGroups = 0;
-    numEliminatedGroups <= separationGroups.length;
-    ++numEliminatedGroups
-  ) {
-    for (const eliminatedGroups of combine(
-      separationGroups.toReversed(),
-      numEliminatedGroups,
-    )) {
-      const remainingGroups = difference(separationGroups, eliminatedGroups);
+  // Every popularity tuple goes before a single country's coverage does:
+  // which of a country's clubs are split over the days
+  // matters less than the country reaching every day it has the clubs for.
+  for (const remainingCoverages of relaxations(coverages)) {
+    const coverageByCountry = new Map(
+      remainingCoverages.map(coverage => [coverage.country, coverage] as const),
+    );
 
+    for (const remainingGroups of relaxations(separationGroups)) {
       const groupMatesByTeam = new Map<number, readonly number[]>();
       for (const group of remainingGroups) {
         for (const team of group) {
@@ -175,12 +200,34 @@ const findDayAssignment = ({
               const { maxAllowed, numMaxes } = allowanceByCountry.get(country)!;
               const counts = countryTeamsByDay.get(country)!;
               let numAtMax = 0;
+              let numUsedDays = 0;
+              let numPlacedTeams = 0;
               for (const [d, base] of counts.entries()) {
-                if ((d === day ? base + 1 : base) >= maxAllowed) {
+                const count = d === day ? base + 1 : base;
+                if (count >= maxAllowed) {
                   ++numAtMax;
                 }
+                if (count > 0) {
+                  ++numUsedDays;
+                }
+                numPlacedTeams += count;
               }
               if (numAtMax > numMaxes) {
+                return false;
+              }
+              // Each club still to be placed opens at most one more day,
+              // so drop this day as soon as the ones left cannot get the
+              // country to the days it owes.
+              const coverage = coverageByCountry.get(country);
+              if (
+                coverage &&
+                numUsedDays +
+                  Math.min(
+                    coverage.numTeams - numPlacedTeams,
+                    allDays.length - numUsedDays,
+                  ) <
+                  coverage.minDays
+              ) {
                 return false;
               }
             }
@@ -188,7 +235,7 @@ const findDayAssignment = ({
           });
 
           // Prefer days where this match's countries are least represented
-          // (an empty day is strongly preferred), random tie-breaking.
+          // (an empty day is strongly preferred), then the emptier day.
           const firstCounts = countryTeamsByDay.get(teams[firstTeam].country)!;
           const secondCounts = countryTeamsByDay.get(
             teams[secondTeam].country,
@@ -289,8 +336,24 @@ const splitMatchday = ({
   // For a two-day matchday this is exactly the TV pairing (groups of two).
   const separationGroups = orderedTeamsByCountry
     .values()
+    // A country with no more clubs than days has a single tuple holding all
+    // of them, which is what its coverage below already asks for.
+    .filter(indices => indices.length > numDays)
     .flatMap(indices => chunk(indices, numDays))
     .filter(group => group.length > 1)
+    .toArray();
+
+  // Whatever else has to give, a country is spread over as many days as it
+  // has the clubs to fill: a day each while it has no more clubs than days,
+  // every day once it has more.
+  const coverages = orderedTeamsByCountry
+    .entries()
+    .filter(([, indices]) => indices.length > 1)
+    .map(([country, indices]): Coverage => ({
+      country,
+      numTeams: indices.length,
+      minDays: Math.min(indices.length, numDays),
+    }))
     .toArray();
 
   const allowanceByCountry = new Map(
@@ -317,6 +380,7 @@ const splitMatchday = ({
     teams,
     capacities,
     countries: orderedTeamsByCountry.keys().toArray(),
+    coverages,
     separationGroups,
     allowanceByCountry,
     areDaysInterchangeable,

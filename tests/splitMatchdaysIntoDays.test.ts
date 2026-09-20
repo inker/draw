@@ -295,4 +295,38 @@ describe('splitMatchdaysIntoDays', () => {
       expect(firstMatchday[0][0][0], `seed ${seed}`).toBe(0);
     }
   });
+  // A country's clubs cover every day they can fill before any popularity
+  // tuple is kept: the separation used to be given up in country order,
+  // which left a two-club country sharing a day
+  // so that a six-club one could keep its third tuple.
+  it('spreads every country over as many days as it has clubs for', () => {
+    const fullSizeTeams = latestClPots()
+      .flat()
+      .map(club => team(club.name, club.country));
+
+    for (const seed of [91, 92, 93]) {
+      const split = splitMatchdaysIntoDays({
+        matchdays: [seed, seed + 1, seed + 2].map(matchdaySeed =>
+          buildMatchday(fullSizeTeams, matchdaySeed),
+        ),
+        tournament: 'cl',
+        season: firstSeasonWithOpeningMatch - 1,
+        matchdaySize: fullSizeTeams.length / 2,
+        teams: fullSizeTeams,
+      });
+
+      for (const [matchdayIndex, days] of split.entries()) {
+        const day = dayByTeam(days);
+        for (const [country, indices] of Map.groupBy(
+          day.keys(),
+          index => fullSizeTeams[index].country,
+        )) {
+          expect(
+            new Set(indices.map(index => day.get(index))).size,
+            `seed ${seed}, matchday ${matchdayIndex}, ${country}`,
+          ).toBe(Math.min(indices.length, days.length));
+        }
+      }
+    }
+  });
 });
