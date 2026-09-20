@@ -1,0 +1,136 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`prngShuffle > deals the same order it always has: 2 1`] = `
+[
+  0,
+  1,
+]
+`;
+
+exports[`prngShuffle > deals the same order it always has: 3 1`] = `
+[
+  2,
+  0,
+  1,
+]
+`;
+
+exports[`prngShuffle > deals the same order it always has: 9 1`] = `
+[
+  5,
+  4,
+  3,
+  8,
+  0,
+  6,
+  2,
+  1,
+  7,
+]
+`;
+
+exports[`prngShuffle > deals the same order it always has: 18 1`] = `
+[
+  9,
+  6,
+  2,
+  7,
+  13,
+  16,
+  15,
+  8,
+  11,
+  3,
+  12,
+  0,
+  4,
+  1,
+  17,
+  5,
+  10,
+  14,
+]
+`;
+
+exports[`prngShuffle > deals the same order it always has: 36 1`] = `
+[
+  1,
+  22,
+  11,
+  19,
+  7,
+  24,
+  31,
+  6,
+  30,
+  14,
+  9,
+  26,
+  4,
+  21,
+  34,
+  8,
+  27,
+  10,
+  35,
+  17,
+  13,
+  23,
+  20,
+  15,
+  29,
+  25,
+  18,
+  32,
+  33,
+  0,
+  3,
+  2,
+  16,
+  5,
+  12,
+  28,
+]
+`;
+
+exports[`prngShuffle > seed: UEFA 1`] = `
+[
+  2,
+  0,
+  6,
+  3,
+  5,
+  4,
+  1,
+  7,
+  8,
+]
+`;
+
+exports[`prngShuffle > seed: uefa 1`] = `
+[
+  5,
+  4,
+  3,
+  8,
+  0,
+  6,
+  2,
+  1,
+  7,
+]
+`;
+
+exports[`prngShuffle > seed: uefb 1`] = `
+[
+  2,
+  7,
+  3,
+  8,
+  4,
+  1,
+  5,
+  0,
+  6,
+]
+`;
