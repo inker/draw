@@ -22,13 +22,12 @@ const toSeed = (str: string | null) => {
     try {
       return Uint8Array.fromBase64(str, {
         alphabet: 'base64url',
-      }).buffer;
+      });
     } catch {
       // swallow
     }
   }
-  return globalThis.crypto.getRandomValues(new Uint8Array(SEED_BYTE_LENGTH))
-    .buffer;
+  return globalThis.crypto.getRandomValues(new Uint8Array(SEED_BYTE_LENGTH));
 };
 
 const startStream = (str: string | null) => {
@@ -65,7 +64,7 @@ export default () => {
     // eslint-disable-next-line no-console
     console.log(
       'seed:',
-      new Uint8Array(seed).toBase64({
+      seed.toBase64({
         alphabet: 'base64url',
         omitPadding: true,
       }),
