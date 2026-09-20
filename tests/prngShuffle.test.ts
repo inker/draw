@@ -1,11 +1,11 @@
-import prng, { type PrngGenerator } from '../src/utils/prng';
+import createPrngGenerator, { type PrngGenerator } from '../src/utils/prng/generator';
 import prngShuffle from '../src/utils/prng/shuffle';
 
 // what the app runs on
 const COUNTER_BYTE_LENGTH = 4;
 
 const streamOf = (text: string) =>
-  prng({
+  createPrngGenerator({
     byteLength: COUNTER_BYTE_LENGTH,
     seed: new TextEncoder().encode(text),
   });

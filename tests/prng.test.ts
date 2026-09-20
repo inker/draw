@@ -1,4 +1,4 @@
-import prng from '../src/utils/prng';
+import createPrngGenerator from '../src/utils/prng/generator';
 
 const toHex = (digest: ArrayBuffer) =>
   [...new Uint8Array(digest)]
@@ -12,11 +12,11 @@ const seedOf = (text: string) => new TextEncoder().encode(text);
 const NUM_DIGESTS = 20;
 
 const take = async (
-  options: Parameters<typeof prng>[0],
+  options: Parameters<typeof createPrngGenerator>[0],
   count = NUM_DIGESTS,
 ) => {
   const digests: string[] = [];
-  for await (const digest of prng(options)) {
+  for await (const digest of createPrngGenerator(options)) {
     digests.push(toHex(digest));
     if (digests.length === count) {
       break;
@@ -91,7 +91,7 @@ describe('prng', () => {
   });
 
   it('hands back the generator without awaiting it', () => {
-    const prngGenerator = prng({
+    const prngGenerator = createPrngGenerator({
       byteLength: 4,
       seed: seedOf('uefa'),
     });
