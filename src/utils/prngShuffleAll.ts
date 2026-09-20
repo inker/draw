@@ -12,7 +12,7 @@ export default async <T>({
   collections,
   prngGenerator,
 }: {
-  collections: Iterable<readonly T[]>;
+  collections: Iterable<Iterable<T>>;
   prngGenerator: PrngGenerator;
 }) => {
   const shuffled: T[][] = [];
