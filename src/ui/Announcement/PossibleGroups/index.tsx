@@ -15,26 +15,31 @@ function PossibleGroups({ numGroups, possibleGroups }: Props) {
 
   return (
     <div className={styles.root}>
-      {Array.from({ length: numGroups }, (_, i) => {
-        const letter = getGroupLetter(i);
-        const isPossible = possibleGroups.includes(i);
-        return (
-          <div
-            key={letter}
-            className={clsx(styles.roundel, isPossible && styles.possible)}
-            style={{
-              ...(isPossible
-                ? {
-                    color: i < halfNum ? 'red' : 'blue',
-                    borderColor: i < halfNum ? 'red' : 'blue',
-                  }
-                : undefined),
-            }}
-          >
-            {letter}
-          </div>
-        );
-      })}
+      {Array.from(
+        {
+          length: numGroups,
+        },
+        (_, i) => {
+          const letter = getGroupLetter(i);
+          const isPossible = possibleGroups.includes(i);
+          return (
+            <div
+              key={letter}
+              className={clsx(styles.roundel, isPossible && styles.possible)}
+              style={{
+                ...(isPossible
+                  ? {
+                      color: i < halfNum ? 'red' : 'blue',
+                      borderColor: i < halfNum ? 'red' : 'blue',
+                    }
+                  : undefined),
+              }}
+            >
+              {letter}
+            </div>
+          );
+        },
+      )}
     </div>
   );
 }

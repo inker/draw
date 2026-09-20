@@ -2,8 +2,11 @@ import { generateValidPatterns } from '../src/engine/dfs/ls/generateSchedule/hom
 
 // A pattern mask (bit md set = home) as an H/A string, matchday 0 first.
 const toString = (mask: number, numMatchdays: number) =>
-  Array.from({ length: numMatchdays }, (_, md) =>
-    (mask >> md) & 1 ? 'H' : 'A',
+  Array.from(
+    {
+      length: numMatchdays,
+    },
+    (_, md) => ((mask >> md) & 1 ? 'H' : 'A'),
   ).join('');
 
 // Independent oracle: the original brute-force definition this replaced -
@@ -12,8 +15,11 @@ const toString = (mask: number, numMatchdays: number) =>
 const oracle = (numMatchdays: number) => {
   const result: string[] = [];
   for (let i = 0; i < 2 ** numMatchdays; ++i) {
-    const chars = Array.from({ length: numMatchdays }, (_, md) =>
-      (i >> md) & 1 ? 'H' : 'A',
+    const chars = Array.from(
+      {
+        length: numMatchdays,
+      },
+      (_, md) => ((i >> md) & 1 ? 'H' : 'A'),
     );
     const s = chars.join('');
     const numHome = chars.filter(c => c === 'H').length;

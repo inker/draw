@@ -37,14 +37,19 @@ function Group({
         </tr>
       </thead>
       <tbody>
-        {Array.from({ length: maxTeams }, (_, i) => (
-          <tr key={i}>
-            <GroupCellDeferred
-              team={teams[i]}
-              possible={i === potNum && possible}
-            />
-          </tr>
-        ))}
+        {Array.from(
+          {
+            length: maxTeams,
+          },
+          (_, i) => (
+            <tr key={i}>
+              <GroupCellDeferred
+                team={teams[i]}
+                possible={i === potNum && possible}
+              />
+            </tr>
+          ),
+        )}
       </tbody>
     </Table>
   );

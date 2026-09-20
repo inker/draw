@@ -54,23 +54,30 @@ function Pot({
         </tr>
       </thead>
       <tbody>
-        {Array.from({ length: numRows }, (_, i) => {
-          const offset = i * numCols;
-          const rowTeams = Array.from(
-            { length: numCols },
-            // eslint-disable-next-line @typescript-eslint/no-shadow
-            (_, c) => teams[offset + c],
-          );
+        {Array.from(
+          {
+            length: numRows,
+          },
+          (_, i) => {
+            const offset = i * numCols;
+            const rowTeams = Array.from(
+              {
+                length: numCols,
+              },
+              // eslint-disable-next-line @typescript-eslint/no-shadow
+              (_, c) => teams[offset + c],
+            );
 
-          return (
-            <PotRow
-              key={rowTeams.map(team => team.id).join(':')}
-              teams={rowTeams}
-              selectedTeams={selectedTeams}
-              pickedTeams={pickedTeams}
-            />
-          );
-        })}
+            return (
+              <PotRow
+                key={rowTeams.map(team => team.id).join(':')}
+                teams={rowTeams}
+                selectedTeams={selectedTeams}
+                pickedTeams={pickedTeams}
+              />
+            );
+          },
+        )}
       </tbody>
     </Table>
   );

@@ -47,7 +47,12 @@ function getState(pots: FixedArray<readonly Team[], 2>, season: number): State {
     possiblePairings: null,
     pots,
     potsToDisplay: [null, pots[1]],
-    matchups: Array.from({ length: numMatchups }, stubArray as () => []),
+    matchups: Array.from(
+      {
+        length: numMatchups,
+      },
+      stubArray as () => [],
+    ),
   };
 }
 

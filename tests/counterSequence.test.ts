@@ -2,13 +2,21 @@ import counterSequence from '../src/utils/prng/counterSequence';
 
 const take = (byteLength: number, count: number) => {
   const counters = counterSequence(byteLength);
-  return Array.from({ length: count }, () => [...counters.next().value]);
+  return Array.from(
+    {
+      length: count,
+    },
+    () => [...counters.next().value],
+  );
 };
 
 // what the counter would be if it were built from a BigInt instead
 const bigEndianBytes = (value: bigint, byteLength: number) =>
-  Array.from({ length: byteLength }, (_, i) =>
-    Number((value >> BigInt((byteLength - 1 - i) * 8)) & 0xffn),
+  Array.from(
+    {
+      length: byteLength,
+    },
+    (_, i) => Number((value >> BigInt((byteLength - 1 - i) * 8)) & 0xffn),
   );
 
 describe('counterSequence', () => {
@@ -27,8 +35,11 @@ describe('counterSequence', () => {
   it('counts big-endian whatever the width', () => {
     for (const byteLength of [1, 2, 3, 5, 8, 9, 33]) {
       const counted = take(byteLength, 300);
-      const expected = Array.from({ length: 300 }, (_, i) =>
-        bigEndianBytes(BigInt(i), byteLength),
+      const expected = Array.from(
+        {
+          length: 300,
+        },
+        (_, i) => bigEndianBytes(BigInt(i), byteLength),
       );
       expect(counted).toEqual(expected);
     }
