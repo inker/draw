@@ -17,24 +17,10 @@ interface Team {
 type Match = readonly [number, number];
 
 /**
- * How a country's clubs may be spread over the days of one matchday:
- * at most `maxAllowed` of them on any one day,
- * & at most `numMaxes` days may hold that many
+ * A country that has to spread its clubs over as many of the matchday's days
+ * as it has the clubs to fill, & how many clubs that is
  */
-interface Allowance {
-  maxAllowed: number;
-  numMaxes: number;
-}
-
-/**
- * How many days of the matchday a country's clubs have to cover between them,
- * & how many clubs it has to do it with
- */
-interface Coverage {
-  country: UefaCountry;
-  numTeams: number;
-  minDays: number;
-}
+type Coverage = readonly [UefaCountry, number];
 
 /**
  * Every way of keeping as much of the list as possible:
@@ -129,7 +115,6 @@ const findDayAssignment = ({
   countries,
   coverages,
   separationGroups,
-  allowanceByCountry,
   areDaysInterchangeable,
 }: {
   matches: readonly Match[];
@@ -138,7 +123,6 @@ const findDayAssignment = ({
   countries: readonly UefaCountry[];
   coverages: readonly Coverage[];
   separationGroups: readonly (readonly number[])[];
-  allowanceByCountry: ReadonlyMap<UefaCountry, Allowance>;
   areDaysInterchangeable: boolean;
 }) => {
   const allDays = range(capacities.length);
@@ -147,9 +131,7 @@ const findDayAssignment = ({
   // which of a country's clubs are split over the days
   // matters less than the country reaching every day it has the clubs for.
   for (const remainingCoverages of relaxations(coverages)) {
-    const coverageByCountry = new Map(
-      remainingCoverages.map(coverage => [coverage.country, coverage] as const),
-    );
+    const numTeamsByCountry = new Map(remainingCoverages);
 
     for (const remainingGroups of relaxations(separationGroups)) {
       const groupMatesByTeam = new Map<number, readonly number[]>();
@@ -194,40 +176,26 @@ const findDayAssignment = ({
               if (mates?.some(mate => dayByTeam[mate] === day)) {
                 return false;
               }
-              // adding this team must not push more days to the per-country
-              // cap than the allowance permits
               const { country } = teams[team];
-              const { maxAllowed, numMaxes } = allowanceByCountry.get(country)!;
+              const numTeams = numTeamsByCountry.get(country);
+              if (numTeams === undefined) {
+                continue;
+              }
               const counts = countryTeamsByDay.get(country)!;
-              let numAtMax = 0;
               let numUsedDays = 0;
               let numPlacedTeams = 0;
               for (const [d, base] of counts.entries()) {
                 const count = d === day ? base + 1 : base;
-                if (count >= maxAllowed) {
-                  ++numAtMax;
-                }
                 if (count > 0) {
                   ++numUsedDays;
                 }
                 numPlacedTeams += count;
               }
-              if (numAtMax > numMaxes) {
-                return false;
-              }
-              // Each club still to be placed opens at most one more day,
-              // so drop this day as soon as the ones left cannot get the
-              // country to the days it owes.
-              const coverage = coverageByCountry.get(country);
-              if (
-                coverage &&
-                numUsedDays +
-                  Math.min(
-                    coverage.numTeams - numPlacedTeams,
-                    allDays.length - numUsedDays,
-                  ) <
-                  coverage.minDays
-              ) {
+              // Each club left to place opens at most one more day,
+              // so give up on this day
+              // as soon as fewer are left than the days the country still owes.
+              const minDays = Math.min(numTeams, allDays.length);
+              if (numTeams - numPlacedTeams < minDays - numUsedDays) {
                 return false;
               }
             }
@@ -349,31 +317,8 @@ const splitMatchday = ({
   const coverages = orderedTeamsByCountry
     .entries()
     .filter(([, indices]) => indices.length > 1)
-    .map(([country, indices]): Coverage => ({
-      country,
-      numTeams: indices.length,
-      minDays: Math.min(indices.length, numDays),
-    }))
+    .map(([country, indices]): Coverage => [country, indices.length])
     .toArray();
-
-  const allowanceByCountry = new Map(
-    orderedTeamsByCountry.entries().map(([country, indices]) => {
-      const quotient = Math.floor(indices.length / numDays);
-      const remainder = indices.length % numDays;
-      return [
-        country,
-        remainder === 0
-          ? {
-              maxAllowed: quotient,
-              numMaxes: numDays,
-            }
-          : {
-              maxAllowed: quotient + 1,
-              numMaxes: remainder,
-            },
-      ] as const;
-    }),
-  );
 
   const dayAssignment = findDayAssignment({
     matches: matchesToSplit,
@@ -382,7 +327,6 @@ const splitMatchday = ({
     countries: orderedTeamsByCountry.keys().toArray(),
     coverages,
     separationGroups,
-    allowanceByCountry,
     areDaysInterchangeable,
   });
 

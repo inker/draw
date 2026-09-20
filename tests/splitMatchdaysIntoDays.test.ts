@@ -1,9 +1,12 @@
 import { readFileSync, readdirSync } from 'node:fs';
 import { join } from 'node:path';
 
+import { chunk, orderBy } from 'lodash';
+
 import splitMatchdaysIntoDays, {
   firstSeasonWithOpeningMatch,
 } from '../src/engine/dfs/ls/generateSchedule/splitMatchdaysIntoDays';
+import popularityRank from '../src/model/popularityRank';
 import { type UefaCountry } from '../src/model/types';
 
 const team = (name: string, country: string) => ({
@@ -89,6 +92,24 @@ const buildMatchday = (
   }
   return matches;
 };
+
+// What the split is meant to keep apart: each country's clubs in popularity
+// order, cut into tuples the size of the day count.
+const popularityTuples = (
+  field: readonly ReturnType<typeof team>[],
+  indices: Iterable<number>,
+  numDays: number,
+) =>
+  Map.groupBy(indices, index => field[index].country)
+    .values()
+    .flatMap(countryIndices =>
+      chunk(
+        orderBy(countryIndices, index => popularityRank(field[index], index)),
+        numDays,
+      ),
+    )
+    .filter(tuple => tuple.length > 1)
+    .toArray();
 
 const dayByTeam = (
   days: readonly (readonly (readonly [number, number])[])[],
@@ -212,7 +233,7 @@ describe('splitMatchdaysIntoDays', () => {
     ).toThrow('not at home');
   });
 
-  it("spends none of the remaining days' allowance on the opener's clubs", () => {
+  it("counts none of the opener's clubs towards the remaining days' spread", () => {
     // Three French clubs, the holders among them. Once they open on their own
     // day, the other two are two clubs over two days, so they cannot share one.
     // Counting all three against the two remaining days would permit 2-0.
@@ -328,5 +349,33 @@ describe('splitMatchdaysIntoDays', () => {
         }
       }
     }
+  });
+  // The second of these matchdays cannot be split with every tuple intact,
+  // so one of them has to go. Which one is the search's business,
+  // but it gives up exactly one
+  // & no country's spread over the days, which used to go first.
+  it('gives up a single tuple when the matchday cannot take them all', () => {
+    const fullSizeTeams = latestClPots()
+      .flat()
+      .map(club => team(club.name, club.country));
+
+    const [, secondMatchday] = splitMatchdaysIntoDays({
+      matchdays: [91, 92, 93].map(seed => buildMatchday(fullSizeTeams, seed)),
+      tournament: 'cl',
+      season: firstSeasonWithOpeningMatch - 1,
+      matchdaySize: fullSizeTeams.length / 2,
+      teams: fullSizeTeams,
+    });
+
+    const day = dayByTeam(secondMatchday);
+    const broken = popularityTuples(
+      fullSizeTeams,
+      day.keys(),
+      secondMatchday.length,
+    ).filter(
+      tuple => new Set(tuple.map(index => day.get(index))).size < tuple.length,
+    );
+
+    expect(broken).toHaveLength(1);
   });
 });
