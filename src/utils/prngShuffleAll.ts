@@ -4,15 +4,18 @@ import prngShuffle from './prngShuffle';
 /**
  * Shuffles each collection off the one stream, one at a time,
  * because the generator is a single cursor
- * & concurrent draws would slice it in whatever order the event loop resumed.
- * Arrays rather than iterables inside,
- * because inference through a nested `Iterable` gives `unknown`
+ * & concurrent draws would slice it in whatever order the event loop resumed
  */
 export default async <T>({
   collections,
   prngGenerator,
 }: {
-  collections: Iterable<Iterable<T>>;
+  /**
+   * Arrays rather than `Iterable` inside:
+   * TypeScript makes the structural match into `Symbol.iterator` at the outer level only,
+   * so a nested `Iterable` leaves `T` with no candidate & every caller infers `unknown`
+   */
+  collections: Iterable<readonly T[]>;
   prngGenerator: PrngGenerator;
 }) => {
   const shuffled: T[][] = [];
