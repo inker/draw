@@ -53,19 +53,24 @@ const matchday = [
   [5, 11],
 ] as [number, number][];
 
-const latestClPots = () => {
-  const stageDir = join(__dirname, '..', 'src', 'data', 'cl', 'ls');
-  const latest = Math.max(
-    ...readdirSync(stageDir)
-      .filter(name => /^\d{4}$/.test(name))
-      .map(Number),
-  );
-  const path = join(stageDir, String(latest), 'pots.json');
-  return JSON.parse(readFileSync(path, 'utf8')) as {
+const stageDir = join(__dirname, '..', 'src', 'data', 'cl', 'ls');
+
+const clPots = (season: number) =>
+  JSON.parse(
+    readFileSync(join(stageDir, String(season), 'pots.json'), 'utf8'),
+  ) as {
     name: string;
     country: string;
   }[][];
-};
+
+const latestClPots = () =>
+  clPots(
+    Math.max(
+      ...readdirSync(stageDir)
+        .filter(name => /^\d{4}$/.test(name))
+        .map(Number),
+    ),
+  );
 
 // One matchday: every team plays once, never against a compatriot.
 // Seeded rather than random, so a failure can be reproduced.
@@ -351,25 +356,27 @@ describe('splitMatchdaysIntoDays', () => {
     }
   });
   // The second of these matchdays cannot be split with every tuple intact,
-  // so one of them has to go. Which one is the search's business,
-  // but it gives up exactly one
-  // & no country's spread over the days, which used to go first.
+  // so one has to go: Milan & Atalanta, & no country's spread over the days,
+  // which is what used to go first.
+  // Pinned to one season's field rather than the latest,
+  // because how many tuples have to give is a property of this exact matchday
+  // & a new season's clubs would pose a different problem.
   it('gives up a single tuple when the matchday cannot take them all', () => {
-    const fullSizeTeams = latestClPots()
+    const pinnedTeams = clPots(2024)
       .flat()
       .map(club => team(club.name, club.country));
 
     const [, secondMatchday] = splitMatchdaysIntoDays({
-      matchdays: [91, 92, 93].map(seed => buildMatchday(fullSizeTeams, seed)),
+      matchdays: [7, 8, 9].map(seed => buildMatchday(pinnedTeams, seed)),
       tournament: 'cl',
       season: firstSeasonWithOpeningMatch - 1,
-      matchdaySize: fullSizeTeams.length / 2,
-      teams: fullSizeTeams,
+      matchdaySize: pinnedTeams.length / 2,
+      teams: pinnedTeams,
     });
 
     const day = dayByTeam(secondMatchday);
     const broken = popularityTuples(
-      fullSizeTeams,
+      pinnedTeams,
       day.keys(),
       secondMatchday.length,
     ).filter(
