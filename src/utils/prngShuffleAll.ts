@@ -17,13 +17,12 @@ export default async <T>({
 }) => {
   const shuffled: T[][] = [];
   for (const collection of collections) {
-    shuffled.push(
-      // eslint-disable-next-line no-await-in-loop
-      await prngShuffle({
-        collection,
-        prngGenerator,
-      }),
-    );
+    // eslint-disable-next-line no-await-in-loop
+    const shuffledCollection = await prngShuffle({
+      collection,
+      prngGenerator,
+    });
+    shuffled.push(shuffledCollection);
   }
   return shuffled;
 };
