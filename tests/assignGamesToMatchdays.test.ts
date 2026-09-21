@@ -1,4 +1,4 @@
-import assignGamesToMatchdays from '../src/engine/dfs/ls/generateSchedule/assignGamesToMatchdays';
+import assignGamesToMatchdays from '#engine/dfs/ls/generateSchedule/assignGamesToMatchdays';
 
 // Four clubs, each home once & away once, so the whole set fits into two
 // matchdays of two games. The only valid split puts each club home on one

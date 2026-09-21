@@ -5,9 +5,9 @@ import { chunk, orderBy } from 'lodash';
 
 import splitMatchdaysIntoDays, {
   firstSeasonWithOpeningMatch,
-} from '../src/engine/dfs/ls/generateSchedule/splitMatchdaysIntoDays';
-import popularityRank from '../src/model/popularityRank';
-import { type UefaCountry } from '../src/model/types';
+} from '#engine/dfs/ls/generateSchedule/splitMatchdaysIntoDays';
+import popularityRank from '#model/popularityRank';
+import { type UefaCountry } from '#model/types';
 
 const team = (name: string, country: string) => ({
   name,

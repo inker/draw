@@ -1,9 +1,9 @@
 import { readFileSync, readdirSync } from 'node:fs';
 import { join } from 'node:path';
 
-import popularity from '../src/data/popularity';
-import GsTeam from '../src/model/team/GsTeam';
-import pairUpTeams from '../src/model/pairUpTeams';
+import popularity from '#data/popularity';
+import GsTeam from '#model/team/GsTeam';
+import pairUpTeams from '#model/pairUpTeams';
 
 const DATA_DIR = join(__dirname, '..', 'src', 'data');
 

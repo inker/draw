@@ -1,7 +1,7 @@
 import {
   type MutableBacktrackOptions,
   findFirstSolutionMutable,
-} from '../src/utils/backtrack';
+} from '#utils/backtrack';
 
 describe('findFirstSolutionMutable', () => {
   // build a permutation of 0..size-1 one element at a time

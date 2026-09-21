@@ -1,8 +1,8 @@
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 
-import seasonFacts from '../src/data/seasonFacts';
-import bannedFixtures from '../src/engine/predicates/uefa/utils/bannedFixtures';
+import seasonFacts from '#data/seasonFacts';
+import bannedFixtures from '#engine/predicates/uefa/utils/bannedFixtures';
 
 const DATA_DIR = join(__dirname, '..', 'src', 'data');
 

@@ -1,4 +1,4 @@
-import isInsideInterval from '../src/utils/isInsideInterval';
+import isInsideInterval from '#utils/isInsideInterval';
 
 describe('isInsideInterval', () => {
   describe.each([

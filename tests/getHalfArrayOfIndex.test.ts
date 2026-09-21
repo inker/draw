@@ -1,4 +1,4 @@
-import getHalfArrayOfIndex from '../src/utils/getHalfArrayOfIndex';
+import getHalfArrayOfIndex from '#utils/getHalfArrayOfIndex';
 
 describe('getHalfArrayOfIndex', () => {
   describe.each([

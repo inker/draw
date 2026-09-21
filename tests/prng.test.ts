@@ -1,4 +1,4 @@
-import createPrngGenerator from '../src/utils/prng/generator';
+import createPrngGenerator from '#utils/prng/generator';
 
 const toHex = (digest: ArrayBuffer) =>
   [...new Uint8Array(digest)]

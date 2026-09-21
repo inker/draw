@@ -1,4 +1,4 @@
-import { generateValidPatterns } from '../src/engine/dfs/ls/generateSchedule/homeAwayPatterns';
+import { generateValidPatterns } from '#engine/dfs/ls/generateSchedule/homeAwayPatterns';
 
 // A pattern mask (bit md set = home) as an H/A string, matchday 0 first.
 const toString = (mask: number, numMatchdays: number) =>

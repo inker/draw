@@ -1,7 +1,5 @@
-import createPrngGenerator, {
-  type PrngGenerator,
-} from '../src/utils/prng/generator';
-import prngShuffle from '../src/utils/prng/shuffle';
+import createPrngGenerator, { type PrngGenerator } from '#utils/prng/generator';
+import prngShuffle from '#utils/prng/shuffle';
 
 // what the app runs on
 const COUNTER_BYTE_LENGTH = 4;
