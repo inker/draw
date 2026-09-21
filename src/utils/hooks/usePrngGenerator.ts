@@ -30,7 +30,7 @@ const toSeed = (str: string | null) => {
   return globalThis.crypto.getRandomValues(new Uint8Array(SEED_BYTE_LENGTH));
 };
 
-const startStream = (str: string | null) => {
+const initStream = (str: string | null) => {
   const seed = toSeed(str);
   return {
     seed,
@@ -51,11 +51,11 @@ export default () => {
   const seedParam = searchParam.get('seed');
   const [drawId] = useDrawId();
 
-  const [prng, setStream] = useState(() => startStream(seedParam));
+  const [prng, setStream] = useState(() => initStream(seedParam));
 
   // Not on mount, or the stream is replaced on the render right after it starts.
   useDidUpdate(() => {
-    setStream(startStream(seedParam));
+    setStream(initStream(seedParam));
   }, [seedParam, drawId]);
 
   useEffect(() => {
