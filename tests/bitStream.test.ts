@@ -44,7 +44,7 @@ describe('bitStream', () => {
   });
 
   it.each([1, 3, 32, 64])('takes a buffer of any width: %s', async width => {
-    const bytes = [...Array(width).keys()].map(index => index % 256);
+    const bytes = [...new Array(width).keys()].map(index => index % 256);
     const bits = bitStream(cycle(bytes));
     const expected = bytes
       .map(byte => byte.toString(2).padStart(8, '0'))

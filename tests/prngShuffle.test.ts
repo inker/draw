@@ -1,4 +1,6 @@
-import createPrngGenerator, { type PrngGenerator } from '../src/utils/prng/generator';
+import createPrngGenerator, {
+  type PrngGenerator,
+} from '../src/utils/prng/generator';
 import prngShuffle from '../src/utils/prng/shuffle';
 
 // what the app runs on
@@ -10,7 +12,7 @@ const streamOf = (text: string) =>
     seed: new TextEncoder().encode(text),
   });
 
-const range = (length: number) => [...Array(length).keys()];
+const range = (length: number) => [...new Array(length).keys()];
 
 /**
  * Spelled out rather than inferred,
