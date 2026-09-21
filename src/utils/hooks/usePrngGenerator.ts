@@ -34,7 +34,7 @@ const startStream = (str: string | null) => {
   const seed = toSeed(str);
   return {
     seed,
-    prngGenerator: createPrngGenerator({
+    generator: createPrngGenerator({
       byteLength: COUNTER_BYTE_LENGTH,
       seed,
     }),
@@ -51,9 +51,7 @@ export default () => {
   const seedParam = searchParam.get('seed');
   const [drawId] = useDrawId();
 
-  const [{ seed, prngGenerator }, setStream] = useState(() =>
-    startStream(seedParam),
-  );
+  const [prng, setStream] = useState(() => startStream(seedParam));
 
   // Not on mount, or the stream is replaced on the render right after it starts.
   useDidUpdate(() => {
@@ -64,12 +62,12 @@ export default () => {
     // eslint-disable-next-line no-console
     console.log(
       'seed:',
-      seed.toBase64({
+      prng.seed.toBase64({
         alphabet: 'base64url',
         omitPadding: true,
       }),
     );
-  }, [seed]);
+  }, [prng.seed]);
 
-  return prngGenerator;
+  return prng.generator;
 };
