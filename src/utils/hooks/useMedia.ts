@@ -1,21 +1,17 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
+
+import useEvent from './useEvent';
 
 export default (media: string) => {
   const matchResult = useMemo(() => window.matchMedia(media), [media]);
 
   const [isMatch, setIsMatch] = useState(matchResult.matches);
 
-  useEffect(() => {
-    const listener = (e: MediaQueryListEvent) => {
-      setIsMatch(e.matches);
-    };
+  const handleChange = useCallback((e: MediaQueryListEvent) => {
+    setIsMatch(e.matches);
+  }, []);
 
-    matchResult.addEventListener('change', listener);
-
-    return () => {
-      matchResult.removeEventListener('change', listener);
-    };
-  }, [matchResult]);
+  useEvent(matchResult, 'change', handleChange);
 
   return isMatch;
 };

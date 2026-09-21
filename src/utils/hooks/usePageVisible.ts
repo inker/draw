@@ -1,7 +1,6 @@
 import { useCallback, useState } from 'react';
 
-import useDocumentEvent from './useDocumentEvent';
-import useGlobalEvent from './useGlobalEvent';
+import useEvent from './useEvent';
 
 export default () => {
   const [isActive, setIsActive] = useState(document.hasFocus());
@@ -10,7 +9,7 @@ export default () => {
     setIsActive(!document.hidden);
   }, []);
 
-  useDocumentEvent('visibilitychange', handleDocumentVisibilityChange);
+  useEvent(document, 'visibilitychange', handleDocumentVisibilityChange);
 
   const setActive = useCallback(() => {
     setIsActive(true);
@@ -20,10 +19,10 @@ export default () => {
     setIsActive(false);
   }, []);
 
-  useDocumentEvent('focus', setActive);
-  useGlobalEvent('focus', setActive);
-  useDocumentEvent('blur', setInactive);
-  useGlobalEvent('blur', setInactive);
+  useEvent(document, 'focus', setActive);
+  useEvent(window, 'focus', setActive);
+  useEvent(document, 'blur', setInactive);
+  useEvent(window, 'blur', setInactive);
 
   return isActive;
 };

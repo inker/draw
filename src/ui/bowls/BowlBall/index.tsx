@@ -7,7 +7,7 @@ import {
 } from 'react';
 import clsx from 'clsx';
 
-import useGlobalEvent from '#utils/hooks/useGlobalEvent';
+import useEvent from '#utils/hooks/useEvent';
 import * as ballStyles from '#ui/ball.module.scss';
 
 import * as styles from './styles.module.scss';
@@ -48,7 +48,7 @@ function BowlBall({
     [ballRef, noHover],
   );
 
-  useGlobalEvent('keydown', cb);
+  useEvent(window, 'keydown', cb);
 
   return (
     <div
