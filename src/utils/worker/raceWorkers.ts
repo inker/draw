@@ -1,7 +1,7 @@
 import delay from 'delay.js';
 
 import WorkerManager from './WorkerManager';
-import workerSendAndReceive from './sendAndReceive';
+import workerRpc from './rpc';
 
 const maxNumWorkers = navigator.hardwareConcurrency;
 
@@ -112,7 +112,7 @@ export default async <Func extends (...args: any) => void>({
         try {
           // eslint-disable-next-line no-await-in-loop
           const raceResult = await Promise.race([
-            workerSendAndReceive<ReturnType<Func>>(worker)(
+            workerRpc<ReturnType<Func>>(worker)(
               getPayload({
                 workerIndex,
                 attempt,

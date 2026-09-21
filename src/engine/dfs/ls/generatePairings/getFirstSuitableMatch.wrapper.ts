@@ -1,4 +1,4 @@
-import workerSendAndReceive from '#utils/worker/sendAndReceive';
+import workerRpc from '#utils/worker/rpc';
 
 import { type Func } from './getFirstSuitableMatch.worker';
 
@@ -8,6 +8,6 @@ export default ({
 }: Parameters<Func>[0] & {
   worker: Worker;
 }) => {
-  const invoke = workerSendAndReceive<ReturnType<Func>>(worker);
+  const invoke = workerRpc<ReturnType<Func>>(worker);
   return invoke(options);
 };
