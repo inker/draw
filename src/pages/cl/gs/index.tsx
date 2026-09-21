@@ -13,7 +13,7 @@ import useXRay from '#store/useXRay';
 import useFastDraw from '#store/useFastDraw';
 import useDrawId from '#store/useDrawId';
 import usePopup from '#store/usePopup';
-import useWorkerSendAndReceive from '#utils/hooks/useWorkerSendAndReceive';
+import useWorkerRpc from '#utils/hooks/useWorkerRpc';
 import usePrngGenerator from '#utils/hooks/usePrngGenerator';
 import prngShuffle from '#utils/prng/shuffle';
 import prngShuffleAll from '#utils/prng/shuffleAll';
@@ -94,10 +94,10 @@ function CLGS({ season, pots: initialPots, isFirstPotShortDraw }: Props) {
   const [, setPopup] = usePopup();
   const [isXRay] = useXRay();
 
-  const getFirstPossibleGroupResponse = useWorkerSendAndReceive(
+  const getFirstPossibleGroupResponse = useWorkerRpc(
     createFirstPossibleGroupWorker,
   ) as FirstPossibleGroupFunc;
-  const getAllPossibleGroupsResponse = useWorkerSendAndReceive(
+  const getAllPossibleGroupsResponse = useWorkerRpc(
     createAllPossibleGroupsWorker,
   ) as AllPossibleGroupsFunc;
 

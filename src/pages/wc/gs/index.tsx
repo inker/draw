@@ -9,7 +9,7 @@ import TeamBowl from '#ui/bowls/TeamBowl';
 import Announcement from '#ui/Announcement';
 import { serializeGsWorkerData } from '#model/WorkerData';
 import type Team from '#model/team/NationalTeam';
-import useWorkerSendAndReceive from '#utils/hooks/useWorkerSendAndReceive';
+import useWorkerRpc from '#utils/hooks/useWorkerRpc';
 import usePrngGenerator from '#utils/hooks/usePrngGenerator';
 import prngShuffleAll from '#utils/prng/shuffleAll';
 import useXRay from '#store/useXRay';
@@ -79,9 +79,7 @@ function WCGS({ season, pots: initialPots }: Props) {
   const [, setPopup] = usePopup();
   const [isXRay] = useXRay();
 
-  const getFirstPossibleGroupResponse = useWorkerSendAndReceive(
-    createWorker,
-  ) as Func;
+  const getFirstPossibleGroupResponse = useWorkerRpc(createWorker) as Func;
 
   const groupsContanerRef = useRef<HTMLDivElement>(null);
 
