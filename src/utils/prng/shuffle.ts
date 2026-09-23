@@ -1,4 +1,5 @@
-import bitStream from './bitStream';
+import buffersToBits from '../buffersToBits';
+
 import { type PrngGenerator } from './generator';
 
 /**
@@ -47,7 +48,7 @@ export default async <T>({
   collection: Iterable<T>;
   prngGenerator: PrngGenerator;
 }) => {
-  const bits = bitStream(prngGenerator);
+  const bits = buffersToBits(prngGenerator);
   const shuffled = [...collection];
 
   // Fisher-Yates over a bit stream, not a sort key per element:

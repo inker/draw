@@ -4,7 +4,8 @@ const BITS_PER_BYTE = 8;
  * The buffers taken a bit at a time, most significant first.
  * Bytes rather than a wider typed array,
  * which would read in the host's byte order
- * & deal a different draw from the same seed on a big-endian machine
+ * & give the same buffers different bits on a big-endian machine.
+ * A seeded draw replaying the same everywhere rests on that
  */
 export default async function* (
   buffers: AsyncIterable<ArrayBuffer> | Iterable<ArrayBuffer>,
