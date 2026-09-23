@@ -15,7 +15,7 @@ const range = (length: number) => [...new Array(length).keys()];
 /**
  * Spelled out rather than inferred,
  * because TypeScript only infers a never-returning type
- * for function declarations rather than expressions
+ * for function expressions rather than declarations
  */
 async function* counted(
   prngGenerator: PrngGenerator,

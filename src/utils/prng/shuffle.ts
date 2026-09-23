@@ -18,7 +18,13 @@ const readBelow = async ({
   let value = 0;
   for (;;) {
     // eslint-disable-next-line no-await-in-loop
-    const { value: bit } = await bits.next();
+    const { value: bit, done } = await bits.next();
+    if (done) {
+      // Every tie has to be broken for the draw to be a draw,
+      // so a stream that ends mid-pick cannot be finished later
+      // & the bits already read have to be thrown away with it.
+      throw new Error('Ran out of randomness mid-shuffle');
+    }
     // Doubled rather than shifted:
     // the bitwise operators work in 32 bits & these pass that
     // once a collection passes 2^30, where a double is still exact.
