@@ -1,4 +1,4 @@
-import bitStream, { type BitStream } from './bitStream';
+import bitStream from './bitStream';
 import { type PrngGenerator } from './generator';
 
 /**
@@ -11,7 +11,7 @@ const readBelow = async ({
   bits,
   bound,
 }: {
-  bits: BitStream;
+  bits: AsyncIterator<0 | 1, void>;
   bound: number;
 }) => {
   let range = 1;
