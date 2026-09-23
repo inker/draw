@@ -1,4 +1,4 @@
-import counterSequence from '#utils/prng/counterSequence';
+import counterSequence from '#utils/counterSequence';
 
 const take = (byteLength: number, count: number) => {
   const counters = counterSequence(byteLength);
