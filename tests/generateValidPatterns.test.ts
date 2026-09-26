@@ -44,7 +44,7 @@ const oracle = (numMatchdays: number) => {
 const A078678 = [
   1, 2, 4, 8, 18, 42, 100, 242, 592, 1460, 3624, 9042, 22656, 56970, 143688,
   363348,
-];
+] as const satisfies readonly number[];
 
 describe('generateValidPatterns', () => {
   for (const numMatchdays of [2, 4, 6, 8]) {
