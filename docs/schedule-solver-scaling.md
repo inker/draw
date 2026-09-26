@@ -206,18 +206,44 @@ The solver puts it alongside 14.
 Counts before constraints say nothing about where a search gets stuck,
 since the pattern rules are what dominate.
 
-## Round robin scheduling notes
+## Why not Berger tables?
 
-- The circle method & Berger tables are the same construction.
-  They give one factorisation up to relabelling teams & reordering rounds,
-  which real constraints (same-city clubs, holiday pairings, home/away balance) easily rule out.
-- Splitting a double round robin into halves fixes who hosts each second-half fixture,
-  but not the second half's venue sequence.
-  Each half can be generated on its own
-  as long as the second is legal & joins legally onto the end of the first.
-  The Bundesliga & La Liga do this.
-  The Premier League does not, most likely because it gains nothing it requires
-  & costs room for the date constraints it does care about.
+[Berger tables](https://en.wikipedia.org/wiki/Round-robin_tournament#Berger_tables)
+(the circle method written out round by round)
+schedule a round robin in closed form, with no search at all.
+They do not help here, for two reasons.
+
+They schedule a complete graph.
+Berger answers "everyone plays everyone",
+while the league phase plays 8 of 35 possible opponents, chosen by the draw.
+A table built for the complete graph cannot take a given set of fixtures & fit it into matchdays.
+The complete graph is the special case with a closed-form answer.
+For an arbitrary regular graph, even deciding whether its games fit into
+as many matchdays as each team has games (with no home/away rules at all) is NP-complete:
+Holyer (1981) proved it for 3-regular graphs
+and Leven & Galil (1983) for every degree from 3 up.
+So the league phase has to be searched, whatever the constraints.
+
+Even for a round robin, they are one schedule.
+Up to relabelling teams & reordering rounds, Berger gives a single factorisation,
+with a fixed home/away pattern per slot & a mirrored second half in the double version.
+The patterns come in complementary pairs,
+so clubs sharing a city can be given opposite ones & never host on the same day.
+Date-specific constraints are what break it:
+a Boxing Day & New Year pairing, police restrictions on a derby date,
+a stadium unavailable for a weekend.
+Once enough of those pile up, no relabelling satisfies them all
+& the schedule has to be searched for, as the Premier League's is.
+
+## Splitting a double round robin into halves
+
+Fixing the first half fixes who hosts each second-half fixture,
+but not the second half's venue sequence.
+Each half can be generated on its own
+as long as the second is legal & joins legally onto the end of the first.
+The Bundesliga & La Liga do this.
+The Premier League does not, most likely because it gains nothing it requires
+& costs room for the date constraints it does care about.
 
 ## Not covered
 
