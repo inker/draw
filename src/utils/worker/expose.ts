@@ -22,13 +22,13 @@ export default (func: (arg: any) => any) => {
     try {
       const result = func(data);
 
-      postMessage({
+      globalThis.postMessage({
         type: 'result',
         [FROM_WORKER_CORRELATION_ID]: correlationId,
         [FROM_WORKER_DATA_KEY]: result,
       } satisfies ResponseMessage);
     } catch (err) {
-      postMessage({
+      globalThis.postMessage({
         type: 'error',
         [FROM_WORKER_CORRELATION_ID]: correlationId,
         [FROM_WORKER_DATA_KEY]: err as Error,
