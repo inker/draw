@@ -15,3 +15,7 @@
 </p>
 
 Works in all major browsers (Chrome, Edge, Firefox, etc) with the exception of IE. Sometimes, Safari disappoints, too.
+
+## Docs
+
+- [Schedule solver scaling](docs/schedule-solver-scaling.md): how long spreading the fixtures over matchdays takes as the number of teams & games per team grows
