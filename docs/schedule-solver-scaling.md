@@ -14,7 +14,8 @@ from the Champions League league phase up to a full double round robin the size 
   It climbs until it hits a cliff, around 44-52 teams at 8-12 games per team,
   where backtracking takes over.
 - More games per team is not always harder.
-  At 44 teams, 6 games per team is the hardest by far & 8 is the easiest.
+  At 44 teams, 6 games per team is the hardest by far & 8 is the easiest,
+  because at 6 the rules pin every club's whole season into home-away pairs.
 - The spread between seeds is as large as the growth between sizes,
   often 10x between the median & the worst run.
 - 8 games per team is the solver's easiest region,
@@ -151,11 +152,48 @@ Good enough for an order of magnitude, not for planning.
 
 ### Why 6 games is hardest
 
-It is not the pattern rule.
+It is not how many patterns are legal.
 8 of the 20 balanced 6-matchday sequences are legal,
 a looser share than 18 of 70 at 8 matchdays.
-The likeliest explanation is that with so few matchdays
-a bad early matching leaves no room to recover later, but that has not been checked.
+It is how much of the season the rules pin down.
+
+Alternation across the first two & last two matchdays fixes two matchdays at each end,
+whatever the length of the season.
+Every legal pattern flips venue after these matchdays:
+
+| Matchdays | Legal patterns | Always flips after matchday |
+| --------- | -------------- | --------------------------- |
+| 6         | 8              | 0, 2, 4                     |
+| 8         | 18             | 0, 6                        |
+| 10        | 42             | 0, 8                        |
+
+At 6 matchdays the balance rule (3 home games) forces the middle two to flip as well,
+so every club's season is three pairs of matchdays with one home & one away game in each.
+
+That makes it a different problem.
+Take matchdays 0 & 1:
+the clubs at home on matchday 0 are exactly the clubs away on matchday 1,
+so every game in the pair is between those two groups.
+Each club has one home & one away game in the pair,
+so the pair's games form directed cycles,
+& since every cycle keeps crossing between the two groups, each has even length.
+Conversely, any such set of cycles splits into two matchdays by taking alternate games.
+
+So a 6-game season is schedulable exactly when the fixture graph
+splits into three sets of directed cycles that cover every club, all of even length.
+Balance, no three in a row & the boundary rules then hold automatically.
+
+No odd cycles is a global parity condition.
+The solver fills one matchday at a time
+& only finds out that a cycle is odd when it closes, often several matchdays later,
+which fits the time climbing so fast as the graph grows.
+From 8 matchdays the middle of the season is free & the condition never arises.
+
+The share of the season the boundary rules fix is 4/G:
+all of it at 6, half at 8 & 40% at 10.
+That is still a function of G but not a smooth one,
+which is why no single power of G fits the grid.
+A 4-game season would be fully paired too.
 
 ## Counting estimates did not predict any of this
 
@@ -189,3 +227,9 @@ since the pattern rules are what dominate.
 - Real draw results. The league-phase instances are random regular graphs,
   not graphs shaped by pots & country protection.
 - More seeds. 7-10 per size is enough for medians, not for tails.
+- Graph versus search luck.
+  Each seed in the T x G grid changes both the fixture graph & the solver's seed,
+  so the spread there cannot be split between hard graphs & unlucky searches.
+  The double round robin runs do not have this problem, since the graph is always complete.
+- Team counts that are not a multiple of 4.
+  Every T tried had an even number of home teams per matchday.
