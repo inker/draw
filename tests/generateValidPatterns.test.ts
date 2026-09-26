@@ -36,6 +36,16 @@ const oracle = (numMatchdays: number) => {
   return result.sort();
 };
 
+/**
+ * https://oeis.org/A078678, indexed by half the matchday count.
+ * An outside count rather than a second copy of the rules,
+ * & it reaches the lengths the brute-force oracle is too slow for.
+ */
+const A078678 = [
+  1, 2, 4, 8, 18, 42, 100, 242, 592, 1460, 3624, 9042, 22656, 56970, 143688,
+  363348,
+];
+
 describe('generateValidPatterns', () => {
   for (const numMatchdays of [2, 4, 6, 8]) {
     it(`matches the brute-force definition for ${numMatchdays} matchdays`, () => {
@@ -47,6 +57,14 @@ describe('generateValidPatterns', () => {
       expect(generated.length).toBeGreaterThan(0);
       // no duplicates
       expect(new Set(generated).size).toBe(generated.length);
+    });
+  }
+
+  for (let numMatchdays = 2; numMatchdays <= 30; numMatchdays += 2) {
+    it(`counts A078678 patterns for ${numMatchdays} matchdays`, () => {
+      expect(generateValidPatterns(numMatchdays)).toHaveLength(
+        A078678[numMatchdays / 2],
+      );
     });
   }
 
