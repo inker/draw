@@ -56,11 +56,32 @@ Raising the cap would not help, since the set explodes:
 | 34        | 2,338,566               |
 | 38        | 15,157,874              |
 
+The count for M matchdays is [OEIS A078678](https://oeis.org/A078678) at M/2,
+the number of binary strings with n ones & n zeros avoiding 101 & 010.
+It matches at every even length from 4 to 60.
+Part of the link is plain:
+flipping the venue on every other matchday turns three in a row into a zigzag.
+That flip does not preserve balance though,
+& without the boundary alternation the counts are a different sequence
+(6, 14, 34, 84, 208 & so on from 4 matchdays),
+so the exact bijection is less direct & has not been worked out.
+
+The entry gives a closed form & the asymptotic growth:
+
+- the count for M matchdays is the coefficient of `x^(M/2)`
+  in `sqrt((1 + x + x^2) / (1 - 3x + x^2))`
+- `a(n) ~ 2 × φ^(2n) / (5^(1/4) × sqrt(πn))`,
+  so the count grows by φ ≈ 1.618 per extra matchday
+
+The bitset holds one bit per legal pattern,
+so its cost per check grows by that same φ per matchday.
+
 For the larger runs the bitset was swapped in a scratch copy
 for a check that walks the matchdays
 & asks whether any legal pattern still fits the club's pinned venues.
 The rules are identical (it reproduces the 363,348 count at 30 matchdays).
-It is about n^2 per check rather than one word per check,
+It costs about M^2 per check for M matchdays,
+against the bitset's one bit per legal pattern (a single word at 8 matchdays),
 so it is slower than the bitset on short seasons & faster on long ones.
 Every table below except the first uses it.
 
