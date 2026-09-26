@@ -11,7 +11,8 @@ export default async function* (
   buffers: AsyncIterable<ArrayBuffer> | Iterable<ArrayBuffer>,
 ) {
   for await (const buffer of buffers) {
-    for (const byte of new Uint8Array(buffer)) {
+    const bytes = new Uint8Array(buffer);
+    for (const byte of bytes) {
       for (let shift = BITS_PER_BYTE - 1; shift >= 0; --shift) {
         yield ((byte >> shift) & 1) as 0 | 1;
       }
