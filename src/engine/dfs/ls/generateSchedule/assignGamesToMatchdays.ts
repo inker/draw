@@ -10,6 +10,7 @@ export default ({
   alternatingPairs,
   bans,
   cannotHostSameDayPairs,
+  minMatchdaysBetweenMeetings = 1,
   randomSeed = 0,
 }: {
   matchdaySize: number;
@@ -17,6 +18,12 @@ export default ({
   alternatingPairs: readonly (readonly [number, number])[];
   bans: readonly Ban[];
   cannotHostSameDayPairs: readonly (readonly [number, number])[];
+  /**
+   * How many matchdays apart two games between the same clubs have to be,
+   * such as a double round robin's two meetings.
+   * 1 allows them on consecutive matchdays.
+   */
+  minMatchdaysBetweenMeetings?: number;
   /**
    * Where in [0, 1) this solver's tie-breaking sequence starts.
    * Two solvers given the same seed search identically,
@@ -32,6 +39,14 @@ export default ({
   if (!Number.isInteger(numMatchdays)) {
     throw new TypeError(
       `allGames length ${numGames} is not a multiple of matchdaySize ${matchdaySize}`,
+    );
+  }
+  if (
+    !Number.isInteger(minMatchdaysBetweenMeetings) ||
+    minMatchdaysBetweenMeetings < 1
+  ) {
+    throw new RangeError(
+      `minMatchdaysBetweenMeetings=${minMatchdaysBetweenMeetings} is not a whole number of matchdays from 1`,
     );
   }
   // numMatchesByMatchday is a Uint16 counting up to matchdaySize.
@@ -76,6 +91,14 @@ export default ({
     gamesByTeam[h].push(gameIndex);
     gamesByTeam[a].push(gameIndex);
   }
+
+  // The other games between the same two clubs, in either direction.
+  const otherMeetingsByGame = allGames.map(([h, a], gameIndex) =>
+    gamesByTeam[h].filter(g => {
+      const [otherH, otherA] = allGames[g];
+      return g !== gameIndex && (otherH === a || otherA === a);
+    }),
+  );
 
   // 0 = not playing, 1 = home, 2 = away
   const locationByTeamMatchday = new Uint8Array(numTeams * numMatchdays);
@@ -143,6 +166,16 @@ export default ({
       return true;
     }
 
+    for (const otherGame of otherMeetingsByGame[gameIndex]) {
+      const otherMatchday = matchdayByGame[otherGame];
+      if (
+        otherMatchday !== -1 &&
+        Math.abs(otherMatchday - md) < minMatchdaysBetweenMeetings
+      ) {
+        return true;
+      }
+    }
+
     // Committing h home / a away here must leave each club at least one
     // complete home/away pattern still possible.
     // Bans are already out of each club's patterns, so this enforces them too.
@@ -207,7 +240,19 @@ export default ({
             ++numOpponentOptions;
           }
         }
-        return [g, numOpponentOptions + nextRandom() * 0.5] as const;
+        // First meetings go before rematches when they have to be kept apart,
+        // pushing the rematches later, where the season still has room for them.
+        // Without it a 20-team season with meetings 5 matchdays apart
+        // went unsolved within 5s on every seed tried.
+        const isHeldBackRematch =
+          minMatchdaysBetweenMeetings > 1 &&
+          otherMeetingsByGame[g].some(og => matchdayByGame[og] !== -1);
+        return [
+          g,
+          (isHeldBackRematch ? numTeams : 0) +
+            numOpponentOptions +
+            nextRandom() * 0.5,
+        ] as const;
       });
       scoredGames.sort((x, y) => x[1] - y[1]);
 

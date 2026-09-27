@@ -120,6 +120,31 @@ A node is one call to `getCandidates`,
 so a search that never backtracks visits about one node per game.
 Up to 16 teams it barely backtracks, and past that backtracking drives the growth.
 
+### Keeping the two meetings apart
+
+`minMatchdaysBetweenMeetings` keeps two games between the same clubs at least that many matchdays apart.
+Double round robins with the UEFA boundary pairs,
+10 seeds, each solve in a fresh worker with a 5s timeout,
+counting the seeds solved in time:
+
+| Teams | Matchdays | 1     | 2     | 3    | 4     | 5     | 6    | 8    | 9     |
+| ----- | --------- | ----- | ----- | ---- | ----- | ----- | ---- | ---- | ----- |
+| 10    | 18        |       |       |      |       | 10/10 |      |      | 10/10 |
+| 20    | 38        | 10/10 | 10/10 | 9/10 | 10/10 | 5/10  | 2/10 | 0/10 |       |
+
+- The first version only rejected a rematch too close to the first meeting.
+  That solved no 20-team season at 5 apart & only 1 of 10 10-team seasons at 9.
+- Preferring first meetings over rematches when a club has a choice
+  pushes rematches later, where the season still has room for them,
+  & gave the table above.
+  Preferring rematches instead solved nothing from 3 apart.
+- Also rejecting a first meeting whose rematch would have no matchday left
+  made no clear difference on top.
+- Past 5 apart at 20 teams the search still runs out of time.
+  Scheduling each half on its own (see "Splitting a double round robin into halves")
+  would put every pair's meetings in different halves,
+  leaving the distance to enforce only across the join.
+
 Odd team counts are not covered:
 the solver derives the team count as `matchdaySize * 2`
 & the pattern rules cannot balance an odd number of matchdays,

@@ -10,6 +10,21 @@ const allGames = [
   [3, 0],
 ] as [number, number][];
 
+// Every ordered pair, so each two clubs meet once at each end.
+const doubleRoundRobin = (numTeams: number) =>
+  Array.from(
+    {
+      length: numTeams,
+    },
+    (_, h) =>
+      Array.from(
+        {
+          length: numTeams,
+        },
+        (__, a) => [h, a] as const,
+      ).filter(([home, away]) => home !== away),
+  ).flat();
+
 describe('assignGamesToMatchdays', () => {
   it('splits a 4-club, 2-matchday fixture legally', () => {
     const result = assignGamesToMatchdays({
@@ -128,6 +143,71 @@ describe('assignGamesToMatchdays', () => {
           cannotHostSameDayPairs: [],
         }),
       ).toThrow(message);
+    },
+  );
+  it('keeps the two meetings of each pair of clubs apart', () => {
+    const numTeams = 6;
+    const games = doubleRoundRobin(numTeams);
+    for (let i = 0; i < 20; ++i) {
+      const result = assignGamesToMatchdays({
+        matchdaySize: numTeams / 2,
+        allGames: games,
+        alternatingPairs: [
+          [0, 1],
+          [8, 9],
+        ],
+        bans: [],
+        cannotHostSameDayPairs: [],
+        minMatchdaysBetweenMeetings: 5,
+        randomSeed: i / 20,
+      });
+
+      const matchdayByPair = new Map<string, number[]>();
+      for (const [md, mdGames] of result.entries()) {
+        const teams = mdGames.flat().sort();
+        expect(teams).toEqual([0, 1, 2, 3, 4, 5]);
+        for (const [h, a] of mdGames) {
+          const key = `${Math.min(h, a)}-${Math.max(h, a)}`;
+          matchdayByPair.set(key, [...(matchdayByPair.get(key) ?? []), md]);
+        }
+      }
+      for (const [first, second] of matchdayByPair.values()) {
+        expect(Math.abs(first - second)).toBeGreaterThanOrEqual(5);
+      }
+    }
+  });
+
+  it('finds no schedule when the meetings cannot be far enough apart', () => {
+    expect(() =>
+      assignGamesToMatchdays({
+        matchdaySize: 2,
+        allGames: doubleRoundRobin(4),
+        alternatingPairs: [
+          [0, 1],
+          [4, 5],
+        ],
+        bans: [],
+        cannotHostSameDayPairs: [],
+        minMatchdaysBetweenMeetings: 6,
+      }),
+    ).toThrow('No solution');
+  });
+
+  it.each([0, 1.5])(
+    'rejects %s matchdays between meetings',
+    minMatchdaysBetweenMeetings => {
+      expect(() =>
+        assignGamesToMatchdays({
+          matchdaySize: 2,
+          allGames,
+          alternatingPairs: [[0, 1]],
+          bans: [],
+          cannotHostSameDayPairs: [],
+          minMatchdaysBetweenMeetings,
+        }),
+      ).toThrow(
+        `minMatchdaysBetweenMeetings=${minMatchdaysBetweenMeetings} is not a whole number of matchdays from 1`,
+      );
     },
   );
 });
