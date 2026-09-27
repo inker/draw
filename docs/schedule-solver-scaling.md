@@ -7,7 +7,8 @@ from the Champions League league phase up to a full double round robin the size 
 ## Summary
 
 - Nothing tried at a realistic size gets stuck.
-  A 20-team double round robin (380 games over 38 matchdays) solves in a median of 7.4s.
+  A 20-team double round robin (380 games over 38 matchdays) solves in a median of 7.4s,
+  or 148ms with the home counts in the walking check packed into bits.
 - The league phase (36 teams, 8 games each) solves in 10-83ms with the real solver.
   By solve time it sits alongside a 14-team double round robin.
 - Solve time does not follow a clean formula.
@@ -270,6 +271,53 @@ up to 4 cold teams, a holder & a same-day hosting pair,
   The 16-team double round robin above (30 matchdays)
   is the only place it has been seen to beat the bitset,
   so the crossover is somewhere between 20 & 30 matchdays.
+
+### Packed walking check
+
+The walking check above tracks every (home count, last venue, run length) state on its own.
+Packing the home counts into the bits of one integer per (last venue, run length)
+leaves four words to carry from matchday to matchday,
+so a check is about 15 integer operations per matchday.
+It is as exact as the walking check & stores only each club's allowed venues,
+with no pattern list, no undo copies & no 31-matchday cap.
+Up to 60 matchdays fit in the 32-bit words.
+
+Every solve ran in a fresh worker thread with a timeout,
+with the fixed fill order the gap table needs.
+Best of 3 runs for 36 teams at 8 matchdays, best of 2 for 24 teams & a single run otherwise.
+The 24-team fixtures come from a re-created generator,
+so they are not the same cases as the table above.
+All checks produced identical schedules on every case.
+
+36 teams, 40 cases, median / worst:
+
+| Check         | 8 matchdays  | 6 matchdays  |
+| ------------- | ------------ | ------------ |
+| Bitset        | 21.5 / 113ms | 197ms / 4.3s |
+| Gap table     | 25.1 / 144ms | 249ms / 5.0s |
+| Packed        | 36.3 / 262ms | 395ms / 7.9s |
+| Walking check | 249ms / 2.1s | not run      |
+
+24 teams, 20 cases, median / worst:
+
+| Check     | 8 matchdays  | 12 matchdays  | 16 matchdays  | 20 matchdays |
+| --------- | ------------ | ------------- | ------------- | ------------ |
+| Bitset    | 4.4 / 22.2ms | 17.8 / 40.9ms | 29.0 / 93.8ms | 100 / 734ms  |
+| Gap table | 5.4 / 23.9ms | 17.9 / 42.9ms | 27.1 / 74.6ms | 40.2 / 219ms |
+| Packed    | 5.6 / 34.7ms | 26.6 / 80.3ms | 44.0 / 189ms  | 82.1 / 607ms |
+
+Double round robin, no bans, 10 cases, median / worst:
+
+| Teams | Matchdays | Bitset       | Packed       | Walking check |
+| ----- | --------- | ------------ | ------------ | ------------- |
+| 16    | 30        | 894ms / 6.5s | 19.6 / 102ms | 417ms / 2.5s  |
+| 18    | 34        | over the cap | 105 / 393ms  | 3.1s / 12.4s  |
+| 20    | 38        | over the cap | 148 / 581ms  | 5.4s / 20.9s  |
+
+- At the league phase's 8 matchdays the packed check is about 1.7x behind the bitset by median.
+- It catches up by 20 matchdays at 24 teams.
+- On double round robins it is 20-45x faster than anything else measured,
+  & it solves a Premier League-sized season in a median of 148ms.
 
 ## Fill order
 
