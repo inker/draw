@@ -4,6 +4,7 @@ import type Tournament from '#model/Tournament';
 import { type PrngGenerator } from '#utils/prng/generator';
 import prngFloat from '#utils/prng/float';
 import prngShuffle from '#utils/prng/shuffle';
+import prngShuffleAll from '#utils/prng/shuffleAll';
 import assertIndicesInRange from '#utils/assertIndicesInRange';
 
 import assignGamesToMatchdays from './assignGamesToMatchdays.wrapper';
@@ -67,20 +68,10 @@ export default async function generateSchedule({
     signal,
   });
 
-  // Drawn one at a time rather than through Promise.all:
-  // the generator is a single cursor,
-  // so concurrent consumers would have their slices of the stream
-  // decided by the order the event loop happens to resume them in.
-  const shuffledMatchdaysSource: (readonly (readonly [number, number])[])[] =
-    [];
-  for (const md of result) {
-    // eslint-disable-next-line no-await-in-loop
-    const shuffled = await prngShuffle({
-      collection: md,
-      prngGenerator,
-    });
-    shuffledMatchdaysSource.push(shuffled);
-  }
+  const shuffledMatchdaysSource = await prngShuffleAll({
+    collections: result,
+    prngGenerator,
+  });
 
   const matchdays = splitMatchdaysIntoDays({
     matchdays: shuffledMatchdaysSource,
@@ -114,15 +105,11 @@ export default async function generateSchedule({
       });
     }
 
-    const shuffledDays: (readonly (readonly [number, number])[])[] = [];
-    for (const day of [...md.slice(0, numFixedDays), ...orderedDays]) {
-      // eslint-disable-next-line no-await-in-loop
-      const shuffledDay = await prngShuffle({
-        collection: day,
-        prngGenerator,
-      });
-      shuffledDays.push(shuffledDay);
-    }
+    // eslint-disable-next-line no-await-in-loop
+    const shuffledDays = await prngShuffleAll({
+      collections: [...md.slice(0, numFixedDays), ...orderedDays],
+      prngGenerator,
+    });
     shuffledMatchdaysResult.push(shuffledDays);
   }
 
