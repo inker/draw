@@ -96,7 +96,6 @@
     "patch-package": "^8.0.0",
     "postcss-styled-syntax": "^0.7.1",
     "sass": "^1.89.2",
-    "sass-loader": "^16.0.5",
     "stylelint": "^16.0.2",
     "stylelint-config-standard-scss": "^16.0.0",
     "stylelint-order": "^7.0.0",

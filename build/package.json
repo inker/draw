@@ -25,6 +25,7 @@
     "fork-ts-checker-webpack-plugin": "^9.0.2",
     "html-webpack-plugin": "^5.4.0",
     "mini-css-extract-plugin": "^2.6.0",
+    "sass-loader": "^17.0.1",
     "style-loader": "^4.0.0",
     "terser-webpack-plugin": "^5.6.1",
     "tsconfig-paths-webpack-plugin": "^4.1.0",
