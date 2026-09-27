@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useHref, useLocation, useSearchParams } from 'react-router-dom';
 
 import useDrawId from '#store/useDrawId';
 import useDidUpdate from '#utils/hooks/useDidUpdate';
@@ -58,15 +58,27 @@ export default () => {
     setStream(initStream(seedParam));
   }, [seedParam, drawId]);
 
+  const { pathname } = useLocation();
+  const replaySearchParams = new URLSearchParams(searchParam);
+  const seedBase64 = prng.seed.toBase64({
+    alphabet: 'base64url',
+    omitPadding: true,
+  });
+  replaySearchParams.set('seed', seedBase64);
+  // The router keeps its search params inside the hash,
+  // so setting them on window.location's own query
+  // gives a link the draw never reads the seed from.
+  const replayHref = useHref({
+    pathname,
+    search: `?${replaySearchParams}`,
+  });
+
   useEffect(() => {
-    const seedBase64 = prng.seed.toBase64({
-      alphabet: 'base64url',
-      omitPadding: true,
-    });
-    const url = new URL(window.location.href);
-    url.searchParams.set('seed', seedBase64);
     // eslint-disable-next-line no-console
-    console.log('replay:', url.toString());
+    console.log(
+      'replay:',
+      new URL(replayHref, window.location.href).toString(),
+    );
   }, [prng.seed]);
 
   return prng.generator;
