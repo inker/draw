@@ -59,14 +59,14 @@ export default () => {
   }, [seedParam, drawId]);
 
   useEffect(() => {
+    const seedBase64 = prng.seed.toBase64({
+      alphabet: 'base64url',
+      omitPadding: true,
+    });
+    const url = new URL(window.location.href);
+    url.searchParams.set('seed', seedBase64);
     // eslint-disable-next-line no-console
-    console.log(
-      'seed:',
-      prng.seed.toBase64({
-        alphabet: 'base64url',
-        omitPadding: true,
-      }),
-    );
+    console.log('replay:', url.toString());
   }, [prng.seed]);
 
   return prng.generator;
