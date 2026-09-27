@@ -1,23 +1,13 @@
 import raceWorkers from '#utils/worker/raceWorkers';
 
 import { type Func } from './assignGamesToMatchdays.worker';
-import { type Ban } from './homeAwayPatterns';
 
 export default ({
-  matchdaySize,
-  allGames,
-  alternatingPairs,
-  bans,
-  cannotHostSameDayPairs,
   randomSeed,
   getNumWorkers,
   signal,
-}: {
-  matchdaySize: number;
-  allGames: readonly (readonly [number, number])[];
-  alternatingPairs: readonly (readonly [number, number])[];
-  bans: readonly Ban[];
-  cannotHostSameDayPairs: readonly (readonly [number, number])[];
+  ...payload
+}: Parameters<Func>[0] & {
   randomSeed: number;
   getNumWorkers: () => number;
   signal?: AbortSignal;
@@ -27,13 +17,7 @@ export default ({
     getWorker: () =>
       new Worker(new URL('./assignGamesToMatchdays.worker', import.meta.url)),
     getPayload: ({ workerIndex, attempt }) => ({
-      matchdaySize,
-      // the solver picks games dynamically,
-      // so the input order only seeds tie-breaking
-      allGames,
-      alternatingPairs,
-      bans,
-      cannotHostSameDayPairs,
+      ...payload,
       // The solver is deterministic in its seed
       // & every worker is handed the same games,
       // so without an offset of its own
