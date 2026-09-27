@@ -1,20 +1,20 @@
 // Feasibility oracle for the league-phase home/away alternation constraints.
-// A legal complete pattern across the matchdays is balanced (half home, half
-// away), never has more than two of the same location in a row, & alternates
-// across the first two & the last two matchdays.
+// A legal complete pattern across the matchdays is balanced (half home,
+// half away), never has more than two of the same location in a row,
+// and alternates across the first two & the last two matchdays.
 //
-// Each club's still-possible patterns are tracked as a bitset, so the check is
-// O(numWords) & independent of the order matchdays are committed. assign &
-// unassign are paired LIFO - matching the way the DFS applies & undoes moves -
-// & each is O(numWords).
+// Each club's still-possible patterns are tracked as a bitset,
+// so the check is O(numWords) & independent of the order matchdays are committed.
+// assign & unassign are paired LIFO -
+// matching the way the DFS applies & undoes moves - & each is O(numWords).
 //
 // Walking the matchdays on every check instead needs no pattern list,
 // but it was the slowest option measured,
 // 11-32x behind this bitset from 6 to 20 matchdays.
 // See "Alternatives to the bitset" in docs/schedule-solver-scaling.md.
 
-// A pattern is a 32-bit mask, bit md set = home, so the last matchday's home
-// bit must stay below the sign bit.
+// A pattern is a 32-bit mask, bit md set = home,
+// so the last matchday's home bit must stay below the sign bit.
 const MAX_MATCHDAYS = 31;
 
 // Every legal complete pattern, built directly by pruning as we go, so the cost
