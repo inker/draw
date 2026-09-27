@@ -87,6 +87,8 @@ export default async function generateSchedule({
     },
   );
 
+  // The solver picks games dynamically,
+  // so the input order only seeds tie-breaking.
   const allGamesShuffled = await prngShuffle({
     collection: allGames,
     prngGenerator,
