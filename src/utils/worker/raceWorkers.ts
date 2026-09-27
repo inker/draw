@@ -78,19 +78,23 @@ export default async <Func extends (...args: any) => void>({
     );
   }
 
+  const getNumWorkers = () =>
+    typeof numWorkersParam === 'function' ? numWorkersParam() : numWorkersParam;
+
   const promises = Array.from(
     {
       length: maxNumWorkers,
     },
     async (_, workerIndex) => {
       for (let attempt = 0; !gotResult; ++attempt) {
-        const numWorkers =
-          typeof numWorkersParam === 'function'
-            ? numWorkersParam()
-            : numWorkersParam;
-        if (workerIndex >= numWorkers) {
+        let numWorkers = getNumWorkers();
+        while (workerIndex >= numWorkers) {
           // eslint-disable-next-line no-await-in-loop
           await delay(1000);
+          if (gotResult) {
+            return undefined;
+          }
+          numWorkers = getNumWorkers();
         }
         const worker = workerManager.register();
         // The attempt is over once the deadline passes or the caller aborts,
