@@ -50,9 +50,10 @@ export default ({
     ...range(0, lastMatchday - 1),
   ];
 
-  // Tracks, per club, which complete home/away patterns are still possible as
-  // games are pinned to matchdays. Each placed game pins two clubs, so the undo
-  // log needs room for two assignments per game.
+  // Tracks, per club, which complete home/away patterns are still possible
+  // as games are pinned to matchdays.
+  // Each placed game pins two clubs,
+  // so the undo log needs room for two assignments per game.
   const homeAwayPatterns = createHomeAwayPatterns({
     numTeams,
     numMatchdays,
