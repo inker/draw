@@ -6,7 +6,7 @@ export default ({
   randomSeed,
   getNumWorkers,
   signal,
-  ...payload
+  ...otherOptions
 }: Parameters<Func>[0] & {
   randomSeed: number;
   getNumWorkers: () => number;
@@ -17,7 +17,7 @@ export default ({
     getWorker: () =>
       new Worker(new URL('./assignGamesToMatchdays.worker', import.meta.url)),
     getPayload: ({ workerIndex, attempt }) => ({
-      ...payload,
+      ...otherOptions,
       // The solver is deterministic in its seed
       // & every worker is handed the same games,
       // so without an offset of its own
