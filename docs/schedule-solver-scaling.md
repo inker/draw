@@ -42,8 +42,9 @@ from the Champions League league phase up to a full double round robin the size 
 
 ### The pattern check does not scale past 31 matchdays
 
-`homeAwayPatterns.ts` enumerates every legal pattern as a 32-bit mask,
-so it throws above 31 matchdays (an 18-team double round robin needs 34).
+`homeAwayPatterns.ts` used to enumerate every legal pattern as a 32-bit mask,
+so it threw above 31 matchdays (an 18-team double round robin needs 34).
+It now uses the packed walking check described below, which has no such cap.
 Raising the cap would not help, since the set explodes:
 
 | Matchdays | Legal patterns per team |
@@ -121,7 +122,7 @@ Up to 16 teams it barely backtracks, and past that backtracking drives the growt
 
 Odd team counts are not covered:
 the solver derives the team count as `matchdaySize * 2`
-& `generateValidPatterns` returns nothing for an odd number of matchdays,
+& the pattern rules cannot balance an odd number of matchdays,
 so a bye each matchday would need a phantom team exempt from the pattern rules.
 
 ## T teams, G games each
@@ -319,6 +320,12 @@ Double round robin, no bans, 10 cases, median / worst:
 - On double round robins it is 20-45x faster than anything else measured,
   & it solves a Premier League-sized season in a median of 148ms.
 
+`homeAwayPatterns.ts` now uses the packed check.
+In the real solver it produced the same schedules as the bitset on 65 cases
+(36 teams at 8 matchdays, 24 at 12 & 12-team double round robins).
+Run back to back in one process, where the bitset warms up more,
+36 teams at 8 matchdays went from 15.8 to 36.4ms by median & from 130 to 294ms at worst.
+
 ## Fill order
 
 The solver fills one matchday at a time.
@@ -327,7 +334,7 @@ which only suited a calendar whose tightest matchdays are the last two.
 It is now worked out from the patterns & bans in `getFillOrder.ts`:
 
 - pairs that every legal pattern alternates go first, back to back,
-  found by checking the pattern bitsets rather than listing the rules again
+  found by asking the check itself rather than listing the rules again
 - among those, the pair with more clubs forced by bans goes first
 - within a pair, the matchday with more bans goes first
 - the free matchdays follow, those with forced clubs first,
@@ -335,7 +342,7 @@ It is now worked out from the patterns & bans in `getFillOrder.ts`:
 
 For CL/EL/ECL this is the old order exactly whenever the cold teams outnumber the holders.
 A season whose cold matchdays came first would move the opening pair to the front,
-& a Boxing Day rule added to the patterns would be picked up without a second list.
+& a Boxing Day rule added to the check would be picked up without a second list.
 
 36 teams at 8 matchdays, 300 cases per row, one run each, geometric mean of new / old time per case:
 

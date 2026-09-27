@@ -3,92 +3,20 @@
 // half away), never has more than two of the same location in a row,
 // and alternates across the first two & the last two matchdays.
 //
-// Each club's still-possible patterns are tracked as a bitset,
-// so the check is O(numWords) & independent of the order matchdays are committed.
-// assign & unassign are paired LIFO -
-// matching the way the DFS applies & undoes moves - & each is O(numWords).
-//
-// Walking the matchdays on every check instead needs no pattern list.
-// With a state per home count it was the slowest option measured,
-// 11-32x behind this bitset from 6 to 20 matchdays.
-// With the home counts packed into bits it is about 1.7x behind at 8 matchdays
-// but 45x ahead at 30 matchdays & has no 31-matchday cap.
+// Each check walks the matchdays in order,
+// carrying the home counts reachable so far as bits of one word
+// per (last location, run length),
+// so it is exact, works in any fill order & stores only each club's open locations.
+// Enumerating the legal patterns as a bitset instead was about 1.7x faster
+// at 8 matchdays but grew by about 1.6x per matchday,
+// needing gigabytes at 38 matchdays.
 // See "Alternatives to the bitset" in docs/schedule-solver-scaling.md.
 
-// A pattern is a 32-bit mask, bit md set = home,
-// so the last matchday's home bit must stay below the sign bit.
-const MAX_MATCHDAYS = 31;
+const HOME = 1;
+const AWAY = 2;
 
-// Every legal complete pattern, built directly by pruning as we go, so the cost
-// is proportional to the number of valid patterns rather than 2 ** numMatchdays.
-export function generateValidPatterns(numMatchdays: number): number[] {
-  if (numMatchdays > MAX_MATCHDAYS) {
-    throw new Error(
-      `numMatchdays=${numMatchdays} exceeds ${MAX_MATCHDAYS}: patterns are 32-bit masks`,
-    );
-  }
-
-  const half = numMatchdays / 2;
-  if (!Number.isInteger(half)) {
-    return [];
-  }
-
-  const patterns: number[] = [];
-
-  // loc: 1 = home, 2 = away, 0 = no previous matchday yet
-  const build = (state: {
-    md: number;
-    mask: number;
-    numHome: number;
-    prevLoc: number;
-    runLen: number;
-  }) => {
-    const { md, mask, numHome, prevLoc, runLen } = state;
-    if (md === numMatchdays) {
-      patterns.push(mask);
-      return;
-    }
-
-    for (const loc of [1, 2] as const) {
-      const isHome = loc === 1;
-      const newNumHome = numHome + (isHome ? 1 : 0);
-      const newNumAway = md + 1 - newNumHome;
-      // neither location may exceed half the matchdays
-      if (newNumHome > half || newNumAway > half) {
-        continue;
-      }
-
-      const newRunLen = loc === prevLoc ? runLen + 1 : 1;
-      // no more than two of the same location in a row
-      if (newRunLen > 2) {
-        continue;
-      }
-      // the first two & the last two matchdays must alternate
-      const isBoundaryPair = md === 1 || md === numMatchdays - 1;
-      if (isBoundaryPair && loc === prevLoc) {
-        continue;
-      }
-
-      build({
-        md: md + 1,
-        mask: isHome ? mask | (1 << md) : mask,
-        numHome: newNumHome,
-        prevLoc: loc,
-        runLen: newRunLen,
-      });
-    }
-  };
-
-  build({
-    md: 0,
-    mask: 0,
-    numHome: 0,
-    prevLoc: 0,
-    runLen: 0,
-  });
-
-  return patterns;
-}
+// Home counts from 0 to half the matchdays are the bits of a 32-bit word.
+const MAX_MATCHDAYS = 62;
 
 /**
  * A location a club cannot take on a matchday,
@@ -112,43 +40,70 @@ export default function createHomeAwayPatterns({
   maxAssignments: number;
   bans?: Iterable<Ban>;
 }) {
-  const patterns = generateValidPatterns(numMatchdays);
-  const numPatterns = patterns.length;
-  // A club's viable-pattern set is numPatterns bits, held as numWords Uint32
-  // words. lastWordSeed is the all-viable value for the final (partial) word.
-  const numWords = Math.max(1, Math.ceil(numPatterns / 32));
-  const lastWordSeed =
-    numPatterns === 0
-      ? 0
-      : numPatterns % 32 === 0
-        ? 0xffffffff
-        : (1 << (numPatterns % 32)) - 1;
+  if (numMatchdays > MAX_MATCHDAYS) {
+    throw new Error(
+      `numMatchdays=${numMatchdays} exceeds ${MAX_MATCHDAYS}: home counts are bits of a 32-bit word`,
+    );
+  }
 
-  // patternsHomeAt[md] / patternsAwayAt[md]: the patterns placing the club
-  // home / away on matchday md.
-  const patternsHomeAt = new Uint32Array(numMatchdays * numWords);
-  const patternsAwayAt = new Uint32Array(numMatchdays * numWords);
-  for (let j = 0; j < numPatterns; ++j) {
-    const word = j >>> 5;
-    const bit = 1 << (j & 31);
-    for (let md = 0; md < numMatchdays; ++md) {
-      const target = (patterns[j] >> md) & 1 ? patternsHomeAt : patternsAwayAt;
-      target[md * numWords + word] |= bit;
+  const half = numMatchdays / 2;
+  // An odd season cannot be balanced,
+  // so every check fails rather than rounding the target.
+  const isBalanceable = Number.isInteger(half);
+
+  // Whether a club may repeat the previous matchday's location here.
+  const canRepeat = new Uint8Array(numMatchdays);
+  // The home counts that leave both locations within half the season
+  // after each matchday, as a bit mask.
+  const validHomeCounts = new Int32Array(numMatchdays);
+  for (let md = 0; md < numMatchdays; ++md) {
+    canRepeat[md] = md === 1 || md === numMatchdays - 1 ? 0 : 1;
+    const minHome = Math.max(0, md + 1 - Math.floor(half));
+    const maxHome = Math.min(md + 1, Math.floor(half));
+    for (let numHome = minHome; numHome <= maxHome; ++numHome) {
+      validHomeCounts[md] |= 1 << numHome;
     }
   }
 
-  const viableByTeam = new Uint32Array(numTeams * numWords);
-  const seed = (team: number) => {
-    const base = team * numWords;
-    for (let w = 0; w < numWords; ++w) {
-      viableByTeam[base + w] = w === numWords - 1 ? lastWordSeed : 0xffffffff;
+  // Can a complete legal pattern fit the open locations
+  // at openLocations[base] onwards?
+  const fits = (openLocations: Uint8Array, base: number) => {
+    if (!isBalanceable) {
+      return false;
     }
+    // Bit h of each word: some legal start of the season has h home games
+    // & ends on one or two homes (home1, home2) or one or two aways (away1, away2).
+    let home1 = 0;
+    let home2 = 0;
+    let away1 = 0;
+    let away2 = 0;
+    let start = 1;
+    for (let i = 0; i < numMatchdays; ++i) {
+      const open = openLocations[base + i];
+      const repeat = canRepeat[i];
+      const valid = validHomeCounts[i];
+      const fromAway = start | away1 | away2;
+      const fromHome = start | home1 | home2;
+      const nextHome1 = open & HOME ? fromAway << 1 : 0;
+      const nextHome2 = open & HOME && repeat ? home1 << 1 : 0;
+      const nextAway1 = open & AWAY ? fromHome : 0;
+      const nextAway2 = open & AWAY && repeat ? away1 : 0;
+      home1 = nextHome1 & valid;
+      home2 = nextHome2 & valid;
+      away1 = nextAway1 & valid;
+      away2 = nextAway2 & valid;
+      start = 0;
+      if ((home1 | home2 | away1 | away2) === 0) {
+        return false;
+      }
+    }
+    return (((home1 | home2 | away1 | away2) >>> half) & 1) === 1;
   };
-  for (let team = 0; team < numTeams; ++team) {
-    seed(team);
-  }
 
-  // A ban only narrows the starting set rather than going through assign,
+  // The locations each club can still take on each matchday,
+  // as HOME | AWAY bits, with bans already applied.
+  const unpinned = new Uint8Array(numTeams * numMatchdays).fill(HOME | AWAY);
+  // A ban only narrows the starting locations rather than going through assign,
   // so it is never undone & needs no room in the undo log.
   for (const { teamIndex, matchday, location } of bans) {
     if (
@@ -169,59 +124,47 @@ export default function createHomeAwayPatterns({
         `Ban on matchday ${matchday}, which is not an index into ${numMatchdays} matchdays`,
       );
     }
-    const allowed = location === 'home' ? patternsAwayAt : patternsHomeAt;
-    const teamBase = teamIndex * numWords;
-    const mdBase = matchday * numWords;
-    let hasPattern = false;
-    for (let w = 0; w < numWords; ++w) {
-      viableByTeam[teamBase + w] &= allowed[mdBase + w];
-      if (viableByTeam[teamBase + w] !== 0) {
-        hasPattern = true;
-      }
-    }
+    const index = teamIndex * numMatchdays + matchday;
+    unpinned[index] &= location === 'home' ? AWAY : HOME;
     // Caught here, since the search would only report it as a failed schedule
     // after every worker had timed out.
-    if (!hasPattern) {
+    if (!fits(unpinned, teamIndex * numMatchdays)) {
       throw new Error(
         `Bans leave team ${teamIndex} with no valid home/away pattern`,
       );
     }
   }
+  const locations = unpinned.slice();
 
-  // Undo log: each assign saves the club's words so unassign can restore them
-  // (AND isn't invertible). Paired LIFO with the DFS's apply / undo.
-  const undoTeam = new Int32Array(maxAssignments);
-  const undoWords = new Uint32Array(maxAssignments * numWords);
+  // Undo log: each assign saves which cell it pinned,
+  // & unassign reopens it to what the bans left.
+  // Paired LIFO with the DFS's apply / undo.
+  const undoIndices = new Int32Array(maxAssignments);
   let undoTop = 0;
 
-  const allowedAt = (isHome: boolean) =>
-    isHome ? patternsHomeAt : patternsAwayAt;
+  const emptyClub = new Uint8Array(numMatchdays);
 
   return {
     // Would `team` keep at least one possible pattern if pinned home / away
     // on matchday `md`?
     isViable(team: number, isHome: boolean, md: number) {
-      const allowed = allowedAt(isHome);
-      const teamBase = team * numWords;
-      const mdBase = md * numWords;
-      for (let w = 0; w < numWords; ++w) {
-        if ((viableByTeam[teamBase + w] & allowed[mdBase + w]) !== 0) {
-          return true;
-        }
-      }
-      return false;
+      const index = team * numMatchdays + md;
+      const open = locations[index];
+      locations[index] = open & (isHome ? HOME : AWAY);
+      const isFit = fits(locations, team * numMatchdays);
+      locations[index] = open;
+      return isFit;
     },
 
     // Does every legal pattern put a club in opposite locations on `mdA` & `mdB`?
-    // Read off the patterns rather than the rules,
+    // Asked of the check itself rather than of the rules,
     // so a new alternation rule shows up here without being listed again.
     mustAlternate(mdA: number, mdB: number) {
-      const baseA = mdA * numWords;
-      const baseB = mdB * numWords;
-      for (let w = 0; w < numWords; ++w) {
-        const bothHome = patternsHomeAt[baseA + w] & patternsHomeAt[baseB + w];
-        const bothAway = patternsAwayAt[baseA + w] & patternsAwayAt[baseB + w];
-        if ((bothHome | bothAway) !== 0) {
+      for (const location of [HOME, AWAY]) {
+        emptyClub.fill(HOME | AWAY);
+        emptyClub[mdA] = location;
+        emptyClub[mdB] = location;
+        if (fits(emptyClub, 0)) {
           return false;
         }
       }
@@ -230,27 +173,17 @@ export default function createHomeAwayPatterns({
 
     // Pin `team` home / away on `md`, narrowing its possible patterns.
     assign(team: number, isHome: boolean, md: number) {
-      const allowed = allowedAt(isHome);
-      const teamBase = team * numWords;
-      const mdBase = md * numWords;
-      const undoBase = undoTop * numWords;
-      undoTeam[undoTop] = team;
-      for (let w = 0; w < numWords; ++w) {
-        undoWords[undoBase + w] = viableByTeam[teamBase + w];
-        viableByTeam[teamBase + w] &= allowed[mdBase + w];
-      }
+      const index = team * numMatchdays + md;
+      locations[index] = isHome ? HOME : AWAY;
+      undoIndices[undoTop] = index;
       ++undoTop;
     },
 
     // Undo the most recent assign.
     unassign() {
       --undoTop;
-      const team = undoTeam[undoTop];
-      const teamBase = team * numWords;
-      const undoBase = undoTop * numWords;
-      for (let w = 0; w < numWords; ++w) {
-        viableByTeam[teamBase + w] = undoWords[undoBase + w];
-      }
+      const index = undoIndices[undoTop];
+      locations[index] = unpinned[index];
     },
   };
 }
