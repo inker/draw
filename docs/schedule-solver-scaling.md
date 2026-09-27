@@ -25,7 +25,8 @@ from the Champions League league phase up to a full double round robin the size 
 ## Setup
 
 - `src/engine/dfs/ls/generateSchedule/assignGamesToMatchdays.ts` as it stands:
-  matchdays filled boundary-first, MRV over teams, most constrained opponent first,
+  matchdays filled in the fixed order used then (the last two, then from the start),
+  MRV over teams, most constrained opponent first,
   restarts with a doubling node budget.
 - Only the home/away pattern rules are active:
   a balanced split, no more than two of the same venue in a row
@@ -269,6 +270,40 @@ up to 4 cold teams, a holder & a same-day hosting pair,
   The 16-team double round robin above (30 matchdays)
   is the only place it has been seen to beat the bitset,
   so the crossover is somewhere between 20 & 30 matchdays.
+
+## Fill order
+
+The solver fills one matchday at a time.
+The order used to be fixed (the last two, then from the start),
+which only suited a calendar whose tightest matchdays are the last two.
+It is now worked out from the patterns & bans in `getFillOrder.ts`:
+
+- pairs that every legal pattern alternates go first, back to back,
+  found by checking the pattern bitsets rather than listing the rules again
+- among those, the pair with more clubs forced by bans goes first
+- within a pair, the matchday with more bans goes first
+- the free matchdays follow, those with forced clubs first,
+  then outward from the last pair filled
+
+For CL/EL/ECL this is the old order exactly whenever the cold teams outnumber the holders.
+A season whose cold matchdays came first would move the opening pair to the front,
+& a Boxing Day rule added to the patterns would be picked up without a second list.
+
+36 teams at 8 matchdays, 300 cases per row, one run each, geometric mean of new / old time per case:
+
+| Bans                    | Ratio | 95% interval |
+| ----------------------- | ----- | ------------ |
+| None                    | 0.98  | 0.89-1.08    |
+| Holder only             | 1.09  | 0.97-1.22    |
+| Up to 7 cold & a holder | 1.05  | 0.99-1.12    |
+
+- Putting the pair without cold teams first when there are several
+  timed out (over 3s) on 2 of 150 cases, against none for the old order.
+  Filling the most forced pair first is what keeps that from happening.
+- A first version filled the free matchdays from the start whatever pair came last,
+  & was about 10% slower where that differed from the old order.
+- At 6 matchdays every matchday is in a pair,
+  & the new order was neutral over 60 cases.
 
 ## Counting estimates did not predict any of this
 

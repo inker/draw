@@ -210,6 +210,22 @@ export default function createHomeAwayPatterns({
       return false;
     },
 
+    // Does every legal pattern put a club in opposite locations on `mdA` & `mdB`?
+    // Read off the patterns rather than the rules,
+    // so a new alternation rule shows up here without being listed again.
+    mustAlternate(mdA: number, mdB: number) {
+      const baseA = mdA * numWords;
+      const baseB = mdB * numWords;
+      for (let w = 0; w < numWords; ++w) {
+        const bothHome = patternsHomeAt[baseA + w] & patternsHomeAt[baseB + w];
+        const bothAway = patternsAwayAt[baseA + w] & patternsAwayAt[baseB + w];
+        if ((bothHome | bothAway) !== 0) {
+          return false;
+        }
+      }
+      return true;
+    },
+
     // Pin `team` home / away on `md`, narrowing its possible patterns.
     assign(team: number, isHome: boolean, md: number) {
       const allowed = allowedAt(isHome);

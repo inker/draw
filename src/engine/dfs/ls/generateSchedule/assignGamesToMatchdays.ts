@@ -1,8 +1,7 @@
-import { range } from 'lodash';
-
 import { findFirstSolutionMutable } from '#utils/backtrack';
 import lowDiscrepancySequence from '#utils/lowDiscrepancySequence';
 
+import getFillOrder from './getFillOrder';
 import createHomeAwayPatterns, { type Ban } from './homeAwayPatterns';
 
 export default ({
@@ -26,7 +25,6 @@ export default ({
   const numGames = allGames.length;
   const numMatchdays = numGames / matchdaySize;
   const numTeams = matchdaySize * 2;
-  const lastMatchday = numMatchdays - 1;
 
   // A fractional matchday count makes every derived size nonsense.
   if (!Number.isInteger(numMatchdays)) {
@@ -41,15 +39,6 @@ export default ({
     );
   }
 
-  // Matchdays are filled one at a time, boundary matchdays first:
-  // their alternation constraints have zero slack,
-  // so they are satisfied while the rest of the schedule is still free.
-  const fillOrder = [
-    lastMatchday,
-    lastMatchday - 1,
-    ...range(0, lastMatchday - 1),
-  ];
-
   // Tracks, per club, which complete home/away patterns are still possible
   // as games are pinned to matchdays.
   // Each placed game pins two clubs,
@@ -59,6 +48,13 @@ export default ({
     numMatchdays,
     maxAssignments: 2 * numGames,
     bans,
+  });
+
+  const fillOrder = getFillOrder({
+    numTeams,
+    numMatchdays,
+    bans,
+    homeAwayPatterns,
   });
 
   const cannotHostSameDayTeam = new Int32Array(numTeams).fill(-1);
