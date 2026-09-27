@@ -166,13 +166,17 @@ export default ({
       return true;
     }
 
-    for (const otherGame of otherMeetingsByGame[gameIndex]) {
-      const otherMatchday = matchdayByGame[otherGame];
-      if (
-        otherMatchday !== -1 &&
-        Math.abs(otherMatchday - md) < minMatchdaysBetweenMeetings
-      ) {
-        return true;
+    // At 1 this can never fire,
+    // since a club playing twice on one matchday is already rejected above.
+    if (minMatchdaysBetweenMeetings > 1) {
+      for (const otherGame of otherMeetingsByGame[gameIndex]) {
+        const otherMatchday = matchdayByGame[otherGame];
+        if (
+          otherMatchday !== -1 &&
+          Math.abs(otherMatchday - md) < minMatchdaysBetweenMeetings
+        ) {
+          return true;
+        }
       }
     }
 
