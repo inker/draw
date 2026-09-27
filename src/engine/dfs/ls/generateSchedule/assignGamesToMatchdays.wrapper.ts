@@ -1,9 +1,9 @@
 import raceWorkers from '#utils/worker/raceWorkers';
 import { type UefaCountry } from '#model/types';
-import coldCountries from '#engine/predicates/uefa/utils/coldCountries';
 import teamsThatCannotHostSameDay from '#engine/predicates/uefa/utils/teamsThatCannotHostSameDay';
 
 import { type Func } from './assignGamesToMatchdays.worker';
+import { type Ban } from './homeAwayPatterns';
 
 interface Team {
   readonly name: string;
@@ -11,20 +11,18 @@ interface Team {
 }
 
 export default ({
-  season,
   teams,
   matchdaySize,
   allGames,
-  openingHostTeamIndex,
+  bans,
   randomSeed,
   getNumWorkers,
   signal,
 }: {
-  season: number;
   teams: readonly Team[];
   matchdaySize: number;
   allGames: readonly (readonly [number, number])[];
-  openingHostTeamIndex?: number;
+  bans: readonly Ban[];
   randomSeed: number;
   getNumWorkers: () => number;
   signal?: AbortSignal;
@@ -45,18 +43,13 @@ export default ({
         })
         .filter(Boolean) as (readonly [number, number])[];
 
-      const isFromColdCountry = coldCountries(season);
-      const coldTeams = teams.filter(team => isFromColdCountry(team));
-      const coldTeamIndices = coldTeams.map(t => teams.indexOf(t));
-
       // the solver picks games dynamically,
       // so the input order only seeds tie-breaking
       return {
         matchdaySize,
         allGames,
-        coldTeamIndices,
+        bans,
         cannotHostSameDayPairs,
-        openingHostTeamIndex,
         // The solver is deterministic in its seed
         // & every worker is handed the same games,
         // so without an offset of its own

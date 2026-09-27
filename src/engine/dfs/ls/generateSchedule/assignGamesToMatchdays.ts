@@ -3,24 +3,19 @@ import { range } from 'lodash';
 import { findFirstSolutionMutable } from '#utils/backtrack';
 import lowDiscrepancySequence from '#utils/lowDiscrepancySequence';
 
-import createHomeAwayPatterns from './homeAwayPatterns';
+import createHomeAwayPatterns, { type Ban } from './homeAwayPatterns';
 
 export default ({
   matchdaySize,
   allGames,
-  coldTeamIndices,
+  bans,
   cannotHostSameDayPairs,
-  openingHostTeamIndex = -1,
   randomSeed = 0,
 }: {
   matchdaySize: number;
   allGames: readonly (readonly [number, number])[];
-  coldTeamIndices: readonly number[];
+  bans: readonly Ban[];
   cannotHostSameDayPairs: readonly (readonly [number, number])[];
-  /**
-   * The club that has to be at home on the first matchday, or -1 when none does
-   */
-  openingHostTeamIndex?: number;
   /**
    * Where in [0, 1) this solver's tie-breaking sequence starts.
    * Two solvers given the same seed search identically,
@@ -62,17 +57,13 @@ export default ({
     numTeams,
     numMatchdays,
     maxAssignments: 2 * numGames,
+    bans,
   });
 
   const cannotHostSameDayTeam = new Int32Array(numTeams).fill(-1);
   for (const [a, b] of cannotHostSameDayPairs) {
     cannotHostSameDayTeam[a] = b;
     cannotHostSameDayTeam[b] = a;
-  }
-
-  const isColdTeam = new Uint8Array(numTeams);
-  for (const teamIndex of coldTeamIndices) {
-    isColdTeam[teamIndex] = 1;
   }
 
   const gamesByTeam = Array.from(
@@ -152,18 +143,9 @@ export default ({
       return true;
     }
 
-    if (md === lastMatchday && isColdTeam[h]) {
-      return true;
-    }
-
-    // The holders host the opening match,
-    // so the one game they have on the first matchday cannot be an away game.
-    if (md === 0 && a === openingHostTeamIndex) {
-      return true;
-    }
-
     // Committing h home / a away here must leave each club at least one
     // complete home/away pattern still possible.
+    // Bans are already out of each club's patterns, so this enforces them too.
     if (!homeAwayPatterns.isViable(h, true, md)) {
       return true;
     }

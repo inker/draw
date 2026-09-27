@@ -1,4 +1,5 @@
 import { getSeasonFacts } from '#data/seasonFacts';
+import coldCountries from '#engine/predicates/uefa/utils/coldCountries';
 import { type UefaCountry } from '#model/types';
 import type Tournament from '#model/Tournament';
 import { type PrngGenerator } from '#utils/prng/generator';
@@ -8,6 +9,7 @@ import prngShuffleAll from '#utils/prng/shuffleAll';
 import assertIndicesInRange from '#utils/assertIndicesInRange';
 
 import assignGamesToMatchdays from './assignGamesToMatchdays.wrapper';
+import { type Ban } from './homeAwayPatterns';
 import splitMatchdaysIntoDays, {
   hasOpeningMatch,
 } from './splitMatchdaysIntoDays';
@@ -43,12 +45,32 @@ export default async function generateSchedule({
 
   const { titleHolder } = getSeasonFacts(tournament, season) ?? {};
 
+  const lastMatchday = allGames.length / matchdaySize - 1;
+  const isFromColdCountry = coldCountries(season);
+  const bans: Ban[] = [];
+  for (const [teamIndex, team] of teams.entries()) {
+    if (isFromColdCountry(team)) {
+      bans.push({
+        teamIndex,
+        matchday: lastMatchday,
+        location: 'home',
+      });
+    }
+  }
+
   // The opener is pinned here rather than after the fact:
   // whether the holders are at home on the first matchday is decided by this solver,
   // & splitMatchdaysIntoDays can only carve out a game that is already there.
   const openingHostTeamIndex = hasOpeningMatch(tournament, season)
     ? teams.findIndex(team => team.name === titleHolder)
     : -1;
+  if (openingHostTeamIndex !== -1) {
+    bans.push({
+      teamIndex: openingHostTeamIndex,
+      matchday: 0,
+      location: 'away',
+    });
+  }
 
   const allGamesShuffled = await prngShuffle({
     collection: allGames,
@@ -58,11 +80,10 @@ export default async function generateSchedule({
   const randomSeed = await prngFloat(prngGenerator);
 
   const result = await assignGamesToMatchdays({
-    season,
     teams,
     matchdaySize,
     allGames: allGamesShuffled,
-    openingHostTeamIndex,
+    bans,
     randomSeed,
     getNumWorkers,
     signal,

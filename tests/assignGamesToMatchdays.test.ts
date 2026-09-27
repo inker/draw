@@ -15,7 +15,7 @@ describe('assignGamesToMatchdays', () => {
     const result = assignGamesToMatchdays({
       matchdaySize: 2,
       allGames,
-      coldTeamIndices: [],
+      bans: [],
       cannotHostSameDayPairs: [],
     });
 
@@ -39,32 +39,90 @@ describe('assignGamesToMatchdays', () => {
     }
   });
 
-  it('keeps the opening host at home on the first matchday', () => {
+  it('keeps a club banned from the away end on the first matchday at home', () => {
     // run a few times: the split is randomised, the constraint must always hold
     for (let i = 0; i < 20; ++i) {
       const result = assignGamesToMatchdays({
         matchdaySize: 2,
         allGames,
-        coldTeamIndices: [],
+        bans: [
+          {
+            teamIndex: 2,
+            matchday: 0,
+            location: 'away',
+          },
+        ],
         cannotHostSameDayPairs: [],
-        openingHostTeamIndex: 2,
       });
 
       expect(result[0].some(([h]) => h === 2)).toBe(true);
     }
   });
 
-  it('keeps a cold club away on the final matchday', () => {
+  it('keeps a club banned from hosting the final matchday away', () => {
     // run a few times: the split is randomised, the constraint must always hold
     for (let i = 0; i < 20; ++i) {
       const result = assignGamesToMatchdays({
         matchdaySize: 2,
         allGames,
-        coldTeamIndices: [2],
+        bans: [
+          {
+            teamIndex: 2,
+            matchday: 1,
+            location: 'home',
+          },
+        ],
         cannotHostSameDayPairs: [],
       });
       const finalMatchday = result.at(-1)!;
       expect(finalMatchday.some(([h]) => h === 2)).toBe(false);
     }
   });
+
+  it('rejects bans that leave a club no valid pattern', () => {
+    expect(() =>
+      assignGamesToMatchdays({
+        matchdaySize: 2,
+        allGames,
+        bans: [
+          {
+            teamIndex: 2,
+            matchday: 0,
+            location: 'home',
+          },
+          {
+            teamIndex: 2,
+            matchday: 1,
+            location: 'home',
+          },
+        ],
+        cannotHostSameDayPairs: [],
+      }),
+    ).toThrow('Bans leave team 2 with no valid home/away pattern');
+  });
+
+  it.each([
+    [4, 0, 'Ban on team 4, which is not an index into 4 teams'],
+    [-1, 0, 'Ban on team -1, which is not an index into 4 teams'],
+    [0, 2, 'Ban on matchday 2, which is not an index into 2 matchdays'],
+    [0, 0.5, 'Ban on matchday 0.5, which is not an index into 2 matchdays'],
+  ])(
+    'rejects a ban on team %s, matchday %s',
+    (teamIndex, matchday, message) => {
+      expect(() =>
+        assignGamesToMatchdays({
+          matchdaySize: 2,
+          allGames,
+          bans: [
+            {
+              teamIndex,
+              matchday,
+              location: 'home',
+            },
+          ],
+          cannotHostSameDayPairs: [],
+        }),
+      ).toThrow(message);
+    },
+  );
 });

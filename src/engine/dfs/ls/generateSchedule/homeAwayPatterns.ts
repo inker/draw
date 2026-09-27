@@ -83,15 +83,27 @@ export function generateValidPatterns(numMatchdays: number): number[] {
   return patterns;
 }
 
+/**
+ * A location a club cannot take on a matchday,
+ * such as a cold club hosting in midwinter
+ */
+export interface Ban {
+  readonly teamIndex: number;
+  readonly matchday: number;
+  readonly location: 'home' | 'away';
+}
+
 export default function createHomeAwayPatterns({
   numTeams,
   numMatchdays,
   maxAssignments,
+  bans = [],
 }: {
   numTeams: number;
   numMatchdays: number;
   // upper bound on live assignments (the undo log is preallocated to this)
   maxAssignments: number;
+  bans?: Iterable<Ban>;
 }) {
   const patterns = generateValidPatterns(numMatchdays);
   const numPatterns = patterns.length;
@@ -127,6 +139,46 @@ export default function createHomeAwayPatterns({
   };
   for (let team = 0; team < numTeams; ++team) {
     seed(team);
+  }
+
+  // A ban only narrows the starting set rather than going through assign,
+  // so it is never undone & needs no room in the undo log.
+  for (const { teamIndex, matchday, location } of bans) {
+    if (
+      !Number.isInteger(teamIndex) ||
+      teamIndex < 0 ||
+      teamIndex >= numTeams
+    ) {
+      throw new RangeError(
+        `Ban on team ${teamIndex}, which is not an index into ${numTeams} teams`,
+      );
+    }
+    if (
+      !Number.isInteger(matchday) ||
+      matchday < 0 ||
+      matchday >= numMatchdays
+    ) {
+      throw new RangeError(
+        `Ban on matchday ${matchday}, which is not an index into ${numMatchdays} matchdays`,
+      );
+    }
+    const allowed = location === 'home' ? patternsAwayAt : patternsHomeAt;
+    const teamBase = teamIndex * numWords;
+    const mdBase = matchday * numWords;
+    let hasPattern = false;
+    for (let w = 0; w < numWords; ++w) {
+      viableByTeam[teamBase + w] &= allowed[mdBase + w];
+      if (viableByTeam[teamBase + w] !== 0) {
+        hasPattern = true;
+      }
+    }
+    // Caught here, since the search would only report it as a failed schedule
+    // after every worker had timed out.
+    if (!hasPattern) {
+      throw new Error(
+        `Bans leave team ${teamIndex} with no valid home/away pattern`,
+      );
+    }
   }
 
   // Undo log: each assign saves the club's words so unassign can restore them
