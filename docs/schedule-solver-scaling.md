@@ -216,6 +216,60 @@ That is still a function of G but not a smooth one,
 which is why no single power of G fits the grid.
 A 4-game season would be fully paired too.
 
+## Alternatives to the bitset
+
+Three other checks were put behind the same `isViable`/`assign`/`unassign` interface
+& run inside the real solver:
+
+- walking check: walks the matchdays on every check,
+  asking whether any legal pattern still fits the club's pinned venues & bans
+- reachability: keeps each club's forward & backward reachable states
+  (home games so far, last venue, run length),
+  recomputed on every assign & unassign,
+  so a check is one pass over the states at that matchday
+- gap table: relies on the fill order,
+  so a club's pinned matchdays are always a prefix plus the final two.
+  The prefix is a single state & the rest is a backward table shared by every club,
+  so a check is one lookup.
+  Bans are only checked on their own matchday
+
+All four produced identical schedules on every run.
+The walking check & reachability are exact, like the bitset.
+The gap table only matches because ignoring the holders' ban
+while the final two matchdays are filled happens to cost nothing at these sizes.
+
+36 teams, random fixture graphs, up to 7 cold teams, a holder & a same-day hosting pair,
+best of 3 runs:
+
+| Check         | 8 matchdays, median | 8 matchdays, worst | 6 matchdays, median | 6 matchdays, worst |
+| ------------- | ------------------- | ------------------ | ------------------- | ------------------ |
+| Bitset        | 15.7ms              | 136ms              | 238ms               | 1.8s               |
+| Gap table     | 21.0ms              | 176ms              | 291ms               | 2.2s               |
+| Reachability  | 68.9ms              | 574ms              | 738ms               | 5.4s               |
+| Walking check | 305ms               | 2.5s               | 2.7s                | 19s                |
+
+40 cases at 8 matchdays,
+& 34 of 40 at 6 (the 6 the bitset took over 2s on were left out).
+
+24 teams, circulant fixture graphs scrambled by swaps that keep each team's home & away counts,
+up to 4 cold teams, a holder & a same-day hosting pair,
+20 cases each, median / worst of the best of 2 runs:
+
+| Check         | 8 matchdays  | 12 matchdays  | 16 matchdays  | 20 matchdays |
+| ------------- | ------------ | ------------- | ------------- | ------------ |
+| Bitset        | 1.0 / 14.5ms | 10.6 / 37.5ms | 19.1 / 109ms  | 141 / 972ms  |
+| Gap table     | 1.9 / 22.0ms | 11.1 / 40.9ms | 15.6 / 85.4ms | 36.8 / 319ms |
+| Reachability  | 6.1 / 106ms  | 52.8 / 215ms  | 105 / 563ms   | 318ms / 3.1s |
+| Walking check | 24.6 / 277ms | 281ms / 1.0s  | 618ms / 3.6s  | 2.6s / 19s   |
+
+- The bitset is fastest up to 12 matchdays.
+  The gap table overtakes it between 12 & 16 & is about 4x faster by 20.
+- Reachability stays 2-6x behind the bitset up to 20 matchdays.
+- The walking check is the slowest everywhere measured, 11-32x behind the bitset by median.
+  The 16-team double round robin above (30 matchdays)
+  is the only place it has been seen to beat the bitset,
+  so the crossover is somewhere between 20 & 30 matchdays.
+
 ## Counting estimates did not predict any of this
 
 Before running the solver, the league phase was compared with round robins

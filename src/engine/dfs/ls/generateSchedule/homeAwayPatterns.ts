@@ -7,6 +7,11 @@
 // O(numWords) & independent of the order matchdays are committed. assign &
 // unassign are paired LIFO - matching the way the DFS applies & undoes moves -
 // & each is O(numWords).
+//
+// Walking the matchdays on every check instead needs no pattern list,
+// but it was the slowest option measured,
+// 11-32x behind this bitset from 6 to 20 matchdays.
+// See "Alternatives to the bitset" in docs/schedule-solver-scaling.md.
 
 // A pattern is a 32-bit mask, bit md set = home, so the last matchday's home
 // bit must stay below the sign bit.
