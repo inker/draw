@@ -1,5 +1,6 @@
 import { getSeasonFacts } from '#data/seasonFacts';
 import coldCountries from '#engine/predicates/uefa/utils/coldCountries';
+import teamsThatCannotHostSameDay from '#engine/predicates/uefa/utils/teamsThatCannotHostSameDay';
 import { type UefaCountry } from '#model/types';
 import type Tournament from '#model/Tournament';
 import { type PrngGenerator } from '#utils/prng/generator';
@@ -78,6 +79,14 @@ export default async function generateSchedule({
     });
   }
 
+  const cannotHostSameDayPairs = teamsThatCannotHostSameDay.flatMap(
+    ([aName, bName]) => {
+      const a = teams.findIndex(team => team.name === aName);
+      const b = teams.findIndex(team => team.name === bName);
+      return a === -1 || b === -1 ? [] : [[a, b] as const];
+    },
+  );
+
   const allGamesShuffled = await prngShuffle({
     collection: allGames,
     prngGenerator,
@@ -86,11 +95,11 @@ export default async function generateSchedule({
   const randomSeed = await prngFloat(prngGenerator);
 
   const result = await assignGamesToMatchdays({
-    teams,
     matchdaySize,
     allGames: allGamesShuffled,
     alternatingPairs,
     bans,
+    cannotHostSameDayPairs,
     randomSeed,
     getNumWorkers,
     signal,
