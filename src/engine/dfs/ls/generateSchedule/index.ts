@@ -1,11 +1,10 @@
-import { keyBy, uniq } from 'lodash';
-
 import { getSeasonFacts } from '#data/seasonFacts';
 import { type UefaCountry } from '#model/types';
 import type Tournament from '#model/Tournament';
 import { type PrngGenerator } from '#utils/prng/generator';
 import prngFloat from '#utils/prng/float';
 import prngShuffle from '#utils/prng/shuffle';
+import assertIndicesInRange from '#utils/assertIndicesInRange';
 
 import assignGamesToMatchdays from './assignGamesToMatchdays.wrapper';
 import splitMatchdaysIntoDays, {
@@ -13,16 +12,19 @@ import splitMatchdaysIntoDays, {
 } from './splitMatchdaysIntoDays';
 
 interface Team {
-  readonly id: string;
   readonly name: string;
   readonly country: UefaCountry;
 }
 
-export default async function generateSchedule<T extends Team>({
+/**
+ * Teams are passed & returned as indices into `teams`
+ */
+export default async function generateSchedule({
   season,
   tournament,
   matchdaySize,
-  allGames: allGamesWithIds,
+  teams,
+  allGames,
   getNumWorkers,
   prngGenerator,
   signal,
@@ -30,22 +32,13 @@ export default async function generateSchedule<T extends Team>({
   season: number;
   tournament: Tournament;
   matchdaySize: number;
-  allGames: readonly (readonly [T, T])[];
+  teams: readonly Team[];
+  allGames: readonly (readonly [number, number])[];
   getNumWorkers: () => number;
   prngGenerator: PrngGenerator;
   signal?: AbortSignal;
 }) {
-  const allNonUniqueTeams = allGamesWithIds.flat();
-  const teamById = keyBy(allNonUniqueTeams, team => team.id);
-  const allTeamIds = uniq(allNonUniqueTeams.map(team => team.id));
-  const allTeams = allTeamIds.map(id =>
-    allNonUniqueTeams.find(item => item.id === id)!,
-  );
-  const indexByTeamId = new Map(allTeamIds.map((id, i) => [id, i] as const));
-
-  const allGamesUnordered = allGamesWithIds.map(
-    ([h, a]) => [indexByTeamId.get(h.id)!, indexByTeamId.get(a.id)!] as const,
-  );
+  assertIndicesInRange(allGames.flat(), teams.length, 'allGames');
 
   const { titleHolder } = getSeasonFacts(tournament, season) ?? {};
 
@@ -53,11 +46,11 @@ export default async function generateSchedule<T extends Team>({
   // whether the holders are at home on the first matchday is decided by this solver,
   // & splitMatchdaysIntoDays can only carve out a game that is already there.
   const openingHostTeamIndex = hasOpeningMatch(tournament, season)
-    ? allTeams.findIndex(team => team.name === titleHolder)
+    ? teams.findIndex(team => team.name === titleHolder)
     : -1;
 
   const allGamesShuffled = await prngShuffle({
-    collection: allGamesUnordered,
+    collection: allGames,
     prngGenerator,
   });
 
@@ -65,7 +58,7 @@ export default async function generateSchedule<T extends Team>({
 
   const result = await assignGamesToMatchdays({
     season,
-    teams: allTeams,
+    teams,
     matchdaySize,
     allGames: allGamesShuffled,
     openingHostTeamIndex,
@@ -94,7 +87,7 @@ export default async function generateSchedule<T extends Team>({
     tournament,
     season,
     matchdaySize,
-    teams: allTeams,
+    teams,
     titleHolder,
   });
 
@@ -133,19 +126,7 @@ export default async function generateSchedule<T extends Team>({
     shuffledMatchdaysResult.push(shuffledDays);
   }
 
-  const solutionSchedule = shuffledMatchdaysResult.map(md =>
-    md.map(day =>
-      day.map(([h, a]) => {
-        const ht = teamById[allTeamIds[h]];
-        const at = teamById[allTeamIds[a]];
-        return allGamesWithIds.find(
-          mi => mi[0].id === ht.id && mi[1].id === at.id,
-        )!;
-      }),
-    ),
-  );
-
   return {
-    solutionSchedule,
+    solutionSchedule: shuffledMatchdaysResult,
   };
 }

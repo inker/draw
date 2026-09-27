@@ -4,6 +4,7 @@ import WorkerManager from '#utils/worker/WorkerManager';
 import { type PrngGenerator } from '#utils/prng/generator';
 import prngFloat from '#utils/prng/float';
 import prngShuffle from '#utils/prng/shuffle';
+import assertIndicesInRange from '#utils/assertIndicesInRange';
 import type Tournament from '#model/Tournament';
 import { type UefaCountry } from '#model/types';
 import incompatibleCountries from '#engine/predicates/uefa/utils/incompatibleCountries';
@@ -17,25 +18,28 @@ interface Team {
   readonly country: UefaCountry;
 }
 
-export default async function* generatePairings<T extends Team>({
+/**
+ * Teams are passed & returned as indices into `pots.flat()`
+ */
+export default async function* generatePairings({
   prngGenerator,
   season,
   tournament,
   pots,
   numMatchdays,
-  pickedTeam,
-  previousPickedTeams,
+  pickedTeamIndex,
+  previousPickedTeamIndices,
   virtualGeneratedMatches,
   signal,
 }: {
   prngGenerator: PrngGenerator;
   season: number;
   tournament: Tournament;
-  pots: readonly (readonly T[])[];
+  pots: readonly (readonly Team[])[];
   numMatchdays: number;
-  pickedTeam: T;
-  previousPickedTeams: readonly T[];
-  virtualGeneratedMatches: readonly (readonly [T, T])[];
+  pickedTeamIndex: number;
+  previousPickedTeamIndices: readonly number[];
+  virtualGeneratedMatches: readonly (readonly [number, number])[];
   signal?: AbortSignal;
 }) {
   const numPots = pots.length;
@@ -44,27 +48,29 @@ export default async function* generatePairings<T extends Team>({
   const numTeamsPerPot = pots[0].length;
   const numGamesPerMatchday = teams.length / 2;
 
+  assertIndicesInRange([pickedTeamIndex], teams.length, 'pickedTeamIndex');
+  assertIndicesInRange(
+    previousPickedTeamIndices,
+    teams.length,
+    'previousPickedTeamIndices',
+  );
+  assertIndicesInRange(
+    virtualGeneratedMatches.flat(),
+    teams.length,
+    'virtualGeneratedMatches',
+  );
+
   const teamIndices = range(teams.length);
-  const indexByTeam = new Map(teams.map((t, i) => [t, i]));
 
-  const pickedTeamIndex = indexByTeam.get(pickedTeam)!;
+  const allocatedMatches = [...virtualGeneratedMatches];
 
-  const virtualGeneratedMatchesWithIndices = virtualGeneratedMatches.map(
-    m => [indexByTeam.get(m[0])!, indexByTeam.get(m[1])!] as const,
-  );
-
-  const previousPickedTeamIndicesSet = new Set(
-    previousPickedTeams.map(t => indexByTeam.get(t)!),
-  );
-  const previousPickedMatches = virtualGeneratedMatchesWithIndices.filter(
+  const previousPickedTeamIndicesSet = new Set(previousPickedTeamIndices);
+  const previousPickedMatches = allocatedMatches.filter(
     m =>
       previousPickedTeamIndicesSet.has(m[0]) ||
       previousPickedTeamIndicesSet.has(m[1]),
   );
-  const buffer = difference(
-    virtualGeneratedMatchesWithIndices,
-    previousPickedMatches,
-  );
+  const buffer = difference(allocatedMatches, previousPickedMatches);
 
   let allGames = generateFull(teamIndices);
 
@@ -124,7 +130,7 @@ export default async function* generatePairings<T extends Team>({
         numGamesPerMatchday,
         isPairedPotMode,
         allGames,
-        allocatedMatches: virtualGeneratedMatchesWithIndices,
+        allocatedMatches,
         // A fresh offset per pick, so the solver is not making the same
         // tie-break choices over & over as the allocated set grows.
         randomSeed,
@@ -135,7 +141,7 @@ export default async function* generatePairings<T extends Team>({
         worker,
       });
 
-      virtualGeneratedMatchesWithIndices.push(pickedMatch);
+      allocatedMatches.push(pickedMatch);
 
       yield pickedMatch;
     }
@@ -183,10 +189,10 @@ export default async function* generatePairings<T extends Team>({
         if (match) {
           remove(buffer, m => m === match);
           yield {
-            match: [teams[match[0]], teams[match[1]]] as const,
-            virtualGeneratedMatches: virtualGeneratedMatchesWithIndices.map(
-              vm => [teams[vm[0]], teams[vm[1]]] as const,
-            ),
+            match,
+            // A snapshot, since the solver keeps appending to the original
+            // after the caller has taken this one.
+            virtualGeneratedMatches: [...allocatedMatches],
           };
           break;
         }

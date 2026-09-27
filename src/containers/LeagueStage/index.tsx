@@ -63,8 +63,10 @@ function LeagueStage({ tournament, season, pots: initialPots }: Props) {
   const limitOne = useMemo(() => pLimit(1), []);
 
   const animationDurationMsRef = useRef(0);
-  const virtualGeneratedMatchesRef = useRef<(readonly [Team, Team])[]>([]);
-  const previousPickedTeamsRef = useRef<Team[]>([]);
+  const virtualGeneratedMatchesRef = useRef<
+    readonly (readonly [number, number])[]
+  >([]);
+  const previousPickedTeamIndicesRef = useRef<number[]>([]);
   const [currentPotIndex, setCurrentPotIndex] = useState(0);
   const [selectedTeam, setSelectedTeam] = useState<Team | null>(null);
   const [isGeneratingPairings, setIsGeneratingPairings] = useState(false);
@@ -125,14 +127,16 @@ function LeagueStage({ tournament, season, pots: initialPots }: Props) {
 
       animationDurationMsRef.current = 1000 / (pairings.length / 100 + 1);
 
+      const selectedTeamIndex = indexByTeam.get(selectedTeam)!;
+
       const generator = generatePairings({
         prngGenerator,
         season,
         tournament,
         pots,
         numMatchdays,
-        pickedTeam: selectedTeam,
-        previousPickedTeams: previousPickedTeamsRef.current,
+        pickedTeamIndex: selectedTeamIndex,
+        previousPickedTeamIndices: previousPickedTeamIndicesRef.current,
         virtualGeneratedMatches: virtualGeneratedMatchesRef.current,
         signal: abortController.signal,
       });
@@ -142,7 +146,8 @@ function LeagueStage({ tournament, season, pots: initialPots }: Props) {
       for await (const it of generator) {
         virtualGeneratedMatchesRef.current = it.virtualGeneratedMatches;
         const set = () => {
-          setPairings(prev => [...prev, it.match]);
+          const [h, a] = it.match;
+          setPairings(prev => [...prev, [allTeams[h], allTeams[a]] as const]);
         };
         if (isFastDraw) {
           set();
@@ -160,7 +165,7 @@ function LeagueStage({ tournament, season, pots: initialPots }: Props) {
         hasStarted = true;
       }
       await Promise.all(promises);
-      previousPickedTeamsRef.current.push(selectedTeam);
+      previousPickedTeamIndicesRef.current.push(selectedTeamIndex);
       const newCurrentPot = displayedPots[currentPotIndex].toSpliced(
         displayedPots[currentPotIndex].indexOf(selectedTeam),
         1,
@@ -197,7 +202,10 @@ function LeagueStage({ tournament, season, pots: initialPots }: Props) {
           season,
           tournament,
           matchdaySize,
-          allGames: pairings,
+          teams: allTeams,
+          allGames: pairings.map(
+            ([h, a]) => [indexByTeam.get(h)!, indexByTeam.get(a)!] as const,
+          ),
           getNumWorkers: () =>
             Math.max(
               1,
@@ -208,7 +216,13 @@ function LeagueStage({ tournament, season, pots: initialPots }: Props) {
           signal: abortController.signal,
           prngGenerator,
         });
-        setSchedule(it.solutionSchedule);
+        setSchedule(
+          it.solutionSchedule.map(md =>
+            md.map(day =>
+              day.map(([h, a]) => [allTeams[h], allTeams[a]] as const),
+            ),
+          ),
+        );
         setIsMatchdayMode(true);
         setIsScheduleGenerating(false);
       };
