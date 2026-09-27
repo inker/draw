@@ -15,6 +15,7 @@ describe('assignGamesToMatchdays', () => {
     const result = assignGamesToMatchdays({
       matchdaySize: 2,
       allGames,
+      alternatingPairs: [[0, 1]],
       bans: [],
       cannotHostSameDayPairs: [],
     });
@@ -45,6 +46,7 @@ describe('assignGamesToMatchdays', () => {
       const result = assignGamesToMatchdays({
         matchdaySize: 2,
         allGames,
+        alternatingPairs: [[0, 1]],
         bans: [
           {
             teamIndex: 2,
@@ -65,6 +67,7 @@ describe('assignGamesToMatchdays', () => {
       const result = assignGamesToMatchdays({
         matchdaySize: 2,
         allGames,
+        alternatingPairs: [[0, 1]],
         bans: [
           {
             teamIndex: 2,
@@ -84,6 +87,7 @@ describe('assignGamesToMatchdays', () => {
       assignGamesToMatchdays({
         matchdaySize: 2,
         allGames,
+        alternatingPairs: [[0, 1]],
         bans: [
           {
             teamIndex: 2,
@@ -113,6 +117,7 @@ describe('assignGamesToMatchdays', () => {
         assignGamesToMatchdays({
           matchdaySize: 2,
           allGames,
+          alternatingPairs: [[0, 1]],
           bans: [
             {
               teamIndex,

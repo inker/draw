@@ -46,6 +46,12 @@ export default async function generateSchedule({
   const { titleHolder } = getSeasonFacts(tournament, season) ?? {};
 
   const lastMatchday = allGames.length / matchdaySize - 1;
+  // Every club plays once at home & once away
+  // across the first two matchdays & across the last two.
+  const alternatingPairs = [
+    [0, 1],
+    [lastMatchday - 1, lastMatchday],
+  ] as const satisfies readonly (readonly [number, number])[];
   const isFromColdCountry = coldCountries(season);
   const bans: Ban[] = [];
   for (const [teamIndex, team] of teams.entries()) {
@@ -83,6 +89,7 @@ export default async function generateSchedule({
     teams,
     matchdaySize,
     allGames: allGamesShuffled,
+    alternatingPairs,
     bans,
     randomSeed,
     getNumWorkers,

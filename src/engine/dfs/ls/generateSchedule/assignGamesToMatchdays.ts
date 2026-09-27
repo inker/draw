@@ -7,12 +7,14 @@ import createHomeAwayPatterns, { type Ban } from './homeAwayPatterns';
 export default ({
   matchdaySize,
   allGames,
+  alternatingPairs,
   bans,
   cannotHostSameDayPairs,
   randomSeed = 0,
 }: {
   matchdaySize: number;
   allGames: readonly (readonly [number, number])[];
+  alternatingPairs: readonly (readonly [number, number])[];
   bans: readonly Ban[];
   cannotHostSameDayPairs: readonly (readonly [number, number])[];
   /**
@@ -47,6 +49,7 @@ export default ({
     numTeams,
     numMatchdays,
     maxAssignments: 2 * numGames,
+    alternatingPairs,
     bans,
   });
 

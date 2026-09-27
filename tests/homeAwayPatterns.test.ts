@@ -2,10 +2,20 @@ import createHomeAwayPatterns, {
   type Ban,
 } from '#engine/dfs/ls/generateSchedule/homeAwayPatterns';
 
+type Pair = readonly [number, number];
+
+const uefaPairs = (numMatchdays: number): Pair[] => [
+  [0, 1],
+  [numMatchdays - 2, numMatchdays - 1],
+];
+
 // Independent oracle: every H/A string that is balanced,
 // has no more than two of a location in a row
-// & alternates across the first two & last two matchdays.
-const oracle = (numMatchdays: number) => {
+// & alternates across each pair.
+const oracle = (
+  numMatchdays: number,
+  pairs: readonly Pair[] = uefaPairs(numMatchdays),
+) => {
   const result: string[][] = [];
   for (let i = 0; i < 2 ** numMatchdays; ++i) {
     const chars = Array.from(
@@ -18,8 +28,7 @@ const oracle = (numMatchdays: number) => {
     const numHome = chars.filter(c => c === 'H').length;
     const isValid =
       numHome === numMatchdays / 2 &&
-      chars[0] !== chars[1] &&
-      chars[numMatchdays - 2] !== chars[numMatchdays - 1] &&
+      pairs.every(([a, b]) => chars[a] !== chars[b]) &&
       !s.includes('HHH') &&
       !s.includes('AAA');
     if (isValid) {
@@ -55,17 +64,25 @@ const mulberry32 = (seed: number) => {
   };
 };
 
-const createClub = (numMatchdays: number, bans: Iterable<Ban> = []) =>
+const createClub = (
+  numMatchdays: number,
+  bans: Iterable<Ban> = [],
+  alternatingPairs: readonly Pair[] = uefaPairs(numMatchdays),
+) =>
   createHomeAwayPatterns({
     numTeams: 1,
     numMatchdays,
     maxAssignments: numMatchdays,
+    alternatingPairs,
     bans,
   });
 
 // The legal patterns the tracker lets a matchday-by-matchday walk reach.
-const countPatterns = (numMatchdays: number) => {
-  const club = createClub(numMatchdays);
+const countPatterns = (
+  numMatchdays: number,
+  alternatingPairs: readonly Pair[] = uefaPairs(numMatchdays),
+) => {
+  const club = createClub(numMatchdays, [], alternatingPairs);
   let count = 0;
   const visit = (md: number) => {
     if (md === numMatchdays) {
@@ -97,62 +114,99 @@ describe('homeAwayPatterns', () => {
     }
   });
 
-  it('matches the brute-force definition under random bans & pins', () => {
-    const rand = mulberry32(1);
-    for (const numMatchdays of [2, 4, 6, 8, 10, 12]) {
-      const patterns = oracle(numMatchdays);
-      for (let trial = 0; trial < 200; ++trial) {
-        // 'H', 'A' or '.' for open, per matchday
-        const banned = Array.from(
-          {
-            length: numMatchdays,
-          },
-          () => (rand() < 0.15 ? (rand() < 0.5 ? 'H' : 'A') : '.'),
-        );
-        const bans: Ban[] = banned.flatMap((c, matchday) =>
-          c === '.'
-            ? []
-            : [
-                {
-                  teamIndex: 0,
-                  matchday,
-                  location: c === 'H' ? 'home' : 'away',
-                },
-              ],
-        );
-        const pinned = banned.map(c =>
-          c === '.' && rand() < 0.3 ? (rand() < 0.5 ? 'H' : 'A') : '.',
-        );
-        if (!anyFits(patterns, (c, md) => c !== banned[md])) {
-          expect(() => createClub(numMatchdays, bans)).toThrow(
-            'Bans leave team 0 with no valid home/away pattern',
+  it.each([
+    ['the first two & last two', uefaPairs],
+    [
+      'a Boxing Day pair too',
+      (numMatchdays: number): Pair[] => [
+        ...uefaPairs(numMatchdays),
+        [numMatchdays / 2 - 1, numMatchdays / 2],
+      ],
+    ],
+    ['no pairs', (): Pair[] => []],
+  ])(
+    'matches the brute-force definition under random bans & pins, alternating %s',
+    (_, pairsFor) => {
+      const rand = mulberry32(1);
+      for (const numMatchdays of [2, 4, 6, 8, 10, 12]) {
+        const pairs = pairsFor(numMatchdays);
+        const patterns = oracle(numMatchdays, pairs);
+        for (let trial = 0; trial < 200; ++trial) {
+          // 'H', 'A' or '.' for open, per matchday
+          const banned = Array.from(
+            {
+              length: numMatchdays,
+            },
+            () => (rand() < 0.15 ? (rand() < 0.5 ? 'H' : 'A') : '.'),
           );
-          continue;
-        }
-        const club = createClub(numMatchdays, bans);
-        for (const [md, c] of pinned.entries()) {
-          if (c !== '.') {
-            club.assign(0, c === 'H', md);
-          }
-        }
-        for (let md = 0; md < numMatchdays; ++md) {
-          if (pinned[md] !== '.') {
+          const bans: Ban[] = banned.flatMap((c, matchday) =>
+            c === '.'
+              ? []
+              : [
+                  {
+                    teamIndex: 0,
+                    matchday,
+                    location: c === 'H' ? 'home' : 'away',
+                  },
+                ],
+          );
+          const pinned = banned.map(c =>
+            c === '.' && rand() < 0.3 ? (rand() < 0.5 ? 'H' : 'A') : '.',
+          );
+          if (!anyFits(patterns, (c, md) => c !== banned[md])) {
+            expect(() => createClub(numMatchdays, bans, pairs)).toThrow(
+              'Bans leave team 0 with no valid home/away pattern',
+            );
             continue;
           }
-          for (const candidate of ['H', 'A']) {
-            expect(club.isViable(0, candidate === 'H', md)).toBe(
-              anyFits(
-                patterns,
-                (c, other) =>
-                  c !== banned[other] &&
-                  (pinned[other] === '.' || c === pinned[other]) &&
-                  (other !== md || c === candidate),
-              ),
-            );
+          const club = createClub(numMatchdays, bans, pairs);
+          for (const [md, c] of pinned.entries()) {
+            if (c !== '.') {
+              club.assign(0, c === 'H', md);
+            }
+          }
+          for (let md = 0; md < numMatchdays; ++md) {
+            if (pinned[md] !== '.') {
+              continue;
+            }
+            for (const candidate of ['H', 'A']) {
+              expect(club.isViable(0, candidate === 'H', md)).toBe(
+                anyFits(
+                  patterns,
+                  (c, other) =>
+                    c !== banned[other] &&
+                    (pinned[other] === '.' || c === pinned[other]) &&
+                    (other !== md || c === candidate),
+                ),
+              );
+            }
           }
         }
       }
+    },
+  );
+
+  it('counts the patterns with a Boxing Day pair', () => {
+    for (const numMatchdays of [4, 6, 8, 10, 12]) {
+      const pairs: Pair[] = [
+        ...uefaPairs(numMatchdays),
+        [numMatchdays / 2 - 1, numMatchdays / 2],
+      ];
+      expect(countPatterns(numMatchdays, pairs)).toBe(
+        oracle(numMatchdays, pairs).length,
+      );
     }
+  });
+
+  it.each([
+    [
+      [0, 2] as const,
+      'Alternating pair [0, 2] is not two consecutive matchdays',
+    ],
+    [[7, 8] as const, 'Alternating pair [7, 8] is not within 8 matchdays'],
+    [[-1, 0] as const, 'Alternating pair [-1, 0] is not within 8 matchdays'],
+  ])('rejects the alternating pair %j', (pair, message) => {
+    expect(() => createClub(8, [], [pair])).toThrow(message);
   });
 
   it('reopens a matchday on unassign', () => {
@@ -166,8 +220,12 @@ describe('homeAwayPatterns', () => {
 
   it('finds the pairs every pattern alternates', () => {
     for (const numMatchdays of [2, 4, 6, 8, 10]) {
-      const patterns = oracle(numMatchdays);
-      const club = createClub(numMatchdays);
+      const pairs: Pair[] = [
+        ...uefaPairs(numMatchdays),
+        [numMatchdays / 2 - 1, numMatchdays / 2],
+      ];
+      const patterns = oracle(numMatchdays, pairs);
+      const club = createClub(numMatchdays, [], pairs);
       for (let i = 0; i < numMatchdays; ++i) {
         for (let j = i + 1; j < numMatchdays; ++j) {
           expect(club.mustAlternate(i, j)).toBe(

@@ -1,7 +1,8 @@
 // Feasibility oracle for the league-phase home/away alternation constraints.
 // A legal complete pattern across the matchdays is balanced (half home,
 // half away), never has more than two of the same location in a row,
-// and alternates across the first two & the last two matchdays.
+// and alternates across each given pair of consecutive matchdays
+// (for UEFA, the first two & the last two).
 //
 // Each check walks the matchdays in order,
 // carrying the home counts reachable so far as bits of one word
@@ -32,12 +33,18 @@ export default function createHomeAwayPatterns({
   numTeams,
   numMatchdays,
   maxAssignments,
+  alternatingPairs,
   bans = [],
 }: {
   numTeams: number;
   numMatchdays: number;
   // upper bound on live assignments (the undo log is preallocated to this)
   maxAssignments: number;
+  /**
+   * Consecutive matchdays on which every club has to take opposite locations,
+   * such as Boxing Day & New Year's Day
+   */
+  alternatingPairs: Iterable<readonly [number, number]>;
   bans?: Iterable<Ban>;
 }) {
   if (numMatchdays > MAX_MATCHDAYS) {
@@ -52,12 +59,29 @@ export default function createHomeAwayPatterns({
   const isBalanceable = Number.isInteger(half);
 
   // Whether a club may repeat the previous matchday's location here.
-  const canRepeat = new Uint8Array(numMatchdays);
+  const canRepeat = new Uint8Array(numMatchdays).fill(1);
+  for (const [mdA, mdB] of alternatingPairs) {
+    const earlier = Math.min(mdA, mdB);
+    const later = Math.max(mdA, mdB);
+    if (!Number.isInteger(earlier) || earlier < 0 || later >= numMatchdays) {
+      throw new RangeError(
+        `Alternating pair [${mdA}, ${mdB}] is not within ${numMatchdays} matchdays`,
+      );
+    }
+    // The check only carries the previous matchday's location forward,
+    // so a pair further apart would need it to remember more.
+    if (later - earlier !== 1) {
+      throw new RangeError(
+        `Alternating pair [${mdA}, ${mdB}] is not two consecutive matchdays`,
+      );
+    }
+    canRepeat[later] = 0;
+  }
+
   // The home counts that leave both locations within half the season
   // after each matchday, as a bit mask.
   const validHomeCounts = new Int32Array(numMatchdays);
   for (let md = 0; md < numMatchdays; ++md) {
-    canRepeat[md] = md === 1 || md === numMatchdays - 1 ? 0 : 1;
     const minHome = Math.max(0, md + 1 - Math.floor(half));
     const maxHome = Math.min(md + 1, Math.floor(half));
     for (let numHome = minHome; numHome <= maxHome; ++numHome) {

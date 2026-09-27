@@ -14,6 +14,7 @@ export default ({
   teams,
   matchdaySize,
   allGames,
+  alternatingPairs,
   bans,
   randomSeed,
   getNumWorkers,
@@ -22,6 +23,7 @@ export default ({
   teams: readonly Team[];
   matchdaySize: number;
   allGames: readonly (readonly [number, number])[];
+  alternatingPairs: readonly (readonly [number, number])[];
   bans: readonly Ban[];
   randomSeed: number;
   getNumWorkers: () => number;
@@ -48,6 +50,7 @@ export default ({
       return {
         matchdaySize,
         allGames,
+        alternatingPairs,
         bans,
         cannotHostSameDayPairs,
         // The solver is deterministic in its seed
