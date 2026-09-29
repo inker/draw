@@ -169,8 +169,10 @@ export default function createHomeAwayPatterns({
   const emptyClub = new Uint8Array(numMatchdays);
 
   return {
-    // Would `team` keep at least one possible pattern if pinned home / away
-    // on matchday `md`?
+    /**
+     * Would `team` keep at least one possible pattern if pinned home / away
+     * on matchday `md`?
+     */
     isViable(team: number, isHome: boolean, md: number) {
       const index = team * numMatchdays + md;
       const open = locations[index];
@@ -180,9 +182,11 @@ export default function createHomeAwayPatterns({
       return isFit;
     },
 
-    // Does every legal pattern put a club in opposite locations on `mdA` & `mdB`?
-    // Asked of the check itself rather than of the rules,
-    // so a new alternation rule shows up here without being listed again.
+    /**
+     * Does every legal pattern put a club in opposite locations on `mdA` & `mdB`?
+     * Asked of the check itself rather than of the rules,
+     * so a new alternation rule shows up here without being listed again.
+     */
     mustAlternate(mdA: number, mdB: number) {
       for (const location of [HOME, AWAY]) {
         emptyClub.fill(HOME | AWAY);
@@ -195,7 +199,9 @@ export default function createHomeAwayPatterns({
       return true;
     },
 
-    // Pin `team` home / away on `md`, narrowing its possible patterns.
+    /**
+     * Pin `team` home / away on `md`, narrowing its possible patterns.
+     */
     assign(team: number, isHome: boolean, md: number) {
       const index = team * numMatchdays + md;
       locations[index] = isHome ? HOME : AWAY;
@@ -203,7 +209,9 @@ export default function createHomeAwayPatterns({
       ++undoTop;
     },
 
-    // Undo the most recent assign.
+    /**
+     * Undo the most recent assign.
+     */
     unassign() {
       --undoTop;
       const index = undoIndices[undoTop];
