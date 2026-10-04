@@ -1,7 +1,7 @@
 import type React from 'react';
 import { memo } from 'react';
 
-import PremierLeague from '#containers/PremierLeague/index';
+import PremierLeague from '#containers/PremierLeague';
 
 type Props = React.ComponentProps<typeof PremierLeague>;
 
