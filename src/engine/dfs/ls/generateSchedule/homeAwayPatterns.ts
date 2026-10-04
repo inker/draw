@@ -1,8 +1,9 @@
 // Feasibility oracle for the league-phase home/away alternation constraints.
 // A legal complete pattern across the matchdays is balanced (half home,
 // half away), never has more than two of the same location in a row,
-// and alternates across each given pair of consecutive matchdays
+// and alternates across each given pair of matchdays one or two apart
 // (for UEFA, the first two & the last two).
+// Optionally no five consecutive matchdays hold four of the same location.
 //
 // Each check walks the matchdays in order,
 // carrying the home counts reachable so far as bits of one word
@@ -35,17 +36,24 @@ export default function createHomeAwayPatterns({
   maxAssignments,
   alternatingPairs,
   bans = [],
+  banFourInFive = false,
 }: {
   numTeams: number;
   numMatchdays: number;
   // upper bound on live assignments (the undo log is preallocated to this)
   maxAssignments: number;
   /**
-   * Consecutive matchdays on which every club has to take opposite locations,
+   * Matchdays one or two apart on which every club has to take opposite locations,
    * such as Boxing Day & New Year's Day
    */
   alternatingPairs: Iterable<readonly [number, number]>;
   bans?: Iterable<Ban>;
+  /**
+   * Whether every five consecutive matchdays have to split three & two,
+   * such as the Premier League's rule.
+   * With no more than two in a row, the only splits it rules out are HHAHH & AAHAA.
+   */
+  banFourInFive?: boolean;
 }) {
   if (numMatchdays > MAX_MATCHDAYS) {
     throw new Error(
@@ -60,6 +68,8 @@ export default function createHomeAwayPatterns({
 
   // Whether a club may repeat the previous matchday's location here.
   const canRepeat = new Uint8Array(numMatchdays).fill(1);
+  // Whether a club may take the location it had two matchdays before.
+  const canRepeatTwoBack = new Uint8Array(numMatchdays).fill(1);
   for (const [mdA, mdB] of alternatingPairs) {
     const earlier = Math.min(mdA, mdB);
     const later = Math.max(mdA, mdB);
@@ -68,14 +78,19 @@ export default function createHomeAwayPatterns({
         `Alternating pair [${mdA}, ${mdB}] is not within ${numMatchdays} matchdays`,
       );
     }
-    // The check only carries the previous matchday's location forward,
+    // The check carries the previous matchday's location & run length,
+    // which also give the location two matchdays back,
     // so a pair further apart would need it to remember more.
-    if (later - earlier !== 1) {
+    if (later - earlier < 1 || later - earlier > 2) {
       throw new RangeError(
-        `Alternating pair [${mdA}, ${mdB}] is not two consecutive matchdays`,
+        `Alternating pair [${mdA}, ${mdB}] is not one or two matchdays apart`,
       );
     }
-    canRepeat[later] = 0;
+    if (later - earlier === 1) {
+      canRepeat[later] = 0;
+    } else {
+      canRepeatTwoBack[later] = 0;
+    }
   }
 
   // The home counts that leave both locations within half the season
@@ -91,7 +106,7 @@ export default function createHomeAwayPatterns({
 
   // Can a complete legal pattern fit the open locations
   // at openLocations[base] onwards?
-  const fits = (openLocations: Uint8Array, base: number) => {
+  const fitsAnySplit = (openLocations: Uint8Array, base: number) => {
     if (!isBalanceable) {
       return false;
     }
@@ -105,9 +120,12 @@ export default function createHomeAwayPatterns({
     for (let i = 0; i < numMatchdays; ++i) {
       const open = openLocations[base + i];
       const repeat = canRepeat[i];
+      const repeatTwoBack = canRepeatTwoBack[i];
       const valid = validHomeCounts[i];
-      const fromAway = start | away1 | away2;
-      const fromHome = start | home1 | home2;
+      // Two matchdays back is the other location after a run of one
+      // & the same location after a run of two.
+      const fromAway = start | (repeatTwoBack ? away1 : 0) | away2;
+      const fromHome = start | (repeatTwoBack ? home1 : 0) | home2;
       const nextHome1 = open & HOME ? fromAway << 1 : 0;
       const nextHome2 = open & HOME && repeat ? home1 << 1 : 0;
       const nextAway1 = open & AWAY ? fromHome : 0;
@@ -123,6 +141,77 @@ export default function createHomeAwayPatterns({
     }
     return (((home1 | home2 | away1 | away2) >>> half) & 1) === 1;
   };
+
+  // The same walk, also telling apart the runs of one that banFourInFive has to.
+  // It is kept apart because carrying twice the words
+  // made schedules without the rule about 30% slower.
+  const fitsThreeTwo = (openLocations: Uint8Array, base: number) => {
+    if (!isBalanceable) {
+      return false;
+    }
+    // Bit h of each word: some legal start of the season has h home games
+    // & ends on two homes (home2)
+    // or on one home after two aways (homeAfterAway2),
+    // after HHA (homeOfFour, where another home would make HHAHH)
+    // or after anything else (home1).
+    // The aways mirror them.
+    let home1 = 0;
+    let homeAfterAway2 = 0;
+    let homeOfFour = 0;
+    let home2 = 0;
+    let away1 = 0;
+    let awayAfterHome2 = 0;
+    let awayOfFour = 0;
+    let away2 = 0;
+    let start = 1;
+    let reachable = 0;
+    for (let i = 0; i < numMatchdays; ++i) {
+      const open = openLocations[base + i];
+      const repeat = canRepeat[i];
+      const repeatTwoBack = canRepeatTwoBack[i];
+      const valid = validHomeCounts[i];
+      // Two matchdays back is the other location after a run of one
+      // & the same location after a run of two.
+      const canHome = open & HOME;
+      const canAway = open & AWAY;
+      const nextHome1 = canHome
+        ? (start | (repeatTwoBack ? away1 | awayOfFour : 0)) << 1
+        : 0;
+      const nextHomeAfterAway2 = canHome ? away2 << 1 : 0;
+      const nextHomeOfFour = canHome && repeatTwoBack ? awayAfterHome2 << 1 : 0;
+      const nextHome2 = canHome && repeat ? (home1 | homeAfterAway2) << 1 : 0;
+      const nextAway1 = canAway
+        ? start | (repeatTwoBack ? home1 | homeOfFour : 0)
+        : 0;
+      const nextAwayAfterHome2 = canAway ? home2 : 0;
+      const nextAwayOfFour = canAway && repeatTwoBack ? homeAfterAway2 : 0;
+      const nextAway2 = canAway && repeat ? away1 | awayAfterHome2 : 0;
+      home1 = nextHome1 & valid;
+      homeAfterAway2 = nextHomeAfterAway2 & valid;
+      homeOfFour = nextHomeOfFour & valid;
+      home2 = nextHome2 & valid;
+      away1 = nextAway1 & valid;
+      awayAfterHome2 = nextAwayAfterHome2 & valid;
+      awayOfFour = nextAwayOfFour & valid;
+      away2 = nextAway2 & valid;
+      start = 0;
+      reachable =
+        home1 |
+        homeAfterAway2 |
+        homeOfFour |
+        home2 |
+        away1 |
+        awayAfterHome2 |
+        awayOfFour |
+        away2;
+      if (reachable === 0) {
+        return false;
+      }
+    }
+    return ((reachable >>> half) & 1) === 1;
+  };
+
+  const fits = banFourInFive ? fitsThreeTwo : fitsAnySplit;
 
   // The locations each club can still take on each matchday,
   // as HOME | AWAY bits, with bans already applied.

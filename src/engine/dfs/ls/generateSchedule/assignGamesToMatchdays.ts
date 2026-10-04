@@ -11,6 +11,7 @@ export default ({
   bans,
   cannotHostSameDayPairs,
   minMatchdaysBetweenMeetings = 1,
+  banFourInFive = false,
   randomSeed = 0,
 }: {
   matchdaySize: number;
@@ -24,6 +25,11 @@ export default ({
    * 1 allows them on consecutive matchdays.
    */
   minMatchdaysBetweenMeetings?: number;
+  /**
+   * Whether every five consecutive matchdays have to split three & two
+   * between each club's home & away games
+   */
+  banFourInFive?: boolean;
   /**
    * Where in [0, 1) this solver's tie-breaking sequence starts.
    * Two solvers given the same seed search identically,
@@ -66,6 +72,7 @@ export default ({
     maxAssignments: 2 * numGames,
     alternatingPairs,
     bans,
+    banFourInFive,
   });
 
   const fillOrder = getFillOrder({
