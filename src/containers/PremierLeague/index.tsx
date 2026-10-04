@@ -13,6 +13,7 @@ import Matrix from '#containers/LeagueStage/Matrix';
 import Schedule from '#containers/LeagueStage/Schedule';
 
 import ScheduleCreationDescription from './ScheduleCreationDescription';
+import getClubIconUrl from './getClubIconUrl';
 import * as styles from './styles.module.scss';
 
 interface Props {
@@ -122,6 +123,7 @@ function PremierLeague({ pots }: Props) {
         <Schedule
           tournament="epl"
           schedule={schedule}
+          getIconUrl={getClubIconUrl}
         />
       ) : (
         <div className={styles['matrix-wrapper']}>
@@ -132,6 +134,7 @@ function PremierLeague({ pots }: Props) {
             schedule={schedule}
             potSize={allTeams.length}
             noCellAnimation
+            getIconUrl={getClubIconUrl}
           />
           <div className={styles['right-wrapper']}>
             {isScheduleDone ? (

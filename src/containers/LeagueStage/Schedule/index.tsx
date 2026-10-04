@@ -15,9 +15,13 @@ interface Team {
 interface Props {
   tournament: Tournament;
   schedule: readonly (readonly (readonly (readonly [Team, Team])[])[])[];
+  /**
+   * An icon to show in place of the team's country flag
+   */
+  getIconUrl?: (team: Team) => string | undefined;
 }
 
-function Schedule({ tournament, schedule }: Props) {
+function Schedule({ tournament, schedule, getIconUrl }: Props) {
   const rootRef = useRef<HTMLDivElement>(null);
 
   useLayoutEffect(() => {
@@ -77,6 +81,7 @@ function Schedule({ tournament, schedule }: Props) {
                             <ContentWithFlag
                               className={styles['content-with-flag']}
                               country={m[0].country}
+                              iconUrl={getIconUrl?.(m[0])}
                             >
                               {m[0].name}
                             </ContentWithFlag>
@@ -88,6 +93,7 @@ function Schedule({ tournament, schedule }: Props) {
                             <ContentWithFlag
                               className={styles['content-with-flag']}
                               country={m[1].country}
+                              iconUrl={getIconUrl?.(m[1])}
                             >
                               {m[1].name}
                             </ContentWithFlag>

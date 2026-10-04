@@ -25,6 +25,10 @@ interface Props {
   schedule: readonly (readonly (readonly (readonly [Team, Team])[])[])[];
   potSize: number;
   noCellAnimation?: boolean;
+  /**
+   * An icon to show in place of the team's country flag
+   */
+  getIconUrl?: (team: Team) => string | undefined;
 }
 
 function Matrix({
@@ -34,6 +38,7 @@ function Matrix({
   schedule,
   potSize,
   noCellAnimation,
+  getIconUrl,
 }: Props) {
   const isDarkMode = useIsDarkMode();
 
@@ -88,7 +93,10 @@ function Matrix({
               <div className={styles['header-cell-div']}>
                 <img
                   alt={`[${opponent.country}]`}
-                  src={getCountryFlagUrl(opponent.country)}
+                  src={
+                    getIconUrl?.(opponent) ??
+                    getCountryFlagUrl(opponent.country)
+                  }
                 />
                 <span>{opponent.name}</span>
               </div>
@@ -103,7 +111,7 @@ function Matrix({
               <div
                 className={styles.team}
                 style={{
-                  backgroundImage: `url('${getCountryFlagUrl(team.country)}')`,
+                  backgroundImage: `url('${getIconUrl?.(team) ?? getCountryFlagUrl(team.country)}')`,
                 }}
               >
                 {team.name}

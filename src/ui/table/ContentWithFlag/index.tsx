@@ -10,16 +10,26 @@ import * as styles from './styles.module.scss';
 
 type Props = React.HTMLAttributes<HTMLSpanElement> & {
   country: Country;
+  /**
+   * Shown in place of the country's flag
+   */
+  iconUrl?: string;
 };
 
-function ContentWithFlag({ className, style, country, ...otherProps }: Props) {
+function ContentWithFlag({
+  className,
+  style,
+  country,
+  iconUrl,
+  ...otherProps
+}: Props) {
   const resolvedStyle = useMemo(
     () =>
       ({
         ...style,
-        backgroundImage: `url('${getCountryFlagUrl(country)}')`,
+        backgroundImage: `url('${iconUrl ?? getCountryFlagUrl(country)}')`,
       }) as const,
-    [country, style],
+    [country, iconUrl, style],
   );
 
   return (
