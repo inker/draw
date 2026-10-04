@@ -17,6 +17,11 @@
   @container (width <= 500px) {
     grid-template-columns: repeat(2, 1fr);
   }
+
+  &.take-all-space {
+    display: flex;
+    flex-wrap: wrap;
+  }
 }
 
 .matchday-root {

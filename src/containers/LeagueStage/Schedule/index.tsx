@@ -43,7 +43,13 @@ function Schedule({ tournament, schedule }: Props) {
       ref={rootRef}
       className={styles.root}
     >
-      <ul className={clsx('reset-list', styles['calendar-container'])}>
+      <ul
+        className={clsx(
+          'reset-list',
+          styles['calendar-container'],
+          schedule.length > 8 && styles['take-all-space'],
+        )}
+      >
         {schedule.map((md, i) => (
           <li className={clsx(styles['matchday-root'], 'matchday')}>
             <div className={styles['matchday-header']}>MATCHDAY {i + 1}</div>
