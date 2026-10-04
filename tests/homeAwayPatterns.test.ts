@@ -15,6 +15,7 @@ const uefaPairs = (numMatchdays: number): Pair[] => [
 const oracle = (
   numMatchdays: number,
   pairs: readonly Pair[] = uefaPairs(numMatchdays),
+  banFourInFive = false,
 ) => {
   const result: string[][] = [];
   for (let i = 0; i < 2 ** numMatchdays; ++i) {
@@ -30,7 +31,16 @@ const oracle = (
       numHome === numMatchdays / 2 &&
       pairs.every(([a, b]) => chars[a] !== chars[b]) &&
       !s.includes('HHH') &&
-      !s.includes('AAA');
+      !s.includes('AAA') &&
+      !(
+        banFourInFive &&
+        Array.from(
+          {
+            length: numMatchdays - 4,
+          },
+          (_, md) => chars.slice(md, md + 5).filter(c => c === 'H').length,
+        ).some(numHomeInFive => numHomeInFive < 2 || numHomeInFive > 3)
+      );
     if (isValid) {
       result.push(chars);
     }
@@ -68,6 +78,7 @@ const createClub = (
   numMatchdays: number,
   bans: Iterable<Ban> = [],
   alternatingPairs: readonly Pair[] = uefaPairs(numMatchdays),
+  banFourInFive = false,
 ) =>
   createHomeAwayPatterns({
     numTeams: 1,
@@ -75,14 +86,16 @@ const createClub = (
     maxAssignments: numMatchdays,
     alternatingPairs,
     bans,
+    banFourInFive,
   });
 
 // The legal patterns the tracker lets a matchday-by-matchday walk reach.
 const countPatterns = (
   numMatchdays: number,
   alternatingPairs: readonly Pair[] = uefaPairs(numMatchdays),
+  banFourInFive = false,
 ) => {
-  const club = createClub(numMatchdays, [], alternatingPairs);
+  const club = createClub(numMatchdays, [], alternatingPairs, banFourInFive);
   let count = 0;
   const visit = (md: number) => {
     if (md === numMatchdays) {
@@ -115,22 +128,45 @@ describe('homeAwayPatterns', () => {
   });
 
   it.each([
-    ['the first two & last two', uefaPairs],
+    ['the first two & last two', uefaPairs, false],
+    ['the first two & last two, no four in five', uefaPairs, true],
     [
       'a Boxing Day pair too',
       (numMatchdays: number): Pair[] => [
         ...uefaPairs(numMatchdays),
         [numMatchdays / 2 - 1, numMatchdays / 2],
       ],
+      false,
     ],
-    ['no pairs', (): Pair[] => []],
+    [
+      'a Boxing Day & New Year pair two apart',
+      (numMatchdays: number): Pair[] => [
+        ...uefaPairs(numMatchdays),
+        ...(numMatchdays >= 4
+          ? [[numMatchdays / 2 - 1, numMatchdays / 2 + 1] as const]
+          : []),
+      ],
+      false,
+    ],
+    [
+      'a Boxing Day & New Year pair two apart, no four in five',
+      (numMatchdays: number): Pair[] => [
+        ...uefaPairs(numMatchdays),
+        ...(numMatchdays >= 4
+          ? [[numMatchdays / 2 - 1, numMatchdays / 2 + 1] as const]
+          : []),
+      ],
+      true,
+    ],
+    ['no pairs', (): Pair[] => [], false],
+    ['no pairs, no four in five', (): Pair[] => [], true],
   ])(
     'matches the brute-force definition under random bans & pins, alternating %s',
-    (_, pairsFor) => {
+    (_, pairsFor, banFourInFive) => {
       const rand = mulberry32(1);
-      for (const numMatchdays of [2, 4, 6, 8, 10, 12]) {
+      for (const numMatchdays of [2, 4, 6, 8, 10, 12, 14]) {
         const pairs = pairsFor(numMatchdays);
-        const patterns = oracle(numMatchdays, pairs);
+        const patterns = oracle(numMatchdays, pairs, banFourInFive);
         for (let trial = 0; trial < 200; ++trial) {
           // 'H', 'A' or '.' for open, per matchday
           const banned = Array.from(
@@ -154,12 +190,12 @@ describe('homeAwayPatterns', () => {
             c === '.' && rand() < 0.3 ? (rand() < 0.5 ? 'H' : 'A') : '.',
           );
           if (!anyFits(patterns, (c, md) => c !== banned[md])) {
-            expect(() => createClub(numMatchdays, bans, pairs)).toThrow(
-              'Bans leave team 0 with no valid home/away pattern',
-            );
+            expect(() =>
+              createClub(numMatchdays, bans, pairs, banFourInFive),
+            ).toThrow('Bans leave team 0 with no valid home/away pattern');
             continue;
           }
-          const club = createClub(numMatchdays, bans, pairs);
+          const club = createClub(numMatchdays, bans, pairs, banFourInFive);
           for (const [md, c] of pinned.entries()) {
             if (c !== '.') {
               club.assign(0, c === 'H', md);
@@ -199,9 +235,40 @@ describe('homeAwayPatterns', () => {
   });
 
   it.each([
+    ['the first two & last two', uefaPairs],
+    ['no pairs', (): Pair[] => []],
+  ])(
+    'counts the patterns with no four in five, alternating %s',
+    (_, pairsFor) => {
+      for (let numMatchdays = 2; numMatchdays <= 16; numMatchdays += 2) {
+        const pairs = pairsFor(numMatchdays);
+        expect(countPatterns(numMatchdays, pairs, true)).toBe(
+          oracle(numMatchdays, pairs, true).length,
+        );
+      }
+    },
+  );
+
+  it('counts the patterns with a Boxing Day & New Year pair two apart', () => {
+    for (const numMatchdays of [4, 6, 8, 10, 12]) {
+      const pairs: Pair[] = [
+        ...uefaPairs(numMatchdays),
+        [numMatchdays / 2 - 1, numMatchdays / 2 + 1],
+      ];
+      expect(countPatterns(numMatchdays, pairs)).toBe(
+        oracle(numMatchdays, pairs).length,
+      );
+    }
+  });
+
+  it.each([
     [
-      [0, 2] as const,
-      'Alternating pair [0, 2] is not two consecutive matchdays',
+      [0, 3] as const,
+      'Alternating pair [0, 3] is not one or two matchdays apart',
+    ],
+    [
+      [2, 2] as const,
+      'Alternating pair [2, 2] is not one or two matchdays apart',
     ],
     [[7, 8] as const, 'Alternating pair [7, 8] is not within 8 matchdays'],
     [[-1, 0] as const, 'Alternating pair [-1, 0] is not within 8 matchdays'],
@@ -218,23 +285,29 @@ describe('homeAwayPatterns', () => {
     expect(club.isViable(0, true, 4)).toBe(true);
   });
 
-  it('finds the pairs every pattern alternates', () => {
-    for (const numMatchdays of [2, 4, 6, 8, 10]) {
-      const pairs: Pair[] = [
-        ...uefaPairs(numMatchdays),
-        [numMatchdays / 2 - 1, numMatchdays / 2],
-      ];
-      const patterns = oracle(numMatchdays, pairs);
-      const club = createClub(numMatchdays, [], pairs);
-      for (let i = 0; i < numMatchdays; ++i) {
-        for (let j = i + 1; j < numMatchdays; ++j) {
-          expect(club.mustAlternate(i, j)).toBe(
-            patterns.every(p => p[i] !== p[j]),
-          );
+  it.each([
+    ['consecutive', 0],
+    ['two apart', 1],
+  ])(
+    'finds the pairs every pattern alternates, Boxing Day pair %s',
+    (_, gap) => {
+      for (const numMatchdays of [4, 6, 8, 10]) {
+        const pairs: Pair[] = [
+          ...uefaPairs(numMatchdays),
+          [numMatchdays / 2 - 1, numMatchdays / 2 + gap],
+        ];
+        const patterns = oracle(numMatchdays, pairs);
+        const club = createClub(numMatchdays, [], pairs);
+        for (let i = 0; i < numMatchdays; ++i) {
+          for (let j = i + 1; j < numMatchdays; ++j) {
+            expect(club.mustAlternate(i, j)).toBe(
+              patterns.every(p => p[i] !== p[j]),
+            );
+          }
         }
       }
-    }
-  });
+    },
+  );
 
   it('allows nothing when the matchday count is odd (cannot be balanced)', () => {
     const club = createClub(3);

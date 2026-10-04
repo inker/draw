@@ -50,17 +50,19 @@ function Schedule({ tournament, schedule }: Props) {
             <ul className="reset-list">
               {md.map((day, dayIndex) => (
                 <li className={styles['matchday-day']}>
-                  <div className={styles['day-header']}>
-                    {tournament === 'cl'
-                      ? dayIndex === 2
-                        ? 'Thursday'
+                  {tournament !== 'epl' && (
+                    <div className={styles['day-header']}>
+                      {tournament === 'cl'
+                        ? dayIndex === 2
+                          ? 'Thursday'
+                          : dayIndex === 1 || md.length === 1
+                            ? 'Wednesday'
+                            : 'Tuesday'
                         : dayIndex === 1 || md.length === 1
-                          ? 'Wednesday'
-                          : 'Tuesday'
-                      : dayIndex === 1 || md.length === 1
-                        ? 'Night'
-                        : 'Evening'}
-                  </div>
+                          ? 'Night'
+                          : 'Evening'}
+                    </div>
+                  )}
                   <ul className="reset-list">
                     {day.map(m => (
                       <li className={styles['match-item']}>

@@ -1,4 +1,4 @@
-export const validTournaments = ['cl', 'el', 'ecl', 'wc'] as const;
+export const validTournaments = ['cl', 'el', 'ecl', 'wc', 'epl'] as const;
 
 type Tournament = (typeof validTournaments)[number];
 

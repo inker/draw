@@ -5,6 +5,7 @@ const names = {
   el: 'Europa League',
   ecl: 'Europa Conference League',
   wc: 'World Cup',
+  epl: 'Premier League',
 } as const satisfies Record<Tournament, string>;
 
 // UEFA dropped "Europa" from the name in the same reshuffle that brought in the league phase

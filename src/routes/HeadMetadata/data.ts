@@ -26,6 +26,14 @@ const data = {
     themeColor: '#326295',
     description: 'FIFA World Cup draw simulator',
   },
+  epl: {
+    title: 'Premier League schedule simulator',
+    // The site serves no favicon.ico, & the PNG path carries a release version.
+    favicon:
+      '//www.premierleague.com/resources/v1.54.14/i/favicon/favicon-32x32.png',
+    themeColor: '#37003c',
+    description: 'Premier League fixture schedule simulator',
+  },
 } as const;
 
 export default objectToFunction(data);

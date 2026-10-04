@@ -12,6 +12,8 @@ import seasonsForSlot from '#model/seasonsForSlot';
 import availability from '#data/availability';
 import Select from '#ui/SelectWithHiddenLabel';
 
+import config from '../../config';
+
 import seasonAsString from './seasonAsString';
 import tournamentAsString from './tournamentAsString';
 
@@ -93,14 +95,20 @@ function SelectSeason({ route, onChange }: Props) {
         onChange={onTournamentChange}
         value={tournament}
       >
-        {validTournaments.map(t => (
-          <option
-            key={t}
-            value={t}
-          >
-            {tournamentAsString(t, season)}
-          </option>
-        ))}
+        {validTournaments
+          // The current one stays,
+          // or the select would show a tournament other than the page's.
+          .filter(
+            t => !config.hiddenTournaments.includes(t) || t === tournament,
+          )
+          .map(t => (
+            <option
+              key={t}
+              value={t}
+            >
+              {tournamentAsString(t, season)}
+            </option>
+          ))}
       </Select>
       {slotOptions.length > 1 && (
         <Select
