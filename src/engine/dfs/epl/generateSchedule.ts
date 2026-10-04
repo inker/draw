@@ -23,7 +23,7 @@ const newYearMatchday = 18;
  * 3 or more apart often runs past the 5s worker timeout
  * on top of the same-city pairs.
  */
-const minMatchdaysBetweenMeetings = 2;
+const minMatchdaysBetweenMeetings = 4;
 
 /**
  * A double round robin of `teams`,
