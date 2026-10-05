@@ -15,6 +15,7 @@ export default ({
   topTeams = [],
   maxTopGamesPerMatchday = Infinity,
   matchdaysWithoutTopGames = [],
+  bannedGames = [],
   randomSeed = 0,
 }: {
   matchdaySize: number;
@@ -47,6 +48,14 @@ export default ({
    * such as Boxing Day
    */
   matchdaysWithoutTopGames?: readonly number[];
+  /**
+   * [home, away] games that may not be played on a matchday,
+   * such as one between two of the Premier League's promoted clubs on the opening day
+   */
+  bannedGames?: readonly {
+    matchday: number;
+    game: readonly [number, number];
+  }[];
   /**
    * Where in [0, 1) this solver's tie-breaking sequence starts.
    * Two solvers given the same seed search identically,
@@ -142,6 +151,30 @@ export default ({
   const isClosedToTopGames = new Uint8Array(numMatchdays);
   let numUnassignedTopGames = isTopGame.filter(x => x === 1).length;
 
+  const isBannedOnMatchday = new Uint8Array(numGames * numMatchdays);
+  for (const {
+    matchday,
+    game: [h, a],
+  } of bannedGames) {
+    // Out of range, the flag would land on another game's matchday.
+    if (
+      !Number.isInteger(matchday) ||
+      matchday < 0 ||
+      matchday >= numMatchdays
+    ) {
+      throw new RangeError(
+        `Banned game on matchday ${matchday}, which is not an index into ${numMatchdays} matchdays`,
+      );
+    }
+    const gameIndex = allGames.findIndex(
+      ([otherH, otherA]) => otherH === h && otherA === a,
+    );
+    if (gameIndex === -1) {
+      throw new Error(`Banned game ${h}-${a} is not in allGames`);
+    }
+    isBannedOnMatchday[gameIndex * numMatchdays + matchday] = 1;
+  }
+
   // A matchday that is full or closed is room lost for good.
   const getRoomForTopGames = () => {
     let room = 0;
@@ -218,6 +251,10 @@ export default ({
     const hasAwayTeamPlayedThisMatchday =
       locationByTeamMatchday[a * numMatchdays + md] !== 0;
     if (hasAwayTeamPlayedThisMatchday) {
+      return true;
+    }
+
+    if (isBannedOnMatchday[gameIndex * numMatchdays + md]) {
       return true;
     }
 

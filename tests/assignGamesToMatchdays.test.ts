@@ -257,4 +257,87 @@ describe('assignGamesToMatchdays', () => {
       }),
     ).toThrow('No solution');
   });
+
+  it('keeps banned games off their matchday', () => {
+    const numTeams = 6;
+    const separated = [0, 1, 2];
+    const bannedGames = doubleRoundRobin(numTeams)
+      .filter(([h, a]) => separated.includes(h) && separated.includes(a))
+      .map(game => ({
+        matchday: 0,
+        game,
+      }));
+    for (let i = 0; i < 20; ++i) {
+      const result = assignGamesToMatchdays({
+        matchdaySize: numTeams / 2,
+        allGames: doubleRoundRobin(numTeams),
+        alternatingPairs: [
+          [0, 1],
+          [8, 9],
+        ],
+        bans: [],
+        cannotHostSameDayPairs: [],
+        bannedGames,
+        randomSeed: i / 20,
+      });
+
+      expect(
+        result[0].some(
+          ([h, a]) => separated.includes(h) && separated.includes(a),
+        ),
+      ).toBe(false);
+    }
+  });
+
+  it('finds no schedule when the banned games leave a matchday unfillable', () => {
+    // Two games of four clubs cannot keep three of them apart.
+    const separated = [0, 1, 2];
+    const bannedGames = doubleRoundRobin(4)
+      .filter(([h, a]) => separated.includes(h) && separated.includes(a))
+      .map(game => ({
+        matchday: 0,
+        game,
+      }));
+    expect(() =>
+      assignGamesToMatchdays({
+        matchdaySize: 2,
+        allGames: doubleRoundRobin(4),
+        alternatingPairs: [
+          [0, 1],
+          [4, 5],
+        ],
+        bans: [],
+        cannotHostSameDayPairs: [],
+        bannedGames,
+      }),
+    ).toThrow('No solution');
+  });
+
+  it.each([
+    [0, [0, 0], 'Banned game 0-0 is not in allGames'],
+    [
+      2,
+      [0, 1],
+      'Banned game on matchday 2, which is not an index into 2 matchdays',
+    ],
+  ] as const)(
+    'rejects a banned game on matchday %s',
+    (matchday, game, message) => {
+      expect(() =>
+        assignGamesToMatchdays({
+          matchdaySize: 2,
+          allGames,
+          alternatingPairs: [[0, 1]],
+          bans: [],
+          cannotHostSameDayPairs: [],
+          bannedGames: [
+            {
+              matchday,
+              game,
+            },
+          ],
+        }),
+      ).toThrow(message);
+    },
+  );
 });

@@ -53,6 +53,10 @@ function ScheduleCreationDescription({ teams }: Props) {
           Boxing Day may hold none.
         </li>
         <li>
+          No two promoted clubs (Coventry, Hull and Ipswich) may play each other
+          on the first matchday.
+        </li>
+        <li>
           Clubs from the same city must not be scheduled to play at home on the
           same matchday.{' '}
           {cannotHostSameDayTeams.length === 0 ? (

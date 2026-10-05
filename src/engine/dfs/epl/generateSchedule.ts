@@ -1,4 +1,5 @@
 import bigSix from '#engine/predicates/epl/utils/bigSix';
+import promoted from '#engine/predicates/epl/utils/promoted';
 import teamsThatCannotHostSameDay from '#engine/predicates/epl/utils/teamsThatCannotHostSameDay';
 import assignGamesToMatchdays from '#engine/dfs/ls/generateSchedule/assignGamesToMatchdays.wrapper';
 import { type PrngGenerator } from '#utils/prng/generator';
@@ -33,6 +34,13 @@ const minMatchdaysBetweenMeetings = 4;
  */
 const maxBigSixGamesPerMatchday = 1;
 const matchdaysWithoutBigSixGames = [boxingDayMatchday];
+
+/**
+ * Not a published rule either.
+ * No season from 2011/12 to 2025/26 opened with two promoted clubs playing each other,
+ * which random schedules manage 7.6% of the time.
+ */
+const matchdaysWithoutPromotedGames = [0];
 
 /**
  * A double round robin of `teams`,
@@ -75,6 +83,10 @@ export default async function generateSchedule({
     (bigSix as readonly string[]).includes(team.name) ? [i] : [],
   );
 
+  const promotedTeams = teams.flatMap((team, i) =>
+    (promoted as readonly string[]).includes(team.name) ? [i] : [],
+  );
+
   // The solver picks games dynamically,
   // so the input order only seeds tie-breaking.
   const allGamesShuffled = await prngShuffle({
@@ -95,6 +107,16 @@ export default async function generateSchedule({
     topTeams: bigSixTeams,
     maxTopGamesPerMatchday: maxBigSixGamesPerMatchday,
     matchdaysWithoutTopGames: matchdaysWithoutBigSixGames,
+    bannedGames: matchdaysWithoutPromotedGames.flatMap(matchday =>
+      allGames
+        .filter(
+          ([h, a]) => promotedTeams.includes(h) && promotedTeams.includes(a),
+        )
+        .map(game => ({
+          matchday,
+          game,
+        })),
+    ),
     randomSeed,
     getNumWorkers,
     signal,
