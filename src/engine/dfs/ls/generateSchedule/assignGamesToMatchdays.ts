@@ -12,6 +12,9 @@ export default ({
   cannotHostSameDayPairs,
   minMatchdaysBetweenMeetings = 1,
   banFourInFive = false,
+  topTeams = [],
+  maxTopGamesPerMatchday = Infinity,
+  matchdaysWithoutTopGames = [],
   randomSeed = 0,
 }: {
   matchdaySize: number;
@@ -30,6 +33,20 @@ export default ({
    * between each club's home & away games
    */
   banFourInFive?: boolean;
+  /**
+   * Clubs whose games against each other are spread over the season,
+   * such as the Premier League's big six
+   */
+  topTeams?: readonly number[];
+  /**
+   * How many games between two of topTeams a matchday may hold
+   */
+  maxTopGamesPerMatchday?: number;
+  /**
+   * Matchdays that may hold no game between two of topTeams,
+   * such as Boxing Day
+   */
+  matchdaysWithoutTopGames?: readonly number[];
   /**
    * Where in [0, 1) this solver's tie-breaking sequence starts.
    * Two solvers given the same seed search identically,
@@ -107,6 +124,49 @@ export default ({
     }),
   );
 
+  const isTopTeam = new Uint8Array(numTeams);
+  for (const team of topTeams) {
+    isTopTeam[team] = 1;
+  }
+  const isTopGame = Uint8Array.from(allGames, ([h, a]) =>
+    isTopTeam[h] && isTopTeam[a] ? 1 : 0,
+  );
+  const maxTopGamesByMatchday = new Float64Array(numMatchdays).fill(
+    maxTopGamesPerMatchday,
+  );
+  for (const md of matchdaysWithoutTopGames) {
+    maxTopGamesByMatchday[md] = 0;
+  }
+  const numTopGamesByMatchday = new Uint16Array(numMatchdays);
+  // Set once the search decides a matchday takes no more top games
+  const isClosedToTopGames = new Uint8Array(numMatchdays);
+  let numUnassignedTopGames = isTopGame.filter(x => x === 1).length;
+
+  // A matchday that is full or closed is room lost for good.
+  const getRoomForTopGames = () => {
+    let room = 0;
+    let numOpenMatchdays = 0;
+    for (let md = 0; md < numMatchdays; ++md) {
+      const roomOnMatchday =
+        maxTopGamesByMatchday[md] - numTopGamesByMatchday[md];
+      if (
+        numMatchesByMatchday[md] < matchdaySize &&
+        !isClosedToTopGames[md] &&
+        roomOnMatchday > 0
+      ) {
+        room += roomOnMatchday;
+        ++numOpenMatchdays;
+      }
+    }
+    return {
+      room,
+      numOpenMatchdays,
+    };
+  };
+
+  // A placement that closes a matchday to top games rather than placing a game
+  const closeToTopGames = -1;
+
   // 0 = not playing, 1 = home, 2 = away
   const locationByTeamMatchday = new Uint8Array(numTeams * numMatchdays);
   const numMatchesByMatchday = new Uint16Array(numMatchdays);
@@ -118,6 +178,8 @@ export default ({
     const [h, a] = allGames[gameIndex];
     matchdayByGame[gameIndex] = md;
     ++numMatchesByMatchday[md];
+    numTopGamesByMatchday[md] += isTopGame[gameIndex];
+    numUnassignedTopGames -= isTopGame[gameIndex];
     locationByTeamMatchday[h * numMatchdays + md] = 1;
     locationByTeamMatchday[a * numMatchdays + md] = 2;
     homeAwayPatterns.assign(h, true, md);
@@ -129,6 +191,8 @@ export default ({
     const [h, a] = allGames[gameIndex];
     matchdayByGame[gameIndex] = -1;
     --numMatchesByMatchday[md];
+    numTopGamesByMatchday[md] -= isTopGame[gameIndex];
+    numUnassignedTopGames += isTopGame[gameIndex];
     locationByTeamMatchday[h * numMatchdays + md] = 0;
     locationByTeamMatchday[a * numMatchdays + md] = 0;
     homeAwayPatterns.unassign();
@@ -154,6 +218,14 @@ export default ({
     const hasAwayTeamPlayedThisMatchday =
       locationByTeamMatchday[a * numMatchdays + md] !== 0;
     if (hasAwayTeamPlayedThisMatchday) {
+      return true;
+    }
+
+    if (
+      isTopGame[gameIndex] &&
+      (isClosedToTopGames[md] ||
+        numTopGamesByMatchday[md] >= maxTopGamesByMatchday[md])
+    ) {
       return true;
     }
 
@@ -209,6 +281,53 @@ export default ({
       // active matchday: first unfilled one in the fill order
       const md =
         fillOrder.find(m => numMatchesByMatchday[m] < matchdaySize) ?? -1;
+
+      if (numUnassignedTopGames > 0) {
+        const { room, numOpenMatchdays } = getRoomForTopGames();
+        // Without this the search only noticed
+        // once the last matchdays came up short.
+        if (room < numUnassignedTopGames) {
+          return [];
+        }
+
+        // With a cap the top games barely fit,
+        // so each matchday decides its top games before anything else
+        // rather than taking whichever are left over.
+        // Left to the club-by-club order below,
+        // a 20-team season with the big six one a matchday
+        // went past 45s on 7 seeds out of 10.
+        if (
+          Number.isFinite(maxTopGamesPerMatchday) &&
+          !isClosedToTopGames[md] &&
+          numTopGamesByMatchday[md] < maxTopGamesByMatchday[md]
+        ) {
+          const topGames: (readonly [number, number])[] = [];
+          for (let g = 0; g < numGames; ++g) {
+            if (isTopGame[g] && matchdayByGame[g] === -1 && !reject(g, md)) {
+              topGames.push([g, nextRandom()]);
+            }
+          }
+          topGames.sort((x, y) => x[1] - y[1]);
+          const candidates = topGames.map(([g]) => [g, md] as const);
+          // Room on this matchday only counts while it stays open.
+          const roomElsewhere =
+            room - (maxTopGamesByMatchday[md] - numTopGamesByMatchday[md]);
+          if (roomElsewhere >= numUnassignedTopGames) {
+            // Tried last, the closing all happened where the search
+            // first backtracked, leaving five matchdays in a row
+            // without a top game.
+            // Tried first at the rate the spare room allows,
+            // the matchdays without one spread over the season.
+            const spareRoom = room - numUnassignedTopGames;
+            if (nextRandom() * numOpenMatchdays < spareRoom) {
+              candidates.unshift([closeToTopGames, md]);
+            } else {
+              candidates.push([closeToTopGames, md]);
+            }
+          }
+          return candidates;
+        }
+      }
 
       // MRV within the active matchday:
       // extend the team with the fewest feasible games,
@@ -271,11 +390,19 @@ export default ({
     },
 
     apply: ([g, md]) => {
-      place(g, md);
+      if (g === closeToTopGames) {
+        isClosedToTopGames[md] = 1;
+      } else {
+        place(g, md);
+      }
     },
 
     undo: ([g, md]) => {
-      unplace(g, md);
+      if (g === closeToTopGames) {
+        isClosedToTopGames[md] = 0;
+      } else {
+        unplace(g, md);
+      }
     },
   });
 

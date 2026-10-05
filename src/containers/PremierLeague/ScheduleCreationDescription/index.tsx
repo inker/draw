@@ -48,6 +48,11 @@ function ScheduleCreationDescription({ teams }: Props) {
           home and one away fixture.
         </li>
         <li>
+          No matchday may hold more than one match between two of the big six
+          (Arsenal, Chelsea, Liverpool, Man City, Man United and Tottenham), and
+          Boxing Day may hold none.
+        </li>
+        <li>
           Clubs from the same city must not be scheduled to play at home on the
           same matchday.{' '}
           {cannotHostSameDayTeams.length === 0 ? (

@@ -210,4 +210,51 @@ describe('assignGamesToMatchdays', () => {
       );
     },
   );
+
+  it('spreads the games between top teams', () => {
+    const numTeams = 8;
+    const topTeams = [0, 1, 2];
+    for (let i = 0; i < 20; ++i) {
+      const result = assignGamesToMatchdays({
+        matchdaySize: numTeams / 2,
+        allGames: doubleRoundRobin(numTeams),
+        alternatingPairs: [
+          [0, 1],
+          [12, 13],
+        ],
+        bans: [],
+        cannotHostSameDayPairs: [],
+        topTeams,
+        maxTopGamesPerMatchday: 1,
+        matchdaysWithoutTopGames: [3],
+        randomSeed: i / 20,
+      });
+
+      const numTopGamesByMatchday = result.map(
+        md =>
+          md.filter(([h, a]) => topTeams.includes(h) && topTeams.includes(a))
+            .length,
+      );
+      expect(Math.max(...numTopGamesByMatchday)).toBe(1);
+      expect(numTopGamesByMatchday[3]).toBe(0);
+    }
+  });
+
+  it('finds no schedule when the top games cannot be spread enough', () => {
+    // With every club a top team, each matchday holds two top games.
+    expect(() =>
+      assignGamesToMatchdays({
+        matchdaySize: 2,
+        allGames: doubleRoundRobin(4),
+        alternatingPairs: [
+          [0, 1],
+          [4, 5],
+        ],
+        bans: [],
+        cannotHostSameDayPairs: [],
+        topTeams: [0, 1, 2, 3],
+        maxTopGamesPerMatchday: 1,
+      }),
+    ).toThrow('No solution');
+  });
 });

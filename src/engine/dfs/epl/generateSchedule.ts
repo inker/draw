@@ -1,3 +1,4 @@
+import bigSix from '#engine/predicates/epl/utils/bigSix';
 import teamsThatCannotHostSameDay from '#engine/predicates/epl/utils/teamsThatCannotHostSameDay';
 import assignGamesToMatchdays from '#engine/dfs/ls/generateSchedule/assignGamesToMatchdays.wrapper';
 import { type PrngGenerator } from '#utils/prng/generator';
@@ -23,6 +24,15 @@ const newYearMatchday = 18;
  * & 5 of those seasons had them exactly 4 apart.
  */
 const minMatchdaysBetweenMeetings = 4;
+
+/**
+ * Neither is a published rule.
+ * Half the seasons from 2010/11 to 2025/26 never had two big-six games in a round,
+ * which random schedules manage 0.24% of the time,
+ * & only 2 of 14 had one on Boxing Day.
+ */
+const maxBigSixGamesPerMatchday = 1;
+const matchdaysWithoutBigSixGames = [boxingDayMatchday];
 
 /**
  * A double round robin of `teams`,
@@ -61,6 +71,10 @@ export default async function generateSchedule({
     },
   );
 
+  const bigSixTeams = teams.flatMap((team, i) =>
+    (bigSix as readonly string[]).includes(team.name) ? [i] : [],
+  );
+
   // The solver picks games dynamically,
   // so the input order only seeds tie-breaking.
   const allGamesShuffled = await prngShuffle({
@@ -78,6 +92,9 @@ export default async function generateSchedule({
     cannotHostSameDayPairs,
     minMatchdaysBetweenMeetings,
     banFourInFive: true,
+    topTeams: bigSixTeams,
+    maxTopGamesPerMatchday: maxBigSixGamesPerMatchday,
+    matchdaysWithoutTopGames: matchdaysWithoutBigSixGames,
     randomSeed,
     getNumWorkers,
     signal,
