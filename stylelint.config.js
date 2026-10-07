@@ -3,17 +3,14 @@ export default {
   reportNeedlessDisables: true,
   reportUnscopedDisables: true,
 
-  extends: ['stylelint-config-standard-scss'],
-  plugins: ['stylelint-order', 'stylelint-scss'],
+  extends: ['stylelint-config-standard'],
+  plugins: ['stylelint-order'],
   rules: {
     'comment-empty-line-before': null,
     'font-family-no-missing-generic-family-keyword': null,
     'no-descending-specificity': null,
     'alpha-value-notation': null,
     'declaration-block-no-redundant-longhand-properties': null, // TODO: remove
-    'scss/at-rule-no-unknown': true,
-    'scss/selector-no-redundant-nesting-selector': true,
-    'scss/selector-no-union-class-name': true,
     'declaration-block-no-duplicate-properties': true,
     'selector-class-pattern': new RegExp(
       [

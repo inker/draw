@@ -95,7 +95,7 @@
     "patch-package": "^8.0.0",
     "postcss-styled-syntax": "^0.7.1",
     "stylelint": "^17.15.0",
-    "stylelint-config-standard-scss": "^17.0.0",
+    "stylelint-config-standard": "^40.0.0",
     "stylelint-order": "^8.1.1",
     "typescript": "^6.0.3",
     "vitest": "^5.0.2"
