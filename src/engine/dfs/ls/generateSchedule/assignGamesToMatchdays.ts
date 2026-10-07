@@ -143,6 +143,8 @@ export default ({
     }
     isCappedGame[gameIndex] = 1;
   }
+  // Float64 so the default cap of Infinity survives,
+  // where an integer array would store 0 & ban capped games everywhere.
   const maxCappedGamesByMatchday = new Float64Array(numMatchdays).fill(
     maxCappedGamesPerMatchday,
   );
