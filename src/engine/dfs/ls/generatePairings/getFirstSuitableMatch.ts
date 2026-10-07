@@ -28,7 +28,7 @@ export default ({
   numGamesPerMatchday: number;
   isPairedPotMode: boolean;
   allGames: readonly (readonly [number, number])[];
-  allocatedMatches: readonly (readonly [number, number])[];
+  allocatedMatches: Iterable<readonly [number, number]>;
   /**
    * Where in [0, 1) this solver's tie-breaking sequence starts
    */

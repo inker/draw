@@ -38,7 +38,7 @@ export default async function* generatePairings({
   pots: readonly (readonly Team[])[];
   numMatchdays: number;
   pickedTeamIndex: number;
-  previousPickedTeamIndices: readonly number[];
+  previousPickedTeamIndices: Iterable<number>;
   virtualGeneratedMatches: readonly (readonly [number, number])[];
   signal?: AbortSignal;
 }) {
