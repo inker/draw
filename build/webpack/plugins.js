@@ -1,11 +1,10 @@
 const Path = require('path');
 
-const webpack = require('webpack');
+const { rspack } = require('@rspack/core');
 const CleanTerminalPlugin = require('clean-terminal-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
-const ESLintPlugin = require('eslint-webpack-plugin');
+const { TsCheckerRspackPlugin } = require('ts-checker-rspack-plugin');
+const ESLintPlugin = require('eslint-rspack-plugin').default;
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 
 const getCurrentDate = require('./utils/getCurrentDate');
@@ -16,11 +15,11 @@ const lastCommitHash = getLastCommitHash();
 
 /**
  * @param {boolean} isDev
- * @returns {import('webpack').Configuration['plugins']}
+ * @returns {import('@rspack/core').Configuration['plugins']}
  */
 module.exports = isDev =>
   [
-    new webpack.DefinePlugin({
+    new rspack.DefinePlugin({
       'process.env': {
         NODE_ENV: JSON.stringify(isDev ? 'development' : 'production'),
       },
@@ -29,7 +28,7 @@ module.exports = isDev =>
     isDev && new CleanTerminalPlugin(),
 
     !isDev &&
-      new MiniCssExtractPlugin({
+      new rspack.CssExtractRspackPlugin({
         filename: '[name].[contenthash:8].css',
       }),
 
@@ -60,15 +59,16 @@ module.exports = isDev =>
     //   }
     // ]),
 
-    isDev && new ForkTsCheckerWebpackPlugin(),
+    isDev && new TsCheckerRspackPlugin(),
 
     isDev &&
       new ESLintPlugin({
         extensions: ['js', 'mjs', 'jsx', 'ts', 'tsx'],
-        emitWarning: true,
-        failOnError: false,
+        severity: {
+          error: 'warning',
+        },
         cache: true,
-        // Left to itself the plugin loads the eslint 9 installed under build,
+        // Left to itself the plugin loads the eslint 10 installed under build,
         // which only reads flat config & so finds no config at all.
         // The app is linted by the root's eslint 8 & its .eslintrc.cjs.
         eslintPath: require.resolve('eslint', {

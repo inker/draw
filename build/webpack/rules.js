@@ -1,4 +1,4 @@
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const { rspack } = require('@rspack/core');
 
 const getCssLoader = global => ({
   loader: require.resolve('css-loader'),
@@ -13,7 +13,7 @@ const getCssLoader = global => ({
 });
 
 /**
- * @typedef {NonNullable<import('webpack').Configuration['module']>['rules']} Rules
+ * @typedef {NonNullable<import('@rspack/core').Configuration['module']>['rules']} Rules
  *
  * @param {boolean} isDev
  * @returns {Rules}
@@ -23,9 +23,19 @@ module.exports = isDev =>
     {
       test: /\.(js|mjs|jsx|ts|tsx)$/,
       use: {
-        loader: require.resolve('esbuild-loader'),
+        loader: 'builtin:swc-loader',
         options: {
-          target: 'es2021',
+          detectSyntax: 'auto',
+          jsc: {
+            target: 'es2021',
+            // swc doesn't read tsconfig.json,
+            // so its "jsx": "react-jsx" has to be repeated here.
+            transform: {
+              react: {
+                runtime: 'automatic',
+              },
+            },
+          },
         },
       },
       exclude: /node_modules/,
@@ -34,7 +44,9 @@ module.exports = isDev =>
       test: /\.css$/,
       exclude: /\.module\.css$/,
       use: [
-        isDev ? require.resolve('style-loader') : MiniCssExtractPlugin.loader,
+        isDev
+          ? require.resolve('style-loader')
+          : rspack.CssExtractRspackPlugin.loader,
         require.resolve('css-loader'),
       ],
     },
@@ -54,7 +66,9 @@ module.exports = isDev =>
       test: /\.module\.s[ac]ss$/i,
       use: [
         // Creates `style` nodes from JS strings
-        isDev ? require.resolve('style-loader') : MiniCssExtractPlugin.loader,
+        isDev
+          ? require.resolve('style-loader')
+          : rspack.CssExtractRspackPlugin.loader,
         // Translates CSS into CommonJS
         getCssLoader(false),
         // Compiles Sass to CSS

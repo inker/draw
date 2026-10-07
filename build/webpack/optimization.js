@@ -1,33 +1,37 @@
-const TerserPlugin = require('terser-webpack-plugin');
-const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
+const { rspack } = require('@rspack/core');
+
+// rspack leaves some worker chunks unnamed & has no debugId to stand in,
+// so a set with one of those gets no name at all,
+// rather than one that could match another set's & merge the two chunks.
+const joinChunkNames = chunks =>
+  chunks.every(item => item.name)
+    ? chunks.map(item => item.name).join('~')
+    : undefined;
 
 /**
- * @param {boolean} isDev
- * @returns {import('webpack').Configuration['optimization']}
+ * @returns {import('@rspack/core').Configuration['optimization']}
  */
-module.exports = isDev => ({
+module.exports = () => ({
   minimize: true,
 
-  minimizer: isDev
-    ? undefined
-    : [
-        new TerserPlugin({
-          minify: TerserPlugin.swcMinify,
-          // terser-webpack-plugin defaults extractComments to true
-          // & forwards it into swc's minify options,
-          // which @swc/core rejects as an unknown field.
-          // Disable it: swc keeps license comments inline.
-          extractComments: false,
-        }),
+  minimizer: [
+    new rspack.SwcJsMinimizerRspackPlugin(),
 
-        new CssMinimizerPlugin(),
-      ],
+    new rspack.LightningCssMinimizerRspackPlugin({
+      minimizerOptions: {
+        // Left to the default, it adds prefixes for browsers from around 2016,
+        // which can't run the es2021 bundle anyway.
+        // These are the first versions with full ES2021 support.
+        targets: 'chrome >= 85, edge >= 85, firefox >= 79, safari >= 14.1',
+      },
+    }),
+  ],
 
   runtimeChunk: 'single',
 
   splitChunks: {
     chunks: 'all',
-    name: (module, chunks) => chunks.map(item => item.name).join('~'),
+    name: (module, chunks) => joinChunkNames(chunks),
     cacheGroups: {
       defaultVendors: {
         test: /node_modules/,
@@ -69,12 +73,10 @@ module.exports = isDev => ({
           //   .identifier()
           //   .split('/')
           //   .reduceRight(item => item);
-          const allChunksNames = chunks
-            .map(item => item.name || item.debugId)
-            .join('~');
+          const allChunksNames = joinChunkNames(chunks);
           // return `${cacheGroupKey}--${allChunksNames}--${moduleFileName}`;
           // return `${cacheGroupKey}--${allChunksNames}`;
-          return `vendors-${allChunksNames}`;
+          return allChunksNames && `vendors-${allChunksNames}`;
         },
       },
     },

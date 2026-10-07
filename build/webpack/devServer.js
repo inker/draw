@@ -1,5 +1,5 @@
 /**
- * @type {import('webpack-dev-server')}
+ * @type {import('@rspack/core').DevServer}
  */
 module.exports = {
   port: 9080,

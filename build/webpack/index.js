@@ -1,7 +1,5 @@
 const path = require('path');
 
-const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
-
 const optimization = require('./optimization');
 const rules = require('./rules');
 const plugins = require('./plugins');
@@ -13,7 +11,7 @@ const defaultEnv = {
 };
 
 /**
- * @returns {import('webpack').Configuration}
+ * @returns {import('@rspack/core').Configuration}
  */
 module.exports = env => {
   console.log('passed env:', env);
@@ -44,11 +42,8 @@ module.exports = env => {
       hashDigest: 'base64url',
     },
     cache: {
-      type: 'filesystem',
-      store: 'pack',
-      buildDependencies: {
-        config: [__filename],
-      },
+      type: 'persistent',
+      buildDependencies: [__filename],
     },
     resolve: {
       extensions: ['.ts', '.tsx', '.js', '.jsx'],
@@ -59,14 +54,10 @@ module.exports = env => {
             // 'react': path.join(rootDir, 'node_modules/react/dist/react.min.js'),
             // 'react-dom': path.join(rootDir, 'node_modules/react-dom/dist/react-dom.min.js'),
           },
-      plugins: [
-        new TsconfigPathsPlugin({
-          configFile: path.resolve(rootDir, 'tsconfig.json'),
-        }),
-      ],
+      tsConfig: path.resolve(rootDir, 'tsconfig.json'),
     },
     devtool: isDev ? 'eval-source-map' : undefined,
-    optimization: optimization(isDev),
+    optimization: optimization(),
     module: {
       rules: rules(isDev),
     },
