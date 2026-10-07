@@ -9,7 +9,7 @@ import clsx from 'clsx';
 
 import useIsDarkMode from '#utils/hooks/useIsDarkMode';
 
-import * as styles from './styles.module.scss';
+import * as styles from './styles.module.css';
 
 type InputProps = DetailedHTMLProps<
   InputHTMLAttributes<HTMLInputElement>,

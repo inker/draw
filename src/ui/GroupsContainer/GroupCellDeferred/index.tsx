@@ -10,9 +10,9 @@ import getTeamCountryName from '#utils/getTeamCountryName';
 import ContentWithFlag from '#ui/table/ContentWithFlag';
 import Content from '#ui/table/Content';
 import MovingContent from '#ui/MovingContent';
-import * as cellStyles from '#ui/table/cell.module.scss';
+import * as cellStyles from '#ui/table/cell.module.css';
 
-import * as styles from './styles.module.scss';
+import * as styles from './styles.module.css';
 
 type Team = Club | NationalTeam;
 

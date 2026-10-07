@@ -2,7 +2,7 @@ import { type ReactNode, memo } from 'react';
 
 import Modal from '../Modal';
 
-import * as styles from './styles.module.scss';
+import * as styles from './styles.module.css';
 
 interface Props {
   children: ReactNode;

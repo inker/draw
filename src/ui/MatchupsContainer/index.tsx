@@ -5,7 +5,7 @@ import type Team from '#model/team/Club';
 import Table from '#ui/table/Table';
 
 import Matchup from './Matchup';
-import * as styles from './styles.module.scss';
+import * as styles from './styles.module.css';
 
 interface Props {
   ref?: React.RefObject<HTMLTableElement | null>;

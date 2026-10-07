@@ -25,7 +25,7 @@ import Matrix from './Matrix';
 import Schedule from './Schedule';
 import ScheduleCreationDescription from './ScheduleCreationDescription';
 import OpponentList from './OpponentList';
-import * as styles from './styles.module.scss';
+import * as styles from './styles.module.css';
 
 interface Props {
   tournament: Tournament;

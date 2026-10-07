@@ -4,7 +4,7 @@ import getGroupLetter from '#utils/getGroupLetter';
 
 import BowlBall from '../BowlBall';
 
-import * as styles from './styles.module.scss';
+import * as styles from './styles.module.css';
 
 interface Props {
   display: boolean;

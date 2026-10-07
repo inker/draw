@@ -5,7 +5,7 @@ import type NationalTeam from '#model/team/NationalTeam';
 import getGroupLetter from '#utils/getGroupLetter';
 
 import Group from './Group';
-import * as styles from './styles.module.scss';
+import * as styles from './styles.module.css';
 
 type Team = Club | NationalTeam;
 

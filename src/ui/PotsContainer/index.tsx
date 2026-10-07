@@ -5,7 +5,7 @@ import clsx from 'clsx';
 import type Team from '#model/team';
 
 import Pot from './Pot';
-import * as styles from './styles.module.scss';
+import * as styles from './styles.module.css';
 
 interface Props {
   initialPots: readonly (readonly Team[])[];

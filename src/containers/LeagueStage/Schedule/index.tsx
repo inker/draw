@@ -5,7 +5,7 @@ import ContentWithFlag from '#ui/table/ContentWithFlag';
 import { type Country } from '#model/types';
 import type Tournament from '#model/Tournament';
 
-import * as styles from './styles.module.scss';
+import * as styles from './styles.module.css';
 
 interface Team {
   name: string;

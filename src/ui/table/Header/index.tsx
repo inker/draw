@@ -1,9 +1,9 @@
 import { memo } from 'react';
 import clsx from 'clsx';
 
-import * as baseContentStyles from '../base-content.module.scss';
+import * as baseContentStyles from '../base-content.module.css';
 
-import * as styles from './styles.module.scss';
+import * as styles from './styles.module.css';
 
 type Props = React.HTMLAttributes<HTMLSpanElement>;
 

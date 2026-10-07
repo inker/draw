@@ -1,7 +1,7 @@
 import type React from 'react';
 import { memo } from 'react';
 
-import * as styles from './styles.module.scss';
+import * as styles from './styles.module.css';
 
 type Props = Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'disabled'> & {
   isDisabled?: boolean;

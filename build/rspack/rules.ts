@@ -1,8 +1,4 @@
-import { createRequire } from 'module';
-
 import type { RuleSetRules } from '@rspack/core';
-
-const require = createRequire(import.meta.url);
 
 export default (isDev: boolean) =>
   (
@@ -28,22 +24,8 @@ export default (isDev: boolean) =>
         exclude: /node_modules/,
       },
       {
-        test: /\.css$/,
-        exclude: /\.module\.css$/,
-        type: 'css',
-      },
-      {
-        test: /\.s[ac]ss$/i,
-        exclude: /\.module\.s[ac]ss$/,
-        // Compiles Sass to CSS
-        use: require.resolve('sass-loader'),
-        type: 'css',
-      },
-      {
-        test: /\.module\.s[ac]ss$/i,
-        // Compiles Sass to CSS
-        use: require.resolve('sass-loader'),
-        type: 'css/module',
+        test: /\.css$/i,
+        type: 'css/auto',
         parser: {
           // Left on, these rename custom properties & other names as well as classes,
           // which breaks variables shared between files

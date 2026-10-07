@@ -3,7 +3,7 @@ import GitHubButton from 'react-github-btn';
 
 import useIsDarkMode from '#utils/hooks/useIsDarkMode';
 
-import * as styles from './styles.module.scss';
+import * as styles from './styles.module.css';
 
 function GitHubButtons() {
   const isDarkMode = useIsDarkMode();

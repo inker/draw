@@ -8,9 +8,9 @@ import {
 import clsx from 'clsx';
 
 import useEvent from '#utils/hooks/useEvent';
-import * as ballStyles from '#ui/ball.module.scss';
+import * as ballStyles from '#ui/ball.module.css';
 
-import * as styles from './styles.module.scss';
+import * as styles from './styles.module.css';
 
 // TODO: Fix transient props
 

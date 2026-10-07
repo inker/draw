@@ -7,7 +7,7 @@ import { type Country } from '#model/types';
 import { css } from '#ui/GlobalStyle';
 
 import Table from './Table';
-import * as styles from './styles.module.scss';
+import * as styles from './styles.module.css';
 
 // eslint-disable-next-line no-sparse-arrays
 const angleByIndex = [, 0, 5, 3, 2, 6, 4, 1];

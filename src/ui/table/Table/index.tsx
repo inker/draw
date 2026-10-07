@@ -2,7 +2,7 @@ import type React from 'react';
 import { memo } from 'react';
 import clsx from 'clsx';
 
-import * as styles from './styles.module.scss';
+import * as styles from './styles.module.css';
 
 type Props = React.HTMLAttributes<HTMLTableElement> & {
   ref?: React.RefObject<HTMLTableElement | null>;

@@ -13,7 +13,7 @@ import usePrevious from '#utils/hooks/usePrevious';
 import type Team from '#model/team/GsTeam';
 import ContentWithFlag from '#ui/table/ContentWithFlag';
 
-import * as styles from './styles.module.scss';
+import * as styles from './styles.module.css';
 
 interface Item {
   team: Team;

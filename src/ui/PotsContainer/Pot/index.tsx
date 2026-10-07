@@ -4,11 +4,11 @@ import clsx from 'clsx';
 import type Team from '#model/team';
 import Table from '#ui/table/Table';
 import Header from '#ui/table/Header';
-import * as cellStyles from '#ui/table/cell.module.scss';
+import * as cellStyles from '#ui/table/cell.module.css';
 
 import PotRow from '../PotRow';
 
-import * as styles from './styles.module.scss';
+import * as styles from './styles.module.css';
 
 interface Props {
   isCurrent: boolean;

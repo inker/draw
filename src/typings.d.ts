@@ -9,20 +9,8 @@ declare module '*.txt' {
 // TypeScript needs a declaration for those imports,
 // while the more specific *.module.* patterns below still win for CSS modules.
 declare module '*.css';
-declare module '*.scss';
-declare module '*.sass';
 
 declare module '*.module.css' {
-  const classes: Readonly<Record<string, string>>;
-  export = classes;
-}
-
-declare module '*.module.scss' {
-  const classes: Readonly<Record<string, string>>;
-  export = classes;
-}
-
-declare module '*.module.sass' {
   const classes: Readonly<Record<string, string>>;
   export = classes;
 }

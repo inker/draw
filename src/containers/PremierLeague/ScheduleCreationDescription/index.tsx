@@ -3,7 +3,7 @@ import { orderBy } from 'lodash';
 
 import teamsThatCannotHostSameDay from '#engine/predicates/epl/utils/teamsThatCannotHostSameDay';
 
-import * as styles from './styles.module.scss';
+import * as styles from './styles.module.css';
 
 interface Team {
   name: string;

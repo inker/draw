@@ -5,7 +5,7 @@ import type Team from '#model/team/GsTeam';
 import coldCountries from '#engine/predicates/uefa/utils/coldCountries';
 import teamsThatCannotHostSameDay from '#engine/predicates/uefa/utils/teamsThatCannotHostSameDay';
 
-import * as styles from './styles.module.scss';
+import * as styles from './styles.module.css';
 
 interface Props {
   season: number;

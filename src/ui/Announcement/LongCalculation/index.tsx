@@ -1,6 +1,6 @@
 import { memo } from 'react';
 
-import * as styles from './styles.module.scss';
+import * as styles from './styles.module.css';
 
 function LongCalculation() {
   return (

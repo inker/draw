@@ -3,9 +3,9 @@ import { stubArray, without } from 'lodash';
 
 import PotsContainer from '#ui/PotsContainer';
 import MatchupsContainer from '#ui/MatchupsContainer';
-import * as bowlsContainerStyles from '#ui/bowls-container.module.scss';
+import * as bowlsContainerStyles from '#ui/bowls-container.module.css';
 import TeamBowl from '#ui/bowls/TeamBowl';
-import * as separatorStyles from '#ui/separator.module.scss';
+import * as separatorStyles from '#ui/separator.module.css';
 import Announcement from '#ui/Announcement';
 import { serializeGsWorkerData } from '#model/WorkerData';
 import type Team from '#model/team/KnockoutTeam';

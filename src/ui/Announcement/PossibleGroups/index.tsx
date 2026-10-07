@@ -3,7 +3,7 @@ import clsx from 'clsx';
 
 import getGroupLetter from '#utils/getGroupLetter';
 
-import * as styles from './styles.module.scss';
+import * as styles from './styles.module.css';
 
 interface Props {
   numGroups: number;

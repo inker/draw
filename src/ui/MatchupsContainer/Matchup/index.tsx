@@ -2,12 +2,12 @@ import { memo } from 'react';
 
 import { type EmptyOrSingleOrPair } from '#model/types';
 import type Team from '#model/team/Club';
-import * as cellStyles from '#ui/table/cell.module.scss';
+import * as cellStyles from '#ui/table/cell.module.css';
 import Content from '#ui/table/Content';
 
 import MatchupCellDeferred from '../MatchupCellDeferred';
 
-import * as styles from './styles.module.scss';
+import * as styles from './styles.module.css';
 
 interface Props {
   teams: EmptyOrSingleOrPair<Team> | null;

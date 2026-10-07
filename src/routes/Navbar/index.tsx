@@ -16,7 +16,7 @@ import Button from '#ui/Button';
 import SelectSeason from './SelectSeason';
 import SelectTheme from './SelectTheme';
 import GitHubButtons from './GitHubButtons';
-import * as styles from './styles.module.scss';
+import * as styles from './styles.module.css';
 
 interface Props {
   route: DrawRoute;

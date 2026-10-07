@@ -5,7 +5,7 @@ import type Team from '#model/team/GsTeam';
 import { serializeGsWorkerData } from '#model/WorkerData';
 import PotsContainer from '#ui/PotsContainer';
 import GroupsContainer from '#ui/GroupsContainer';
-import * as bowlsContainerStyles from '#ui/bowls-container.module.scss';
+import * as bowlsContainerStyles from '#ui/bowls-container.module.css';
 import TeamBowl from '#ui/bowls/TeamBowl';
 import Announcement from '#ui/Announcement';
 import useWorkerRpc from '#utils/hooks/useWorkerRpc';
@@ -17,7 +17,7 @@ import useDrawId from '#store/useDrawId';
 import usePopup from '#store/usePopup';
 
 import { type Func } from './worker';
-import * as styles from './styles.module.scss';
+import * as styles from './styles.module.css';
 
 const createWorker = () => new Worker(new URL('./worker', import.meta.url));
 

@@ -3,7 +3,7 @@ import { stubArray } from 'lodash';
 
 import PotsContainer from '#ui/PotsContainer';
 import GroupsContainer from '#ui/GroupsContainer';
-import * as bowlsContainerStyles from '#ui/bowls-container.module.scss';
+import * as bowlsContainerStyles from '#ui/bowls-container.module.css';
 import TeamBowl from '#ui/bowls/TeamBowl';
 import GroupBowl from '#ui/bowls/GroupBowl';
 import Announcement from '#ui/Announcement';
@@ -20,7 +20,7 @@ import prngShuffleAll from '#utils/prng/shuffleAll';
 
 import { type Func as AllPossibleGroupsFunc } from './allPossibleGroupsWorker';
 import { type Func as FirstPossibleGroupFunc } from './firstPossibleGroupWorker';
-import * as styles from './styles.module.scss';
+import * as styles from './styles.module.css';
 
 const createAllPossibleGroupsWorker = () =>
   new Worker(new URL('./allPossibleGroupsWorker', import.meta.url));

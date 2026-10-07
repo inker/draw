@@ -128,7 +128,7 @@ module.exports = {
             ],
           },
           {
-            pattern: '{,**,./,../,../../}/styles.module.{scss,css}',
+            pattern: '{,**,./,../,../../}/styles.module.css',
             importNames: [
               {
                 imported: 'default',
@@ -180,7 +180,7 @@ module.exports = {
             position: 'before',
           },
           {
-            pattern: './*.module.{css,scss,postcss}',
+            pattern: './*.module.{css,postcss}',
             group: 'sibling',
             position: 'after',
           },

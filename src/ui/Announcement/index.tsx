@@ -10,7 +10,7 @@ import getGroupLetter from '#utils/getGroupLetter';
 import PossibleGroups from './PossibleGroups';
 import LongCalculation from './LongCalculation';
 import Download from './Download';
-import * as styles from './styles.module.scss';
+import * as styles from './styles.module.css';
 
 type Team = Club | NationalTeam;
 

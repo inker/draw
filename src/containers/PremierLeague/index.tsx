@@ -14,7 +14,7 @@ import Schedule from '#containers/LeagueStage/Schedule';
 
 import ScheduleCreationDescription from './ScheduleCreationDescription';
 import getClubIconUrl from './getClubIconUrl';
-import * as styles from './styles.module.scss';
+import * as styles from './styles.module.css';
 
 interface Props {
   pots: readonly (readonly Team[])[];

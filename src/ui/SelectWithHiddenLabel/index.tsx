@@ -5,7 +5,7 @@ import {
   useId,
 } from 'react';
 
-import * as styles from './styles.module.scss';
+import * as styles from './styles.module.css';
 
 type SelectProps = DetailedHTMLProps<
   SelectHTMLAttributes<HTMLSelectElement>,

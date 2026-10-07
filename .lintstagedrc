@@ -4,7 +4,7 @@
     "prettier --cache --write",
     "git add"
   ],
-  "src/**/*.{css,postcss,scss}": [
+  "src/**/*.{css,postcss}": [
     "stylelint --fix",
     "prettier --cache --write",
     "git add"

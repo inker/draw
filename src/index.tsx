@@ -2,7 +2,7 @@ import 'normalize.css';
 import { createRoot } from 'react-dom/client';
 
 import './theme.css';
-import './global.scss';
+import './global.css';
 import App from './App';
 
 const container = document.getElementById('app')!;

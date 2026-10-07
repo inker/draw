@@ -14,7 +14,7 @@ import getTeamCountryName from '#utils/getTeamCountryName';
 import FixedOverlay from '#ui/FixedOverlay';
 import ContentWithFlag from '#ui/table/ContentWithFlag';
 
-import * as styles from './styles.module.scss';
+import * as styles from './styles.module.css';
 
 type El = RefObject<HTMLElement | null> | string;
 

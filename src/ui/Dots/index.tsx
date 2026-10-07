@@ -1,6 +1,6 @@
 import { memo, useEffect, useState } from 'react';
 
-import * as styles from './styles.module.scss';
+import * as styles from './styles.module.css';
 
 interface Props {
   initialNum: number;

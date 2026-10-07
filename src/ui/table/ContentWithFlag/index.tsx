@@ -6,7 +6,7 @@ import getCountryFlagUrl from '#utils/getCountryFlagUrl';
 
 import Content from '../Content';
 
-import * as styles from './styles.module.scss';
+import * as styles from './styles.module.css';
 
 type Props = React.HTMLAttributes<HTMLSpanElement> & {
   country: Country;
