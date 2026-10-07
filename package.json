@@ -72,7 +72,6 @@
     "tslib": "^2.3.1"
   },
   "devDependencies": {
-    "@inker/build": "file:./webpack",
     "@inker/eslint-config-typescript": "^11.0.0",
     "@types/dom-to-image": "^2.6.4",
     "@types/file-saver": "^2.0.5",

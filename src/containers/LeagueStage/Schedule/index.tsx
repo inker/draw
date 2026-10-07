@@ -55,11 +55,19 @@ function Schedule({ tournament, schedule, getIconUrl }: Props) {
         )}
       >
         {schedule.map((md, i) => (
-          <li className={clsx(styles['matchday-root'], 'matchday')}>
+          <li
+            // eslint-disable-next-line react/no-array-index-key
+            key={i}
+            className={clsx(styles['matchday-root'], 'matchday')}
+          >
             <div className={styles['matchday-header']}>MATCHDAY {i + 1}</div>
             <ul className="reset-list">
               {md.map((day, dayIndex) => (
-                <li className={styles['matchday-day']}>
+                <li
+                  // eslint-disable-next-line react/no-array-index-key
+                  key={dayIndex}
+                  className={styles['matchday-day']}
+                >
                   {tournament !== 'epl' && (
                     <div className={styles['day-header']}>
                       {tournament === 'cl'
@@ -75,7 +83,10 @@ function Schedule({ tournament, schedule, getIconUrl }: Props) {
                   )}
                   <ul className="reset-list">
                     {day.map(m => (
-                      <li className={styles['match-item']}>
+                      <li
+                        key={`${m[0].name}:${m[1].name}`}
+                        className={styles['match-item']}
+                      >
                         <span>
                           <span className={styles['match-pair-team']}>
                             <ContentWithFlag
