@@ -1,17 +1,3 @@
-const { rspack } = require('@rspack/core');
-
-const getCssLoader = global => ({
-  loader: require.resolve('css-loader'),
-  options: global
-    ? undefined
-    : {
-        modules: {
-          localIdentName: '[folder]__[local]__[hash:base64:5]',
-        },
-        importLoaders: 1,
-      },
-});
-
 /**
  * @typedef {NonNullable<import('@rspack/core').Configuration['module']>['rules']} Rules
  *
@@ -43,37 +29,33 @@ module.exports = isDev =>
     {
       test: /\.css$/,
       exclude: /\.module\.css$/,
-      use: [
-        isDev
-          ? require.resolve('style-loader')
-          : rspack.CssExtractRspackPlugin.loader,
-        require.resolve('css-loader'),
-      ],
+      type: 'css',
     },
     {
       test: /\.s[ac]ss$/i,
       exclude: /\.module\.s[ac]ss$/,
-      use: [
-        // Creates `style` nodes from JS strings
-        require.resolve('style-loader'),
-        // Translates CSS into CommonJS
-        require.resolve('css-loader'),
-        // Compiles Sass to CSS
-        require.resolve('sass-loader'),
-      ],
+      // Compiles Sass to CSS
+      use: require.resolve('sass-loader'),
+      type: 'css',
     },
     {
       test: /\.module\.s[ac]ss$/i,
-      use: [
-        // Creates `style` nodes from JS strings
-        isDev
-          ? require.resolve('style-loader')
-          : rspack.CssExtractRspackPlugin.loader,
-        // Translates CSS into CommonJS
-        getCssLoader(false),
-        // Compiles Sass to CSS
-        require.resolve('sass-loader'),
-      ],
+      // Compiles Sass to CSS
+      use: require.resolve('sass-loader'),
+      type: 'css/module',
+      parser: {
+        // Left on, these rename custom properties & other names as well as classes,
+        // which breaks variables shared between files
+        // or set from JS (like --team-width).
+        dashedIdents: false,
+        customIdents: false,
+        grid: false,
+        container: false,
+        function: false,
+      },
+      generator: {
+        localIdentName: '[folder]__[local]__[hash:5]',
+      },
     },
     {
       test: /\.(png|jpe?g|gif|svg)$/,

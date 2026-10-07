@@ -20,11 +20,8 @@
     "@rspack/core": "^2.2.8",
     "@rspack/dev-server": "^2.2.1",
     "clean-terminal-webpack-plugin": "^3.0.0",
-    "css-loader": "^7.0.0",
     "eslint-rspack-plugin": "^5.0.1",
-    "html-webpack-plugin": "^5.4.0",
     "sass-loader": "^17.0.1",
-    "style-loader": "^4.0.0",
     "ts-checker-rspack-plugin": "^1.6.2",
     "webpack-bundle-analyzer": "^4.5.0"
   }

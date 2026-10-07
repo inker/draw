@@ -2,7 +2,6 @@ const Path = require('path');
 
 const { rspack } = require('@rspack/core');
 const CleanTerminalPlugin = require('clean-terminal-webpack-plugin');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { TsCheckerRspackPlugin } = require('ts-checker-rspack-plugin');
 const ESLintPlugin = require('eslint-rspack-plugin').default;
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
@@ -27,26 +26,10 @@ module.exports = isDev =>
 
     isDev && new CleanTerminalPlugin(),
 
-    !isDev &&
-      new rspack.CssExtractRspackPlugin({
-        filename: '[name].[contenthash:8].css',
-      }),
-
-    new HtmlWebpackPlugin({
+    new rspack.HtmlRspackPlugin({
       filename: 'index.html',
       template: 'src/template.html',
-      minify: {
-        removeComments: true,
-        collapseWhitespace: true,
-        removeRedundantAttributes: true,
-        useShortDoctype: true,
-        removeEmptyAttributes: true,
-        removeStyleLinkTypeAttributes: true,
-        keepClosingSlash: true,
-        minifyJS: true,
-        minifyCSS: true,
-        minifyURLs: true,
-      },
+      minify: true,
       meta: {
         version: lastCommitHash,
         'modification-date': currentDate,

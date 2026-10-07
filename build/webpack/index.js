@@ -37,6 +37,7 @@ module.exports = env => {
       clean: true,
       path: distDir,
       filename: `[name]${isDev ? '' : '.[contenthash:8]'}.js`,
+      cssFilename: `[name]${isDev ? '' : '.[contenthash:8]'}.css`,
       sourceMapFilename: '[file].map',
       globalObject: isDev ? 'this' : undefined, // TODO
       hashDigest: 'base64url',
