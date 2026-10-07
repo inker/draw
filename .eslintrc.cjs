@@ -36,6 +36,24 @@ module.exports = {
         // so the `#*` imports still resolve
         // when an editor runs ESLint from a parent folder.
         project: __dirname,
+        // jotai 3 picks its types with the TypeScript-only condition below,
+        // which the resolver doesn't understand,
+        // so every jotai import would land on the same fallback file
+        // & import/no-duplicates would flag them.
+        // The rest is the resolver's default list.
+        conditionNames: [
+          'types@>=5.5',
+          'types',
+          'import',
+          'esm2020',
+          'es2020',
+          'es2015',
+          'require',
+          'node',
+          'node-addons',
+          'browser',
+          'default',
+        ],
       },
       node: {
         extensions: ['.mjs', '.js', '.jsx', '.ts', '.tsx', '.json'],

@@ -1,75 +1,66 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`getHalfArrayOfIndex > { arr: [ +0 ] } > -1 1`] = `[]`;
+exports[`getHalfArrayOfIndex > { arr: [ 0 ] } > -1 1`] = `[]`;
 
-exports[`getHalfArrayOfIndex > { arr: [ +0 ] } > 0 1`] = `[]`;
+exports[`getHalfArrayOfIndex > { arr: [ 0 ] } > 0 1`] = `[]`;
 
-exports[`getHalfArrayOfIndex > { arr: [ +0 ] } > 1 1`] = `[]`;
+exports[`getHalfArrayOfIndex > { arr: [ 0 ] } > 1 1`] = `[]`;
 
-exports[`getHalfArrayOfIndex > { arr: [ +0, 1 ] } > -1 1`] = `
+exports[`getHalfArrayOfIndex > { arr: [ 0, 1 ] } > -1 1`] = `
 [
   0,
 ]
 `;
 
-exports[`getHalfArrayOfIndex > { arr: [ +0, 1 ] } > 0 1`] = `
+exports[`getHalfArrayOfIndex > { arr: [ 0, 1 ] } > 0 1`] = `
 [
   0,
 ]
 `;
 
-exports[`getHalfArrayOfIndex > { arr: [ +0, 1 ] } > 1 1`] = `
+exports[`getHalfArrayOfIndex > { arr: [ 0, 1 ] } > 1 1`] = `
 [
   1,
 ]
 `;
 
-exports[`getHalfArrayOfIndex > { arr: [ +0, 1 ] } > 2 1`] = `
+exports[`getHalfArrayOfIndex > { arr: [ 0, 1 ] } > 2 1`] = `
 [
   1,
 ]
 `;
 
-exports[`getHalfArrayOfIndex > { arr: [ +0, 1, 2 ] } > -1 1`] = `
+exports[`getHalfArrayOfIndex > { arr: [ 0, 1, 2 ] } > -1 1`] = `
 [
   0,
 ]
 `;
 
-exports[`getHalfArrayOfIndex > { arr: [ +0, 1, 2 ] } > 0 1`] = `
+exports[`getHalfArrayOfIndex > { arr: [ 0, 1, 2 ] } > 0 1`] = `
 [
   0,
 ]
 `;
 
-exports[`getHalfArrayOfIndex > { arr: [ +0, 1, 2 ] } > 1 1`] = `
+exports[`getHalfArrayOfIndex > { arr: [ 0, 1, 2 ] } > 1 1`] = `
 [
   1,
 ]
 `;
 
-exports[`getHalfArrayOfIndex > { arr: [ +0, 1, 2 ] } > 2 1`] = `
+exports[`getHalfArrayOfIndex > { arr: [ 0, 1, 2 ] } > 2 1`] = `
 [
   1,
 ]
 `;
 
-exports[`getHalfArrayOfIndex > { arr: [ +0, 1, 2 ] } > 3 1`] = `
+exports[`getHalfArrayOfIndex > { arr: [ 0, 1, 2 ] } > 3 1`] = `
 [
   1,
 ]
 `;
 
-exports[`getHalfArrayOfIndex > { arr: [ +0, 1, 2, 3, 4, 5, 6, 7, 8 ] } > -1 1`] = `
-[
-  0,
-  1,
-  2,
-  3,
-]
-`;
-
-exports[`getHalfArrayOfIndex > { arr: [ +0, 1, 2, 3, 4, 5, 6, 7, 8 ] } > 0 1`] = `
+exports[`getHalfArrayOfIndex > { arr: [ 0, 1, 2, 3, 4, 5, 6, 7, 8 ] } > -1 1`] = `
 [
   0,
   1,
@@ -78,7 +69,7 @@ exports[`getHalfArrayOfIndex > { arr: [ +0, 1, 2, 3, 4, 5, 6, 7, 8 ] } > 0 1`] =
 ]
 `;
 
-exports[`getHalfArrayOfIndex > { arr: [ +0, 1, 2, 3, 4, 5, 6, 7, 8 ] } > 1 1`] = `
+exports[`getHalfArrayOfIndex > { arr: [ 0, 1, 2, 3, 4, 5, 6, 7, 8 ] } > 0 1`] = `
 [
   0,
   1,
@@ -87,7 +78,7 @@ exports[`getHalfArrayOfIndex > { arr: [ +0, 1, 2, 3, 4, 5, 6, 7, 8 ] } > 1 1`] =
 ]
 `;
 
-exports[`getHalfArrayOfIndex > { arr: [ +0, 1, 2, 3, 4, 5, 6, 7, 8 ] } > 2 1`] = `
+exports[`getHalfArrayOfIndex > { arr: [ 0, 1, 2, 3, 4, 5, 6, 7, 8 ] } > 1 1`] = `
 [
   0,
   1,
@@ -96,7 +87,7 @@ exports[`getHalfArrayOfIndex > { arr: [ +0, 1, 2, 3, 4, 5, 6, 7, 8 ] } > 2 1`] =
 ]
 `;
 
-exports[`getHalfArrayOfIndex > { arr: [ +0, 1, 2, 3, 4, 5, 6, 7, 8 ] } > 3 1`] = `
+exports[`getHalfArrayOfIndex > { arr: [ 0, 1, 2, 3, 4, 5, 6, 7, 8 ] } > 2 1`] = `
 [
   0,
   1,
@@ -105,7 +96,16 @@ exports[`getHalfArrayOfIndex > { arr: [ +0, 1, 2, 3, 4, 5, 6, 7, 8 ] } > 3 1`] =
 ]
 `;
 
-exports[`getHalfArrayOfIndex > { arr: [ +0, 1, 2, 3, 4, 5, 6, 7, 8 ] } > 4 1`] = `
+exports[`getHalfArrayOfIndex > { arr: [ 0, 1, 2, 3, 4, 5, 6, 7, 8 ] } > 3 1`] = `
+[
+  0,
+  1,
+  2,
+  3,
+]
+`;
+
+exports[`getHalfArrayOfIndex > { arr: [ 0, 1, 2, 3, 4, 5, 6, 7, 8 ] } > 4 1`] = `
 [
   4,
   5,
@@ -114,7 +114,7 @@ exports[`getHalfArrayOfIndex > { arr: [ +0, 1, 2, 3, 4, 5, 6, 7, 8 ] } > 4 1`] =
 ]
 `;
 
-exports[`getHalfArrayOfIndex > { arr: [ +0, 1, 2, 3, 4, 5, 6, 7, 8 ] } > 5 1`] = `
+exports[`getHalfArrayOfIndex > { arr: [ 0, 1, 2, 3, 4, 5, 6, 7, 8 ] } > 5 1`] = `
 [
   4,
   5,
@@ -123,7 +123,7 @@ exports[`getHalfArrayOfIndex > { arr: [ +0, 1, 2, 3, 4, 5, 6, 7, 8 ] } > 5 1`] =
 ]
 `;
 
-exports[`getHalfArrayOfIndex > { arr: [ +0, 1, 2, 3, 4, 5, 6, 7, 8 ] } > 6 1`] = `
+exports[`getHalfArrayOfIndex > { arr: [ 0, 1, 2, 3, 4, 5, 6, 7, 8 ] } > 6 1`] = `
 [
   4,
   5,
@@ -132,7 +132,7 @@ exports[`getHalfArrayOfIndex > { arr: [ +0, 1, 2, 3, 4, 5, 6, 7, 8 ] } > 6 1`] =
 ]
 `;
 
-exports[`getHalfArrayOfIndex > { arr: [ +0, 1, 2, 3, 4, 5, 6, 7, 8 ] } > 7 1`] = `
+exports[`getHalfArrayOfIndex > { arr: [ 0, 1, 2, 3, 4, 5, 6, 7, 8 ] } > 7 1`] = `
 [
   4,
   5,
@@ -141,7 +141,7 @@ exports[`getHalfArrayOfIndex > { arr: [ +0, 1, 2, 3, 4, 5, 6, 7, 8 ] } > 7 1`] =
 ]
 `;
 
-exports[`getHalfArrayOfIndex > { arr: [ +0, 1, 2, 3, 4, 5, 6, 7, 8 ] } > 8 1`] = `
+exports[`getHalfArrayOfIndex > { arr: [ 0, 1, 2, 3, 4, 5, 6, 7, 8 ] } > 8 1`] = `
 [
   4,
   5,
@@ -150,7 +150,7 @@ exports[`getHalfArrayOfIndex > { arr: [ +0, 1, 2, 3, 4, 5, 6, 7, 8 ] } > 8 1`] =
 ]
 `;
 
-exports[`getHalfArrayOfIndex > { arr: [ +0, 1, 2, 3, 4, 5, 6, 7, 8 ] } > 9 1`] = `
+exports[`getHalfArrayOfIndex > { arr: [ 0, 1, 2, 3, 4, 5, 6, 7, 8 ] } > 9 1`] = `
 [
   4,
   5,
