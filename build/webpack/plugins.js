@@ -1,3 +1,5 @@
+const Path = require('path');
+
 const webpack = require('webpack');
 const CleanTerminalPlugin = require('clean-terminal-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
@@ -66,6 +68,13 @@ module.exports = isDev =>
         emitWarning: true,
         failOnError: false,
         cache: true,
+        // Left to itself the plugin loads the eslint 9 installed under build,
+        // which only reads flat config & so finds no config at all.
+        // The app is linted by the root's eslint 8 & its .eslintrc.cjs.
+        eslintPath: require.resolve('eslint', {
+          paths: [Path.resolve(__dirname, '../..')],
+        }),
+        configType: 'eslintrc',
       }),
 
     process.env.npm_config_report && new BundleAnalyzerPlugin(),
