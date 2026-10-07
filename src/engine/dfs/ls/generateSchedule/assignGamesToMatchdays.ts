@@ -20,9 +20,9 @@ export default ({
 }: {
   matchdaySize: number;
   allGames: readonly (readonly [number, number])[];
-  alternatingPairs: readonly (readonly [number, number])[];
+  alternatingPairs: Iterable<readonly [number, number]>;
   bans: readonly Ban[];
-  cannotHostSameDayPairs: readonly (readonly [number, number])[];
+  cannotHostSameDayPairs: Iterable<readonly [number, number]>;
   /**
    * How many matchdays apart two games between the same clubs have to be,
    * such as a double round robin's two meetings.
@@ -38,7 +38,7 @@ export default ({
    * [home, away] games that a matchday may only hold so many of,
    * such as those between two of the Premier League's big six
    */
-  cappedGames?: readonly (readonly [number, number])[];
+  cappedGames?: Iterable<readonly [number, number]>;
   /**
    * How many of cappedGames a matchday may hold
    */
@@ -47,15 +47,15 @@ export default ({
    * Matchdays that may hold none of cappedGames,
    * such as Boxing Day
    */
-  matchdaysWithoutCappedGames?: readonly number[];
+  matchdaysWithoutCappedGames?: Iterable<number>;
   /**
    * [home, away] games that may not be played on a matchday,
    * such as one between two of the Premier League's promoted clubs on the opening day
    */
-  bannedGames?: readonly {
+  bannedGames?: Iterable<{
     matchday: number;
     game: readonly [number, number];
-  }[];
+  }>;
   /**
    * Where in [0, 1) this solver's tie-breaking sequence starts.
    * Two solvers given the same seed search identically,

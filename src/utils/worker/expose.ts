@@ -6,11 +6,16 @@ import {
   type MessageForWorker,
   type MessageFromWorker,
 } from './constants';
+import type ToCloneable from './ToCloneable';
 
-export default (func: (arg: any) => any) => {
+// The intersection makes a return value that can't be cloned a compile error here,
+// rather than a DataCloneError in the worker.
+export default <F extends (arg: any) => unknown>(
+  func: F & ((arg: any) => ToCloneable<ReturnType<F>>),
+) => {
   type IncomingMessage = MessageForWorker<Parameters<typeof func>[0]>;
 
-  type ResponseMessage = MessageFromWorker<ReturnType<typeof func>>;
+  type ResponseMessage = MessageFromWorker<unknown>;
 
   // eslint-disable-next-line no-restricted-globals
   addEventListener('message', (e: MessageEvent<IncomingMessage>) => {
@@ -37,6 +42,6 @@ export default (func: (arg: any) => any) => {
   });
 };
 
-export type ExposedFuncType<F extends (...args: readonly any[]) => any> = (
-  ...args: Parameters<F>
+export type ExposedFuncType<F extends (arg: never) => unknown> = (
+  arg: ToCloneable<Parameters<F>[0]>,
 ) => Promise<ReturnType<F>>;
