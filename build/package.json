@@ -6,14 +6,15 @@
     "url": "https://github.com/inker/draw/issues"
   },
   "license": "GPLv3",
+  "type": "module",
   "author": "Anton",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/inker/draw.git"
   },
   "scripts": {
-    "build": "rspack build --config webpack.config.js",
-    "start": "rspack serve --config webpack.config.js --env dev"
+    "build": "rspack build --config webpack.config.ts",
+    "start": "rspack serve --config webpack.config.ts --env dev"
   },
   "dependencies": {
     "@rspack/cli": "^2.2.8",
@@ -23,5 +24,8 @@
     "sass-loader": "^17.0.1",
     "ts-checker-rspack-plugin": "^1.6.2",
     "webpack-bundle-analyzer": "^4.5.0"
+  },
+  "devDependencies": {
+    "@types/node": "^24.19.1"
   }
 }

@@ -1,7 +1,6 @@
-/**
- * @type {import('@rspack/core').DevServer}
- */
-module.exports = {
+import type { DevServer } from '@rspack/core';
+
+export default {
   port: 9080,
   compress: false,
   devMiddleware: {
@@ -12,4 +11,4 @@ module.exports = {
   },
   hot: true,
   open: true,
-};
+} as const satisfies DevServer;

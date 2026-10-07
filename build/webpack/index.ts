@@ -1,19 +1,26 @@
-const path = require('path');
+import { createRequire } from 'module';
+import path from 'path';
 
-const optimization = require('./optimization');
-const rules = require('./rules');
-const plugins = require('./plugins');
-const devServer = require('./devServer');
+import type { Configuration } from '@rspack/core';
+
+import optimization from './optimization.ts';
+import rules from './rules.ts';
+import plugins from './plugins.ts';
+import devServer from './devServer.ts';
+
+const require = createRequire(import.meta.url);
+
+type Env = {
+  dev?: boolean;
+  out?: string;
+};
 
 const defaultEnv = {
   dev: false,
   out: 'dist',
 };
 
-/**
- * @returns {import('@rspack/core').Configuration}
- */
-module.exports = env => {
+export default (env: Env) => {
   console.log('passed env:', env);
   const envOptions = {
     ...defaultEnv,
@@ -23,7 +30,7 @@ module.exports = env => {
 
   const isDev = envOptions.dev;
   const outDir = envOptions.out;
-  const rootDir = path.resolve(__dirname, '../..');
+  const rootDir = path.resolve(import.meta.dirname, '../..');
   const distDir = path.resolve(rootDir, outDir);
 
   return {
@@ -42,7 +49,7 @@ module.exports = env => {
     },
     cache: {
       type: 'persistent',
-      buildDependencies: [__filename],
+      buildDependencies: [import.meta.filename],
     },
     resolve: {
       extensions: ['.ts', '.tsx', '.js', '.jsx'],
@@ -60,5 +67,5 @@ module.exports = env => {
     },
     plugins: plugins(isDev),
     devServer: isDev ? devServer : undefined,
-  };
+  } as const satisfies Configuration;
 };
