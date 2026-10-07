@@ -19,10 +19,11 @@ module.exports = () => ({
 
     new rspack.LightningCssMinimizerRspackPlugin({
       minimizerOptions: {
-        // Left to the default, it adds prefixes for browsers from around 2016,
-        // which can't run the es2021 bundle anyway.
-        // These are the first versions with full ES2021 support.
-        targets: 'chrome >= 85, edge >= 85, firefox >= 79, safari >= 14.1',
+        // Older targets make it rewrite light-dark() into variables
+        // that only work when color-scheme is set in CSS,
+        // but App.tsx sets it from JS, so every colour using it breaks.
+        // These are the first versions with light-dark() built in.
+        targets: 'chrome >= 123, edge >= 123, firefox >= 120, safari >= 17.5',
       },
     }),
   ],
