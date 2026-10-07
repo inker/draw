@@ -38,7 +38,6 @@ module.exports = env => {
       path: distDir,
       filename: `[name]${isDev ? '' : '.[contenthash:8]'}.js`,
       cssFilename: `[name]${isDev ? '' : '.[contenthash:8]'}.css`,
-      globalObject: isDev ? 'this' : undefined, // TODO
       hashDigest: 'base64url',
     },
     cache: {
