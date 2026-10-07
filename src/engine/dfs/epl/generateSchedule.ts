@@ -79,8 +79,15 @@ export default async function generateSchedule({
     },
   );
 
-  const bigSixTeams = teams.flatMap((team, i) =>
-    (bigSix as readonly string[]).includes(team.name) ? [i] : [],
+  const bigSixTeams = new Set(
+    teams
+      .values()
+      .flatMap((team, i) =>
+        (bigSix as readonly string[]).includes(team.name) ? [i] : [],
+      ),
+  );
+  const bigSixGames = allGames.filter(
+    ([h, a]) => bigSixTeams.has(h) && bigSixTeams.has(a),
   );
 
   const promotedTeams = teams.flatMap((team, i) =>
@@ -104,9 +111,9 @@ export default async function generateSchedule({
     cannotHostSameDayPairs,
     minMatchdaysBetweenMeetings,
     banFourInFive: true,
-    topTeams: bigSixTeams,
-    maxTopGamesPerMatchday: maxBigSixGamesPerMatchday,
-    matchdaysWithoutTopGames: matchdaysWithoutBigSixGames,
+    cappedGames: bigSixGames,
+    maxCappedGamesPerMatchday: maxBigSixGamesPerMatchday,
+    matchdaysWithoutCappedGames: matchdaysWithoutBigSixGames,
     bannedGames: matchdaysWithoutPromotedGames.flatMap(matchday =>
       allGames
         .filter(

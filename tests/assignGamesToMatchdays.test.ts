@@ -211,9 +211,12 @@ describe('assignGamesToMatchdays', () => {
     },
   );
 
-  it('spreads the games between top teams', () => {
+  it('caps the capped games on each matchday', () => {
     const numTeams = 8;
     const topTeams = [0, 1, 2];
+    const cappedGames = doubleRoundRobin(numTeams).filter(
+      ([h, a]) => topTeams.includes(h) && topTeams.includes(a),
+    );
     for (let i = 0; i < 20; ++i) {
       const result = assignGamesToMatchdays({
         matchdaySize: numTeams / 2,
@@ -224,24 +227,24 @@ describe('assignGamesToMatchdays', () => {
         ],
         bans: [],
         cannotHostSameDayPairs: [],
-        topTeams,
-        maxTopGamesPerMatchday: 1,
-        matchdaysWithoutTopGames: [3],
+        cappedGames,
+        maxCappedGamesPerMatchday: 1,
+        matchdaysWithoutCappedGames: [3],
         randomSeed: i / 20,
       });
 
-      const numTopGamesByMatchday = result.map(
+      const numCappedGamesByMatchday = result.map(
         md =>
           md.filter(([h, a]) => topTeams.includes(h) && topTeams.includes(a))
             .length,
       );
-      expect(Math.max(...numTopGamesByMatchday)).toBe(1);
-      expect(numTopGamesByMatchday[3]).toBe(0);
+      expect(Math.max(...numCappedGamesByMatchday)).toBe(1);
+      expect(numCappedGamesByMatchday[3]).toBe(0);
     }
   });
 
-  it('finds no schedule when the top games cannot be spread enough', () => {
-    // With every club a top team, each matchday holds two top games.
+  it('finds no schedule when the capped games cannot be spread enough', () => {
+    // With every game capped, each matchday holds two of them.
     expect(() =>
       assignGamesToMatchdays({
         matchdaySize: 2,
@@ -252,8 +255,8 @@ describe('assignGamesToMatchdays', () => {
         ],
         bans: [],
         cannotHostSameDayPairs: [],
-        topTeams: [0, 1, 2, 3],
-        maxTopGamesPerMatchday: 1,
+        cappedGames: doubleRoundRobin(4),
+        maxCappedGamesPerMatchday: 1,
       }),
     ).toThrow('No solution');
   });
@@ -340,4 +343,18 @@ describe('assignGamesToMatchdays', () => {
       ).toThrow(message);
     },
   );
+
+  it('rejects a capped game that is not in allGames', () => {
+    expect(() =>
+      assignGamesToMatchdays({
+        matchdaySize: 2,
+        allGames,
+        alternatingPairs: [[0, 1]],
+        bans: [],
+        cannotHostSameDayPairs: [],
+        cappedGames: [[0, 0]],
+        maxCappedGamesPerMatchday: 1,
+      }),
+    ).toThrow('Capped game 0-0 is not in allGames');
+  });
 });
