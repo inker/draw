@@ -9,8 +9,8 @@
     "paths": {
       "#*": ["./src/*"]
     },
-    // "sourceMap": true, // not needed when assembled with webpack
-    // "watch": true, // not needed when assembled with webpack
+    // "sourceMap": true, // not needed when assembled with a bundler
+    // "watch": true, // not needed when assembled with a bundler
     "pretty": true,
     "strict": true,
     "experimentalDecorators": true,

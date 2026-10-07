@@ -13,8 +13,8 @@
     "url": "git+https://github.com/inker/draw.git"
   },
   "scripts": {
-    "build": "rspack build --config webpack.config.ts",
-    "start": "rspack serve --config webpack.config.ts --env dev"
+    "build": "rspack build",
+    "start": "rspack serve --env dev"
   },
   "dependencies": {
     "@rspack/cli": "^2.2.8",
