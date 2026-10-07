@@ -38,7 +38,6 @@ module.exports = env => {
       path: distDir,
       filename: `[name]${isDev ? '' : '.[contenthash:8]'}.js`,
       cssFilename: `[name]${isDev ? '' : '.[contenthash:8]'}.css`,
-      sourceMapFilename: '[file].map',
       globalObject: isDev ? 'this' : undefined, // TODO
       hashDigest: 'base64url',
     },
@@ -52,8 +51,6 @@ module.exports = env => {
         ? undefined
         : {
             lodash: require.resolve('lodash-es'),
-            // 'react': path.join(rootDir, 'node_modules/react/dist/react.min.js'),
-            // 'react-dom': path.join(rootDir, 'node_modules/react-dom/dist/react-dom.min.js'),
           },
       tsConfig: path.resolve(rootDir, 'tsconfig.json'),
     },

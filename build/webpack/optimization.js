@@ -12,8 +12,6 @@ const joinChunkNames = chunks =>
  * @returns {import('@rspack/core').Configuration['optimization']}
  */
 module.exports = () => ({
-  minimize: true,
-
   minimizer: [
     new rspack.SwcJsMinimizerRspackPlugin(),
 
@@ -69,14 +67,8 @@ module.exports = () => ({
         chunks: 'async',
         enforce: true,
         reuseExistingChunk: true,
-        name: (module, chunks /* , cacheGroupKey */) => {
-          // const moduleFileName = module
-          //   .identifier()
-          //   .split('/')
-          //   .reduceRight(item => item);
+        name: (module, chunks) => {
           const allChunksNames = joinChunkNames(chunks);
-          // return `${cacheGroupKey}--${allChunksNames}--${moduleFileName}`;
-          // return `${cacheGroupKey}--${allChunksNames}`;
           return allChunksNames && `vendors-${allChunksNames}`;
         },
       },

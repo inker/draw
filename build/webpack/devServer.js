@@ -10,14 +10,6 @@ module.exports = {
   client: {
     overlay: false,
   },
-  historyApiFallback: {
-    rewrites: [
-      {
-        from: /./,
-        to: '/404.html',
-      },
-    ],
-  },
   hot: true,
   open: true,
 };

@@ -57,9 +57,6 @@ module.exports = {
       },
       node: {
         extensions: ['.mjs', '.js', '.jsx', '.ts', '.tsx', '.json'],
-        webpack: {
-          config: 'build/webpack.config.js',
-        },
       },
     },
     // Append 'ts' extensions to Airbnb 'import/extensions' setting

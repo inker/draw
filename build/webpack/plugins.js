@@ -1,7 +1,6 @@
 const Path = require('path');
 
 const { rspack } = require('@rspack/core');
-const CleanTerminalPlugin = require('clean-terminal-webpack-plugin');
 const { TsCheckerRspackPlugin } = require('ts-checker-rspack-plugin');
 const ESLintPlugin = require('eslint-rspack-plugin').default;
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
@@ -12,19 +11,25 @@ const getLastCommitHash = require('./utils/getLastCommitHash');
 const currentDate = getCurrentDate();
 const lastCommitHash = getLastCommitHash();
 
+// 3J clears the scrollback as well as the screen,
+// so scrolling up doesn't show an earlier rebuild's errors.
+const clearTerminalPlugin = {
+  apply(compiler) {
+    compiler.hooks.afterCompile.tap('ClearTerminalPlugin', () => {
+      if (compiler.watchMode) {
+        process.stdout.write('\x1B[2J\x1B[3J\x1B[H');
+      }
+    });
+  },
+};
+
 /**
  * @param {boolean} isDev
  * @returns {import('@rspack/core').Configuration['plugins']}
  */
 module.exports = isDev =>
   [
-    new rspack.DefinePlugin({
-      'process.env': {
-        NODE_ENV: JSON.stringify(isDev ? 'development' : 'production'),
-      },
-    }),
-
-    isDev && new CleanTerminalPlugin(),
+    isDev && clearTerminalPlugin,
 
     new rspack.HtmlRspackPlugin({
       filename: 'index.html',
@@ -35,12 +40,6 @@ module.exports = isDev =>
         'modification-date': currentDate,
       },
     }),
-
-    // new CopyWebpackPlugin([
-    //   {
-    //     from: 'src/404.html',
-    //   }
-    // ]),
 
     isDev && new TsCheckerRspackPlugin(),
 
