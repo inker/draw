@@ -21,7 +21,7 @@ export default ({
   matchdaySize: number;
   allGames: readonly (readonly [number, number])[];
   alternatingPairs: Iterable<readonly [number, number]>;
-  bans: readonly Ban[];
+  bans: Iterable<Ban>;
   cannotHostSameDayPairs: Iterable<readonly [number, number]>;
   /**
    * How many matchdays apart two games between the same clubs have to be,
