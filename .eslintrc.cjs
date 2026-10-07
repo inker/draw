@@ -180,7 +180,7 @@ module.exports = {
             position: 'before',
           },
           {
-            pattern: './*.module.{css,postcss}',
+            pattern: './*.module.css',
             group: 'sibling',
             position: 'after',
           },
