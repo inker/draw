@@ -39,8 +39,8 @@
     "lint": "run-p -c \"lint:css -- {1}\" \"lint:js -- {1}\" --",
     "prettier": "prettier --cache --check .",
     "check-types": "tsc --project tsconfig.json --noEmit",
-    "build": "rspack build -c build/rspack.config.ts",
-    "start": "rspack serve -c build/rspack.config.ts --env dev",
+    "build": "rspack build",
+    "start": "rspack serve --env dev",
     "test": "vitest"
   },
   "dependencies": {

@@ -13,5 +13,6 @@
     "allowImportingTsExtensions": true,
     "types": ["node"]
   },
+  "include": ["**/*", "../rspack.config.ts"],
   "exclude": ["node_modules"]
 }
