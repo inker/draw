@@ -34,7 +34,7 @@
   "scripts": {
     "prepare": "patch-package && husky",
     "pre-commit": "lint-staged --allow-empty",
-    "lint:js": "eslint --ext .ts,.tsx,.js,.jsx --max-warnings=0 --cache src",
+    "lint:js": "eslint --max-warnings=0 --cache src",
     "lint:css": "stylelint './src/**/*.css'",
     "lint": "run-p -c \"lint:css -- {1}\" \"lint:js -- {1}\" --",
     "prettier": "prettier --cache --check .",
@@ -66,6 +66,9 @@
     "react-router-dom": "^6.3.0"
   },
   "devDependencies": {
+    "@eslint/compat": "^2.1.1",
+    "@eslint/eslintrc": "^3.3.7",
+    "@eslint/js": "^10.0.1",
     "@inker/eslint-config-typescript": "^11.0.0",
     "@types/dom-to-image": "^2.6.4",
     "@types/file-saver": "^2.0.5",
@@ -74,7 +77,7 @@
     "@types/react-dom": "^19.1.6",
     "@types/webpack-env": "^1.18.4",
     "@vitest/eslint-plugin": "^1.6.27",
-    "eslint": "^8.16.0",
+    "eslint": "^10.12.0",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-config-prettier": "^10.1.5",
     "eslint-plugin-import": "^2.25.4",
@@ -91,5 +94,9 @@
     "stylelint-order": "^8.1.1",
     "typescript": "^6.0.3",
     "vitest": "^5.0.2"
+  },
+  "overrides": {
+    "eslint": "$eslint",
+    "eslint-plugin-sonarjs": "^4.2.2"
   }
 }
