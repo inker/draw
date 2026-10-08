@@ -24,6 +24,7 @@ function App() {
         initial: false,
       });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [popup.waiting]);
 
   useGlobalStyle(css`

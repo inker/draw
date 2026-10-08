@@ -10,5 +10,6 @@ export default (effect: () => void, deps?: UseEffectParameters[1]) => {
     } else {
       didMountRef.current = true;
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, deps);
 };

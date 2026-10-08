@@ -28,6 +28,7 @@ export default ({
 
       startTimer();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [key]);
 
   useEffect(() => {

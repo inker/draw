@@ -32,7 +32,7 @@
     ]
   },
   "scripts": {
-    "prepare": "patch-package && husky",
+    "prepare": "husky",
     "pre-commit": "lint-staged --allow-empty",
     "lint:js": "eslint --max-warnings=0 --cache src",
     "lint:css": "stylelint './src/**/*.css'",
@@ -86,12 +86,11 @@
     "eslint-plugin-import": "^2.25.4",
     "eslint-plugin-jsx-a11y": "^6.5.1",
     "eslint-plugin-react": "^7.29.4",
-    "eslint-plugin-react-hooks": "^4.3.0",
+    "eslint-plugin-react-hooks": "^7.1.1",
     "eslint-rspack-plugin": "^5.0.1",
     "husky": "^9.0.6",
     "lint-staged": "^17.6.0",
     "npm-run-all2": "^9.0.3",
-    "patch-package": "^8.0.0",
     "prettier": "^3.2.5",
     "stylelint": "^17.15.0",
     "stylelint-config-standard": "^40.0.0",
@@ -103,6 +102,7 @@
   },
   "overrides": {
     "eslint": "$eslint",
+    "eslint-plugin-react-hooks": "$eslint-plugin-react-hooks",
     "eslint-plugin-sonarjs": "^4.2.2"
   }
 }

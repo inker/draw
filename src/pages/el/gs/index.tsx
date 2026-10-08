@@ -152,6 +152,7 @@ function ELGS({ season, pots: initialPots }: Props) {
     if (selectedTeam) {
       handleTeamSelected();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedTeam]);
 
   const completed = currentPotNum >= pots.length;
@@ -164,6 +165,7 @@ function ELGS({ season, pots: initialPots }: Props) {
       // so the front ball is as uniform as a random index.
       handleTeamBallPick(0);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [arePotsShuffled, isFastDraw, hungPot]);
 
   const numGroups = groups.length;

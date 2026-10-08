@@ -7,7 +7,7 @@ eslint import/no-extraneous-dependencies: [2, {
 }]
 */
 
-import { fixupConfigRules, fixupPluginRules } from '@eslint/compat';
+import { fixupConfigRules } from '@eslint/compat';
 import { FlatCompat } from '@eslint/eslintrc';
 import vitest from '@vitest/eslint-plugin';
 import prettier from 'eslint-config-prettier/flat';
@@ -33,8 +33,7 @@ export default [
   prettier,
   {
     plugins: {
-      // The patched v4 still calls context methods ESLint 10 removed
-      'react-hooks': fixupPluginRules(reactHooks),
+      'react-hooks': reactHooks,
     },
 
     languageOptions: {
@@ -237,20 +236,7 @@ export default [
       ],
 
       'react-hooks/rules-of-hooks': 2,
-      'react-hooks/exhaustive-deps': [
-        2,
-        {
-          disabledHooks: ['useEffect', 'useLayoutEffect'],
-          staticHooks: {
-            useAtom: [false, true],
-            useDrawId: [false, true],
-            useFastDraw: [false, true],
-            usePopup: [false, true],
-            useTheme: [false, true],
-            useXRay: [false, true],
-          },
-        },
-      ],
+      'react-hooks/exhaustive-deps': 2,
 
       '@typescript-eslint/array-type': 2,
       '@typescript-eslint/await-thenable': 2,

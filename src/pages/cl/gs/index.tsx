@@ -224,6 +224,7 @@ function CLGS({ season, pots: initialPots, isFirstPotShortDraw }: Props) {
         groups: newGroups,
       }));
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [selectedTeam, groups, pots, currentPotNum],
   );
 
@@ -231,6 +232,7 @@ function CLGS({ season, pots: initialPots, isFirstPotShortDraw }: Props) {
     if (selectedTeam) {
       handleTeamSelected();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedTeam]);
 
   const completed = currentPotNum >= pots.length;
@@ -243,12 +245,14 @@ function CLGS({ season, pots: initialPots, isFirstPotShortDraw }: Props) {
       // so the front ball is as uniform as a random index.
       handleTeamBallPick(0);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [arePotsShuffled, isFastDraw, hungPot]);
 
   useEffect(() => {
     if (isNoGroupBallPick && possibleGroupsShuffled?.length) {
       handleGroupBallPick(possibleGroupsShuffled[0]);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isNoGroupBallPick, possibleGroupsShuffled]);
 
   const numGroups = groups.length;

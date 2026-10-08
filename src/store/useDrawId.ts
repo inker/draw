@@ -13,6 +13,7 @@ export default () => {
   const cb = useCallback(() => {
     setState(uniqueId('draw-'));
     setIsFastDraw(false);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return [state, cb] as const;

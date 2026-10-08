@@ -97,7 +97,7 @@ function LeagueStage({ tournament, season, pots: initialPots }: Props) {
     setPopup({
       waiting: false,
     });
-  }, []);
+  }, [setPopup]);
 
   useEffect(() => {
     setArePotsShuffled(false);
@@ -187,6 +187,7 @@ function LeagueStage({ tournament, season, pots: initialPots }: Props) {
     return () => {
       abortController.abort();
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedTeam]);
 
   const isPageActive = usePageVisible();
@@ -233,6 +234,7 @@ function LeagueStage({ tournament, season, pots: initialPots }: Props) {
     return () => {
       abortController.abort();
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isScheduleGenerating]);
 
   const isScheduleDone = useMemo(
@@ -267,6 +269,7 @@ function LeagueStage({ tournament, season, pots: initialPots }: Props) {
     if (isFastDraw && arePotsShuffled && !isGeneratingPairings) {
       handleTeamBallPick(0);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isFastDraw, arePotsShuffled, isGeneratingPairings, displayedPots]);
 
   return (

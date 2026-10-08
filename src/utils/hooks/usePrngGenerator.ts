@@ -79,6 +79,7 @@ export default () => {
       'replay:',
       new URL(replayHref, window.location.href).toString(),
     );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [prng.seed]);
 
   return prng.generator;

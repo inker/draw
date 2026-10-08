@@ -117,6 +117,7 @@ function OpponentList({ className, animationDurationMs, data }: Props) {
     };
 
     runAnimations();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [keys]);
 
   return (

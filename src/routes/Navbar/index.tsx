@@ -35,7 +35,7 @@ function Navbar({ route, className, onChange }: Props) {
 
   const enableFastDraw = useCallback(() => {
     setIsFastDraw(true);
-  }, []);
+  }, [setIsFastDraw]);
 
   return (
     <div className={clsx(styles.root, className)}>

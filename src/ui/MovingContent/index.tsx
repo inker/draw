@@ -47,6 +47,7 @@ function MovingContent({ from, to, duration, team, onAnimationEnd }: Props) {
     if (posCell === fromCell) {
       setPosCell(toCell);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [posCell]);
 
   const style = useMemo(

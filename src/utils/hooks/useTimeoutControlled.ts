@@ -14,6 +14,7 @@ export default (delayMs: number, resetKey?: ResetKey) => {
     return () => {
       clearTimeout(handle);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [resetKey]);
 
   return isTimedOut;

@@ -23,6 +23,7 @@ function Dots({ initialNum, maxNum, interval }: Props) {
     return () => {
       clearTimeout(timer);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

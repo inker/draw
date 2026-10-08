@@ -127,6 +127,7 @@ function CLKO({ season, pots: initialPots }: Props) {
         throw err;
       }
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [season, initialPots, getPossiblePairingsResponse],
   );
 
@@ -191,6 +192,7 @@ function CLKO({ season, pots: initialPots }: Props) {
 
   useEffect(() => {
     setTimeout(autoPickIfOneBall, 250);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentPotNum]);
 
   const completed = currentMatchupNum >= initialPots[0].length;
@@ -204,6 +206,7 @@ function CLKO({ season, pots: initialPots }: Props) {
         handleBallPick(0);
       }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [arePotsShuffled, isFastDraw, currentPotNum]);
 
   return (

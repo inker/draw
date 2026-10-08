@@ -55,6 +55,7 @@ function Download({ completed, groupsElement }: Props) {
       }
       setDownloadClicked(null);
     })();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [downloadClicked]);
 
   useEffect(() => {

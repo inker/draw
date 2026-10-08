@@ -129,6 +129,7 @@ function ELKO({ season, pots: initialPots }: Props) {
         throw err;
       }
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [initialPots, getPossiblePairingsResponse, season],
   );
 
@@ -193,6 +194,7 @@ function ELKO({ season, pots: initialPots }: Props) {
 
   useEffect(() => {
     setTimeout(autoPickIfOneBall, 250);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentPotNum]);
 
   const completed = currentMatchupNum >= initialPots[0].length;
@@ -206,6 +208,7 @@ function ELKO({ season, pots: initialPots }: Props) {
         handleBallPick(0);
       }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [arePotsShuffled, isFastDraw, currentPotNum]);
 
   return (

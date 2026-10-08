@@ -155,6 +155,7 @@ function WCGS({ season, pots: initialPots }: Props) {
     if (selectedTeam) {
       handleTeamSelected();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedTeam]);
 
   // After the shuffle, or these picks are wiped by the shuffled pots landing.
@@ -201,6 +202,7 @@ function WCGS({ season, pots: initialPots }: Props) {
         await delay(100);
       }
     })();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [arePotsShuffled]);
 
   const completed = currentPotNum >= pots.length;
@@ -213,6 +215,7 @@ function WCGS({ season, pots: initialPots }: Props) {
       // so the front ball is as uniform as a random index.
       handleTeamBallPick(0);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [arePotsShuffled, isFastDraw, hungPot]);
 
   const numGroups = groups.length;

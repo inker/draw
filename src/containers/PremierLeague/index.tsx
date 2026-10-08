@@ -51,6 +51,7 @@ function PremierLeague({ pots }: Props) {
     if (isFastDraw) {
       startGeneratingSchedule();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isFastDraw]);
 
   const isPageActive = usePageVisible();
@@ -91,6 +92,7 @@ function PremierLeague({ pots }: Props) {
     return () => {
       abortController.abort();
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isScheduleGenerating]);
 
   const isScheduleDone = schedule.length > 0;
