@@ -10,10 +10,10 @@ import devServer from './devServer.ts';
 
 const require = createRequire(import.meta.url);
 
-type Env = {
+interface Env {
   dev?: boolean;
   out?: string;
-};
+}
 
 const defaultEnv = {
   dev: false,
