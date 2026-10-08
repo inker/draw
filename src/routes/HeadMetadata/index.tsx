@@ -1,6 +1,5 @@
 import { memo } from 'react';
 import { useMatch } from 'react-router-dom';
-import { Helmet } from 'react-helmet';
 
 import type Tournament from '#model/Tournament';
 
@@ -17,7 +16,7 @@ function HeadMetaData() {
   const o = (tournament && data(tournament as Tournament)) || null;
   return (
     o && (
-      <Helmet>
+      <>
         <title>{o.title}</title>
         <link
           rel="icon"
@@ -32,7 +31,7 @@ function HeadMetaData() {
           name="description"
           content={o.description}
         />
-      </Helmet>
+      </>
     )
   );
 }

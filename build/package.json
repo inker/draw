@@ -22,7 +22,7 @@
     "@rspack/dev-server": "^2.2.1",
     "eslint-rspack-plugin": "^5.0.1",
     "ts-checker-rspack-plugin": "^1.6.2",
-    "webpack-bundle-analyzer": "^4.5.0"
+    "webpack-bundle-analyzer": "^5.4.0"
   },
   "devDependencies": {
     "@types/node": "^24.19.1"

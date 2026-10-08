@@ -4,7 +4,7 @@ import delay from 'delay.js';
 import type Team from '#model/team';
 import UnknownNationalTeam from '#model/team/UnknownNationalTeam';
 import { type DrawRoute } from '#model/resolveDrawRoute';
-import { isFirefox } from '#utils/browser';
+import isFirefox from '#utils/browser';
 import useDrawId from '#store/useDrawId';
 import usePopup from '#store/usePopup';
 

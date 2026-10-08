@@ -5,20 +5,13 @@
     "moduleResolution": "Bundler",
     "skipLibCheck": true,
     "erasableSyntaxOnly": true,
-    "allowSyntheticDefaultImports": true,
     "paths": {
       "#*": ["./src/*"]
     },
-    // "sourceMap": true, // not needed when assembled with a bundler
-    // "watch": true, // not needed when assembled with a bundler
-    "pretty": true,
     "strict": true,
-    "experimentalDecorators": true,
     "jsx": "react-jsx",
     // "noUnusedLocals": true,
     "resolveJsonModule": true,
-    "noEmitHelpers": true,
-    "importHelpers": true,
     "lib": ["ESNext", "DOM", "DOM.Iterable", "WebWorker"]
   },
   "exclude": ["node_modules", "tests", "build"]

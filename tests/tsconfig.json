@@ -6,5 +6,5 @@
     "lib": ["DOM", "DOM.Iterable", "ESNext"],
     "types": ["vitest/globals"]
   },
-  "include": ["./**/*", "../vitest.config.mts"]
+  "include": ["./**/*", "../vitest.config.ts"]
 }
