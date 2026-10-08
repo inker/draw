@@ -14,5 +14,5 @@
     "resolveJsonModule": true,
     "lib": ["ESNext", "DOM", "DOM.Iterable", "WebWorker"]
   },
-  "exclude": ["node_modules", "tests", "build"]
+  "include": ["src"]
 }

@@ -296,6 +296,17 @@ export default [
     },
   },
   {
+    // The app's tsconfig.json only covers src,
+    // so the vitest config is checked with the tests' one instead.
+    files: ['vitest.config.ts'],
+    languageOptions: {
+      parserOptions: {
+        tsconfigRootDir: import.meta.dirname,
+        project: ['./tests/tsconfig.json'],
+      },
+    },
+  },
+  {
     files: ['tests/**/*.{js,jsx,ts,tsx}'],
     ...vitest.configs.recommended,
     languageOptions: {
