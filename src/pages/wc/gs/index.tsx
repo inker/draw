@@ -65,6 +65,7 @@ function WCGS({ season, pots: initialPots }: Props) {
   const [arePotsShuffled, setArePotsShuffled] = useState(false);
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setArePotsShuffled(false);
     (async () => {
       const shuffledPots = await prngShuffleAll({
@@ -153,6 +154,7 @@ function WCGS({ season, pots: initialPots }: Props) {
 
   useEffect(() => {
     if (selectedTeam) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       handleTeamSelected();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -213,6 +215,7 @@ function WCGS({ season, pots: initialPots }: Props) {
     if (arePotsShuffled && isFastDraw && hungPotSize) {
       // The pot is already in seeded random order,
       // so the front ball is as uniform as a random index.
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       handleTeamBallPick(0);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

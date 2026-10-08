@@ -60,6 +60,7 @@ function Download({ completed, groupsElement }: Props) {
 
   useEffect(() => {
     if (!completed) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setState({
         downloadClicked: null,
         transitionsEnabled: true,

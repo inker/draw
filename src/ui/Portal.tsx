@@ -43,6 +43,7 @@ const Portal = ({ tagName, modalRoot, children }: Props) => {
 
   return ReactDOM.createPortal(
     children,
+    // eslint-disable-next-line react-hooks/refs
     elRef.current, // this.props.modalRoot is possible
   );
 };

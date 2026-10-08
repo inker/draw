@@ -24,11 +24,13 @@ function Popup() {
   );
 
   if (error) {
+    // eslint-disable-next-line react-hooks/static-components
     return <WrappedPopup>{error}</WrappedPopup>;
   }
 
   if (waiting) {
     return (
+      // eslint-disable-next-line react-hooks/static-components
       <WrappedPopup>
         wait
         <Dots

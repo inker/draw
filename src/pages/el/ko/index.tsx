@@ -78,6 +78,7 @@ function ELKO({ season, pots: initialPots }: Props) {
   const [arePotsShuffled, setArePotsShuffled] = useState(false);
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setArePotsShuffled(false);
     (async () => {
       const [gwPot, ruPot] = await prngShuffleAll({
@@ -205,6 +206,7 @@ function ELKO({ season, pots: initialPots }: Props) {
       if (teams.length > 0) {
         // The pot is already in seeded random order (narrowing to the
         // possible opponents keeps it), so the front ball is as uniform.
+        // eslint-disable-next-line react-hooks/set-state-in-effect
         handleBallPick(0);
       }
     }

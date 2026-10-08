@@ -100,6 +100,7 @@ function LeagueStage({ tournament, season, pots: initialPots }: Props) {
   }, [setPopup]);
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setArePotsShuffled(false);
     (async () => {
       const newDisplayedPots = await prngShuffleAll({
@@ -192,6 +193,7 @@ function LeagueStage({ tournament, season, pots: initialPots }: Props) {
 
   const isPageActive = usePageVisible();
   const isPageActiveRef = useRef(isPageActive);
+  // eslint-disable-next-line react-hooks/refs
   isPageActiveRef.current = isPageActive;
 
   useEffect(() => {
@@ -267,6 +269,7 @@ function LeagueStage({ tournament, season, pots: initialPots }: Props) {
     // draws corrupt the shared pairing state (duplicate or missing games),
     // which then makes the schedule unsolvable
     if (isFastDraw && arePotsShuffled && !isGeneratingPairings) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       handleTeamBallPick(0);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -369,6 +372,7 @@ function LeagueStage({ tournament, season, pots: initialPots }: Props) {
                       key={selectedTeam.id}
                       className={styles['opponent-list']}
                       animationDurationMs={Math.min(
+                        // eslint-disable-next-line react-hooks/refs
                         animationDurationMsRef.current,
                         500,
                       )}

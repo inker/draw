@@ -44,6 +44,7 @@ function Announcement({
     lastSelectedRef.current = completed ? null : selectedTeam;
   }, [completed, selectedTeam]);
 
+  // eslint-disable-next-line react-hooks/refs
   const selected = lastSelectedRef.current ?? selectedTeam;
 
   if (completed) {
@@ -68,6 +69,7 @@ function Announcement({
   }
 
   if (pickedGroup !== null) {
+    // eslint-disable-next-line react-hooks/refs
     lastAnnouncementRef.current = (
       <div className={styles.root}>
         <div>
@@ -87,6 +89,7 @@ function Announcement({
         </div>
       </div>
     );
+    // eslint-disable-next-line react-hooks/refs
     return lastAnnouncementRef.current;
   }
 
@@ -118,6 +121,7 @@ function Announcement({
             )}
           </div>
         ) : (
+          // eslint-disable-next-line react-hooks/refs
           lastAnnouncementRef.current
         )}
       </div>

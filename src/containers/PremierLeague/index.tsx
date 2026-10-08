@@ -49,6 +49,7 @@ function PremierLeague({ pots }: Props) {
   // so a fast draw goes straight to the schedule.
   useEffect(() => {
     if (isFastDraw) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       startGeneratingSchedule();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -56,6 +57,7 @@ function PremierLeague({ pots }: Props) {
 
   const isPageActive = usePageVisible();
   const isPageActiveRef = useRef(isPageActive);
+  // eslint-disable-next-line react-hooks/refs
   isPageActiveRef.current = isPageActive;
 
   useEffect(() => {

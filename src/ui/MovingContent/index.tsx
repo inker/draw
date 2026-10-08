@@ -45,6 +45,7 @@ function MovingContent({ from, to, duration, team, onAnimationEnd }: Props) {
 
   useLayoutEffect(() => {
     if (posCell === fromCell) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setPosCell(toCell);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
