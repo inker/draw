@@ -68,7 +68,6 @@
   "devDependencies": {
     "@eslint/compat": "^2.1.1",
     "@eslint/eslintrc": "^3.3.7",
-    "@eslint/js": "^10.0.1",
     "@inker/eslint-config-typescript": "^11.0.0",
     "@types/dom-to-image": "^2.6.4",
     "@types/file-saver": "^2.0.5",
