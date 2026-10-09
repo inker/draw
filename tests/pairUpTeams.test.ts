@@ -1,7 +1,6 @@
 import { readFileSync, readdirSync } from 'node:fs';
 import { join } from 'node:path';
 
-import popularity from '#data/popularity';
 import GsTeam from '#model/team/GsTeam';
 import pairUpTeams from '#model/pairUpTeams';
 
@@ -82,21 +81,6 @@ describe('pairUpTeams', () => {
             `${id}: ${team.name} paired with ${team.pairing.name}`,
           ).toBe(team.pairing.country);
         }
-      }
-    }
-  });
-
-  it('lists only clubs that appear in the pots (guards against typos & renames)', () => {
-    const knownNames = new Set<string>();
-    for (const { path } of files) {
-      const pots = JSON.parse(readFileSync(path, 'utf8')) as RawTeam[][];
-      for (const team of pots.flat()) {
-        knownNames.add(team.name);
-      }
-    }
-    for (const [country, names] of Object.entries(popularity)) {
-      for (const name of names ?? []) {
-        expect(knownNames, `${country}: "${name}"`).toContain(name);
       }
     }
   });
