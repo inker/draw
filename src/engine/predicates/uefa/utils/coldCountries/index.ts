@@ -16,12 +16,22 @@ const coldCountries: UefaCountry[] = [
 
 const coldCountriesSet = new Set(coldCountries);
 
-interface WithCountry {
+// Clubs whose roofed stadiums have let them host the last matchday,
+// by the first season they played there.
+const firstSeasonUnderRoofByClub = new Map([
+  ['Zenit', 2017],
+  ['Djurgården', 2013],
+]);
+
+interface Club {
+  readonly name: string;
   readonly country: UefaCountry;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-export default (season: number) =>
-  // eslint-disable-next-line unicorn/consistent-function-scoping
-  (team: WithCountry) =>
-    coldCountriesSet.has(team.country);
+export default (season: number) => (team: Club) => {
+  const firstSeasonUnderRoof = firstSeasonUnderRoofByClub.get(team.name);
+  return (
+    coldCountriesSet.has(team.country) &&
+    (firstSeasonUnderRoof === undefined || season < firstSeasonUnderRoof)
+  );
+};
