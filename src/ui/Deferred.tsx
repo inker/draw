@@ -1,10 +1,11 @@
-import { type ReactElement, memo } from 'react';
+import type React from 'react';
+import { memo } from 'react';
 
 import useTimeoutControlled from '#utils/hooks/useTimeoutControlled';
 
 interface Props {
   delay: number;
-  children: ReactElement;
+  children: React.ReactNode;
 }
 
 function Deferred({ children, delay }: Props) {

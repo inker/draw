@@ -1,4 +1,5 @@
-import { type ReactNode, memo, useEffect, useMemo, useRef } from 'react';
+import type React from 'react';
+import { memo, useEffect, useMemo, useRef } from 'react';
 import ReactDOM from 'react-dom';
 import htmlTags from 'html-tags';
 
@@ -10,7 +11,7 @@ const htmlTagSet = new Set(htmlTags);
 type TagName = keyof HTMLElementTagNameMap | keyof SVGElementTagNameMap;
 
 interface Props {
-  children: ReactNode;
+  children: React.ReactNode;
   tagName: TagName;
   modalRoot: Element;
 }

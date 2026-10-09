@@ -1,4 +1,5 @@
-import { type ReactNode, memo } from 'react';
+import type React from 'react';
+import { memo } from 'react';
 
 import Portal from '#ui/Portal';
 
@@ -9,7 +10,7 @@ airborneDiv.classList.add(styles.airborne);
 document.body.insertBefore(airborneDiv, document.getElementById('app'));
 
 interface Props {
-  children: ReactNode;
+  children: React.ReactNode;
 }
 
 function FixedOverlay({ children }: Props) {

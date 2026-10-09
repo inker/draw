@@ -1,11 +1,12 @@
-import { type ReactNode, memo } from 'react';
+import type React from 'react';
+import { memo } from 'react';
 
 import Modal from '../Modal';
 
 import * as styles from './styles.module.css';
 
 interface Props {
-  children: ReactNode;
+  children: React.ReactNode;
   noAnimation: boolean;
 }
 

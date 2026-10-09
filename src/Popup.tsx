@@ -1,11 +1,12 @@
-import { type ReactNode, memo, useCallback } from 'react';
+import type React from 'react';
+import { memo, useCallback } from 'react';
 
 import Notification from '#ui/Notification';
 import Dots from '#ui/Dots';
 import usePopup from '#store/usePopup';
 
 interface WrappedPopupProps {
-  children: ReactNode;
+  children: React.ReactNode;
 }
 
 function Popup() {

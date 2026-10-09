@@ -1,4 +1,5 @@
-import { type ReactNode, memo } from 'react';
+import type React from 'react';
+import { memo } from 'react';
 import clsx from 'clsx';
 
 import * as overlayStyles from '../overlay.module.css';
@@ -6,7 +7,7 @@ import * as overlayStyles from '../overlay.module.css';
 import * as styles from './styles.module.css';
 
 interface Props {
-  children: ReactNode;
+  children: React.ReactNode;
   noAnimation: boolean;
 }
 
