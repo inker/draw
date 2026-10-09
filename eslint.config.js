@@ -7,6 +7,9 @@ eslint import/no-extraneous-dependencies: [2, {
 }]
 */
 
+import { dirname } from 'node:path';
+import { fileURLToPath } from 'node:url';
+
 import { fixupConfigRules } from '@eslint/compat';
 import { FlatCompat } from '@eslint/eslintrc';
 import vitest from '@vitest/eslint-plugin';
@@ -15,6 +18,12 @@ import reactHooks from 'eslint-plugin-react-hooks';
 
 const compat = new FlatCompat({
   baseDirectory: import.meta.dirname,
+  // npm may install the shared config's plugins under its own node_modules
+  // rather than at the top level,
+  // so they're looked up from there & Node walks up to the root for the rest.
+  resolvePluginsRelativeTo: dirname(
+    fileURLToPath(import.meta.resolve('@inker/eslint-config-typescript')),
+  ),
 });
 
 export default [

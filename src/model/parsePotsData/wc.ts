@@ -20,7 +20,7 @@ export default (
   hosts: readonly string[],
   rest: readonly string[],
   season: number,
-  forcedGroupMap: Record<string, number>,
+  forcedGroupMap: Readonly<Record<string, number>>,
   // eslint-disable-next-line max-params
 ) => {
   const teams = [

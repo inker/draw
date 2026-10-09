@@ -4,12 +4,12 @@ import Team from '.';
 
 export default class UnknownNationalTeam extends Team {
   readonly coefficient: number;
-  readonly confederations: Set<Confederation>;
+  readonly confederations: ReadonlySet<Confederation>;
 
   constructor(
     name: string,
     coefficient: number,
-    confederations: Confederation[] | Set<Confederation>,
+    confederations: Iterable<Confederation>,
   ) {
     super(name);
     this.coefficient = coefficient;
