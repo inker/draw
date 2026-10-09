@@ -7,22 +7,38 @@ import createHomeAwayPatterns, { type Ban } from './homeAwayPatterns';
 export default ({
   matchdaySize,
   allGames,
-  alternatingPairs,
-  bans,
-  cannotHostSameDayPairs,
+  alternatingPairs = [],
+  bans = [],
+  bannedGames = [],
+  cannotHostSameDayPairs = [],
   minMatchdaysBetweenMeetings = 1,
   banFourInFive = false,
   cappedGames = [],
   maxCappedGamesPerMatchday = Infinity,
   matchdaysWithoutCappedGames = [],
-  bannedGames = [],
   randomSeed = 0,
 }: {
   matchdaySize: number;
   allGames: readonly (readonly [number, number])[];
-  alternatingPairs: Iterable<readonly [number, number]>;
-  bans: Iterable<Ban>;
-  cannotHostSameDayPairs: Iterable<readonly [number, number]>;
+  alternatingPairs?: Iterable<readonly [number, number]>;
+  /**
+   * Locations clubs cannot take on given matchdays.
+   * Use these rather than bannedGames for any rule that holds whoever the opponent is,
+   * since the home/away patterns rule them out before the search starts
+   * & the fill order puts their matchdays first.
+   */
+  bans?: Iterable<Ban>;
+  /**
+   * [home, away] games that may not be played on a matchday,
+   * such as one between two of the Premier League's promoted clubs on the opening day.
+   * Only for rules that depend on the opponent,
+   * since each is checked only when its game is tried.
+   */
+  bannedGames?: Iterable<{
+    matchday: number;
+    game: readonly [number, number];
+  }>;
+  cannotHostSameDayPairs?: Iterable<readonly [number, number]>;
   /**
    * How many matchdays apart two games between the same clubs have to be,
    * such as a double round robin's two meetings.
@@ -48,14 +64,6 @@ export default ({
    * such as Boxing Day
    */
   matchdaysWithoutCappedGames?: Iterable<number>;
-  /**
-   * [home, away] games that may not be played on a matchday,
-   * such as one between two of the Premier League's promoted clubs on the opening day
-   */
-  bannedGames?: Iterable<{
-    matchday: number;
-    game: readonly [number, number];
-  }>;
   /**
    * Where in [0, 1) this solver's tie-breaking sequence starts.
    * Two solvers given the same seed search identically,

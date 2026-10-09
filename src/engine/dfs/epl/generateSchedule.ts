@@ -107,13 +107,6 @@ export default async function generateSchedule({
     matchdaySize: teams.length / 2,
     allGames: allGamesShuffled,
     alternatingPairs,
-    bans: [],
-    cannotHostSameDayPairs,
-    minMatchdaysBetweenMeetings,
-    banFourInFive: true,
-    cappedGames: bigSixGames,
-    maxCappedGamesPerMatchday: maxBigSixGamesPerMatchday,
-    matchdaysWithoutCappedGames: matchdaysWithoutBigSixGames,
     bannedGames: matchdaysWithoutPromotedGames.flatMap(matchday =>
       allGames
         .filter(
@@ -124,6 +117,12 @@ export default async function generateSchedule({
           game,
         })),
     ),
+    cannotHostSameDayPairs,
+    minMatchdaysBetweenMeetings,
+    banFourInFive: true,
+    cappedGames: bigSixGames,
+    maxCappedGamesPerMatchday: maxBigSixGamesPerMatchday,
+    matchdaysWithoutCappedGames: matchdaysWithoutBigSixGames,
     randomSeed,
     getNumWorkers,
     signal,

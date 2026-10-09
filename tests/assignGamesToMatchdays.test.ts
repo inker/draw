@@ -31,8 +31,6 @@ describe('assignGamesToMatchdays', () => {
       matchdaySize: 2,
       allGames,
       alternatingPairs: [[0, 1]],
-      bans: [],
-      cannotHostSameDayPairs: [],
     });
 
     expect(result).toHaveLength(2);
@@ -69,7 +67,6 @@ describe('assignGamesToMatchdays', () => {
             location: 'away',
           },
         ],
-        cannotHostSameDayPairs: [],
       });
 
       expect(result[0].some(([h]) => h === 2)).toBe(true);
@@ -90,7 +87,6 @@ describe('assignGamesToMatchdays', () => {
             location: 'home',
           },
         ],
-        cannotHostSameDayPairs: [],
       });
       const finalMatchday = result.at(-1)!;
       expect(finalMatchday.some(([h]) => h === 2)).toBe(false);
@@ -115,7 +111,6 @@ describe('assignGamesToMatchdays', () => {
             location: 'home',
           },
         ],
-        cannotHostSameDayPairs: [],
       }),
     ).toThrow('Bans leave team 2 with no valid home/away pattern');
   });
@@ -140,7 +135,6 @@ describe('assignGamesToMatchdays', () => {
               location: 'home',
             },
           ],
-          cannotHostSameDayPairs: [],
         }),
       ).toThrow(message);
     },
@@ -156,8 +150,6 @@ describe('assignGamesToMatchdays', () => {
           [0, 1],
           [8, 9],
         ],
-        bans: [],
-        cannotHostSameDayPairs: [],
         minMatchdaysBetweenMeetings: 5,
         randomSeed: i / 20,
       });
@@ -186,8 +178,6 @@ describe('assignGamesToMatchdays', () => {
           [0, 1],
           [4, 5],
         ],
-        bans: [],
-        cannotHostSameDayPairs: [],
         minMatchdaysBetweenMeetings: 6,
       }),
     ).toThrow('No solution');
@@ -201,8 +191,6 @@ describe('assignGamesToMatchdays', () => {
           matchdaySize: 2,
           allGames,
           alternatingPairs: [[0, 1]],
-          bans: [],
-          cannotHostSameDayPairs: [],
           minMatchdaysBetweenMeetings,
         }),
       ).toThrow(
@@ -225,8 +213,6 @@ describe('assignGamesToMatchdays', () => {
           [0, 1],
           [12, 13],
         ],
-        bans: [],
-        cannotHostSameDayPairs: [],
         cappedGames,
         maxCappedGamesPerMatchday: 1,
         matchdaysWithoutCappedGames: [3],
@@ -253,8 +239,6 @@ describe('assignGamesToMatchdays', () => {
           [0, 1],
           [4, 5],
         ],
-        bans: [],
-        cannotHostSameDayPairs: [],
         cappedGames: doubleRoundRobin(4),
         maxCappedGamesPerMatchday: 1,
       }),
@@ -278,8 +262,6 @@ describe('assignGamesToMatchdays', () => {
           [0, 1],
           [8, 9],
         ],
-        bans: [],
-        cannotHostSameDayPairs: [],
         bannedGames,
         randomSeed: i / 20,
       });
@@ -309,8 +291,6 @@ describe('assignGamesToMatchdays', () => {
           [0, 1],
           [4, 5],
         ],
-        bans: [],
-        cannotHostSameDayPairs: [],
         bannedGames,
       }),
     ).toThrow('No solution');
@@ -331,8 +311,6 @@ describe('assignGamesToMatchdays', () => {
           matchdaySize: 2,
           allGames,
           alternatingPairs: [[0, 1]],
-          bans: [],
-          cannotHostSameDayPairs: [],
           bannedGames: [
             {
               matchday,
@@ -350,8 +328,6 @@ describe('assignGamesToMatchdays', () => {
         matchdaySize: 2,
         allGames,
         alternatingPairs: [[0, 1]],
-        bans: [],
-        cannotHostSameDayPairs: [],
         cappedGames: [[0, 0]],
         maxCappedGamesPerMatchday: 1,
       }),
