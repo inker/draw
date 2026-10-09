@@ -18,7 +18,7 @@ const coldCountriesSet = new Set(coldCountries);
 
 // Clubs whose roofed stadiums have let them host the last matchday,
 // by the first season they played there.
-const firstSeasonUnderRoofByClub = new Map([
+export const firstSeasonUnderRoofByClub = new Map([
   ['Zenit', 2017],
   ['Djurgården', 2013],
 ]);
