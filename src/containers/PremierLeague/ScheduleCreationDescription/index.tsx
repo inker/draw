@@ -37,24 +37,24 @@ function ScheduleCreationDescription({ teams }: Props) {
         </li>
         <li>
           Across any five consecutive matchdays, each club must play three home
-          and two away fixtures or vice versa.
+          &amp; two away fixtures or vice versa.
         </li>
         <li>
-          Across the first two and last two matchdays, each club must play one
-          home and one away fixture.
+          Across the first two &amp; last two matchdays, each club must play one
+          home &amp; one away fixture.
         </li>
         <li>
-          Across Boxing Day and New Year&apos;s Day, each club must play one
-          home and one away fixture.
+          Across Boxing Day &amp; New Year&apos;s Day, each club must play one
+          home &amp; one away fixture.
         </li>
         <li>
           No matchday may hold more than one match between two of the big six
-          (Arsenal, Chelsea, Liverpool, Man City, Man United and Tottenham), and
-          Boxing Day may hold none.
+          (Arsenal, Chelsea, Liverpool, Man City, Man United &amp; Tottenham),
+          and Boxing Day may hold none.
         </li>
         <li>
-          No two promoted clubs (Coventry, Hull and Ipswich) may play each other
-          on the first matchday.
+          No two promoted clubs (Coventry, Hull &amp; Ipswich) may play each
+          other on the first matchday.
         </li>
         <li>
           Clubs from the same city must not be scheduled to play at home on the

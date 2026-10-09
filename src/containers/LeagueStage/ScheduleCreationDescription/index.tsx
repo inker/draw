@@ -52,8 +52,8 @@ function ScheduleCreationDescription({ season, teams }: Props) {
           No club may play more than two consecutive home or away fixtures.
         </li>
         <li>
-          Across the first two and last two matchdays, each club must play one
-          home and one away fixture.
+          Across the first two &amp; last two matchdays, each club must play one
+          home &amp; one away fixture.
         </li>
         <li>
           Clubs sharing a stadium, or whose stadiums are in close proximity,

@@ -156,8 +156,8 @@ function PremierLeague({ pots }: Props) {
             ) : (
               <>
                 <p>
-                  Each club plays every other club twice, once at home and once
-                  away, for {pairings.length} matches over {numMatchdays}{' '}
+                  Each club plays every other club twice, once at home &amp;
+                  once away, for {pairings.length} matches over {numMatchdays}{' '}
                   matchdays.
                 </p>
                 <Button

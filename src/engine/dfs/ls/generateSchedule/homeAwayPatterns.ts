@@ -1,7 +1,7 @@
 // Feasibility oracle for the league-phase home/away alternation constraints.
 // A legal complete pattern across the matchdays is balanced (half home,
-// half away), never has more than two of the same location in a row,
-// and alternates across each given pair of matchdays one or two apart
+// half away), never has more than two of the same location in a row
+// & alternates across each given pair of matchdays one or two apart
 // (for UEFA, the first two & the last two).
 // Optionally no five consecutive matchdays hold four of the same location.
 //
