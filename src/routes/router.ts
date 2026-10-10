@@ -13,10 +13,18 @@ import {
 } from 'zod/mini';
 
 import resolveDrawRoute from '#model/resolveDrawRoute';
+import { validTournaments } from '#model/Tournament';
+import { validStages } from '#model/Stage';
 import availability from '#data/availability';
 
 import routerHistory from './history';
 import Routing from './Routing';
+
+const rawParamsSchema = z.object({
+  tournament: withFallback(z.optional(z.enum(validTournaments)), undefined),
+  stage: withFallback(z.optional(z.enum(validStages)), undefined),
+  season: withFallback(z.optional(z.coerce.number()), undefined),
+});
 
 const rootRoute = createRootRoute();
 
@@ -25,16 +33,8 @@ const drawRoute = createRoute({
   component: Routing,
   getParentRoute: () => rootRoute,
   params: {
-    parse: ({ tournament, stage, season }) => {
-      const parsedSeason = Number(season);
-      return (
-        resolveDrawRoute(availability, {
-          tournament,
-          stage,
-          season: Number.isFinite(parsedSeason) ? parsedSeason : undefined,
-        }) ?? false
-      );
-    },
+    parse: raw =>
+      resolveDrawRoute(availability, rawParamsSchema.parse(raw)) ?? false,
     stringify: ({ season, ...rest }) => ({
       ...rest,
       season: String(season),
