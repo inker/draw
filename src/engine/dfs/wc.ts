@@ -1,3 +1,7 @@
+import {
+  type MutableBacktrackOptions,
+  findFirstSolutionMutable,
+} from '#utils/backtrack';
 import type NationalTeam from '#model/team/NationalTeam';
 import type UnknownNationalTeam from '#model/team/UnknownNationalTeam';
 import { type Confederation, type Country } from '#model/types';
@@ -273,63 +277,70 @@ export default ({
 
   const deadEnds = new Set<string>();
 
-  const isCompletable = (): boolean => {
-    if (numPlaced === freeTeams.length) {
-      return true;
-    }
+  const searchOptions: MutableBacktrackOptions<{
+    freeTeam: number;
+    group: number;
+  }> = {
+    isSolved: () => numPlaced === freeTeams.length,
+    *getCandidates() {
+      const key = getStateKey();
+      if (deadEnds.has(key)) {
+        return;
+      }
 
-    const key = getStateKey();
-    if (deadEnds.has(key)) {
-      return false;
-    }
-
-    // Placing the most constrained team first
-    // surfaces a dead end near the top of the tree rather than at the bottom
-    let best = -1;
-    let bestGroupMask = 0;
-    let bestNumGroups = Infinity;
-    for (const [i, { team, pot }] of freeTeams.entries()) {
-      if (!isPlaced[i]) {
-        let groupMask = 0;
-        for (let gi = 0; gi < numGroups; ++gi) {
-          if (canPlace(team, pot, gi)) {
-            groupMask |= 1 << gi;
+      // Placing the most constrained team first
+      // surfaces a dead end near the top of the tree rather than at the bottom
+      let best = -1;
+      let bestGroupMask = 0;
+      let bestNumGroups = Infinity;
+      for (const [i, { team, pot }] of freeTeams.entries()) {
+        if (!isPlaced[i]) {
+          let groupMask = 0;
+          for (let gi = 0; gi < numGroups; ++gi) {
+            if (canPlace(team, pot, gi)) {
+              groupMask |= 1 << gi;
+            }
           }
-        }
-        groupMaskByFreeTeam[i] = groupMask;
-        const numPossibleGroups = countBits(groupMask);
-        if (numPossibleGroups < bestNumGroups) {
-          best = i;
-          bestGroupMask = groupMask;
-          bestNumGroups = numPossibleGroups;
-          if (numPossibleGroups === 0) {
-            break;
+          groupMaskByFreeTeam[i] = groupMask;
+          const numPossibleGroups = countBits(groupMask);
+          if (numPossibleGroups < bestNumGroups) {
+            best = i;
+            bestGroupMask = groupMask;
+            bestNumGroups = numPossibleGroups;
+            if (numPossibleGroups === 0) {
+              break;
+            }
           }
         }
       }
-    }
 
-    let isFound = false;
-    if (bestNumGroups > 0 && canMatchPots()) {
-      const { team, pot } = freeTeams[best];
-      isPlaced[best] = 1;
-      ++numPlaced;
-      --numFreeTeamsByType[typeByFreeTeam[best]];
-      for (let rest = bestGroupMask; rest && !isFound; rest &= rest - 1) {
-        const gi = lowestBit(rest);
-        place(team, pot, gi);
-        isFound = isCompletable();
-        unplace(team, pot, gi);
+      if (bestNumGroups > 0 && canMatchPots()) {
+        for (let rest = bestGroupMask; rest; rest &= rest - 1) {
+          yield {
+            freeTeam: best,
+            group: lowestBit(rest),
+          };
+        }
       }
-      isPlaced[best] = 0;
-      --numPlaced;
-      ++numFreeTeamsByType[typeByFreeTeam[best]];
-    }
 
-    if (!isFound) {
+      // Only reached once every candidate has failed,
+      // since a solution or a spent budget stops the search asking for more
       deadEnds.add(key);
-    }
-    return isFound;
+    },
+    apply: ({ freeTeam, group }) => {
+      const { team, pot } = freeTeams[freeTeam];
+      isPlaced[freeTeam] = 1;
+      ++numPlaced;
+      --numFreeTeamsByType[typeByFreeTeam[freeTeam]];
+      place(team, pot, group);
+    },
+    undo: ({ freeTeam, group }) => {
+      const { team, pot } = freeTeams[freeTeam];
+      unplace(team, pot, group);
+      isPlaced[freeTeam] = 0;
+      --numPlaced;
+      ++numFreeTeamsByType[typeByFreeTeam[freeTeam]];
+    },
   };
 
   const pickedTeam = teamIndices.get(picked)!;
@@ -339,7 +350,9 @@ export default ({
       return false;
     }
     place(pickedTeam, pickedPot, gi);
-    const isFound = isCompletable();
+    // Restarts only pay off when the candidates vary between them,
+    // & these come out in the same order every time
+    const isFound = findFirstSolutionMutable(searchOptions, Infinity);
     unplace(pickedTeam, pickedPot, gi);
     return isFound;
   });
