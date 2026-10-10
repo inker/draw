@@ -44,6 +44,7 @@
     "test": "vitest"
   },
   "dependencies": {
+    "@tanstack/react-router": "^1.170.38",
     "bowser": "^2.11.0",
     "clsx": "^2.1.1",
     "date-fns": "^4.1.0",
@@ -63,7 +64,7 @@
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "react-github-btn": "^1.2.2",
-    "react-router-dom": "^6.3.0"
+    "zod": "^4.6.5"
   },
   "devDependencies": {
     "@eslint/compat": "^2.1.1",

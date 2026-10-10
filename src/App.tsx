@@ -1,5 +1,4 @@
 import { Suspense, lazy, memo, useEffect } from 'react';
-import { HashRouter } from 'react-router-dom';
 import { constant } from 'lodash';
 
 import usePopup from '#store/usePopup';
@@ -10,7 +9,9 @@ import Popup from './Popup';
 
 const Routes = lazy(
   constant(
-    import(/* webpackPreload: true, webpackChunkName: "routes" */ './routes'),
+    import(
+      /* webpackPreload: true, webpackChunkName: "routes" */ './routes/AppRouter'
+    ),
   ),
 );
 
@@ -36,11 +37,9 @@ function App() {
   return (
     <>
       <Popup />
-      <HashRouter>
-        <Suspense>
-          <Routes />
-        </Suspense>
-      </HashRouter>
+      <Suspense>
+        <Routes />
+      </Suspense>
     </>
   );
 }

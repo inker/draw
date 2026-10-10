@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
-import { useHref, useLocation, useSearchParams } from 'react-router-dom';
+import { useRouter } from '@tanstack/react-router';
 
+import drawRouteApi from '#routes/routeApi';
 import useDrawId from '#store/useDrawId';
 import useDidUpdate from '#utils/hooks/useDidUpdate';
 import createPrngGenerator from '#utils/prng/generator';
@@ -17,7 +18,7 @@ const SEED_BYTE_LENGTH = 32;
  */
 const COUNTER_BYTE_LENGTH = 4;
 
-const toSeed = (str: string | null) => {
+const toSeed = (str: string | undefined) => {
   if (str) {
     try {
       return Uint8Array.fromBase64(str, {
@@ -30,7 +31,7 @@ const toSeed = (str: string | null) => {
   return globalThis.crypto.getRandomValues(new Uint8Array(SEED_BYTE_LENGTH));
 };
 
-const initStream = (str: string | null) => {
+const initStream = (str: string | undefined) => {
   const seed = toSeed(str);
   return {
     seed,
@@ -47,8 +48,9 @@ const initStream = (str: string | null) => {
  * which React may throw away & so deal the draw a second time
  */
 export default () => {
-  const [searchParam] = useSearchParams();
-  const seedParam = searchParam.get('seed');
+  const seedParam = drawRouteApi.useSearch({
+    select: search => search.seed,
+  });
   const [drawId] = useDrawId();
 
   const [prng, setStream] = useState(() => initStream(seedParam));
@@ -58,20 +60,23 @@ export default () => {
     setStream(initStream(seedParam));
   }, [seedParam, drawId]);
 
-  const { pathname } = useLocation();
-  const replaySearchParams = new URLSearchParams(searchParam);
+  const router = useRouter();
   const seedBase64 = prng.seed.toBase64({
     alphabet: 'base64url',
     omitPadding: true,
   });
-  replaySearchParams.set('seed', seedBase64);
   // The router keeps its search params inside the hash,
   // so setting them on window.location's own query
   // gives a link the draw never reads the seed from.
-  const replayHref = useHref({
-    pathname,
-    search: `?${replaySearchParams}`,
-  });
+  const replayHref = router.history.createHref(
+    router.buildLocation({
+      to: '.',
+      search: prev => ({
+        ...prev,
+        seed: seedBase64,
+      }),
+    }).href,
+  );
 
   useEffect(() => {
     // eslint-disable-next-line no-console

@@ -275,6 +275,18 @@ export default [
       '@typescript-eslint/prefer-nullish-coalescing': 0,
       '@typescript-eslint/prefer-optional-chain': 2,
       '@typescript-eslint/prefer-readonly': 2,
+      '@typescript-eslint/no-restricted-imports': [
+        2,
+        {
+          paths: ['useMatch', 'useNavigate', 'useParams', 'useSearch'].map(
+            name => ({
+              name: '@tanstack/react-router',
+              importNames: [name],
+              message: `Use \`.${name}()\` from the route API instead`,
+            }),
+          ),
+        },
+      ],
       // '@typescript-eslint/prefer-readonly-parameter-types': 2,
     },
   },
