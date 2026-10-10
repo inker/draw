@@ -1,5 +1,4 @@
 import { memo, useCallback } from 'react';
-import clsx from 'clsx';
 
 import {
   type DrawRoute,
@@ -20,11 +19,10 @@ import * as styles from './styles.module.css';
 
 interface Props {
   route: DrawRoute;
-  className?: string;
   onChange: (change: Partial<RequestedDrawRoute>) => void;
 }
 
-function Navbar({ route, className, onChange }: Props) {
+function Navbar({ route, onChange }: Props) {
   const [theme, setTheme] = useTheme();
   const [isXRay, setIsXRay] = useXRay();
   const [, refreshDrawId] = useDrawId();
@@ -38,7 +36,7 @@ function Navbar({ route, className, onChange }: Props) {
   }, [setIsFastDraw]);
 
   return (
-    <div className={clsx(styles.root, className)}>
+    <div className={styles.root}>
       <div
         id="navbar-left-container"
         className={styles['nav-bar-left-container']}

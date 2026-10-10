@@ -48,7 +48,3 @@ body {
     text-decoration: underline;
   }
 }
-
-.v-hidden {
-  visibility: hidden !important;
-}
