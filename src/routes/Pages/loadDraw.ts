@@ -1,7 +1,8 @@
 import delay from 'delay.js';
 
 import type Team from '#model/team';
-import UnknownNationalTeam from '#model/team/UnknownNationalTeam';
+import Club from '#model/team/Club';
+import NationalTeam from '#model/team/NationalTeam';
 import { type DrawRoute } from '#model/resolveDrawRoute';
 import isFirefox from '#utils/browser';
 import { resetFastDraw } from '#store/useFastDraw';
@@ -30,13 +31,11 @@ export default async ({
 
   if (!isFirefox) {
     const teamsWithFlags = [
-      pots.flat().filter(team => !(team instanceof UnknownNationalTeam)),
+      pots
+        .flat()
+        .filter(team => team instanceof Club || team instanceof NationalTeam),
     ];
-    await Promise.race([
-      // @ts-expect-error
-      prefetchFlags(teamsWithFlags),
-      delay(5000),
-    ]);
+    await Promise.race([prefetchFlags(teamsWithFlags), delay(5000)]);
   }
 
   // Last, so the draw being left keeps its fast mode for as long as it is on screen.

@@ -21,18 +21,21 @@ import availability from '#data/availability';
 import config from '../config';
 
 import routerHistory from './history';
+import NotFound from './NotFound';
 import Routing from './Routing';
 import Pages from './Pages';
 import LoadError from './Pages/LoadError';
 import loadDraw from './Pages/loadDraw';
+
+const rootRoute = createRootRoute({
+  notFoundComponent: NotFound,
+});
 
 const rawParamsSchema = z.object({
   tournament: withFallback(z.enum(validTournaments), config.defaultTournament),
   stage: withFallback(z.optional(z.enum(validStages)), undefined),
   season: withFallback(z.optional(z.coerce.number()), undefined),
 });
-
-const rootRoute = createRootRoute();
 
 const drawRoute = createRoute({
   path: '{-$tournament}/{-$stage}/{-$season}',
