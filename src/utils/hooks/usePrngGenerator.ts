@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import { useRouter } from '@tanstack/react-router';
 
 import { drawRouteApi } from '#routes/routeApi';
-import useDrawId from '#store/useDrawId';
 import useDidUpdate from '#utils/hooks/useDidUpdate';
 import createPrngGenerator from '#utils/prng/generator';
 
@@ -51,14 +50,13 @@ export default () => {
   const seedParam = drawRouteApi.useSearch({
     select: search => search.seed,
   });
-  const [drawId] = useDrawId();
 
   const [prng, setStream] = useState(() => initStream(seedParam));
 
   // Not on mount, or the stream is replaced on the render right after it starts.
   useDidUpdate(() => {
     setStream(initStream(seedParam));
-  }, [seedParam, drawId]);
+  }, [seedParam]);
 
   const router = useRouter();
   const seedBase64 = prng.seed.toBase64({
