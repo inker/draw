@@ -41,7 +41,7 @@ function Pages({ route }: Props) {
 
   const [drawId, refreshDrawId] = useDrawId();
 
-  const fetchData = async () => {
+  const fetchData = async (isStale: () => boolean) => {
     setPopup({
       waiting: true,
     });
@@ -68,6 +68,12 @@ function Pages({ route }: Props) {
         ]);
       }
 
+      // A newer draw was asked for while this one loaded,
+      // & its own fetch fills the page
+      if (isStale()) {
+        return;
+      }
+
       setState({
         Page: newPage,
         pots: newPots,
@@ -82,6 +88,10 @@ function Pages({ route }: Props) {
     } catch (err) {
       console.error(err);
 
+      if (isStale()) {
+        return;
+      }
+
       // The route is resolved against the data that exists before it gets here,
       // so a failure now is the network or a bad chunk & navigating cannot fix it
       setPopup({
@@ -90,15 +100,21 @@ function Pages({ route }: Props) {
       });
 
       await delay(errorDuration);
-      setPopup({
-        error: null,
-      });
+      if (!isStale()) {
+        setPopup({
+          error: null,
+        });
+      }
     }
   };
 
   useEffect(() => {
+    let isStale = false;
     // eslint-disable-next-line react-hooks/set-state-in-effect
-    fetchData();
+    fetchData(() => isStale);
+    return () => {
+      isStale = true;
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [requestedSeason, stage, tournament]);
 
