@@ -10,10 +10,10 @@ async function getPotsFromBert(
   stage: Stage,
   season: number,
 ) {
-  const data = await import(
+  const { default: data } = await import(
     /* webpackChunkName: "pots/[request]" */
     `../../data/${tournament}/${stage}/${season}/pots.json`
-  ).then(mod => mod.default);
+  );
 
   const pots = stage === 'ko' ? parseKo(data) : parseGS(data);
 

@@ -9,10 +9,15 @@ interface WrappedPopupProps {
   children: React.ReactNode;
 }
 
-function Popup() {
+interface Props {
+  initial: boolean;
+  waiting: boolean;
+}
+
+function Popup({ initial, waiting }: Props) {
   const [popup] = usePopup();
 
-  const { initial, error, waiting } = popup;
+  const { error } = popup;
 
   const WrappedPopup = useCallback(
     (props: WrappedPopupProps) => (

@@ -3,7 +3,6 @@ import pLimit from 'p-limit';
 import delay from 'delay.js';
 import { orderBy } from 'lodash';
 
-import usePopup from '#store/usePopup';
 import useFastDraw from '#store/useFastDraw';
 import useXRay from '#store/useXRay';
 import type Tournament from '#model/Tournament';
@@ -47,7 +46,6 @@ function LeagueStage({ tournament, season, pots: initialPots }: Props) {
 
   const prngGenerator = usePrngGenerator();
 
-  const [, setPopup] = usePopup();
   const [isFastDraw] = useFastDraw();
   const [isXRay] = useXRay();
 
@@ -95,12 +93,6 @@ function LeagueStage({ tournament, season, pots: initialPots }: Props) {
     () => new Map(allTeams.map((t, i) => [t, i])),
     [allTeams],
   );
-
-  useEffect(() => {
-    setPopup({
-      waiting: false,
-    });
-  }, [setPopup]);
 
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect

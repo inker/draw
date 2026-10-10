@@ -2,14 +2,10 @@ import { useCallback } from 'react';
 import { atom, useAtom } from 'jotai';
 
 interface PopupState {
-  initial: boolean;
-  waiting: boolean;
   error: string | null;
 }
 
 const initialState: PopupState = {
-  initial: true,
-  waiting: true,
   error: null,
 };
 

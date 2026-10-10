@@ -21,14 +21,12 @@ export default async ({
   stage,
   season,
 }: DrawRoute): Promise<LoadedDraw> => {
-  const potsPromise =
+  const [Page, { pots }] = await Promise.all([
+    getPage(tournament, stage),
     tournament === 'wc'
       ? getWcPots(season)
-      : getPotsFromBert(tournament, stage, season);
-
-  const Page = await getPage(tournament, stage);
-
-  const { pots } = await potsPromise;
+      : getPotsFromBert(tournament, stage, season),
+  ]);
 
   if (!isFirefox) {
     const teamsWithFlags = [

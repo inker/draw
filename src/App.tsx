@@ -1,7 +1,6 @@
-import { Suspense, lazy, memo, useEffect } from 'react';
+import { Suspense, lazy, memo } from 'react';
 import { constant } from 'lodash';
 
-import usePopup from '#store/usePopup';
 import useIsDarkMode from '#utils/hooks/useIsDarkMode';
 import { css, useGlobalStyle } from '#ui/GlobalStyle';
 
@@ -16,17 +15,7 @@ const Routes = lazy(
 );
 
 function App() {
-  const [popup, setPopup] = usePopup();
   const isDarkMode = useIsDarkMode();
-
-  useEffect(() => {
-    if (popup.initial && !popup.waiting) {
-      setPopup({
-        initial: false,
-      });
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [popup.waiting]);
 
   useGlobalStyle(css`
     :root {
@@ -35,12 +24,16 @@ function App() {
   `);
 
   return (
-    <>
-      <Popup />
-      <Suspense>
-        <Routes />
-      </Suspense>
-    </>
+    <Suspense
+      fallback={
+        <Popup
+          initial
+          waiting
+        />
+      }
+    >
+      <Routes />
+    </Suspense>
   );
 }
 
