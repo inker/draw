@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from '@tanstack/react-router';
 
-import drawRouteApi from '#routes/routeApi';
+import { drawRouteApi } from '#routes/routeApi';
 import useDrawId from '#store/useDrawId';
 import useDidUpdate from '#utils/hooks/useDidUpdate';
 import createPrngGenerator from '#utils/prng/generator';

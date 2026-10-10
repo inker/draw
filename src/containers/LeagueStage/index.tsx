@@ -27,6 +27,9 @@ import ScheduleCreationDescription from './ScheduleCreationDescription';
 import OpponentList from './OpponentList';
 import * as styles from './styles.module.css';
 
+const getNavbarLeftContainer = () =>
+  document.getElementById('navbar-left-container')!;
+
 interface Props {
   tournament: Tournament;
   season: number;
@@ -279,7 +282,7 @@ function LeagueStage({ tournament, season, pots: initialPots }: Props) {
     <div className={styles.root}>
       <Portal
         tagName="div"
-        modalRoot={document.getElementById('navbar-left-container')!}
+        modalRoot={getNavbarLeftContainer}
       >
         <Button
           type="button"

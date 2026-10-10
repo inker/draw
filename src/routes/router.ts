@@ -22,6 +22,9 @@ import config from '../config';
 
 import routerHistory from './history';
 import Routing from './Routing';
+import Pages from './Pages';
+import LoadError from './Pages/LoadError';
+import loadDraw from './Pages/loadDraw';
 
 const rawParamsSchema = z.object({
   tournament: withFallback(z.enum(validTournaments), config.defaultTournament),
@@ -74,7 +77,25 @@ const drawRoute = createRoute({
   ),
 });
 
-const routeTree = rootRoute.addChildren([drawRoute]);
+const pageRoute = createRoute({
+  path: '/',
+  component: Pages,
+  errorComponent: LoadError,
+  getParentRoute: () => drawRoute,
+  // A new draw starts from scratch rather than carrying over the last one's state
+  remountDeps: ({ params }) => params,
+  loader: ({ params }) => loadDraw(params),
+  onError: err => {
+    console.error(err);
+  },
+  // The data never changes,
+  // but leaving a draw drops it so coming back loads it again,
+  // which is what turns fast mode off
+  staleTime: Infinity,
+  gcTime: 0,
+});
+
+const routeTree = rootRoute.addChildren([drawRoute.addChildren([pageRoute])]);
 
 const router = createRouter({
   history: routerHistory,

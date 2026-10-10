@@ -1,6 +1,6 @@
 import { memo } from 'react';
 
-import drawRouteApi from '../routeApi';
+import { drawRouteApi } from '../routeApi';
 
 import data from './data';
 

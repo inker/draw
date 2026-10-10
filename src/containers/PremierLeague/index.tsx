@@ -16,6 +16,9 @@ import ScheduleCreationDescription from './ScheduleCreationDescription';
 import getClubIconUrl from './getClubIconUrl';
 import * as styles from './styles.module.css';
 
+const getNavbarLeftContainer = () =>
+  document.getElementById('navbar-left-container')!;
+
 interface Props {
   pots: readonly (readonly Team[])[];
 }
@@ -111,7 +114,7 @@ function PremierLeague({ pots }: Props) {
     <div className={styles.root}>
       <Portal
         tagName="div"
-        modalRoot={document.getElementById('navbar-left-container')!}
+        modalRoot={getNavbarLeftContainer}
       >
         <Button
           type="button"

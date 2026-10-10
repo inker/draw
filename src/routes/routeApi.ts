@@ -1,3 +1,7 @@
 import { getRouteApi } from '@tanstack/react-router';
 
-export default getRouteApi('/{-$tournament}/{-$stage}/{-$season}');
+export const drawRouteApi = getRouteApi('/{-$tournament}/{-$stage}/{-$season}');
+
+export const pageRouteApi = getRouteApi(
+  '/{-$tournament}/{-$stage}/{-$season}/',
+);

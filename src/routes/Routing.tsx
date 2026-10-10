@@ -1,4 +1,11 @@
-import { memo, useCallback } from 'react';
+import {
+  memo,
+  startTransition,
+  useCallback,
+  useEffect,
+  useOptimistic,
+} from 'react';
+import { Outlet, useRouterState } from '@tanstack/react-router';
 import clsx from 'clsx';
 
 import resolveDrawRoute, {
@@ -10,32 +17,48 @@ import usePopup from '#store/usePopup';
 
 import HeadMetadata from './HeadMetadata';
 import Navbar from './Navbar';
-import Pages from './Pages';
-import drawRouteApi from './routeApi';
+import { drawRouteApi } from './routeApi';
 
 function Routing() {
   const navigate = drawRouteApi.useNavigate();
   const route = drawRouteApi.useParams();
 
-  const [popup] = usePopup();
+  const isLoading = useRouterState({
+    select: state => state.isLoading,
+  });
+
+  // The router keeps showing the draw being left until the next one has loaded,
+  // so without this the selects would jump back to it in the meantime
+  const [shownRoute, setShownRoute] = useOptimistic(route);
+
+  const [popup, setPopup] = usePopup();
+
+  useEffect(() => {
+    setPopup({
+      waiting: isLoading,
+    });
+  }, [isLoading, setPopup]);
 
   const onChange = useCallback(
     (change: Partial<RequestedDrawRoute>) => {
       const next = resolveDrawRoute(availability, {
-        tournament: route.tournament,
-        slot: stageToSlot(route.stage),
-        season: route.season,
+        tournament: shownRoute.tournament,
+        slot: stageToSlot(shownRoute.stage),
+        season: shownRoute.season,
         ...change,
       });
 
       if (next) {
-        navigate({
-          to: '.',
-          params: next,
+        startTransition(async () => {
+          setShownRoute(next);
+          await navigate({
+            to: '.',
+            params: next,
+          });
         });
       }
     },
-    [route, navigate],
+    [shownRoute, setShownRoute, navigate],
   );
 
   return (
@@ -43,10 +66,10 @@ function Routing() {
       <HeadMetadata />
       <Navbar
         className={clsx(popup.initial && 'v-hidden')}
-        route={route}
+        route={shownRoute}
         onChange={onChange}
       />
-      <Pages route={route} />
+      <Outlet />
     </>
   );
 }

@@ -13,7 +13,11 @@ type TagName = keyof HTMLElementTagNameMap | keyof SVGElementTagNameMap;
 interface Props {
   children: React.ReactNode;
   tagName: TagName;
-  modalRoot: Element;
+  /**
+   * A function is called once mounted rather than during render,
+   * for a root that may not be in the DOM until the same commit
+   */
+  modalRoot: Element | (() => Element);
 }
 
 const Portal = ({ tagName, modalRoot, children }: Props) => {
@@ -36,7 +40,8 @@ const Portal = ({ tagName, modalRoot, children }: Props) => {
     // DOM node, or uses 'autoFocus' in a descendant, add
     // state to Modal and only render the children when Modal
     // is inserted in the DOM tree.
-    modalRoot.append(el);
+    const root = typeof modalRoot === 'function' ? modalRoot() : modalRoot;
+    root.append(el);
     return () => {
       el.remove();
     };
