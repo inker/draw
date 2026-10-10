@@ -1,13 +1,8 @@
 import type Tournament from '#model/Tournament';
-import { isValidTournament } from '#model/Tournament';
 import type Stage from '#model/Stage';
-import { isValidStage } from '#model/Stage';
 import type Availability from '#model/Availability';
 import type DrawSlot from '#model/DrawSlot';
-import { stageToSlot } from '#model/DrawSlot';
 import seasonsForSlot from '#model/seasonsForSlot';
-
-import config from '../config';
 
 export interface DrawRoute {
   tournament: Tournament;
@@ -17,16 +12,13 @@ export interface DrawRoute {
 
 /**
  * A draw as asked for by a URL or by one of the selects,
- * where any part may be missing or may name something that never existed
+ * where the season may be missing or may not have had this draw
  */
 export interface RequestedDrawRoute {
-  tournament?: string;
-  stage?: string;
-  slot?: DrawSlot;
+  tournament: Tournament;
+  slot: DrawSlot;
   season?: number;
 }
-
-const { defaultTournament } = config;
 
 /**
  * `seasons` is newest first, so a season equidistant from two of them resolves to the newer
@@ -59,19 +51,9 @@ export default (
   availability: Availability,
   requested: RequestedDrawRoute,
 ): DrawRoute | null => {
-  const tournament =
-    requested.tournament !== undefined &&
-    isValidTournament(requested.tournament)
-      ? requested.tournament
-      : defaultTournament;
+  const { tournament, slot, season: requestedSeason } = requested;
 
-  const requestedSlot =
-    requested.slot ??
-    (requested.stage !== undefined && isValidStage(requested.stage)
-      ? stageToSlot(requested.stage)
-      : 'main');
-
-  const bySeason = seasonsForSlot(availability, tournament, requestedSlot);
+  const bySeason = seasonsForSlot(availability, tournament, slot);
 
   // A tournament that never had a knockout draw of its own falls back to its main draw
   // rather than dead-ending on an empty season list
@@ -85,7 +67,7 @@ export default (
     return null;
   }
 
-  const season = nearestSeason(seasons, requested.season);
+  const season = nearestSeason(seasons, requestedSeason);
   const stage = resolved.get(season);
 
   return stage === undefined

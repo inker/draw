@@ -21,7 +21,7 @@ import * as styles from './styles.module.css';
 interface Props {
   route: DrawRoute;
   className?: string;
-  onChange: (change: RequestedDrawRoute) => void;
+  onChange: (change: Partial<RequestedDrawRoute>) => void;
 }
 
 function Navbar({ route, className, onChange }: Props) {

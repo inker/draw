@@ -15,13 +15,16 @@ import {
 import resolveDrawRoute from '#model/resolveDrawRoute';
 import { validTournaments } from '#model/Tournament';
 import { validStages } from '#model/Stage';
+import { stageToSlot } from '#model/DrawSlot';
 import availability from '#data/availability';
+
+import config from '../config';
 
 import routerHistory from './history';
 import Routing from './Routing';
 
 const rawParamsSchema = z.object({
-  tournament: withFallback(z.optional(z.enum(validTournaments)), undefined),
+  tournament: withFallback(z.enum(validTournaments), config.defaultTournament),
   stage: withFallback(z.optional(z.enum(validStages)), undefined),
   season: withFallback(z.optional(z.coerce.number()), undefined),
 });
@@ -33,8 +36,16 @@ const drawRoute = createRoute({
   component: Routing,
   getParentRoute: () => rootRoute,
   params: {
-    parse: raw =>
-      resolveDrawRoute(availability, rawParamsSchema.parse(raw)) ?? false,
+    parse: raw => {
+      const { tournament, stage, season } = rawParamsSchema.parse(raw);
+      return (
+        resolveDrawRoute(availability, {
+          tournament,
+          slot: stage ? stageToSlot(stage) : 'main',
+          season,
+        }) ?? false
+      );
+    },
     stringify: ({ season, ...rest }) => ({
       ...rest,
       season: String(season),

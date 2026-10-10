@@ -4,6 +4,7 @@ import clsx from 'clsx';
 import resolveDrawRoute, {
   type RequestedDrawRoute,
 } from '#model/resolveDrawRoute';
+import { stageToSlot } from '#model/DrawSlot';
 import availability from '#data/availability';
 import usePopup from '#store/usePopup';
 
@@ -19,9 +20,11 @@ function Routing() {
   const [popup] = usePopup();
 
   const onChange = useCallback(
-    (change: RequestedDrawRoute) => {
+    (change: Partial<RequestedDrawRoute>) => {
       const next = resolveDrawRoute(availability, {
-        ...route,
+        tournament: route.tournament,
+        slot: stageToSlot(route.stage),
+        season: route.season,
         ...change,
       });
 

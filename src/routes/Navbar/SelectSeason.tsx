@@ -1,5 +1,6 @@
 import { memo, useCallback, useMemo } from 'react';
 
+import type Tournament from '#model/Tournament';
 import { validTournaments } from '#model/Tournament';
 import type Stage from '#model/Stage';
 import type DrawSlot from '#model/DrawSlot';
@@ -25,7 +26,7 @@ const stageNames = {
 
 interface Props {
   route: DrawRoute;
-  onChange: (change: RequestedDrawRoute) => void;
+  onChange: (change: Partial<RequestedDrawRoute>) => void;
 }
 
 function SelectSeason({ route, onChange }: Props) {
@@ -64,7 +65,7 @@ function SelectSeason({ route, onChange }: Props) {
   const onTournamentChange = useCallback(
     (e: React.ChangeEvent<HTMLSelectElement>) => {
       onChange({
-        tournament: e.target.value,
+        tournament: e.target.value as Tournament,
       });
     },
     [onChange],
