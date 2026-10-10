@@ -44,6 +44,7 @@
     "test": "vitest"
   },
   "dependencies": {
+    "@tanstack/history": "1.162.4",
     "@tanstack/react-router": "^1.170.38",
     "bowser": "^2.11.0",
     "clsx": "^2.1.1",
