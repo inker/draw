@@ -415,9 +415,8 @@ export default ({
   // each with its location outside paired pot mode.
   // A team has at most 2 open games against a pot (home & away),
   // so twice the number of teams always fits.
-  // Int32 rather than Uint8,
-  // so team indices need no cap of their own the way countryByTeam does.
-  const openGameTeams = new Int32Array(numTeams * 2);
+  // Team indices fit in Uint8, since a league phase has 36 teams.
+  const openGameTeams = new Uint8Array(numTeams * 2);
   const isOpenGameHome = new Uint8Array(numTeams * 2);
   // How many more games against the country an opponent can take: 0 to 2
   const roomByOpponent = new Uint8Array(numTeams);
