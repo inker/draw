@@ -680,12 +680,20 @@ export default ({
       : a === slot.team && potByTeam(h) === slot.opponentPot;
   });
 
-  return candidateMatchesForSlot.find(match => {
+  const pickedMatch = candidateMatchesForSlot.find(match => {
     apply(match);
     const solved = findFirstSolutionMutable(options);
     if (!solved) {
       undo(match);
     }
     return solved;
-  })!;
+  });
+  // no candidate means the slot is out of range, already filled,
+  // or the draw so far can't complete
+  if (!pickedMatch) {
+    throw new Error(
+      `No game fills slot team=${slot.team} opponentPot=${slot.opponentPot} isHome=${slot.isHome}`,
+    );
+  }
+  return pickedMatch;
 };
