@@ -1,17 +1,14 @@
 import { findFirstSolutionMutable } from '#utils/backtrack';
 import lowDiscrepancySequence from '#utils/lowDiscrepancySequence';
-import { type Country } from '#model/types';
 
-interface Team {
-  readonly country: Country;
-}
+import makeRule, { type RuleSpec, combineRules } from './rules';
 
 // bit pot * 2 = has played the pot at home, bit pot * 2 + 1 = away
 const homeBit = (pot: number) => 1 << (pot * 2);
 const awayBit = (pot: number) => 1 << (pot * 2 + 1);
 
 export default ({
-  teams,
+  rules,
   numPots,
   numTeamsPerPot,
   numMatchdays,
@@ -22,7 +19,11 @@ export default ({
   randomSeed = 0,
   slot,
 }: {
-  teams: readonly Team[];
+  /**
+   * Rules beyond the pot & home/away structure,
+   * e.g. a cap on opponents from one country
+   */
+  rules: readonly RuleSpec[];
   numPots: number;
   numTeamsPerPot: number;
   numMatchdays: number;
@@ -44,7 +45,7 @@ export default ({
     isHome: boolean;
   };
 }) => {
-  const numTeams = teams.length;
+  const numTeams = numPots * numTeamsPerPot;
   const numTotalGames = numMatchdays * numGamesPerMatchday;
   const maxGamesAtHome = Math.ceil(numMatchdays / 2);
   const maxSameLocMatchesPerPot = isPairedPotMode
@@ -52,14 +53,6 @@ export default ({
     : numTeamsPerPot;
 
   const potByTeam = (team: number) => Math.floor(team / numTeamsPerPot);
-
-  const countryIndices = new Map<Country, number>();
-  for (const team of teams) {
-    if (!countryIndices.has(team.country)) {
-      countryIndices.set(team.country, countryIndices.size);
-    }
-  }
-  const numCountries = countryIndices.size;
 
   // The fixed-width typed arrays below cap the input dimensions.
   // playedWithPotMask packs two bits per pot (home & away) into a Uint16,
@@ -69,24 +62,11 @@ export default ({
       `numPots=${numPots} exceeds 8: playedWithPotMask is a 16-bit mask with 2 bits per pot`,
     );
   }
-  // countryByTeam stores a country index in a Uint8.
-  if (numCountries > 256) {
-    throw new Error(
-      `numCountries=${numCountries} exceeds 256: countryByTeam is a Uint8Array of country indices`,
-    );
-  }
   // numGamesByPotPair counts up to maxSameLocMatchesPerPot & the per-team
   // home/away counters up to maxGamesAtHome, all Uint8.
   if (maxSameLocMatchesPerPot > 255 || maxGamesAtHome > 255) {
     throw new Error(
       `Uint8 counters overflow: maxSameLocMatchesPerPot=${maxSameLocMatchesPerPot}, maxGamesAtHome=${maxGamesAtHome}`,
-    );
-  }
-  // openGameTeams stores a team index & numTeamsByCountry a team count,
-  // both in a Uint8.
-  if (numTeams > 255) {
-    throw new Error(
-      `numTeams=${numTeams} exceeds 255: openGameTeams & numTeamsByCountry are Uint8Arrays`,
     );
   }
   // Paired pot mode reads a pot pair as pot & pot + 1,
@@ -102,15 +82,6 @@ export default ({
     throw new Error(
       `numTeamsPerPot=${numTeamsPerPot} is odd: paired pot mode caps each pot pair at half a pot`,
     );
-  }
-
-  const countryByTeam = new Uint8Array(numTeams);
-  for (const [i, team] of teams.entries()) {
-    countryByTeam[i] = countryIndices.get(team.country)!;
-  }
-  const numTeamsByCountry = new Uint8Array(numCountries);
-  for (const country of countryByTeam) {
-    ++numTeamsByCountry[country];
   }
 
   /**
@@ -137,8 +108,6 @@ export default ({
   const numGamesByPotPair = new Uint8Array(numPots * numPots);
   const numHomeGamesByTeam = new Uint8Array(numTeams);
   const numAwayGamesByTeam = new Uint8Array(numTeams);
-  const numHomeOpponentsFromCountry = new Uint8Array(numTeams * numCountries);
-  const numAwayOpponentsFromCountry = new Uint8Array(numTeams * numCountries);
   const playedWithPotMask = new Uint16Array(numTeams);
   const hasPlayedPair = new Uint8Array(numTeams * numTeams);
 
@@ -150,8 +119,7 @@ export default ({
     ++numGamesByPotPair[hp * numPots + ap];
     ++numHomeGamesByTeam[h];
     ++numAwayGamesByTeam[a];
-    ++numHomeOpponentsFromCountry[h * numCountries + countryByTeam[a]];
-    ++numAwayOpponentsFromCountry[a * numCountries + countryByTeam[h]];
+    rule.apply(h, a);
     playedWithPotMask[h] |= homeBit(ap);
     playedWithPotMask[a] |= awayBit(hp);
     hasPlayedPair[h * numTeams + a] = 1;
@@ -165,18 +133,13 @@ export default ({
     --numGamesByPotPair[hp * numPots + ap];
     --numHomeGamesByTeam[h];
     --numAwayGamesByTeam[a];
-    --numHomeOpponentsFromCountry[h * numCountries + countryByTeam[a]];
-    --numAwayOpponentsFromCountry[a * numCountries + countryByTeam[h]];
+    rule.undo(h, a);
     playedWithPotMask[h] &= ~homeBit(ap);
     playedWithPotMask[a] &= ~awayBit(hp);
     hasPlayedPair[h * numTeams + a] = 0;
     hasPlayedPair[a * numTeams + h] = 0;
     --numAllocated;
   };
-
-  for (const m of allocatedMatches) {
-    apply(m);
-  }
 
   const canPlay = (h: number, a: number) => {
     // Ensure the teams play same number of games at home & away
@@ -222,24 +185,34 @@ export default ({
       }
     }
 
-    if (
-      numHomeOpponentsFromCountry[h * numCountries + countryByTeam[a]] +
-        numAwayOpponentsFromCountry[h * numCountries + countryByTeam[a]] ===
-      2
-    ) {
-      return false;
-    }
-
-    if (
-      numHomeOpponentsFromCountry[a * numCountries + countryByTeam[h]] +
-        numAwayOpponentsFromCountry[a * numCountries + countryByTeam[h]] ===
-      2
-    ) {
+    if (!rule.allows(h, a)) {
       return false;
     }
 
     return true;
   };
+
+  // one combined rule rather than a loop over them,
+  // since canPlay runs at every feasibility check
+  const rule = combineRules(
+    rules.map(spec =>
+      makeRule(spec, {
+        numTeams,
+        numPots,
+        numTeamsPerPot,
+        isPairedPotMode,
+        playedWithPotMask,
+        hasPlayedPair,
+        awayTeamsByHomeTeamAndPot,
+        homeTeamsByAwayTeamAndPot,
+        canPlay,
+      }),
+    ),
+  );
+
+  for (const m of allocatedMatches) {
+    apply(m);
+  }
 
   const isHomeTeamEligible = (team: number, awayPot: number) => {
     const mask = playedWithPotMask[team];
@@ -418,135 +391,6 @@ export default ({
     return false;
   };
 
-  const teamsByCountry = Array.from(
-    {
-      length: numCountries,
-    },
-    () => [] as number[],
-  );
-  for (const [team, country] of countryByTeam.entries()) {
-    teamsByCountry[country].push(team);
-  }
-  // a single team's slots are already covered by hasUncoverableSlot
-  const countriesWithManyTeams = [...teamsByCountry.keys()].filter(
-    country => teamsByCountry[country].length > 1,
-  );
-
-  // Open games of one country's teams against one pot,
-  // each with its location outside paired pot mode.
-  // A team has at most 2 open games against a pot (home & away),
-  // so twice the number of teams always fits.
-  // Team indices fit in Uint8, since a league phase has 36 teams.
-  const openGameTeams = new Uint8Array(numTeams * 2);
-  const isOpenGameHome = new Uint8Array(numTeams * 2);
-  // How many more games against the country an opponent can take: 0 to 2
-  const roomByOpponent = new Uint8Array(numTeams);
-  const openGamesByOpponent = Array.from(
-    {
-      length: numTeams,
-    },
-    () => [] as number[],
-  );
-  const isOpponentVisited = new Uint8Array(numTeams);
-  let openGamePot = 0;
-
-  const tryOpponent = (game: number, opponent: number): boolean => {
-    if (isOpponentVisited[opponent]) {
-      return false;
-    }
-    isOpponentVisited[opponent] = 1;
-    const games = openGamesByOpponent[opponent];
-    if (games.length < roomByOpponent[opponent]) {
-      games.push(game);
-      return true;
-    }
-    for (let k = 0; k < games.length; ++k) {
-      const other = games[k];
-      games[k] = game;
-      if (assignOpenGame(other)) {
-        return true;
-      }
-      games[k] = other;
-    }
-    return false;
-  };
-
-  const assignOpenGame = (game: number) => {
-    const team = openGameTeams[game];
-    if (isPairedPotMode || isOpenGameHome[game]) {
-      for (const a of awayTeamsByHomeTeamAndPot[team * numPots + openGamePot]) {
-        if (
-          !hasPlayedPair[team * numTeams + a] &&
-          canPlay(team, a) &&
-          tryOpponent(game, a)
-        ) {
-          return true;
-        }
-      }
-    }
-    if (isPairedPotMode || !isOpenGameHome[game]) {
-      for (const h of homeTeamsByAwayTeamAndPot[team * numPots + openGamePot]) {
-        if (
-          !hasPlayedPair[team * numTeams + h] &&
-          canPlay(h, team) &&
-          tryOpponent(game, h)
-        ) {
-          return true;
-        }
-      }
-    }
-    return false;
-  };
-
-  // A pot's teams can only take so many games from one country between them,
-  // which no check of a single team or slot sees.
-  // E.g. 6 English teams needing 12 games against the 6 other pot 1 teams
-  // leave each of those facing exactly 2 English teams,
-  // so one that has filled its slots with none is a dead end.
-  const hasOverbookedCountry = () => {
-    for (const country of countriesWithManyTeams) {
-      for (let pot = 0; pot < numPots; ++pot) {
-        openGamePot = pot;
-        let numOpenGames = 0;
-        for (const team of teamsByCountry[country]) {
-          const mask = playedWithPotMask[team];
-          if (isPairedPotMode) {
-            if (!(mask & (homeBit(pot) | awayBit(pot)))) {
-              openGameTeams[numOpenGames] = team;
-              ++numOpenGames;
-            }
-            continue;
-          }
-          if (!(mask & homeBit(pot))) {
-            openGameTeams[numOpenGames] = team;
-            isOpenGameHome[numOpenGames] = 1;
-            ++numOpenGames;
-          }
-          if (!(mask & awayBit(pot))) {
-            openGameTeams[numOpenGames] = team;
-            isOpenGameHome[numOpenGames] = 0;
-            ++numOpenGames;
-          }
-        }
-        for (let i = 0; i < numTeamsPerPot; ++i) {
-          const team = pot * numTeamsPerPot + i;
-          roomByOpponent[team] =
-            2 -
-            numHomeOpponentsFromCountry[team * numCountries + country] -
-            numAwayOpponentsFromCountry[team * numCountries + country];
-          openGamesByOpponent[team].length = 0;
-        }
-        for (let game = 0; game < numOpenGames; ++game) {
-          isOpponentVisited.fill(0);
-          if (!assignOpenGame(game)) {
-            return true;
-          }
-        }
-      }
-    }
-    return false;
-  };
-
   // in paired pot mode a slot spans both pots of a pair
   const numPotsPerSlot = isPairedPotMode ? 2 : 1;
 
@@ -585,11 +429,7 @@ export default ({
   const nextRandom = lowDiscrepancySequence(randomSeed);
 
   const getCandidates = (): readonly (readonly [number, number])[] => {
-    if (
-      hasUndersuppliedBlock() ||
-      hasUncoverableSlot() ||
-      hasOverbookedCountry()
-    ) {
+    if (hasUndersuppliedBlock() || hasUncoverableSlot() || rule.isDeadEnd()) {
       return [];
     }
 
@@ -631,7 +471,7 @@ export default ({
     // The chosen slot has to be filled,
     // so branching over all its feasible opponents keeps the search complete.
 
-    // opponents: hardest country first,
+    // opponents: hardest to place under the rules first,
     // then the most constrained opponent, ties broken the same way
     const scoredGames: (readonly [number, number])[] = [];
     for (let pot = slotPot; pot < slotPot + numPotsPerSlot; ++pot) {
@@ -647,7 +487,7 @@ export default ({
         }
         const numGamesPlayed = numHomeGamesByTeam[o] + numAwayGamesByTeam[o];
         const score =
-          -numTeamsByCountry[countryByTeam[o]] * 100 -
+          -rule.getOpponentPriority(o) * 100 -
           numGamesPlayed +
           nextRandom() * 0.5;
         scoredGames.push([o, score]);

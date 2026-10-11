@@ -12,6 +12,7 @@ import bannedFixtures from '#engine/predicates/uefa/utils/bannedFixtures';
 
 import generateFull from './generateFull';
 import getFirstSuitableMatch from './getFirstSuitableMatch.wrapper';
+import { type RuleSpec } from './rules';
 
 interface Team {
   readonly name: string;
@@ -70,6 +71,16 @@ export default async function* generatePairings({
     return !isImpossible;
   });
 
+  const countries = [...new Set(teams.map(team => team.country))];
+  const rules = [
+    {
+      kind: 'opponentCap',
+      groupByTeam: teams.map(team => countries.indexOf(team.country)),
+      // UEFA lets a team face at most 2 opponents from one country
+      maxByGroup: countries.map(() => 2),
+    },
+  ] satisfies RuleSpec[];
+
   const workerManager = new WorkerManager({
     maker: () =>
       new Worker(new URL('./getFirstSuitableMatch.worker', import.meta.url)),
@@ -114,7 +125,7 @@ export default async function* generatePairings({
       const randomSeed = await prngFloat(prngGenerator);
 
       const payload = {
-        teams,
+        rules,
         numPots,
         numTeamsPerPot,
         numMatchdays,
