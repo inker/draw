@@ -82,6 +82,27 @@ export default ({
       `Uint8 counters overflow: maxSameLocMatchesPerPot=${maxSameLocMatchesPerPot}, maxGamesAtHome=${maxGamesAtHome}`,
     );
   }
+  // openGameTeams stores a team index & numTeamsByCountry a team count,
+  // both in a Uint8.
+  if (numTeams > 255) {
+    throw new Error(
+      `numTeams=${numTeams} exceeds 255: openGameTeams & numTeamsByCountry are Uint8Arrays`,
+    );
+  }
+  // Paired pot mode reads a pot pair as pot & pot + 1,
+  // so an odd last pot would read past the end of the arrays.
+  if (isPairedPotMode && numPots % 2 !== 0) {
+    throw new Error(
+      `numPots=${numPots} is odd: paired pot mode needs pots in pairs`,
+    );
+  }
+  // Half a pot has to be a whole number,
+  // or canPlay never sees a pot pair reach maxSameLocMatchesPerPot.
+  if (isPairedPotMode && numTeamsPerPot % 2 !== 0) {
+    throw new Error(
+      `numTeamsPerPot=${numTeamsPerPot} is odd: paired pot mode caps each pot pair at half a pot`,
+    );
+  }
 
   const countryByTeam = new Uint8Array(numTeams);
   for (const [i, team] of teams.entries()) {
