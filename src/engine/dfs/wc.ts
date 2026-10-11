@@ -46,6 +46,7 @@ export default ({
   const teamIndices = new Map(teams.map((team, i) => [team, i]));
 
   const confIndices = new Map<Confederation, number>();
+  // One bit for each of the 6 confederations
   const confMaskByTeam = new Uint8Array(numTeams);
   for (const [i, team] of teams.entries()) {
     for (const conf of getConfederations(team)) {
@@ -57,6 +58,7 @@ export default ({
   }
   const numConfs = confIndices.size;
 
+  // UEFA has the most berths at 16
   const numBerthsByConf = new Uint8Array(numConfs);
   for (const confMask of confMaskByTeam) {
     for (let c = 0; c < numConfs; ++c) {
@@ -69,6 +71,7 @@ export default ({
     v => v % numGroups || numGroups,
   );
 
+  // Signed for -1, meaning unranked
   const rankByTeam = new Int8Array(numTeams).fill(-1);
   let quarterByGroup: Int8Array | null = null;
   if (season === 2026) {
@@ -94,10 +97,13 @@ export default ({
       rankByTeam[teams.findIndex(t => t.name === name)] = rank;
     }
   }
+  // One per top-ranked team, signed for -1 while that team is unplaced
   const groupByRank = new Int8Array(4).fill(-1);
 
+  // Counts never exceed the group size of 4
   const numTeamsByGroupAndConf = new Uint8Array(numGroups * numConfs);
   const numTeamsByGroup = new Uint8Array(numGroups);
+  // One bit for each of the 4 pots
   const potMaskByGroup = new Uint8Array(numGroups);
   const numMaxedOutGroupsByConf = new Uint8Array(numConfs);
 
@@ -197,6 +203,7 @@ export default ({
   );
   const isPlaced = new Uint8Array(freeTeams.length);
   let numPlaced = 0;
+  // One bit for each group, 12 of them in 2026
   const groupMaskByFreeTeam = new Uint16Array(freeTeams.length);
   const freeTeamsByPot = pots.map(() => [] as number[]);
   for (const [i, { pot }] of freeTeams.entries()) {
@@ -232,6 +239,9 @@ export default ({
   // Which teams are left only matters by type,
   // & which group is which only matters by its contents (plus its quarter for the ranking),
   // so one dead end stands in for every arrangement that differs only in those
+  // Float64 rather than Int32,
+  // so a signature stays exact rather than wrapping round
+  // if more confederations or pots push it past 32 bits
   const groupSignatures = new Float64Array(numGroups);
   const getStateKey = () => {
     const isRankingPending = !!quarterByGroup && groupByRank.includes(-1);
@@ -245,6 +255,8 @@ export default ({
     return `${numFreeTeamsByType}|${groupSignatures}|${rankQuarters}`;
   };
 
+  // Signed for -1, meaning no team matched yet.
+  // Free team indices stay under 48, well inside Int8.
   const freeTeamByGroup = new Int8Array(numGroups);
   let visitedGroupMask = 0;
 
