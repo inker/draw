@@ -1,7 +1,7 @@
 import { findFirstSolutionMutable } from '#utils/backtrack';
 import lowDiscrepancySequence from '#utils/lowDiscrepancySequence';
 
-import makeRule, { type RuleSpec, combineRules } from './rules';
+import makeRules, { type RuleSpec } from './rules';
 
 // bit pot * 2 = has played the pot at home, bit pot * 2 + 1 = away
 const homeBit = (pot: number) => 1 << (pot * 2);
@@ -192,23 +192,20 @@ export default ({
     return true;
   };
 
-  // one combined rule rather than a loop over them,
-  // since canPlay runs at every feasibility check
-  const rule = combineRules(
-    rules.map(spec =>
-      makeRule(spec, {
-        numTeams,
-        numPots,
-        numTeamsPerPot,
-        isPairedPotMode,
-        playedWithPotMask,
-        hasPlayedPair,
-        awayTeamsByHomeTeamAndPot,
-        homeTeamsByAwayTeamAndPot,
-        canPlay,
-      }),
-    ),
-  );
+  // apply, undo & canPlay above call the rule only once this has run.
+  // It's built after canPlay, which the rules take to check games,
+  // & before the first apply, which updates them.
+  const rule = makeRules(rules, {
+    numTeams,
+    numPots,
+    numTeamsPerPot,
+    isPairedPotMode,
+    playedWithPotMask,
+    hasPlayedPair,
+    awayTeamsByHomeTeamAndPot,
+    homeTeamsByAwayTeamAndPot,
+    canPlay,
+  });
 
   for (const m of allocatedMatches) {
     apply(m);
@@ -520,12 +517,32 @@ export default ({
       : a === slot.team && potByTeam(h) === slot.opponentPot;
   });
 
+  // Only filter needs the search's games undone after a success,
+  // since find stops at the first game that works.
+  // Kept so find can be swapped for filter
+  // to list every game that fills the slot.
+  const appliedMatches: (readonly [number, number])[] = [];
+  const recordingOptions = {
+    ...options,
+    apply: (match: readonly [number, number]) => {
+      apply(match);
+      appliedMatches.push(match);
+    },
+    undo: (match: readonly [number, number]) => {
+      undo(match);
+      appliedMatches.pop();
+    },
+  };
+
   const pickedMatch = candidateMatchesForSlot.find(match => {
     apply(match);
-    const solved = findFirstSolutionMutable(options);
-    if (!solved) {
-      undo(match);
+    const solved = findFirstSolutionMutable(recordingOptions);
+    // put back the draw the search left applied,
+    // so the next candidate starts from the same state
+    while (appliedMatches.length > 0) {
+      undo(appliedMatches.pop()!);
     }
+    undo(match);
     return solved;
   });
   // no candidate means the slot is out of range, already filled,

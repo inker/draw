@@ -5,7 +5,7 @@ import { type Rule, type RuleContext, type RuleSpec } from './types';
 
 export type { Rule, RuleContext, RuleSpec } from './types';
 
-export default (spec: RuleSpec, context: RuleContext): Rule => {
+const makeRule = (spec: RuleSpec, context: RuleContext): Rule => {
   switch (spec.kind) {
     case 'opponentCap':
       return makeOpponentCap(spec, context);
@@ -42,3 +42,6 @@ export const combineRules = (rules: readonly Rule[]): Rule => {
       sumBy(rules, rule => rule.getOpponentPriority(team)),
   };
 };
+
+export default (specs: readonly RuleSpec[], context: RuleContext): Rule =>
+  combineRules(specs.map(spec => makeRule(spec, context)));

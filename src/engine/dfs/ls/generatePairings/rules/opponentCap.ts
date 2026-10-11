@@ -64,6 +64,9 @@ export default (
     ++numTeamsByGroup[group];
   }
 
+  // Home & away counts are kept apart although only their sum is read,
+  // so a cap per location (e.g. 1 home & 1 away from a country)
+  // can be added as a flag rather than by splitting the counters.
   // Counts never exceed a team's games at home or away,
   // which the solver caps at 255.
   const numHomeOpponentsFromGroup = new Uint8Array(numTeams * numGroups);

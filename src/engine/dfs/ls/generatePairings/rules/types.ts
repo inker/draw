@@ -28,6 +28,11 @@ export interface RuleContext {
   numPots: number;
   numTeamsPerPot: number;
   isPairedPotMode: boolean;
+  /**
+   * The solver's own bit mask rather than a function to read it,
+   * to keep calls out of a rule's dead-end check,
+   * which runs at every search step
+   */
   playedWithPotMask: Uint16Array;
   hasPlayedPair: Uint8Array;
   awayTeamsByHomeTeamAndPot: readonly (readonly number[])[];
