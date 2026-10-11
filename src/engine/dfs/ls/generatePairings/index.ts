@@ -28,7 +28,7 @@ export default async function* generatePairings({
   pots,
   numMatchdays,
   pickedTeamIndex,
-  virtualGeneratedMatches,
+  drawnMatches,
   signal,
 }: {
   prngGenerator: PrngGenerator;
@@ -37,7 +37,7 @@ export default async function* generatePairings({
   pots: readonly (readonly Team[])[];
   numMatchdays: number;
   pickedTeamIndex: number;
-  virtualGeneratedMatches: readonly (readonly [number, number])[];
+  drawnMatches: readonly (readonly [number, number])[];
   signal?: AbortSignal;
 }) {
   const numPots = pots.length;
@@ -47,15 +47,11 @@ export default async function* generatePairings({
   const numGamesPerMatchday = teams.length / 2;
 
   assertIndicesInRange([pickedTeamIndex], teams.length, 'pickedTeamIndex');
-  assertIndicesInRange(
-    virtualGeneratedMatches.flat(),
-    teams.length,
-    'virtualGeneratedMatches',
-  );
+  assertIndicesInRange(drawnMatches.flat(), teams.length, 'drawnMatches');
 
   const teamIndices = range(teams.length);
 
-  const allocatedMatches = [...virtualGeneratedMatches];
+  const allocatedMatches = [...drawnMatches];
 
   let allGames = generateFull(teamIndices);
 
@@ -147,7 +143,7 @@ export default async function* generatePairings({
         match: pickedMatch,
         // A snapshot, since the solver keeps appending to the original
         // after the caller has taken this one.
-        virtualGeneratedMatches: [...allocatedMatches],
+        drawnMatches: [...allocatedMatches],
       };
     }
   } finally {

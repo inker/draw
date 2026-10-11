@@ -64,9 +64,7 @@ function LeagueStage({ tournament, season, pots: initialPots }: Props) {
   const limitOne = useMemo(() => pLimit(1), []);
 
   const animationDurationMsRef = useRef(0);
-  const virtualGeneratedMatchesRef = useRef<
-    readonly (readonly [number, number])[]
-  >([]);
+  const drawnMatchesRef = useRef<readonly (readonly [number, number])[]>([]);
   const [currentPotIndex, setCurrentPotIndex] = useState(0);
   const [selectedTeam, setSelectedTeam] = useState<Team | null>(null);
   const [isGeneratingPairings, setIsGeneratingPairings] = useState(false);
@@ -131,14 +129,14 @@ function LeagueStage({ tournament, season, pots: initialPots }: Props) {
         pots,
         numMatchdays,
         pickedTeamIndex: selectedTeamIndex,
-        virtualGeneratedMatches: virtualGeneratedMatchesRef.current,
+        drawnMatches: drawnMatchesRef.current,
         signal: abortController.signal,
       });
 
       let hasStarted = false;
       const promises: Promise<void>[] = [];
       for await (const it of generator) {
-        virtualGeneratedMatchesRef.current = it.virtualGeneratedMatches;
+        drawnMatchesRef.current = it.drawnMatches;
         const set = () => {
           const [h, a] = it.match;
           setPairings(prev => [...prev, [allTeams[h], allTeams[a]] as const]);
