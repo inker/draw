@@ -236,13 +236,13 @@ export default ({
       : signature;
   };
 
-  // Which teams are left only matters by type,
-  // & which group is which only matters by its contents (plus its quarter for the ranking),
-  // so one dead end stands in for every arrangement that differs only in those
   // Float64 rather than Int32,
   // so a signature stays exact rather than wrapping round
   // if more confederations or pots push it past 32 bits
   const groupSignatures = new Float64Array(numGroups);
+  // Which teams are left only matters by type,
+  // & which group is which only matters by its contents (plus its quarter for the ranking),
+  // so one dead end stands in for every arrangement that differs only in those
   const getStateKey = () => {
     const isRankingPending = !!quarterByGroup && groupByRank.includes(-1);
     for (let gi = 0; gi < numGroups; ++gi) {

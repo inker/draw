@@ -20,6 +20,7 @@ export default ({
   allGames,
   allocatedMatches,
   randomSeed = 0,
+  slot,
 }: {
   teams: readonly Team[];
   numPots: number;
@@ -33,6 +34,15 @@ export default ({
    * Where in [0, 1) this solver's tie-breaking sequence starts
    */
   randomSeed?: number;
+  /**
+   * The picked team's game to draw: at home or away against a pot,
+   * where the location only counts outside paired pot mode
+   */
+  slot: {
+    team: number;
+    opponentPot: number;
+    isHome: boolean;
+  };
 }) => {
   const numTeams = teams.length;
   const numTotalGames = numMatchdays * numGamesPerMatchday;
@@ -208,15 +218,6 @@ export default ({
     }
 
     return true;
-  };
-
-  const findMinPotPair = () => {
-    for (let potPair = 0; potPair < numPots * numPots; ++potPair) {
-      if (numGamesByPotPair[potPair] < maxSameLocMatchesPerPot) {
-        return potPair;
-      }
-    }
-    return -1;
   };
 
   const isHomeTeamEligible = (team: number, awayPot: number) => {
@@ -396,73 +397,247 @@ export default ({
     return false;
   };
 
-  const nextRandom = lowDiscrepancySequence(randomSeed);
+  const teamsByCountry = Array.from(
+    {
+      length: numCountries,
+    },
+    () => [] as number[],
+  );
+  for (const [team, country] of countryByTeam.entries()) {
+    teamsByCountry[country].push(team);
+  }
+  // a single team's slots are already covered by hasUncoverableSlot
+  const countriesWithManyTeams = [...teamsByCountry.keys()].filter(
+    country => teamsByCountry[country].length > 1,
+  );
 
-  const getCandidates = (): readonly (readonly [number, number])[] => {
-    if (hasUndersuppliedBlock() || hasUncoverableSlot()) {
-      return [];
+  // Open games of one country's teams against one pot,
+  // each with its location outside paired pot mode.
+  // A team has at most 2 open games against a pot (home & away),
+  // so twice the number of teams always fits.
+  // Int32 rather than Uint8,
+  // so team indices need no cap of their own the way countryByTeam does.
+  const openGameTeams = new Int32Array(numTeams * 2);
+  const isOpenGameHome = new Uint8Array(numTeams * 2);
+  // How many more games against the country an opponent can take: 0 to 2
+  const roomByOpponent = new Uint8Array(numTeams);
+  const openGamesByOpponent = Array.from(
+    {
+      length: numTeams,
+    },
+    () => [] as number[],
+  );
+  const isOpponentVisited = new Uint8Array(numTeams);
+  let openGamePot = 0;
+
+  const tryOpponent = (game: number, opponent: number): boolean => {
+    if (isOpponentVisited[opponent]) {
+      return false;
     }
-
-    // active pot pair: first unfilled one
-    const potPair = findMinPotPair();
-    const homePot = Math.floor(potPair / numPots);
-    const awayPot = potPair % numPots;
-
-    // home team: hardest country to place first
-    // ties broken off the seeded sequence,
-    // which carries on across restarts so each one explores a new region
-    let homeTeam = -1;
-    let homeTeamScore = -1;
-    let numTies = 1;
-    for (let i = 0; i < numTeamsPerPot; ++i) {
-      const team = homePot * numTeamsPerPot + i;
-      if (!isHomeTeamEligible(team, awayPot)) {
-        continue;
+    isOpponentVisited[opponent] = 1;
+    const games = openGamesByOpponent[opponent];
+    if (games.length < roomByOpponent[opponent]) {
+      games.push(game);
+      return true;
+    }
+    for (let k = 0; k < games.length; ++k) {
+      const other = games[k];
+      games[k] = game;
+      if (assignOpenGame(other)) {
+        return true;
       }
-      const score = numTeamsByCountry[countryByTeam[team]];
-      if (score > homeTeamScore) {
-        homeTeam = team;
-        homeTeamScore = score;
-        numTies = 1;
-      } else if (score === homeTeamScore) {
-        ++numTies;
-        if (nextRandom() * numTies < 1) {
-          homeTeam = team;
+      games[k] = other;
+    }
+    return false;
+  };
+
+  const assignOpenGame = (game: number) => {
+    const team = openGameTeams[game];
+    if (isPairedPotMode || isOpenGameHome[game]) {
+      for (const a of awayTeamsByHomeTeamAndPot[team * numPots + openGamePot]) {
+        if (
+          !hasPlayedPair[team * numTeams + a] &&
+          canPlay(team, a) &&
+          tryOpponent(game, a)
+        ) {
+          return true;
         }
       }
     }
-    // no eligible home team makes this pot pair a dead end
-    if (homeTeam === -1) {
+    if (isPairedPotMode || !isOpenGameHome[game]) {
+      for (const h of homeTeamsByAwayTeamAndPot[team * numPots + openGamePot]) {
+        if (
+          !hasPlayedPair[team * numTeams + h] &&
+          canPlay(h, team) &&
+          tryOpponent(game, h)
+        ) {
+          return true;
+        }
+      }
+    }
+    return false;
+  };
+
+  // A pot's teams can only take so many games from one country between them,
+  // which no check of a single team or slot sees.
+  // E.g. 6 English teams needing 12 games against the 6 other pot 1 teams
+  // leave each of those facing exactly 2 English teams,
+  // so one that has filled its slots with none is a dead end.
+  const hasOverbookedCountry = () => {
+    for (const country of countriesWithManyTeams) {
+      for (let pot = 0; pot < numPots; ++pot) {
+        openGamePot = pot;
+        let numOpenGames = 0;
+        for (const team of teamsByCountry[country]) {
+          const mask = playedWithPotMask[team];
+          if (isPairedPotMode) {
+            if (!(mask & (homeBit(pot) | awayBit(pot)))) {
+              openGameTeams[numOpenGames] = team;
+              ++numOpenGames;
+            }
+            continue;
+          }
+          if (!(mask & homeBit(pot))) {
+            openGameTeams[numOpenGames] = team;
+            isOpenGameHome[numOpenGames] = 1;
+            ++numOpenGames;
+          }
+          if (!(mask & awayBit(pot))) {
+            openGameTeams[numOpenGames] = team;
+            isOpenGameHome[numOpenGames] = 0;
+            ++numOpenGames;
+          }
+        }
+        for (let i = 0; i < numTeamsPerPot; ++i) {
+          const team = pot * numTeamsPerPot + i;
+          roomByOpponent[team] =
+            2 -
+            numHomeOpponentsFromCountry[team * numCountries + country] -
+            numAwayOpponentsFromCountry[team * numCountries + country];
+          openGamesByOpponent[team].length = 0;
+        }
+        for (let game = 0; game < numOpenGames; ++game) {
+          isOpponentVisited.fill(0);
+          if (!assignOpenGame(game)) {
+            return true;
+          }
+        }
+      }
+    }
+    return false;
+  };
+
+  // in paired pot mode a slot spans both pots of a pair
+  const numPotsPerSlot = isPairedPotMode ? 2 : 1;
+
+  const getSlotBits = (firstPot: number, isHome: boolean) => {
+    let bits = 0;
+    for (let pot = firstPot; pot < firstPot + numPotsPerSlot; ++pot) {
+      bits |= isHome ? homeBit(pot) : awayBit(pot);
+    }
+    return bits;
+  };
+
+  const countSlotOpponents = (
+    team: number,
+    firstPot: number,
+    isHome: boolean,
+  ) => {
+    let count = 0;
+    for (let pot = firstPot; pot < firstPot + numPotsPerSlot; ++pot) {
+      if (isHome) {
+        for (const a of awayTeamsByHomeTeamAndPot[team * numPots + pot]) {
+          if (!hasPlayedPair[team * numTeams + a] && canPlay(team, a)) {
+            ++count;
+          }
+        }
+      } else {
+        for (const h of homeTeamsByAwayTeamAndPot[team * numPots + pot]) {
+          if (!hasPlayedPair[team * numTeams + h] && canPlay(h, team)) {
+            ++count;
+          }
+        }
+      }
+    }
+    return count;
+  };
+
+  const nextRandom = lowDiscrepancySequence(randomSeed);
+
+  const getCandidates = (): readonly (readonly [number, number])[] => {
+    if (
+      hasUndersuppliedBlock() ||
+      hasUncoverableSlot() ||
+      hasOverbookedCountry()
+    ) {
       return [];
     }
 
-    // The chosen team's next home game is a forced slot,
+    // slot: a team's home or away game against a pot,
+    // the one with the fewest feasible opponents first,
+    // so a dead end turns up near the top of the tree
+    // ties broken off the seeded sequence,
+    // which carries on across restarts so each one explores a new region
+    let slotTeam = -1;
+    let slotPot = -1;
+    let isSlotHome = true;
+    let numSlotOpponents = Infinity;
+    let numTies = 1;
+    for (let team = 0; team < numTeams; ++team) {
+      for (let pot = 0; pot < numPots; pot += numPotsPerSlot) {
+        for (const isHome of [true, false]) {
+          if (playedWithPotMask[team] & getSlotBits(pot, isHome)) {
+            continue;
+          }
+          const numOpponents = countSlotOpponents(team, pot, isHome);
+          if (numOpponents < numSlotOpponents) {
+            slotTeam = team;
+            slotPot = pot;
+            isSlotHome = isHome;
+            numSlotOpponents = numOpponents;
+            numTies = 1;
+          } else if (numOpponents === numSlotOpponents) {
+            ++numTies;
+            if (nextRandom() * numTies < 1) {
+              slotTeam = team;
+              slotPot = pot;
+              isSlotHome = isHome;
+            }
+          }
+        }
+      }
+    }
+
+    // The chosen slot has to be filled,
     // so branching over all its feasible opponents keeps the search complete.
-    // In paired pot mode the slot spans both pots of the pair.
-    const awayPots = isPairedPotMode ? [awayPot, awayPot ^ 1] : [awayPot];
 
     // opponents: hardest country first,
     // then the most constrained opponent, ties broken the same way
     const scoredGames: (readonly [number, number])[] = [];
-    for (const pot of awayPots) {
-      for (const a of awayTeamsByHomeTeamAndPot[homeTeam * numPots + pot]) {
-        if (hasPlayedPair[homeTeam * numTeams + a]) {
+    for (let pot = slotPot; pot < slotPot + numPotsPerSlot; ++pot) {
+      const opponents = isSlotHome
+        ? awayTeamsByHomeTeamAndPot[slotTeam * numPots + pot]
+        : homeTeamsByAwayTeamAndPot[slotTeam * numPots + pot];
+      for (const o of opponents) {
+        if (hasPlayedPair[slotTeam * numTeams + o]) {
           continue;
         }
-        if (!canPlay(homeTeam, a)) {
+        if (!(isSlotHome ? canPlay(slotTeam, o) : canPlay(o, slotTeam))) {
           continue;
         }
-        const numGamesPlayed = numHomeGamesByTeam[a] + numAwayGamesByTeam[a];
+        const numGamesPlayed = numHomeGamesByTeam[o] + numAwayGamesByTeam[o];
         const score =
-          -numTeamsByCountry[countryByTeam[a]] * 100 -
+          -numTeamsByCountry[countryByTeam[o]] * 100 -
           numGamesPlayed +
           nextRandom() * 0.5;
-        scoredGames.push([a, score]);
+        scoredGames.push([o, score]);
       }
     }
     scoredGames.sort((x, y) => x[1] - y[1]);
 
-    return scoredGames.map(([a]) => [homeTeam, a] as const);
+    return scoredGames.map(([o]) =>
+      isSlotHome ? ([slotTeam, o] as const) : ([o, slotTeam] as const),
+    );
   };
 
   const options = {
@@ -473,33 +648,19 @@ export default ({
   };
 
   // the pick preserves the caller-shuffled order of allGames:
-  // a random home team of the active pot pair,
-  // then its first candidate opponent whose draw can still complete
-  const minPotPair = findMinPotPair();
-  const firstRemainingGameFromPotPair = allGames.find(([h, a]) => {
-    const potPair = potByTeam(h) * numPots + potByTeam(a);
-    return (
-      potPair === minPotPair &&
-      !hasPlayedPair[h * numTeams + a] &&
-      canPlay(h, a)
-    );
-  })!;
+  // the first game that fills the slot & leaves a draw that can still complete
+  const candidateMatchesForSlot = allGames.filter(([h, a]) => {
+    if (hasPlayedPair[h * numTeams + a] || !canPlay(h, a)) {
+      return false;
+    }
+    // in paired pot mode the team may play either at home or away
+    const isHome = isPairedPotMode ? h === slot.team : slot.isHome;
+    return isHome
+      ? h === slot.team && potByTeam(a) === slot.opponentPot
+      : a === slot.team && potByTeam(h) === slot.opponentPot;
+  });
 
-  const pickedHomeTeam = firstRemainingGameFromPotPair[0];
-
-  // in paired pot mode the team's home game may go to either pot of the pair
-  const pickedAwayPots = isPairedPotMode
-    ? [minPotPair % numPots, (minPotPair % numPots) ^ 1]
-    : [minPotPair % numPots];
-  const candidateMatchesForPickedTeam = allGames.filter(
-    ([h, a]) =>
-      h === pickedHomeTeam &&
-      pickedAwayPots.includes(potByTeam(a)) &&
-      !hasPlayedPair[h * numTeams + a] &&
-      canPlay(h, a),
-  );
-
-  return candidateMatchesForPickedTeam.find(match => {
+  return candidateMatchesForSlot.find(match => {
     apply(match);
     const solved = findFirstSolutionMutable(options);
     if (!solved) {

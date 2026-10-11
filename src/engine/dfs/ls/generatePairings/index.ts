@@ -1,4 +1,4 @@
-import { difference, range, remove } from 'lodash';
+import { range } from 'lodash';
 
 import WorkerManager from '#utils/worker/WorkerManager';
 import { type PrngGenerator } from '#utils/prng/generator';
@@ -28,7 +28,6 @@ export default async function* generatePairings({
   pots,
   numMatchdays,
   pickedTeamIndex,
-  previousPickedTeamIndices,
   virtualGeneratedMatches,
   signal,
 }: {
@@ -38,7 +37,6 @@ export default async function* generatePairings({
   pots: readonly (readonly Team[])[];
   numMatchdays: number;
   pickedTeamIndex: number;
-  previousPickedTeamIndices: Iterable<number>;
   virtualGeneratedMatches: readonly (readonly [number, number])[];
   signal?: AbortSignal;
 }) {
@@ -50,11 +48,6 @@ export default async function* generatePairings({
 
   assertIndicesInRange([pickedTeamIndex], teams.length, 'pickedTeamIndex');
   assertIndicesInRange(
-    previousPickedTeamIndices,
-    teams.length,
-    'previousPickedTeamIndices',
-  );
-  assertIndicesInRange(
     virtualGeneratedMatches.flat(),
     teams.length,
     'virtualGeneratedMatches',
@@ -63,14 +56,6 @@ export default async function* generatePairings({
   const teamIndices = range(teams.length);
 
   const allocatedMatches = [...virtualGeneratedMatches];
-
-  const previousPickedTeamIndicesSet = new Set(previousPickedTeamIndices);
-  const previousPickedMatches = allocatedMatches.filter(
-    m =>
-      previousPickedTeamIndicesSet.has(m[0]) ||
-      previousPickedTeamIndicesSet.has(m[1]),
-  );
-  const buffer = difference(allocatedMatches, previousPickedMatches);
 
   let allGames = generateFull(teamIndices);
 
@@ -96,57 +81,6 @@ export default async function* generatePairings({
 
   const worker = workerManager.register();
 
-  async function* generatePairingsFromSource() {
-    let shouldStop = false;
-    if (signal) {
-      signal.addEventListener(
-        'abort',
-        () => {
-          shouldStop = true;
-        },
-        {
-          once: true,
-        },
-      );
-    }
-
-    allGames = await prngShuffle({
-      collection: allGames,
-      prngGenerator,
-    });
-
-    while (
-      !shouldStop &&
-      virtualGeneratedMatches.length < numMatchdays * numGamesPerMatchday
-    ) {
-      // eslint-disable-next-line no-await-in-loop
-      const randomSeed = await prngFloat(prngGenerator);
-
-      const payload = {
-        teams,
-        numPots,
-        numTeamsPerPot,
-        numMatchdays,
-        numGamesPerMatchday,
-        isPairedPotMode,
-        allGames,
-        allocatedMatches,
-        // A fresh offset per pick, so the solver is not making the same
-        // tie-break choices over & over as the allocated set grows.
-        randomSeed,
-      } satisfies Omit<Parameters<typeof getFirstSuitableMatch>[0], 'worker'>;
-      // eslint-disable-next-line no-await-in-loop
-      const pickedMatch = await getFirstSuitableMatch({
-        ...payload,
-        worker,
-      });
-
-      allocatedMatches.push(pickedMatch);
-
-      yield pickedMatch;
-    }
-  }
-
   const numLocations = isPairedPotMode ? 1 : 2;
   const numSlots = numPots * numLocations;
 
@@ -165,44 +99,56 @@ export default async function* generatePairings({
   const involvesPickedTeam = ([h, a]: readonly [number, number]) =>
     h === pickedTeamIndex || a === pickedTeamIndex;
 
-  // slots already shown while an earlier team was drawn
+  // slots filled while an earlier team was drawn
   const revealedSlots = new Set(
-    previousPickedMatches
-      .values()
-      .filter(involvesPickedTeam)
-      .map(slotOfPickedGame),
+    allocatedMatches.values().filter(involvesPickedTeam).map(slotOfPickedGame),
   );
 
   try {
-    const pairingsGenerator = generatePairingsFromSource();
+    allGames = await prngShuffle({
+      collection: allGames,
+      prngGenerator,
+    });
 
-    for (let slot = 0; slot < numSlots; ++slot) {
+    for (let slot = 0; slot < numSlots && !signal?.aborted; ++slot) {
       if (revealedSlots.has(slot)) {
         continue;
       }
-      // pull games from the solver until this slot's game turns up,
-      // buffering the rest until their own slot comes round
-      for (;;) {
-        const match = buffer.find(
-          m => involvesPickedTeam(m) && slotOfPickedGame(m) === slot,
-        );
-        if (match) {
-          remove(buffer, m => m === match);
-          yield {
-            match,
-            // A snapshot, since the solver keeps appending to the original
-            // after the caller has taken this one.
-            virtualGeneratedMatches: [...allocatedMatches],
-          };
-          break;
-        }
-        // eslint-disable-next-line no-await-in-loop
-        const iteratorResult = await pairingsGenerator.next();
-        if (iteratorResult.done) {
-          break;
-        }
-        buffer.push(iteratorResult.value);
-      }
+      // eslint-disable-next-line no-await-in-loop
+      const randomSeed = await prngFloat(prngGenerator);
+
+      const payload = {
+        teams,
+        numPots,
+        numTeamsPerPot,
+        numMatchdays,
+        numGamesPerMatchday,
+        isPairedPotMode,
+        allGames,
+        allocatedMatches,
+        // A fresh offset per pick, so the solver is not making the same
+        // tie-break choices over & over as the allocated set grows.
+        randomSeed,
+        slot: {
+          team: pickedTeamIndex,
+          opponentPot: Math.floor(slot / numLocations),
+          isHome: slot % numLocations === 0,
+        },
+      } satisfies Omit<Parameters<typeof getFirstSuitableMatch>[0], 'worker'>;
+      // eslint-disable-next-line no-await-in-loop
+      const pickedMatch = await getFirstSuitableMatch({
+        ...payload,
+        worker,
+      });
+
+      allocatedMatches.push(pickedMatch);
+
+      yield {
+        match: pickedMatch,
+        // A snapshot, since the solver keeps appending to the original
+        // after the caller has taken this one.
+        virtualGeneratedMatches: [...allocatedMatches],
+      };
     }
   } finally {
     workerManager.killAll();

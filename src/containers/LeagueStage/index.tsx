@@ -67,7 +67,6 @@ function LeagueStage({ tournament, season, pots: initialPots }: Props) {
   const virtualGeneratedMatchesRef = useRef<
     readonly (readonly [number, number])[]
   >([]);
-  const previousPickedTeamIndicesRef = useRef<number[]>([]);
   const [currentPotIndex, setCurrentPotIndex] = useState(0);
   const [selectedTeam, setSelectedTeam] = useState<Team | null>(null);
   const [isGeneratingPairings, setIsGeneratingPairings] = useState(false);
@@ -132,7 +131,6 @@ function LeagueStage({ tournament, season, pots: initialPots }: Props) {
         pots,
         numMatchdays,
         pickedTeamIndex: selectedTeamIndex,
-        previousPickedTeamIndices: previousPickedTeamIndicesRef.current,
         virtualGeneratedMatches: virtualGeneratedMatchesRef.current,
         signal: abortController.signal,
       });
@@ -161,7 +159,6 @@ function LeagueStage({ tournament, season, pots: initialPots }: Props) {
         hasStarted = true;
       }
       await Promise.all(promises);
-      previousPickedTeamIndicesRef.current.push(selectedTeamIndex);
       const newCurrentPot = displayedPots[currentPotIndex].toSpliced(
         displayedPots[currentPotIndex].indexOf(selectedTeam),
         1,
