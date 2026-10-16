@@ -2,6 +2,7 @@ import memoizeOne from 'memoize-one';
 
 import { allPossibleGroups } from '#engine/dfs/gs';
 import getPredicate from '#engine/predicates/uefa/gs';
+import isPairingDeadEnd from '#engine/predicates/uefa/gs/isPairingDeadEnd';
 import type Team from '#model/team/GsTeam';
 import {
   type GsWorkerDataSerialized,
@@ -31,6 +32,7 @@ const func = (data: GsWorkerDataSerialized<Team>) => {
     groups,
     picked: selectedTeam,
     predicate,
+    isDeadEnd: isPairingDeadEnd,
   });
 };
 
