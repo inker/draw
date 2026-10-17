@@ -61,7 +61,7 @@
     "memoize-one": "^6.0.0",
     "normalize.css": "^8.0.1",
     "p-limit": "^7.1.0",
-    "p-memoize": "^8.0.0",
+    "p-memoize": "^9.0.0",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "react-github-btn": "^1.2.2",
