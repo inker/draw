@@ -3,7 +3,7 @@
 }
 
 body {
-  font-family: Tahoma, Arial, sans-serif;
+  font-family: Tahoma, Roboto, sans-serif;
   color: light-dark(black, white);
   background-color: var(--page-background);
 }

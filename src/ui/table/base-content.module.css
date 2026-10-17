@@ -3,11 +3,10 @@
   align-items: center;
   text-align: center;
   text-decoration: none;
-  font-family: Tahoma, Arial, sans-serif;
+  font-family: Tahoma, Roboto, sans-serif;
   font-size: 12px;
 
   @media (width <= 999px) {
-    font-family: Roboto, sans-serif;
     font-size: 10px;
   }
 }
