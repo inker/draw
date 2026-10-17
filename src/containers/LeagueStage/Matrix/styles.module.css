@@ -19,7 +19,9 @@
   table-layout: fixed;
   border-collapse: collapse;
   border: 1px double var(--block-border-color);
-  font-family: Tahoma, 'Noto Sans Condensed', sans-serif;
+  font-family:
+    Tahoma, 'Roboto Condensed', RobotoCondensed, RobotoCondensed-Regular,
+    sans-serif;
   font-size: max(10px, calc(var(--cell-height) * 0.6));
 
   &.dark {

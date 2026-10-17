@@ -3,7 +3,7 @@
   align-items: center;
   text-align: center;
   text-decoration: none;
-  font-family: Tahoma, 'Noto Sans Variable', sans-serif;
+  font-family: Tahoma, Roboto, sans-serif;
   font-size: 12px;
 
   @media (width <= 999px) {

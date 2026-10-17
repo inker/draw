@@ -1,8 +1,9 @@
 import 'normalize.css';
-import '@fontsource-variable/noto-sans/wdth.css';
+import '@fontsource/roboto/400.css';
+import '@fontsource/roboto/700.css';
+import '@fontsource/roboto-condensed/400.css';
 import { createRoot } from 'react-dom/client';
 
-import './fonts.css';
 import './theme.css';
 import './global.css';
 import App from './App';

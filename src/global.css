@@ -3,7 +3,7 @@
 }
 
 body {
-  font-family: Tahoma, 'Noto Sans Variable', sans-serif;
+  font-family: Tahoma, Roboto, sans-serif;
   color: light-dark(black, white);
   background-color: var(--page-background);
 }
