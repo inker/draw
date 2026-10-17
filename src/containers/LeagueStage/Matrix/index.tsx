@@ -77,82 +77,84 @@ function Matrix({
   };
 
   return (
-    <Table
-      className={clsx(styles.table, isDarkMode && styles.dark)}
-      blockSize={potSize}
-      hoverStyle={css`
-        background-color: var(--hover-color);
-      `}
-    >
-      <thead>
-        <tr>
-          {/* eslint-disable-next-line jsx-a11y/control-has-associated-label */}
-          <th />
-          {allTeams.map(opponent => (
-            <th key={opponent.id}>
-              <div className={styles['header-cell-div']}>
-                <img
-                  alt={`[${opponent.country}]`}
-                  src={
-                    getIconUrl?.(opponent) ??
-                    getCountryFlagUrl(opponent.country)
-                  }
-                />
-                <span>{opponent.name}</span>
-              </div>
-            </th>
-          ))}
-        </tr>
-      </thead>
-      <tbody>
-        {allTeams.map(team => (
-          <tr key={team.id}>
-            <td>
-              <div
-                className={styles.team}
-                style={{
-                  backgroundImage: `url('${getIconUrl?.(team) ?? getCountryFlagUrl(team.country)}')`,
-                }}
-              >
-                {team.name}
-              </div>
-            </td>
-            {allTeams.map(opponent => {
-              const isMatch = pairingsSet.has(`${team.id}:${opponent.id}`);
-              const matchdayIndex = scheduleMap.get(
-                `${team.id}:${opponent.id}`,
-              );
-              return (
-                <td
-                  key={opponent.id}
-                  className={clsx(
-                    isMatch && styles.match,
-                    noCellAnimation && styles['no-animation'],
-                  )}
-                >
-                  {matchdayIndex === undefined ? (
-                    isMatch ? (
-                      '✕'
-                    ) : (
-                      ''
-                    )
-                  ) : (
-                    <div
-                      className={styles['body-cell-matchday']}
-                      style={{
-                        color: getMatchdayColor(matchdayIndex),
-                      }}
-                    >
-                      {matchdayIndex + 1}
-                    </div>
-                  )}
-                </td>
-              );
-            })}
+    <div className={styles['scroll-container']}>
+      <Table
+        className={clsx(styles.table, isDarkMode && styles.dark)}
+        blockSize={potSize}
+        hoverStyle={css`
+          background-color: var(--hover-color);
+        `}
+      >
+        <thead>
+          <tr>
+            {/* eslint-disable-next-line jsx-a11y/control-has-associated-label */}
+            <th />
+            {allTeams.map(opponent => (
+              <th key={opponent.id}>
+                <div className={styles['header-cell-div']}>
+                  <img
+                    alt={`[${opponent.country}]`}
+                    src={
+                      getIconUrl?.(opponent) ??
+                      getCountryFlagUrl(opponent.country)
+                    }
+                  />
+                  <span>{opponent.name}</span>
+                </div>
+              </th>
+            ))}
           </tr>
-        ))}
-      </tbody>
-    </Table>
+        </thead>
+        <tbody>
+          {allTeams.map(team => (
+            <tr key={team.id}>
+              <td>
+                <div
+                  className={styles.team}
+                  style={{
+                    backgroundImage: `url('${getIconUrl?.(team) ?? getCountryFlagUrl(team.country)}')`,
+                  }}
+                >
+                  {team.name}
+                </div>
+              </td>
+              {allTeams.map(opponent => {
+                const isMatch = pairingsSet.has(`${team.id}:${opponent.id}`);
+                const matchdayIndex = scheduleMap.get(
+                  `${team.id}:${opponent.id}`,
+                );
+                return (
+                  <td
+                    key={opponent.id}
+                    className={clsx(
+                      isMatch && styles.match,
+                      noCellAnimation && styles['no-animation'],
+                    )}
+                  >
+                    {matchdayIndex === undefined ? (
+                      isMatch ? (
+                        '✕'
+                      ) : (
+                        ''
+                      )
+                    ) : (
+                      <div
+                        className={styles['body-cell-matchday']}
+                        style={{
+                          color: getMatchdayColor(matchdayIndex),
+                        }}
+                      >
+                        {matchdayIndex + 1}
+                      </div>
+                    )}
+                  </td>
+                );
+              })}
+            </tr>
+          ))}
+        </tbody>
+      </Table>
+    </div>
   );
 }
 

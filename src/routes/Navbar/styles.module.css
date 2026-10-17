@@ -16,8 +16,15 @@
       margin-right: 15px;
     }
 
+    @media (width <= 999px) {
+      flex-wrap: wrap;
+      justify-content: center;
+      row-gap: 5px;
+    }
+
     > * {
       margin-left: 5px;
+      white-space: nowrap;
 
       &:not(:last-child) {
         margin-right: 5px;
@@ -26,12 +33,15 @@
   }
 
   @media (width <= 999px) {
+    flex-wrap: wrap;
     justify-content: center;
+    row-gap: 5px;
     margin-top: 5px;
+    height: auto;
     font-family:
       'Roboto Condensed', RobotoCondensed, RobotoCondensed-Regular, Roboto,
       sans-serif;
-    font-size: 10px;
+    font-size: 12px;
   }
 }
 

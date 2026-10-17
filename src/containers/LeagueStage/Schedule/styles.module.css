@@ -1,26 +1,25 @@
 .root {
   width: 100%;
-  container-type: inline-size;
 }
 
 .calendar-container {
+  /*
+    as wide as the widest match row, with its borders,
+    so a row never wraps onto the one below it
+  */
+  --column-width: calc(2 * var(--team-width, 100px) + 22px);
+  --gap: 16px;
+
   display: grid;
-  gap: 16px;
+  gap: var(--gap);
   align-items: self-start;
-  grid-template-columns: repeat(4, 1fr);
-  width: fit-content;
-
-  @container (width <= 1000px) {
-    grid-template-columns: repeat(3, 1fr);
-  }
-
-  @container (width <= 500px) {
-    grid-template-columns: repeat(2, 1fr);
-  }
+  grid-template-columns: repeat(auto-fill, minmax(var(--column-width), 1fr));
+  max-width: calc(4 * var(--column-width) + 3 * var(--gap));
 
   &.take-all-space {
     display: flex;
     flex-wrap: wrap;
+    max-width: none;
   }
 }
 
@@ -68,6 +67,7 @@
 .match-pair-team {
   display: inline-block;
   min-width: var(--team-width);
+  white-space: nowrap;
 }
 
 .content-with-flag {

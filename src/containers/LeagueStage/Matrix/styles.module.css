@@ -1,3 +1,9 @@
+.scroll-container {
+  flex-shrink: 0;
+  overflow-x: auto;
+  max-width: 100%;
+}
+
 .table {
   --cell-height: round(down, clamp(15px, calc(100vh / 46), 20px), 5px);
   --flag-width: calc(var(--cell-height) * 0.8);
@@ -10,11 +16,15 @@
   --hover-color: light-dark(rgb(0 0 0 / 0.1), rgb(255 255 255 / 0.1));
   --block-border-color: light-dark(rgb(128 128 128), rgb(192 192 192));
 
-  flex-shrink: 0;
   table-layout: fixed;
   border-collapse: collapse;
   border: 1px double var(--block-border-color);
   font-size: max(10px, calc(var(--cell-height) * 0.6));
+
+  @media (width <= 999px) {
+    font-family:
+      'Roboto Condensed', RobotoCondensed, RobotoCondensed-Regular, sans-serif;
+  }
 
   &.dark {
     .body-cell-matchday {
@@ -25,6 +35,24 @@
   th,
   td {
     border: 1px solid light-dark(rgb(192 192 192), rgb(128 128 128));
+
+    &:first-child {
+      position: sticky;
+      left: 0;
+      z-index: 1;
+      background-color: var(--page-background);
+
+      /*
+        collapsed borders scroll away with the table,
+        so the pinned column draws its own right edge,
+        but only once scrolled, or it doubles the border next to it
+      */
+      @supports (animation-timeline: scroll()) {
+        animation: pinned-edge linear both;
+        animation-timeline: scroll(nearest inline);
+        animation-range: 0 1px;
+      }
+    }
   }
 
   > thead {
@@ -41,6 +69,17 @@
 
   > tbody {
     > tr {
+      &:hover > td:first-child {
+        /*
+          the pinned cell's own background hides the row's hover colour,
+          so it's painted on top instead
+        */
+        background-image: linear-gradient(
+          var(--hover-color),
+          var(--hover-color)
+        );
+      }
+
       > td {
         &:first-child {
           height: var(--cell-height);
@@ -97,4 +136,10 @@
 
 .body-cell-matchday {
   transform: scaleX(1.25);
+}
+
+@keyframes pinned-edge {
+  to {
+    box-shadow: inset -1px 0 var(--block-border-color);
+  }
 }

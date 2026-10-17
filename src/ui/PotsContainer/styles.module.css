@@ -4,6 +4,11 @@
   flex-wrap: nowrap;
   justify-content: center;
 
+  @media (width <= 999px) {
+    flex-wrap: wrap;
+    justify-content: safe center;
+  }
+
   > * {
     flex: 1;
     flex-basis: 22%;

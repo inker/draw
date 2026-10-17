@@ -25,21 +25,33 @@ function Schedule({ tournament, schedule, getIconUrl }: Props) {
   const rootRef = useRef<HTMLDivElement>(null);
 
   useLayoutEffect(() => {
-    if (schedule.some(md => md.length > 0)) {
-      const elements = document.getElementsByClassName(
+    const root = rootRef.current;
+    if (!root || !schedule.some(md => md.length > 0)) {
+      return;
+    }
+    const measure = () => {
+      // the old width is the teams' min-width,
+      // so it has to go for the names to shrink back to their own width
+      root.style.removeProperty('--team-width');
+      const elements = root.getElementsByClassName(
         styles['match-pair-team'],
       ) as HTMLCollectionOf<HTMLElement>;
-      const offsetWidths = Iterator.from(elements).map(
-        el => el.offsetWidth ?? 0,
+      // offsetWidth rounds a fractional width down,
+      // which leaves the row a fraction of a pixel too narrow & wraps it
+      const widths = Iterator.from(elements).map(
+        el => el.getBoundingClientRect().width,
       );
-      const maxOffsetWidth = Math.max(...offsetWidths);
-      if (rootRef.current) {
-        rootRef.current.style.setProperty(
-          '--team-width',
-          `${maxOffsetWidth}px`,
-        );
-      }
-    }
+      const maxWidth = Math.ceil(Math.max(...widths));
+      root.style.setProperty('--team-width', `${maxWidth}px`);
+    };
+    measure();
+    // the columns are sized from this width,
+    // and the flags & fonts change size at the phone breakpoint
+    const observer = new ResizeObserver(measure);
+    observer.observe(root);
+    return () => {
+      observer.disconnect();
+    };
   }, [schedule]);
 
   return (

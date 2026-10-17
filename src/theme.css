@@ -1,4 +1,5 @@
 :root {
   --border-color: light-dark(#aaa, #222);
   --border: solid 1px var(--border-color);
+  --page-background: light-dark(white, #272a33);
 }

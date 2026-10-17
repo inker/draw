@@ -1,4 +1,7 @@
 import 'normalize.css';
+import '@fontsource/roboto/400.css';
+import '@fontsource/roboto/700.css';
+import '@fontsource/roboto-condensed/400.css';
 import { createRoot } from 'react-dom/client';
 
 import './theme.css';

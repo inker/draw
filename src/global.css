@@ -5,7 +5,7 @@
 body {
   font-family: Tahoma, Arial, sans-serif;
   color: light-dark(black, white);
-  background-color: light-dark(transparent, #272a33);
+  background-color: var(--page-background);
 }
 
 .reset-list {
