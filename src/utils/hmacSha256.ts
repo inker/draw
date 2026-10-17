@@ -8,11 +8,11 @@ export type Sha256Digest = ArrayBuffer & {
 };
 
 export default async (
-  key: Parameters<typeof globalThis.crypto.subtle.importKey>[1],
+  keyData: Parameters<typeof globalThis.crypto.subtle.importKey>[1],
 ) => {
   const cryptoKey = await globalThis.crypto.subtle.importKey(
     'raw',
-    key,
+    keyData,
     {
       name: 'HMAC',
       hash: 'SHA-256',
