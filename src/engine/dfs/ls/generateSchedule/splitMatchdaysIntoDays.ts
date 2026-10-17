@@ -73,11 +73,9 @@ function getDayCapacities({
     return [1, Math.ceil(rest / 2), Math.floor(rest / 2)];
   }
 
-  if (matchdayIndex === numMatchdays - 1) {
-    return [matchdaySize];
-  }
-
-  return [matchdaySize / 2, matchdaySize / 2];
+  return matchdayIndex === numMatchdays - 1
+    ? [matchdaySize]
+    : [matchdaySize / 2, matchdaySize / 2];
 }
 
 const findOpeningMatch = ({

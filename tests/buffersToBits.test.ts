@@ -5,6 +5,9 @@ import buffersToBits from '#utils/buffersToBits';
  * because TypeScript only infers a never-returning type
  * for function expressions rather than declarations
  */
+// buffersToBits reads async sources,
+// so this stays async with nothing to await
+// eslint-disable-next-line @typescript-eslint/require-await
 async function* cycle(
   ...buffers: readonly (readonly number[])[]
 ): AsyncGenerator<ArrayBuffer, never, unknown> {
@@ -13,6 +16,11 @@ async function* cycle(
       yield new Uint8Array(bytes).buffer;
     }
   }
+}
+
+function* syncBuffers() {
+  yield new Uint8Array([0x0f]).buffer;
+  yield new Uint8Array([0xf0]).buffer;
 }
 
 const take = async (bits: ReturnType<typeof buffersToBits>, count: number) => {
@@ -47,7 +55,12 @@ describe('buffersToBits', () => {
   });
 
   it.each([1, 3, 32, 64])('takes a buffer of any width: %s', async width => {
-    const bytes = [...new Array(width).keys()].map(index => index % 256);
+    const bytes = Array.from(
+      {
+        length: width,
+      },
+      (_, index) => index % 256,
+    );
     const bits = buffersToBits(cycle(bytes));
     const expected = bytes
       .map(byte => byte.toString(2).padStart(8, '0'))
@@ -65,10 +78,8 @@ describe('buffersToBits', () => {
   });
 
   it('takes a sync iterable just as well', async () => {
-    function* sync() {
-      yield new Uint8Array([0x0f]).buffer;
-      yield new Uint8Array([0xf0]).buffer;
-    }
-    expect(await take(buffersToBits(sync()), 16)).toBe('0000111111110000');
+    expect(await take(buffersToBits(syncBuffers()), 16)).toBe(
+      '0000111111110000',
+    );
   });
 });

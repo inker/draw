@@ -82,12 +82,15 @@ describe('prng', () => {
   });
 
   it('deals differently for each counter width', async () => {
-    const forWidth = async (byteLength: number) =>
-      take({
-        byteLength,
-        seed: seedOf('uefa'),
-      });
-    expect(await forWidth(4)).not.toEqual(await forWidth(8));
+    const fourBytes = await take({
+      byteLength: 4,
+      seed: seedOf('uefa'),
+    });
+    const eightBytes = await take({
+      byteLength: 8,
+      seed: seedOf('uefa'),
+    });
+    expect(fourBytes).not.toEqual(eightBytes);
   });
 
   it('hands back the generator without awaiting it', () => {

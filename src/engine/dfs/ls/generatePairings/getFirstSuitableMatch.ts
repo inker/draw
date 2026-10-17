@@ -346,17 +346,7 @@ export default ({
         for (let pot = 0; pot < numPots; pot += 2) {
           const hasPlayedHome = mask & (homeBit(pot) | homeBit(pot + 1));
           const hasPlayedAway = mask & (awayBit(pot) | awayBit(pot + 1));
-          if (!hasPlayedHome && !hasPlayedAway) {
-            // an untouched pot pair needs a jointly feasible orientation
-            const isCoverable =
-              (hasFeasibleHomeGame(team, pot) &&
-                hasFeasibleAwayGame(team, pot + 1)) ||
-              (hasFeasibleHomeGame(team, pot + 1) &&
-                hasFeasibleAwayGame(team, pot));
-            if (!isCoverable) {
-              return true;
-            }
-          } else {
+          if (hasPlayedHome || hasPlayedAway) {
             // reject narrows a half-played pair to the right pot
             if (
               !hasPlayedHome &&
@@ -370,6 +360,16 @@ export default ({
               !hasFeasibleAwayGame(team, pot) &&
               !hasFeasibleAwayGame(team, pot + 1)
             ) {
+              return true;
+            }
+          } else {
+            // an untouched pot pair needs a jointly feasible orientation
+            const isCoverable =
+              (hasFeasibleHomeGame(team, pot) &&
+                hasFeasibleAwayGame(team, pot + 1)) ||
+              (hasFeasibleHomeGame(team, pot + 1) &&
+                hasFeasibleAwayGame(team, pot));
+            if (!isCoverable) {
               return true;
             }
           }

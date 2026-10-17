@@ -3,28 +3,28 @@ import {
   findFirstSolutionMutable,
 } from '#utils/backtrack';
 
-describe('findFirstSolutionMutable', () => {
-  // build a permutation of 0..size-1 one element at a time
-  const makePermutationOptions = (
-    size: number,
-    state: number[],
-  ): MutableBacktrackOptions<number> => ({
-    isSolved: () => state.length === size,
-    getCandidates: () =>
-      Array.from(
-        {
-          length: size,
-        },
-        (_, i) => i,
-      ).filter(value => !state.includes(value)),
-    apply: choice => {
-      state.push(choice);
-    },
-    undo: () => {
-      state.pop();
-    },
-  });
+// build a permutation of 0..size-1 one element at a time
+const makePermutationOptions = (
+  size: number,
+  state: number[],
+): MutableBacktrackOptions<number> => ({
+  isSolved: () => state.length === size,
+  getCandidates: () =>
+    Array.from(
+      {
+        length: size,
+      },
+      (_, i) => i,
+    ).filter(value => !state.includes(value)),
+  apply: choice => {
+    state.push(choice);
+  },
+  undo: () => {
+    state.pop();
+  },
+});
 
+describe('findFirstSolutionMutable', () => {
   it('should solve & leave the state mutated to the solution', () => {
     const state: number[] = [];
     const result = findFirstSolutionMutable(makePermutationOptions(4, state));

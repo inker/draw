@@ -34,7 +34,7 @@
   "scripts": {
     "prepare": "husky",
     "pre-commit": "lint-staged --allow-empty",
-    "lint:js": "eslint --max-warnings=0 --cache src",
+    "lint:js": "eslint --max-warnings=0 --cache src tests",
     "lint:css": "stylelint './src/**/*.css'",
     "lint": "run-p -c \"lint:css -- {1}\" \"lint:js -- {1}\" --",
     "prettier": "prettier --cache --check .",
@@ -68,9 +68,8 @@
     "zod": "^4.6.5"
   },
   "devDependencies": {
-    "@eslint/compat": "^2.1.1",
-    "@eslint/eslintrc": "^3.3.7",
-    "@inker/eslint-config-typescript": "^11.0.0",
+    "@inker/eslint-config": "^12.0.0",
+    "@inker/eslint-config-typescript": "^12.0.0",
     "@rspack/cli": "^2.2.8",
     "@rspack/core": "^2.2.8",
     "@rspack/dev-server": "^2.2.1",
@@ -81,12 +80,11 @@
     "@types/react": "^19.1.8",
     "@types/react-dom": "^19.1.6",
     "@types/webpack-env": "^1.18.4",
-    "@typescript-eslint/parser": "^8.71.1",
     "@vitest/eslint-plugin": "^1.6.27",
     "eslint": "^10.12.0",
-    "eslint-config-airbnb": "^19.0.4",
     "eslint-config-prettier": "^10.1.5",
-    "eslint-plugin-import": "^2.25.4",
+    "eslint-import-resolver-typescript": "^4.4.5",
+    "eslint-plugin-import-x": "^4.17.1",
     "eslint-plugin-jsx-a11y": "^6.5.1",
     "eslint-plugin-react": "^7.29.4",
     "eslint-plugin-react-hooks": "^7.1.1",
@@ -105,7 +103,6 @@
   },
   "overrides": {
     "eslint": "$eslint",
-    "eslint-plugin-react-hooks": "$eslint-plugin-react-hooks",
-    "eslint-plugin-sonarjs": "^4.2.2"
+    "eslint-plugin-react-hooks": "$eslint-plugin-react-hooks"
   }
 }

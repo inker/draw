@@ -60,6 +60,7 @@ export default async <T>({
       bits,
       bound: i + 1,
     });
+    // eslint-disable-next-line unicorn/no-unreadable-array-destructuring
     [shuffled[i], shuffled[pick]] = [shuffled[pick], shuffled[i]];
   }
 

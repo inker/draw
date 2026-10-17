@@ -10,7 +10,13 @@ const streamOf = (text: string) =>
     seed: new TextEncoder().encode(text),
   });
 
-const range = (length: number) => [...new Array(length).keys()];
+const range = (length: number) =>
+  Array.from(
+    {
+      length,
+    },
+    (_, i) => i,
+  );
 
 /**
  * Spelled out rather than inferred,
@@ -22,6 +28,8 @@ async function* counted(
   onPull: () => void,
 ): PrngGenerator {
   for (;;) {
+    // each pull is counted before the next one is asked for
+    // eslint-disable-next-line no-await-in-loop
     const { value } = await prngGenerator.next();
     onPull();
     yield value;
@@ -81,7 +89,7 @@ describe('prngShuffle', () => {
     const prngGenerator = streamOf('uefa');
     const counts = new Map<string, number>();
 
-    for (const _ of range(numTrials)) {
+    for (let trial = 0; trial < numTrials; ++trial) {
       // eslint-disable-next-line no-await-in-loop
       const shuffled = await prngShuffle({
         collection: range(4),

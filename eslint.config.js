@@ -7,24 +7,13 @@ eslint import/no-extraneous-dependencies: [2, {
 }]
 */
 
-import { dirname } from 'node:path';
-import { fileURLToPath } from 'node:url';
-
-import { fixupConfigRules } from '@eslint/compat';
-import { FlatCompat } from '@eslint/eslintrc';
+import inkerReact from '@inker/eslint-config/react';
+import inkerTypescript from '@inker/eslint-config-typescript';
 import vitest from '@vitest/eslint-plugin';
 import prettier from 'eslint-config-prettier/flat';
+import { createTypeScriptImportResolver } from 'eslint-import-resolver-typescript';
+import { createNodeResolver } from 'eslint-plugin-import-x';
 import reactHooks from 'eslint-plugin-react-hooks';
-
-const compat = new FlatCompat({
-  baseDirectory: import.meta.dirname,
-  // npm may install the shared config's plugins under its own node_modules
-  // rather than at the top level,
-  // so they're looked up from there & Node walks up to the root for the rest.
-  resolvePluginsRelativeTo: dirname(
-    fileURLToPath(import.meta.resolve('@inker/eslint-config-typescript')),
-  ),
-});
 
 export default [
   {
@@ -33,12 +22,8 @@ export default [
   {
     files: ['**/*.{js,jsx,ts,tsx}'],
   },
-  // Airbnb & the shared configs are still eslintrc-only,
-  // so they're loaded through FlatCompat
-  // & their plugins are patched up for the APIs ESLint 10 removed.
-  ...fixupConfigRules(
-    compat.extends('eslint-config-airbnb', '@inker/eslint-config-typescript'),
-  ),
+  ...inkerReact,
+  ...inkerTypescript,
   prettier,
   {
     plugins: {
@@ -61,10 +46,10 @@ export default [
     },
 
     settings: {
-      // Append 'ts' extensions to Airbnb 'import/resolver' setting
-      'import/resolver': {
+      // Append 'ts' extensions to Airbnb 'import-x/resolver-next' setting
+      'import-x/resolver-next': [
         // use <root>/tsconfig.json
-        typescript: {
+        createTypeScriptImportResolver({
           // always try to resolve types under `<roo/>@types` directory
           // even if it doesn't contain any source code, like `@types/unist`
           alwaysTryTypes: true,
@@ -90,13 +75,13 @@ export default [
             'browser',
             'default',
           ],
-        },
-        node: {
+        }),
+        createNodeResolver({
           extensions: ['.mjs', '.js', '.jsx', '.ts', '.tsx', '.json'],
-        },
-      },
-      // Append 'ts' extensions to Airbnb 'import/extensions' setting
-      'import/extensions': ['.js', '.jsx', '.ts', '.tsx', '.mjs'],
+        }),
+      ],
+      // Append 'ts' extensions to Airbnb 'import-x/extensions' setting
+      'import-x/extensions': ['.js', '.jsx', '.ts', '.tsx', '.mjs'],
     },
 
     rules: {
@@ -227,11 +212,6 @@ export default [
         },
       ],
 
-      // unicorn 55 (from @inker/eslint-config) wraps the rule context in a Proxy
-      // that ESLint 10's read-only sourceCode rejects, so the rule crashes.
-      // The versions that fix it no longer ship an eslintrc preset.
-      'unicorn/expiring-todo-comments': 0,
-
       'react/prop-types': 0,
       'react/react-in-jsx-scope': 0,
       'react/require-default-props': 0,
@@ -253,7 +233,7 @@ export default [
       '@typescript-eslint/ban-ts-ignore': 0,
       '@typescript-eslint/explicit-function-return-type': 0,
       '@typescript-eslint/no-explicit-any': 0,
-      '@typescript-eslint/no-extra-parens': 0,
+      '@stylistic/no-extra-parens': 0,
       '@typescript-eslint/no-floating-promises': 0,
       '@typescript-eslint/no-misused-promises': 0,
       '@typescript-eslint/no-non-null-assertion': 0,

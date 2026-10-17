@@ -74,13 +74,14 @@ const mulberry32 = (seed: number) => {
   };
 };
 
-const createClub = (
+// eslint-disable-next-line max-params
+function createClub(
   numMatchdays: number,
   bans: Iterable<Ban> = [],
   alternatingPairs: readonly Pair[] = uefaPairs(numMatchdays),
   banFourInFive = false,
-) =>
-  createHomeAwayPatterns({
+) {
+  return createHomeAwayPatterns({
     numTeams: 1,
     numMatchdays,
     maxAssignments: numMatchdays,
@@ -88,6 +89,7 @@ const createClub = (
     bans,
     banFourInFive,
   });
+}
 
 // The legal patterns the tracker lets a matchday-by-matchday walk reach.
 const countPatterns = (
@@ -190,6 +192,8 @@ describe('homeAwayPatterns', () => {
             c === '.' && rand() < 0.3 ? (rand() < 0.5 ? 'H' : 'A') : '.',
           );
           if (!anyFits(patterns, (c, md) => c !== banned[md])) {
+            // the random bans decide which outcome there is to check
+            // eslint-disable-next-line vitest/no-conditional-expect
             expect(() =>
               createClub(numMatchdays, bans, pairs, banFourInFive),
             ).toThrow('Bans leave team 0 with no valid home/away pattern');

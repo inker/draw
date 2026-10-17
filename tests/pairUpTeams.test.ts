@@ -75,12 +75,10 @@ describe('pairUpTeams', () => {
     for (const { id, path } of files) {
       const { teams } = derivePairings(path);
       for (const team of teams) {
-        if (team.pairing) {
-          expect(
-            team.country,
-            `${id}: ${team.name} paired with ${team.pairing.name}`,
-          ).toBe(team.pairing.country);
-        }
+        expect(
+          team.pairing?.country ?? team.country,
+          `${id}: ${team.name} paired with ${team.pairing?.name}`,
+        ).toBe(team.country);
       }
     }
   });

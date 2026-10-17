@@ -18,7 +18,7 @@ function PotRow({ teams, pickedTeams, selectedTeams }: Props) {
   return (
     <tr>
       {teams.map(team => {
-        const { name, country, shortName, pairing } = team as GsTeam;
+        const { name, country, shortName = name, pairing } = team as GsTeam;
 
         return (
           <td
@@ -37,7 +37,7 @@ function PotRow({ teams, pickedTeams, selectedTeams }: Props) {
               )}
               country={country ?? name}
             >
-              {shortName ?? name}
+              {shortName}
             </ContentWithFlag>
           </td>
         );
