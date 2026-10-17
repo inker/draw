@@ -13,7 +13,7 @@
   display: grid;
   gap: var(--gap);
   align-items: self-start;
-  grid-template-columns: repeat(auto-fill, minmax(var(--column-width), 1fr));
+  grid-template-columns: repeat(auto-fill, var(--column-width));
   max-width: calc(4 * var(--column-width) + 3 * var(--gap));
 
   &.take-all-space {
