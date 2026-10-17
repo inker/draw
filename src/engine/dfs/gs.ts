@@ -4,26 +4,11 @@ import { findFirstSolutionMutable } from '#utils/backtrack';
 
 type ReadonlyDoubleArray<T> = readonly (readonly T[])[];
 
-export type PredicateFn<T> = (
+export type Predicate<T> = (
   picked: T,
   groups: ReadonlyDoubleArray<T>,
   groupIndex: number,
 ) => boolean;
-
-/**
- * A predicate that keeps incremental constraint state.
- * The search drives the lifecycle: `reset` from the committed groups at the
- * start of each check, then `place`/`unplace` in lockstep with every
- * descent/backtrack, so `check` can read O(1) counters instead of rescanning.
- */
-export interface StatefulPredicate<T> {
-  check: PredicateFn<T>;
-  reset: (groups: ReadonlyDoubleArray<T>) => void;
-  place: (team: T, groupIndex: number) => void;
-  unplace: (team: T, groupIndex: number) => void;
-}
-
-export type Predicate<T> = PredicateFn<T> | StatefulPredicate<T>;
 
 export type DeadEndFn<T> = (
   groups: ReadonlyDoubleArray<T>,
@@ -39,22 +24,16 @@ function anyGroupPossible<T>(
   predicate: Predicate<T>,
   isDeadEnd: DeadEndFn<T> | undefined,
 ): boolean {
-  const hooks = typeof predicate === 'function' ? null : predicate;
-  const check = typeof predicate === 'function' ? predicate : predicate.check;
-
   // mutable working copy: the search fills it in place & backtracks with pop,
   // so no per-node array is allocated
   const groups = initialGroups.map(group => [...group]);
   const numGroups = groups.length;
 
-  hooks?.reset(groups);
-
   // picked is pinned to the group under test
-  if (!check(picked, groups, groupIndex)) {
+  if (!predicate(picked, groups, groupIndex)) {
     return false;
   }
   groups[groupIndex].push(picked);
-  hooks?.place(picked, groupIndex);
 
   const source = pots.flat();
   const potStarts = pots.map((_, i) => sumBy(pots.slice(0, i), 'length'));
@@ -76,7 +55,7 @@ function anyGroupPossible<T>(
       const team = source[depth];
       const candidates: number[] = [];
       for (let i = 0; i < numGroups; ++i) {
-        if (check(team, groups, i)) {
+        if (predicate(team, groups, i)) {
           candidates.push(i);
         }
       }
@@ -85,13 +64,10 @@ function anyGroupPossible<T>(
     apply: i => {
       const team = source[depth];
       groups[i].push(team);
-      hooks?.place(team, i);
       ++depth;
     },
     undo: i => {
       --depth;
-      const team = source[depth];
-      hooks?.unplace(team, i);
       groups[i].pop();
     },
   });
