@@ -16,6 +16,8 @@ export default (isDev: boolean) =>
               transform: {
                 react: {
                   runtime: 'automatic',
+                  development: isDev,
+                  refresh: isDev,
                 },
               },
             },

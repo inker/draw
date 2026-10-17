@@ -1,5 +1,6 @@
 import { rspack } from '@rspack/core';
 import type { Plugins, RspackPluginInstance } from '@rspack/core';
+import { ReactRefreshRspackPlugin } from '@rspack/plugin-react-refresh';
 import { TsCheckerRspackPlugin } from 'ts-checker-rspack-plugin';
 import ESLintPlugin from 'eslint-rspack-plugin';
 import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
@@ -36,6 +37,8 @@ export default (isDev: boolean) =>
           'modification-date': currentDate,
         },
       }),
+
+      isDev && new ReactRefreshRspackPlugin(),
 
       isDev && new TsCheckerRspackPlugin(),
 
