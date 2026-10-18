@@ -51,7 +51,7 @@ function getState(pots: FixedArray<readonly Team[], 2>, season: number): State {
       {
         length: numMatchups,
       },
-      stubArray,
+      stubArray as () => [],
     ),
   };
 }
