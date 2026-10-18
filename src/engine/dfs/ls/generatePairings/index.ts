@@ -87,9 +87,9 @@ export default async function* generatePairings({
       new Worker(new URL('./getFirstSuitableMatch.worker', import.meta.url)),
   });
 
-  const getFirstSuitableMatch = workerRpc<ReturnType<Func>>(
-    workerManager.register(),
-  );
+  const getFirstSuitableMatch: (
+    options: Parameters<Func>[0],
+  ) => Promise<ReturnType<Func>> = workerRpc(workerManager.register());
 
   const numLocations = isPairedPotMode ? 1 : 2;
   const numSlots = numPots * numLocations;
@@ -127,7 +127,8 @@ export default async function* generatePairings({
       // eslint-disable-next-line no-await-in-loop
       const randomSeed = await prngFloat(prngGenerator);
 
-      const payload = {
+      // eslint-disable-next-line no-await-in-loop
+      const pickedMatch = await getFirstSuitableMatch({
         rules,
         numPots,
         numTeamsPerPot,
@@ -144,9 +145,7 @@ export default async function* generatePairings({
           opponentPot: Math.floor(slot / numLocations),
           isHome: slot % numLocations === 0,
         },
-      } satisfies Parameters<Func>[0];
-      // eslint-disable-next-line no-await-in-loop
-      const pickedMatch = await getFirstSuitableMatch(payload);
+      });
 
       allocatedMatches.push(pickedMatch);
 
