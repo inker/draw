@@ -33,11 +33,12 @@ export default function getFillOrder<NumMatchdays extends number>({
       length: numMatchdays,
     },
     (_, md) =>
-      teamIndices.filter(
-        team =>
-          !homeAwayPatterns.isViable(team, true, md) ||
-          !homeAwayPatterns.isViable(team, false, md),
-      ).length,
+      sumBy(teamIndices, team =>
+        homeAwayPatterns.isViable(team, true, md) &&
+        homeAwayPatterns.isViable(team, false, md)
+          ? 0
+          : 1,
+      ),
   );
 
   // A pair that has to alternate splits the clubs exactly in two:
