@@ -411,16 +411,11 @@ export default ({
         }
       }
 
-      // most constrained opponent first, ties broken the same way
+      // Opponents go in random order rather than most constrained first.
+      // That ordering put one fixture on the first-filled matchday
+      // in 86% of schedules for a CL draw,
+      // & it was no faster on CL, ECL or the Premier League.
       const scoredGames = pickedGames.map(g => {
-        const [h, a] = allGames[g];
-        const opponent = h === pickedTeam ? a : h;
-        let numOpponentOptions = 0;
-        for (const og of gamesByTeam[opponent]) {
-          if (matchdayByGame[og] === -1 && !reject(og, md)) {
-            ++numOpponentOptions;
-          }
-        }
         // First meetings go before rematches when they have to be kept apart,
         // pushing the rematches later, where the season still has room for them.
         // Without it a 20-team season with meetings 5 matchdays apart
@@ -428,12 +423,7 @@ export default ({
         const isHeldBackRematch =
           minMatchdaysBetweenMeetings > 1 &&
           otherMeetingsByGame[g].some(og => matchdayByGame[og] !== -1);
-        return [
-          g,
-          (isHeldBackRematch ? numTeams : 0) +
-            numOpponentOptions +
-            nextRandom() * 0.5,
-        ] as const;
+        return [g, (isHeldBackRematch ? numTeams : 0) + nextRandom()] as const;
       });
       scoredGames.sort((x, y) => x[1] - y[1]);
 
