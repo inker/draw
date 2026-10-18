@@ -1,6 +1,7 @@
 import { range } from 'lodash';
 
 import WorkerManager from '#utils/worker/WorkerManager';
+import workerRpc from '#utils/worker/rpc';
 import { type PrngGenerator } from '#utils/prng/generator';
 import prngFloat from '#utils/prng/float';
 import prngShuffle from '#utils/prng/shuffle';
@@ -11,7 +12,7 @@ import incompatibleCountries from '#engine/predicates/uefa/utils/incompatibleCou
 import bannedFixtures from '#engine/predicates/uefa/utils/bannedFixtures';
 
 import generateFull from './generateFull';
-import getFirstSuitableMatch from './getFirstSuitableMatch.wrapper';
+import { type Func } from './getFirstSuitableMatch.worker';
 import { type RuleSpec } from './rules';
 
 interface Team {
@@ -86,7 +87,9 @@ export default async function* generatePairings({
       new Worker(new URL('./getFirstSuitableMatch.worker', import.meta.url)),
   });
 
-  const worker = workerManager.register();
+  const getFirstSuitableMatch = workerRpc<ReturnType<Func>>(
+    workerManager.register(),
+  );
 
   const numLocations = isPairedPotMode ? 1 : 2;
   const numSlots = numPots * numLocations;
@@ -141,12 +144,9 @@ export default async function* generatePairings({
           opponentPot: Math.floor(slot / numLocations),
           isHome: slot % numLocations === 0,
         },
-      } satisfies Omit<Parameters<typeof getFirstSuitableMatch>[0], 'worker'>;
+      } satisfies Parameters<Func>[0];
       // eslint-disable-next-line no-await-in-loop
-      const pickedMatch = await getFirstSuitableMatch({
-        ...payload,
-        worker,
-      });
+      const pickedMatch = await getFirstSuitableMatch(payload);
 
       allocatedMatches.push(pickedMatch);
 
