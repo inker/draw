@@ -39,10 +39,10 @@ function getClubIconUrl(team: Team) {
     return undefined;
   }
   const [shirt, ring] = colors;
-  // The 4:3 box matches the flags it replaces,
-  // so sizing & the matrix header's rotation work unchanged.
+  // The square box matches the --flag-aspect-ratio the page sets,
+  // so the icon fills the space the layout gives it.
   // The grey outline keeps white rings visible on a light background.
-  const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 4 3"><circle cx="2" cy="1.5" r="1.45" fill="${ring}" stroke="#808080" stroke-width="0.1"/><circle cx="2" cy="1.5" r="0.9" fill="${shirt}"/></svg>`;
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3 3"><circle cx="1.5" cy="1.5" r="1.45" fill="${ring}" stroke="#808080" stroke-width="0.1"/><circle cx="1.5" cy="1.5" r="0.9" fill="${shirt}"/></svg>`;
   return `data:image/svg+xml,${encodeURIComponent(svg)}`;
 }
 

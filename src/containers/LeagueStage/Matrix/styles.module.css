@@ -6,8 +6,8 @@
 
 .table {
   --cell-height: round(down, clamp(15px, calc(100vh / 46), 20px), 5px);
-  --flag-width: calc(var(--cell-height) * 0.8);
-  --flag-height: calc(var(--flag-width) * 0.75);
+  --flag-height: calc(var(--cell-height) * 0.6);
+  --flag-width: calc(var(--flag-height) * var(--flag-aspect-ratio));
   --cell-padding-start: calc((var(--cell-height) - var(--flag-height)) / 2);
   --flag-team-gap: calc(0.15 * var(--cell-height));
   --flag-rotation-compensation: calc(

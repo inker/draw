@@ -2,4 +2,11 @@
   --border-color: light-dark(#aaa, #222);
   --border: solid 1px var(--border-color);
   --page-background: light-dark(white, #272a33);
+
+  /*
+    width over height for every flag & icon,
+    matching the flag-icons 4x3 set that getCountryFlagUrl reads from.
+    It's wrapped in calc() so dividing by it divides by the whole ratio
+  */
+  --flag-aspect-ratio: calc(4 / 3);
 }
