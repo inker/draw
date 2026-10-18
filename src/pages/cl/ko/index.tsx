@@ -50,7 +50,7 @@ function getState(pots: FixedArray<readonly Team[], 2>): State {
       {
         length: numMatchups,
       },
-      stubArray as () => [],
+      stubArray,
     ),
   };
 }
