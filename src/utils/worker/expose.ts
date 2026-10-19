@@ -1,4 +1,8 @@
-import { type MessageForWorker, type MessageFromWorker } from './messages';
+import {
+  type ConnectMessage,
+  type MessageForWorker,
+  type MessageFromWorker,
+} from './messages';
 import type ToCloneable from './ToCloneable';
 
 // The intersection makes a return value that can't be cloned a compile error here,
@@ -11,30 +15,32 @@ export default <F extends (...args: any) => unknown>(
   type ResponseMessage = MessageFromWorker<unknown>;
 
   // eslint-disable-next-line no-restricted-globals
-  addEventListener('message', (e: MessageEvent<IncomingMessage | null>) => {
-    if (e.data?.type !== 'rpc') {
+  addEventListener('message', (we: MessageEvent<ConnectMessage | null>) => {
+    const [port] = we.ports;
+    if (we.data?.type !== 'rpc-connect' || !port) {
       return;
     }
 
-    const { id, args } = e.data;
+    port.addEventListener('message', (e: MessageEvent<IncomingMessage>) => {
+      const { id, args } = e.data;
 
-    try {
-      const result = func(...args);
+      try {
+        const result = func(...args);
 
-      globalThis.postMessage({
-        type: 'rpc',
-        status: 'result',
-        id,
-        result,
-      } satisfies ResponseMessage);
-    } catch (err) {
-      globalThis.postMessage({
-        type: 'rpc',
-        status: 'error',
-        id,
-        error: err as Error,
-      } satisfies ResponseMessage);
-    }
+        port.postMessage({
+          status: 'result',
+          id,
+          result,
+        } satisfies ResponseMessage);
+      } catch (err) {
+        port.postMessage({
+          status: 'error',
+          id,
+          error: err as Error,
+        } satisfies ResponseMessage);
+      }
+    });
+    port.start();
   });
 };
 
