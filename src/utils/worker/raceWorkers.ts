@@ -1,6 +1,5 @@
 import delay from 'delay.js';
 
-import WorkerManager from './WorkerManager';
 import workerRpc from './rpc';
 
 const maxNumWorkers = navigator.hardwareConcurrency;
@@ -64,11 +63,9 @@ export default async <Func extends (...args: any) => unknown>({
   // so the attempts would spin forever without yielding.
   signal?.throwIfAborted();
 
-  const workerManager = new WorkerManager({
-    maker: getWorker,
-  });
   let gotResult = false;
-  // detaches the abort listener once the race is over
+  // Aborted once the race is decided,
+  // which ends every worker still running & detaches the abort listener
   const raceSettled = new AbortController();
 
   if (signal) {
@@ -76,7 +73,6 @@ export default async <Func extends (...args: any) => unknown>({
       'abort',
       () => {
         gotResult = true;
-        workerManager.killAll();
       },
       {
         once: true,
@@ -103,8 +99,6 @@ export default async <Func extends (...args: any) => unknown>({
           }
           numWorkers = getNumWorkers();
         }
-        const worker = workerManager.register();
-        const rpc = workerRpc<Func>(worker);
         // The attempt is over once the deadline passes or the caller aborts,
         // so a cancelled draw no longer waits out the remaining timeout.
         const attemptSignal = AbortSignal.any(
@@ -119,12 +113,16 @@ export default async <Func extends (...args: any) => unknown>({
             ),
           ].filter(Boolean) as AbortSignal[],
         );
-        // detaches the abort listener once the attempt is over
+        // ends the worker & detaches the abort listener once the attempt is over
         const attemptSettled = new AbortController();
+        const call = workerRpc<Func>(
+          getWorker(),
+          AbortSignal.any([raceSettled.signal, attemptSettled.signal]),
+        );
         try {
           // eslint-disable-next-line no-await-in-loop
           const raceResult = await Promise.race([
-            rpc.call(
+            call(
               ...getArgs({
                 workerIndex,
                 attempt,
@@ -137,16 +135,18 @@ export default async <Func extends (...args: any) => unknown>({
           ]);
           if (raceResult !== aborted) {
             gotResult = true;
-            workerManager.killAll();
+            raceSettled.abort();
             return {
               result: raceResult,
               workerIndex,
               attempt,
             };
           }
-          // timed out or aborted
-          workerManager.kill(worker);
         } catch (err) {
+          // Another worker winning ends this call on purpose
+          if (gotResult) {
+            return undefined;
+          }
           if (shouldSwallowErrors) {
             console.error(err);
           } else {
@@ -154,8 +154,6 @@ export default async <Func extends (...args: any) => unknown>({
           }
         } finally {
           attemptSettled.abort();
-          rpc.close();
-          workerManager.kill(worker);
         }
       }
     },

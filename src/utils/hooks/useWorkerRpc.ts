@@ -11,18 +11,13 @@ export default <F extends (...args: never) => unknown>(
   // so an effect that is torn down & set up again gets a live worker
   // rather than the one it has just terminated
   useEffect(() => {
-    const worker = getWorker();
-    const rpc = workerRpc<F>(worker);
-    rpcRef.current = rpc;
+    const lifetime = new AbortController();
+    rpcRef.current = workerRpc<F>(getWorker(), lifetime.signal);
     return () => {
-      rpc.close();
-      worker.terminate();
+      lifetime.abort();
       rpcRef.current = null;
     };
   }, [getWorker]);
 
-  return useCallback(
-    (...args: Parameters<F>) => rpcRef.current!.call(...args),
-    [],
-  );
+  return useCallback((...args: Parameters<F>) => rpcRef.current!(...args), []);
 };

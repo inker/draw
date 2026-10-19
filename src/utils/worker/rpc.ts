@@ -4,44 +4,28 @@ import {
   type MessageFromWorker,
 } from './messages';
 
-export default <F extends (...args: never) => unknown>(worker: Worker) => {
+/**
+ * Takes ownership of the worker.
+ * Aborting the signal terminates it
+ * & rejects every pending & later call with the reason.
+ */
+export default <F extends (...args: never) => unknown>(
+  worker: Worker,
+  signal: AbortSignal,
+) => {
   interface Callbacks {
     resolve: (response: Awaited<ReturnType<F>>) => void;
-    reject: (err: Error) => void;
+    reject: (err: unknown) => void;
   }
 
   const callbacks = new Map<number, Callbacks>();
   let lastId = 0;
-  let closeReason: Error | undefined;
+
+  // A worker that fails is as finished as one the caller has stopped
+  const failure = new AbortController();
+  const lifetime = AbortSignal.any([signal, failure.signal]);
 
   const { port1, port2 } = new MessageChannel();
-
-  // detaches every listener once the connection is closed
-  const listeners = new AbortController();
-
-  /**
-   * Rejects every pending call & any made afterwards.
-   * Terminating the worker settles nothing on its own,
-   * so whoever terminates it should close this first.
-   */
-  const close = (
-    reason: Error = new DOMException(
-      'The worker connection was closed',
-      'AbortError',
-    ),
-  ) => {
-    if (closeReason) {
-      return;
-    }
-    closeReason = reason;
-    listeners.abort();
-    port1.close();
-    for (const cb of callbacks.values()) {
-      cb.reject(reason);
-    }
-    callbacks.clear();
-  };
-
   worker.postMessage(
     {
       type: 'rpc-connect',
@@ -65,54 +49,59 @@ export default <F extends (...args: never) => unknown>(worker: Worker) => {
       }
     },
     {
-      signal: listeners.signal,
+      signal: lifetime,
     },
   );
-  // A reply that can't be deserialised has no id to read.
-  // The worker runs one call at a time & answers in order,
-  // so it belongs to the oldest pending call.
+  // A reply that can't be deserialised arrives here with no id,
+  // so the call it answers would otherwise wait forever.
   port1.addEventListener(
     'messageerror',
     () => {
-      const [oldest] = callbacks;
-      if (!oldest) {
-        return;
-      }
-
-      const [id, cb] = oldest;
-      callbacks.delete(id);
-      cb.reject(new Error('The reply from the worker could not be read'));
+      failure.abort(new Error('The reply from the worker could not be read'));
     },
     {
-      signal: listeners.signal,
+      signal: lifetime,
     },
   );
   // The exposed function catches its own errors,
   // so this only fires for ones outside it, such as the script failing to load.
-  // No call would be answered after that.
   worker.addEventListener(
     'error',
     e => {
-      close(
+      failure.abort(
         new Error('The worker failed', {
           cause: e,
         }),
       );
     },
     {
-      signal: listeners.signal,
+      signal: lifetime,
     },
   );
   // A port only delivers once started,
   // which onmessage does implicitly & addEventListener does not.
   port1.start();
 
-  const call = (...args: Parameters<F>) =>
+  const end = () => {
+    worker.terminate();
+    port1.close();
+    for (const cb of callbacks.values()) {
+      cb.reject(lifetime.reason);
+    }
+    callbacks.clear();
+  };
+  // An already-aborted signal never fires the event
+  if (lifetime.aborted) {
+    end();
+  } else {
+    lifetime.addEventListener('abort', end, {
+      once: true,
+    });
+  }
+
+  return (...args: Parameters<F>) =>
     new Promise<Awaited<ReturnType<F>>>((resolve, reject) => {
-      if (closeReason) {
-        reject(closeReason);
-        return;
-      }
+      lifetime.throwIfAborted();
 
       const id = ++lastId;
       callbacks.set(id, {
@@ -124,9 +113,4 @@ export default <F extends (...args: never) => unknown>(worker: Worker) => {
         args,
       } satisfies MessageForWorker<Parameters<F>>);
     });
-
-  return {
-    call,
-    close,
-  };
 };

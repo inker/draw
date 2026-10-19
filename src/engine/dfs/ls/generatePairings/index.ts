@@ -1,6 +1,5 @@
 import { range } from 'lodash';
 
-import WorkerManager from '#utils/worker/WorkerManager';
 import workerRpc from '#utils/worker/rpc';
 import { type PrngGenerator } from '#utils/prng/generator';
 import prngFloat from '#utils/prng/float';
@@ -82,13 +81,11 @@ export default async function* generatePairings({
     },
   ] satisfies RuleSpec[];
 
-  const workerManager = new WorkerManager({
-    maker: () =>
-      new Worker(new URL('./getFirstSuitableMatch.worker', import.meta.url)),
-  });
-
-  const { call: getFirstSuitableMatch, close } = workerRpc<Func>(
-    workerManager.register(),
+  // ends the worker once the generator finishes
+  const lifetime = new AbortController();
+  const getFirstSuitableMatch = workerRpc<Func>(
+    new Worker(new URL('./getFirstSuitableMatch.worker', import.meta.url)),
+    lifetime.signal,
   );
 
   const numLocations = isPairedPotMode ? 1 : 2;
@@ -157,7 +154,6 @@ export default async function* generatePairings({
       };
     }
   } finally {
-    close();
-    workerManager.killAll();
+    lifetime.abort();
   }
 }
