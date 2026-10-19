@@ -94,7 +94,7 @@ function ELKO({ season, pots: initialPots }: Props) {
   const [, setPopup] = usePopup();
   const [isXRay] = useXRay();
 
-  const getPossiblePairingsResponse = useWorkerRpc(createWorker) as Func;
+  const getPossiblePairingsResponse = useWorkerRpc<Func>(createWorker);
 
   const groupsContanerRef = useRef<HTMLTableElement>(null);
 

@@ -87,9 +87,7 @@ export default async function* generatePairings({
       new Worker(new URL('./getFirstSuitableMatch.worker', import.meta.url)),
   });
 
-  const getFirstSuitableMatch: (
-    options: Parameters<Func>[0],
-  ) => Promise<ReturnType<Func>> = workerRpc(workerManager.register());
+  const getFirstSuitableMatch = workerRpc<Func>(workerManager.register());
 
   const numLocations = isPairedPotMode ? 1 : 2;
   const numSlots = numPots * numLocations;

@@ -95,12 +95,12 @@ function CLGS({ season, pots: initialPots, isFirstPotShortDraw }: Props) {
   const [, setPopup] = usePopup();
   const [isXRay] = useXRay();
 
-  const getFirstPossibleGroupResponse = useWorkerRpc(
+  const getFirstPossibleGroupResponse = useWorkerRpc<FirstPossibleGroupFunc>(
     createFirstPossibleGroupWorker,
-  ) as FirstPossibleGroupFunc;
-  const getAllPossibleGroupsResponse = useWorkerRpc(
+  );
+  const getAllPossibleGroupsResponse = useWorkerRpc<AllPossibleGroupsFunc>(
     createAllPossibleGroupsWorker,
-  ) as AllPossibleGroupsFunc;
+  );
 
   const groupsContanerRef = useRef<HTMLDivElement>(null);
 

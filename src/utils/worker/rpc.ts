@@ -6,9 +6,9 @@ import {
   type MessageFromWorker,
 } from './constants';
 
-export default <Response>(worker: Worker) => {
+export default <F extends (arg: never) => unknown>(worker: Worker) => {
   interface Callbacks {
-    resolve: (response: Response) => void;
+    resolve: (response: Awaited<ReturnType<F>>) => void;
     reject: (err: Error) => void;
   }
 
@@ -16,7 +16,7 @@ export default <Response>(worker: Worker) => {
 
   worker.addEventListener(
     'message',
-    ({ data }: MessageEvent<MessageFromWorker<Response>>) => {
+    ({ data }: MessageEvent<MessageFromWorker<Awaited<ReturnType<F>>>>) => {
       const id = data[FROM_WORKER_CORRELATION_ID];
       const cb = callbacks.get(id);
       if (!cb) {
@@ -32,8 +32,8 @@ export default <Response>(worker: Worker) => {
     },
   );
 
-  return (message: unknown) =>
-    new Promise<Response>((resolve, reject) => {
+  return (message: Parameters<F>[0]) =>
+    new Promise<Awaited<ReturnType<F>>>((resolve, reject) => {
       const id = globalThis.crypto.randomUUID();
       callbacks.set(id, {
         resolve,

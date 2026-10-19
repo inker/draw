@@ -116,7 +116,7 @@ export default async <Func extends (...args: any) => void>({
         try {
           // eslint-disable-next-line no-await-in-loop
           const raceResult = await Promise.race([
-            workerRpc<ReturnType<Func>>(worker)(
+            workerRpc<Func>(worker)(
               getPayload({
                 workerIndex,
                 attempt,

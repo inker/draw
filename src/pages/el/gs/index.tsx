@@ -77,7 +77,7 @@ function ELGS({ season, pots: initialPots }: Props) {
   const [, setPopup] = usePopup();
   const [isXRay] = useXRay();
 
-  const getFirstPossibleGroupResponse = useWorkerRpc(createWorker) as Func;
+  const getFirstPossibleGroupResponse = useWorkerRpc<Func>(createWorker);
 
   const groupsContanerRef = useRef<HTMLDivElement>(null);
 
