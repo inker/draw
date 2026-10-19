@@ -5,6 +5,9 @@ import workerRpc from './rpc';
 
 const maxNumWorkers = navigator.hardwareConcurrency;
 
+// Unlike undefined, this can't be mistaken for anything a worker returns
+const aborted = Symbol('aborted');
+
 /**
  * Resolves once the signal aborts, so it can lose a race against the work.
  * An already-aborted signal never fires the event, hence the upfront check.
@@ -21,15 +24,15 @@ const untilAborted = ({
   signal: AbortSignal;
   untilSettled: AbortSignal;
 }) =>
-  new Promise<void>(resolve => {
+  new Promise<typeof aborted>(resolve => {
     if (signal.aborted) {
-      resolve();
+      resolve(aborted);
       return;
     }
     signal.addEventListener(
       'abort',
       () => {
-        resolve();
+        resolve(aborted);
       },
       {
         once: true,
@@ -38,7 +41,7 @@ const untilAborted = ({
     );
   });
 
-export default async <Func extends (...args: any) => void>({
+export default async <Func extends (...args: any) => unknown>({
   numWorkers: numWorkersParam,
   getWorker,
   getArgs,
@@ -57,10 +60,16 @@ export default async <Func extends (...args: any) => void>({
   shouldSwallowErrors?: boolean;
   signal?: AbortSignal;
 }): Promise<Awaited<ReturnType<Func>>> => {
+  // An aborted signal never fires the event below,
+  // so the attempts would spin forever without yielding.
+  signal?.throwIfAborted();
+
   const workerManager = new WorkerManager({
     maker: getWorker,
   });
   let gotResult = false;
+  // detaches the abort listener once the race is over
+  const raceSettled = new AbortController();
 
   if (signal) {
     signal.addEventListener(
@@ -71,6 +80,7 @@ export default async <Func extends (...args: any) => void>({
       },
       {
         once: true,
+        signal: raceSettled.signal,
       },
     );
   }
@@ -94,6 +104,7 @@ export default async <Func extends (...args: any) => void>({
           numWorkers = getNumWorkers();
         }
         const worker = workerManager.register();
+        const rpc = workerRpc<Func>(worker);
         // The attempt is over once the deadline passes or the caller aborts,
         // so a cancelled draw no longer waits out the remaining timeout.
         const attemptSignal = AbortSignal.any(
@@ -113,7 +124,7 @@ export default async <Func extends (...args: any) => void>({
         try {
           // eslint-disable-next-line no-await-in-loop
           const raceResult = await Promise.race([
-            workerRpc<Func>(worker)(
+            rpc.call(
               ...getArgs({
                 workerIndex,
                 attempt,
@@ -124,11 +135,11 @@ export default async <Func extends (...args: any) => void>({
               untilSettled: attemptSettled.signal,
             }),
           ]);
-          if (raceResult !== undefined) {
+          if (raceResult !== aborted) {
             gotResult = true;
             workerManager.killAll();
             return {
-              result: raceResult as Awaited<ReturnType<Func>>,
+              result: raceResult,
               workerIndex,
               attempt,
             };
@@ -143,11 +154,20 @@ export default async <Func extends (...args: any) => void>({
           }
         } finally {
           attemptSettled.abort();
+          rpc.close();
           workerManager.kill(worker);
         }
       }
     },
   );
-  const firstResult = (await Promise.any(promises))!;
-  return firstResult.result;
+  try {
+    const firstResult = await Promise.any(promises);
+    // Every attempt gives up without a winner only when the caller aborts
+    if (!firstResult) {
+      throw signal!.reason;
+    }
+    return firstResult.result;
+  } finally {
+    raceSettled.abort();
+  }
 };

@@ -33,11 +33,21 @@ export default <F extends (...args: any) => unknown>(
           result,
         } satisfies ResponseMessage);
       } catch (err) {
-        port.postMessage({
-          status: 'error',
-          id,
-          error: err as Error,
-        } satisfies ResponseMessage);
+        try {
+          port.postMessage({
+            status: 'error',
+            id,
+            error: err as Error,
+          } satisfies ResponseMessage);
+        } catch {
+          // The error itself can't be cloned (a function in its cause, say).
+          // Sending one that can keeps the caller from waiting forever.
+          port.postMessage({
+            status: 'error',
+            id,
+            error: new Error(String(err)),
+          } satisfies ResponseMessage);
+        }
       }
     });
     port.start();

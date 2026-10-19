@@ -12,12 +12,17 @@ export default <F extends (...args: never) => unknown>(
   // rather than the one it has just terminated
   useEffect(() => {
     const worker = getWorker();
-    rpcRef.current = workerRpc<F>(worker);
+    const rpc = workerRpc<F>(worker);
+    rpcRef.current = rpc;
     return () => {
+      rpc.close();
       worker.terminate();
       rpcRef.current = null;
     };
   }, [getWorker]);
 
-  return useCallback((...args: Parameters<F>) => rpcRef.current!(...args), []);
+  return useCallback(
+    (...args: Parameters<F>) => rpcRef.current!.call(...args),
+    [],
+  );
 };

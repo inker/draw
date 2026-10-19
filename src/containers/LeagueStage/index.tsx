@@ -220,7 +220,17 @@ function LeagueStage({ tournament, season, pots: initialPots }: Props) {
         setIsScheduleGenerating(false);
       };
 
-      formSchedule();
+      (async () => {
+        try {
+          await formSchedule();
+        } catch (err) {
+          // Aborting is how this effect stops the solver,
+          // so only other failures are worth reporting.
+          if (!abortController.signal.aborted) {
+            throw err;
+          }
+        }
+      })();
     }
 
     return () => {
