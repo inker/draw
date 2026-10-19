@@ -17,8 +17,5 @@ export default <F extends (arg: never) => unknown>(getWorker: () => Worker) => {
     };
   }, [getWorker]);
 
-  return useCallback(
-    (message: Parameters<F>[0]) => rpcRef.current!(message),
-    [],
-  );
+  return useCallback((data: Parameters<F>[0]) => rpcRef.current!(data), []);
 };
