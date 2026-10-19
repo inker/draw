@@ -1,10 +1,4 @@
-import {
-  FOR_WORKER_CORRELATION_ID,
-  FOR_WORKER_DATA_KEY,
-  FROM_WORKER_CORRELATION_ID,
-  FROM_WORKER_DATA_KEY,
-  type MessageFromWorker,
-} from './constants';
+import { type MessageForWorker, type MessageFromWorker } from './messages';
 
 export default <F extends (...args: never) => unknown>(worker: Worker) => {
   interface Callbacks {
@@ -16,18 +10,23 @@ export default <F extends (...args: never) => unknown>(worker: Worker) => {
 
   worker.addEventListener(
     'message',
-    ({ data }: MessageEvent<MessageFromWorker<Awaited<ReturnType<F>>>>) => {
-      const id = data[FROM_WORKER_CORRELATION_ID];
-      const cb = callbacks.get(id);
+    ({
+      data,
+    }: MessageEvent<MessageFromWorker<Awaited<ReturnType<F>>> | null>) => {
+      if (data?.type !== 'rpc') {
+        return;
+      }
+
+      const cb = callbacks.get(data.id);
       if (!cb) {
         return;
       }
 
-      callbacks.delete(id);
-      if (data.type === 'error') {
-        cb.reject(data[FROM_WORKER_DATA_KEY]);
+      callbacks.delete(data.id);
+      if (data.status === 'error') {
+        cb.reject(data.error);
       } else {
-        cb.resolve(data[FROM_WORKER_DATA_KEY]);
+        cb.resolve(data.result);
       }
     },
   );
@@ -40,8 +39,9 @@ export default <F extends (...args: never) => unknown>(worker: Worker) => {
         reject,
       });
       worker.postMessage({
-        [FOR_WORKER_CORRELATION_ID]: id,
-        [FOR_WORKER_DATA_KEY]: args,
-      });
+        type: 'rpc',
+        id,
+        args,
+      } satisfies MessageForWorker<Parameters<F>>);
     });
 };

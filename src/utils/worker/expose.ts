@@ -1,11 +1,4 @@
-import {
-  FOR_WORKER_CORRELATION_ID,
-  FOR_WORKER_DATA_KEY,
-  FROM_WORKER_CORRELATION_ID,
-  FROM_WORKER_DATA_KEY,
-  type MessageForWorker,
-  type MessageFromWorker,
-} from './constants';
+import { type MessageForWorker, type MessageFromWorker } from './messages';
 import type ToCloneable from './ToCloneable';
 
 // The intersection makes a return value that can't be cloned a compile error here,
@@ -18,25 +11,28 @@ export default <F extends (...args: any) => unknown>(
   type ResponseMessage = MessageFromWorker<unknown>;
 
   // eslint-disable-next-line no-restricted-globals
-  addEventListener('message', (e: MessageEvent<IncomingMessage>) => {
-    const {
-      [FOR_WORKER_CORRELATION_ID]: correlationId,
-      [FOR_WORKER_DATA_KEY]: args,
-    } = e.data;
+  addEventListener('message', (e: MessageEvent<IncomingMessage | null>) => {
+    if (e.data?.type !== 'rpc') {
+      return;
+    }
+
+    const { id, args } = e.data;
 
     try {
       const result = func(...args);
 
       globalThis.postMessage({
-        type: 'result',
-        [FROM_WORKER_CORRELATION_ID]: correlationId,
-        [FROM_WORKER_DATA_KEY]: result,
+        type: 'rpc',
+        status: 'result',
+        id,
+        result,
       } satisfies ResponseMessage);
     } catch (err) {
       globalThis.postMessage({
-        type: 'error',
-        [FROM_WORKER_CORRELATION_ID]: correlationId,
-        [FROM_WORKER_DATA_KEY]: err as Error,
+        type: 'rpc',
+        status: 'error',
+        id,
+        error: err as Error,
       } satisfies ResponseMessage);
     }
   });
