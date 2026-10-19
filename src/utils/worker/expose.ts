@@ -14,44 +14,46 @@ export default <F extends (...args: any) => unknown>(
 
   type ResponseMessage = MessageFromWorker<unknown>;
 
-  // eslint-disable-next-line no-restricted-globals
-  addEventListener('message', (we: MessageEvent<ConnectMessage | null>) => {
-    const [port] = we.ports;
-    if (we.data?.type !== 'rpc-connect' || !port) {
-      return;
-    }
-
-    port.addEventListener('message', (e: MessageEvent<IncomingMessage>) => {
-      const { id, args } = e.data;
-
-      try {
-        const result = func(...args);
-
-        port.postMessage({
-          status: 'result',
-          id,
-          result,
-        } satisfies ResponseMessage);
-      } catch (err) {
-        try {
-          port.postMessage({
-            status: 'error',
-            id,
-            error: err as Error,
-          } satisfies ResponseMessage);
-        } catch {
-          // The error itself can't be cloned (a function in its cause, say).
-          // Sending one that can keeps the caller from waiting forever.
-          port.postMessage({
-            status: 'error',
-            id,
-            error: new Error(String(err)),
-          } satisfies ResponseMessage);
-        }
+  globalThis.addEventListener(
+    'message',
+    (we: MessageEvent<ConnectMessage | null>) => {
+      const [port] = we.ports;
+      if (we.data?.type !== 'rpc-connect' || !port) {
+        return;
       }
-    });
-    port.start();
-  });
+
+      port.addEventListener('message', (e: MessageEvent<IncomingMessage>) => {
+        const { id, args } = e.data;
+
+        try {
+          const result = func(...args);
+
+          port.postMessage({
+            status: 'result',
+            id,
+            result,
+          } satisfies ResponseMessage);
+        } catch (err) {
+          try {
+            port.postMessage({
+              status: 'error',
+              id,
+              error: err as Error,
+            } satisfies ResponseMessage);
+          } catch {
+            // The error itself can't be cloned (a function in its cause, say).
+            // Sending one that can keeps the caller from waiting forever.
+            port.postMessage({
+              status: 'error',
+              id,
+              error: new Error(String(err)),
+            } satisfies ResponseMessage);
+          }
+        }
+      });
+      port.start();
+    },
+  );
 };
 
 export type ExposedFuncType<F extends (...args: never) => unknown> = (
