@@ -35,7 +35,8 @@ export default <F extends (...args: never) => unknown>(
 
   port1.addEventListener(
     'message',
-    ({ data }: MessageEvent<MessageFromWorker<Awaited<ReturnType<F>>>>) => {
+    (e: MessageEvent<MessageFromWorker<Awaited<ReturnType<F>>>>) => {
+      const { data } = e;
       const cb = callbacks.get(data.id);
       if (!cb) {
         return;
