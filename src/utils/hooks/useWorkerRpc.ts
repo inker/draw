@@ -2,7 +2,9 @@ import { useCallback, useEffect, useRef } from 'react';
 
 import workerRpc from '#utils/worker/rpc';
 
-export default <F extends (arg: never) => unknown>(getWorker: () => Worker) => {
+export default <F extends (...args: never) => unknown>(
+  getWorker: () => Worker,
+) => {
   const rpcRef = useRef<ReturnType<typeof workerRpc<F>>>(null);
 
   // Created in the same effect that terminates it,
@@ -17,5 +19,5 @@ export default <F extends (arg: never) => unknown>(getWorker: () => Worker) => {
     };
   }, [getWorker]);
 
-  return useCallback((data: Parameters<F>[0]) => rpcRef.current!(data), []);
+  return useCallback((...args: Parameters<F>) => rpcRef.current!(...args), []);
 };

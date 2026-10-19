@@ -6,7 +6,7 @@ import {
   type MessageFromWorker,
 } from './constants';
 
-export default <F extends (arg: never) => unknown>(worker: Worker) => {
+export default <F extends (...args: never) => unknown>(worker: Worker) => {
   interface Callbacks {
     resolve: (response: Awaited<ReturnType<F>>) => void;
     reject: (err: Error) => void;
@@ -32,7 +32,7 @@ export default <F extends (arg: never) => unknown>(worker: Worker) => {
     },
   );
 
-  return (data: Parameters<F>[0]) =>
+  return (...args: Parameters<F>) =>
     new Promise<Awaited<ReturnType<F>>>((resolve, reject) => {
       const id = globalThis.crypto.randomUUID();
       callbacks.set(id, {
@@ -41,7 +41,7 @@ export default <F extends (arg: never) => unknown>(worker: Worker) => {
       });
       worker.postMessage({
         [FOR_WORKER_CORRELATION_ID]: id,
-        [FOR_WORKER_DATA_KEY]: data,
+        [FOR_WORKER_DATA_KEY]: args,
       });
     });
 };

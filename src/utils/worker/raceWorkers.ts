@@ -41,17 +41,14 @@ const untilAborted = ({
 export default async <Func extends (...args: any) => void>({
   numWorkers: numWorkersParam,
   getWorker,
-  getPayload,
+  getArgs,
   getTimeout,
   shouldSwallowErrors,
   signal,
 }: {
   numWorkers: number | (() => number);
   getWorker: () => Worker;
-  getPayload: (o: {
-    workerIndex: number;
-    attempt: number;
-  }) => Parameters<Func>[0];
+  getArgs: (o: { workerIndex: number; attempt: number }) => Parameters<Func>;
   getTimeout: (o: {
     workerIndex: number;
     numWorkers: number;
@@ -117,7 +114,7 @@ export default async <Func extends (...args: any) => void>({
           // eslint-disable-next-line no-await-in-loop
           const raceResult = await Promise.race([
             workerRpc<Func>(worker)(
-              getPayload({
+              ...getArgs({
                 workerIndex,
                 attempt,
               }),
