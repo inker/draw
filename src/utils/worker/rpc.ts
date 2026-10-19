@@ -22,8 +22,8 @@ export default <F extends (...args: never) => unknown>(
   let lastId = 0;
 
   // A worker that fails is as finished as one the caller has stopped
-  const failure = new AbortController();
-  const lifetime = AbortSignal.any([signal, failure.signal]);
+  const abortController = new AbortController();
+  const lifetimeSignal = AbortSignal.any([signal, abortController.signal]);
 
   const { port1, port2 } = new MessageChannel();
   worker.postMessage(
@@ -50,7 +50,7 @@ export default <F extends (...args: never) => unknown>(
       }
     },
     {
-      signal: lifetime,
+      signal: lifetimeSignal,
     },
   );
   // A reply that can't be deserialised arrives here with no id,
@@ -58,10 +58,12 @@ export default <F extends (...args: never) => unknown>(
   port1.addEventListener(
     'messageerror',
     () => {
-      failure.abort(new Error('The reply from the worker could not be read'));
+      abortController.abort(
+        new Error('The reply from the worker could not be read'),
+      );
     },
     {
-      signal: lifetime,
+      signal: lifetimeSignal,
     },
   );
   // The exposed function catches its own errors,
@@ -69,14 +71,14 @@ export default <F extends (...args: never) => unknown>(
   worker.addEventListener(
     'error',
     e => {
-      failure.abort(
+      abortController.abort(
         new Error('The worker failed', {
           cause: e,
         }),
       );
     },
     {
-      signal: lifetime,
+      signal: lifetimeSignal,
     },
   );
   // A port only delivers once started,
@@ -87,22 +89,22 @@ export default <F extends (...args: never) => unknown>(
     worker.terminate();
     port1.close();
     for (const cb of callbacks.values()) {
-      cb.reject(lifetime.reason);
+      cb.reject(lifetimeSignal.reason);
     }
     callbacks.clear();
   };
   // An already-aborted signal never fires the event
-  if (lifetime.aborted) {
+  if (lifetimeSignal.aborted) {
     end();
   } else {
-    lifetime.addEventListener('abort', end, {
+    lifetimeSignal.addEventListener('abort', end, {
       once: true,
     });
   }
 
   return (...args: Parameters<F>) =>
     new Promise<Awaited<ReturnType<F>>>((resolve, reject) => {
-      lifetime.throwIfAborted();
+      lifetimeSignal.throwIfAborted();
 
       const id = ++lastId;
       callbacks.set(id, {
