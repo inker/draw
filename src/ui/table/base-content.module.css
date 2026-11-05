@@ -5,8 +5,4 @@
   text-decoration: none;
   font-family: Tahoma, Ubuntu, sans-serif;
   font-size: 12px;
-
-  @media (width <= 999px) {
-    font-size: 10px;
-  }
 }
