@@ -5,8 +5,7 @@ import useXRay from "#store/useXRay";
 import Checkbox from "#ui/Checkbox";
 import Popover from "#ui/Popover";
 
-import SelectTheme from "../SelectTheme";
-
+import ThemeSwitch from "./ThemeSwitch";
 import * as styles from "./styles.module.css";
 
 /**
@@ -60,7 +59,7 @@ function Settings() {
         >
           X-ray
         </Checkbox>
-        <SelectTheme
+        <ThemeSwitch
           value={theme}
           onChange={setTheme}
         />

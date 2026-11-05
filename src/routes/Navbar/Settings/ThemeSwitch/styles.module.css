@@ -1,0 +1,67 @@
+.root {
+  margin: 0;
+  padding: 0;
+  border: none;
+}
+
+.legend {
+  margin-bottom: 6px;
+  padding: 0;
+  font-size: 12px;
+  opacity: 0.7;
+}
+
+.segments {
+  display: inline-flex;
+  overflow: hidden;
+  border-radius: 3px;
+  border: var(--border);
+}
+
+.segment {
+  position: relative;
+  padding: 4px 10px;
+  background-color: light-dark(white, #246);
+  color: light-dark(black, white);
+  cursor: pointer;
+  user-select: none;
+
+  & + & {
+    border-left: var(--border);
+  }
+
+  &:hover {
+    background-color: light-dark(#eee, #468);
+  }
+
+  &:has(:checked) {
+    background-color: light-dark(#246, #8ac);
+    color: light-dark(white, black);
+  }
+
+  /*
+    The radio itself is hidden,
+    so the segment has to show where the keyboard focus is
+  */
+  &:has(:focus-visible) {
+    outline: 2px solid currentColor;
+    outline-offset: -4px;
+  }
+
+  @media (width <= 599px) {
+    padding: 8px 14px;
+  }
+}
+
+/*
+  Hidden but still in the tab order,
+  so the arrow keys move between the segments as they would between radios
+*/
+.input {
+  position: absolute;
+  margin: 0;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+}
