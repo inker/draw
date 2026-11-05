@@ -64,6 +64,8 @@ export default async <Func extends (...args: any) => unknown>({
   signal?.throwIfAborted();
 
   let gotResult = false;
+  let hasFailed = false;
+  let failure: unknown;
   // Aborted once the race is decided,
   // which ends every worker still running & detaches the abort listener
   const raceSettled = new AbortController();
@@ -150,6 +152,13 @@ export default async <Func extends (...args: any) => unknown>({
           if (shouldSwallowErrors) {
             console.error(err);
           } else {
+            // Ends the race here,
+            // since the workers waiting for a slot only stop once it is decided
+            // & Promise.any would wait on them forever.
+            hasFailed = true;
+            failure = err;
+            gotResult = true;
+            raceSettled.abort();
             throw err;
           }
         } finally {
@@ -160,9 +169,10 @@ export default async <Func extends (...args: any) => unknown>({
   );
   try {
     const firstResult = await Promise.any(promises);
-    // Every attempt gives up without a winner only when the caller aborts
+    // Every attempt gives up without a winner
+    // only when one fails or the caller aborts
     if (!firstResult) {
-      throw signal!.reason;
+      throw hasFailed ? failure : signal!.reason;
     }
     return firstResult.result;
   } finally {

@@ -1,6 +1,9 @@
 import { getSeasonFacts } from "#data/seasonFacts";
 import coldCountries from "#engine/predicates/uefa/utils/coldCountries";
-import teamsThatCannotHostSameDay from "#engine/predicates/uefa/utils/teamsThatCannotHostSameDay";
+import {
+  teamsNearby,
+  teamsSharingStadium,
+} from "#engine/predicates/uefa/utils/teamsThatCannotHostSameDay";
 import { type UefaCountry } from "#model/types";
 import type Tournament from "#model/Tournament";
 import { type PrngGenerator } from "#utils/prng/generator";
@@ -79,13 +82,14 @@ export default async function generateSchedule({
     });
   }
 
-  const cannotHostSameDayPairs = teamsThatCannotHostSameDay.flatMap(
-    ([aName, bName]) => {
+  const toIndexPairs = (namePairs: readonly (readonly [string, string])[]) =>
+    namePairs.flatMap(([aName, bName]) => {
       const a = teams.findIndex(team => team.name === aName);
       const b = teams.findIndex(team => team.name === bName);
       return a === -1 || b === -1 ? [] : [[a, b] as const];
-    },
-  );
+    });
+  const sharedStadiumPairs = toIndexPairs(teamsSharingStadium);
+  const cannotHostSameDayPairs = toIndexPairs(teamsNearby);
 
   // The solver picks games dynamically,
   // so the input order only seeds tie-breaking.
@@ -96,16 +100,42 @@ export default async function generateSchedule({
 
   const randomSeed = await prngFloat(prngGenerator);
 
-  const result = await assignGamesToMatchdays({
-    matchdaySize,
-    allGames: allGamesShuffled,
-    alternatingPairs,
-    bans,
+  // The pairings are drawn without the schedule in mind,
+  // so a draw can leave no schedule that keeps a city's clubs from hosting together.
+  // In one ECL 2026 draw, København & Nordsjælland could each only host MD5
+  // against a club that had to be away at a cold-country club that day.
+  // The nearby pairs run closest first,
+  // so each one is given up on its own from the far end,
+  // & all of them only once none of that helps.
+  // Clubs sharing a stadium are always kept apart.
+  const pairSets = [
     cannotHostSameDayPairs,
-    randomSeed,
-    getNumWorkers,
-    signal,
-  });
+    ...cannotHostSameDayPairs
+      .map((_, i) => cannotHostSameDayPairs.toSpliced(i, 1))
+      .toReversed(),
+    ...(cannotHostSameDayPairs.length > 1 ? [[]] : []),
+  ];
+  let result: Awaited<ReturnType<typeof assignGamesToMatchdays>>;
+  for (let i = 0; ; ++i) {
+    try {
+      // eslint-disable-next-line no-await-in-loop
+      result = await assignGamesToMatchdays({
+        matchdaySize,
+        allGames: allGamesShuffled,
+        alternatingPairs,
+        bans,
+        cannotHostSameDayPairs: [...sharedStadiumPairs, ...pairSets[i]],
+        randomSeed,
+        getNumWorkers,
+        signal,
+      });
+      break;
+    } catch (err) {
+      if (signal?.aborted || i === pairSets.length - 1) {
+        throw err;
+      }
+    }
+  }
 
   const shuffledMatchdaysSource = await prngShuffleAll({
     collections: result,
