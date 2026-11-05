@@ -7,4 +7,5 @@ export default [
   ["Man City", "Man United"],
   ["Fenerbahçe", "Galatasaray"],
   ["København", "Nordsjælland"],
+  ["Arsenal", "Tottenham"],
 ] as const satisfies readonly (readonly [string, string])[];
