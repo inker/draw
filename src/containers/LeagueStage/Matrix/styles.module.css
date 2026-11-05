@@ -55,7 +55,7 @@
     > tr {
       > th {
         vertical-align: bottom;
-        width: var(--cell-height);
+        min-width: var(--cell-height);
         padding: var(--cell-padding-start) 0
           calc(var(--cell-padding-start) + var(--flag-rotation-compensation));
         border-bottom-color: var(--block-border-color);
