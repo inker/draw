@@ -1,13 +1,13 @@
-import type React from 'react';
-import { memo, useCallback, useMemo } from 'react';
-import clsx from 'clsx';
+import type React from "react";
+import { memo, useCallback, useMemo } from "react";
+import clsx from "clsx";
 
-import type Club from '#model/team/Club';
-import type NationalTeam from '#model/team/NationalTeam';
+import type Club from "#model/team/Club";
+import type NationalTeam from "#model/team/NationalTeam";
 
-import BowlBall from '../BowlBall';
+import BowlBall from "../BowlBall";
 
-import * as styles from './styles.module.css';
+import * as styles from "./styles.module.css";
 
 type Team = Club | NationalTeam;
 
@@ -45,7 +45,7 @@ function TeamBowl({
     () =>
       ({
         // @ts-expect-error CSS prop
-        '--num-balls': responsiveNumItems,
+        "--num-balls": responsiveNumItems,
       }) satisfies React.CSSProperties as React.CSSProperties,
     [responsiveNumItems],
   );
@@ -58,12 +58,12 @@ function TeamBowl({
             key={team.id}
             data-teamid={team.id}
             className={clsx(
-              styles['team-ball'],
+              styles["team-ball"],
               responsiveNumItems !== undefined && styles.responsive,
               team === selectedTeam && styles.selected,
               (forceNoSelect || (!!selectedTeam && team !== selectedTeam)) &&
-                styles['not-selected'],
-              !!noSelect && styles['no-hover'],
+                styles["not-selected"],
+              !!noSelect && styles["no-hover"],
             )}
             style={bowlBallStyles}
             selected={team === selectedTeam}

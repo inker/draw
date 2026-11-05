@@ -1,6 +1,6 @@
-import { range, sumBy } from 'lodash';
+import { range, sumBy } from "lodash";
 
-import { type Ban } from './homeAwayPatterns';
+import { type Ban } from "./homeAwayPatterns";
 
 /**
  * The order the solver fills matchdays in, tightest first

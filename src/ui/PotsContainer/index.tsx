@@ -1,11 +1,11 @@
-import { memo } from 'react';
-import { difference } from 'lodash';
-import clsx from 'clsx';
+import { memo } from "react";
+import { difference } from "lodash";
+import clsx from "clsx";
 
-import type Team from '#model/team';
+import type Team from "#model/team";
 
-import Pot from './Pot';
-import * as styles from './styles.module.css';
+import Pot from "./Pot";
+import * as styles from "./styles.module.css";
 
 interface Props {
   initialPots: readonly (readonly Team[])[];
@@ -23,7 +23,7 @@ function PotsContainer({
   split,
 }: Props) {
   return (
-    <div className={clsx(styles.root, !split && styles['limit-width'])}>
+    <div className={clsx(styles.root, !split && styles["limit-width"])}>
       {initialPots.map((pot, i) => {
         const isCurrent = i === currentPotNum;
         const pickedTeams = difference(

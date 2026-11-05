@@ -11,7 +11,7 @@
     pointer-events: none;
 
     &::before {
-      content: '.';
+      content: ".";
     }
   }
 }

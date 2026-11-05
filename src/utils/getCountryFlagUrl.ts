@@ -1,19 +1,19 @@
-import { memoize } from 'lodash';
+import { memoize } from "lodash";
 
-import countries from '#data/countries';
-import { type Country } from '#model/types';
+import countries from "#data/countries";
+import { type Country } from "#model/types";
 
-const requireFlag = import.meta.webpackContext('flag-icons/flags/4x3/', {
+const requireFlag = import.meta.webpackContext("flag-icons/flags/4x3/", {
   recursive: false,
   regExp: /\.svg$/,
 });
-const requireAltFlag = import.meta.webpackContext('../assets/altFlags/', {
+const requireAltFlag = import.meta.webpackContext("../assets/altFlags/", {
   recursive: false,
   regExp: /\.svg$/,
 });
 
 const flags = {
-  Moldova: requireAltFlag('./mda.svg'),
+  Moldova: requireAltFlag("./mda.svg"),
 } as const satisfies Partial<Record<Country, string>>;
 
 function getCountryFlagUrl(country: Country) {

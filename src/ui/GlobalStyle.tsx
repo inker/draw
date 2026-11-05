@@ -1,4 +1,4 @@
-import { memo, useEffect, useRef } from 'react';
+import { memo, useEffect, useRef } from "react";
 
 export const css = (strings: TemplateStringsArray, ...values: readonly any[]) =>
   String.raw(
@@ -12,7 +12,7 @@ export function useGlobalStyle(content: string) {
   const elRef = useRef<HTMLStyleElement>(null);
 
   useEffect(() => {
-    const el = document.createElement('style');
+    const el = document.createElement("style");
     document.head.append(el);
     elRef.current = el;
 

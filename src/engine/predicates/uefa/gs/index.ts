@@ -1,12 +1,12 @@
-import { sumBy } from 'lodash';
+import { sumBy } from "lodash";
 
-import type Team from '#model/team/GsTeam';
-import { type Predicate } from '#engine/dfs/gs';
-import getSmallestArrayLength from '#utils/getSmallestArrayLength';
-import getHalfArrayOfIndex from '#utils/getHalfArrayOfIndex';
+import type Team from "#model/team/GsTeam";
+import { type Predicate } from "#engine/dfs/gs";
+import getSmallestArrayLength from "#utils/getSmallestArrayLength";
+import getHalfArrayOfIndex from "#utils/getHalfArrayOfIndex";
 
-import incompatibleCountries from '../utils/incompatibleCountries';
-import coldCountries from '../utils/coldCountries';
+import incompatibleCountries from "../utils/incompatibleCountries";
+import coldCountries from "../utils/coldCountries";
 
 const isFrom = (country: string) => (team: Team) => team.country === country;
 

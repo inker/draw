@@ -1,6 +1,6 @@
-import { type UefaCountry } from '#model/types';
+import { type UefaCountry } from "#model/types";
 
-import Club from './Club';
+import Club from "./Club";
 
 export default class GsTeam extends Club {
   readonly coefficient: number;

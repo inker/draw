@@ -1,4 +1,4 @@
-import assignGamesToMatchdays from '#engine/dfs/ls/generateSchedule/assignGamesToMatchdays';
+import assignGamesToMatchdays from "#engine/dfs/ls/generateSchedule/assignGamesToMatchdays";
 
 // Four clubs, each home once & away once, so the whole set fits into two
 // matchdays of two games. The only valid split puts each club home on one
@@ -25,8 +25,8 @@ const doubleRoundRobin = (numTeams: number) =>
       ).filter(([home, away]) => home !== away),
   ).flat();
 
-describe('assignGamesToMatchdays', () => {
-  it('splits a 4-club, 2-matchday fixture legally', () => {
+describe("assignGamesToMatchdays", () => {
+  it("splits a 4-club, 2-matchday fixture legally", () => {
     const result = assignGamesToMatchdays({
       matchdaySize: 2,
       allGames,
@@ -47,13 +47,13 @@ describe('assignGamesToMatchdays', () => {
     // every club is home once & away once across the two matchdays
     for (let team = 0; team < 4; ++team) {
       const locations = result.map(md =>
-        md.some(([h]) => h === team) ? 'H' : 'A',
+        md.some(([h]) => h === team) ? "H" : "A",
       );
-      expect(locations.sort()).toEqual(['A', 'H']);
+      expect(locations.sort()).toEqual(["A", "H"]);
     }
   });
 
-  it('keeps a club banned from the away end on the first matchday at home', () => {
+  it("keeps a club banned from the away end on the first matchday at home", () => {
     // run a few times: the split is randomised, the constraint must always hold
     for (let i = 0; i < 20; ++i) {
       const result = assignGamesToMatchdays({
@@ -64,7 +64,7 @@ describe('assignGamesToMatchdays', () => {
           {
             teamIndex: 2,
             matchday: 0,
-            location: 'away',
+            location: "away",
           },
         ],
       });
@@ -73,7 +73,7 @@ describe('assignGamesToMatchdays', () => {
     }
   });
 
-  it('keeps a club banned from hosting the final matchday away', () => {
+  it("keeps a club banned from hosting the final matchday away", () => {
     // run a few times: the split is randomised, the constraint must always hold
     for (let i = 0; i < 20; ++i) {
       const result = assignGamesToMatchdays({
@@ -84,7 +84,7 @@ describe('assignGamesToMatchdays', () => {
           {
             teamIndex: 2,
             matchday: 1,
-            location: 'home',
+            location: "home",
           },
         ],
       });
@@ -93,7 +93,7 @@ describe('assignGamesToMatchdays', () => {
     }
   });
 
-  it('rejects bans that leave a club no valid pattern', () => {
+  it("rejects bans that leave a club no valid pattern", () => {
     expect(() =>
       assignGamesToMatchdays({
         matchdaySize: 2,
@@ -103,25 +103,25 @@ describe('assignGamesToMatchdays', () => {
           {
             teamIndex: 2,
             matchday: 0,
-            location: 'home',
+            location: "home",
           },
           {
             teamIndex: 2,
             matchday: 1,
-            location: 'home',
+            location: "home",
           },
         ],
       }),
-    ).toThrow('Bans leave team 2 with no valid home/away pattern');
+    ).toThrow("Bans leave team 2 with no valid home/away pattern");
   });
 
   it.each([
-    [4, 0, 'Ban on team 4, which is not an index into 4 teams'],
-    [-1, 0, 'Ban on team -1, which is not an index into 4 teams'],
-    [0, 2, 'Ban on matchday 2, which is not an index into 2 matchdays'],
-    [0, 0.5, 'Ban on matchday 0.5, which is not an index into 2 matchdays'],
+    [4, 0, "Ban on team 4, which is not an index into 4 teams"],
+    [-1, 0, "Ban on team -1, which is not an index into 4 teams"],
+    [0, 2, "Ban on matchday 2, which is not an index into 2 matchdays"],
+    [0, 0.5, "Ban on matchday 0.5, which is not an index into 2 matchdays"],
   ])(
-    'rejects a ban on team %s, matchday %s',
+    "rejects a ban on team %s, matchday %s",
     (teamIndex, matchday, message) => {
       expect(() =>
         assignGamesToMatchdays({
@@ -132,14 +132,14 @@ describe('assignGamesToMatchdays', () => {
             {
               teamIndex,
               matchday,
-              location: 'home',
+              location: "home",
             },
           ],
         }),
       ).toThrow(message);
     },
   );
-  it('keeps the two meetings of each pair of clubs apart', () => {
+  it("keeps the two meetings of each pair of clubs apart", () => {
     const numTeams = 6;
     const games = doubleRoundRobin(numTeams);
     for (let i = 0; i < 20; ++i) {
@@ -169,7 +169,7 @@ describe('assignGamesToMatchdays', () => {
     }
   });
 
-  it('finds no schedule when the meetings cannot be far enough apart', () => {
+  it("finds no schedule when the meetings cannot be far enough apart", () => {
     expect(() =>
       assignGamesToMatchdays({
         matchdaySize: 2,
@@ -180,11 +180,11 @@ describe('assignGamesToMatchdays', () => {
         ],
         minMatchdaysBetweenMeetings: 6,
       }),
-    ).toThrow('No solution');
+    ).toThrow("No solution");
   });
 
   it.each([0, 1.5])(
-    'rejects %s matchdays between meetings',
+    "rejects %s matchdays between meetings",
     minMatchdaysBetweenMeetings => {
       expect(() =>
         assignGamesToMatchdays({
@@ -199,7 +199,7 @@ describe('assignGamesToMatchdays', () => {
     },
   );
 
-  it('caps the capped games on each matchday', () => {
+  it("caps the capped games on each matchday", () => {
     const numTeams = 8;
     const topTeams = [0, 1, 2];
     const cappedGames = doubleRoundRobin(numTeams).filter(
@@ -229,7 +229,7 @@ describe('assignGamesToMatchdays', () => {
     }
   });
 
-  it('finds no schedule when the capped games cannot be spread enough', () => {
+  it("finds no schedule when the capped games cannot be spread enough", () => {
     // With every game capped, each matchday holds two of them.
     expect(() =>
       assignGamesToMatchdays({
@@ -242,10 +242,10 @@ describe('assignGamesToMatchdays', () => {
         cappedGames: doubleRoundRobin(4),
         maxCappedGamesPerMatchday: 1,
       }),
-    ).toThrow('No solution');
+    ).toThrow("No solution");
   });
 
-  it('keeps banned games off their matchday', () => {
+  it("keeps banned games off their matchday", () => {
     const numTeams = 6;
     const separated = [0, 1, 2];
     const bannedGames = doubleRoundRobin(numTeams)
@@ -274,7 +274,7 @@ describe('assignGamesToMatchdays', () => {
     }
   });
 
-  it('finds no schedule when the banned games leave a matchday unfillable', () => {
+  it("finds no schedule when the banned games leave a matchday unfillable", () => {
     // Two games of four clubs cannot keep three of them apart.
     const separated = [0, 1, 2];
     const bannedGames = doubleRoundRobin(4)
@@ -293,18 +293,18 @@ describe('assignGamesToMatchdays', () => {
         ],
         bannedGames,
       }),
-    ).toThrow('No solution');
+    ).toThrow("No solution");
   });
 
   it.each([
-    [0, [0, 0], 'Banned game 0-0 is not in allGames'],
+    [0, [0, 0], "Banned game 0-0 is not in allGames"],
     [
       2,
       [0, 1],
-      'Banned game on matchday 2, which is not an index into 2 matchdays',
+      "Banned game on matchday 2, which is not an index into 2 matchdays",
     ],
   ] as const)(
-    'rejects a banned game on matchday %s',
+    "rejects a banned game on matchday %s",
     (matchday, game, message) => {
       expect(() =>
         assignGamesToMatchdays({
@@ -322,7 +322,7 @@ describe('assignGamesToMatchdays', () => {
     },
   );
 
-  it('rejects a capped game that is not in allGames', () => {
+  it("rejects a capped game that is not in allGames", () => {
     expect(() =>
       assignGamesToMatchdays({
         matchdaySize: 2,
@@ -331,6 +331,6 @@ describe('assignGamesToMatchdays', () => {
         cappedGames: [[0, 0]],
         maxCappedGamesPerMatchday: 1,
       }),
-    ).toThrow('Capped game 0-0 is not in allGames');
+    ).toThrow("Capped game 0-0 is not in allGames");
   });
 });

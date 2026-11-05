@@ -1,8 +1,8 @@
-import { memo } from 'react';
+import { memo } from "react";
 
-import useDrawId from '#store/useDrawId';
+import useDrawId from "#store/useDrawId";
 
-import { pageRouteApi } from '../routeApi';
+import { pageRouteApi } from "../routeApi";
 
 function Pages() {
   const { tournament, stage, season } = pageRouteApi.useParams();
@@ -11,7 +11,7 @@ function Pages() {
   const [drawId] = useDrawId();
 
   const isUefaClubTournament =
-    tournament === 'cl' || tournament === 'el' || tournament === 'ecl';
+    tournament === "cl" || tournament === "el" || tournament === "ecl";
 
   return (
     <Page

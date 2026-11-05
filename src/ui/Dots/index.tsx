@@ -1,6 +1,6 @@
-import { memo, useEffect, useState } from 'react';
+import { memo, useEffect, useState } from "react";
 
-import * as styles from './styles.module.css';
+import * as styles from "./styles.module.css";
 
 interface Props {
   initialNum: number;
@@ -28,9 +28,9 @@ function Dots({ initialNum, maxNum, interval }: Props) {
 
   return (
     <>
-      <span>{'.'.repeat(numVisible)}</span>
-      <span className={styles['invisible-span']}>
-        {'.'.repeat(maxNum - numVisible)}
+      <span>{".".repeat(numVisible)}</span>
+      <span className={styles["invisible-span"]}>
+        {".".repeat(maxNum - numVisible)}
       </span>
     </>
   );

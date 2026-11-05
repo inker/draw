@@ -1,6 +1,6 @@
-import buffersToBits from '../buffersToBits';
+import buffersToBits from "../buffersToBits";
 
-import { type PrngGenerator } from './generator';
+import { type PrngGenerator } from "./generator";
 
 /**
  * A uniform integer below `bound`, a bit at a time.
@@ -24,7 +24,7 @@ const readBelow = async ({
       // Every tie has to be broken for the draw to be a draw,
       // so a stream that ends mid-pick cannot be finished later
       // & the bits already read have to be thrown away with it.
-      throw new Error('Ran out of randomness mid-shuffle');
+      throw new Error("Ran out of randomness mid-shuffle");
     }
     // Doubled rather than shifted:
     // the bitwise operators work in 32 bits & these pass that

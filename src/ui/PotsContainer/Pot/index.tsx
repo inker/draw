@@ -1,14 +1,14 @@
-import { memo } from 'react';
-import clsx from 'clsx';
+import { memo } from "react";
+import clsx from "clsx";
 
-import type Team from '#model/team';
-import Table from '#ui/table/Table';
-import Header from '#ui/table/Header';
-import * as cellStyles from '#ui/table/cell.module.css';
+import type Team from "#model/team";
+import Table from "#ui/table/Table";
+import Header from "#ui/table/Header";
+import * as cellStyles from "#ui/table/cell.module.css";
 
-import PotRow from '../PotRow';
+import PotRow from "../PotRow";
 
-import * as styles from './styles.module.css';
+import * as styles from "./styles.module.css";
 
 interface Props {
   isCurrent: boolean;
@@ -70,7 +70,7 @@ function Pot({
 
             return (
               <PotRow
-                key={rowTeams.map(team => team.id).join(':')}
+                key={rowTeams.map(team => team.id).join(":")}
                 teams={rowTeams}
                 selectedTeams={selectedTeams}
                 pickedTeams={pickedTeams}

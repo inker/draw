@@ -3,7 +3,7 @@
  * so this has to change with every season
  */
 export default [
-  'Coventry',
-  'Hull',
-  'Ipswich',
+  "Coventry",
+  "Hull",
+  "Ipswich",
 ] as const satisfies readonly string[];

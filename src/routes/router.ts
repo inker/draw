@@ -5,27 +5,27 @@ import {
   parseSearchWith,
   redirect,
   stringifySearchWith,
-} from '@tanstack/react-router';
+} from "@tanstack/react-router";
 import {
   // As `z.catch`, promise/valid-params takes it for Promise#catch
   catch as withFallback,
   z,
-} from 'zod/mini';
+} from "zod/mini";
 
-import resolveDrawRoute from '#model/resolveDrawRoute';
-import { validTournaments } from '#model/Tournament';
-import { validStages } from '#model/Stage';
-import { stageToSlot } from '#model/DrawSlot';
-import availability from '#data/availability';
+import resolveDrawRoute from "#model/resolveDrawRoute";
+import { validTournaments } from "#model/Tournament";
+import { validStages } from "#model/Stage";
+import { stageToSlot } from "#model/DrawSlot";
+import availability from "#data/availability";
 
-import config from '../config';
+import config from "../config";
 
-import routerHistory from './history';
-import NotFound from './NotFound';
-import Routing from './Routing';
-import Pages from './Pages';
-import LoadError from './Pages/LoadError';
-import loadDraw from './Pages/loadDraw';
+import routerHistory from "./history";
+import NotFound from "./NotFound";
+import Routing from "./Routing";
+import Pages from "./Pages";
+import LoadError from "./Pages/LoadError";
+import loadDraw from "./Pages/loadDraw";
 
 const rootRoute = createRootRoute({
   notFoundComponent: NotFound,
@@ -38,7 +38,7 @@ const rawParamsSchema = z.object({
 });
 
 const drawRoute = createRoute({
-  path: '{-$tournament}/{-$stage}/{-$season}',
+  path: "{-$tournament}/{-$stage}/{-$season}",
   component: Routing,
   getParentRoute: () => rootRoute,
   params: {
@@ -47,7 +47,7 @@ const drawRoute = createRoute({
       return (
         resolveDrawRoute(availability, {
           tournament,
-          slot: stage ? stageToSlot(stage) : 'main',
+          slot: stage ? stageToSlot(stage) : "main",
           season,
         }) ?? false
       );
@@ -61,7 +61,7 @@ const drawRoute = createRoute({
   // a combination one of the selects cannot express - lands on the nearest one that does
   beforeLoad: ({ location, params, buildLocation }) => {
     const nearest = buildLocation({
-      to: '/{-$tournament}/{-$stage}/{-$season}',
+      to: "/{-$tournament}/{-$stage}/{-$season}",
       params,
     });
     if (location.pathname !== nearest.pathname) {
@@ -81,7 +81,7 @@ const drawRoute = createRoute({
 });
 
 const pageRoute = createRoute({
-  path: '/',
+  path: "/",
   component: Pages,
   errorComponent: LoadError,
   getParentRoute: () => drawRoute,
@@ -109,7 +109,7 @@ const router = createRouter({
   stringifySearch: stringifySearchWith(JSON.stringify),
 });
 
-declare module '@tanstack/react-router' {
+declare module "@tanstack/react-router" {
   interface Register {
     router: typeof router;
   }

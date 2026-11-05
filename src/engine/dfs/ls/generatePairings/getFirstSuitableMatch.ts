@@ -1,7 +1,7 @@
-import { findFirstSolutionMutable } from '#utils/backtrack';
-import lowDiscrepancySequence from '#utils/lowDiscrepancySequence';
+import { findFirstSolutionMutable } from "#utils/backtrack";
+import lowDiscrepancySequence from "#utils/lowDiscrepancySequence";
 
-import makeRules, { type RuleSpec } from './rules';
+import makeRules, { type RuleSpec } from "./rules";
 
 // bit pot * 2 = has played the pot at home, bit pot * 2 + 1 = away
 const homeBit = (pot: number) => 1 << (pot * 2);

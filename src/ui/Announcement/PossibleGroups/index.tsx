@@ -1,9 +1,9 @@
-import { memo } from 'react';
-import clsx from 'clsx';
+import { memo } from "react";
+import clsx from "clsx";
 
-import getGroupLetter from '#utils/getGroupLetter';
+import getGroupLetter from "#utils/getGroupLetter";
 
-import * as styles from './styles.module.css';
+import * as styles from "./styles.module.css";
 
 interface Props {
   numGroups: number;
@@ -29,8 +29,8 @@ function PossibleGroups({ numGroups, possibleGroups }: Props) {
               style={{
                 ...(isPossible
                   ? {
-                      color: i < halfNum ? 'red' : 'blue',
-                      borderColor: i < halfNum ? 'red' : 'blue',
+                      color: i < halfNum ? "red" : "blue",
+                      borderColor: i < halfNum ? "red" : "blue",
                     }
                   : undefined),
               }}

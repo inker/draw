@@ -1,11 +1,11 @@
-import { type RefObject, memo, useCallback, useEffect, useState } from 'react';
-import delay from 'delay.js';
-import clsx from 'clsx';
+import { type RefObject, memo, useCallback, useEffect, useState } from "react";
+import delay from "delay.js";
+import clsx from "clsx";
 
-import GlobalStyle, { css } from '#ui/GlobalStyle';
+import GlobalStyle, { css } from "#ui/GlobalStyle";
 
 const saveScreenshotPromise = import(
-  /* webpackChunkName: "screenshot", webpackPrefetch: true */ '#utils/saveScreenshot'
+  /* webpackChunkName: "screenshot", webpackPrefetch: true */ "#utils/saveScreenshot"
 );
 
 interface Props {
@@ -14,7 +14,7 @@ interface Props {
 }
 
 interface State {
-  downloadClicked: null | 'png' | 'svg';
+  downloadClicked: null | "png" | "svg";
   transitionsEnabled: boolean;
 }
 
@@ -28,7 +28,7 @@ function Download({ completed, groupsElement }: Props) {
     useState(getInitialState);
 
   const setDownloadClicked = useCallback(
-    (format: State['downloadClicked']) => {
+    (format: State["downloadClicked"]) => {
       setState({
         downloadClicked: format,
         transitionsEnabled: false,
@@ -45,7 +45,7 @@ function Download({ completed, groupsElement }: Props) {
       try {
         const el = groupsElement.current;
         if (!el) {
-          throw new Error('groups element is null');
+          throw new Error("groups element is null");
         }
         await delay(0); // TODO: remove this hack
         const mod = await saveScreenshotPromise;
@@ -69,10 +69,10 @@ function Download({ completed, groupsElement }: Props) {
   }, [completed]);
 
   const onDownloadPngClick = useCallback(() => {
-    setDownloadClicked('png');
+    setDownloadClicked("png");
   }, [setDownloadClicked]);
   const onDownloadSvgClick = useCallback(() => {
-    setDownloadClicked('svg');
+    setDownloadClicked("svg");
   }, [setDownloadClicked]);
 
   return completed && !!groupsElement ? (
@@ -87,18 +87,18 @@ function Download({ completed, groupsElement }: Props) {
           `}
         />
       )}
-      {'Download as '}
+      {"Download as "}
       <button
         type="button"
-        className={clsx('button-link', 'styled-link')}
+        className={clsx("button-link", "styled-link")}
         onClick={onDownloadPngClick}
       >
         PNG
       </button>
-      {', '}
+      {", "}
       <button
         type="button"
-        className={clsx('button-link', 'styled-link')}
+        className={clsx("button-link", "styled-link")}
         onClick={onDownloadSvgClick}
       >
         SVG

@@ -1,9 +1,9 @@
-import { memo } from 'react';
-import { RouterProvider, useRouterState } from '@tanstack/react-router';
+import { memo } from "react";
+import { RouterProvider, useRouterState } from "@tanstack/react-router";
 
-import Popup from '../Popup';
+import Popup from "../Popup";
 
-import router from './router';
+import router from "./router";
 
 // Outside the provider, because nothing inside it renders until the first draw has loaded
 function AppRouter() {

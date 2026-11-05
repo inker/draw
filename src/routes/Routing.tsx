@@ -1,15 +1,15 @@
-import { memo, startTransition, useCallback, useOptimistic } from 'react';
-import { Outlet } from '@tanstack/react-router';
+import { memo, startTransition, useCallback, useOptimistic } from "react";
+import { Outlet } from "@tanstack/react-router";
 
 import resolveDrawRoute, {
   type RequestedDrawRoute,
-} from '#model/resolveDrawRoute';
-import { stageToSlot } from '#model/DrawSlot';
-import availability from '#data/availability';
+} from "#model/resolveDrawRoute";
+import { stageToSlot } from "#model/DrawSlot";
+import availability from "#data/availability";
 
-import HeadMetadata from './HeadMetadata';
-import Navbar from './Navbar';
-import { drawRouteApi } from './routeApi';
+import HeadMetadata from "./HeadMetadata";
+import Navbar from "./Navbar";
+import { drawRouteApi } from "./routeApi";
 
 function Routing() {
   const navigate = drawRouteApi.useNavigate();
@@ -32,7 +32,7 @@ function Routing() {
         startTransition(async () => {
           setShownRoute(next);
           await navigate({
-            to: '.',
+            to: ".",
             params: next,
           });
         });

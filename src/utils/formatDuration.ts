@@ -6,6 +6,6 @@ export default (ms: number) => {
   const seconds = totalSeconds % 60;
 
   return [hours, minutes, seconds]
-    .map(part => part.toString().padStart(2, '0'))
-    .join(':');
+    .map(part => part.toString().padStart(2, "0"))
+    .join(":");
 };

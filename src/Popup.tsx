@@ -1,8 +1,8 @@
-import { memo } from 'react';
+import { memo } from "react";
 
-import Notification from '#ui/Notification';
-import Dots from '#ui/Dots';
-import usePopup from '#store/usePopup';
+import Notification from "#ui/Notification";
+import Dots from "#ui/Dots";
+import usePopup from "#store/usePopup";
 
 interface Props {
   initial: boolean;

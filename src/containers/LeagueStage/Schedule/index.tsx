@@ -1,11 +1,11 @@
-import { memo, useLayoutEffect, useRef } from 'react';
-import clsx from 'clsx';
+import { memo, useLayoutEffect, useRef } from "react";
+import clsx from "clsx";
 
-import ContentWithFlag from '#ui/table/ContentWithFlag';
-import { type Country } from '#model/types';
-import type Tournament from '#model/Tournament';
+import ContentWithFlag from "#ui/table/ContentWithFlag";
+import { type Country } from "#model/types";
+import type Tournament from "#model/Tournament";
 
-import * as styles from './styles.module.css';
+import * as styles from "./styles.module.css";
 
 interface Team {
   name: string;
@@ -32,9 +32,9 @@ function Schedule({ tournament, schedule, getIconUrl }: Props) {
     const measure = () => {
       // the old width is the teams' min-width,
       // so it has to go for the names to shrink back to their own width
-      root.style.removeProperty('--team-width');
+      root.style.removeProperty("--team-width");
       const elements = root.getElementsByClassName(
-        styles['match-pair-team'],
+        styles["match-pair-team"],
       ) as HTMLCollectionOf<HTMLElement>;
       // offsetWidth rounds a fractional width down,
       // which leaves the row a fraction of a pixel too narrow & wraps it
@@ -42,7 +42,7 @@ function Schedule({ tournament, schedule, getIconUrl }: Props) {
         el => el.getBoundingClientRect().width,
       );
       const maxWidth = Math.ceil(Math.max(...widths));
-      root.style.setProperty('--team-width', `${maxWidth}px`);
+      root.style.setProperty("--team-width", `${maxWidth}px`);
     };
     measure();
     // the columns are sized from this width,
@@ -61,60 +61,60 @@ function Schedule({ tournament, schedule, getIconUrl }: Props) {
     >
       <ul
         className={clsx(
-          'reset-list',
-          styles['calendar-container'],
-          schedule.length > 8 && styles['take-all-space'],
+          "reset-list",
+          styles["calendar-container"],
+          schedule.length > 8 && styles["take-all-space"],
         )}
       >
         {schedule.map((md, i) => (
           <li
             // eslint-disable-next-line react/no-array-index-key
             key={i}
-            className={clsx(styles['matchday-root'], 'matchday')}
+            className={clsx(styles["matchday-root"], "matchday")}
           >
-            <div className={styles['matchday-header']}>MATCHDAY {i + 1}</div>
+            <div className={styles["matchday-header"]}>MATCHDAY {i + 1}</div>
             <ul className="reset-list">
               {md.map((day, dayIndex) => (
                 <li
                   // eslint-disable-next-line react/no-array-index-key
                   key={dayIndex}
-                  className={styles['matchday-day']}
+                  className={styles["matchday-day"]}
                 >
-                  {tournament !== 'epl' && (
-                    <div className={styles['day-header']}>
-                      {tournament === 'cl'
+                  {tournament !== "epl" && (
+                    <div className={styles["day-header"]}>
+                      {tournament === "cl"
                         ? dayIndex === 2
-                          ? 'Thursday'
+                          ? "Thursday"
                           : dayIndex === 1 || md.length === 1
-                            ? 'Wednesday'
-                            : 'Tuesday'
+                            ? "Wednesday"
+                            : "Tuesday"
                         : dayIndex === 1 || md.length === 1
-                          ? 'Night'
-                          : 'Evening'}
+                          ? "Night"
+                          : "Evening"}
                     </div>
                   )}
                   <ul className="reset-list">
                     {day.map(m => (
                       <li
                         key={`${m[0].name}:${m[1].name}`}
-                        className={styles['match-item']}
+                        className={styles["match-item"]}
                       >
                         <span>
-                          <span className={styles['match-pair-team']}>
+                          <span className={styles["match-pair-team"]}>
                             <ContentWithFlag
-                              className={styles['content-with-flag']}
+                              className={styles["content-with-flag"]}
                               country={m[0].country}
                               iconUrl={getIconUrl?.(m[0])}
                             >
                               {m[0].name}
                             </ContentWithFlag>
                           </span>
-                          <span className={styles['match-pair-center']}>
-                            {' - '}
+                          <span className={styles["match-pair-center"]}>
+                            {" - "}
                           </span>
-                          <span className={styles['match-pair-team']}>
+                          <span className={styles["match-pair-team"]}>
                             <ContentWithFlag
-                              className={styles['content-with-flag']}
+                              className={styles["content-with-flag"]}
                               country={m[1].country}
                               iconUrl={getIconUrl?.(m[1])}
                             >

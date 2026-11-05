@@ -1,7 +1,7 @@
-import type React from 'react';
-import { memo } from 'react';
+import type React from "react";
+import { memo } from "react";
 
-import LeagueStage from '#containers/LeagueStage/index';
+import LeagueStage from "#containers/LeagueStage/index";
 
 type Props = React.ComponentProps<typeof LeagueStage>;
 

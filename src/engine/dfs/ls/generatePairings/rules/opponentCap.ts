@@ -1,4 +1,4 @@
-import { type OpponentCapSpec, type Rule, type RuleContext } from './types';
+import { type OpponentCapSpec, type Rule, type RuleContext } from "./types";
 
 // Copies of the solver's helpers for playedWithPotMask.
 // Sharing them through a module made the solver about 50% slower in tests,

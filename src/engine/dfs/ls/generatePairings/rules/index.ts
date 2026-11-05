@@ -1,13 +1,13 @@
-import { sumBy } from 'lodash';
+import { sumBy } from "lodash";
 
-import makeOpponentCap from './opponentCap';
-import { type Rule, type RuleContext, type RuleSpec } from './types';
+import makeOpponentCap from "./opponentCap";
+import { type Rule, type RuleContext, type RuleSpec } from "./types";
 
-export type { Rule, RuleContext, RuleSpec } from './types';
+export type { Rule, RuleContext, RuleSpec } from "./types";
 
 const makeRule = (spec: RuleSpec, context: RuleContext): Rule => {
   switch (spec.kind) {
-    case 'opponentCap':
+    case "opponentCap":
       return makeOpponentCap(spec, context);
     default: {
       // a compile error here means a new kind has no case yet

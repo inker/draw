@@ -1,4 +1,4 @@
-import type Tournament from '#model/Tournament';
+import type Tournament from "#model/Tournament";
 
 interface SeasonFacts {
   tournament: Tournament;
@@ -30,12 +30,12 @@ interface SeasonFacts {
  */
 const seasonFacts = [
   {
-    tournament: 'cl',
+    tournament: "cl",
     season: 2026,
-    titleHolder: 'Paris SG',
+    titleHolder: "Paris SG",
     bannedFixtures: [
-      ['Liverpool', 'Real Madrid'],
-      ['Internazionale', 'Arsenal'],
+      ["Liverpool", "Real Madrid"],
+      ["Internazionale", "Arsenal"],
     ],
   },
 ] as const satisfies readonly SeasonFacts[];

@@ -1,10 +1,10 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useState } from "react";
 
-import rangeGenerator from '#utils/rangeGenerator';
+import rangeGenerator from "#utils/rangeGenerator";
 
 const isTableCell = (node: any): node is HTMLTableCellElement => {
   const tag = (node as Element).tagName?.toLowerCase();
-  return tag === 'td' || tag === 'th';
+  return tag === "td" || tag === "th";
 };
 
 export default () => {

@@ -2,7 +2,7 @@ import {
   type ConnectMessage,
   type MessageForWorker,
   type MessageFromWorker,
-} from './messages';
+} from "./messages";
 
 /**
  * Takes ownership of the worker.
@@ -28,13 +28,13 @@ export default <F extends (...args: never) => unknown>(
   const { port1, port2 } = new MessageChannel();
   worker.postMessage(
     {
-      type: 'rpc-connect',
+      type: "rpc-connect",
     } satisfies ConnectMessage,
     [port2],
   );
 
   port1.addEventListener(
-    'message',
+    "message",
     (e: MessageEvent<MessageFromWorker<Awaited<ReturnType<F>>>>) => {
       const { data } = e;
       const cb = callbacks.get(data.id);
@@ -43,7 +43,7 @@ export default <F extends (...args: never) => unknown>(
       }
 
       callbacks.delete(data.id);
-      if (data.status === 'error') {
+      if (data.status === "error") {
         cb.reject(data.error);
       } else {
         cb.resolve(data.result);
@@ -56,10 +56,10 @@ export default <F extends (...args: never) => unknown>(
   // A reply that can't be deserialised arrives here with no id,
   // so the call it answers would otherwise wait forever.
   port1.addEventListener(
-    'messageerror',
+    "messageerror",
     () => {
       abortController.abort(
-        new Error('The reply from the worker could not be read'),
+        new Error("The reply from the worker could not be read"),
       );
     },
     {
@@ -69,10 +69,10 @@ export default <F extends (...args: never) => unknown>(
   // The exposed function catches its own errors,
   // so this only fires for ones outside it, such as the script failing to load.
   worker.addEventListener(
-    'error',
+    "error",
     e => {
       abortController.abort(
-        new Error('The worker failed', {
+        new Error("The worker failed", {
           cause: e,
         }),
       );
@@ -97,7 +97,7 @@ export default <F extends (...args: never) => unknown>(
   if (lifetimeSignal.aborted) {
     end();
   } else {
-    lifetimeSignal.addEventListener('abort', end, {
+    lifetimeSignal.addEventListener("abort", end, {
       once: true,
     });
   }

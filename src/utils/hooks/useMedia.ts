@@ -1,6 +1,6 @@
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useMemo, useState } from "react";
 
-import useEvent from './useEvent';
+import useEvent from "./useEvent";
 
 export default (media: string) => {
   const matchResult = useMemo(() => window.matchMedia(media), [media]);
@@ -11,7 +11,7 @@ export default (media: string) => {
     setIsMatch(e.matches);
   }, []);
 
-  useEvent(matchResult, 'change', handleChange);
+  useEvent(matchResult, "change", handleChange);
 
   return isMatch;
 };

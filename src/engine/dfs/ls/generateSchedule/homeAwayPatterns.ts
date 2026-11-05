@@ -27,7 +27,7 @@ const MAX_MATCHDAYS = 62;
 export interface Ban {
   readonly teamIndex: number;
   readonly matchday: number;
-  readonly location: 'home' | 'away';
+  readonly location: "home" | "away";
 }
 
 export default function createHomeAwayPatterns({
@@ -238,7 +238,7 @@ export default function createHomeAwayPatterns({
       );
     }
     const index = teamIndex * numMatchdays + matchday;
-    unpinned[index] &= location === 'home' ? AWAY : HOME;
+    unpinned[index] &= location === "home" ? AWAY : HOME;
     // Caught here, since the search would only report it as a failed schedule
     // after every worker had timed out.
     if (!fits(unpinned, teamIndex * numMatchdays)) {

@@ -6,20 +6,20 @@ import {
   useLayoutEffect,
   useMemo,
   useState,
-} from 'react';
+} from "react";
 
-import type Team from '#model/team';
-import type Club from '#model/team/Club';
-import getTeamCountryName from '#utils/getTeamCountryName';
-import FixedOverlay from '#ui/FixedOverlay';
-import ContentWithFlag from '#ui/table/ContentWithFlag';
+import type Team from "#model/team";
+import type Club from "#model/team/Club";
+import getTeamCountryName from "#utils/getTeamCountryName";
+import FixedOverlay from "#ui/FixedOverlay";
+import ContentWithFlag from "#ui/table/ContentWithFlag";
 
-import * as styles from './styles.module.css';
+import * as styles from "./styles.module.css";
 
 type El = RefObject<HTMLElement | null> | string;
 
 const getElement = (i: El) =>
-  typeof i === 'string' ? document.querySelector(i) : i.current;
+  typeof i === "string" ? document.querySelector(i) : i.current;
 
 const getTransition = (duration: number) =>
   `transform ${duration}ms ease-in-out`;
@@ -53,15 +53,15 @@ function MovingContent({ from, to, duration, team, onAnimationEnd }: Props) {
 
   const style = useMemo(
     () => ({
-      transform: posCell instanceof HTMLElement ? getPosTransform(posCell) : '',
-      transition: posCell === toCell ? getTransition(duration) : '',
+      transform: posCell instanceof HTMLElement ? getPosTransform(posCell) : "",
+      transition: posCell === toCell ? getTransition(duration) : "",
     }),
     [posCell, toCell, duration],
   );
 
   const onTransitionEnd = useCallback(
     (e: TransitionEvent<HTMLSpanElement>) => {
-      if (e.propertyName === 'transform') {
+      if (e.propertyName === "transform") {
         onAnimationEnd?.();
       }
     },
@@ -72,7 +72,7 @@ function MovingContent({ from, to, duration, team, onAnimationEnd }: Props) {
     posCell && (
       <FixedOverlay>
         <ContentWithFlag
-          className={styles['content-with-flag-fixed']}
+          className={styles["content-with-flag-fixed"]}
           country={getTeamCountryName(team)}
           style={style}
           onTransitionEnd={onTransitionEnd}

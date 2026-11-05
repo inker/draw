@@ -1,13 +1,13 @@
-import { memo, useMemo } from 'react';
-import clsx from 'clsx';
+import { memo, useMemo } from "react";
+import clsx from "clsx";
 
-import getCountryFlagUrl from '#utils/getCountryFlagUrl';
-import useIsDarkMode from '#utils/hooks/useIsDarkMode';
-import { type Country } from '#model/types';
-import { css } from '#ui/GlobalStyle';
+import getCountryFlagUrl from "#utils/getCountryFlagUrl";
+import useIsDarkMode from "#utils/hooks/useIsDarkMode";
+import { type Country } from "#model/types";
+import { css } from "#ui/GlobalStyle";
 
-import Table from './Table';
-import * as styles from './styles.module.css';
+import Table from "./Table";
+import * as styles from "./styles.module.css";
 
 // eslint-disable-next-line no-sparse-arrays
 const angleByIndex = [, 0, 5, 3, 2, 6, 4, 1];
@@ -77,7 +77,7 @@ function Matrix({
   };
 
   return (
-    <div className={styles['scroll-container']}>
+    <div className={styles["scroll-container"]}>
       <Table
         className={clsx(styles.table, isDarkMode && styles.dark)}
         blockSize={potSize}
@@ -91,7 +91,7 @@ function Matrix({
             <th />
             {allTeams.map(opponent => (
               <th key={opponent.id}>
-                <div className={styles['header-cell-div']}>
+                <div className={styles["header-cell-div"]}>
                   <img
                     alt={`[${opponent.country}]`}
                     src={
@@ -128,18 +128,18 @@ function Matrix({
                     key={opponent.id}
                     className={clsx(
                       isMatch && styles.match,
-                      noCellAnimation && styles['no-animation'],
+                      noCellAnimation && styles["no-animation"],
                     )}
                   >
                     {matchdayIndex === undefined ? (
                       isMatch ? (
-                        '✕'
+                        "✕"
                       ) : (
-                        ''
+                        ""
                       )
                     ) : (
                       <div
-                        className={styles['body-cell-matchday']}
+                        className={styles["body-cell-matchday"]}
                         style={{
                           color: getMatchdayColor(matchdayIndex),
                         }}

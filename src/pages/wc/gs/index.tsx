@@ -1,28 +1,28 @@
-import { memo, useCallback, useEffect, useRef, useState } from 'react';
-import delay from 'delay.js';
-import { constant, orderBy, stubArray } from 'lodash';
+import { memo, useCallback, useEffect, useRef, useState } from "react";
+import delay from "delay.js";
+import { constant, orderBy, stubArray } from "lodash";
 
-import PotsContainer from '#ui/PotsContainer';
-import GroupsContainer from '#ui/GroupsContainer';
-import * as bowlsContainerStyles from '#ui/bowls-container.module.css';
-import TeamBowl from '#ui/bowls/TeamBowl';
-import Announcement from '#ui/Announcement';
-import { serializeGsWorkerData } from '#model/WorkerData';
-import type Team from '#model/team/NationalTeam';
-import useWorkerRpc from '#utils/hooks/useWorkerRpc';
-import usePrngGenerator from '#utils/hooks/usePrngGenerator';
-import prngShuffleAll from '#utils/prng/shuffleAll';
-import useXRay from '#store/useXRay';
-import useFastDraw from '#store/useFastDraw';
-import useDrawId from '#store/useDrawId';
-import usePopup from '#store/usePopup';
+import PotsContainer from "#ui/PotsContainer";
+import GroupsContainer from "#ui/GroupsContainer";
+import * as bowlsContainerStyles from "#ui/bowls-container.module.css";
+import TeamBowl from "#ui/bowls/TeamBowl";
+import Announcement from "#ui/Announcement";
+import { serializeGsWorkerData } from "#model/WorkerData";
+import type Team from "#model/team/NationalTeam";
+import useWorkerRpc from "#utils/hooks/useWorkerRpc";
+import usePrngGenerator from "#utils/hooks/usePrngGenerator";
+import prngShuffleAll from "#utils/prng/shuffleAll";
+import useXRay from "#store/useXRay";
+import useFastDraw from "#store/useFastDraw";
+import useDrawId from "#store/useDrawId";
+import usePopup from "#store/usePopup";
 
-import { type Func } from './worker';
-import * as styles from './styles.module.css';
+import { type Func } from "./worker";
+import * as styles from "./styles.module.css";
 
-const createWorker = () => new Worker(new URL('./worker', import.meta.url));
+const createWorker = () => new Worker(new URL("./worker", import.meta.url));
 
-const getGroupHeaderClassName = constant(styles['group-header']);
+const getGroupHeaderClassName = constant(styles["group-header"]);
 
 interface Props {
   season: number;
@@ -86,7 +86,7 @@ function WCGS({ season, pots: initialPots }: Props) {
 
   const handleTeamSelected = async () => {
     if (!selectedTeam) {
-      throw new Error('no selected team');
+      throw new Error("no selected team");
     }
 
     let newPickedGroup: number;
@@ -103,7 +103,7 @@ function WCGS({ season, pots: initialPots }: Props) {
     } catch (err) {
       console.error(err);
       setPopup({
-        error: 'Could not determine the group',
+        error: "Could not determine the group",
       });
       return;
     }

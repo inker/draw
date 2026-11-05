@@ -1,15 +1,15 @@
-import { Suspense, lazy, memo } from 'react';
-import { constant } from 'lodash';
+import { Suspense, lazy, memo } from "react";
+import { constant } from "lodash";
 
-import useIsDarkMode from '#utils/hooks/useIsDarkMode';
-import { css, useGlobalStyle } from '#ui/GlobalStyle';
+import useIsDarkMode from "#utils/hooks/useIsDarkMode";
+import { css, useGlobalStyle } from "#ui/GlobalStyle";
 
-import Popup from './Popup';
+import Popup from "./Popup";
 
 const Routes = lazy(
   constant(
     import(
-      /* webpackPreload: true, webpackChunkName: "routes" */ './routes/AppRouter'
+      /* webpackPreload: true, webpackChunkName: "routes" */ "./routes/AppRouter"
     ),
   ),
 );
@@ -19,7 +19,7 @@ function App() {
 
   useGlobalStyle(css`
     :root {
-      color-scheme: ${isDarkMode ? 'dark' : 'light'};
+      color-scheme: ${isDarkMode ? "dark" : "light"};
     }
   `);
 

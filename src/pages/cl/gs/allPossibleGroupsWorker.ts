@@ -1,14 +1,14 @@
-import memoizeOne from 'memoize-one';
+import memoizeOne from "memoize-one";
 
-import { allPossibleGroups } from '#engine/dfs/gs';
-import getPredicate from '#engine/predicates/uefa/gs';
-import isPairingDeadEnd from '#engine/predicates/uefa/gs/isPairingDeadEnd';
-import type Team from '#model/team/GsTeam';
+import { allPossibleGroups } from "#engine/dfs/gs";
+import getPredicate from "#engine/predicates/uefa/gs";
+import isPairingDeadEnd from "#engine/predicates/uefa/gs/isPairingDeadEnd";
+import type Team from "#model/team/GsTeam";
 import {
   type GsWorkerDataSerialized,
   deserializeGsWorkerData,
-} from '#model/WorkerData';
-import exposeWorker, { type ExposedFuncType } from '#utils/worker/expose';
+} from "#model/WorkerData";
+import exposeWorker, { type ExposedFuncType } from "#utils/worker/expose";
 
 type GetPredicateParams = Parameters<typeof getPredicate>;
 

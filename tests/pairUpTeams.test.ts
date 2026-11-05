@@ -1,10 +1,10 @@
-import { readFileSync, readdirSync } from 'node:fs';
-import { join } from 'node:path';
+import { readFileSync, readdirSync } from "node:fs";
+import { join } from "node:path";
 
-import GsTeam from '#model/team/GsTeam';
-import pairUpTeams from '#model/pairUpTeams';
+import GsTeam from "#model/team/GsTeam";
+import pairUpTeams from "#model/pairUpTeams";
 
-const DATA_DIR = join(__dirname, '..', 'src', 'data');
+const DATA_DIR = join(__dirname, "..", "src", "data");
 
 interface RawTeam {
   name: string;
@@ -19,8 +19,8 @@ const potsFiles = () => {
     path: string;
     isInProgress: boolean;
   }[] = [];
-  for (const tournament of ['cl', 'el', 'ecl'] as const) {
-    for (const stage of ['gs', 'ls'] as const) {
+  for (const tournament of ["cl", "el", "ecl"] as const) {
+    for (const stage of ["gs", "ls"] as const) {
       const stageDir = join(DATA_DIR, tournament, stage);
       let seasons: string[];
       try {
@@ -32,12 +32,12 @@ const potsFiles = () => {
       for (const season of seasons) {
         files.push({
           id: `${tournament}/${stage}/${season}`,
-          path: join(stageDir, season, 'pots.json'),
+          path: join(stageDir, season, "pots.json"),
           // The current league-stage season is still being drawn,
           // so its pots keep changing & its pairings aren't worth snapshotting.
           // Group stages are all historical: that format ended after 2023,
           // so their current season is frozen.
-          isInProgress: stage === 'ls' && Number(season) === latest,
+          isInProgress: stage === "ls" && Number(season) === latest,
         });
       }
     }
@@ -46,7 +46,7 @@ const potsFiles = () => {
 };
 
 const derivePairings = (path: string) => {
-  const pots = JSON.parse(readFileSync(path, 'utf8')) as RawTeam[][];
+  const pots = JSON.parse(readFileSync(path, "utf8")) as RawTeam[][];
   const teams = pots
     .flat()
     .map(o => new GsTeam(o.name, o.country as never, o.coeffient ?? 0, o.name));
@@ -57,7 +57,7 @@ const derivePairings = (path: string) => {
   for (const team of teams) {
     const partner = team.pairing;
     if (partner && !seen.has(team) && !seen.has(partner)) {
-      pairs.push([team.name, partner.name].sort().join(' & '));
+      pairs.push([team.name, partner.name].sort().join(" & "));
       seen.add(team);
       seen.add(partner);
     }
@@ -68,10 +68,10 @@ const derivePairings = (path: string) => {
   };
 };
 
-describe('pairUpTeams', () => {
+describe("pairUpTeams", () => {
   const files = potsFiles();
 
-  it('only ever pairs teams from the same country', () => {
+  it("only ever pairs teams from the same country", () => {
     for (const { id, path } of files) {
       const { teams } = derivePairings(path);
       for (const team of teams) {
@@ -83,7 +83,7 @@ describe('pairUpTeams', () => {
     }
   });
 
-  it('derives stable pairings for every completed season', () => {
+  it("derives stable pairings for every completed season", () => {
     const bySeason = Object.fromEntries(
       files
         .values()

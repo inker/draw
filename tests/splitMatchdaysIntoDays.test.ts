@@ -1,13 +1,13 @@
-import { readFileSync, readdirSync } from 'node:fs';
-import { join } from 'node:path';
+import { readFileSync, readdirSync } from "node:fs";
+import { join } from "node:path";
 
-import { chunk, orderBy } from 'lodash';
+import { chunk, orderBy } from "lodash";
 
 import splitMatchdaysIntoDays, {
   firstSeasonWithOpeningMatch,
-} from '#engine/dfs/ls/generateSchedule/splitMatchdaysIntoDays';
-import popularityRank from '#model/popularityRank';
-import { type UefaCountry } from '#model/types';
+} from "#engine/dfs/ls/generateSchedule/splitMatchdaysIntoDays";
+import popularityRank from "#model/popularityRank";
+import { type UefaCountry } from "#model/types";
 
 const team = (name: string, country: string) => ({
   name,
@@ -16,25 +16,25 @@ const team = (name: string, country: string) => ({
 
 // English clubs in popularity order (see src/data/popularity.ts).
 const ENGLAND = [
-  'Man United',
-  'Liverpool',
-  'Arsenal',
-  'Man City',
-  'Chelsea',
-  'Tottenham',
+  "Man United",
+  "Liverpool",
+  "Arsenal",
+  "Man City",
+  "Chelsea",
+  "Tottenham",
 ];
 // Opponents from six distinct countries, so only England forms a group.
 const OPPONENT_COUNTRIES = [
-  'Netherlands',
-  'Belgium',
-  'Scotland',
-  'Denmark',
-  'Switzerland',
-  'Sweden',
+  "Netherlands",
+  "Belgium",
+  "Scotland",
+  "Denmark",
+  "Switzerland",
+  "Sweden",
 ];
 
 const teams = [
-  ...ENGLAND.map(name => team(name, 'England')),
+  ...ENGLAND.map(name => team(name, "England")),
   ...OPPONENT_COUNTRIES.map((country, i) => team(`Opponent ${i}`, country)),
 ];
 
@@ -53,11 +53,11 @@ const matchday = [
   [5, 11],
 ] as [number, number][];
 
-const stageDir = join(__dirname, '..', 'src', 'data', 'cl', 'ls');
+const stageDir = join(__dirname, "..", "src", "data", "cl", "ls");
 
 const clPots = (season: number) =>
   JSON.parse(
-    readFileSync(join(stageDir, String(season), 'pots.json'), 'utf8'),
+    readFileSync(join(stageDir, String(season), "pots.json"), "utf8"),
   ) as {
     name: string;
     country: string;
@@ -129,11 +129,11 @@ const dayByTeam = (
   return map;
 };
 
-describe('splitMatchdaysIntoDays', () => {
+describe("splitMatchdaysIntoDays", () => {
   it("spreads a country's top three across the three days of CL matchday 1", () => {
     const [firstMatchday] = splitMatchdaysIntoDays({
       matchdays: [matchday],
-      tournament: 'cl',
+      tournament: "cl",
       season: firstSeasonWithOpeningMatch - 1,
       matchdaySize: 6,
       teams,
@@ -147,10 +147,10 @@ describe('splitMatchdaysIntoDays', () => {
     expect(new Set([day.get(3), day.get(4), day.get(5)]).size).toBe(3);
   });
 
-  it('keeps popularity pairs apart on a two-day matchday', () => {
+  it("keeps popularity pairs apart on a two-day matchday", () => {
     const split = splitMatchdaysIntoDays({
       matchdays: [matchday, matchday, matchday],
-      tournament: 'cl',
+      tournament: "cl",
       season: firstSeasonWithOpeningMatch - 1,
       matchdaySize: 6,
       teams,
@@ -165,10 +165,10 @@ describe('splitMatchdaysIntoDays', () => {
     expect(day.get(4)).not.toBe(day.get(5));
   });
 
-  it('opens CL matchday 1 with the holder alone from the first season with an opener', () => {
+  it("opens CL matchday 1 with the holder alone from the first season with an opener", () => {
     const [firstMatchday] = splitMatchdaysIntoDays({
       matchdays: [matchday],
-      tournament: 'cl',
+      tournament: "cl",
       season: firstSeasonWithOpeningMatch,
       matchdaySize: 6,
       teams,
@@ -180,10 +180,10 @@ describe('splitMatchdaysIntoDays', () => {
     expect(firstMatchday[0][0][0]).toBe(HOLDER);
   });
 
-  it('leaves the other matchdays alone from the first season with an opener', () => {
+  it("leaves the other matchdays alone from the first season with an opener", () => {
     const split = splitMatchdaysIntoDays({
       matchdays: [matchday, matchday, matchday],
-      tournament: 'cl',
+      tournament: "cl",
       season: firstSeasonWithOpeningMatch,
       matchdaySize: 6,
       teams,
@@ -194,10 +194,10 @@ describe('splitMatchdaysIntoDays', () => {
     expect(split[2].map(day => day.length)).toStrictEqual([6]);
   });
 
-  it('still splits matchday 1 three ways the season before', () => {
+  it("still splits matchday 1 three ways the season before", () => {
     const [firstMatchday] = splitMatchdaysIntoDays({
       matchdays: [matchday],
-      tournament: 'cl',
+      tournament: "cl",
       season: firstSeasonWithOpeningMatch - 1,
       matchdaySize: 6,
       teams,
@@ -207,19 +207,19 @@ describe('splitMatchdaysIntoDays', () => {
     expect(firstMatchday.map(day => day.length)).toStrictEqual([2, 2, 2]);
   });
 
-  it('refuses to schedule an opening match with no title holder', () => {
+  it("refuses to schedule an opening match with no title holder", () => {
     expect(() =>
       splitMatchdaysIntoDays({
         matchdays: [matchday],
-        tournament: 'cl',
+        tournament: "cl",
         season: firstSeasonWithOpeningMatch,
         matchdaySize: 6,
         teams,
       }),
-    ).toThrow('title holder');
+    ).toThrow("title holder");
   });
 
-  it('refuses to schedule an opening match the holder is not hosting', () => {
+  it("refuses to schedule an opening match the holder is not hosting", () => {
     // [9, 3] rather than [3, 9]: the holder is away, which assignGamesToMatchdays
     // is meant to have ruled out before the matchday gets this far.
     const holderAway = matchday.map(match =>
@@ -229,13 +229,13 @@ describe('splitMatchdaysIntoDays', () => {
     expect(() =>
       splitMatchdaysIntoDays({
         matchdays: [holderAway],
-        tournament: 'cl',
+        tournament: "cl",
         season: firstSeasonWithOpeningMatch,
         matchdaySize: 6,
         teams,
         titleHolder: TITLE_HOLDER,
       }),
-    ).toThrow('not at home');
+    ).toThrow("not at home");
   });
 
   it("counts none of the opener's clubs towards the remaining days' spread", () => {
@@ -243,17 +243,17 @@ describe('splitMatchdaysIntoDays', () => {
     // day, the other two are two clubs over two days, so they cannot share one.
     // Counting all three against the two remaining days would permit 2-0.
     const frenchTeams = [
-      ...['Paris SG', 'Lille', 'Lens'].map(name => team(name, 'France')),
+      ...["Paris SG", "Lille", "Lens"].map(name => team(name, "France")),
       ...[
-        'Netherlands',
-        'Belgium',
-        'Scotland',
-        'Denmark',
-        'Switzerland',
-        'Sweden',
-        'Portugal',
-        'Greece',
-        'Austria',
+        "Netherlands",
+        "Belgium",
+        "Scotland",
+        "Denmark",
+        "Switzerland",
+        "Sweden",
+        "Portugal",
+        "Greece",
+        "Austria",
       ].map((country, i) => team(`Opponent ${i}`, country)),
     ];
     // The three French clubs are the home teams of the first three matches.
@@ -270,11 +270,11 @@ describe('splitMatchdaysIntoDays', () => {
     for (let i = 0; i < 20; ++i) {
       const [firstMatchday] = splitMatchdaysIntoDays({
         matchdays: [frenchMatchday],
-        tournament: 'cl',
+        tournament: "cl",
         season: firstSeasonWithOpeningMatch,
         matchdaySize: 6,
         teams: frenchTeams,
-        titleHolder: 'Paris SG',
+        titleHolder: "Paris SG",
       });
 
       const day = dayByTeam(firstMatchday);
@@ -283,10 +283,10 @@ describe('splitMatchdaysIntoDays', () => {
     }
   });
 
-  it('gives no other tournament an opening match', () => {
+  it("gives no other tournament an opening match", () => {
     const split = splitMatchdaysIntoDays({
       matchdays: [matchday, matchday, matchday],
-      tournament: 'el',
+      tournament: "el",
       season: firstSeasonWithOpeningMatch,
       matchdaySize: 6,
       teams,
@@ -299,7 +299,7 @@ describe('splitMatchdaysIntoDays', () => {
   // The six-team fixtures above have one club per country on most days,
   // so they never stretch the popularity separation or the per-country spread.
   // A real Champions League field does, & 9 & 8 are not interchangeable sizes.
-  it('splits a full-size matchday 1-9-8', () => {
+  it("splits a full-size matchday 1-9-8", () => {
     const fullSizeTeams = latestClPots()
       .flat()
       .map(club => team(club.name, club.country));
@@ -307,7 +307,7 @@ describe('splitMatchdaysIntoDays', () => {
     for (const seed of [1, 2, 3, 4, 5]) {
       const [firstMatchday] = splitMatchdaysIntoDays({
         matchdays: [buildMatchday(fullSizeTeams, seed)],
-        tournament: 'cl',
+        tournament: "cl",
         season: firstSeasonWithOpeningMatch,
         matchdaySize: fullSizeTeams.length / 2,
         teams: fullSizeTeams,
@@ -325,7 +325,7 @@ describe('splitMatchdaysIntoDays', () => {
   // tuple is kept: the separation used to be given up in country order,
   // which left a two-club country sharing a day
   // so that a six-club one could keep its third tuple.
-  it('spreads every country over as many days as it has clubs for', () => {
+  it("spreads every country over as many days as it has clubs for", () => {
     const fullSizeTeams = latestClPots()
       .flat()
       .map(club => team(club.name, club.country));
@@ -335,7 +335,7 @@ describe('splitMatchdaysIntoDays', () => {
         matchdays: [seed, seed + 1, seed + 2].map(matchdaySeed =>
           buildMatchday(fullSizeTeams, matchdaySeed),
         ),
-        tournament: 'cl',
+        tournament: "cl",
         season: firstSeasonWithOpeningMatch - 1,
         matchdaySize: fullSizeTeams.length / 2,
         teams: fullSizeTeams,
@@ -361,14 +361,14 @@ describe('splitMatchdaysIntoDays', () => {
   // Pinned to one season's field rather than the latest,
   // because how many tuples have to give is a property of this exact matchday
   // & a new season's clubs would pose a different problem.
-  it('gives up a single tuple when the matchday cannot take them all', () => {
+  it("gives up a single tuple when the matchday cannot take them all", () => {
     const pinnedTeams = clPots(2024)
       .flat()
       .map(club => team(club.name, club.country));
 
     const [, secondMatchday] = splitMatchdaysIntoDays({
       matchdays: [7, 8, 9].map(seed => buildMatchday(pinnedTeams, seed)),
-      tournament: 'cl',
+      tournament: "cl",
       season: firstSeasonWithOpeningMatch - 1,
       matchdaySize: pinnedTeams.length / 2,
       teams: pinnedTeams,

@@ -1,18 +1,18 @@
-import { memo, useCallback, useRef, useState } from 'react';
-import clsx from 'clsx';
+import { memo, useCallback, useRef, useState } from "react";
+import clsx from "clsx";
 
-import type Club from '#model/team/Club';
-import type NationalTeam from '#model/team/NationalTeam';
-import usePrevious from '#utils/hooks/usePrevious';
-import useDidUpdate from '#utils/hooks/useDidUpdate';
-import useIsDarkMode from '#utils/hooks/useIsDarkMode';
-import getTeamCountryName from '#utils/getTeamCountryName';
-import ContentWithFlag from '#ui/table/ContentWithFlag';
-import Content from '#ui/table/Content';
-import MovingContent from '#ui/MovingContent';
-import * as cellStyles from '#ui/table/cell.module.css';
+import type Club from "#model/team/Club";
+import type NationalTeam from "#model/team/NationalTeam";
+import usePrevious from "#utils/hooks/usePrevious";
+import useDidUpdate from "#utils/hooks/useDidUpdate";
+import useIsDarkMode from "#utils/hooks/useIsDarkMode";
+import getTeamCountryName from "#utils/getTeamCountryName";
+import ContentWithFlag from "#ui/table/ContentWithFlag";
+import Content from "#ui/table/Content";
+import MovingContent from "#ui/MovingContent";
+import * as cellStyles from "#ui/table/cell.module.css";
 
-import * as styles from './styles.module.css';
+import * as styles from "./styles.module.css";
 
 type Team = Club | NationalTeam;
 
@@ -46,7 +46,7 @@ function GroupCellDeferred({ team, possible }: Props) {
       <td
         className={clsx(
           cellStyles.root,
-          styles['group-cell-base'],
+          styles["group-cell-base"],
           isPickedAnimation && !!displayedTeam && styles.picked,
           possible && styles.possible,
         )}

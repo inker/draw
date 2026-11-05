@@ -11,21 +11,21 @@ export default async (
   keyData: Parameters<typeof globalThis.crypto.subtle.importKey>[1],
 ) => {
   const cryptoKey = await globalThis.crypto.subtle.importKey(
-    'raw',
+    "raw",
     keyData,
     {
-      name: 'HMAC',
-      hash: 'SHA-256',
+      name: "HMAC",
+      hash: "SHA-256",
     },
     false,
-    ['sign'],
+    ["sign"],
   );
   return (data: Parameters<typeof globalThis.crypto.subtle.sign>[2]) =>
     // Asserted rather than inferred,
     // because crypto.subtle.sign is typed for every algorithm it accepts
     // & so can only promise an ArrayBuffer of some width or other.
     globalThis.crypto.subtle.sign(
-      'HMAC',
+      "HMAC",
       cryptoKey,
       data,
     ) as Promise<Sha256Digest>;

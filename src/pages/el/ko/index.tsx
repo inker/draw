@@ -1,27 +1,27 @@
-import { memo, useCallback, useEffect, useRef, useState } from 'react';
-import { stubArray, without } from 'lodash';
+import { memo, useCallback, useEffect, useRef, useState } from "react";
+import { stubArray, without } from "lodash";
 
-import PotsContainer from '#ui/PotsContainer';
-import MatchupsContainer from '#ui/MatchupsContainer';
-import * as bowlsContainerStyles from '#ui/bowls-container.module.css';
-import TeamBowl from '#ui/bowls/TeamBowl';
-import * as separatorStyles from '#ui/separator.module.css';
-import Announcement from '#ui/Announcement';
-import { serializeGsWorkerData } from '#model/WorkerData';
-import type Team from '#model/team/KnockoutTeam';
-import { type EmptyOrSingleOrPair, type FixedArray } from '#model/types';
-import useWorkerRpc from '#utils/hooks/useWorkerRpc';
-import usePrngGenerator from '#utils/hooks/usePrngGenerator';
-import prngShuffleAll from '#utils/prng/shuffleAll';
-import useMedia from '#utils/hooks/useMedia';
-import useXRay from '#store/useXRay';
-import useFastDraw from '#store/useFastDraw';
-import useDrawId from '#store/useDrawId';
-import usePopup from '#store/usePopup';
+import PotsContainer from "#ui/PotsContainer";
+import MatchupsContainer from "#ui/MatchupsContainer";
+import * as bowlsContainerStyles from "#ui/bowls-container.module.css";
+import TeamBowl from "#ui/bowls/TeamBowl";
+import * as separatorStyles from "#ui/separator.module.css";
+import Announcement from "#ui/Announcement";
+import { serializeGsWorkerData } from "#model/WorkerData";
+import type Team from "#model/team/KnockoutTeam";
+import { type EmptyOrSingleOrPair, type FixedArray } from "#model/types";
+import useWorkerRpc from "#utils/hooks/useWorkerRpc";
+import usePrngGenerator from "#utils/hooks/usePrngGenerator";
+import prngShuffleAll from "#utils/prng/shuffleAll";
+import useMedia from "#utils/hooks/useMedia";
+import useXRay from "#store/useXRay";
+import useFastDraw from "#store/useFastDraw";
+import useDrawId from "#store/useDrawId";
+import usePopup from "#store/usePopup";
 
-import { type Func } from './worker';
+import { type Func } from "./worker";
 
-const createWorker = () => new Worker(new URL('./worker', import.meta.url));
+const createWorker = () => new Worker(new URL("./worker", import.meta.url));
 
 interface Props {
   season: number;
@@ -90,7 +90,7 @@ function ELKO({ season, pots: initialPots }: Props) {
     })();
   }, [initialPots, season, prngGenerator]);
 
-  const isTallScreen = useMedia('(min-height: 750px)');
+  const isTallScreen = useMedia("(min-height: 750px)");
   const [, setPopup] = usePopup();
   const [isXRay] = useXRay();
 
@@ -125,7 +125,7 @@ function ELKO({ season, pots: initialPots }: Props) {
         return allPossibleGroups.map(i => newGwPot.indexOf(groups[i][0]));
       } catch (err) {
         setPopup({
-          error: 'Could not determine possible pairings',
+          error: "Could not determine possible pairings",
         });
         throw err;
       }

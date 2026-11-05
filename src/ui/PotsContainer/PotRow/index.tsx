@@ -1,12 +1,12 @@
-import { memo } from 'react';
-import clsx from 'clsx';
+import { memo } from "react";
+import clsx from "clsx";
 
-import type Team from '#model/team';
-import type GsTeam from '#model/team/GsTeam';
-import * as cellStyles from '#ui/table/cell.module.css';
-import ContentWithFlag from '#ui/table/ContentWithFlag';
+import type Team from "#model/team";
+import type GsTeam from "#model/team/GsTeam";
+import * as cellStyles from "#ui/table/cell.module.css";
+import ContentWithFlag from "#ui/table/ContentWithFlag";
 
-import * as styles from './styles.module.css';
+import * as styles from "./styles.module.css";
 
 interface Props {
   teams: readonly Team[];
@@ -23,7 +23,7 @@ function PotRow({ teams, pickedTeams, selectedTeams }: Props) {
         return (
           <td
             key={team.id}
-            className={clsx(cellStyles.root, styles['pot-cell'])}
+            className={clsx(cellStyles.root, styles["pot-cell"])}
           >
             <ContentWithFlag
               data-cellid={team.id}
@@ -31,7 +31,7 @@ function PotRow({ teams, pickedTeams, selectedTeams }: Props) {
                 pairing && `paired with ${pairing.shortName ?? pairing.name}`
               }
               className={clsx(
-                styles['cell-content'],
+                styles["cell-content"],
                 selectedTeams?.includes(team) && styles.selected,
                 pickedTeams.includes(team) && styles.picked,
               )}

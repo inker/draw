@@ -1,11 +1,11 @@
 import {
   type MutableBacktrackOptions,
   findFirstSolutionMutable,
-} from '#utils/backtrack';
-import type NationalTeam from '#model/team/NationalTeam';
-import type UnknownNationalTeam from '#model/team/UnknownNationalTeam';
-import { type Confederation, type Country } from '#model/types';
-import getNumGroupsByYear from '#engine/predicates/wc/getNumGroupsByYear';
+} from "#utils/backtrack";
+import type NationalTeam from "#model/team/NationalTeam";
+import type UnknownNationalTeam from "#model/team/UnknownNationalTeam";
+import { type Confederation, type Country } from "#model/types";
+import getNumGroupsByYear from "#engine/predicates/wc/getNumGroupsByYear";
 
 type Team = NationalTeam | UnknownNationalTeam;
 
@@ -88,10 +88,10 @@ export default ({
       }
     }
     const firstFourTeams = [
-      'Spain',
-      'Argentina',
-      'France',
-      'England',
+      "Spain",
+      "Argentina",
+      "France",
+      "England",
     ] satisfies Country[];
     for (const [rank, name] of firstFourTeams.entries()) {
       rankByTeam[teams.findIndex(t => t.name === name)] = rank;

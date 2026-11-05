@@ -4,13 +4,13 @@ import {
   memo,
   useCallback,
   useRef,
-} from 'react';
-import clsx from 'clsx';
+} from "react";
+import clsx from "clsx";
 
-import useEvent from '#utils/hooks/useEvent';
-import * as ballStyles from '#ui/ball.module.css';
+import useEvent from "#utils/hooks/useEvent";
+import * as ballStyles from "#ui/ball.module.css";
 
-import * as styles from './styles.module.css';
+import * as styles from "./styles.module.css";
 
 // TODO: Fix transient props
 
@@ -40,7 +40,7 @@ function BowlBall({
         !noHover &&
         el &&
         document.activeElement === el &&
-        e.key === 'Enter'
+        e.key === "Enter"
       ) {
         el.click();
       }
@@ -48,7 +48,7 @@ function BowlBall({
     [ballRef, noHover],
   );
 
-  useEvent(window, 'keydown', cb);
+  useEvent(window, "keydown", cb);
 
   return (
     <div
@@ -58,7 +58,7 @@ function BowlBall({
         styles.root,
         className,
         selected && styles.selected,
-        forceVisible && styles['force-visible'],
+        forceVisible && styles["force-visible"],
       )}
       ref={ballRef}
       tabIndex={noHover ? undefined : 0}

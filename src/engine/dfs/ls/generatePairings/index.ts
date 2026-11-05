@@ -1,18 +1,18 @@
-import { range } from 'lodash';
+import { range } from "lodash";
 
-import workerRpc from '#utils/worker/rpc';
-import { type PrngGenerator } from '#utils/prng/generator';
-import prngFloat from '#utils/prng/float';
-import prngShuffle from '#utils/prng/shuffle';
-import assertIndicesInRange from '#utils/assertIndicesInRange';
-import type Tournament from '#model/Tournament';
-import { type UefaCountry } from '#model/types';
-import incompatibleCountries from '#engine/predicates/uefa/utils/incompatibleCountries';
-import bannedFixtures from '#engine/predicates/uefa/utils/bannedFixtures';
+import workerRpc from "#utils/worker/rpc";
+import { type PrngGenerator } from "#utils/prng/generator";
+import prngFloat from "#utils/prng/float";
+import prngShuffle from "#utils/prng/shuffle";
+import assertIndicesInRange from "#utils/assertIndicesInRange";
+import type Tournament from "#model/Tournament";
+import { type UefaCountry } from "#model/types";
+import incompatibleCountries from "#engine/predicates/uefa/utils/incompatibleCountries";
+import bannedFixtures from "#engine/predicates/uefa/utils/bannedFixtures";
 
-import generateFull from './generateFull';
-import { type Func } from './getFirstSuitableMatch.worker';
-import { type RuleSpec } from './rules';
+import generateFull from "./generateFull";
+import { type Func } from "./getFirstSuitableMatch.worker";
+import { type RuleSpec } from "./rules";
 
 interface Team {
   readonly name: string;
@@ -42,13 +42,13 @@ export default async function* generatePairings({
   signal?: AbortSignal;
 }) {
   const numPots = pots.length;
-  const isPairedPotMode = tournament === 'ecl';
+  const isPairedPotMode = tournament === "ecl";
   const teams = pots.flat();
   const numTeamsPerPot = pots[0].length;
   const numGamesPerMatchday = teams.length / 2;
 
-  assertIndicesInRange([pickedTeamIndex], teams.length, 'pickedTeamIndex');
-  assertIndicesInRange(drawnMatches.flat(), teams.length, 'drawnMatches');
+  assertIndicesInRange([pickedTeamIndex], teams.length, "pickedTeamIndex");
+  assertIndicesInRange(drawnMatches.flat(), teams.length, "drawnMatches");
 
   const teamIndices = range(teams.length);
 
@@ -74,7 +74,7 @@ export default async function* generatePairings({
   const countries = [...new Set(teams.map(team => team.country))];
   const rules = [
     {
-      kind: 'opponentCap',
+      kind: "opponentCap",
       groupByTeam: teams.map(team => countries.indexOf(team.country)),
       // UEFA lets a team face at most 2 opponents from one country
       maxByGroup: countries.map(() => 2),
@@ -84,7 +84,7 @@ export default async function* generatePairings({
   // ends the worker once the generator finishes
   const lifetime = new AbortController();
   const getFirstSuitableMatch = workerRpc<Func>(
-    new Worker(new URL('./getFirstSuitableMatch.worker', import.meta.url)),
+    new Worker(new URL("./getFirstSuitableMatch.worker", import.meta.url)),
     lifetime.signal,
   );
 

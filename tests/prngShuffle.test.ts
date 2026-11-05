@@ -1,5 +1,5 @@
-import createPrngGenerator, { type PrngGenerator } from '#utils/prng/generator';
-import prngShuffle from '#utils/prng/shuffle';
+import createPrngGenerator, { type PrngGenerator } from "#utils/prng/generator";
+import prngShuffle from "#utils/prng/shuffle";
 
 // what the app runs on
 const COUNTER_BYTE_LENGTH = 4;
@@ -36,19 +36,19 @@ async function* counted(
   }
 }
 
-describe('prngShuffle', () => {
+describe("prngShuffle", () => {
   it.each([2, 3, 9, 18, 36])(
-    'deals the same order it always has: %s',
+    "deals the same order it always has: %s",
     async length => {
       const shuffled = await prngShuffle({
         collection: range(length),
-        prngGenerator: streamOf('uefa'),
+        prngGenerator: streamOf("uefa"),
       });
       expect(shuffled).toMatchSnapshot();
     },
   );
 
-  it.each(['uefa', 'UEFA', 'uefb'])('seed: %s', async text => {
+  it.each(["uefa", "UEFA", "uefb"])("seed: %s", async text => {
     const shuffled = await prngShuffle({
       collection: range(9),
       prngGenerator: streamOf(text),
@@ -56,17 +56,17 @@ describe('prngShuffle', () => {
     expect(shuffled).toMatchSnapshot();
   });
 
-  it.each([0, 1])('leaves nothing to draw for: %s', async length => {
+  it.each([0, 1])("leaves nothing to draw for: %s", async length => {
     const collection = range(length);
     const shuffled = await prngShuffle({
       collection,
-      prngGenerator: streamOf('uefa'),
+      prngGenerator: streamOf("uefa"),
     });
     expect(shuffled).toStrictEqual(collection);
   });
 
-  it('returns a permutation at every length up to 300', async () => {
-    const prngGenerator = streamOf('uefa');
+  it("returns a permutation at every length up to 300", async () => {
+    const prngGenerator = streamOf("uefa");
     for (const length of range(301)) {
       // eslint-disable-next-line no-await-in-loop
       const shuffled = await prngShuffle({
@@ -83,10 +83,10 @@ describe('prngShuffle', () => {
   // The stream is deterministic, so this cannot fail on a bad day.
   // A shuffle picking from the whole array each time scores 6,207 here,
   // so a threshold with room to spare still has teeth.
-  it('reaches every ordering about equally often', async () => {
+  it("reaches every ordering about equally often", async () => {
     const numOrderings = 24;
     const numTrials = numOrderings * 1000;
-    const prngGenerator = streamOf('uefa');
+    const prngGenerator = streamOf("uefa");
     const counts = new Map<string, number>();
 
     for (let trial = 0; trial < numTrials; ++trial) {
@@ -95,7 +95,7 @@ describe('prngShuffle', () => {
         collection: range(4),
         prngGenerator,
       });
-      const ordering = shuffled.join('');
+      const ordering = shuffled.join("");
       counts.set(ordering, (counts.get(ordering) ?? 0) + 1);
     }
 
@@ -111,11 +111,11 @@ describe('prngShuffle', () => {
 
   // A digest per swap would be 143 of them, & the orderings of 144 carry
   // about 830 bits, so four digests is the floor this is measured against.
-  it('spends bits close to the entropy of the ordering', async () => {
+  it("spends bits close to the entropy of the ordering", async () => {
     let numDigests = 0;
     await prngShuffle({
       collection: range(144),
-      prngGenerator: counted(streamOf('uefa'), () => {
+      prngGenerator: counted(streamOf("uefa"), () => {
         ++numDigests;
       }),
     });

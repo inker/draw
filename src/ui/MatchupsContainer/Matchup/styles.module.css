@@ -4,6 +4,6 @@
   color: light-dark(#333, #ccc);
 
   &::before {
-    content: 'v';
+    content: "v";
   }
 }

@@ -7,33 +7,33 @@ eslint import/no-extraneous-dependencies: [2, {
 }]
 */
 
-import inkerReact from '@inker/eslint-config/react';
-import inkerTypescript from '@inker/eslint-config-typescript';
-import vitest from '@vitest/eslint-plugin';
-import prettier from 'eslint-config-prettier/flat';
-import { createTypeScriptImportResolver } from 'eslint-import-resolver-typescript';
-import { createNodeResolver } from 'eslint-plugin-import-x';
-import reactHooks from 'eslint-plugin-react-hooks';
+import inkerReact from "@inker/eslint-config/react";
+import inkerTypescript from "@inker/eslint-config-typescript";
+import vitest from "@vitest/eslint-plugin";
+import prettier from "eslint-config-prettier/flat";
+import { createTypeScriptImportResolver } from "eslint-import-resolver-typescript";
+import { createNodeResolver } from "eslint-plugin-import-x";
+import reactHooks from "eslint-plugin-react-hooks";
 
 export default [
   {
-    ignores: ['dist/'],
+    ignores: ["dist/"],
   },
   {
-    files: ['**/*.{js,jsx,ts,tsx}'],
+    files: ["**/*.{js,jsx,ts,tsx}"],
   },
   ...inkerReact,
   ...inkerTypescript,
   prettier,
   {
     plugins: {
-      'react-hooks': reactHooks,
+      "react-hooks": reactHooks,
     },
 
     languageOptions: {
       parserOptions: {
         tsconfigRootDir: import.meta.dirname,
-        project: ['./tsconfig.json'],
+        project: ["./tsconfig.json"],
         ecmaFeatures: {
           jsx: true,
         },
@@ -47,7 +47,7 @@ export default [
 
     settings: {
       // Append 'ts' extensions to Airbnb 'import-x/resolver-next' setting
-      'import-x/resolver-next': [
+      "import-x/resolver-next": [
         // use <root>/tsconfig.json
         createTypeScriptImportResolver({
           // always try to resolve types under `<roo/>@types` directory
@@ -63,204 +63,204 @@ export default [
           // & import/no-duplicates would flag them.
           // The rest is the resolver's default list.
           conditionNames: [
-            'types@>=5.5',
-            'types',
-            'import',
-            'esm2020',
-            'es2020',
-            'es2015',
-            'require',
-            'node',
-            'node-addons',
-            'browser',
-            'default',
+            "types@>=5.5",
+            "types",
+            "import",
+            "esm2020",
+            "es2020",
+            "es2015",
+            "require",
+            "node",
+            "node-addons",
+            "browser",
+            "default",
           ],
         }),
         createNodeResolver({
-          extensions: ['.mjs', '.js', '.jsx', '.ts', '.tsx', '.json'],
+          extensions: [".mjs", ".js", ".jsx", ".ts", ".tsx", ".json"],
         }),
       ],
       // Append 'ts' extensions to Airbnb 'import-x/extensions' setting
-      'import-x/extensions': ['.js', '.jsx', '.ts', '.tsx', '.mjs'],
+      "import-x/extensions": [".js", ".jsx", ".ts", ".tsx", ".mjs"],
     },
 
     rules: {
-      curly: [2, 'all'], // disabled by eslint-config-prettie
-      'object-property-newline': [
+      curly: [2, "all"], // disabled by eslint-config-prettie
+      "object-property-newline": [
         2,
         {
           allowAllPropertiesOnSameLine: false,
         },
       ],
       // Only for ordering members
-      'sort-imports': [
+      "sort-imports": [
         2,
         {
           ignoreDeclarationSort: true,
         },
       ],
 
-      'inker/enforce-import-name': [
+      "inker/enforce-import-name": [
         2,
         {
           paths: [
             {
-              name: 'date-fns',
+              name: "date-fns",
               importNames: [
                 {
-                  imported: 'format',
-                  local: 'formatDate',
+                  imported: "format",
+                  local: "formatDate",
                 },
                 {
-                  imported: 'isValid',
-                  local: 'isDateValid',
+                  imported: "isValid",
+                  local: "isDateValid",
                 },
               ],
             },
             {
-              name: 'lodash',
+              name: "lodash",
               importNames: [
                 {
-                  imported: 'namespace',
-                  local: '_',
+                  imported: "namespace",
+                  local: "_",
                 },
                 {
-                  imported: 'default',
-                  local: '_',
-                },
-              ],
-            },
-            {
-              name: 'react',
-              importNames: [
-                {
-                  imported: 'default',
-                  local: 'React',
+                  imported: "default",
+                  local: "_",
                 },
               ],
             },
             {
-              name: 'uuid',
+              name: "react",
               importNames: [
                 {
-                  imported: 'v4',
-                  local: 'uuidv4',
+                  imported: "default",
+                  local: "React",
                 },
               ],
             },
             {
-              pattern: '{,**,./,../,../../}/styles.module.css',
+              name: "uuid",
               importNames: [
                 {
-                  imported: 'default',
-                  local: 'styles',
+                  imported: "v4",
+                  local: "uuidv4",
+                },
+              ],
+            },
+            {
+              pattern: "{,**,./,../,../../}/styles.module.css",
+              importNames: [
+                {
+                  imported: "default",
+                  local: "styles",
                 },
               ],
             },
           ],
         },
       ],
-      'inker/no-true-as-default': 2,
-      'inker/react-hooks-order': [
+      "inker/no-true-as-default": 2,
+      "inker/react-hooks-order": [
         2,
         {
-          order: ['useDispatch', 'useSelector', 'useAbility', 'useNavigate'],
+          order: ["useDispatch", "useSelector", "useAbility", "useNavigate"],
         },
       ],
-      'inker/react-ref-name': 2,
+      "inker/react-ref-name": 2,
 
-      'import/extensions': [
+      "import/extensions": [
         2,
-        'ignorePackages',
+        "ignorePackages",
         {
-          js: 'never',
-          mjs: 'never',
-          ts: 'never',
-          jsx: 'never',
-          tsx: 'never',
-          vue: 'never',
+          js: "never",
+          mjs: "never",
+          ts: "never",
+          jsx: "never",
+          tsx: "never",
+          vue: "never",
         },
       ],
 
-      'import/order': [
+      "import/order": [
         2,
         {
           groups: [
-            'builtin',
-            'external',
-            'internal',
-            'parent',
-            'sibling',
-            'index',
+            "builtin",
+            "external",
+            "internal",
+            "parent",
+            "sibling",
+            "index",
           ],
-          'newlines-between': 'always',
+          "newlines-between": "always",
           pathGroups: [
             {
-              pattern: 'react',
-              group: 'external',
-              position: 'before',
+              pattern: "react",
+              group: "external",
+              position: "before",
             },
             {
-              pattern: './*.module.css',
-              group: 'sibling',
-              position: 'after',
+              pattern: "./*.module.css",
+              group: "sibling",
+              position: "after",
             },
           ],
           distinctGroup: false,
-          pathGroupsExcludedImportTypes: ['react'],
+          pathGroupsExcludedImportTypes: ["react"],
           warnOnUnassignedImports: true,
         },
       ],
 
-      'react/prop-types': 0,
-      'react/react-in-jsx-scope': 0,
-      'react/require-default-props': 0,
-      'react/jsx-one-expression-per-line': 0,
-      'react/jsx-props-no-spreading': 0,
-      'react/jsx-filename-extension': [
+      "react/prop-types": 0,
+      "react/react-in-jsx-scope": 0,
+      "react/require-default-props": 0,
+      "react/jsx-one-expression-per-line": 0,
+      "react/jsx-props-no-spreading": 0,
+      "react/jsx-filename-extension": [
         2,
         {
-          extensions: ['.jsx', '.tsx'],
+          extensions: [".jsx", ".tsx"],
         },
       ],
 
-      ...reactHooks.configs['recommended-latest'].rules,
-      'react-hooks/rules-of-hooks': 2,
-      'react-hooks/exhaustive-deps': 2,
+      ...reactHooks.configs["recommended-latest"].rules,
+      "react-hooks/rules-of-hooks": 2,
+      "react-hooks/exhaustive-deps": 2,
 
-      '@typescript-eslint/array-type': 2,
-      '@typescript-eslint/await-thenable': 2,
-      '@typescript-eslint/ban-ts-ignore': 0,
-      '@typescript-eslint/explicit-function-return-type': 0,
-      '@typescript-eslint/no-explicit-any': 0,
-      '@stylistic/no-extra-parens': 0,
-      '@typescript-eslint/no-floating-promises': 0,
-      '@typescript-eslint/no-misused-promises': 0,
-      '@typescript-eslint/no-non-null-assertion': 0,
-      '@typescript-eslint/restrict-template-expressions': 0,
-      '@typescript-eslint/unbound-method': 0,
-      '@typescript-eslint/no-unsafe-argument': 0,
-      '@typescript-eslint/no-unsafe-assignment': 0,
-      '@typescript-eslint/no-unsafe-call': 0,
-      '@typescript-eslint/no-unsafe-member-access': 0,
-      '@typescript-eslint/no-unsafe-return': 0,
-      '@typescript-eslint/no-unused-vars': [
+      "@typescript-eslint/array-type": 2,
+      "@typescript-eslint/await-thenable": 2,
+      "@typescript-eslint/ban-ts-ignore": 0,
+      "@typescript-eslint/explicit-function-return-type": 0,
+      "@typescript-eslint/no-explicit-any": 0,
+      "@stylistic/no-extra-parens": 0,
+      "@typescript-eslint/no-floating-promises": 0,
+      "@typescript-eslint/no-misused-promises": 0,
+      "@typescript-eslint/no-non-null-assertion": 0,
+      "@typescript-eslint/restrict-template-expressions": 0,
+      "@typescript-eslint/unbound-method": 0,
+      "@typescript-eslint/no-unsafe-argument": 0,
+      "@typescript-eslint/no-unsafe-assignment": 0,
+      "@typescript-eslint/no-unsafe-call": 0,
+      "@typescript-eslint/no-unsafe-member-access": 0,
+      "@typescript-eslint/no-unsafe-return": 0,
+      "@typescript-eslint/no-unused-vars": [
         2,
         {
-          vars: 'all',
-          args: 'after-used',
+          vars: "all",
+          args: "after-used",
           ignoreRestSiblings: false,
         },
       ],
-      '@typescript-eslint/prefer-nullish-coalescing': 0,
-      '@typescript-eslint/prefer-optional-chain': 2,
-      '@typescript-eslint/prefer-readonly': 2,
-      '@typescript-eslint/no-restricted-imports': [
+      "@typescript-eslint/prefer-nullish-coalescing": 0,
+      "@typescript-eslint/prefer-optional-chain": 2,
+      "@typescript-eslint/prefer-readonly": 2,
+      "@typescript-eslint/no-restricted-imports": [
         2,
         {
-          paths: ['useMatch', 'useNavigate', 'useParams', 'useSearch'].map(
+          paths: ["useMatch", "useNavigate", "useParams", "useSearch"].map(
             name => ({
-              name: '@tanstack/react-router',
+              name: "@tanstack/react-router",
               importNames: [name],
               message: `Use \`.${name}()\` from the route API instead`,
             }),
@@ -271,14 +271,14 @@ export default [
     },
   },
   {
-    files: ['eslint.config.js'],
+    files: ["eslint.config.js"],
     languageOptions: {
       parserOptions: {
         // No tsconfig includes this file,
         // so the project service gives it a default one instead.
         project: null,
         projectService: {
-          allowDefaultProject: ['eslint.config.js'],
+          allowDefaultProject: ["eslint.config.js"],
         },
       },
     },
@@ -286,26 +286,26 @@ export default [
   {
     // The app's tsconfig.json only covers src,
     // so the vitest config is checked with the tests' one instead.
-    files: ['vitest.config.ts'],
+    files: ["vitest.config.ts"],
     languageOptions: {
       parserOptions: {
         tsconfigRootDir: import.meta.dirname,
-        project: ['./tests/tsconfig.json'],
+        project: ["./tests/tsconfig.json"],
       },
     },
   },
   {
-    files: ['tests/**/*.{js,jsx,ts,tsx}'],
+    files: ["tests/**/*.{js,jsx,ts,tsx}"],
     ...vitest.configs.recommended,
     languageOptions: {
       parserOptions: {
         tsconfigRootDir: import.meta.dirname,
-        project: ['./tests/tsconfig.json'],
+        project: ["./tests/tsconfig.json"],
       },
     },
     rules: {
       ...vitest.configs.recommended.rules,
-      'import/no-extraneous-dependencies': [
+      "import/no-extraneous-dependencies": [
         2,
         {
           devDependencies: true,
@@ -313,12 +313,12 @@ export default [
           peerDependencies: false,
         },
       ],
-      'vitest/prefer-comparison-matcher': 2,
-      'vitest/prefer-equality-matcher': 2,
-      'vitest/prefer-hooks-in-order': 2,
-      'vitest/prefer-hooks-on-top': 2,
-      'vitest/prefer-to-contain': 2,
-      'vitest/prefer-to-have-length': 2,
+      "vitest/prefer-comparison-matcher": 2,
+      "vitest/prefer-equality-matcher": 2,
+      "vitest/prefer-hooks-in-order": 2,
+      "vitest/prefer-hooks-on-top": 2,
+      "vitest/prefer-to-contain": 2,
+      "vitest/prefer-to-have-length": 2,
     },
   },
 ];

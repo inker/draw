@@ -1,16 +1,16 @@
-import { type RefObject, memo, useEffect, useRef } from 'react';
-import clsx from 'clsx';
+import { type RefObject, memo, useEffect, useRef } from "react";
+import clsx from "clsx";
 
-import type Club from '#model/team/Club';
-import type NationalTeam from '#model/team/NationalTeam';
-import Dots from '#ui/Dots';
-import Deferred from '#ui/Deferred';
-import getGroupLetter from '#utils/getGroupLetter';
+import type Club from "#model/team/Club";
+import type NationalTeam from "#model/team/NationalTeam";
+import Dots from "#ui/Dots";
+import Deferred from "#ui/Deferred";
+import getGroupLetter from "#utils/getGroupLetter";
 
-import PossibleGroups from './PossibleGroups';
-import LongCalculation from './LongCalculation';
-import Download from './Download';
-import * as styles from './styles.module.css';
+import PossibleGroups from "./PossibleGroups";
+import LongCalculation from "./LongCalculation";
+import Download from "./Download";
+import * as styles from "./styles.module.css";
 
 type Team = Club | NationalTeam;
 
@@ -58,7 +58,7 @@ function Announcement({
           />
           <button
             type="button"
-            className={clsx('button-link', 'styled-link')}
+            className={clsx("button-link", "styled-link")}
             onClick={reset}
           >
             Restart
@@ -77,7 +77,7 @@ function Announcement({
             <span>
               <strong className={styles.bold}>
                 {(selected as Club).shortName ?? selected.name}
-              </strong>{' '}
+              </strong>{" "}
               goes to group
             </span>
           ) : (
@@ -98,8 +98,8 @@ function Announcement({
       <div className={styles.root}>
         {isDisplayPossibleGroupsText ? (
           <div>
-            Possible groups for{' '}
-            <span className={styles['selected-team-with-colon']}>
+            Possible groups for{" "}
+            <span className={styles["selected-team-with-colon"]}>
               <strong className={styles.bold}>{selected.name}</strong>:
             </span>
             {possibleGroups ? (

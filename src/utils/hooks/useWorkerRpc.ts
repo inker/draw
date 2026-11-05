@@ -1,6 +1,6 @@
-import { useCallback, useEffect, useRef } from 'react';
+import { useCallback, useEffect, useRef } from "react";
 
-import workerRpc from '#utils/worker/rpc';
+import workerRpc from "#utils/worker/rpc";
 
 export default <F extends (...args: never) => unknown>(
   getWorker: () => Worker,

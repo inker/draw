@@ -1,11 +1,11 @@
-import bigSix from '#engine/predicates/epl/utils/bigSix';
-import promoted from '#engine/predicates/epl/utils/promoted';
-import teamsThatCannotHostSameDay from '#engine/predicates/epl/utils/teamsThatCannotHostSameDay';
-import assignGamesToMatchdays from '#engine/dfs/ls/generateSchedule/assignGamesToMatchdays.wrapper';
-import { type PrngGenerator } from '#utils/prng/generator';
-import prngFloat from '#utils/prng/float';
-import prngShuffle from '#utils/prng/shuffle';
-import prngShuffleAll from '#utils/prng/shuffleAll';
+import bigSix from "#engine/predicates/epl/utils/bigSix";
+import promoted from "#engine/predicates/epl/utils/promoted";
+import teamsThatCannotHostSameDay from "#engine/predicates/epl/utils/teamsThatCannotHostSameDay";
+import assignGamesToMatchdays from "#engine/dfs/ls/generateSchedule/assignGamesToMatchdays.wrapper";
+import { type PrngGenerator } from "#utils/prng/generator";
+import prngFloat from "#utils/prng/float";
+import prngShuffle from "#utils/prng/shuffle";
+import prngShuffleAll from "#utils/prng/shuffleAll";
 
 interface Team {
   readonly name: string;

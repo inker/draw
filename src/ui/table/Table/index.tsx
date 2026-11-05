@@ -1,8 +1,8 @@
-import type React from 'react';
-import { memo } from 'react';
-import clsx from 'clsx';
+import type React from "react";
+import { memo } from "react";
+import clsx from "clsx";
 
-import * as styles from './styles.module.css';
+import * as styles from "./styles.module.css";
 
 type Props = React.HTMLAttributes<HTMLTableElement> & {
   ref?: React.RefObject<HTMLTableElement | null>;

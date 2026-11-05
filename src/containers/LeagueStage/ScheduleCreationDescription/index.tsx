@@ -1,11 +1,11 @@
-import { memo, useMemo } from 'react';
-import { orderBy, uniq } from 'lodash';
+import { memo, useMemo } from "react";
+import { orderBy, uniq } from "lodash";
 
-import type Team from '#model/team/GsTeam';
-import coldCountries from '#engine/predicates/uefa/utils/coldCountries';
-import teamsThatCannotHostSameDay from '#engine/predicates/uefa/utils/teamsThatCannotHostSameDay';
+import type Team from "#model/team/GsTeam";
+import coldCountries from "#engine/predicates/uefa/utils/coldCountries";
+import teamsThatCannotHostSameDay from "#engine/predicates/uefa/utils/teamsThatCannotHostSameDay";
 
-import * as styles from './styles.module.css';
+import * as styles from "./styles.module.css";
 
 interface Props {
   season: number;
@@ -46,7 +46,7 @@ function ScheduleCreationDescription({ season, teams }: Props) {
   return (
     <div className={styles.root}>
       The following scheduling principles apply:
-      <ul className={styles['main-list']}>
+      <ul className={styles["main-list"]}>
         <li>Each club must play exactly one match per matchday.</li>
         <li>
           No club may play more than two consecutive home or away fixtures.
@@ -57,7 +57,7 @@ function ScheduleCreationDescription({ season, teams }: Props) {
         </li>
         <li>
           Clubs sharing a stadium, or whose stadiums are in close proximity,
-          must not be scheduled to play at home on the same matchday.{' '}
+          must not be scheduled to play at home on the same matchday.{" "}
           {cannotHostSameDayTeams.length === 0 ? (
             <>Not applicable: no such clubs are present in this draw.</>
           ) : (
@@ -75,7 +75,7 @@ function ScheduleCreationDescription({ season, teams }: Props) {
         </li>
         <li>
           For climatic reasons, the following clubs must be scheduled away from
-          home on the final matchday:{' '}
+          home on the final matchday:{" "}
           {coldTeamNames.length === 0 ? (
             <>Not applicable: no affected clubs in this draw.</>
           ) : (

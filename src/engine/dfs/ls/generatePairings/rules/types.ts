@@ -3,7 +3,7 @@
  * e.g. from each country
  */
 export interface OpponentCapSpec {
-  kind: 'opponentCap';
+  kind: "opponentCap";
   /**
    * Each team's group as an index counting from 0
    */

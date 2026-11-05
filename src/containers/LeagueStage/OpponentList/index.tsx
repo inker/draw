@@ -5,19 +5,19 @@ import {
   useLayoutEffect,
   useMemo,
   useRef,
-} from 'react';
-import clsx from 'clsx';
-import { difference } from 'lodash';
+} from "react";
+import clsx from "clsx";
+import { difference } from "lodash";
 
-import usePrevious from '#utils/hooks/usePrevious';
-import type Team from '#model/team/GsTeam';
-import ContentWithFlag from '#ui/table/ContentWithFlag';
+import usePrevious from "#utils/hooks/usePrevious";
+import type Team from "#model/team/GsTeam";
+import ContentWithFlag from "#ui/table/ContentWithFlag";
 
-import * as styles from './styles.module.css';
+import * as styles from "./styles.module.css";
 
 interface Item {
   team: Team;
-  location: 'h' | 'a';
+  location: "h" | "a";
 }
 
 const getKey = (item: Item) => `${item.team.id}:${item.location}`;
@@ -67,7 +67,7 @@ function OpponentList({ className, animationDurationMs, data }: Props) {
             await gridEl.animate(
               [
                 {
-                  gridTemplateRows: '0fr',
+                  gridTemplateRows: "0fr",
                 },
                 {},
               ],
@@ -82,10 +82,10 @@ function OpponentList({ className, animationDurationMs, data }: Props) {
                 [
                   {
                     // transform: `translateX(8px)`,
-                    filter: 'grayscale(1)',
+                    filter: "grayscale(1)",
                     ...(isLast && !noAnimation
                       ? {
-                          gridTemplateRows: '0fr',
+                          gridTemplateRows: "0fr",
                         }
                       : undefined),
                   },
@@ -99,15 +99,15 @@ function OpponentList({ className, animationDurationMs, data }: Props) {
             innerEl.animate(
               [
                 {
-                  opacity: '0',
+                  opacity: "0",
                 },
                 {
-                  opacity: '1',
+                  opacity: "1",
                 },
               ],
               {
                 duration: animationDurationMs,
-                fill: 'forwards',
+                fill: "forwards",
               },
             ).finished,
           ]);
@@ -123,7 +123,7 @@ function OpponentList({ className, animationDurationMs, data }: Props) {
   return (
     <ul
       ref={rootRef}
-      className={clsx('reset-list', styles.list, className)}
+      className={clsx("reset-list", styles.list, className)}
     >
       {data.map(item => {
         const key = getKey(item);
@@ -133,14 +133,14 @@ function OpponentList({ className, animationDurationMs, data }: Props) {
               data-id={`${containerId}:grid:${key}`}
               className={clsx(styles.grid)}
             >
-              <div className={styles['grid-inner']}>
+              <div className={styles["grid-inner"]}>
                 <div
                   data-id={`${containerId}:inner:${key}`}
-                  className={styles['item-content-inner']}
+                  className={styles["item-content-inner"]}
                 >
                   <ContentWithFlag
                     country={item.team.country}
-                    className={styles['content-with-flag']}
+                    className={styles["content-with-flag"]}
                   >
                     {item.team.name}
                   </ContentWithFlag>

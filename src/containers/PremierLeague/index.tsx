@@ -1,23 +1,23 @@
-import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { memo, useCallback, useEffect, useMemo, useRef, useState } from "react";
 
-import useFastDraw from '#store/useFastDraw';
-import type Team from '#model/team/GsTeam';
-import generateSchedule from '#engine/dfs/epl/generateSchedule';
-import usePageVisible from '#utils/hooks/usePageVisible';
-import formatDuration from '#utils/formatDuration';
-import useTimer from '#utils/hooks/useTimer';
-import usePrngGenerator from '#utils/hooks/usePrngGenerator';
-import Button from '#ui/Button';
-import Portal from '#ui/Portal';
-import Matrix from '#containers/LeagueStage/Matrix';
-import Schedule from '#containers/LeagueStage/Schedule';
+import useFastDraw from "#store/useFastDraw";
+import type Team from "#model/team/GsTeam";
+import generateSchedule from "#engine/dfs/epl/generateSchedule";
+import usePageVisible from "#utils/hooks/usePageVisible";
+import formatDuration from "#utils/formatDuration";
+import useTimer from "#utils/hooks/useTimer";
+import usePrngGenerator from "#utils/hooks/usePrngGenerator";
+import Button from "#ui/Button";
+import Portal from "#ui/Portal";
+import Matrix from "#containers/LeagueStage/Matrix";
+import Schedule from "#containers/LeagueStage/Schedule";
 
-import ScheduleCreationDescription from './ScheduleCreationDescription';
-import getClubIconUrl from './getClubIconUrl';
-import * as styles from './styles.module.css';
+import ScheduleCreationDescription from "./ScheduleCreationDescription";
+import getClubIconUrl from "./getClubIconUrl";
+import * as styles from "./styles.module.css";
 
 const getNavbarLeftContainer = () =>
-  document.getElementById('navbar-left-container')!;
+  document.getElementById("navbar-left-container")!;
 
 interface Props {
   pots: readonly (readonly Team[])[];
@@ -133,7 +133,7 @@ function PremierLeague({ pots }: Props) {
             setIsMatchdayMode(prev => !prev);
           }}
         >
-          {isMatchdayMode ? 'Display matrix' : 'Display schedule'}
+          {isMatchdayMode ? "Display matrix" : "Display schedule"}
         </Button>
       </Portal>
       {isMatchdayMode ? (
@@ -143,7 +143,7 @@ function PremierLeague({ pots }: Props) {
           getIconUrl={getClubIconUrl}
         />
       ) : (
-        <div className={styles['matrix-wrapper']}>
+        <div className={styles["matrix-wrapper"]}>
           <Matrix
             allTeams={allTeams}
             numMatchdays={numMatchdays}
@@ -153,7 +153,7 @@ function PremierLeague({ pots }: Props) {
             noCellAnimation
             getIconUrl={getClubIconUrl}
           />
-          <div className={styles['right-wrapper']}>
+          <div className={styles["right-wrapper"]}>
             {isScheduleDone ? (
               <p>Schedule generation took: {elapsedTimeFormatted}</p>
             ) : isScheduleGenerating ? (
@@ -170,11 +170,11 @@ function PremierLeague({ pots }: Props) {
               <>
                 <p>
                   Each club plays every other club twice, once at home &amp;
-                  once away, for {pairings.length} matches over {numMatchdays}{' '}
+                  once away, for {pairings.length} matches over {numMatchdays}{" "}
                   matchdays.
                 </p>
                 <Button
-                  className={styles['generate-schedule-button']}
+                  className={styles["generate-schedule-button"]}
                   onClick={startGeneratingSchedule}
                 >
                   Generate schedule

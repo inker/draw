@@ -3,16 +3,16 @@ import {
   type SelectHTMLAttributes,
   memo,
   useId,
-} from 'react';
+} from "react";
 
-import * as styles from './styles.module.css';
+import * as styles from "./styles.module.css";
 
 type SelectProps = DetailedHTMLProps<
   SelectHTMLAttributes<HTMLSelectElement>,
   HTMLSelectElement
 >;
 
-interface Props extends Omit<SelectProps, 'disabled'> {
+interface Props extends Omit<SelectProps, "disabled"> {
   label: string;
 }
 
@@ -22,7 +22,7 @@ function SelectWithHiddenLabel({ label, children, ...props }: Props) {
   return (
     <div className={styles.root}>
       <label
-        className={styles['hidden-label']}
+        className={styles["hidden-label"]}
         htmlFor={id}
       >
         {label}

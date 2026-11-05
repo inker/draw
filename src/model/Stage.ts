@@ -1,4 +1,4 @@
-export const validStages = ['gs', 'ko', 'ls'] as const;
+export const validStages = ["gs", "ko", "ls"] as const;
 
 type Stage = (typeof validStages)[number];
 

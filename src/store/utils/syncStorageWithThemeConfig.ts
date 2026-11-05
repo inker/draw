@@ -1,5 +1,5 @@
-import { type atomWithStorage } from 'jotai/utils';
-import { noop } from 'lodash';
+import { type atomWithStorage } from "jotai/utils";
+import { noop } from "lodash";
 
 type Storage<T> = NonNullable<Parameters<typeof atomWithStorage<T>>[2]>;
 
@@ -20,7 +20,7 @@ export default <T>({ validate }: Options) =>
       localStorage.removeItem(key);
     },
     subscribe: (key, callback, initialValue) => {
-      window.addEventListener('storage', e => {
+      window.addEventListener("storage", e => {
         if (e.storageArea === localStorage && e.key === key) {
           const { newValue } = e;
           if (validate(newValue)) {

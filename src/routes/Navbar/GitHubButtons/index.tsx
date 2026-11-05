@@ -1,9 +1,9 @@
-import { memo } from 'react';
-import GitHubButton from 'react-github-btn';
+import { memo } from "react";
+import GitHubButton from "react-github-btn";
 
-import useIsDarkMode from '#utils/hooks/useIsDarkMode';
+import useIsDarkMode from "#utils/hooks/useIsDarkMode";
 
-import * as styles from './styles.module.css';
+import * as styles from "./styles.module.css";
 
 function GitHubButtons() {
   const isDarkMode = useIsDarkMode();
@@ -15,7 +15,7 @@ function GitHubButtons() {
         data-icon="octicon-issue-opened"
         data-show-count
         aria-label="Issues on GitHub"
-        data-color-scheme={isDarkMode ? 'dark' : 'light'}
+        data-color-scheme={isDarkMode ? "dark" : "light"}
       >
         Issues
       </GitHubButton>
@@ -24,7 +24,7 @@ function GitHubButtons() {
         data-icon="octicon-star"
         data-show-count
         aria-label="Star on GitHub"
-        data-color-scheme={isDarkMode ? 'dark' : 'light'}
+        data-color-scheme={isDarkMode ? "dark" : "light"}
       >
         Star
       </GitHubButton>

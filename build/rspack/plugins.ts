@@ -1,12 +1,12 @@
-import { rspack } from '@rspack/core';
-import type { Plugins, RspackPluginInstance } from '@rspack/core';
-import { ReactRefreshRspackPlugin } from '@rspack/plugin-react-refresh';
-import { TsCheckerRspackPlugin } from 'ts-checker-rspack-plugin';
-import ESLintPlugin from 'eslint-rspack-plugin';
-import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
+import { rspack } from "@rspack/core";
+import type { Plugins, RspackPluginInstance } from "@rspack/core";
+import { ReactRefreshRspackPlugin } from "@rspack/plugin-react-refresh";
+import { TsCheckerRspackPlugin } from "ts-checker-rspack-plugin";
+import ESLintPlugin from "eslint-rspack-plugin";
+import { BundleAnalyzerPlugin } from "webpack-bundle-analyzer";
 
-import getCurrentDate from './utils/getCurrentDate.ts';
-import getLastCommitHash from './utils/getLastCommitHash.ts';
+import getCurrentDate from "./utils/getCurrentDate.ts";
+import getLastCommitHash from "./utils/getLastCommitHash.ts";
 
 const currentDate = getCurrentDate();
 const lastCommitHash = getLastCommitHash();
@@ -15,9 +15,9 @@ const lastCommitHash = getLastCommitHash();
 // so scrolling up doesn't show an earlier rebuild's errors.
 const clearTerminalPlugin = {
   apply(compiler) {
-    compiler.hooks.afterCompile.tap('ClearTerminalPlugin', () => {
+    compiler.hooks.afterCompile.tap("ClearTerminalPlugin", () => {
       if (compiler.watchMode) {
-        process.stdout.write('\x1B[2J\x1B[3J\x1B[H');
+        process.stdout.write("\x1B[2J\x1B[3J\x1B[H");
       }
     });
   },
@@ -29,12 +29,12 @@ export default (isDev: boolean) =>
       isDev && clearTerminalPlugin,
 
       new rspack.HtmlRspackPlugin({
-        filename: 'index.html',
-        template: 'src/template.html',
+        filename: "index.html",
+        template: "src/template.html",
         minify: true,
         meta: {
           version: lastCommitHash,
-          'modification-date': currentDate,
+          "modification-date": currentDate,
         },
       }),
 
@@ -44,9 +44,9 @@ export default (isDev: boolean) =>
 
       isDev &&
         new ESLintPlugin({
-          extensions: ['js', 'mjs', 'jsx', 'ts', 'tsx'],
+          extensions: ["js", "mjs", "jsx", "ts", "tsx"],
           severity: {
-            error: 'warning',
+            error: "warning",
           },
           cache: true,
         }),

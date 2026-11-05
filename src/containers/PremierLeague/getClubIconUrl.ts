@@ -1,4 +1,4 @@
-import { memoize } from 'lodash';
+import { memoize } from "lodash";
 
 /**
  * The shirt colour, then the colour of the ring around it.
@@ -7,26 +7,26 @@ import { memoize } from 'lodash';
  * so the names still do the telling apart.
  */
 const colorsByClub: Readonly<Record<string, readonly [string, string]>> = {
-  Arsenal: ['#ef0107', '#ffffff'],
-  'Aston Villa': ['#670e36', '#95bfe5'],
-  Bournemouth: ['#da291c', '#000000'],
-  Brentford: ['#e30613', '#ffffff'],
-  Brighton: ['#0057b8', '#ffffff'],
-  Chelsea: ['#034694', '#ffffff'],
-  Coventry: ['#59cbe8', '#ffffff'],
-  'Crystal Palace': ['#1b458f', '#c4122e'],
-  Everton: ['#003399', '#ffffff'],
-  Fulham: ['#ffffff', '#000000'],
-  Hull: ['#f5a12d', '#000000'],
-  Ipswich: ['#0044a9', '#ffffff'],
-  Leeds: ['#ffffff', '#ffcd00'],
-  Liverpool: ['#c8102e', '#c8102e'],
-  'Man City': ['#6cabdd', '#ffffff'],
-  'Man United': ['#da291c', '#000000'],
-  Newcastle: ['#241f20', '#ffffff'],
-  Nottingham: ['#dd0000', '#ffffff'],
-  Sunderland: ['#eb172b', '#ffffff'],
-  Tottenham: ['#ffffff', '#132257'],
+  Arsenal: ["#ef0107", "#ffffff"],
+  "Aston Villa": ["#670e36", "#95bfe5"],
+  Bournemouth: ["#da291c", "#000000"],
+  Brentford: ["#e30613", "#ffffff"],
+  Brighton: ["#0057b8", "#ffffff"],
+  Chelsea: ["#034694", "#ffffff"],
+  Coventry: ["#59cbe8", "#ffffff"],
+  "Crystal Palace": ["#1b458f", "#c4122e"],
+  Everton: ["#003399", "#ffffff"],
+  Fulham: ["#ffffff", "#000000"],
+  Hull: ["#f5a12d", "#000000"],
+  Ipswich: ["#0044a9", "#ffffff"],
+  Leeds: ["#ffffff", "#ffcd00"],
+  Liverpool: ["#c8102e", "#c8102e"],
+  "Man City": ["#6cabdd", "#ffffff"],
+  "Man United": ["#da291c", "#000000"],
+  Newcastle: ["#241f20", "#ffffff"],
+  Nottingham: ["#dd0000", "#ffffff"],
+  Sunderland: ["#eb172b", "#ffffff"],
+  Tottenham: ["#ffffff", "#132257"],
 };
 
 interface Team {

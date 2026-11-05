@@ -1,9 +1,9 @@
-import { memo, useMemo } from 'react';
-import { orderBy } from 'lodash';
+import { memo, useMemo } from "react";
+import { orderBy } from "lodash";
 
-import teamsThatCannotHostSameDay from '#engine/predicates/epl/utils/teamsThatCannotHostSameDay';
+import teamsThatCannotHostSameDay from "#engine/predicates/epl/utils/teamsThatCannotHostSameDay";
 
-import * as styles from './styles.module.css';
+import * as styles from "./styles.module.css";
 
 interface Team {
   name: string;
@@ -30,7 +30,7 @@ function ScheduleCreationDescription({ teams }: Props) {
   return (
     <div className={styles.root}>
       The following scheduling principles apply:
-      <ul className={styles['main-list']}>
+      <ul className={styles["main-list"]}>
         <li>Each club must play exactly one match per matchday.</li>
         <li>
           No club may play more than two consecutive home or away fixtures.
@@ -58,7 +58,7 @@ function ScheduleCreationDescription({ teams }: Props) {
         </li>
         <li>
           Clubs from the same city must not be scheduled to play at home on the
-          same matchday.{' '}
+          same matchday.{" "}
           {cannotHostSameDayTeams.length === 0 ? (
             <>Not applicable: no such clubs are in the league this season.</>
           ) : (

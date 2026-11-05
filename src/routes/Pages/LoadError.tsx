@@ -1,6 +1,6 @@
-import { memo, useEffect } from 'react';
+import { memo, useEffect } from "react";
 
-import usePopup from '#store/usePopup';
+import usePopup from "#store/usePopup";
 
 // Long enough to read, short enough that the page is not hidden for good
 const errorDuration = 5000;
@@ -12,7 +12,7 @@ function LoadError() {
 
   useEffect(() => {
     setPopup({
-      error: 'Could not fetch data',
+      error: "Could not fetch data",
     });
     const timeout = setTimeout(() => {
       setPopup({

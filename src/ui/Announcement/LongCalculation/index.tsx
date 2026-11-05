@@ -1,13 +1,13 @@
-import { memo } from 'react';
+import { memo } from "react";
 
-import * as styles from './styles.module.css';
+import * as styles from "./styles.module.css";
 
 function LongCalculation() {
   return (
     <div className={styles.bug}>
       <div>Calculation is taking too long.</div>
       <div>
-        And{' '}
+        And{" "}
         <a
           href="https://github.com/inker/draw/issues/14"
           target="_blank"

@@ -1,7 +1,7 @@
-import type React from 'react';
-import { memo } from 'react';
+import type React from "react";
+import { memo } from "react";
 
-import useTimeoutControlled from '#utils/hooks/useTimeoutControlled';
+import useTimeoutControlled from "#utils/hooks/useTimeoutControlled";
 
 interface Props {
   delay: number;

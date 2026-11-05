@@ -1,9 +1,9 @@
-import { useEffect, useState } from 'react';
-import { useRouter } from '@tanstack/react-router';
+import { useEffect, useState } from "react";
+import { useRouter } from "@tanstack/react-router";
 
-import { drawRouteApi } from '#routes/routeApi';
-import useDidUpdate from '#utils/hooks/useDidUpdate';
-import createPrngGenerator from '#utils/prng/generator';
+import { drawRouteApi } from "#routes/routeApi";
+import useDidUpdate from "#utils/hooks/useDidUpdate";
+import createPrngGenerator from "#utils/prng/generator";
 
 /**
  * More entropy than there are orderings of anything being drawn
@@ -21,7 +21,7 @@ const toSeed = (str: string | undefined) => {
   if (str) {
     try {
       return Uint8Array.fromBase64(str, {
-        alphabet: 'base64url',
+        alphabet: "base64url",
       });
     } catch {
       // swallow
@@ -60,7 +60,7 @@ export default () => {
 
   const router = useRouter();
   const seedBase64 = prng.seed.toBase64({
-    alphabet: 'base64url',
+    alphabet: "base64url",
     omitPadding: true,
   });
   // The router keeps its search params inside the hash,
@@ -68,7 +68,7 @@ export default () => {
   // gives a link the draw never reads the seed from.
   const replayHref = router.history.createHref(
     router.buildLocation({
-      to: '.',
+      to: ".",
       search: prev => ({
         ...prev,
         seed: seedBase64,
@@ -79,7 +79,7 @@ export default () => {
   useEffect(() => {
     // eslint-disable-next-line no-console
     console.log(
-      'replay:',
+      "replay:",
       new URL(replayHref, window.location.href).toString(),
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps

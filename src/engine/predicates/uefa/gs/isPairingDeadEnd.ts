@@ -1,6 +1,6 @@
-import { sum } from 'lodash';
+import { sum } from "lodash";
 
-import type Team from '#model/team/GsTeam';
+import type Team from "#model/team/GsTeam";
 
 type ReadonlyDoubleArray<T> = readonly (readonly T[])[];
 

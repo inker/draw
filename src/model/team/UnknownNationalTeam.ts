@@ -1,6 +1,6 @@
-import { type Confederation } from '#model/types';
+import { type Confederation } from "#model/types";
 
-import Team from '.';
+import Team from ".";
 
 export default class UnknownNationalTeam extends Team {
   readonly coefficient: number;

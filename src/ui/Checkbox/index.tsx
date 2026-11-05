@@ -4,19 +4,19 @@ import {
   type InputHTMLAttributes,
   memo,
   useCallback,
-} from 'react';
-import clsx from 'clsx';
+} from "react";
+import clsx from "clsx";
 
-import useIsDarkMode from '#utils/hooks/useIsDarkMode';
+import useIsDarkMode from "#utils/hooks/useIsDarkMode";
 
-import * as styles from './styles.module.css';
+import * as styles from "./styles.module.css";
 
 type InputProps = DetailedHTMLProps<
   InputHTMLAttributes<HTMLInputElement>,
   HTMLInputElement
 >;
 
-interface Props extends Omit<InputProps, 'value' | 'onChange' | 'className'> {
+interface Props extends Omit<InputProps, "value" | "onChange" | "className"> {
   value: boolean;
   checkboxClassName?: string;
   onChange: (value: boolean) => void;
@@ -52,7 +52,7 @@ function SelectWithHiddenLabel({
         onChange={rawOnChange}
         {...props}
       />
-      <div className={styles['children-wrapper']}>{children}</div>
+      <div className={styles["children-wrapper"]}>{children}</div>
     </label>
   );
 }

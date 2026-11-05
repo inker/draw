@@ -1,21 +1,21 @@
-import { memo, useCallback } from 'react';
+import { memo, useCallback } from "react";
 
 import {
   type DrawRoute,
   type RequestedDrawRoute,
-} from '#model/resolveDrawRoute';
-import useTheme from '#store/useTheme';
-import useMedia from '#utils/hooks/useMedia';
-import useDrawId from '#store/useDrawId';
-import useXRay from '#store/useXRay';
-import useFastDraw from '#store/useFastDraw';
-import Checkbox from '#ui/Checkbox';
-import Button from '#ui/Button';
+} from "#model/resolveDrawRoute";
+import useTheme from "#store/useTheme";
+import useMedia from "#utils/hooks/useMedia";
+import useDrawId from "#store/useDrawId";
+import useXRay from "#store/useXRay";
+import useFastDraw from "#store/useFastDraw";
+import Checkbox from "#ui/Checkbox";
+import Button from "#ui/Button";
 
-import SelectSeason from './SelectSeason';
-import SelectTheme from './SelectTheme';
-import GitHubButtons from './GitHubButtons';
-import * as styles from './styles.module.css';
+import SelectSeason from "./SelectSeason";
+import SelectTheme from "./SelectTheme";
+import GitHubButtons from "./GitHubButtons";
+import * as styles from "./styles.module.css";
 
 interface Props {
   route: DrawRoute;
@@ -28,8 +28,8 @@ function Navbar({ route, onChange }: Props) {
   const [, refreshDrawId] = useDrawId();
   const [isFastDraw, setIsFastDraw] = useFastDraw();
 
-  const isWidth900 = useMedia('(min-width: 900px)');
-  const isWidth700 = useMedia('(min-width: 700px)');
+  const isWidth900 = useMedia("(min-width: 900px)");
+  const isWidth700 = useMedia("(min-width: 700px)");
 
   const enableFastDraw = useCallback(() => {
     setIsFastDraw(true);
@@ -39,7 +39,7 @@ function Navbar({ route, onChange }: Props) {
     <div className={styles.root}>
       <div
         id="navbar-left-container"
-        className={styles['nav-bar-left-container']}
+        className={styles["nav-bar-left-container"]}
       />
       <div>
         <Button onClick={refreshDrawId}>Restart</Button>
@@ -67,7 +67,7 @@ function Navbar({ route, onChange }: Props) {
       <div>
         {isWidth900 && <GitHubButtons />}
         <small>
-          {isWidth700 ? 'Crafted with ♡ by' : '©'}{' '}
+          {isWidth700 ? "Crafted with ♡ by" : "©"}{" "}
           <a
             href="https://github.com/inker"
             target="_blank"

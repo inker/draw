@@ -1,4 +1,4 @@
-import type ToCloneable from './ToCloneable';
+import type ToCloneable from "./ToCloneable";
 
 // A plain mutual extends check lets any through,
 // whereas comparing these generic functions only passes for identical types.

@@ -1,8 +1,8 @@
-import { findFirstSolutionMutable } from '#utils/backtrack';
-import lowDiscrepancySequence from '#utils/lowDiscrepancySequence';
+import { findFirstSolutionMutable } from "#utils/backtrack";
+import lowDiscrepancySequence from "#utils/lowDiscrepancySequence";
 
-import getFillOrder from './getFillOrder';
-import createHomeAwayPatterns, { type Ban } from './homeAwayPatterns';
+import getFillOrder from "./getFillOrder";
+import createHomeAwayPatterns, { type Ban } from "./homeAwayPatterns";
 
 export default ({
   matchdaySize,
@@ -448,7 +448,7 @@ export default ({
   });
 
   if (!solved) {
-    throw new Error('No solution');
+    throw new Error("No solution");
   }
 
   const arr = Array.from(

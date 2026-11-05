@@ -1,6 +1,6 @@
-import raceWorkers from '#utils/worker/raceWorkers';
+import raceWorkers from "#utils/worker/raceWorkers";
 
-import { type Func } from './assignGamesToMatchdays.worker';
+import { type Func } from "./assignGamesToMatchdays.worker";
 
 export default ({
   randomSeed,
@@ -15,7 +15,7 @@ export default ({
   raceWorkers<Func>({
     numWorkers: getNumWorkers,
     getWorker: () =>
-      new Worker(new URL('./assignGamesToMatchdays.worker', import.meta.url)),
+      new Worker(new URL("./assignGamesToMatchdays.worker", import.meta.url)),
     getArgs: ({ workerIndex, attempt }) => [
       {
         ...otherOptions,

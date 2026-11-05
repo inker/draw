@@ -1,16 +1,16 @@
-import { memo, useCallback, useRef, useState } from 'react';
-import clsx from 'clsx';
+import { memo, useCallback, useRef, useState } from "react";
+import clsx from "clsx";
 
-import type Team from '#model/team/Club';
-import usePrevious from '#utils/hooks/usePrevious';
-import useDidUpdate from '#utils/hooks/useDidUpdate';
-import getTeamCountryName from '#utils/getTeamCountryName';
-import ContentWithFlag from '#ui/table/ContentWithFlag';
-import Content from '#ui/table/Content';
-import MovingContent from '#ui/MovingContent';
-import * as cellStyles from '#ui/table/cell.module.css';
+import type Team from "#model/team/Club";
+import usePrevious from "#utils/hooks/usePrevious";
+import useDidUpdate from "#utils/hooks/useDidUpdate";
+import getTeamCountryName from "#utils/getTeamCountryName";
+import ContentWithFlag from "#ui/table/ContentWithFlag";
+import Content from "#ui/table/Content";
+import MovingContent from "#ui/MovingContent";
+import * as cellStyles from "#ui/table/cell.module.css";
 
-import * as styles from './styles.module.css';
+import * as styles from "./styles.module.css";
 
 interface Props {
   team: Team | undefined;
@@ -40,7 +40,7 @@ function MatchupCellDeferred({ team }: Props) {
       <td
         className={clsx(
           cellStyles.root,
-          styles['matchup-cell-base'],
+          styles["matchup-cell-base"],
           isPickedAnimation && !!displayedTeam && styles.picked,
         )}
         onAnimationEnd={setIsPickedAnimationFalse}

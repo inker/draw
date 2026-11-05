@@ -1,5 +1,5 @@
-import { useEffect, useRef, useState } from 'react';
-import delay from 'delay.js';
+import { useEffect, useRef, useState } from "react";
+import delay from "delay.js";
 
 export default ({
   key,

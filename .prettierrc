@@ -1,5 +1,4 @@
 {
   "arrowParens": "avoid",
-  "singleAttributePerLine": true,
-  "singleQuote": true
+  "singleAttributePerLine": true
 }

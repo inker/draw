@@ -1,4 +1,4 @@
-import { atom, getDefaultStore, useAtom } from 'jotai';
+import { atom, getDefaultStore, useAtom } from "jotai";
 
 const fastDrawAtom = atom(false);
 

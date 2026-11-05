@@ -1,6 +1,6 @@
-import { memo } from 'react';
+import { memo } from "react";
 
-import GlobalStyle, { css } from '#ui/GlobalStyle';
+import GlobalStyle, { css } from "#ui/GlobalStyle";
 
 interface Props {
   className: string;

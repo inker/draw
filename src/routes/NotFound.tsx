@@ -1,5 +1,5 @@
-import { memo } from 'react';
-import { Navigate } from '@tanstack/react-router';
+import { memo } from "react";
+import { Navigate } from "@tanstack/react-router";
 
 function NotFound() {
   return (

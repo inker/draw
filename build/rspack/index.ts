@@ -1,12 +1,12 @@
-import { createRequire } from 'node:module';
-import path from 'node:path';
+import { createRequire } from "node:module";
+import path from "node:path";
 
-import type { Configuration } from '@rspack/core';
+import type { Configuration } from "@rspack/core";
 
-import optimization from './optimization.ts';
-import rules from './rules.ts';
-import plugins from './plugins.ts';
-import devServer from './devServer.ts';
+import optimization from "./optimization.ts";
+import rules from "./rules.ts";
+import plugins from "./plugins.ts";
+import devServer from "./devServer.ts";
 
 const require = createRequire(import.meta.url);
 
@@ -17,50 +17,50 @@ interface Env {
 
 const defaultEnv = {
   dev: false,
-  out: 'dist',
+  out: "dist",
 };
 
 export default (env: Env) => {
-  console.log('passed env:', env);
+  console.log("passed env:", env);
   const envOptions = {
     ...defaultEnv,
     ...env,
   };
-  console.log('resulting env:', envOptions);
+  console.log("resulting env:", envOptions);
 
   const isDev = envOptions.dev;
   const outDir = envOptions.out;
-  const rootDir = path.resolve(import.meta.dirname, '../..');
+  const rootDir = path.resolve(import.meta.dirname, "../..");
   const distDir = path.resolve(rootDir, outDir);
 
   return {
-    mode: isDev ? 'development' : 'production',
-    target: 'web',
+    mode: isDev ? "development" : "production",
+    target: "web",
     context: rootDir,
     entry: {
-      app: './src/index.tsx',
+      app: "./src/index.tsx",
     },
     output: {
       clean: true,
       path: distDir,
-      filename: `[name]${isDev ? '' : '.[contenthash:8]'}.js`,
-      cssFilename: `[name]${isDev ? '' : '.[contenthash:8]'}.css`,
-      hashDigest: 'base64url',
+      filename: `[name]${isDev ? "" : ".[contenthash:8]"}.js`,
+      cssFilename: `[name]${isDev ? "" : ".[contenthash:8]"}.css`,
+      hashDigest: "base64url",
     },
     cache: {
-      type: 'persistent',
+      type: "persistent",
       buildDependencies: [import.meta.filename],
     },
     resolve: {
-      extensions: ['.ts', '.tsx', '.js', '.jsx'],
+      extensions: [".ts", ".tsx", ".js", ".jsx"],
       alias: isDev
         ? undefined
         : {
-            lodash: require.resolve('lodash-es'),
+            lodash: require.resolve("lodash-es"),
           },
-      tsConfig: path.resolve(rootDir, 'tsconfig.json'),
+      tsConfig: path.resolve(rootDir, "tsconfig.json"),
     },
-    devtool: isDev ? 'eval-source-map' : undefined,
+    devtool: isDev ? "eval-source-map" : undefined,
     optimization: optimization(),
     module: {
       rules: rules(isDev),

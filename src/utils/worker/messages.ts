@@ -4,7 +4,7 @@
  * so nothing else posted to the worker can reach them.
  */
 export interface ConnectMessage {
-  type: 'rpc-connect';
+  type: "rpc-connect";
 }
 
 export interface MessageForWorker<Args> {
@@ -16,11 +16,11 @@ export type MessageFromWorker<Result> = {
   id: number;
 } & (
   | {
-      status: 'result';
+      status: "result";
       result: Result;
     }
   | {
-      status: 'error';
+      status: "error";
       error: Error;
     }
 );

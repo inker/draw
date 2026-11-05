@@ -1,13 +1,13 @@
-import type React from 'react';
-import { memo } from 'react';
+import type React from "react";
+import { memo } from "react";
 
-import Portal from '#ui/Portal';
+import Portal from "#ui/Portal";
 
-import * as styles from './styles.module.css';
+import * as styles from "./styles.module.css";
 
-const airborneDiv = document.createElement('div');
+const airborneDiv = document.createElement("div");
 airborneDiv.classList.add(styles.airborne);
-document.body.insertBefore(airborneDiv, document.getElementById('app'));
+document.body.insertBefore(airborneDiv, document.getElementById("app"));
 
 interface Props {
   children: React.ReactNode;

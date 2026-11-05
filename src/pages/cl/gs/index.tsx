@@ -1,32 +1,32 @@
-import { memo, useCallback, useEffect, useRef, useState } from 'react';
-import { stubArray } from 'lodash';
+import { memo, useCallback, useEffect, useRef, useState } from "react";
+import { stubArray } from "lodash";
 
-import PotsContainer from '#ui/PotsContainer';
-import GroupsContainer from '#ui/GroupsContainer';
-import * as bowlsContainerStyles from '#ui/bowls-container.module.css';
-import TeamBowl from '#ui/bowls/TeamBowl';
-import GroupBowl from '#ui/bowls/GroupBowl';
-import Announcement from '#ui/Announcement';
-import { serializeGsWorkerData } from '#model/WorkerData';
-import type Team from '#model/team/GsTeam';
-import useXRay from '#store/useXRay';
-import useFastDraw from '#store/useFastDraw';
-import useDrawId from '#store/useDrawId';
-import usePopup from '#store/usePopup';
-import useWorkerRpc from '#utils/hooks/useWorkerRpc';
-import usePrngGenerator from '#utils/hooks/usePrngGenerator';
-import prngShuffle from '#utils/prng/shuffle';
-import prngShuffleAll from '#utils/prng/shuffleAll';
+import PotsContainer from "#ui/PotsContainer";
+import GroupsContainer from "#ui/GroupsContainer";
+import * as bowlsContainerStyles from "#ui/bowls-container.module.css";
+import TeamBowl from "#ui/bowls/TeamBowl";
+import GroupBowl from "#ui/bowls/GroupBowl";
+import Announcement from "#ui/Announcement";
+import { serializeGsWorkerData } from "#model/WorkerData";
+import type Team from "#model/team/GsTeam";
+import useXRay from "#store/useXRay";
+import useFastDraw from "#store/useFastDraw";
+import useDrawId from "#store/useDrawId";
+import usePopup from "#store/usePopup";
+import useWorkerRpc from "#utils/hooks/useWorkerRpc";
+import usePrngGenerator from "#utils/hooks/usePrngGenerator";
+import prngShuffle from "#utils/prng/shuffle";
+import prngShuffleAll from "#utils/prng/shuffleAll";
 
-import { type Func as AllPossibleGroupsFunc } from './allPossibleGroupsWorker';
-import { type Func as FirstPossibleGroupFunc } from './firstPossibleGroupWorker';
-import * as styles from './styles.module.css';
+import { type Func as AllPossibleGroupsFunc } from "./allPossibleGroupsWorker";
+import { type Func as FirstPossibleGroupFunc } from "./firstPossibleGroupWorker";
+import * as styles from "./styles.module.css";
 
 const createAllPossibleGroupsWorker = () =>
-  new Worker(new URL('./allPossibleGroupsWorker', import.meta.url));
+  new Worker(new URL("./allPossibleGroupsWorker", import.meta.url));
 
 const createFirstPossibleGroupWorker = () =>
-  new Worker(new URL('./firstPossibleGroupWorker', import.meta.url));
+  new Worker(new URL("./firstPossibleGroupWorker", import.meta.url));
 
 interface Props {
   season: number;
@@ -131,7 +131,7 @@ function CLGS({ season, pots: initialPots, isFirstPotShortDraw }: Props) {
 
   const handleTeamSelected = async () => {
     if (!selectedTeam) {
-      throw new Error('no selected team');
+      throw new Error("no selected team");
     }
 
     let newPossibleGroups: number[];
@@ -160,7 +160,7 @@ function CLGS({ season, pots: initialPots, isFirstPotShortDraw }: Props) {
     } catch (err) {
       console.error(err);
       setPopup({
-        error: 'Could not determine the group',
+        error: "Could not determine the group",
       });
       return;
     }
@@ -203,7 +203,7 @@ function CLGS({ season, pots: initialPots, isFirstPotShortDraw }: Props) {
     (newPickedGroup: number) => {
       if (!selectedTeam) {
         setPopup({
-          error: 'No selected team...',
+          error: "No selected team...",
         });
         return;
       }
@@ -264,7 +264,7 @@ function CLGS({ season, pots: initialPots, isFirstPotShortDraw }: Props) {
 
   const getGroupHeaderClassName = useCallback(
     (i: number) =>
-      i < numGroups >> 1 ? styles['red-group'] : styles['blue-group'],
+      i < numGroups >> 1 ? styles["red-group"] : styles["blue-group"],
     [numGroups],
   );
 

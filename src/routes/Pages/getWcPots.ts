@@ -1,6 +1,6 @@
-import pMemoize from 'p-memoize';
+import pMemoize from "p-memoize";
 
-import parseWc from '#model/parsePotsData/wc';
+import parseWc from "#model/parsePotsData/wc";
 
 async function getWcPots(season: number) {
   const txt = await import(
@@ -9,11 +9,11 @@ async function getWcPots(season: number) {
   const forcedGroupMap: Record<string, number> = {};
   const [ths, rest] = (txt.default as string)
     .trim()
-    .split('\n\n')
+    .split("\n\n")
     .map(line =>
       line
         .trim()
-        .split('\n')
+        .split("\n")
         .map(l => {
           const match = /^(.+?)\s-\sGROUP\s(\d+)$/.exec(l);
           if (!match) {

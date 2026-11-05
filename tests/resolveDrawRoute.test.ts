@@ -1,5 +1,5 @@
-import type Availability from '#model/Availability';
-import resolveDrawRoute from '#model/resolveDrawRoute';
+import type Availability from "#model/Availability";
+import resolveDrawRoute from "#model/resolveDrawRoute";
 
 const availability: Availability = {
   cl: {
@@ -12,128 +12,128 @@ const availability: Availability = {
   },
 };
 
-describe('resolveDrawRoute', () => {
-  it('keeps a draw that exists', () => {
+describe("resolveDrawRoute", () => {
+  it("keeps a draw that exists", () => {
     expect(
       resolveDrawRoute(availability, {
-        tournament: 'cl',
-        slot: 'main',
+        tournament: "cl",
+        slot: "main",
         season: 2022,
       }),
     ).toStrictEqual({
-      tournament: 'cl',
-      stage: 'gs',
+      tournament: "cl",
+      stage: "gs",
       season: 2022,
     });
   });
 
-  it('picks the newest season when none is asked for', () => {
+  it("picks the newest season when none is asked for", () => {
     expect(
       resolveDrawRoute(availability, {
-        tournament: 'cl',
-        slot: 'main',
+        tournament: "cl",
+        slot: "main",
       }),
     ).toStrictEqual({
-      tournament: 'cl',
-      stage: 'ls',
+      tournament: "cl",
+      stage: "ls",
       season: 2025,
     });
   });
 
-  it('moves a missing season to the nearest one', () => {
+  it("moves a missing season to the nearest one", () => {
     expect(
       resolveDrawRoute(availability, {
-        tournament: 'cl',
-        slot: 'main',
+        tournament: "cl",
+        slot: "main",
         season: 2019,
       }),
     ).toStrictEqual({
-      tournament: 'cl',
-      stage: 'gs',
+      tournament: "cl",
+      stage: "gs",
       season: 2020,
     });
     expect(
       resolveDrawRoute(availability, {
-        tournament: 'cl',
-        slot: 'main',
+        tournament: "cl",
+        slot: "main",
         season: 2030,
       }),
     ).toStrictEqual({
-      tournament: 'cl',
-      stage: 'ls',
+      tournament: "cl",
+      stage: "ls",
       season: 2025,
     });
   });
 
-  it('breaks a tie between two seasons towards the newer', () => {
+  it("breaks a tie between two seasons towards the newer", () => {
     expect(
       resolveDrawRoute(availability, {
-        tournament: 'cl',
-        slot: 'main',
+        tournament: "cl",
+        slot: "main",
         season: 2021,
       }),
     ).toStrictEqual({
-      tournament: 'cl',
-      stage: 'gs',
+      tournament: "cl",
+      stage: "gs",
       season: 2022,
     });
     expect(
       resolveDrawRoute(availability, {
-        tournament: 'cl',
-        slot: 'ko',
+        tournament: "cl",
+        slot: "ko",
         season: 2022,
       }),
     ).toStrictEqual({
-      tournament: 'cl',
-      stage: 'ko',
+      tournament: "cl",
+      stage: "ko",
       season: 2023,
     });
   });
 
-  it('files the main draw under whichever format that season used', () => {
+  it("files the main draw under whichever format that season used", () => {
     expect(
       resolveDrawRoute(availability, {
-        tournament: 'cl',
-        slot: 'main',
+        tournament: "cl",
+        slot: "main",
         season: 2023,
       }),
     ).toStrictEqual({
-      tournament: 'cl',
-      stage: 'gs',
+      tournament: "cl",
+      stage: "gs",
       season: 2023,
     });
     expect(
       resolveDrawRoute(availability, {
-        tournament: 'cl',
-        slot: 'main',
+        tournament: "cl",
+        slot: "main",
         season: 2024,
       }),
     ).toStrictEqual({
-      tournament: 'cl',
-      stage: 'ls',
+      tournament: "cl",
+      stage: "ls",
       season: 2024,
     });
   });
 
-  it('falls back to the main draw for a tournament with no knockout draw', () => {
+  it("falls back to the main draw for a tournament with no knockout draw", () => {
     expect(
       resolveDrawRoute(availability, {
-        tournament: 'wc',
-        slot: 'ko',
+        tournament: "wc",
+        slot: "ko",
         season: 2022,
       }),
     ).toStrictEqual({
-      tournament: 'wc',
-      stage: 'gs',
+      tournament: "wc",
+      stage: "gs",
       season: 2022,
     });
   });
 
-  it('gives up on a tournament with no data at all', () => {
+  it("gives up on a tournament with no data at all", () => {
     expect(
       resolveDrawRoute(availability, {
-        tournament: 'el',
-        slot: 'main',
+        tournament: "el",
+        slot: "main",
       }),
     ).toBeNull();
   });

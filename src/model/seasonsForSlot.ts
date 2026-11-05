@@ -1,8 +1,8 @@
-import type Tournament from '#model/Tournament';
-import type Stage from '#model/Stage';
-import type Availability from '#model/Availability';
-import type DrawSlot from '#model/DrawSlot';
-import { slotToStages } from '#model/DrawSlot';
+import type Tournament from "#model/Tournament";
+import type Stage from "#model/Stage";
+import type Availability from "#model/Availability";
+import type DrawSlot from "#model/DrawSlot";
+import { slotToStages } from "#model/DrawSlot";
 
 /**
  * Every season the tournament ran this draw in, newest first,

@@ -1,5 +1,5 @@
-import workerRpc from '#utils/worker/rpc';
-import { type MessageForWorker } from '#utils/worker/messages';
+import workerRpc from "#utils/worker/rpc";
+import { type MessageForWorker } from "#utils/worker/messages";
 
 /**
  * Stands in for a worker that runs exposeWorker,
@@ -22,17 +22,17 @@ class FakeWorker extends EventTarget {
       return;
     }
     port.addEventListener(
-      'message',
+      "message",
       ({ data }: MessageEvent<MessageForWorker<never[]>>) => {
         try {
           port.postMessage({
-            status: 'result',
+            status: "result",
             id: data.id,
             result: func(...data.args),
           });
         } catch (err) {
           port.postMessage({
-            status: 'error',
+            status: "error",
             id: data.id,
             error: err,
           });
@@ -47,7 +47,7 @@ class FakeWorker extends EventTarget {
   }
 }
 
-describe('workerRpc', () => {
+describe("workerRpc", () => {
   const lifetime = new AbortController();
 
   afterEach(() => {
@@ -58,7 +58,7 @@ describe('workerRpc', () => {
     lifetime.abort();
   });
 
-  it('resolves with what the worker returns', async () => {
+  it("resolves with what the worker returns", async () => {
     const call = workerRpc<(a: number, b: number) => number>(
       new FakeWorker((a: number, b: number) => a + b) as unknown as Worker,
       lifetime.signal,
@@ -66,17 +66,17 @@ describe('workerRpc', () => {
     await expect(call(2, 3)).resolves.toBe(5);
   });
 
-  it('rejects with what the worker throws', async () => {
+  it("rejects with what the worker throws", async () => {
     const call = workerRpc<() => void>(
       new FakeWorker(() => {
-        throw new Error('No valid schedule');
+        throw new Error("No valid schedule");
       }) as unknown as Worker,
       lifetime.signal,
     );
-    await expect(call()).rejects.toThrow('No valid schedule');
+    await expect(call()).rejects.toThrow("No valid schedule");
   });
 
-  it('terminates the worker & rejects pending & later calls on abort', async () => {
+  it("terminates the worker & rejects pending & later calls on abort", async () => {
     const controller = new AbortController();
     const worker = new FakeWorker();
     const call = workerRpc<() => void>(
@@ -84,26 +84,26 @@ describe('workerRpc', () => {
       controller.signal,
     );
     const pending = call();
-    controller.abort(new Error('Left the page'));
-    await expect(pending).rejects.toThrow('Left the page');
-    await expect(call()).rejects.toThrow('Left the page');
+    controller.abort(new Error("Left the page"));
+    await expect(pending).rejects.toThrow("Left the page");
+    await expect(call()).rejects.toThrow("Left the page");
     expect(worker.isTerminated).toBe(true);
   });
 
-  it('rejects pending calls when the worker fails', async () => {
+  it("rejects pending calls when the worker fails", async () => {
     const worker = new FakeWorker();
     const call = workerRpc<() => void>(
       worker as unknown as Worker,
       lifetime.signal,
     );
     const pending = call();
-    worker.dispatchEvent(new Event('error'));
-    await expect(pending).rejects.toThrow('The worker failed');
+    worker.dispatchEvent(new Event("error"));
+    await expect(pending).rejects.toThrow("The worker failed");
     expect(worker.isTerminated).toBe(true);
   });
 
-  it('rejects pending calls when a reply cannot be read', async () => {
-    vi.spyOn(globalThis, 'MessageChannel');
+  it("rejects pending calls when a reply cannot be read", async () => {
+    vi.spyOn(globalThis, "MessageChannel");
     const worker = new FakeWorker();
     const call = workerRpc<() => void>(
       worker as unknown as Worker,
@@ -111,9 +111,9 @@ describe('workerRpc', () => {
     );
     const pending = call();
     const [channel] = vi.mocked(MessageChannel).mock.instances;
-    channel.port1.dispatchEvent(new Event('messageerror'));
+    channel.port1.dispatchEvent(new Event("messageerror"));
     await expect(pending).rejects.toThrow(
-      'The reply from the worker could not be read',
+      "The reply from the worker could not be read",
     );
     expect(worker.isTerminated).toBe(true);
   });

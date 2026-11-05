@@ -1,8 +1,8 @@
-import type Tournament from '#model/Tournament';
-import type Stage from '#model/Stage';
-import type Availability from '#model/Availability';
-import type DrawSlot from '#model/DrawSlot';
-import seasonsForSlot from '#model/seasonsForSlot';
+import type Tournament from "#model/Tournament";
+import type Stage from "#model/Stage";
+import type Availability from "#model/Availability";
+import type DrawSlot from "#model/DrawSlot";
+import seasonsForSlot from "#model/seasonsForSlot";
 
 export interface DrawRoute {
   tournament: Tournament;
@@ -60,7 +60,7 @@ export default (
   const resolved =
     bySeason.size > 0
       ? bySeason
-      : seasonsForSlot(availability, tournament, 'main');
+      : seasonsForSlot(availability, tournament, "main");
 
   const seasons = [...resolved.keys()];
   if (seasons.length === 0) {

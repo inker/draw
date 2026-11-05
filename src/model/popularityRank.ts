@@ -1,5 +1,5 @@
-import popularity from '#data/popularity';
-import { type UefaCountry } from '#model/types';
+import popularity from "#data/popularity";
+import { type UefaCountry } from "#model/types";
 
 // Teams missing from the popularity list sort after every listed team,
 // keeping their relative seeding order.

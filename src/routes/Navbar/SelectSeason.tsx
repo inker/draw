@@ -1,27 +1,27 @@
-import { memo, useCallback, useMemo } from 'react';
+import { memo, useCallback, useMemo } from "react";
 
-import type Tournament from '#model/Tournament';
-import { validTournaments } from '#model/Tournament';
-import type Stage from '#model/Stage';
-import type DrawSlot from '#model/DrawSlot';
-import { drawSlots, stageToSlot } from '#model/DrawSlot';
+import type Tournament from "#model/Tournament";
+import { validTournaments } from "#model/Tournament";
+import type Stage from "#model/Stage";
+import type DrawSlot from "#model/DrawSlot";
+import { drawSlots, stageToSlot } from "#model/DrawSlot";
 import {
   type DrawRoute,
   type RequestedDrawRoute,
-} from '#model/resolveDrawRoute';
-import seasonsForSlot from '#model/seasonsForSlot';
-import availability from '#data/availability';
-import Select from '#ui/SelectWithHiddenLabel';
+} from "#model/resolveDrawRoute";
+import seasonsForSlot from "#model/seasonsForSlot";
+import availability from "#data/availability";
+import Select from "#ui/SelectWithHiddenLabel";
 
-import config from '../../config';
+import config from "../../config";
 
-import seasonAsString from './seasonAsString';
-import tournamentAsString from './tournamentAsString';
+import seasonAsString from "./seasonAsString";
+import tournamentAsString from "./tournamentAsString";
 
 const stageNames = {
-  ls: 'League Phase',
-  gs: 'Group Stage',
-  ko: 'Knockout Stage',
+  ls: "League Phase",
+  gs: "Group Stage",
+  ko: "Knockout Stage",
 } as const satisfies Record<Stage, string>;
 
 interface Props {

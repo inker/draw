@@ -1,16 +1,16 @@
-import delay from 'delay.js';
+import delay from "delay.js";
 
-import type Team from '#model/team';
-import Club from '#model/team/Club';
-import NationalTeam from '#model/team/NationalTeam';
-import { type DrawRoute } from '#model/resolveDrawRoute';
-import isFirefox from '#utils/browser';
-import { resetFastDraw } from '#store/useFastDraw';
+import type Team from "#model/team";
+import Club from "#model/team/Club";
+import NationalTeam from "#model/team/NationalTeam";
+import { type DrawRoute } from "#model/resolveDrawRoute";
+import isFirefox from "#utils/browser";
+import { resetFastDraw } from "#store/useFastDraw";
 
-import getPage from './getPage';
-import getPotsFromBert from './getPotsFromBert';
-import getWcPots from './getWcPots';
-import prefetchFlags from './prefetchFlags';
+import getPage from "./getPage";
+import getPotsFromBert from "./getPotsFromBert";
+import getWcPots from "./getWcPots";
+import prefetchFlags from "./prefetchFlags";
 
 interface LoadedDraw {
   Page: React.ComponentType<any>;
@@ -24,7 +24,7 @@ export default async ({
 }: DrawRoute): Promise<LoadedDraw> => {
   const [Page, { pots }] = await Promise.all([
     getPage(tournament, stage),
-    tournament === 'wc'
+    tournament === "wc"
       ? getWcPots(season)
       : getPotsFromBert(tournament, stage, season),
   ]);

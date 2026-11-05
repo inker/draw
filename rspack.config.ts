@@ -1,1 +1,1 @@
-export { default } from './build/rspack/index.ts';
+export { default } from "./build/rspack/index.ts";

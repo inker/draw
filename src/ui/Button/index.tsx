@@ -1,14 +1,14 @@
-import type React from 'react';
-import { memo } from 'react';
+import type React from "react";
+import { memo } from "react";
 
-import * as styles from './styles.module.css';
+import * as styles from "./styles.module.css";
 
-type Props = Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'disabled'> & {
+type Props = Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, "disabled"> & {
   isDisabled?: boolean;
 };
 
 function Button({
-  type = 'button',
+  type = "button",
   isDisabled,
   onClick,
   onMouseDown,

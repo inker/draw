@@ -1,33 +1,33 @@
-import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import pLimit from 'p-limit';
-import delay from 'delay.js';
-import { orderBy } from 'lodash';
+import { memo, useCallback, useEffect, useMemo, useRef, useState } from "react";
+import pLimit from "p-limit";
+import delay from "delay.js";
+import { orderBy } from "lodash";
 
-import useFastDraw from '#store/useFastDraw';
-import useXRay from '#store/useXRay';
-import type Tournament from '#model/Tournament';
-import type Team from '#model/team/GsTeam';
-import generatePairings from '#engine/dfs/ls/generatePairings/index';
-import generateSchedule from '#engine/dfs/ls/generateSchedule/index';
-import usePageVisible from '#utils/hooks/usePageVisible';
-import formatDuration from '#utils/formatDuration';
-import useTimer from '#utils/hooks/useTimer';
-import usePrngGenerator from '#utils/hooks/usePrngGenerator';
-import prngShuffleAll from '#utils/prng/shuffleAll';
-import Button from '#ui/Button';
-import Portal from '#ui/Portal';
-import TeamBowl from '#ui/bowls/TeamBowl';
-import ContentWithFlag from '#ui/table/ContentWithFlag';
-import Dots from '#ui/Dots/index';
+import useFastDraw from "#store/useFastDraw";
+import useXRay from "#store/useXRay";
+import type Tournament from "#model/Tournament";
+import type Team from "#model/team/GsTeam";
+import generatePairings from "#engine/dfs/ls/generatePairings/index";
+import generateSchedule from "#engine/dfs/ls/generateSchedule/index";
+import usePageVisible from "#utils/hooks/usePageVisible";
+import formatDuration from "#utils/formatDuration";
+import useTimer from "#utils/hooks/useTimer";
+import usePrngGenerator from "#utils/hooks/usePrngGenerator";
+import prngShuffleAll from "#utils/prng/shuffleAll";
+import Button from "#ui/Button";
+import Portal from "#ui/Portal";
+import TeamBowl from "#ui/bowls/TeamBowl";
+import ContentWithFlag from "#ui/table/ContentWithFlag";
+import Dots from "#ui/Dots/index";
 
-import Matrix from './Matrix';
-import Schedule from './Schedule';
-import ScheduleCreationDescription from './ScheduleCreationDescription';
-import OpponentList from './OpponentList';
-import * as styles from './styles.module.css';
+import Matrix from "./Matrix";
+import Schedule from "./Schedule";
+import ScheduleCreationDescription from "./ScheduleCreationDescription";
+import OpponentList from "./OpponentList";
+import * as styles from "./styles.module.css";
 
 const getNavbarLeftContainer = () =>
-  document.getElementById('navbar-left-container')!;
+  document.getElementById("navbar-left-container")!;
 
 interface Props {
   tournament: Tournament;
@@ -37,7 +37,7 @@ interface Props {
 
 function LeagueStage({ tournament, season, pots: initialPots }: Props) {
   const numMatchdays =
-    tournament === 'ecl' ? initialPots.length : initialPots.length * 2;
+    tournament === "ecl" ? initialPots.length : initialPots.length * 2;
 
   const numMatches = useMemo(() => {
     const numTeams = initialPots.flat().length;
@@ -288,7 +288,7 @@ function LeagueStage({ tournament, season, pots: initialPots }: Props) {
             setIsMatchdayMode(prev => !prev);
           }}
         >
-          {isMatchdayMode ? 'Display matrix' : 'Display schedule'}
+          {isMatchdayMode ? "Display matrix" : "Display schedule"}
         </Button>
       </Portal>
       {isMatchdayMode ? (
@@ -297,7 +297,7 @@ function LeagueStage({ tournament, season, pots: initialPots }: Props) {
           schedule={schedule}
         />
       ) : (
-        <div className={styles['matrix-wrapper']}>
+        <div className={styles["matrix-wrapper"]}>
           <Matrix
             allTeams={allTeams}
             numMatchdays={numMatchdays}
@@ -306,7 +306,7 @@ function LeagueStage({ tournament, season, pots: initialPots }: Props) {
             potSize={pots[0].length}
             noCellAnimation={isScheduleDone}
           />
-          <div className={styles['right-wrapper']}>
+          <div className={styles["right-wrapper"]}>
             {isScheduleDone ? (
               <p>Schedule generation took: {elapsedTimeFormatted}</p>
             ) : isFixturesDone ? (
@@ -350,13 +350,13 @@ function LeagueStage({ tournament, season, pots: initialPots }: Props) {
                 />
                 {selectedTeam ? (
                   <>
-                    <div className={styles['picked-team-announcement']}>
+                    <div className={styles["picked-team-announcement"]}>
                       <ContentWithFlag
                         country={selectedTeam.country}
-                        className={styles['selected-team']}
+                        className={styles["selected-team"]}
                       >
                         {selectedTeam.name}
-                      </ContentWithFlag>{' '}
+                      </ContentWithFlag>{" "}
                       will play against
                       {isGeneratingPairings ? (
                         <Dots
@@ -365,12 +365,12 @@ function LeagueStage({ tournament, season, pots: initialPots }: Props) {
                           interval={1000}
                         />
                       ) : (
-                        ':'
+                        ":"
                       )}
                     </div>
                     <OpponentList
                       key={selectedTeam.id}
-                      className={styles['opponent-list']}
+                      className={styles["opponent-list"]}
                       animationDurationMs={Math.min(
                         // eslint-disable-next-line react-hooks/refs
                         animationDurationMsRef.current,
@@ -394,13 +394,13 @@ function LeagueStage({ tournament, season, pots: initialPots }: Props) {
                         const opponent = m[0] === selectedTeam ? m[1] : m[0];
                         return {
                           team: opponent,
-                          location: m[0] === selectedTeam ? 'h' : 'a',
+                          location: m[0] === selectedTeam ? "h" : "a",
                         };
                       })}
                     />
                   </>
                 ) : (
-                  <div className={styles['picked-team-announcement']}>
+                  <div className={styles["picked-team-announcement"]}>
                     Pick a ball
                   </div>
                 )}
@@ -414,7 +414,7 @@ function LeagueStage({ tournament, season, pots: initialPots }: Props) {
                   an hour to finish.
                 </p>
                 <Button
-                  className={styles['generate-schedule-button']}
+                  className={styles["generate-schedule-button"]}
                   onClick={startGeneratingSchedule}
                 >
                   Generate schedule

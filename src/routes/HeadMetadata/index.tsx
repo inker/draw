@@ -1,8 +1,8 @@
-import { memo } from 'react';
+import { memo } from "react";
 
-import { drawRouteApi } from '../routeApi';
+import { drawRouteApi } from "../routeApi";
 
-import data from './data';
+import data from "./data";
 
 function HeadMetaData() {
   const tournament = drawRouteApi.useParams({

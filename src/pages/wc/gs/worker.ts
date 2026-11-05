@@ -1,11 +1,11 @@
-import firstPossibleGroup from '#engine/dfs/wc';
-import type NationalTeam from '#model/team/NationalTeam';
-import type UnknownNationalTeam from '#model/team/UnknownNationalTeam';
+import firstPossibleGroup from "#engine/dfs/wc";
+import type NationalTeam from "#model/team/NationalTeam";
+import type UnknownNationalTeam from "#model/team/UnknownNationalTeam";
 import {
   type GsWorkerDataSerialized,
   deserializeGsWorkerData,
-} from '#model/WorkerData';
-import exposeWorker, { type ExposedFuncType } from '#utils/worker/expose';
+} from "#model/WorkerData";
+import exposeWorker, { type ExposedFuncType } from "#utils/worker/expose";
 
 const func = (
   data: GsWorkerDataSerialized<NationalTeam | UnknownNationalTeam>,

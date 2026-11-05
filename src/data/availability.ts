@@ -1,15 +1,15 @@
-import type Tournament from '#model/Tournament';
-import { isValidTournament } from '#model/Tournament';
-import type Stage from '#model/Stage';
-import { isValidStage } from '#model/Stage';
-import type Availability from '#model/Availability';
+import type Tournament from "#model/Tournament";
+import { isValidTournament } from "#model/Tournament";
+import type Stage from "#model/Stage";
+import { isValidStage } from "#model/Stage";
+import type Availability from "#model/Availability";
 
 // Weak mode lists the matching files without pulling any of them into the bundle,
 // so this stays a directory listing & not a second copy of every pots.json
-const context = import.meta.webpackContext('.', {
+const context = import.meta.webpackContext(".", {
   recursive: true,
   regExp: /^\.\/(?:\w+\/\w+\/\d{4}\/pots\.json|wc-\d{4}\.txt)$/,
-  mode: 'weak',
+  mode: "weak",
 });
 
 const uefaFile = /^\.\/(\w+)\/(\w+)\/(\d{4})\/pots\.json$/;
@@ -25,8 +25,8 @@ const parseKey = (key: string): DataFile | null => {
   const wc = wcFile.exec(key);
   if (wc) {
     return {
-      tournament: 'wc',
-      stage: 'gs',
+      tournament: "wc",
+      stage: "gs",
       season: +wc[1],
     };
   }

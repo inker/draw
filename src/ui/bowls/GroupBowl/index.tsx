@@ -1,10 +1,10 @@
-import { memo, useCallback } from 'react';
+import { memo, useCallback } from "react";
 
-import getGroupLetter from '#utils/getGroupLetter';
+import getGroupLetter from "#utils/getGroupLetter";
 
-import BowlBall from '../BowlBall';
+import BowlBall from "../BowlBall";
 
-import * as styles from './styles.module.css';
+import * as styles from "./styles.module.css";
 
 interface Props {
   display: boolean;
@@ -33,7 +33,7 @@ function GroupBowl({ display, displayGroups, possibleGroups, onPick }: Props) {
           <BowlBall
             key={groupNum}
             data-group={groupNum}
-            className={styles['group-ball']}
+            className={styles["group-ball"]}
             forceVisible={displayGroups}
             onClick={handleBallPick}
           >

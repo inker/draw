@@ -1,10 +1,10 @@
-import { chunk, difference, orderBy, range } from 'lodash';
+import { chunk, difference, orderBy, range } from "lodash";
 
-import { type UefaCountry } from '#model/types';
-import type Tournament from '#model/Tournament';
-import popularityRank from '#model/popularityRank';
-import { findFirstSolutionMutable } from '#utils/backtrack';
-import combine from '#utils/combine';
+import { type UefaCountry } from "#model/types";
+import type Tournament from "#model/Tournament";
+import popularityRank from "#model/popularityRank";
+import { findFirstSolutionMutable } from "#utils/backtrack";
+import combine from "#utils/combine";
 
 interface Team {
   readonly name: string;
@@ -46,7 +46,7 @@ function* relaxations<T>(constraints: readonly T[]) {
 export const firstSeasonWithOpeningMatch = 2027;
 
 export const hasOpeningMatch = (tournament: Tournament, season: number) =>
-  tournament === 'cl' && season >= firstSeasonWithOpeningMatch;
+  tournament === "cl" && season >= firstSeasonWithOpeningMatch;
 
 // TODO: remove this hardcode
 function getDayCapacities({
@@ -64,7 +64,7 @@ function getDayCapacities({
 }) {
   // Matchday 1 is checked before the last matchday,
   // so that a one-matchday draw still opens the way a full season does
-  if (tournament === 'cl' && matchdayIndex === 0) {
+  if (tournament === "cl" && matchdayIndex === 0) {
     if (!hasOpeningMatch(tournament, season)) {
       return [matchdaySize / 3, matchdaySize / 3, matchdaySize / 3];
     }
@@ -89,7 +89,7 @@ const findOpeningMatch = ({
 }) => {
   if (!titleHolder) {
     throw new Error(
-      'No title holder is on record for this season, so there is no opening match to schedule',
+      "No title holder is on record for this season, so there is no opening match to schedule",
     );
   }
   // The holders host the opener, so only their home game qualifies.
@@ -251,7 +251,7 @@ const findDayAssignment = ({
     }
   }
 
-  throw new Error('No solution found after all');
+  throw new Error("No solution found after all");
 };
 
 const splitMatchday = ({

@@ -1,9 +1,9 @@
-import type Tournament from '#model/Tournament';
+import type Tournament from "#model/Tournament";
 
 export default {
-  defaultTournament: 'cl',
+  defaultTournament: "cl",
   /**
    * Still reachable by URL, only left out of the tournament dropdown
    */
-  hiddenTournaments: ['epl'] as readonly Tournament[],
+  hiddenTournaments: ["epl"] as readonly Tournament[],
 } as const;

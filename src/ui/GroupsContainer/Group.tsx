@@ -1,12 +1,12 @@
-import { memo } from 'react';
+import { memo } from "react";
 
-import type Club from '#model/team/Club';
-import type NationalTeam from '#model/team/NationalTeam';
-import Table from '#ui/table/Table';
-import Header from '#ui/table/Header';
-import * as cellStyles from '#ui/table/cell.module.css';
+import type Club from "#model/team/Club";
+import type NationalTeam from "#model/team/NationalTeam";
+import Table from "#ui/table/Table";
+import Header from "#ui/table/Header";
+import * as cellStyles from "#ui/table/cell.module.css";
 
-import GroupCellDeferred from './GroupCellDeferred';
+import GroupCellDeferred from "./GroupCellDeferred";
 
 type Team = Club | NationalTeam;
 

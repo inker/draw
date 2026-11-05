@@ -1,11 +1,11 @@
-import delay from 'delay.js';
+import delay from "delay.js";
 
-import workerRpc from './rpc';
+import workerRpc from "./rpc";
 
 const maxNumWorkers = navigator.hardwareConcurrency;
 
 // Unlike undefined, this can't be mistaken for anything a worker returns
-const aborted = Symbol('aborted');
+const aborted = Symbol("aborted");
 
 /**
  * Resolves once the signal aborts, so it can lose a race against the work.
@@ -29,7 +29,7 @@ const untilAborted = ({
       return;
     }
     signal.addEventListener(
-      'abort',
+      "abort",
       () => {
         resolve(aborted);
       },
@@ -70,7 +70,7 @@ export default async <Func extends (...args: any) => unknown>({
 
   if (signal) {
     signal.addEventListener(
-      'abort',
+      "abort",
       () => {
         gotResult = true;
       },
@@ -82,7 +82,7 @@ export default async <Func extends (...args: any) => unknown>({
   }
 
   const getNumWorkers = () =>
-    typeof numWorkersParam === 'function' ? numWorkersParam() : numWorkersParam;
+    typeof numWorkersParam === "function" ? numWorkersParam() : numWorkersParam;
 
   const promises = Array.from(
     {

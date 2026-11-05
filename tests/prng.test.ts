@@ -1,9 +1,9 @@
-import createPrngGenerator from '#utils/prng/generator';
+import createPrngGenerator from "#utils/prng/generator";
 
 const toHex = (digest: ArrayBuffer) =>
   [...new Uint8Array(digest)]
-    .map(byte => byte.toString(16).padStart(2, '0'))
-    .join('');
+    .map(byte => byte.toString(16).padStart(2, "0"))
+    .join("");
 
 const seedOf = (text: string) => new TextEncoder().encode(text);
 
@@ -25,18 +25,18 @@ const take = async (
   return digests;
 };
 
-describe('prng', () => {
-  describe.each([1, 4, 8, 33])('byteLength: %s', byteLength => {
-    it('deals the same stream it always has', async () => {
+describe("prng", () => {
+  describe.each([1, 4, 8, 33])("byteLength: %s", byteLength => {
+    it("deals the same stream it always has", async () => {
       const digests = await take({
         byteLength,
-        seed: seedOf('uefa'),
+        seed: seedOf("uefa"),
       });
       expect(digests).toMatchSnapshot();
     });
   });
 
-  it.each(['uefa', 'UEFA', 'uefb'])('seed: %s', async text => {
+  it.each(["uefa", "UEFA", "uefb"])("seed: %s", async text => {
     const digests = await take(
       {
         byteLength: 4,
@@ -49,7 +49,7 @@ describe('prng', () => {
 
   // An empty ?seed= falls back to random bytes before it reaches here,
   // so this is the module's own boundary rather than a reachable state.
-  it('refuses a seed with no bytes in it', async () => {
+  it("refuses a seed with no bytes in it", async () => {
     await expect(
       take(
         {
@@ -58,18 +58,18 @@ describe('prng', () => {
         },
         1,
       ),
-    ).rejects.toThrow('Zero-length key is not supported');
+    ).rejects.toThrow("Zero-length key is not supported");
   });
 
-  it('replays a seed', async () => {
+  it("replays a seed", async () => {
     const options = {
       byteLength: 4,
-      seed: seedOf('uefa'),
+      seed: seedOf("uefa"),
     };
     expect(await take(options)).toEqual(await take(options));
   });
 
-  it('deals differently for a seed one bit apart', async () => {
+  it("deals differently for a seed one bit apart", async () => {
     const first = await take({
       byteLength: 4,
       seed: new Uint8Array([0]),
@@ -81,31 +81,31 @@ describe('prng', () => {
     expect(first).not.toEqual(second);
   });
 
-  it('deals differently for each counter width', async () => {
+  it("deals differently for each counter width", async () => {
     const fourBytes = await take({
       byteLength: 4,
-      seed: seedOf('uefa'),
+      seed: seedOf("uefa"),
     });
     const eightBytes = await take({
       byteLength: 8,
-      seed: seedOf('uefa'),
+      seed: seedOf("uefa"),
     });
     expect(fourBytes).not.toEqual(eightBytes);
   });
 
-  it('hands back the generator without awaiting it', () => {
+  it("hands back the generator without awaiting it", () => {
     const prngGenerator = createPrngGenerator({
       byteLength: 4,
-      seed: seedOf('uefa'),
+      seed: seedOf("uefa"),
     });
     expect(prngGenerator[Symbol.asyncIterator]()).toBe(prngGenerator);
   });
 
-  it('signs 32 bytes a pull', async () => {
+  it("signs 32 bytes a pull", async () => {
     const [digest] = await take(
       {
         byteLength: 4,
-        seed: seedOf('uefa'),
+        seed: seedOf("uefa"),
       },
       1,
     );

@@ -1,5 +1,5 @@
-import popularityRank from '#model/popularityRank';
-import type GsTeam from '#model/team/GsTeam';
+import popularityRank from "#model/popularityRank";
+import type GsTeam from "#model/team/GsTeam";
 
 // Groups same-country teams into TV pairings: the two most popular clubs from a
 // country are paired, then the next two, & so on, leaving an odd one out

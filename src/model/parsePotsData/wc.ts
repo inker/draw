@@ -1,8 +1,8 @@
-import { chunk } from 'lodash';
+import { chunk } from "lodash";
 
-import countries from '#data/countries';
-import NationalTeam from '#model/team/NationalTeam';
-import UnknownNationalTeam from '#model/team/UnknownNationalTeam';
+import countries from "#data/countries";
+import NationalTeam from "#model/team/NationalTeam";
+import UnknownNationalTeam from "#model/team/UnknownNationalTeam";
 
 const makeNationalTeam = (
   name: string,
@@ -13,7 +13,7 @@ const makeNationalTeam = (
   return ctr
     ? new NationalTeam(name, 0, ctr.confederation, isHost, forcedGroupIndex)
     : // @ts-expect-error
-      new UnknownNationalTeam(name, 0, name.split('/'));
+      new UnknownNationalTeam(name, 0, name.split("/"));
 };
 
 export default (

@@ -1,8 +1,8 @@
-import type Team from '#model/team/KnockoutTeam';
-import { type Predicate } from '#engine/dfs/gs';
-import getSmallestArrayLength from '#utils/getSmallestArrayLength';
+import type Team from "#model/team/KnockoutTeam";
+import { type Predicate } from "#engine/dfs/gs";
+import getSmallestArrayLength from "#utils/getSmallestArrayLength";
 
-import incompatibleCountries from '../utils/incompatibleCountries';
+import incompatibleCountries from "../utils/incompatibleCountries";
 
 const isFrom = (country: string) => (team: Team) => team.country === country;
 

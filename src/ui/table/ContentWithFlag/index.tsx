@@ -1,12 +1,12 @@
-import { memo, useMemo } from 'react';
-import clsx from 'clsx';
+import { memo, useMemo } from "react";
+import clsx from "clsx";
 
-import { type Country } from '#model/types';
-import getCountryFlagUrl from '#utils/getCountryFlagUrl';
+import { type Country } from "#model/types";
+import getCountryFlagUrl from "#utils/getCountryFlagUrl";
 
-import Content from '../Content';
+import Content from "../Content";
 
-import * as styles from './styles.module.css';
+import * as styles from "./styles.module.css";
 
 type Props = React.HTMLAttributes<HTMLSpanElement> & {
   country: Country;

@@ -1,11 +1,11 @@
-import { memo } from 'react';
+import { memo } from "react";
 
-import type Club from '#model/team/Club';
-import type NationalTeam from '#model/team/NationalTeam';
-import getGroupLetter from '#utils/getGroupLetter';
+import type Club from "#model/team/Club";
+import type NationalTeam from "#model/team/NationalTeam";
+import getGroupLetter from "#utils/getGroupLetter";
 
-import Group from './Group';
-import * as styles from './styles.module.css';
+import Group from "./Group";
+import * as styles from "./styles.module.css";
 
 type Team = Club | NationalTeam;
 

@@ -1,5 +1,5 @@
-import { getSeasonFacts } from '#data/seasonFacts';
-import type Tournament from '#model/Tournament';
+import { getSeasonFacts } from "#data/seasonFacts";
+import type Tournament from "#model/Tournament";
 
 interface WithName {
   readonly name: string;

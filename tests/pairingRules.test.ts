@@ -1,12 +1,12 @@
-import { readFileSync } from 'node:fs';
-import { join } from 'node:path';
+import { readFileSync } from "node:fs";
+import { join } from "node:path";
 
-import getFirstSuitableMatch from '#engine/dfs/ls/generatePairings/getFirstSuitableMatch';
+import getFirstSuitableMatch from "#engine/dfs/ls/generatePairings/getFirstSuitableMatch";
 import {
   type Rule,
   type RuleSpec,
   combineRules,
-} from '#engine/dfs/ls/generatePairings/rules/index';
+} from "#engine/dfs/ls/generatePairings/rules/index";
 
 interface RawTeam {
   name: string;
@@ -15,27 +15,27 @@ interface RawTeam {
 
 type Match = readonly [number, number];
 
-const loadDraw = (tournament: 'cl' | 'ecl') => {
+const loadDraw = (tournament: "cl" | "ecl") => {
   const pots: RawTeam[][] = JSON.parse(
     readFileSync(
       join(
         __dirname,
-        '..',
-        'src',
-        'data',
+        "..",
+        "src",
+        "data",
         tournament,
-        'ls',
-        '2025',
-        'pots.json',
+        "ls",
+        "2025",
+        "pots.json",
       ),
-      'utf8',
+      "utf8",
     ),
   );
   const teams = pots.flat();
   const numPots = pots.length;
   // the Conference League draws one opponent per pot,
   // with one home & one away game against each pair of pots
-  const isPairedPotMode = tournament === 'ecl';
+  const isPairedPotMode = tournament === "ecl";
   const countries = [...new Set(teams.map(team => team.country))];
   return {
     numPots,
@@ -55,14 +55,14 @@ const loadDraw = (tournament: 'cl' | 'ecl') => {
 
 type Draw = ReturnType<typeof loadDraw>;
 
-const cl = loadDraw('cl');
-const ecl = loadDraw('ecl');
+const cl = loadDraw("cl");
+const ecl = loadDraw("ecl");
 
 const makeCountryCap = (
   draw: Draw,
   maxByGroup: readonly number[],
 ): RuleSpec => ({
-  kind: 'opponentCap',
+  kind: "opponentCap",
   groupByTeam: draw.countryByTeam,
   maxByGroup,
 });
@@ -170,8 +170,8 @@ const getMaxOpponentsByCountry = (
   return maxByCountry;
 };
 
-describe('getFirstSuitableMatch rules', () => {
-  it('should cap opponents from one country at 2', () => {
+describe("getFirstSuitableMatch rules", () => {
+  it("should cap opponents from one country at 2", () => {
     const drawnMatches = drawTeamByTeam(cl, [
       makeCountryCap(
         cl,
@@ -185,7 +185,7 @@ describe('getFirstSuitableMatch rules', () => {
     }
   });
 
-  it('should apply a different cap for each country', () => {
+  it("should apply a different cap for each country", () => {
     // 1 for countries with 1 or 2 teams,
     // a cap that a draw under the usual cap of 2 breaks
     const maxByGroup = cl.countries.map((_, country) =>
@@ -202,7 +202,7 @@ describe('getFirstSuitableMatch rules', () => {
     }
   });
 
-  it('should cap opponents from one country in paired pot mode', () => {
+  it("should cap opponents from one country in paired pot mode", () => {
     const drawnMatches = drawTeamByTeam(ecl, [
       makeCountryCap(
         ecl,
@@ -216,22 +216,22 @@ describe('getFirstSuitableMatch rules', () => {
     }
   });
 
-  it('should complete a draw with no rules', () => {
+  it("should complete a draw with no rules", () => {
     const drawnMatches = drawTeamByTeam(cl, []);
     expect(drawnMatches).toHaveLength((cl.numTeams * cl.numMatchdays) / 2);
     expectFullDraw(cl, drawnMatches);
   });
 
-  it('should reject a spec that does not fit the teams', () => {
+  it("should reject a spec that does not fit the teams", () => {
     expect(() =>
       drawTeamByTeam(cl, [
         {
-          kind: 'opponentCap',
+          kind: "opponentCap",
           groupByTeam: cl.countryByTeam.slice(1),
           maxByGroup: cl.countries.map(() => 2),
         },
       ]),
-    ).toThrow('groupByTeam has 35 teams rather than 36');
+    ).toThrow("groupByTeam has 35 teams rather than 36");
   });
 });
 const makeStubRule = (isAllowed: boolean, priority: number) => {
@@ -253,20 +253,20 @@ const makeStubRule = (isAllowed: boolean, priority: number) => {
   };
 };
 
-describe('combineRules', () => {
-  it('should allow everything with no rules', () => {
+describe("combineRules", () => {
+  it("should allow everything with no rules", () => {
     const rule = combineRules([]);
     expect(rule.allows(0, 1)).toBe(true);
     expect(rule.isDeadEnd()).toBe(false);
     expect(rule.getOpponentPriority(0)).toBe(0);
   });
 
-  it('should return a single rule as it is', () => {
+  it("should return a single rule as it is", () => {
     const { rule } = makeStubRule(true, 1);
     expect(combineRules([rule])).toBe(rule);
   });
 
-  it('should allow a game only when every rule does', () => {
+  it("should allow a game only when every rule does", () => {
     const lenient = makeStubRule(true, 1);
     const strict = makeStubRule(false, 2);
     const rule = combineRules([lenient.rule, strict.rule]);
@@ -276,13 +276,13 @@ describe('combineRules', () => {
     expect(combineRules([lenient.rule, lenient.rule]).allows(0, 1)).toBe(true);
   });
 
-  it('should pass every game on to every rule', () => {
+  it("should pass every game on to every rule", () => {
     const first = makeStubRule(true, 0);
     const second = makeStubRule(true, 0);
     const rule = combineRules([first.rule, second.rule]);
     rule.apply(0, 1);
     rule.undo(0, 1);
-    expect(first.calls).toEqual(['apply 0-1', 'undo 0-1']);
-    expect(second.calls).toEqual(['apply 0-1', 'undo 0-1']);
+    expect(first.calls).toEqual(["apply 0-1", "undo 0-1"]);
+    expect(second.calls).toEqual(["apply 0-1", "undo 0-1"]);
   });
 });

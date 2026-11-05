@@ -1,5 +1,5 @@
-import { useCallback } from 'react';
-import { atom, useAtom } from 'jotai';
+import { useCallback } from "react";
+import { atom, useAtom } from "jotai";
 
 interface PopupState {
   error: string | null;

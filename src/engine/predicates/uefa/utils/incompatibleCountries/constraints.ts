@@ -1,9 +1,9 @@
-import { stubTrue } from 'lodash';
+import { stubTrue } from "lodash";
 
-import type Tournament from '#model/Tournament';
-import type Stage from '#model/Stage';
-import { type Country, type OptionalPropertyOf } from '#model/types';
-import isInsideInterval from '#utils/isInsideInterval';
+import type Tournament from "#model/Tournament";
+import type Stage from "#model/Stage";
+import { type Country, type OptionalPropertyOf } from "#model/types";
+import isInsideInterval from "#utils/isInsideInterval";
 
 interface PartialItem {
   countries: readonly [Country, Country];
@@ -16,20 +16,20 @@ interface PartialItem {
 
 const constraints = [
   {
-    countries: ['Russia', 'Ukraine'],
+    countries: ["Russia", "Ukraine"],
     predicate: isInsideInterval(2014, Number.MAX_SAFE_INTEGER),
   },
   {
-    countries: ['Azerbaijan', 'Armenia'],
+    countries: ["Azerbaijan", "Armenia"],
   },
   {
-    countries: ['Serbia', 'Kosovo'],
+    countries: ["Serbia", "Kosovo"],
   },
   {
-    countries: ['Bosnia & Herzegovina', 'Kosovo'],
+    countries: ["Bosnia & Herzegovina", "Kosovo"],
   },
   {
-    countries: ['Spain', 'Gibraltar'],
+    countries: ["Spain", "Gibraltar"],
   },
 ] as const satisfies readonly PartialItem[];
 

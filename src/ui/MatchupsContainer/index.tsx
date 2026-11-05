@@ -1,11 +1,11 @@
-import { memo } from 'react';
+import { memo } from "react";
 
-import { type EmptyOrSingleOrPair } from '#model/types';
-import type Team from '#model/team/Club';
-import Table from '#ui/table/Table';
+import { type EmptyOrSingleOrPair } from "#model/types";
+import type Team from "#model/team/Club";
+import Table from "#ui/table/Table";
 
-import Matchup from './Matchup';
-import * as styles from './styles.module.css';
+import Matchup from "./Matchup";
+import * as styles from "./styles.module.css";
 
 interface Props {
   ref?: React.RefObject<HTMLTableElement | null>;
@@ -16,7 +16,7 @@ function MatchupContainer({ ref, matchups }: Props) {
   return (
     <Table
       ref={ref}
-      className={styles['root-table']}
+      className={styles["root-table"]}
     >
       <tbody>
         {matchups.map((matchup, i) => (

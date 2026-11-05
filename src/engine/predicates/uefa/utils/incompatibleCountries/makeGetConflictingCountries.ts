@@ -1,6 +1,6 @@
-import { type UefaCountry } from '#model/types';
+import { type UefaCountry } from "#model/types";
 
-import constraints from './constraints';
+import constraints from "./constraints";
 
 function mergePairs<T, U>(pairs: Iterable<readonly [T, U]>) {
   const map = new Map<T, Set<U>>();

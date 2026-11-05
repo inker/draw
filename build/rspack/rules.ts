@@ -1,4 +1,4 @@
-import type { RuleSetRules } from '@rspack/core';
+import type { RuleSetRules } from "@rspack/core";
 
 export default (isDev: boolean) =>
   (
@@ -6,16 +6,16 @@ export default (isDev: boolean) =>
       {
         test: /\.(js|mjs|jsx|ts|tsx)$/,
         use: {
-          loader: 'builtin:swc-loader',
+          loader: "builtin:swc-loader",
           options: {
-            detectSyntax: 'auto',
+            detectSyntax: "auto",
             jsc: {
-              target: 'es2021',
+              target: "es2021",
               // swc doesn't read tsconfig.json,
               // so its "jsx": "react-jsx" has to be repeated here.
               transform: {
                 react: {
-                  runtime: 'automatic',
+                  runtime: "automatic",
                   development: isDev,
                   refresh: isDev,
                 },
@@ -27,7 +27,7 @@ export default (isDev: boolean) =>
       },
       {
         test: /\.css$/i,
-        type: 'css/auto',
+        type: "css/auto",
         parser: {
           // Left on, these rename custom properties & other names as well as classes,
           // which breaks variables shared between files
@@ -39,28 +39,28 @@ export default (isDev: boolean) =>
           function: false,
         },
         generator: {
-          localIdentName: '[folder]__[local]__[hash:5]',
+          localIdentName: "[folder]__[local]__[hash:5]",
         },
       },
       {
         test: /\.(png|jpe?g|gif|svg)$/,
-        type: 'asset/resource',
+        type: "asset/resource",
         generator: {
-          filename: `images/[name]${isDev ? '' : '.[contenthash:8]'}[ext]`,
+          filename: `images/[name]${isDev ? "" : ".[contenthash:8]"}[ext]`,
         },
       },
       {
         test: /\.woff2?$/,
-        type: 'asset/resource',
+        type: "asset/resource",
         generator: {
-          filename: `fonts/[name]${isDev ? '' : '.[contenthash:8]'}[ext]`,
+          filename: `fonts/[name]${isDev ? "" : ".[contenthash:8]"}[ext]`,
         },
       },
       {
         test: /\.txt$/,
-        type: 'asset/source',
+        type: "asset/source",
         generator: {
-          filename: `data/[name]${isDev ? '' : '.[contenthash:8]'}[ext]`,
+          filename: `data/[name]${isDev ? "" : ".[contenthash:8]"}[ext]`,
         },
       },
     ] as const satisfies RuleSetRules

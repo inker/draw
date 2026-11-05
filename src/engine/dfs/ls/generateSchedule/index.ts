@@ -1,19 +1,19 @@
-import { getSeasonFacts } from '#data/seasonFacts';
-import coldCountries from '#engine/predicates/uefa/utils/coldCountries';
-import teamsThatCannotHostSameDay from '#engine/predicates/uefa/utils/teamsThatCannotHostSameDay';
-import { type UefaCountry } from '#model/types';
-import type Tournament from '#model/Tournament';
-import { type PrngGenerator } from '#utils/prng/generator';
-import prngFloat from '#utils/prng/float';
-import prngShuffle from '#utils/prng/shuffle';
-import prngShuffleAll from '#utils/prng/shuffleAll';
-import assertIndicesInRange from '#utils/assertIndicesInRange';
+import { getSeasonFacts } from "#data/seasonFacts";
+import coldCountries from "#engine/predicates/uefa/utils/coldCountries";
+import teamsThatCannotHostSameDay from "#engine/predicates/uefa/utils/teamsThatCannotHostSameDay";
+import { type UefaCountry } from "#model/types";
+import type Tournament from "#model/Tournament";
+import { type PrngGenerator } from "#utils/prng/generator";
+import prngFloat from "#utils/prng/float";
+import prngShuffle from "#utils/prng/shuffle";
+import prngShuffleAll from "#utils/prng/shuffleAll";
+import assertIndicesInRange from "#utils/assertIndicesInRange";
 
-import assignGamesToMatchdays from './assignGamesToMatchdays.wrapper';
-import { type Ban } from './homeAwayPatterns';
+import assignGamesToMatchdays from "./assignGamesToMatchdays.wrapper";
+import { type Ban } from "./homeAwayPatterns";
 import splitMatchdaysIntoDays, {
   hasOpeningMatch,
-} from './splitMatchdaysIntoDays';
+} from "./splitMatchdaysIntoDays";
 
 interface Team {
   readonly name: string;
@@ -42,7 +42,7 @@ export default async function generateSchedule({
   prngGenerator: PrngGenerator;
   signal?: AbortSignal;
 }) {
-  assertIndicesInRange(allGames.flat(), teams.length, 'allGames');
+  assertIndicesInRange(allGames.flat(), teams.length, "allGames");
 
   const { titleHolder } = getSeasonFacts(tournament, season) ?? {};
 
@@ -60,7 +60,7 @@ export default async function generateSchedule({
       bans.push({
         teamIndex,
         matchday: lastMatchday,
-        location: 'home',
+        location: "home",
       });
     }
   }
@@ -75,7 +75,7 @@ export default async function generateSchedule({
     bans.push({
       teamIndex: openingHostTeamIndex,
       matchday: 0,
-      location: 'away',
+      location: "away",
     });
   }
 

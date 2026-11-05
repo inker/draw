@@ -26,12 +26,12 @@ const searchWithBudget = <Choice>(
   budget: {
     nodesLeft: number;
   },
-): boolean | 'exhausted' => {
+): boolean | "exhausted" => {
   if (options.isSolved()) {
     return true;
   }
   if (--budget.nodesLeft < 0) {
-    return 'exhausted';
+    return "exhausted";
   }
   for (const choice of options.getCandidates()) {
     options.apply(choice);
@@ -40,8 +40,8 @@ const searchWithBudget = <Choice>(
       return true;
     }
     options.undo(choice);
-    if (result === 'exhausted') {
-      return 'exhausted';
+    if (result === "exhausted") {
+      return "exhausted";
     }
   }
   return false;
@@ -66,7 +66,7 @@ export const findFirstSolutionMutable = <Choice>(
     const result = searchWithBudget(options, {
       nodesLeft: nodeBudget,
     });
-    if (result !== 'exhausted') {
+    if (result !== "exhausted") {
       return result;
     }
   }

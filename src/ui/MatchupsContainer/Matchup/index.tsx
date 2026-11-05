@@ -1,13 +1,13 @@
-import { memo } from 'react';
+import { memo } from "react";
 
-import { type EmptyOrSingleOrPair } from '#model/types';
-import type Team from '#model/team/Club';
-import * as cellStyles from '#ui/table/cell.module.css';
-import Content from '#ui/table/Content';
+import { type EmptyOrSingleOrPair } from "#model/types";
+import type Team from "#model/team/Club";
+import * as cellStyles from "#ui/table/cell.module.css";
+import Content from "#ui/table/Content";
 
-import MatchupCellDeferred from '../MatchupCellDeferred';
+import MatchupCellDeferred from "../MatchupCellDeferred";
 
-import * as styles from './styles.module.css';
+import * as styles from "./styles.module.css";
 
 interface Props {
   teams: EmptyOrSingleOrPair<Team> | null;
@@ -20,7 +20,7 @@ function Matchup({ teams }: Props) {
     <tr>
       <MatchupCellDeferred team={ru} />
       <td className={cellStyles.root}>
-        <Content className={styles['versus-cell']} />
+        <Content className={styles["versus-cell"]} />
       </td>
       <MatchupCellDeferred team={gw} />
     </tr>

@@ -1,10 +1,10 @@
-import { memo, useId } from 'react';
-import clsx from 'clsx';
+import { memo, useId } from "react";
+import clsx from "clsx";
 
-import GlobalStyle, { css } from '#ui/GlobalStyle';
-import useTableColumnHover from '#utils/hooks/useTableColumnHover';
+import GlobalStyle, { css } from "#ui/GlobalStyle";
+import useTableColumnHover from "#utils/hooks/useTableColumnHover";
 
-import TableStyles from './TableStyles';
+import TableStyles from "./TableStyles";
 
 type Props = React.HTMLAttributes<HTMLTableElement> & {
   hoverStyle: string;
@@ -15,7 +15,7 @@ function Table({ className, blockSize, hoverStyle, ...otherProps }: Props) {
   const id = useId();
 
   // Stripped, because React's ids carry delimiters a CSS selector cannot take.
-  const tableClass = `table-${id.replaceAll(/\W/g, '')}`;
+  const tableClass = `table-${id.replaceAll(/\W/g, "")}`;
 
   const columnHover = useTableColumnHover();
 
@@ -28,7 +28,7 @@ function Table({ className, blockSize, hoverStyle, ...otherProps }: Props) {
       <GlobalStyle
         styles={
           columnHover.index === undefined
-            ? ''
+            ? ""
             : css`
                 .${tableClass} {
                   > thead {

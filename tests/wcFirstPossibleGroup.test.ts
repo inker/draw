@@ -1,17 +1,17 @@
-import { readFileSync } from 'node:fs';
-import { join } from 'node:path';
+import { readFileSync } from "node:fs";
+import { join } from "node:path";
 
-import firstPossibleGroup from '#engine/dfs/wc';
-import parseWc from '#model/parsePotsData/wc';
-import type NationalTeam from '#model/team/NationalTeam';
-import type UnknownNationalTeam from '#model/team/UnknownNationalTeam';
-import { type Confederation } from '#model/types';
-import createPrngGenerator from '#utils/prng/generator';
-import prngShuffleAll from '#utils/prng/shuffleAll';
+import firstPossibleGroup from "#engine/dfs/wc";
+import parseWc from "#model/parsePotsData/wc";
+import type NationalTeam from "#model/team/NationalTeam";
+import type UnknownNationalTeam from "#model/team/UnknownNationalTeam";
+import { type Confederation } from "#model/types";
+import createPrngGenerator from "#utils/prng/generator";
+import prngShuffleAll from "#utils/prng/shuffleAll";
 
 type Team = NationalTeam | UnknownNationalTeam;
 
-const DATA_DIR = join(__dirname, '..', 'src', 'data');
+const DATA_DIR = join(__dirname, "..", "src", "data");
 
 const SEASON = 2026;
 
@@ -25,13 +25,13 @@ const getConfederations = (team: Team): Iterable<Confederation> =>
 
 const loadPots = () => {
   const forcedGroupMap: Record<string, number> = {};
-  const [hosts, rest] = readFileSync(join(DATA_DIR, `wc-${SEASON}.txt`), 'utf8')
+  const [hosts, rest] = readFileSync(join(DATA_DIR, `wc-${SEASON}.txt`), "utf8")
     .trim()
-    .split('\n\n')
+    .split("\n\n")
     .map(block =>
       block
         .trim()
-        .split('\n')
+        .split("\n")
         .map(line => {
           const match = /^(.+?)\s-\sGROUP\s(\d+)$/.exec(line);
           if (!match) {
@@ -82,7 +82,7 @@ const runDraw = async (seed: string) => {
   return groups;
 };
 
-describe('wc firstPossibleGroup', () => {
+describe("wc firstPossibleGroup", () => {
   // Most of these seeds have a pick that used to take seconds or more
   const seeds = Array.from(
     {
@@ -91,7 +91,7 @@ describe('wc firstPossibleGroup', () => {
     (_, i) => String(i),
   );
 
-  it.each(seeds)('completes the 2026 draw for seed %s', async seed => {
+  it.each(seeds)("completes the 2026 draw for seed %s", async seed => {
     const groups = await runDraw(seed);
 
     for (const group of groups) {
@@ -100,12 +100,12 @@ describe('wc firstPossibleGroup', () => {
         ...getConfederations(team),
       ]);
       const numUefaTeams = confederations.filter(
-        conf => conf === 'UEFA',
+        conf => conf === "UEFA",
       ).length;
       expect(numUefaTeams).toBeGreaterThanOrEqual(1);
       expect(numUefaTeams).toBeLessThanOrEqual(2);
       const otherConfederations = confederations.filter(
-        conf => conf !== 'UEFA',
+        conf => conf !== "UEFA",
       );
       expect(new Set(otherConfederations).size).toBe(
         otherConfederations.length,
@@ -125,10 +125,10 @@ describe('wc firstPossibleGroup', () => {
       return quarters.findIndex(quarter => quarter.includes(groupIndex));
     };
     const [spain, argentina, france, england] = [
-      'Spain',
-      'Argentina',
-      'France',
-      'England',
+      "Spain",
+      "Argentina",
+      "France",
+      "England",
     ].map(quarterOf);
     expect(new Set([spain, argentina, france, england]).size).toBe(4);
     expect(spain >> 1).not.toBe(argentina >> 1);

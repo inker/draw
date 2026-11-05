@@ -1,4 +1,4 @@
-import type countries from '#data/countries';
+import type countries from "#data/countries";
 
 type Entry<T> = {
   [P in keyof T]: [P, T[P]];
@@ -13,13 +13,13 @@ export type UefaCountry = Extract<
   [
     Country,
     {
-      confederation: 'UEFA';
+      confederation: "UEFA";
     },
   ]
 >[0];
 
 export type Confederation =
-  'UEFA' | 'CONMEBOL' | 'CONCACAF' | 'CAF' | 'AFC' | 'OFC';
+  "UEFA" | "CONMEBOL" | "CONCACAF" | "CAF" | "AFC" | "OFC";
 
 export type SingleOrPair<T> = readonly [T] | readonly [T, T];
 
@@ -34,7 +34,7 @@ type Grow<T, A extends T[]> = ((x: T, ...xs: A) => void) extends (
 type GrowToSize<T, A extends T[], N extends number> = {
   0: A;
   1: GrowToSize<T, Grow<T, A>, N>;
-}[A['length'] extends N ? 0 : 1];
+}[A["length"] extends N ? 0 : 1];
 
 export type FixedArray<T, N extends number> = GrowToSize<T, [], N>;
 

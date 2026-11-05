@@ -1,6 +1,6 @@
-import { sumBy } from 'lodash';
+import { sumBy } from "lodash";
 
-import { findFirstSolutionMutable } from '#utils/backtrack';
+import { findFirstSolutionMutable } from "#utils/backtrack";
 
 type ReadonlyDoubleArray<T> = readonly (readonly T[])[];
 
@@ -36,7 +36,7 @@ function anyGroupPossible<T>(
   groups[groupIndex].push(picked);
 
   const source = pots.flat();
-  const potStarts = pots.map((_, i) => sumBy(pots.slice(0, i), 'length'));
+  const potStarts = pots.map((_, i) => sumBy(pots.slice(0, i), "length"));
 
   // teams left to place, one per descent level
   let depth = 0;
