@@ -41,6 +41,30 @@
     height: auto;
     font-size: 12px;
   }
+
+  /*
+    The draw actions, the picker & the settings only fit on one row of a 375px phone
+    with gaps this tight
+  */
+  @media (width <= 599px) {
+    padding-inline: 8px;
+
+    > * {
+      column-gap: 4px;
+
+      &:not(:last-child) {
+        margin-right: 0;
+      }
+
+      > * {
+        margin-inline: 0;
+
+        &:not(:last-child) {
+          margin-right: 0;
+        }
+      }
+    }
+  }
 }
 
 .nav-bar-left-container {

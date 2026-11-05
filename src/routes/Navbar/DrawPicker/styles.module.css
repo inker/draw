@@ -1,0 +1,80 @@
+.caret {
+  margin-left: 4px;
+}
+
+.long-label {
+  @media (width <= 599px) {
+    display: none;
+  }
+}
+
+.short-label {
+  display: none;
+
+  @media (width <= 599px) {
+    display: inline;
+  }
+}
+
+.content {
+  width: 356px;
+  max-width: 100%;
+
+  @media (width <= 599px) {
+    width: auto;
+  }
+}
+
+.group {
+  margin: 0;
+  padding: 0;
+  border: none;
+
+  & + & {
+    margin-top: 12px;
+  }
+}
+
+.legend {
+  margin-bottom: 6px;
+  padding: 0;
+  font-size: 12px;
+  opacity: 0.7;
+}
+
+.list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.seasons {
+  display: grid;
+  gap: 6px;
+  grid-template-columns: repeat(auto-fill, minmax(72px, 1fr));
+}
+
+.option {
+  padding: 4px 8px;
+  border-radius: 3px;
+  border: var(--border);
+  background-color: light-dark(white, #246);
+  color: light-dark(black, white);
+  font: inherit;
+  cursor: pointer;
+
+  &:hover {
+    background-color: light-dark(white, #468);
+    border-color: light-dark(black, var(--border));
+  }
+
+  &[aria-pressed="true"] {
+    border-color: transparent;
+    background-color: light-dark(#246, #8ac);
+    color: light-dark(white, black);
+  }
+
+  @media (width <= 599px) {
+    padding: 8px 10px;
+  }
+}

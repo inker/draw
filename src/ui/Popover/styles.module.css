@@ -1,0 +1,44 @@
+.root {
+  anchor-name: var(--anchor-name);
+}
+
+.panel {
+  box-sizing: border-box;
+  width: max-content;
+  max-width: calc(100vw - 16px);
+  max-height: calc(100dvh - 80px);
+  padding: 8px 12px 12px;
+  border: var(--border);
+  border-radius: 6px;
+  background-color: var(--page-background);
+  color: inherit;
+  box-shadow: 0 4px 16px rgb(0 0 0 / 0.25);
+  white-space: normal;
+
+  /*
+    Without anchor positioning the panel stays where the browser puts it,
+    which is the middle of the viewport
+  */
+  @supports (position-area: bottom) {
+    inset: auto;
+    margin: 4px 0 0;
+    position-anchor: var(--anchor-name);
+    position-area: bottom span-left;
+    position-try-fallbacks: bottom span-right;
+  }
+
+  /*
+    A phone gets a sheet along the bottom edge,
+    since the navbar is centred there & an anchored panel would run off one side
+  */
+  @media (width <= 599px) {
+    inset: auto 0 0;
+    margin: 0;
+    width: 100%;
+    max-width: none;
+    max-height: 75dvh;
+    padding-bottom: max(12px, env(safe-area-inset-bottom));
+    position-area: none;
+    border-radius: 12px 12px 0 0;
+  }
+}
