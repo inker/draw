@@ -14,8 +14,8 @@ import availability from "#data/availability";
 import Popover from "#ui/Popover";
 
 import config from "../../../config";
-import seasonAsString from "../seasonAsString";
-import tournamentAsString from "../tournamentAsString";
+import seasonAsString from "../utils/seasonAsString";
+import tournamentAsString from "../utils/tournamentAsString";
 
 import * as styles from "./styles.module.css";
 
