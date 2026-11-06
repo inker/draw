@@ -31,6 +31,7 @@ export default async function generateSchedule({
   tournament,
   matchdaySize,
   teams,
+  potSize,
   allGames,
   getNumWorkers,
   prngGenerator,
@@ -40,6 +41,7 @@ export default async function generateSchedule({
   tournament: Tournament;
   matchdaySize: number;
   teams: readonly Team[];
+  potSize: number;
   allGames: readonly (readonly [number, number])[];
   getNumWorkers: () => number;
   prngGenerator: PrngGenerator;
@@ -148,6 +150,7 @@ export default async function generateSchedule({
     season,
     matchdaySize,
     teams,
+    potSize,
     titleHolder,
   });
 

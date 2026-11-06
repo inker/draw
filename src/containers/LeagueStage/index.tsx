@@ -196,6 +196,7 @@ function LeagueStage({ tournament, season, pots: initialPots }: Props) {
           tournament,
           matchdaySize,
           teams: allTeams,
+          potSize: pots[0].length,
           allGames: pairings.map(
             ([h, a]) => [indexByTeam.get(h)!, indexByTeam.get(a)!] as const,
           ),

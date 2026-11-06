@@ -137,6 +137,7 @@ describe("splitMatchdaysIntoDays", () => {
       season: firstSeasonWithOpeningMatch - 1,
       matchdaySize: 6,
       teams,
+      potSize: teams.length / 4,
     });
 
     expect(firstMatchday).toHaveLength(3);
@@ -154,6 +155,7 @@ describe("splitMatchdaysIntoDays", () => {
       season: firstSeasonWithOpeningMatch - 1,
       matchdaySize: 6,
       teams,
+      potSize: teams.length / 4,
     });
 
     const twoDayMatchday = split[1];
@@ -172,6 +174,7 @@ describe("splitMatchdaysIntoDays", () => {
       season: firstSeasonWithOpeningMatch,
       matchdaySize: 6,
       teams,
+      potSize: teams.length / 4,
       titleHolder: TITLE_HOLDER,
     });
 
@@ -187,6 +190,7 @@ describe("splitMatchdaysIntoDays", () => {
       season: firstSeasonWithOpeningMatch,
       matchdaySize: 6,
       teams,
+      potSize: teams.length / 4,
       titleHolder: TITLE_HOLDER,
     });
 
@@ -201,6 +205,7 @@ describe("splitMatchdaysIntoDays", () => {
       season: firstSeasonWithOpeningMatch - 1,
       matchdaySize: 6,
       teams,
+      potSize: teams.length / 4,
       titleHolder: TITLE_HOLDER,
     });
 
@@ -215,6 +220,7 @@ describe("splitMatchdaysIntoDays", () => {
         season: firstSeasonWithOpeningMatch,
         matchdaySize: 6,
         teams,
+        potSize: teams.length / 4,
       }),
     ).toThrow("title holder");
   });
@@ -233,6 +239,7 @@ describe("splitMatchdaysIntoDays", () => {
         season: firstSeasonWithOpeningMatch,
         matchdaySize: 6,
         teams,
+        potSize: teams.length / 4,
         titleHolder: TITLE_HOLDER,
       }),
     ).toThrow("not at home");
@@ -274,6 +281,7 @@ describe("splitMatchdaysIntoDays", () => {
         season: firstSeasonWithOpeningMatch,
         matchdaySize: 6,
         teams: frenchTeams,
+        potSize: frenchTeams.length / 4,
         titleHolder: "Paris SG",
       });
 
@@ -290,6 +298,7 @@ describe("splitMatchdaysIntoDays", () => {
       season: firstSeasonWithOpeningMatch,
       matchdaySize: 6,
       teams,
+      potSize: teams.length / 4,
       titleHolder: TITLE_HOLDER,
     });
 
@@ -311,6 +320,7 @@ describe("splitMatchdaysIntoDays", () => {
         season: firstSeasonWithOpeningMatch,
         matchdaySize: fullSizeTeams.length / 2,
         teams: fullSizeTeams,
+        potSize: fullSizeTeams.length / 4,
         titleHolder: fullSizeTeams[0].name,
       });
 
@@ -339,6 +349,7 @@ describe("splitMatchdaysIntoDays", () => {
         season: firstSeasonWithOpeningMatch - 1,
         matchdaySize: fullSizeTeams.length / 2,
         teams: fullSizeTeams,
+        potSize: fullSizeTeams.length / 4,
       });
 
       for (const [matchdayIndex, days] of split.entries()) {
@@ -372,6 +383,7 @@ describe("splitMatchdaysIntoDays", () => {
       season: firstSeasonWithOpeningMatch - 1,
       matchdaySize: pinnedTeams.length / 2,
       teams: pinnedTeams,
+      potSize: pinnedTeams.length / 4,
     });
 
     const day = dayByTeam(secondMatchday);
@@ -384,5 +396,37 @@ describe("splitMatchdaysIntoDays", () => {
     );
 
     expect(broken).toHaveLength(1);
+  });
+
+  // UEFA splits the games between pot-1 clubs evenly over the two days.
+  // Each of these two-day matchdays has two such games,
+  // which the split used to put on the same day.
+  // Pinned to one season's field, like the test above,
+  // since a new season's clubs would make different matchdays.
+  it("spreads the games between pot-1 clubs evenly over the days", () => {
+    const pinnedTeams = clPots(2026)
+      .flat()
+      .map(club => team(club.name, club.country));
+    const potSize = pinnedTeams.length / 4;
+    const seeds = [14, 15, 57, 59, 85];
+
+    // The first & last matchdays only pad the season out,
+    // so the seeded ones get the two-day split
+    const [, ...rest] = splitMatchdaysIntoDays({
+      matchdays: [1, ...seeds, 2].map(seed => buildMatchday(pinnedTeams, seed)),
+      tournament: "cl",
+      season: firstSeasonWithOpeningMatch - 1,
+      matchdaySize: pinnedTeams.length / 2,
+      teams: pinnedTeams,
+      potSize,
+    });
+
+    for (const [i, days] of rest.slice(0, -1).entries()) {
+      const counts = days.map(
+        day =>
+          day.filter(([home, away]) => home < potSize && away < potSize).length,
+      );
+      expect(counts, `seed ${seeds[i]}`).toStrictEqual([1, 1]);
+    }
   });
 });

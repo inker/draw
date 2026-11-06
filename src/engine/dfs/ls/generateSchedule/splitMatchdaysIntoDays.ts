@@ -23,6 +23,15 @@ type Match = readonly [number, number];
 type Coverage = readonly [UefaCountry, number];
 
 /**
+ * 2 for a game between pot-1 clubs,
+ * 1 for any other game within pots 1-2
+ * & 0 otherwise.
+ * UEFA spreads the big ones over the Champions League's days
+ * more evenly than chance would.
+ */
+type BigGameTier = 0 | 1 | 2;
+
+/**
  * Every way of keeping as much of the list as possible:
  * the fewest constraints dropped first,
  * & the ones latest in the list before the ones ahead of them
@@ -113,6 +122,7 @@ const findDayAssignment = ({
   countries,
   coverages,
   separationGroups,
+  bigGameTiers,
   areDaysInterchangeable,
 }: {
   matches: readonly Match[];
@@ -121,6 +131,7 @@ const findDayAssignment = ({
   countries: readonly UefaCountry[];
   coverages: readonly Coverage[];
   separationGroups: readonly (readonly number[])[];
+  bigGameTiers: readonly BigGameTier[];
   areDaysInterchangeable: boolean;
 }) => {
   const allDays = range(capacities.length);
@@ -147,6 +158,8 @@ const findDayAssignment = ({
       // at each node.
       const scheduleDay = matches.map(() => -1);
       const numMatchesByDay = allDays.map(() => 0);
+      // games of each tier on each day, indexed by day & then tier
+      const numBigGamesByDay = allDays.map(() => [0, 0, 0]);
       // day index each team is committed to, -1 when not yet placed
       const dayByTeam = new Int8Array(teams.length).fill(-1);
       const countryTeamsByDay = new Map(
@@ -201,7 +214,10 @@ const findDayAssignment = ({
           });
 
           // Prefer days where this match's countries are least represented
-          // (an empty day is strongly preferred), then the emptier day.
+          // (an empty day is strongly preferred),
+          // then the day with the fewest big games of this one's tier or above,
+          // then the emptier day.
+          const tier = bigGameTiers[matchIndex];
           const firstCounts = countryTeamsByDay.get(teams[firstTeam].country)!;
           const secondCounts = countryTeamsByDay.get(
             teams[secondTeam].country,
@@ -216,6 +232,11 @@ const findDayAssignment = ({
                     secondCounts[day] === 0 ? -1_000_000 : secondCounts[day];
                   return first + second;
                 },
+                day => (tier === 2 ? numBigGamesByDay[day][2] : 0),
+                day =>
+                  tier === 0
+                    ? 0
+                    : numBigGamesByDay[day][1] + numBigGamesByDay[day][2],
                 day => numMatchesByDay[day],
               ]);
 
@@ -226,6 +247,7 @@ const findDayAssignment = ({
           const [firstTeam, secondTeam] = matches[matchIndex];
           scheduleDay[matchIndex] = day;
           ++numMatchesByDay[day];
+          ++numBigGamesByDay[day][bigGameTiers[matchIndex]];
           dayByTeam[firstTeam] = day;
           dayByTeam[secondTeam] = day;
           ++countryTeamsByDay.get(teams[firstTeam].country)![day];
@@ -237,6 +259,7 @@ const findDayAssignment = ({
           const [firstTeam, secondTeam] = matches[matchIndex];
           scheduleDay[matchIndex] = -1;
           --numMatchesByDay[day];
+          --numBigGamesByDay[day][bigGameTiers[matchIndex]];
           dayByTeam[firstTeam] = -1;
           dayByTeam[secondTeam] = -1;
           --countryTeamsByDay.get(teams[firstTeam].country)![day];
@@ -259,11 +282,13 @@ const splitMatchday = ({
   teams,
   dayCapacities,
   openingMatch,
+  getBigGameTier,
 }: {
   matchday: readonly Match[];
   teams: readonly Team[];
   dayCapacities: readonly number[];
   openingMatch: Match | undefined;
+  getBigGameTier: (match: Match) => BigGameTier;
 }) => {
   const capacities = openingMatch ? dayCapacities.slice(1) : dayCapacities;
   const numDays = capacities.length;
@@ -271,9 +296,15 @@ const splitMatchday = ({
     capacity => capacity === capacities[0],
   );
 
-  const matchesToSplit = openingMatch
-    ? matchday.filter(match => match !== openingMatch)
-    : matchday;
+  // Big games are placed first, while every day is still open to them.
+  // Placed in random order, most only got the day the other rules left,
+  // which barely spread them more evenly than ignoring them did.
+  // The sort is stable, so the shuffle still decides the order within a tier.
+  const matchesToSplit = orderBy(
+    openingMatch ? matchday.filter(match => match !== openingMatch) : matchday,
+    getBigGameTier,
+    "desc",
+  );
 
   // Grouped over the clubs still to be placed rather than the whole field:
   // the opening match is already on a day of its own,
@@ -325,6 +356,7 @@ const splitMatchday = ({
     countries: orderedTeamsByCountry.keys().toArray(),
     coverages,
     separationGroups,
+    bigGameTiers: matchesToSplit.map(getBigGameTier),
     areDaysInterchangeable,
   });
 
@@ -342,16 +374,30 @@ export default ({
   season,
   matchdaySize,
   teams,
+  potSize,
   titleHolder,
 }: {
   matchdays: readonly (readonly Match[])[];
   tournament: Tournament;
   season: number;
   matchdaySize: number;
+  /**
+   * The pots are laid out one after another in `teams`
+   */
   teams: readonly Team[];
+  potSize: number;
   titleHolder?: string;
-}) =>
-  matchdays.map((matchday, matchdayIndex) =>
+}) => {
+  // The higher index of the two is the club from the lower pot
+  const getBigGameTier = (match: Match): BigGameTier => {
+    if (tournament !== "cl") {
+      return 0;
+    }
+    const lowerPot = Math.floor(Math.max(...match) / potSize);
+    return lowerPot === 0 ? 2 : lowerPot === 1 ? 1 : 0;
+  };
+
+  return matchdays.map((matchday, matchdayIndex) =>
     splitMatchday({
       matchday,
       teams,
@@ -370,5 +416,7 @@ export default ({
               titleHolder,
             })
           : undefined,
+      getBigGameTier,
     }),
   );
+};
